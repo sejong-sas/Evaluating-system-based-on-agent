@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 모델 개방성 뷰어</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-100 text-gray-800 flex flex-col items-center p-6">
+  <h1 class="text-3xl font-bold mb-6">AI 모델 개방성 점수 뷰어</h1>
+
+  <!-- 입력 폼 -->
+  <form id="modelForm" class="w-full max-w-md flex gap-2 mb-8">
+    <input
+      id="modelInput"
+      type="text"
+      required
+      placeholder="org/model 형식 (예: skt/A.X-4.0)"
+      class="flex-1 rounded-xl border border-gray-300 px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-400"
+    />
+    <button
+      type="submit"
+      class="rounded-xl bg-blue-500 text-white px-6 py-2 shadow-lg hover:bg-blue-600 transition"
+    >조회</button>
+  </form>
+
+  <!-- 결과 섹션 -->
+  <section id="resultSection" class="w-full max-w-2xl hidden">
+    <h2 class="text-2xl font-semibold mb-4" id="modelTitle"></h2>
+    <div class="bg-white rounded-2xl shadow p-6">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-medium">총점</span>
+        <span id="totalScore" class="text-2xl font-bold"></span>
+      </div>
+      <hr class="my-4" />
+      <table class="w-full text-sm" id="scoreTable">
+        <thead>
+          <tr class="text-left">
+            <th class="py-2">항목</th>
+            <th class="py-2 w-1/3">점수</th>
+            <th class="py-2">시각화</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 알림 -->
+  <div id="alert" class="fixed bottom-6 right-6 hidden rounded-xl bg-red-500 text-white px-4 py-2 shadow-lg"></div>
+
+  <script>
+    const form = document.getElementById('modelForm');
+    const input = document.getElementById('modelInput');
+    const section = document.getElementById('resultSection');
+    const titleEl = document.getElementById('modelTitle');
+    const totalEl = document.getElementById('totalScore');
+    const tbody = document.querySelector('#scoreTable tbody');
+    const alertBox = document.getElementById('alert');
+
+    const showAlert = (msg) => {
+      alertBox.textContent = msg;
+      alertBox.classList.remove('hidden');
+      setTimeout(() => alertBox.classList.add('hidden'), 3000);
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const raw = input.value.trim();
+      if (!raw.includes('/')) {
+        showAlert('org/model 형식으로 입력해주세요.');
+        return;
+      }
+      const fileName = 'openness_score_' + raw.replaceAll('/', '_') + '.json';
+      try {
+        const res = await fetch(fileName);
+        if (!res.ok) throw new Error('파일을 찾을 수 없습니다. (' + fileName + ')');
+        const data = await res.json();
+        renderResult(data);
+      } catch (err) {
+        showAlert(err.message);
+        section.classList.add('hidden');
+      }
+    });
+
+    function renderResult(json) {
+      titleEl.textContent = json.model;
+      totalEl.textContent = json.total_score.toFixed(1) + ' / 16';
+      tbody.innerHTML = '';
+      for (const [key, val] of Object.entries(json.scores)) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-1 font-medium">${key}</td>
+          <td class="py-1">${val}</td>
+          <td class="py-1">
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="h-2 rounded-full ${val === 1 ? 'bg-green-500' : val === 0.5 ? 'bg-yellow-400' : 'bg-red-400'}" style="width: ${val * 100}%"></div>
+            </div>
+          </td>`;
+        tbody.appendChild(tr);
+      }
+      section.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
