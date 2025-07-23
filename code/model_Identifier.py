@@ -133,8 +133,52 @@ def find_huggingface_in_github(repo: str) -> str:
     except:
         pass
     return None
+def gpt_guess_github_from_huggingface(hf_id: str) -> str:
+    prompt = f"""
+Hugging Face에 등록된 모델 '{hf_id}'에 대해, 이 모델의 원본 코드가 저장된 GitHub 저장소를 추정하세요.
 
-# 7. 메인 로직
+🟢 지켜야 할 규칙:
+1. 'organization/repo' 형식으로 **정확한 GitHub 경로만** 반환하세요 (링크 X, 설명 X).
+2. 'google-research/google-research'처럼 너무 일반적인 모노리포지터리는 피하고, 모델 단위 저장소가 있다면 그것을 우선 추정하세요.
+3. 해당 모델의 이름, 구조, 논문, tokenizer, 사용 라이브러리(PyTorch, JAX, T5 등)를 참고해서 정확한 repo를 추정하세요.
+4. 결과는 **딱 한 줄**, 예: `facebookresearch/llama`
+
+🔴 출력에는 부가 설명 없이 GitHub 저장소 경로만 포함해야 합니다.
+"""
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
+        )
+        guess = response.choices[0].message.content.strip()
+        if "/" in guess:
+            return guess
+    except Exception as e:
+        print("⚠️ GPT HF→GH 추정 중 오류 발생:", e)
+    return None
+
+def gpt_guess_huggingface_from_github(gh_id: str) -> str:
+    prompt = f"""
+Hugging Face에 등록된 모델 '{hf_id}'의 원본 코드가 저장된 GitHub 저장소를 추정해주세요.
+- 정확한 organization/repository 경로만 출력해주세요.
+- 모델 이름이나 관련 논문에서 유래된 GitHub 저장소를 기준으로 추정하세요.
+- 예시 출력: facebookresearch/llama
+- 'google-research/google-research'처럼 광범위한 모노리포지터리는 피하고, 해당 모델을 위한 별도 저장소가 있다면 그쪽을 우선 고려하세요.
+"""
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
+        )
+        guess = response.choices[0].message.content.strip().lower()
+        if "/" in guess:
+            return guess
+    except Exception as e:
+        print("⚠️ GPT GH→HF 추정 중 오류 발생:", e)
+    return None
+
 def run_all_fetchers(user_input: str):
     info = extract_model_info(user_input)
     hf_id = gh_id = None
@@ -159,6 +203,7 @@ def run_all_fetchers(user_input: str):
         if gh_link and test_github_repo_exists(gh_link):
             gh_id = gh_link
             found_rank_gh = 2
+
     if gh_ok and not hf_id:
         hf_link = find_huggingface_in_github(full)
         print(f"🔍 2순위 GH→HF link: {hf_link}")
@@ -172,12 +217,15 @@ def run_all_fetchers(user_input: str):
         if guess_gh and test_github_repo_exists(guess_gh):
             gh_id = guess_gh
             found_rank_gh = 3
+            print("⚠️ GPT 추정 결과입니다. 저장소가 실제로 해당 모델을 포함하는지 검토 필요")
+
     if gh_ok and not hf_id:
         guess_hf = gpt_guess_huggingface_from_github(full)
         print(f"⏳ 3순위 GPT GH→HF guess: {guess_hf}")
         if guess_hf and test_hf_model_exists(guess_hf):
             hf_id = guess_hf
             found_rank_hf = 3
+            print("⚠️ GPT 추정 결과입니다. 모델 ID가 정확한지 검토 필요")
 
     if hf_id:
         rank_hf = found_rank_hf or '없음'
@@ -187,29 +235,40 @@ def run_all_fetchers(user_input: str):
         try:
             hf_filtered = filter_hf_features(hf_id)
         except FileNotFoundError:
-            gh_filtered = {}
-            print("⚠️ Huggingfacw JSON 파일이 존재하지 않아 필터링 생략")
+            hf_filtered = {}
+            print("⚠️ HuggingFace JSON 파일이 존재하지 않아 필터링 생략")
         try:
             ax_filtered = filter_arxiv_features(hf_id)
         except FileNotFoundError:
             ax_filtered = {}
-            print("⚠️ arxiv JSON 파일이 존재하지 않아 필터링 생략")
+            print("⚠️ arXiv JSON 파일이 존재하지 않아 필터링 생략")
     else:
-        print("⚠️ HF 정보 없음")
+        print("⚠️ HuggingFace 정보 없음")
 
     if gh_id:
         rank_gh = found_rank_gh or '없음'
         print(f"✅ GH repo: {gh_id} (발견: {rank_gh}순위)")
-        github_fetcher(gh_id, branch="main", save_to_file=True)
+
+        try:
+            github_fetcher(gh_id, branch="main", save_to_file=True)
+        except requests.exceptions.HTTPError:
+            print("⚠️ main 브랜치 접근 실패, master 브랜치로 재시도...")
+            try:
+                github_fetcher(gh_id, branch="master", save_to_file=True)
+            except Exception as e:
+                print("❌ master 브랜치도 실패:", e)
+
         try:
             gh_filtered = filter_github_features(gh_id)
         except FileNotFoundError:
             gh_filtered = {}
             print("⚠️ GitHub JSON 파일이 존재하지 않아 필터링 생략")
     else:
-        print("⚠️ GH 정보 없음")
+        print("⚠️ GitHub 정보 없음")
 
-      # 9. Openness 평가 수행
+
+    
+# 8. Openness 평가 수행
     
     try:
         print("📝 개방성 평가 시작...")
@@ -227,11 +286,11 @@ if __name__ == "__main__":
     info = extract_model_info(user_input)
     hf_id = info['hf_id']
 
-    if test_hf_model_exists(hf_id):
-        with open("identified_model.txt", "w", encoding="utf-8") as f:
-            f.write(hf_id)
-        print(f"✅ 모델 ID 저장 완료: {hf_id}")
+    # if test_hf_model_exists(hf_id):
+    #     with open("identified_model.txt", "w", encoding="utf-8") as f:
+    #         f.write(hf_id)
+    #     print(f"✅ 모델 ID 저장 완료: {hf_id}")
 
-        # ✅ 바로 추론까지 실행
-        prompt = input("📝 프롬프트를 입력하세요: ")
-        run_inference(hf_id, prompt)
+    #     # ✅ 바로 추론까지 실행
+    #     prompt = input("📝 프롬프트를 입력하세요: ")
+    #     run_inference(hf_id, prompt)
