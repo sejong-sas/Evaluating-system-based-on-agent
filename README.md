@@ -5,22 +5,23 @@ Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a
 
 ```mermaid
 graph TD
-    A["사용자 입력\n(URL 또는 org/model)"] --> B["모델 식별\n(model_Identifier.py)"]
-    B --> C1["Hugging Face 수집\n(huggingface_Fatcher.py)"]
-    C1 --> C2["arXiv 논문 수집\n(※ Hugging Face에 포함된 arXiv 태그 기반)\n(arxiv_Fetcher.py)"]
+    A[사용자 입력 (URL 또는 org/model)] --> B[모델 식별 (model_Identifier.py)]
 
-    C1 --> D1["Hugging Face 필터링\n(huggingface_Dispatcher.py)"]
-    C2 --> D2["arXiv 필터링\n(arxiv_Dispatcher.py)"]
+    B --> C1[Hugging Face 수집 (huggingface_Fatcher.py)]
+    C1 --> C2[arXiv 논문 수집 (arxiv_Fetcher.py)]
 
-    B --> E1["GitHub 수집\n(github_Fatcher.py)"]
-    E1 --> E2["GitHub 필터링\n(github_Dispatcher.py)"]
+    C1 --> D1[HF 정보 필터링 (huggingface_Dispatcher.py)]
+    C2 --> D2[arXiv 필터링 (arxiv_Dispatcher.py)]
 
-    D1 --> F["개방성 평가\n(openness_Evaluator.py)"]
+    B --> E1[GitHub 수집 (github_Fatcher.py)]
+    E1 --> E2[GitHub 필터링 (github_Dispatcher.py)]
+
+    D1 --> F[개방성 평가 (openness_Evaluator.py)]
     D2 --> F
     E2 --> F
 
-    F --> G["개방성 점수 저장"]
-    B --> H["모델 추론\n(inference.py)"]
+    F --> G[개방성 점수 저장]
+    B --> H[모델 추론 (inference.py)]
 ```
 
 ## 구성 모듈
