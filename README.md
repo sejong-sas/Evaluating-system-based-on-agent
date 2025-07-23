@@ -2,26 +2,25 @@
 Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a Focus on LLMs)
 
 ##  시스템 구조
-
 ```mermaid
 graph TD
-    A[사용자 입력 (URL 또는 org/model)] --> B[모델 식별 (model_Identifier.py)]
+    A[User Input (URL or org/model)] --> B[Model Identify (model_Identifier.py)]
 
-    B --> C1[Hugging Face 수집 (huggingface_Fatcher.py)]
-    C1 --> C2[arXiv 논문 수집 (arxiv_Fetcher.py)]
+    B --> HF[HF Fetch (huggingface_Fatcher.py)]
+    HF --> AX[arXiv Fetch (arxiv_Fetcher.py)]
 
-    C1 --> D1[HF 정보 필터링 (huggingface_Dispatcher.py)]
-    C2 --> D2[arXiv 필터링 (arxiv_Dispatcher.py)]
+    HF --> HF_Filter[HF Filter (huggingface_Dispatcher.py)]
+    AX --> AX_Filter[arXiv Filter (arxiv_Dispatcher.py)]
 
-    B --> E1[GitHub 수집 (github_Fatcher.py)]
-    E1 --> E2[GitHub 필터링 (github_Dispatcher.py)]
+    B --> GH[GitHub Fetch (github_Fatcher.py)]
+    GH --> GH_Filter[GitHub Filter (github_Dispatcher.py)]
 
-    D1 --> F[개방성 평가 (openness_Evaluator.py)]
-    D2 --> F
-    E2 --> F
+    HF_Filter --> Eval[Evaluate Openness (openness_Evaluator.py)]
+    AX_Filter --> Eval
+    GH_Filter --> Eval
 
-    F --> G[개방성 점수 저장]
-    B --> H[모델 추론 (inference.py)]
+    Eval --> Score[Save Score JSON]
+    B --> INF[Inference Test (inference.py)]
 ```
 
 ## 구성 모듈
