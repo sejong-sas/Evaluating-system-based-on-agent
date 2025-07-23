@@ -2,21 +2,7 @@
 Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a Focus on LLMs)
 
 ##  시스템 구조
-```mermaid
-graph TD
-    A[User Input (URL or org/model)] --> B[Model Identify]
-    B --> HF[HF Fetch]
-    HF --> AX[arXiv Fetch]
-    HF --> HF_Filter[HF Filter]
-    AX --> AX_Filter[arXiv Filter]
-    B --> GH[GitHub Fetch]
-    GH --> GH_Filter[GitHub Filter]
-    HF_Filter --> Eval[Evaluate Openness]
-    AX_Filter --> Eval
-    GH_Filter --> Eval
-    Eval --> Score[Save Score JSON]
-    B --> INF[Inference Test]
-```
+![시스템 구조](./스크린샷%202025-07-23%20114845.png)
 
 ## 구성 모듈
 | 모듈                          | 설명                                                   |
