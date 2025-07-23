@@ -4,23 +4,18 @@ Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a
 ##  시스템 구조
 ```mermaid
 graph TD
-    A[User Input (URL or org/model)] --> B[Model Identify (model_Identifier.py)]
-
-    B --> HF[HF Fetch (huggingface_Fatcher.py)]
-    HF --> AX[arXiv Fetch (arxiv_Fetcher.py)]
-
-    HF --> HF_Filter[HF Filter (huggingface_Dispatcher.py)]
-    AX --> AX_Filter[arXiv Filter (arxiv_Dispatcher.py)]
-
-    B --> GH[GitHub Fetch (github_Fatcher.py)]
-    GH --> GH_Filter[GitHub Filter (github_Dispatcher.py)]
-
-    HF_Filter --> Eval[Evaluate Openness (openness_Evaluator.py)]
+    A[User Input (URL or org/model)] --> B[Model Identify]
+    B --> HF[HF Fetch]
+    HF --> AX[arXiv Fetch]
+    HF --> HF_Filter[HF Filter]
+    AX --> AX_Filter[arXiv Filter]
+    B --> GH[GitHub Fetch]
+    GH --> GH_Filter[GitHub Filter]
+    HF_Filter --> Eval[Evaluate Openness]
     AX_Filter --> Eval
     GH_Filter --> Eval
-
     Eval --> Score[Save Score JSON]
-    B --> INF[Inference Test (inference.py)]
+    B --> INF[Inference Test]
 ```
 
 ## 구성 모듈
