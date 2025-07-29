@@ -92,9 +92,9 @@ def find_github_in_huggingface(model_id: str) -> str:
             pass
     return None
 
-# 5. GitHub 페이지 → HF (fallback: raw README and HTML)
+# 5. GitHub 페이지 → HF (fallback: raw README and HTML) ,,,, "README.en.md", "model_card.md"###################
 def find_huggingface_in_github(repo: str) -> str:
-    for fname in ["README.md", "README.en.md", "model_card.md"]:
+    for fname in ["README.md"]:
         for branch in ["main", "master"]:
             raw_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{fname}"
             try:
@@ -140,8 +140,9 @@ Hugging Face에 등록된 모델 '{hf_id}'에 대해, 이 모델의 원본 코�
 🟢 지켜야 할 규칙:
 1. 'organization/repo' 형식으로 **정확한 GitHub 경로만** 반환하세요 (링크 X, 설명 X).
 2. 'google-research/google-research'처럼 너무 일반적인 모노리포지터리는 피하고, 모델 단위 저장소가 있다면 그것을 우선 추정하세요.
-3. 해당 모델의 이름, 구조, 논문, tokenizer, 사용 라이브러리(PyTorch, JAX, T5 등)를 참고해서 정확한 repo를 추정하세요.
-4. 결과는 **딱 한 줄**, 예: `facebookresearch/llama`
+3. distill 모델인 경우 부모 모델을 찾아주세요.
+4. 해당 모델의 이름, 구조, 논문, tokenizer, 사용 라이브러리(PyTorch, JAX, T5 등)를 참고해서 정확한 repo를 추정하세요.
+5. 결과는 **딱 한 줄**, 예: `facebookresearch/llama`
 
 🔴 출력에는 부가 설명 없이 GitHub 저장소 경로만 포함해야 합니다.
 """
@@ -160,7 +161,7 @@ Hugging Face에 등록된 모델 '{hf_id}'에 대해, 이 모델의 원본 코�
 
 def gpt_guess_huggingface_from_github(gh_id: str) -> str:
     prompt = f"""
-Hugging Face에 등록된 모델 '{hf_id}'의 원본 코드가 저장된 GitHub 저장소를 추정해주세요.
+Hugging Face에 등록된 모델 '{gh_id}'의 원본 코드가 저장된 Hugging Face 모델 ID를 추정해주세요.
 - 정확한 organization/repository 경로만 출력해주세요.
 - 모델 이름이나 관련 논문에서 유래된 GitHub 저장소를 기준으로 추정하세요.
 - 예시 출력: facebookresearch/llama
@@ -230,7 +231,7 @@ def run_all_fetchers(user_input: str):
     if hf_id:
         rank_hf = found_rank_hf or '없음'
         print(f"✅ HF model: {hf_id} (발견: {rank_hf}순위)")
-        huggingface_fetcher(hf_id, save_to_file=True)
+        data = huggingface_fetcher(hf_id, save_to_file=True)
         arxiv_fetcher_from_model(hf_id, save_to_file=True)
         try:
             hf_filtered = filter_hf_features(hf_id)
@@ -266,7 +267,7 @@ def run_all_fetchers(user_input: str):
     else:
         print("⚠️ GitHub 정보 없음")
 
-
+    run_inference(data.get("readme"))
     
 # 8. Openness 평가 수행
     
