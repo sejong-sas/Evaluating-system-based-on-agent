@@ -230,7 +230,7 @@ def run_all_fetchers(user_input: str):
     if hf_id:
         rank_hf = found_rank_hf or '없음'
         print(f"✅ HF model: {hf_id} (발견: {rank_hf}순위)")
-        huggingface_fetcher(hf_id, save_to_file=True)
+        data = huggingface_fetcher(hf_id, save_to_file=True)
         arxiv_fetcher_from_model(hf_id, save_to_file=True)
         try:
             hf_filtered = filter_hf_features(hf_id)
@@ -277,7 +277,7 @@ def run_all_fetchers(user_input: str):
     except Exception as e:
         print("⚠️ 개방성 평가 중 오류 발생:", e)
 
-
+    run_inference(data.get("readme"))
 
 if __name__ == "__main__":
     user_input = input("🌐 HF/GH URL 또는 org/model: ").strip()
