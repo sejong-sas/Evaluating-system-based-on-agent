@@ -62,20 +62,20 @@ ITEM_GROUPS: List[List[str]] = [
     ["4-1", "4-2", "4-3", "4-4"],
 ]
 
-# ===== High-Recall & Model 설정 =====
+# ===== High-Recall & Model 설정 ===== #실험 더 해보기 
 CHUNK_CHARS = 60_000
-CHUNK_OVERLAP = 2_000
+CHUNK_OVERLAP = 2_000 #겹치는 글자 수
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "gpt-4o")
-TEMPERATURE = 0
+MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
+#TEMPERATURE = 0
 
 # ===== 정규표현식 및 유틸 =====
-_SRC_TAG_RE = re.compile(r'^\s*\[([^\]]+)\]\s*.*$')
+_SRC_TAG_RE = re.compile(r'^\s*\[([^\]]+)\]\s*.*$') # [tag] 형태의 태그 추출
 
-def _json_dumps(obj: Any) -> str:
+def _json_dumps(obj: Any) -> str: # JSON 객체를 문자열로 변환
     return json.dumps(obj, ensure_ascii=False, indent=2)
 
-def _chunk_text(s: str, chunk_chars: int, overlap: int) -> List[str]:
+def _chunk_text(s: str, chunk_chars: int, overlap: int) -> List[str]: # 텍스트를 지정된 길이로 나누고 겹치는 부분을 고려하여 분할
     chunks, n, i = [], len(s), 0
     while i < n:
         end = min(i + chunk_chars, n)
@@ -84,7 +84,7 @@ def _chunk_text(s: str, chunk_chars: int, overlap: int) -> List[str]:
         i = end - overlap if end - overlap > i else end
     return chunks
 
-def _dedup_list(seq: List[str], limit: int) -> List[str]:
+def _dedup_list(seq: List[str], limit: int) -> List[str]: # 리스트에서 중복된 항목을 제거하고 지정된 개수만큼 유지
     seen, out = set(), []
     for x in seq:
         x_norm = x.strip()
@@ -97,11 +97,12 @@ def _dedup_list(seq: List[str], limit: int) -> List[str]:
 def _group_desc_map(group_ids: List[str]) -> Dict[str, str]:
     return {LABELS[k]: EVAL_DESCRIPTIONS[LABELS[k]] for k in group_ids}
 
-# ===== 프롬프트 빌더 =====
+# ===== 프롬프트 빌더 =====  # 증거가 없으면 없다고 명시 하기
 _BASE_RECALL_SYS = """
 당신은 Hugging Face 저장소에서 AI 모델 개방성 평가 정보를 추출하는 전문가입니다.
 오직 제공된 payload(원문)만 사용하세요.
-결과는 반드시 JSON으로 반환하세요.
+만약 증거가 있는경우에는 그 근거 문장을 그대로 포함 시켜 주고, 없는 경우에는 "증거 없음"이라고 명시하세요.
+결과는 반드시  JSON으로 반환하세요.
 """
 
 _BASE_SUMMARY_SYS = """
@@ -110,7 +111,7 @@ _BASE_SUMMARY_SYS = """
 반드시 json 객체(JSON object)만 반환하세요. 텍스트를 덧붙이지 마세요.
 """
 
-def _build_recall_inst(group_ids: List[str]) -> str:
+def _build_recall_inst(group_ids: List[str]) -> str: # 각 그룹 항목 정의를 포함한 프롬프트 빌더
     desc_map = _group_desc_map(group_ids)
     example = {
         LABELS[k]: [
@@ -124,12 +125,6 @@ def _build_recall_inst(group_ids: List[str]) -> str:
         + "예시 스키마:\n"
         + _json_dumps(example)
     )
-
-_BASE_SUMMARY_SYS = """
-당신은 evidence 태그만 사용하여 각 항목별 '길고 상세한' 요약을 작성하는 전문가입니다.
-오직 제공된 evidence 태그만 사용하세요.
-결과는 반드시 JSON으로 반환하세요.
-"""
 
 def _build_summary_inst(group_ids: List[str]) -> str:
     desc_map = _group_desc_map(group_ids)
@@ -147,7 +142,8 @@ def _chat_json(system: str, user: str) -> Dict[str, Any]:
             {"role": "system",  "content": system},
             {"role": "user",    "content": user}
         ],
-        temperature=TEMPERATURE,
+        reasoning_effort="medium",
+        #temperature=TEMPERATURE,
         response_format={"type": "json_object"}    # ← 문자열 대신 객체로 지정
     )
     text = resp.choices[0].message.content.strip()
@@ -159,7 +155,7 @@ def _chat_json(system: str, user: str) -> Dict[str, Any]:
 # ===== evidence 수집 =====
 def _make_group_payload(hf_data: Dict, group_idx: int) -> Dict:
     py_src = hf_data.get("py_files", {}) or {}
-    py_items = list(py_src.items())[:20]
+    py_items = list(py_src.items())[:20] #20개의 파이썬 파일만 가져오기
     py_files = {fn: (src[:20_000] if isinstance(src, str) else "") for fn, src in py_items}
     return {
         "model_id": hf_data.get("model_id", ""),
@@ -171,7 +167,7 @@ def _make_group_payload(hf_data: Dict, group_idx: int) -> Dict:
         "py_files": py_files,
     }
 
-def _payload_to_text(payload: Dict) -> str:
+def _payload_to_text(payload: Dict) -> str: #청크 분할 전에, GPT가 출처 섹션을 인식할 수 있게 태그화
     parts = [
         f"[model_id]\n{payload.get('model_id','')}\n",
         f"[readme]\n{payload.get('readme','')}\n",
@@ -186,7 +182,7 @@ def _payload_to_text(payload: Dict) -> str:
         parts.append("[files]\n" + "\n".join(map(str, files)) + "\n")
     return "\n".join(parts)
 
-def _recall_collect(group_ids: List[str], payload_text: str) -> Dict[str, List[str]]:
+def _recall_collect(group_ids: List[str], payload_text: str) -> Dict[str, List[str]]: # 청크 분할 후, evidence 태그를 수집
     chunks = _chunk_text(payload_text, CHUNK_CHARS, CHUNK_OVERLAP)
     all_e = {LABELS[k]: [] for k in group_ids}
     for chunk in chunks:
@@ -195,11 +191,11 @@ def _recall_collect(group_ids: List[str], payload_text: str) -> Dict[str, List[s
             vals = out.get(LABELS[k], [])
             if isinstance(vals, list):
                 all_e[LABELS[k]].extend(vals)
-    for lbl in all_e:
+    for lbl in all_e: # 중복 제거 및 길이 제한 적용
         all_e[lbl] = _dedup_list(all_e[lbl], EVIDENCE_LIMIT_PER_KEY)
     return all_e
 
-def _summarize_from_evidence(group_ids: List[str], evidences: Dict[str, List[str]]) -> Dict[str, str]:
+def _summarize_from_evidence(group_ids: List[str], evidences: Dict[str, List[str]]) -> Dict[str, str]: # evidence 태그를 기반으로 요약 생성
     user = _build_summary_inst(group_ids) + "\n=== EVIDENCE ===\n" + _json_dumps(evidences)
     out = _chat_json(_BASE_SUMMARY_SYS, user)
     return {LABELS[k]: out.get(LABELS[k], "") for k in group_ids}
@@ -208,7 +204,7 @@ def _merge_for_final(summary_map: Dict[str, str],
                      evidence_map: Dict[str, List[str]]) -> Dict[str, Any]:
     final = {}
     for lbl, txt in summary_map.items():
-        final[lbl] = txt.rstrip()
+        final[lbl] = txt.rstrip() # 요약 텍스트 끝 공백 제거
         final[f"{lbl}__evidence"] = evidence_map.get(lbl, [])
     return final
 
@@ -220,7 +216,7 @@ def _merge_dicts(dicts: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 def filter_hf_features(model_name: str, save: bool = True) -> Dict[str, Any]:
     base = model_name.replace("/", "_").lower()
-    path_in = f"huggingface_{base}.json"
+    path_in = f"huggingface_{base}.json" # 입력 파일 경로
     if not os.path.exists(path_in):
         raise FileNotFoundError(f"'{path_in}' 파일이 없습니다.")
     hf_data = json.load(open(path_in, encoding="utf-8"))
@@ -228,11 +224,11 @@ def filter_hf_features(model_name: str, save: bool = True) -> Dict[str, Any]:
     all_parts = []
     for idx, grp in enumerate(ITEM_GROUPS, start=1):
         try:
-            payload = _make_group_payload(hf_data, idx-1)
-            text = _payload_to_text(payload)
-            evidences = _recall_collect(grp, text)
-            summaries = _summarize_from_evidence(grp, evidences)
-            part = _merge_for_final(summaries, evidences)
+            payload = _make_group_payload(hf_data, idx-1) # 그룹별 페이로드 생성
+            text = _payload_to_text(payload) # 페이로드를 텍스트로 변환
+            evidences = _recall_collect(grp, text) # evidence 태그 수집
+            summaries = _summarize_from_evidence(grp, evidences) # 요약 생성
+            part = _merge_for_final(summaries, evidences) # 최종 결과 병합
         except Exception as e:
             print(f"⚠️ 그룹 {idx} 처리 오류: {e}")
             part = {}
@@ -243,7 +239,7 @@ def filter_hf_features(model_name: str, save: bool = True) -> Dict[str, Any]:
 
     merged = _merge_dicts(all_parts)
     if save:
-        out_merged = f"huggingface_filtered_{base}.json"
+        out_merged = f"huggingface_filtered_final_{base}.json"
         json.dump(merged, open(out_merged, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print(f"✅ 최종 병합 결과 저장: {out_merged}")
     return merged

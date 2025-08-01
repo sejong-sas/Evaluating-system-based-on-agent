@@ -266,7 +266,6 @@ def run_all_fetchers(user_input: str):
             print("⚠️ GitHub JSON 파일이 존재하지 않아 필터링 생략")
     else:
         print("⚠️ GitHub 정보 없음")
-
     run_inference(data.get("readme"))
     
 # 8. Openness 평가 수행

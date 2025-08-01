@@ -47,7 +47,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["1-6"]: "어떤 토크나이저를 사용하는지, 이름과 구조, 다운로드 가능 여부에 관련된 모든 내용",
     LABELS["2-1"]: "모델 훈련에 사용된 하드웨어 종류(H100, TPU 등), 수량, 계산 자원 규모에 관련된 모든 내용",
     LABELS["2-2"]: "훈련에 사용된 소프트웨어(프레임워크, 라이브러리 등)의 종류, 버전, 설정에 관련된 모든 내용",
-    LABELS["2-3"]: "모델이 접근 가능한 API의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
+    LABELS["2-3"]: "모델에 접근 가능한 API의 존재(gpt api 같은) 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
     LABELS["3-1"]: "사전학습(pre-training) 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
     LABELS["3-2"]: "파인튜닝 방식, 목적, 데이터 사용 여부, 재현 가능한 파이프라인 존재 여부에 관련된 모든 내용",
     LABELS["3-3"]: "RLHF, DPO 등 강화학습 알고리즘 사용 여부, 구체적인 방식과 절차, 설정값 등에 관련된 모든 내용",
@@ -69,8 +69,8 @@ ITEM_GROUPS: List[List[str]] = [
 CHUNK_CHARS = 60_000            # GitHub README/코드가 길 수 있어 크게
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "gpt-4o")
-TEMPERATURE = 0
+MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3-mini")
+#TEMPERATURE = 0
 
 # ===== 유틸 =====
 def _json_dumps(obj: Any) -> str:
@@ -102,6 +102,7 @@ def _group_desc_map(group_ids: List[str]) -> Dict[str, str]:
 _BASE_RECALL_SYS = """
 당신은 GitHub 저장소에서 AI 모델 개방성 평가 정보를 추출하는 전문가입니다.
 오직 제공된 payload(원문)만 사용하세요. 외부 자료 금지.
+만약 증거가 있는경우에는 그 근거 문장을 포함 시켜 주고, 없는 경우에는 "증거 없음"이라고 명시하세요.
 반드시 json 객체(JSON object)만 반환하세요. 텍스트/설명/백틱을 덧붙이지 마세요.
 """
 
@@ -155,7 +156,8 @@ def _chat_json(system: str, user: str) -> Dict[str, Any]:
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
         ],
-        temperature=TEMPERATURE,
+        reasoning_effort="medium",
+        #temperature=TEMPERATURE,
         response_format={"type": "json_object"},
     )
     content = resp.choices[0].message.content.strip()
@@ -308,16 +310,16 @@ def filter_github_features(model_name: str, save: bool = True) -> Dict[str, Any]
 
     merged = _merge_dicts(parts)
     if save:
-        merged_path = f"github_filtered_{base}.json"
+        merged_path = f"github_filtered_final_{base}.json"
         with open(merged_path, "w", encoding="utf-8") as f:
             json.dump(merged, f, ensure_ascii=False, indent=2)
         print(f"✅ 최종 병합 결과 저장: {merged_path}")
     return merged
 
-# ===== CLI =====
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) != 2:
-        print("사용법: python github_Dispatcher.py <org/model>")
-        raise SystemExit(1)
-    filter_github_features(sys.argv[1])
+# # ===== CLI =====
+# if __name__ == "__main__":
+#     import sys
+#     if len(sys.argv) != 2:
+#         print("사용법: python github_Dispatcher.py <org/model>")
+#         raise SystemExit(1)
+#     filter_github_features(bigscience_bloomz-560m, True)

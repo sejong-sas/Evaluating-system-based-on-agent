@@ -52,7 +52,7 @@ def run_inference(readme: str):
             capture_output=True,
             text=True,
             check=True,  # 실행 실패 시 예외 발생
-            encoding="utf-8"
+            encoding="cp949" # 수정
         )
         print("-" * 20 + " [스크립트 실행 결과] " + "-" * 20)
         print(result.stdout)

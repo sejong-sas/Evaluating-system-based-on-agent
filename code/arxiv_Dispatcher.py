@@ -70,8 +70,8 @@ ITEM_GROUPS: List[List[str]] = [
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "gpt-4o")
-TEMPERATURE = 0
+MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")
+#TEMPERATURE = 0
 
 # ===== 유틸 =====
 def _json_dumps(obj: Any) -> str:
@@ -103,6 +103,7 @@ def _group_desc_map(group_ids: List[str]) -> Dict[str, str]:
 _BASE_RECALL_SYS = """
 당신은 arXiv 원문에서 AI 모델 개방성 평가 정보를 추출하는 전문가입니다.
 오직 제공된 payload(원문)만 사용하세요. 외부 자료 금지.
+만약 증거가 있는경우에는 그 근거 문장을 포함 시켜 주고, 없는 경우에는 "증거 없음"이라고 명시하세요.
 반드시 json 객체(JSON object)만 반환하세요. 텍스트/설명/백틱을 덧붙이지 마세요.
 """
 
@@ -152,7 +153,8 @@ def _chat_json(system: str, user: str) -> Dict[str, Any]:
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
         ],
-        temperature=TEMPERATURE,
+        reasoning_effort="medium",
+        #temperature=TEMPERATURE,
         response_format={"type": "json_object"},  # 반드시 객체
     )
     content = resp.choices[0].message.content.strip()
@@ -348,7 +350,7 @@ def filter_arxiv_features(model_name: str, save: bool = True) -> Dict[str, Any]:
 
     merged = _merge_dicts(parts)
     if save:
-        merged_path = f"arxiv_filtered_{base}.json"
+        merged_path = f"arxiv_filtered_final_{base}.json"
         with open(merged_path, "w", encoding="utf-8") as f:
             json.dump(merged, f, ensure_ascii=False, indent=2)
         print(f"✅ 최종 병합 결과 저장: {merged_path}")
