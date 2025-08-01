@@ -16,13 +16,15 @@ client = OpenAI(api_key=api_key)
 EVALUATION_PROMPT = """
 당신은 오픈 소스 AI 모델의 개방성을 체계적으로 평가하는 전문가입니다.
 요청받은 모델에 대해 다음 16개 세부 항목을 조사하고 각각 Open(1점), Semi-Open(0.5점), Closed(0점)으로 평가해주세요.
+그리고 각 항목 평가에 대한 근거를 제공해야 합니다.
+훈련 방법론 개방성의 평가는 arxiv_Dispatcher가 만든 json파일 위주로 참고 하세요.
 
 ## 1. 모델 기본 개방성 (Model Basic Openness) - 6개 항목
-### 1-1. 가중치 (Weights)
+### 1-1. 가중치 (Weights) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 open
 - Open(1점): 모델 가중치가 허가 없이 공개적으로 이용 가능
 - Semi-Open(0.5점): 허가를 받은 후 모델 가중치 이용 가능
 - Closed(0점): 모델 가중치가 공개되지 않아 사용 불가
-### 1-2. 코드 (Code)
+### 1-2. 코드 (Code) - 만약 허깅페이스에 .py 파일이 있으면 무조건 open
 - Open(1점): 모델 훈련 및 구현에 사용된 전체 코드가 공개
 - Semi-Open(0.5점): 모델 훈련 및 구현 코드의 일부만 공개
 - Closed(0점): 훈련 및 구현 코드가 공개되지 않음
@@ -30,15 +32,15 @@ EVALUATION_PROMPT = """
 - Open(1점): 사용, 수정, 재배포, 상업적 이용에 제한 없음 (MIT, Apache 등)
 - Semi-Open(0.5점): 사용, 수정, 재배포, 상업적 이용 중 1개 이상 제한
 - Closed(0점): 3개 이상 제한 존재하거나 해당 라이선스 없음
-### 1-4. 논문 (Paper)
+### 1-4. 논문 (Paper) 
 - Open(1점): 공식 논문 또는 기술 보고서 존재
 - Semi-Open(0.5점): 웹사이트 또는 블로그 포스트 존재
 - Closed(0점): 관련 문서 없음
-### 1-5. 아키텍처 (Architecture)
+### 1-5. 아키텍처 (Architecture) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 open
 - Open(1점): 모델 구조와 하이퍼파라미터가 완전히 공개 (레이어 수, 하이퍼파라미터 등)
 - Semi-Open(0.5점): 모델 구조만 공개 (예: Transformer 사용 언급)
 - Closed(0점): 모델 구조 관련 정보 미공개
-### 1-6. 토크나이저 (Tokenizer)
+### 1-6. 토크나이저 (Tokenizer) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 open
 - Open(1점): 사용된 토크나이저 이름이 명시적으로 공개 (SentencePiece 등)
 - Semi-Open(0.5점): 다운로드 및 사용 가능한 토크나이저 존재 (Hugging Face 등록)
 - Closed(0점): 토크나이저 관련 정보 미공개 및 사용 불가
@@ -95,10 +97,11 @@ EVALUATION_PROMPT = """
 {
   "model": "org/model",
   "scores": {
-    "1-1 가중치": 1,
-    "1-2 코드": 0.5,
+    "1-1 가중치": 1 근거: 허깅페이스에 올라와 있는 모델
+    "1-2 코드": 0.5, 근거: 갓허브에 .py 파일이 일부 존재
     ...
-    "4-4 데이터 필터링": 0
+    "2-3 API": 1 근거: 허깅페이스의 readme 파일에 API 문서 링크가 있음
+    "4-4 데이터 필터링": 1 근거: 논문 속에 5. data filtering 파트에 상세히 적혀 있음 
   },
   "total_score": 12.5
 }
@@ -120,12 +123,13 @@ def evaluate_openness(model_name: str, hf_json: dict = None, gh_json: dict = Non
     }
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="o3-mini",
         messages=[
             {"role": "system", "content": EVALUATION_PROMPT},
             {"role": "user",   "content": json.dumps(payload, ensure_ascii=False)}
         ],
-        temperature=0,
+        reasoning_effort="medium",  # Reasoning effort level
+        #temperature=0,
         response_format={"type": "json_object"}   # 👈 NEW!
     )
 
@@ -157,9 +161,9 @@ def evaluate_openness_from_files(model_name: str) -> dict:
                 print(f"⚠️ JSON 파싱 실패: {path}")
         return {}
 
-    hf = load(f"huggingface_filtered_{base.lower()}.json")
-    gh = load(f"github_filtered_{base}.json")
-    arxiv = load(f"arxiv_filtered_{base}.json")
+    hf = load(f"huggingface_filtered_final_{base.lower()}.json")
+    gh = load(f"github_filtered_final_{base}.json")
+    arxiv = load(f"arxiv_filtered_final_{base}.json")
 
     result = evaluate_openness(model_name, hf, gh, arxiv)
 
@@ -170,11 +174,14 @@ def evaluate_openness_from_files(model_name: str) -> dict:
     print(f"📝 평가 결과 저장 완료: {out_path}")
     return result
 
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) != 2:
-        print("사용법: python openness_Evaluator.py <org/model>")
-        sys.exit(1)
+# if __name__ == "__main__":
+#     import sys
+#     if len(sys.argv) != 2:
+#         print("사용법: python openness_Evaluator.py <org/model>")
+#         sys.exit(1)
 
-    model_id = sys.argv[1]
+#     model_id = sys.argv[1]
+#     evaluate_openness_from_files(model_id)
+if __name__ == "__main__":
+    model_id = "bigscience/bloomz-560m"
     evaluate_openness_from_files(model_id)
