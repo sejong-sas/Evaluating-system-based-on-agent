@@ -1,0 +1,139 @@
+{
+  "1-1 (가중치 Weights)": "제공된 증거에서 'model.safetensors'와 'pytorch_model.bin' 파일명이 언급되었는데, 이는 모델 가중치가 safetensors와 PyTorch의 표준 bin 파일 형식으로 저장되어 공개되어 있다는 점을 보여줍니다. 쉽게 접근 가능하고 다운로드할 수 있으며, 두 가지 파일 포맷을 통해 다양한 환경에서 모델을 활용할 수 있도록 배포되었음을 나타냅니다.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "files",
+      "quote": "model.safetensors"
+    },
+    {
+      "source": "files",
+      "quote": "pytorch_model.bin"
+    }
+  ],
+  "1-2 (코드 Code)": "증거에 포함된 파이썬 코드 스니펫은 모델의 훈련 및 실행 과정에 필요한 코드가 공개되어 있음을 명확하게 보여줍니다. 이 코드에는 필요한 라이브러리 설치, 지정된 체크포인트 'bigscience/bloomz-560m'을 통해 토크나이저와 모델을 불러오는 방법, 그리고 간단한 텍스트 변환 및 생성 과정을 포함하는 예제가 포함되어 있어, 누구나 해당 코드를 사용하여 모델의 추론 및 테스트를 수행할 수 있도록 상세하게 설명되어 있습니다.",
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "```python\n# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))\n```"
+    }
+  ],
+  "1-3 (라이선스 License)": "제공된 증거의 'license: bigscience-bloom-rail-1.0' 문구는 모델이 특정한 오픈 라이선스 하에 배포되고 있음을 나타냅니다. 이 라이선스는 사용, 수정, 배포 및 상업적 이용 권한에 대해 명시된 규정을 포함하고 있으며, 사용자가 모델을 안전하게 사용할 수 있도록 법적 기준과 제한을 제공하는 중요한 역할을 합니다.",
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "readme",
+      "quote": "license: bigscience-bloom-rail-1.0"
+    }
+  ],
+  "1-4 (논문 Paper)": "이 증거는 모델과 관련된 공식적인 문서가 존재함을 잘 보여줍니다. 특히 'Crosslingual Generalization through Multitask Finetuning'이라는 제목의 논문이 Arxiv 링크와 함께 제공되어, 모델의 기술적 기반, 연구 배경 및 방법론에 대한 세부적인 설명을 포함하고 있음을 나타냅니다. 이를 통해 사용자는 모델 개발의 이론적 배경과 실제적 응용 사례를 파악할 수 있습니다.",
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)"
+    }
+  ],
+  "1-5 (아키텍처 Architecture)": "인용문에 따르면, 모델의 아키텍처는 Bloom-560m과 동일하며, 자세한 구조와 하이퍼파라미터는 config.json 파일에 명시되어 있다. 특히 'n_layer': 24 라는 표현을 통해 레이어 수 등 중요한 파라미터가 설정되어 있음을 알 수 있다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Architecture:** Same as [bloom-560m](https://huggingface.co/bigscience/bloom-560m), also refer to the `config.json` file"
+    },
+    {
+      "source": "config",
+      "quote": "\"n_layer\": 24,"
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)": "제공된 증거에서는 토크나이저가 AutoTokenizer.from_pretrained(checkpoint)를 사용하여 불러오고 있음을 나타내며, 이로 인해 어떤 특정 체크포인트에서 토크나이저의 이름, 구조 및 다운로드 가능 여부 등 자세한 정보가 관리되고 있음을 보여준다.",
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)": "하드웨어 구성은 두 가지 주요 부문을 포함한다. 첫째, 각 노드에는 512GB 메모리를 갖춘 AMD CPU가 사용되고 있으며, 둘째, 64개의 A100 80GB GPU가 총 8개의 노드에서 8개씩 배치되어 NVLink 4 inter-gpu 연결과 4 OmniPath 링크를 통해 고속 데이터 전송 및 동기화가 이루어지는 구조를 갖추고 있다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **CPUs:** AMD CPUs with 512GB memory per node"
+    },
+    {
+      "source": "readme",
+      "quote": "- **GPUs:** 64 A100 80GB GPUs with 8 GPUs per node (8 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
+    }
+  ],
+  "2-2 (소프트웨어 Software)": "훈련 소프트웨어로는 Megatron-DeepSpeed가 오케스트레이션 역할을 하며, DeepSpeed를 통해 최적화 및 병렬 처리가 수행된다. 신경망 구성은 PyTorch (pytorch-1.11 w/ CUDA-11.5)를 사용하여 구현되었고, 조건에 따라 FP16 연산을 위해 NVIDIA의 apex가 활용될 수 있음을 증거에서 확인할 수 있다.",
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Orchestration:** [Megatron-DeepSpeed](https://github.com/bigscience-workshop/Megatron-DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Optimizer & parallelism:** [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch) (pytorch-1.11 w/ CUDA-11.5)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **FP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ],
+  "2-3 (API)": "제공된 증거 인용은 모델이 접근 가능한 API 사용의 예시를 포함하고 있다. 인용문에는 Python 코드 스니펫이 제시되어 있으며, 'bigscience/bloomz-560m' 체크포인트를 사용해 모델과 토크나이저를 로드하는 과정을 보여준다. 이 코드는 사용자가 transformers 라이브러리를 활용하여 API를 통해 모델에 입력 문장을 전달하고, 출력 결과를 해석하는 방법을 시연함으로써, API의 기능, 설치 방법, 문서 링크 및 사용 예제와 같이 관련된 모든 세부 정보를 다루고 있음을 암시한다.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "### CPU\n\n<details>\n<summary> Click to expand </summary>\n\n```python\n# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))\n```\n\n</details>"
+    }
+  ],
+  "3-1 (사전학습 Pre-training)": "해당 증거 인용에서는 모델의 사전학습 과정에 대한 다양한 정보를 제공한다. 특히, 사전학습에 사용된 언어와 관련하여 [bloom]과 [xP3] 데이터셋에 대한 링크를 통해 자료를 참조하고 있으며, 이는 모델이 사전학습과 파인튜닝 시 어떤 언어의 비율로 데이터를 처리하는지를 보여준다. 또한, 'pretraining_tp': 1이라는 코드 조각은 사전학습 과정에서 특정 하이퍼파라미터나 방법론이 사용되었음을 나타내, 해당 과정의 절차, 데이터 흐름 및 설정 정보를 제공하는 데 기여한다.",
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Languages: Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions. It understands both pretraining & finetuning languages."
+    },
+    {
+      "source": "config",
+      "quote": "\"pretraining_tp\": 1,"
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)": "증거 인용 내용은 파인튜닝 과정에 대해서 상세하게 기술하고 있다. 구체적으로, 파인튜닝은 1750 스텝 동안 진행되었고, 3.67십억개의 토큰이 사용되었다는 점을 명시하며, 파인튜닝의 실질적인 데이터 양과 학습의 규모를 보여준다. 또한, 파인튜닝 프로세스는 1x pipeline parallel, 1x tensor parallel, 1x data parallel의 구성으로 수행되었음을 언급하여, 재현 가능한 파이프라인 구성 및 설정 값을 포함한 전체 파인튜닝 구조를 상세하게 요약하고 있다.",
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Finetuning steps:** 1750"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Finetuning tokens:** 3.67 billion"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Finetuning layout:** 1x pipeline parallel, 1x tensor parallel, 1x data parallel"
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)": "제공된 증거 인용에는 강화학습에 관련된 내용이 포함되어 있지 않다. RLHF, DPO 등 강화학습 알고리즘의 사용 여부나 구체적인 방식, 절차, 설정 값 등에 관한 정보가 없어, 해당 항목에 대해서는 구체적인 설명이나 데이터가 제공되지 않고 있음을 알 수 있다.",
+  "3-3 (강화학습 Reinforcement Learning)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "인용문에 따르면, 사전학습 데이터는 다국어 데이터셋으로 구성되며, 특히 bloom 및 xP3 리소스가 참고되어 사용된 것으로 보입니다. 이 인용문은 pretraining 과정과 동시에 finetuning 언어에 대한 비율과 접근방식을 논의하며, 사전학습 데이터가 두 가지 학습 과정 모두에 대해 잘 설계되어 있음을 시사합니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Languages: Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions. It understands both pretraining & finetuning languages."
+    }
+  ],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "인용문에 의하면, 파인튜닝 과정에는 주로 bigscience의 xP3 데이터셋이 활용되며, BLOOM 및 mT5와 같은 사전학습된 다국어 언어 모델에 대해 적용됩니다. 이 데이터셋은 교차언어 과제 혼합물을 기반으로 하고 있으며, 이를 통해 모델들이 새로운 과제와 언어에 대해 일반화 능력을 갖추도록 지원하는 것으로 보입니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "readme",
+      "quote": "datasets:\n- bigscience/xP3"
+    },
+    {
+      "source": "readme",
+      "quote": "We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    }
+  ],
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "제공된 인용문에는 강화학습 데이터와 관련된 내용이 포함되어 있지 않으므로, 이 항목에 대한 구체적인 세부사항이나 근거는 제공되지 않았습니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
+  "4-4 (데이터 필터링 Data Filtering)": "제공된 인용문에는 데이터 필터링 및 정제 과정에 대한 언급이 없으므로, 해당 항목에 대해서는 사용된 기준, 필터링 방식, 그리고 그 과정과 영향 등에 대한 구체적인 정보가 제공되지 않았습니다.",
+  "4-4 (데이터 필터링 Data Filtering)__evidence": []
+}
