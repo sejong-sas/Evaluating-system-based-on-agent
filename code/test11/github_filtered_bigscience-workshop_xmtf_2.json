@@ -1,0 +1,25 @@
+{
+  "1-5 (아키텍처 Architecture)": "이 인용문은 모델 아키텍처와 관련하여 사전 학습된 체크포인트의 구성에 대해 상세히 설명합니다. 기본 체크포인트는 PP=12, TP=4, DP=4의 구성으로 제공되며, 모델을 재구성하려면 별도의 유니버설 체크포인트를 다운로드해야 한다고 명시되어 있습니다. 또한, 추가적인 미세 조정(finétuning)을 원할 경우 PP=72, TP=1, DP=4의 구조를 가지는 미세 조정된 체크포인트를 사용하도록 안내하고 있어, 모델의 병렬 처리 및 구성 변화에 관한 구체적인 정보를 제공합니다.",
+  "1-6 (토크나이저 Tokenizer)": "제공된 인용문에는 토크나이저의 종류나 공개 여부에 대한 구체적인 정보가 포함되어 있지 않아, 해당 항목에 대한 추가 세부 사항을 확인할 수 없습니다.",
+  "2-1 (하드웨어 Hardware)": "해당 인용문은 훈련 스크립트 내에서 SLURM 환경 설정과 관련된 부분의 수정 필요성을 강조합니다. 구체적으로는 노드 수, GPU 수, 실행 시간 등의 #SBATCH 변수를 조정해야 하며, 이에 대한 자세한 가이드가 GitHub의 SLURM 가이드를 통해 제공되고 있음을 언급합니다. 이는 훈련에 사용되는 하드웨어 자원의 관리 및 최적화를 위한 중요한 정보를 포함하고 있습니다.",
+  "2-2 (소프트웨어 Software)": "이 인용문은 훈련 코드 설정에 관해 구체적으로 설명하고 있으며, 'Megatron-DeepSpeed' 저장소를 t0loading 분기로 클론한 후, 제공된 setup guide를 따라 필요한 소프트웨어 패키지 및 프레임워크 버전을 갖춘 환경을 구성하는 방법을 안내합니다. 이를 통해 훈련 소프트웨어의 설치 및 초기화 과정 전반에 걸친 세부 사항이 전달되고 있습니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Download the pretrained model [checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states), which is of shape PP=12, TP=4, DP=4. If you'd like to reshape the model you will also need to download [the universal checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states/tree/global_step95000_universal). If you want to continue finetuning, you should use [our finetuned checkpoint](https://huggingface.co/bigscience/bloomz-optimizer-states), which is of shape PP=72, TP=1, DP=4."
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)__evidence": [],
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Important parts of the script to modify are:\n- `#SBATCH` variables, such as nodes, gpus, time, etc. - Our SLURM guide is [here](https://github.com/bigscience-workshop/bigscience/tree/master/jz/slurm#slurm-how-to)"
+    }
+  ],
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Setup the training code: `git clone -b t0loading https://github.com/bigscience-workshop/Megatron-DeepSpeed` & follow its [setup guide](https://github.com/bigscience-workshop/Megatron-DeepSpeed/tree/t0loading#get-started-fast) to create an environment with necessary packages."
+    }
+  ]
+}

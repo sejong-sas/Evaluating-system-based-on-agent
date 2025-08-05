@@ -1,5 +1,8 @@
 # huggingface_Dispatcher.py
-# High-Recall 2-Pass + evidence 태그만 → 요약
+# High-Recall 2-Pass  +  evidence({source, quote})  →  긴 요약
+# - evidence를 객체 배열로 저장
+# - 요약은 quote들만 사용
+# - __evidence_sources 필드 제거
 
 import os
 import json
@@ -8,13 +11,14 @@ from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 
+# ──────────────────────────────── 환경설정 ────────────────────────────────
 load_dotenv()
 _api_key = os.getenv("OPENAI_API_KEY")
 if not _api_key:
     raise RuntimeError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
 _client = OpenAI(api_key=_api_key)
 
-# ===== 16개 평가항목 라벨 =====
+# ──────────────────────────── 16개 평가 항목 라벨 ─────────────────────────
 LABELS = {
     "1-1": "1-1 (가중치 Weights)",
     "1-2": "1-2 (코드 Code)",
@@ -34,7 +38,7 @@ LABELS = {
     "4-4": "4-4 (데이터 필터링 Data Filtering)",
 }
 
-# ===== 각 항목의 구체 설명 =====
+# ──────────────────────────── 항목별 상세 설명 ────────────────────────────
 EVAL_DESCRIPTIONS = {
     LABELS["1-1"]: "모델 가중치의 공개 여부, 위치, 접근 방식, 누구나 다운로드 가능한지에 관련된 모든 내용",
     LABELS["1-2"]: "모델 훈련 및 실행을 위한 코드가 공개되었는지, 어떤 부분이 공개되었는지에 관련된 모든 내용",
@@ -45,7 +49,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["2-1"]: "모델 훈련에 사용된 하드웨어 종류(H100, TPU 등), 수량, 계산 자원 규모에 관련된 모든 내용",
     LABELS["2-2"]: "훈련에 사용된 소프트웨어(프레임워크, 라이브러리 등)의 종류, 버전, 설정에 관련된 모든 내용",
     LABELS["2-3"]: "모델이 접근 가능한 API의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
-    LABELS["3-1"]: "사전학습(pre-training) 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
+    LABELS["3-1"]: "사전학습 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
     LABELS["3-2"]: "파인튜닝 방식, 목적, 데이터 사용 여부, 재현 가능한 파이프라인 존재 여부에 관련된 모든 내용",
     LABELS["3-3"]: "RLHF, DPO 등 강화학습 알고리즘 사용 여부, 구체적인 방식과 절차, 설정값 등에 관련된 모든 내용",
     LABELS["4-1"]: "사전학습에 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식에 관련된 모든 내용",
@@ -54,7 +58,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-4"]: "데이터 필터링 또는 정제 방법, 사용된 기준, 필터링 과정과 그 영향에 관련된 모든 내용",
 }
 
-# ===== 4개 그룹 분할 =====
+# ─────────────────────────────── 그룹 분할 ───────────────────────────────
 ITEM_GROUPS: List[List[str]] = [
     ["1-1", "1-2", "1-3", "1-4"],
     ["1-5", "1-6", "2-1", "2-2"],
@@ -62,191 +66,227 @@ ITEM_GROUPS: List[List[str]] = [
     ["4-1", "4-2", "4-3", "4-4"],
 ]
 
-# ===== High-Recall & Model 설정 ===== #실험 더 해보기 
+# ──────────────────────────── 하이퍼파라미터 ────────────────────────────
 CHUNK_CHARS = 60_000
-CHUNK_OVERLAP = 2_000 #겹치는 글자 수
+CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
 MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
-#TEMPERATURE = 0
 
-# ===== 정규표현식 및 유틸 =====
-_SRC_TAG_RE = re.compile(r'^\s*\[([^\]]+)\]\s*.*$') # [tag] 형태의 태그 추출
+# (참고) 사용하지는 않지만, 필요 시 태그 검증용
+_SRC_TAG_RE = re.compile(r'^\s*\[([^\]]+)\]\s*.*$')
 
-def _json_dumps(obj: Any) -> str: # JSON 객체를 문자열로 변환
+# ─────────────────────────────── 유틸 함수 ───────────────────────────────
+def _json(obj: Any) -> str:
     return json.dumps(obj, ensure_ascii=False, indent=2)
 
-def _chunk_text(s: str, chunk_chars: int, overlap: int) -> List[str]: # 텍스트를 지정된 길이로 나누고 겹치는 부분을 고려하여 분할
-    chunks, n, i = [], len(s), 0
+def _chunk_text(s: str, chunk: int, overlap: int) -> List[str]:
+    out, n, i = [], len(s), 0
     while i < n:
-        end = min(i + chunk_chars, n)
-        chunks.append(s[i:end])
-        if end == n: break
+        end = min(i + chunk, n)
+        out.append(s[i:end])
+        if end == n:
+            break
         i = end - overlap if end - overlap > i else end
-    return chunks
-
-def _dedup_list(seq: List[str], limit: int) -> List[str]: # 리스트에서 중복된 항목을 제거하고 지정된 개수만큼 유지
-    seen, out = set(), []
-    for x in seq:
-        x_norm = x.strip()
-        if x_norm and x_norm not in seen:
-            seen.add(x_norm)
-            out.append(x_norm)
-            if len(out) >= limit: break
     return out
 
-def _group_desc_map(group_ids: List[str]) -> Dict[str, str]:
-    return {LABELS[k]: EVAL_DESCRIPTIONS[LABELS[k]] for k in group_ids}
+def _dedup_evidences(evs: List[Dict[str, str]], limit: int) -> List[Dict[str, str]]:
+    seen, out = set(), []
+    for ev in evs:
+        if not (isinstance(ev, dict)
+                and isinstance(ev.get("source"), str)
+                and isinstance(ev.get("quote"), str)):
+            continue
+        src = ev["source"].strip()
+        qt  = ev["quote"].strip()
+        if not src or not qt:
+            continue
+        key = (src, qt)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({"source": src, "quote": qt})
+        if len(out) >= limit:
+            break
+    return out
 
-# ===== 프롬프트 빌더 =====  # 증거가 없으면 없다고 명시 하기
+def _group_desc_map(ids: List[str]) -> Dict[str, str]:
+    return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
+
+# ─────────────────────────────── 프롬프트 ───────────────────────────────
 _BASE_RECALL_SYS = """
 당신은 Hugging Face 저장소에서 AI 모델 개방성 평가 정보를 추출하는 전문가입니다.
 오직 제공된 payload(원문)만 사용하세요.
-만약 증거가 있는경우에는 그 근거 문장을 그대로 포함 시켜 주고, 없는 경우에는 "증거 없음"이라고 명시하세요.
-결과는 반드시  JSON으로 반환하세요.
-"""
+각 항목마다 evidence를 '객체 배열'로 반환하세요.
+각 evidence 객체는 반드시 다음 필드를 가집니다:
+- "source": payload 섹션 태그(예: "readme", "files", "py_files/파일명.py")
+- "quote" : 해당 섹션에서 그대로 복사한 문장(수정·요약 금지)
+근거가 없으면 빈 배열 [] 로 반환하세요.
+반드시 JSON 객체만 반환하세요.
+""".strip()
 
 _BASE_SUMMARY_SYS = """
-당신은 evidence 태그만 사용하여 각 항목별 '길고 상세한' 요약을 작성하는 전문가입니다.
-오직 제공된 evidence 태그만 사용하세요.
-반드시 json 객체(JSON object)만 반환하세요. 텍스트를 덧붙이지 마세요.
-"""
+당신은 evidence의 quote만 사용해 각 항목을 길고 자세히 요약하는 전문가입니다.
+반드시 JSON 객체만 반환하세요(텍스트 추가 금지).
+""".strip()
 
-def _build_recall_inst(group_ids: List[str]) -> str: # 각 그룹 항목 정의를 포함한 프롬프트 빌더
-    desc_map = _group_desc_map(group_ids)
-    example = {
+def _build_recall_inst(group: List[str]) -> str:
+    desc = _json(_group_desc_map(group))
+    example = _json({
         LABELS[k]: [
-            "[readme]"
-        ] for k in group_ids
-    }
+            {"source": "readme", "quote": "원문 문장 예시 1"},
+            {"source": "py_files/train.py", "quote": "원문 문장 예시 2"}
+        ] for k in group
+    })
     return (
-        "이번 그룹 항목 정의:\n"
-        + _json_dumps(desc_map)
-        + "\n각 키에 대해 evidence 태그만 배열로 반환하세요.\n"
-        + "예시 스키마:\n"
-        + _json_dumps(example)
+        f"이번 그룹 항목 정의:\n{desc}\n"
+        "각 키에 대해 evidence 객체 배열을 반환하세요. 예시 스키마:\n"
+        f"{example}"
     )
 
-def _build_summary_inst(group_ids: List[str]) -> str:
-    desc_map = _group_desc_map(group_ids)
+def _build_summary_inst(group: List[str]) -> str:
+    desc = _json(_group_desc_map(group))
     return (
-        "이번 그룹 항목 정의:\n"
-        + _json_dumps(desc_map)
-        + "\n이후 evidence 태그 배열이 주어집니다. 각 항목에 대해 긴 문자열로 요약하세요."
+        f"이번 그룹 항목 정의:\n{desc}\n"
+        "이후 quote 배열이 주어집니다. 각 항목을 길게 요약하세요."
     )
 
-# ===== GPT 호출 =====
+# ─────────────────────────────── GPT 호출 ───────────────────────────────
 def _chat_json(system: str, user: str) -> Dict[str, Any]:
     resp = _client.chat.completions.create(
         model=MODEL_NAME,
-        messages=[
-            {"role": "system",  "content": system},
-            {"role": "user",    "content": user}
-        ],
         reasoning_effort="medium",
-        #temperature=TEMPERATURE,
-        response_format={"type": "json_object"}    # ← 문자열 대신 객체로 지정
+        response_format={"type": "json_object"},
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user",   "content": user},
+        ],
     )
-    text = resp.choices[0].message.content.strip()
     try:
-        return json.loads(text)
-    except:
+        return json.loads(resp.choices[0].message.content.strip())
+    except Exception:
         return {}
 
-# ===== evidence 수집 =====
-def _make_group_payload(hf_data: Dict, group_idx: int) -> Dict:
-    py_src = hf_data.get("py_files", {}) or {}
-    py_items = list(py_src.items())[:20] #20개의 파이썬 파일만 가져오기
-    py_files = {fn: (src[:20_000] if isinstance(src, str) else "") for fn, src in py_items}
+# ───────────────────────────── 페이로드 빌더 ─────────────────────────────
+def _make_group_payload(hf: Dict, idx: int) -> Dict:
+    py_src = hf.get("py_files", {}) or {}
+    py_items = list(py_src.items())[:20]         # 최대 20개 파일
+    py_files = {fn: (src[:20_000] if isinstance(src, str) else "")
+                for fn, src in py_items}
     return {
-        "model_id": hf_data.get("model_id", ""),
-        "files": hf_data.get("files", [])[:2000],
-        "readme": hf_data.get("readme", ""),
-        "license_file": hf_data.get("license_file", ""),
-        "config": hf_data.get("config", ""),
-        "generation_config": hf_data.get("generation_config", ""),
-        "py_files": py_files,
+        "model_id":          hf.get("model_id", ""),
+        "files":             hf.get("files", [])[:2000],
+        "readme":            hf.get("readme", ""),
+        "license_file":      hf.get("license_file", ""),
+        "config":            hf.get("config", ""),
+        "generation_config": hf.get("generation_config", ""),
+        "py_files":          py_files,
     }
 
-def _payload_to_text(payload: Dict) -> str: #청크 분할 전에, GPT가 출처 섹션을 인식할 수 있게 태그화
+def _payload_to_text(p: Dict) -> str:
     parts = [
-        f"[model_id]\n{payload.get('model_id','')}\n",
-        f"[readme]\n{payload.get('readme','')}\n",
-        f"[license_file]\n{payload.get('license_file','')}\n",
-        f"[config]\n{payload.get('config','')}\n",
-        f"[generation_config]\n{payload.get('generation_config','')}\n",
+        f"[model_id]\n{p.get('model_id','')}\n",
+        f"[readme]\n{p.get('readme','')}\n",
+        f"[license_file]\n{p.get('license_file','')}\n",
+        f"[config]\n{p.get('config','')}\n",
+        f"[generation_config]\n{p.get('generation_config','')}\n",
     ]
-    for fn, code in payload.get("py_files", {}).items():
+    for fn, code in p.get("py_files", {}).items():
         parts.append(f"[py_files/{fn}]\n{code}\n")
-    files = payload.get("files", [])
-    if files:
-        parts.append("[files]\n" + "\n".join(map(str, files)) + "\n")
+    if p.get("files"):
+        parts.append("[files]\n" + "\n".join(map(str, p["files"])) + "\n")
     return "\n".join(parts)
 
-def _recall_collect(group_ids: List[str], payload_text: str) -> Dict[str, List[str]]: # 청크 분할 후, evidence 태그를 수집
-    chunks = _chunk_text(payload_text, CHUNK_CHARS, CHUNK_OVERLAP)
-    all_e = {LABELS[k]: [] for k in group_ids}
+# ───────────────────────────── evidence 수집 ─────────────────────────────
+_ALLOWED_PREFIX = ("model_id", "readme", "license_file", "config",
+                   "generation_config", "files", "py_files/")
+
+def _is_valid_source(src: str) -> bool:
+    return isinstance(src, str) and src.startswith(_ALLOWED_PREFIX)
+
+def _recall_collect(group: List[str], text: str) -> Dict[str, List[Dict[str, str]]]:
+    chunks = _chunk_text(text, CHUNK_CHARS, CHUNK_OVERLAP)
+    out: Dict[str, List[Dict[str, str]]] = {LABELS[k]: [] for k in group}
+
     for chunk in chunks:
-        out = _chat_json(_BASE_RECALL_SYS, _build_recall_inst(group_ids) + "\n=== PAYLOAD ===\n" + chunk)
-        for k in group_ids:
-            vals = out.get(LABELS[k], [])
-            if isinstance(vals, list):
-                all_e[LABELS[k]].extend(vals)
-    for lbl in all_e: # 중복 제거 및 길이 제한 적용
-        all_e[lbl] = _dedup_list(all_e[lbl], EVIDENCE_LIMIT_PER_KEY)
-    return all_e
+        ans = _chat_json(_BASE_RECALL_SYS, _build_recall_inst(group) +
+                         "\n=== PAYLOAD ===\n" + chunk)
 
-def _summarize_from_evidence(group_ids: List[str], evidences: Dict[str, List[str]]) -> Dict[str, str]: # evidence 태그를 기반으로 요약 생성
-    user = _build_summary_inst(group_ids) + "\n=== EVIDENCE ===\n" + _json_dumps(evidences)
-    out = _chat_json(_BASE_SUMMARY_SYS, user)
-    return {LABELS[k]: out.get(LABELS[k], "") for k in group_ids}
+        for k in group:
+            lbl = LABELS[k]
+            evs = ans.get(lbl, [])
+            if not isinstance(evs, list):
+                continue
+            # 타입 검증 + 중복 제거
+            out[lbl].extend(_dedup_evidences(evs, EVIDENCE_LIMIT_PER_KEY))
 
-def _merge_for_final(summary_map: Dict[str, str],
-                     evidence_map: Dict[str, List[str]]) -> Dict[str, Any]:
+    return out
+
+# ─────────────────────────────── 요약 생성 ──────────────────────────────
+def _summarize(group: List[str], evid: Dict[str, List[Dict[str, str]]]) -> Dict[str, str]:
+    quotes = {
+        LABELS[k]: [e["quote"] for e in evid[LABELS[k]]]
+        for k in group
+    }
+    ans = _chat_json(_BASE_SUMMARY_SYS, _build_summary_inst(group) +
+                     "\n=== EVIDENCE_QUOTES ===\n" + _json(quotes))
+    return {LABELS[k]: ans.get(LABELS[k], "") for k in group}
+
+# ─────────────────────────────── 병합 유틸 ───────────────────────────────
+def _merge_for_final(summary: Dict[str, str],
+                     evid: Dict[str, List[Dict[str, str]]]) -> Dict[str, Any]:
     final = {}
-    for lbl, txt in summary_map.items():
-        final[lbl] = txt.rstrip() # 요약 텍스트 끝 공백 제거
-        final[f"{lbl}__evidence"] = evidence_map.get(lbl, [])
+    for lbl, txt in summary.items():
+        final[lbl] = txt.strip()
+        final[f"{lbl}__evidence"] = evid.get(lbl, [])
     return final
 
-def _merge_dicts(dicts: List[Dict[str, Any]]) -> Dict[str, Any]:
+def _merge_dicts(ds: List[Dict[str, Any]]) -> Dict[str, Any]:
     merged = {}
-    for d in dicts:
+    for d in ds:
         merged.update(d)
     return merged
 
-def filter_hf_features(model_name: str, save: bool = True) -> Dict[str, Any]:
-    base = model_name.replace("/", "_").lower()
-    path_in = f"huggingface_{base}.json" # 입력 파일 경로
+# ────────────────────────────── 메인 함수 ────────────────────────────────
+def filter_hf_features(model: str, save: bool = True) -> Dict[str, Any]:
+    base = model.replace("/", "_").lower()
+    path_in = f"huggingface_{base}.json"
     if not os.path.exists(path_in):
-        raise FileNotFoundError(f"'{path_in}' 파일이 없습니다.")
-    hf_data = json.load(open(path_in, encoding="utf-8"))
+        raise FileNotFoundError(path_in)
+    hf = json.load(open(path_in, encoding="utf-8"))
 
-    all_parts = []
-    for idx, grp in enumerate(ITEM_GROUPS, start=1):
+    parts = []
+    for idx, grp in enumerate(ITEM_GROUPS, 1):
         try:
-            payload = _make_group_payload(hf_data, idx-1) # 그룹별 페이로드 생성
-            text = _payload_to_text(payload) # 페이로드를 텍스트로 변환
-            evidences = _recall_collect(grp, text) # evidence 태그 수집
-            summaries = _summarize_from_evidence(grp, evidences) # 요약 생성
-            part = _merge_for_final(summaries, evidences) # 최종 결과 병합
+            payload = _make_group_payload(hf, idx-1)
+            text = _payload_to_text(payload)
+            evid = _recall_collect(grp, text)
+            summ = _summarize(grp, evid)
+            part = _merge_for_final(summ, evid)
         except Exception as e:
-            print(f"⚠️ 그룹 {idx} 처리 오류: {e}")
+            print(f"⚠️ 그룹 {idx} 처리 오류:", e)
             part = {}
         out_path = f"huggingface_filtered_{base}_{idx}.json"
-        json.dump(part, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-        print(f"✅ 그룹 {idx} 결과 저장: {out_path}")
-        all_parts.append(part)
+        if save:
+            json.dump(part, open(out_path, "w", encoding="utf-8"),
+                      ensure_ascii=False, indent=2)
+            print(f"✅ 그룹 {idx} 결과 저장:", out_path)
+        parts.append(part)
 
-    merged = _merge_dicts(all_parts)
+    merged = _merge_dicts(parts)
     if save:
         out_merged = f"huggingface_filtered_final_{base}.json"
-        json.dump(merged, open(out_merged, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-        print(f"✅ 최종 병합 결과 저장: {out_merged}")
+        json.dump(merged, open(out_merged, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=2)
+        print("✅ 최종 병합 결과 저장:", out_merged)
     return merged
 
+# ─────────────────────────────── CLI 진입점 ──────────────────────────────
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) != 2:
-        print("사용법: python huggingface_Dispatcher.py <org/model>")
-        sys.exit(1)
-    filter_hf_features(sys.argv[1])
+
+    model_id = "bigscience/bloomz-560m"
+    if len(sys.argv) >= 2 and sys.argv[1]:
+        model_id = sys.argv[1]
+
+    print("▶ 실행 모델:", model_id)
+    filter_hf_features(model_id)

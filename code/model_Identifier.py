@@ -5,8 +5,8 @@ import os
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 from openai import OpenAI
-from Huggingface_Fatcher import huggingface_fetcher
-from github_Fatcher import github_fetcher
+from huggingface_Fetcher import huggingface_fetcher
+from github_Fetcher import github_fetcher
 from arxiv_Fetcher import arxiv_fetcher_from_model
 # from openness_Evaluator import evaluate_openness  # 평가 모듈 임포트
 from github_Dispatcher import filter_github_features

@@ -1,0 +1,34 @@
+{
+  "1-1 (가중치 Weights)": "제공된 증거에서 'model.safetensors'와 'pytorch_model.bin' 파일명이 언급되었는데, 이는 모델 가중치가 safetensors와 PyTorch의 표준 bin 파일 형식으로 저장되어 공개되어 있다는 점을 보여줍니다. 쉽게 접근 가능하고 다운로드할 수 있으며, 두 가지 파일 포맷을 통해 다양한 환경에서 모델을 활용할 수 있도록 배포되었음을 나타냅니다.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "files",
+      "quote": "model.safetensors"
+    },
+    {
+      "source": "files",
+      "quote": "pytorch_model.bin"
+    }
+  ],
+  "1-2 (코드 Code)": "증거에 포함된 파이썬 코드 스니펫은 모델의 훈련 및 실행 과정에 필요한 코드가 공개되어 있음을 명확하게 보여줍니다. 이 코드에는 필요한 라이브러리 설치, 지정된 체크포인트 'bigscience/bloomz-560m'을 통해 토크나이저와 모델을 불러오는 방법, 그리고 간단한 텍스트 변환 및 생성 과정을 포함하는 예제가 포함되어 있어, 누구나 해당 코드를 사용하여 모델의 추론 및 테스트를 수행할 수 있도록 상세하게 설명되어 있습니다.",
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "```python\n# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))\n```"
+    }
+  ],
+  "1-3 (라이선스 License)": "제공된 증거의 'license: bigscience-bloom-rail-1.0' 문구는 모델이 특정한 오픈 라이선스 하에 배포되고 있음을 나타냅니다. 이 라이선스는 사용, 수정, 배포 및 상업적 이용 권한에 대해 명시된 규정을 포함하고 있으며, 사용자가 모델을 안전하게 사용할 수 있도록 법적 기준과 제한을 제공하는 중요한 역할을 합니다.",
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "readme",
+      "quote": "license: bigscience-bloom-rail-1.0"
+    }
+  ],
+  "1-4 (논문 Paper)": "이 증거는 모델과 관련된 공식적인 문서가 존재함을 잘 보여줍니다. 특히 'Crosslingual Generalization through Multitask Finetuning'이라는 제목의 논문이 Arxiv 링크와 함께 제공되어, 모델의 기술적 기반, 연구 배경 및 방법론에 대한 세부적인 설명을 포함하고 있음을 나타냅니다. 이를 통해 사용자는 모델 개발의 이론적 배경과 실제적 응용 사례를 파악할 수 있습니다.",
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)"
+    }
+  ]
+}
