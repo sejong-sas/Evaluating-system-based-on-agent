@@ -9,6 +9,7 @@ import os, json, re
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 # ─────────────────── 환경 ───────────────────
 load_dotenv()
@@ -30,6 +31,25 @@ LABELS = {
     "4-2": "4-2 (파인튜닝 데이터 Fine-tuning Data)",
     "4-3": "4-3 (강화학습 데이터 Reinforcement Learning Data)",
     "4-4": "4-4 (데이터 필터링 Data Filtering)",
+}
+
+EVAL_DESCRIPTIONS = {
+    LABELS["1-1"]: "모델 가중치의 공개 여부, 위치, 접근 방식, 누구나 다운로드 가능한지에 관련된 모든 내용",
+    LABELS["1-2"]: "모델 훈련 및 실행을 위한 코드가 공개되었는지, 어떤 부분이 공개되었는지에 관련된 모든 내용",
+    LABELS["1-3"]: "라이선스의 존재 여부, 종류, 허용된 권리(사용, 수정, 배포, 상업적 이용)에 관련된 모든 내용",
+    LABELS["1-4"]: "모델과 관련된 공식 논문, 기술 보고서, 블로그 등 문서의 존재와 링크에 관련된 모든 내용",
+    LABELS["1-5"]: "모델 아키텍처(레이어 수, 하이퍼파라미터 등)와 구조 설계의 세부 정보에 관련된 모든 내용",
+    LABELS["1-6"]: "어떤 토크나이저를 사용하는지, 이름과 구조, 다운로드 가능 여부에 관련된 모든 내용",
+    LABELS["2-1"]: "모델 훈련에 사용된 하드웨어 종류(H100, TPU 등), 수량, 계산 자원 규모에 관련된 모든 내용",
+    LABELS["2-2"]: "훈련에 사용된 소프트웨어(프레임워크, 라이브러리 등)의 종류, 버전, 설정에 관련된 모든 내용",
+    LABELS["2-3"]: "모델이 접근 가능한 API(gpt api, gemini api 같은 api여야 함 라이브러리x)의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
+    LABELS["3-1"]: "사전학습 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
+    LABELS["3-2"]: "파인튜닝 방식, 목적, 데이터 사용 여부, 재현 가능한 파이프라인 존재 여부에 관련된 모든 내용",
+    LABELS["3-3"]: "RLHF, DPO 등 강화학습 알고리즘 사용 여부, 구체적인 방식과 절차, 설정값 등에 관련된 모든 내용",
+    LABELS["4-1"]: "사전학습에 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식에 관련된 모든 내용",
+    LABELS["4-2"]: "파인튜닝에 사용된 데이터셋의 출처, 구성, 데이터 예시, 공개 여부 등에 관련된 모든 내용",
+    LABELS["4-3"]: "강화학습에 사용된 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식에 관련된 모든 내용",
+    LABELS["4-4"]: "데이터 필터링 또는 정제 방법, 사용된 기준, 필터링 과정과 그 영향에 관련된 모든 내용",
 }
 
 # ─────────── 4개 그룹 ───────────
@@ -89,7 +109,7 @@ _BASE_SUMMARY_SYS = """
 반드시 JSON 객체만 출력하십시오.
 """.strip()
 
-def _desc(ids): return {LABELS[i]: "" for i in ids}          # 설명 생략(토큰 절약)
+def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}          # 설명 생략(토큰 절약)
 def _recall_inst(g): return "이번 그룹 항목:\n"+_js(_desc(g))
 def _summ_inst(g):   return "이번 그룹 항목:\n"+_js(_desc(g))
 
@@ -194,38 +214,82 @@ def _merge_all(lst):
     return m
 
 # ─────────── 외부 함수 ───────────
-def filter_arxiv_features(model, save=True):
-    base = model.replace("/","_").lower()
-    paths = [f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"]
-    src = next((p for p in paths if os.path.exists(p)), None)
-    if not src:
-        raise FileNotFoundError(paths)
-    ax = json.load(open(src,encoding="utf-8"))
+def filter_arxiv_features(model, save: bool = True, output_dir: str | Path = "."):
+    base = model.replace("/", "_").lower()
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    parts=[]
-    for i,grp in enumerate(ITEM_GROUPS,1):
+    # 1) 입력: outdir 우선 → 루트 폴백
+    candidates = [
+        output_dir / f"arxiv_fulltext_{base}.json",
+        output_dir / f"arxiv_{base}.json",
+    ]
+    src = next((p for p in candidates if p.exists()), None)
+    if not src:
+        alt = next(
+            (Path(p) for p in [f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"] if Path(p).exists()),
+            None
+        )
+        if not alt:
+            raise FileNotFoundError([str(c) for c in candidates])
+        src = alt
+
+    ax = json.load(open(src, encoding="utf-8"))
+
+    # 2) 페처 스키마 정규화: {"full_texts":[{"arxiv_id","full_text"}...]} → 단일 문서 형태
+    doc_for_payload = ax
+    if isinstance(ax, dict) and "full_texts" in ax:
+        texts, ids = [], []
+        for t in ax.get("full_texts", []):
+            if not isinstance(t, dict):
+                continue
+            ids.append(str(t.get("arxiv_id", "")).strip())
+            # 다양한 키 폴백: full_text 우선, 없으면 pdf_text
+            texts.append(str(t.get("full_text") or t.get("pdf_text") or ""))
+
+        merged_text = "\n\n".join([x for x in texts if x])
+        merged_id = ";".join([x for x in ids if x])
+
+        doc_for_payload = {
+            "arxiv_id": merged_id,
+            "title": "",
+            "abstract": "",
+            "categories": "",
+            "license": "",
+            "authors": "",
+            # ★ 핵심: 병합 텍스트를 pdf_text로 매핑 (디스패처의 기대 스키마에 맞춤)
+            "pdf_text": merged_text,
+            "sections": [],
+            "bib": "",
+        }
+
+    # 3) 그룹별 처리
+    parts = []
+    for i, grp in enumerate(ITEM_GROUPS, 1):
         try:
-            pay  = _make_payload(ax)
+            pay = _make_payload(doc_for_payload)
             text = _payload_text(pay)
-            ev   = _collect(grp, text)
+            ev = _collect(grp, text)
             summ = _summarize(grp, ev)
             part = _merge(summ, ev)
         except Exception as e:
-            print(f"⚠️ 그룹 {i} 오류:", e); part={}
+            print(f"⚠️ 그룹 {i} 오류:", e)
+            part = {}
+
         if save:
-            fp=f"arxiv_filtered_{base}_{i}.json"
-            json.dump(part, open(fp,"w",encoding="utf-8"),
-                      ensure_ascii=False, indent=2)
+            fp = output_dir / f"arxiv_filtered_{base}_{i}.json"
+            json.dump(part, open(fp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
             print("✅ 그룹", i, "저장:", fp)
         parts.append(part)
 
-    merged=_merge_all(parts)
+    # 4) 최종 병합 저장
+    merged = _merge_all(parts)
     if save:
-        fp=f"arxiv_filtered_final_{base}.json"
-        json.dump(merged, open(fp,"w",encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
+        fp = output_dir / f"arxiv_filtered_final_{base}.json"
+        json.dump(merged, open(fp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ 최종 병합 저장:", fp)
     return merged
+
 
 # ─────────── CLI ───────────
 if __name__=="__main__":
