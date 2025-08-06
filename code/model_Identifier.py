@@ -5,7 +5,6 @@ import re
 import json
 import requests
 from pathlib import Path
-from contextlib import contextmanager
 from urllib.parse import urlparse
 
 from dotenv import load_dotenv
@@ -22,26 +21,12 @@ from huggingface_Dispatcher import filter_hf_features
 from openness_Evaluator import evaluate_openness_from_files
 from inference import run_inference
 
-
 # ========= 환경설정 =========
 dotenv_path = os.path.join(os.getcwd(), ".env")
 load_dotenv(dotenv_path)
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-
-# ========= 유틸 =========
-@contextmanager
-def _pushd(path: Path):
-    """작업 디렉토리를 일시적으로 변경."""
-    old = Path.cwd()
-    os.makedirs(path, exist_ok=True)
-    os.chdir(path)
-    try:
-        yield
-    finally:
-        os.chdir(old)
-
-
+# ========= 공통 유틸 =========
 def extract_model_info(input_str: str) -> dict:
     """HF/GH URL 또는 'org/model'을 받아 파싱."""
     platform = None
@@ -81,16 +66,13 @@ def extract_model_info(input_str: str) -> dict:
         "hf_id": hf_id,
     }
 
-
 def test_hf_model_exists(model_id: str) -> bool:
     resp = requests.get(f"https://huggingface.co/api/models/{model_id}")
     return resp.status_code == 200
 
-
 def test_github_repo_exists(repo: str) -> bool:
     resp = requests.get(f"https://api.github.com/repos/{repo}")
     return resp.status_code == 200
-
 
 def extract_repo_from_url(url: str) -> str:
     parsed = urlparse(url)
@@ -100,19 +82,18 @@ def extract_repo_from_url(url: str) -> str:
         return f"{parts[0]}/{repo}"
     return ""
 
-
 def find_github_in_huggingface(model_id: str) -> str | None:
     """HF 모델 카드/README에서 GH repo를 찾아냄."""
     try:
         card = requests.get(
             f"https://huggingface.co/api/models/{model_id}?full=true"
         ).json().get("cardData", {})
-        # 1) 링크 필드 우선
+        # 1) 링크 필드
         for field in ["repository", "homepage"]:
             url = card.get("links", {}).get(field, "")
             if "github.com" in url:
                 return extract_repo_from_url(url)
-        # 2) 모델 카드 본문에서 찾기
+        # 2) 카드 본문
         content = card.get("content", "")
         all_links = re.findall(r"https://github\.com/[\w\-]+/[\w\-\.]+", content)
         for link in all_links:
@@ -121,21 +102,18 @@ def find_github_in_huggingface(model_id: str) -> str | None:
     except Exception:
         pass
 
-    # 3) raw README에서 찾기
+    # 3) raw README
     for branch in ["main", "master"]:
         raw_url = f"https://huggingface.co/{model_id}/raw/{branch}/README.md"
         try:
             r = requests.get(raw_url)
             if r.status_code == 200:
-                m2 = re.search(
-                    r"github\.com/([\w\-]+/[\w\-\.]+)", r.text, re.IGNORECASE
-                )
+                m2 = re.search(r"github\.com/([\w\-]+/[\w\-\.]+)", r.text, re.IGNORECASE)
                 if m2:
                     return m2.group(1)
         except Exception:
             pass
     return None
-
 
 def find_huggingface_in_github(repo: str) -> str | None:
     """GH README/페이지에서 HF 모델 ID를 찾아냄."""
@@ -145,41 +123,25 @@ def find_huggingface_in_github(repo: str) -> str | None:
             try:
                 r = requests.get(raw_url)
                 if r.status_code == 200:
-                    m = re.search(
-                        r"https?://huggingface\.co/([\w\-]+/[\w\-\.]+)",
-                        r.text,
-                        re.IGNORECASE,
-                    )
+                    m = re.search(r"https?://huggingface\.co/([\w\-]+/[\w\-\.]+)", r.text, re.IGNORECASE)
                     if m:
                         candidate = m.group(1).lower()
                         if not candidate.startswith("collections/"):
                             return candidate
 
-                    m2 = re.search(
-                        r"huggingface\.co/([\w\-]+/[\w\-\.]+)",
-                        r.text,
-                        re.IGNORECASE,
-                    )
+                    m2 = re.search(r"huggingface\.co/([\w\-]+/[\w\-\.]+)", r.text, re.IGNORECASE)
                     if m2:
                         candidate = m2.group(1).lower()
                         if not candidate.startswith("collections/"):
                             return candidate
 
-                    m_md = re.search(
-                        r"\[.*?\]\((https?://huggingface\.co/[\w\-/\.]+)\)",
-                        r.text,
-                        re.IGNORECASE,
-                    )
+                    m_md = re.search(r"\[.*?\]\((https?://huggingface\.co/[\w\-/\.]+)\)", r.text, re.IGNORECASE)
                     if m_md:
                         candidate = extract_model_info(m_md.group(1))["hf_id"]
                         if not candidate.startswith("collections/"):
                             return candidate
 
-                    m_html = re.search(
-                        r'<a\s+href="https?://huggingface\.co/([\w\-/\.]+)"',
-                        r.text,
-                        re.IGNORECASE,
-                    )
+                    m_html = re.search(r'<a\s+href="https?://huggingface\.co/([\w\-/\.]+)"', r.text, re.IGNORECASE)
                     if m_html:
                         candidate = m_html.group(1).lower()
                         if not candidate.startswith("collections/"):
@@ -189,11 +151,9 @@ def find_huggingface_in_github(repo: str) -> str | None:
 
     try:
         html = requests.get(f"https://github.com/{repo}").text
-        m3 = re.findall(
-            r"https://huggingface\.co/[\w\-]+/[\w\-\.]+", html, re.IGNORECASE
-        )
+        m3 = re.findall(r"https://huggingface\.co/[\w\-]+/[\w\-\.]+", html, re.IGNORECASE)
         for link in m3:
-            if "href" in html[html.find(link) - 20 : html.find(link)]:
+            if 'href' in html[html.find(link)-20:html.find(link)]:
                 candidate = extract_model_info(link)["hf_id"]
                 if not candidate.startswith("collections/"):
                     return candidate
@@ -201,17 +161,13 @@ def find_huggingface_in_github(repo: str) -> str | None:
         pass
     return None
 
-
 def gpt_guess_github_from_huggingface(hf_id: str) -> str | None:
     prompt = f"""
-Hugging Face에 등록된 모델 '{hf_id}'에 대해, 이 모델의 원본 코드가 저장된 GitHub 저장소를 추정하세요.
-
-🟢 규칙:
-1) 'organization/repo' 형식으로 **정확한 경로만** 반환(링크/설명 X)
-2) 모노리포(google-research/google-research)보단 모델 전용 저장소 우선
-3) distill 모델이면 부모 모델 저장소를 고려
-4) 이름/논문/토크나이저/프레임워크 단서를 활용
-5) 결과는 한 줄만. 예: facebookresearch/llama
+Hugging Face에 등록된 모델 '{hf_id}'의 원본 코드가 저장된 GitHub 저장소를 추정하세요.
+- 'organization/repo' **한 줄만** 출력(링크/설명 X)
+- 모노리포보다 모델 전용 저장소 우선
+- Distill이면 부모 모델 저장소 고려
+- 예: facebookresearch/llama
 """
     try:
         resp = client.chat.completions.create(
@@ -223,16 +179,14 @@ Hugging Face에 등록된 모델 '{hf_id}'에 대해, 이 모델의 원본 코�
         if "/" in guess:
             return guess
     except Exception as e:
-        print("⚠️ GPT HF→GH 추정 중 오류 발생:", e)
+        print("⚠️ GPT HF→GH 추정 중 오류:", e)
     return None
-
 
 def gpt_guess_huggingface_from_github(gh_id: str) -> str | None:
     prompt = f"""
 GitHub 저장소 '{gh_id}'와 연결된 Hugging Face 모델 ID를 추정하세요.
-- 정확한 organization/model만 출력(설명 X)
-- 모노리포보단 모델 전용 리포 우선
-- 예시 출력: facebookresearch/llama
+- organization/model **한 줄만** 출력
+- 예: facebookresearch/llama
 """
     try:
         resp = client.chat.completions.create(
@@ -244,24 +198,23 @@ GitHub 저장소 '{gh_id}'와 연결된 Hugging Face 모델 ID를 추정하세�
         if "/" in guess:
             return guess
     except Exception as e:
-        print("⚠️ GPT GH→HF 추정 중 오류 발생:", e)
+        print("⚠️ GPT GH→HF 추정 중 오류:", e)
     return None
-
 
 def make_model_dir(user_input: str) -> Path:
     """모델별 서브디렉토리 생성(안전한 폴더명)."""
     info = extract_model_info(user_input)
-    base = info["hf_id"]  # 예: bigscience/bloomz-560m
-
-    # 안전한 디렉토리명: 슬래시/공백/특수문자 -> '_', 소문자
-    safe = re.sub(r"[^\w.-]+", "_", base).replace("/", "_").lower()
+    base = info["hf_id"]  # ex) 'bigscience/bloomz-560m'
+    safe = re.sub(r'[<>:"/\\|?*\s]+', "_", base).lower()  # 안전한 폴더명
     path = Path(safe)
     path.mkdir(parents=True, exist_ok=True)
     return path
 
-
 # ========= 메인 파이프라인 =========
 def run_all_fetchers(user_input: str):
+    outdir = make_model_dir(user_input)
+    print(f"📁 출력 경로: {outdir}")
+
     info = extract_model_info(user_input)
     full = info["full_id"]
     hf_cand = info["hf_id"]
@@ -270,6 +223,7 @@ def run_all_fetchers(user_input: str):
     gh_id = None
     found_rank_hf = None
     found_rank_gh = None
+    data = None  # HF README 보관
 
     hf_ok = test_hf_model_exists(hf_cand)
     gh_ok = test_github_repo_exists(full)
@@ -302,7 +256,7 @@ def run_all_fetchers(user_input: str):
         if guess_gh and test_github_repo_exists(guess_gh):
             gh_id = guess_gh
             found_rank_gh = 3
-            print("⚠️ GPT 추정 결과입니다. 실제 포함 모델 확인 필요")
+            print("⚠️ GPT 추정 결과 — 실제 포함 모델 확인 필요")
 
     if gh_ok and not hf_id:
         guess_hf = gpt_guess_huggingface_from_github(full)
@@ -310,75 +264,63 @@ def run_all_fetchers(user_input: str):
         if guess_hf and test_hf_model_exists(guess_hf):
             hf_id = guess_hf
             found_rank_hf = 3
-            print("⚠️ GPT 추정 결과입니다. 모델 ID 정확성 확인 필요")
+            print("⚠️ GPT 추정 결과 — 모델 ID 정확성 확인 필요")
 
-    if not hf_id and not gh_id:
-        print("❌ HF/GH 모두 식별 실패")
-        return
-
-    # === 모델별 서브디렉토리에서 모든 산출물 저장 ===
-    outdir = make_model_dir(user_input)
-    data = None  # HF 데이터(README용)
-
-    with _pushd(outdir):
-        # ---- Hugging Face 측 수집/필터 ----
-        if hf_id:
-            rank_hf = found_rank_hf or "없음"
-            print(f"✅ HF model: {hf_id} (발견: {rank_hf}순위)")
-            data = huggingface_fetcher(hf_id, save_to_file=True)
-            arxiv_fetcher_from_model(hf_id, save_to_file=True)
-
-            try:
-                _ = filter_hf_features(hf_id)
-            except FileNotFoundError:
-                print("⚠️ HuggingFace JSON 파일이 없어 필터링 생략")
-
-            try:
-                _ = filter_arxiv_features(hf_id)
-            except FileNotFoundError:
-                print("⚠️ arXiv JSON 파일이 없어 필터링 생략")
-        else:
-            print("⚠️ HuggingFace 정보 없음")
-
-        # ---- GitHub 측 수집/필터 ----
-        if gh_id:
-            rank_gh = found_rank_gh or "없음"
-            print(f"✅ GH repo: {gh_id} (발견: {rank_gh}순위)")
-            try:
-                github_fetcher(gh_id, branch="main", save_to_file=True)
-            except requests.exceptions.HTTPError:
-                print("⚠️ main 브랜치 실패, master로 재시도...")
-                try:
-                    github_fetcher(gh_id, branch="master", save_to_file=True)
-                except Exception as e:
-                    print("❌ master 브랜치도 실패:", e)
-
-            try:
-                _ = filter_github_features(gh_id)
-            except FileNotFoundError:
-                print("⚠️ GitHub JSON 파일이 없어 필터링 생략")
-        else:
-            print("⚠️ GitHub 정보 없음")
-
-        # ---- README 기반 간단 추론(선택) ----
-        if isinstance(data, dict) and data.get("readme"):
-            run_inference(data["readme"])
-
-        # ---- 개방성 평가 ----
+    # ---- Hugging Face 측 수집/필터 ----
+    if hf_id:
+        rank_hf = found_rank_hf or "없음"
+        print(f"✅ HF model: {hf_id} (발견: {rank_hf}순위)")
+        data = huggingface_fetcher(hf_id, save_to_file=True, output_dir=outdir)
+        arxiv_fetcher_from_model(hf_id, save_to_file=True, output_dir=outdir)
         try:
-            print("📝 개방성 평가 시작...")
-            try:
-                # 새 시그니처(베이스 디렉토리 전달 지원)
-                _ = evaluate_openness_from_files(full, base_dir=str(outdir))
-            except TypeError:
-                # 구 시그니처(인자 하나짜리) 호환
-                _ = evaluate_openness_from_files(full)
-            print(f"✅ 개방성 평가 완료. 결과 파일: openness_score_{full.replace('/', '_')}.json")
-        except Exception as e:
-            print("⚠️ 개방성 평가 중 오류 발생:", e)
+            _ = filter_hf_features(hf_id, output_dir=outdir)
+        except FileNotFoundError:
+            print("⚠️ HuggingFace JSON 파일이 없어 필터링 생략")
+        try:
+            _ = filter_arxiv_features(hf_id, output_dir=outdir)
+        except FileNotFoundError:
+            print("⚠️ arXiv JSON 파일이 없어 필터링 생략")
+    else:
+        print("⚠️ HuggingFace 정보 없음")
 
+    # ---- GitHub 측 수집/필터 ----
+    if gh_id:
+        rank_gh = found_rank_gh or "없음"
+        print(f"✅ GH repo: {gh_id} (발견: {rank_gh}순위)")
+        try:
+            github_fetcher(gh_id, branch="main", save_to_file=True, output_dir=outdir)
+        except requests.exceptions.HTTPError:
+            print("⚠️ main 브랜치 실패, master로 재시도...")
+            try:
+                github_fetcher(gh_id, branch="master", save_to_file=True, output_dir=outdir)
+            except Exception as e:
+                print("❌ master 브랜치도 실패:", e)
+        try:
+            _ = filter_github_features(gh_id, output_dir=outdir)
+        except FileNotFoundError:
+            print("⚠️ GitHub JSON 파일이 없어 필터링 생략")
+    else:
+        print("⚠️ GitHub 정보 없음")
+
+    # ---- README 기반 간단 추론(선택) ----
+    if isinstance(data, dict) and data.get("readme"):
+        run_inference(data["readme"])
+
+    # ---- 개방성 평가 ----
+    try:
+        print("📝 개방성 평가 시작...")
+        try:
+            _ = evaluate_openness_from_files(full, base_dir=str(outdir))
+        except TypeError:
+            _ = evaluate_openness_from_files(full)
+        base_name = full.replace("/", "_")
+        print(f"✅ 개방성 평가 완료. 결과 파일: {outdir / Path(f'openness_score_{base_name}.json')}")
+    except Exception as e:
+        print("⚠️ 개방성 평가 중 오류 발생:", e)
 
 # ========= 엔트리포인트 =========
 if __name__ == "__main__":
     user_input = input("🌐 HF/GH URL 또는 org/model: ").strip()
+    model_dir = make_model_dir(user_input)
+    print(f"📁 생성/사용할 폴더: {model_dir}")
     run_all_fetchers(user_input)
