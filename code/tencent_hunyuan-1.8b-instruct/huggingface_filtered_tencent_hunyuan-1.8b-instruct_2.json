@@ -1,0 +1,34 @@
+{
+  "1-5 (아키텍처 Architecture)": "해당 증거는 모델 아키텍처의 세부 구성 요소와 하이퍼파라미터 설정을 매우 상세하게 기술하고 있다. 모델은 'HunYuanDenseV1ForCausalLM' 아키텍처를 사용하며, 32개의 숨겨진 레이어와 16개의 어텐션 헤드를 포함한다. 또한 attention head의 차원은 128로 설정되고, 내부적으로 2048 크기의 히든 사이즈 및 6144 크기의 인터미디어트 피드포워드 레이어를 사용한다. 다양한 토큰 ID (예: bos, eos, pad 등)와 함께, 로터리 포지셔널 임베딩(RoPE) 동적 스케일링 파라미터 (예: alpha 1000.0, beta_fast 32 등), RMS 정규화, qk norm 사용, 그리고 silu 활성화 함수 등의 설정이 포함되어 있다. 모델은 또한 임베딩을 공유(tie_word_embeddings)하며, bfloat16 데이터 타입과 transformers 버전 4.41.2를 사용하도록 설계되었다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "config",
+      "quote": "{\n  \"add_classification_head\": false,\n  \"architectures\": [\n    \"HunYuanDenseV1ForCausalLM\"\n  ],\n  \"attention_bias\": false,\n  \"attention_dropout\": 0.0,\n  \"attention_head_dim\": 128,\n  \"bos_token_id\": 1,\n  \"cla_share_factor\": 2,\n  \"class_num\": 0,\n  \"dense_list\": [\n    2048,\n    0\n  ],\n  \"eod_token_id\": 120026,\n  \"eos_token_id\": 120020,\n  \"head_dim\": 128,\n  \"hidden_act\": \"silu\",\n  \"hidden_size\": 2048,\n  \"im_end_id\": 5,\n  \"im_newline_id\": 11,\n  \"im_start_id\": 4,\n  \"initializer_range\": 0.02,\n  \"intermediate_size\": 6144,\n  \"mask_init_id\": 12,\n  \"max_position_embeddings\": 262144,\n  \"mlp_bias\": false,\n  \"model_type\": \"hunyuan_v1_dense\",\n  \"norm_type\": \"rms\",\n  \"num_attention_heads\": 16,\n  \"num_hidden_layers\": 32,\n  \"num_key_value_heads\": 4,\n  \"org_vocab_size\": 120818,\n  \"pad_id\": 120002,\n  \"pad_token_id\": 120002,\n  \"pool_type\": \"last\",\n  \"pretraining_tp\": 1,\n  \"rms_norm_eps\": 1e-05,\n  \"rope_scaling\": {\n    \"alpha\": 1000.0,\n    \"beta_fast\": 32,\n    \"beta_slow\": 1,\n    \"factor\": 1.0,\n    \"mscale\": 1.0,\n    \"mscale_all_dim\": 1.0,\n    \"type\": \"dynamic\"\n  },\n  \"rope_theta\": 10000.0,\n  \"sep_token_id\": 120007,\n  \"text_end_id\": 7,\n  \"text_start_id\": 6,\n  \"tie_word_embeddings\": true,\n  \"torch_dtype\": \"bfloat16\",\n  \"transformers_version\": \"4.41.2\",\n  \"use_cache\": true,\n  \"use_cla\": false,\n  \"use_qk_norm\": true,\n  \"use_rotary_pos_emb\": true,\n  \"vocab_size\": 120818\n}"
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)": "토크나이저는 HuggingFace의 AutoTokenizer를 사용하여 모델 이름이나 경로를 통해 불러오도록 구성되어 있다. 'tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)' 코드와 함께 tokenizer.json 파일이 제공됨으로써, 토크나이저의 이름, 구조, 그리고 다운로드 가능 여부에 관한 설정 및 구성이 명시되어 있다.",
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)"
+    },
+    {
+      "source": "files",
+      "quote": "tokenizer.json"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)": "훈련 혹은 추론에 사용된 하드웨어 환경은 Docker 컨테이너 명령어를 통해 확인할 수 있으며, '--gpus=all' 옵션을 사용하여 모든 GPU 자원을 활용하도록 설정되었다. Docker 컨테이너 'hunyuanLLM_infer'는 privileged 모드와 IPC, 메모리 및 스택 제한을 적절히 설정하여 안정적인 GPU 활용 및 계산 자원 확보를 목적으로 구성되었고, 컨테이너 이미지 'hunyuaninfer/hunyuan-7B:hunyuan-moe-7B-trtllm'를 통해 최적화된 환경에서 실행되고 있다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "docker run --privileged --user root --name hunyuanLLM_infer --rm -it --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --gpus=all hunyuaninfer/hunyuan-7B:hunyuan-moe-7B-trtllm"
+    }
+  ],
+  "2-2 (소프트웨어 Software)": "훈련 및 추론에 사용된 소프트웨어는 주로 'transformers' 라이브러리를 기반으로 하며, YAML 형식의 설정 파일에서 'library_name: transformers'가 명시되어 있다. 이로써 소프트웨어 환경 설정 및 관련 라이브러리의 버전 및 구성 요소가 명확히 전달되고 있다.",
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "---\nlibrary_name: transformers\n---"
+    }
+  ]
+}

@@ -3,55 +3,55 @@
   "scores": {
     "1-2 코드": {
       "score": 1,
-      "reason": "A clear code snippet is provided that shows how to load and run the model using the transformers library, demonstrating complete openness of the implementation code."
+      "reason": "The evidence shows a complete code snippet for loading and executing the model, indicating that the entire implementation code is publicly available."
     },
     "1-3 라이선스": {
-      "score": 1,
-      "reason": "The model license is explicitly provided as 'bigscience-bloom-rail-1.0', which indicates that the terms of usage, modification, and redistribution are clearly defined."
+      "score": 0.5,
+      "reason": "The license is specified as 'bigscience-bloom-rail-1.0', which implies that there are restrictions (typical of RAIL licenses), making it semi-open."
     },
     "1-4 논문": {
       "score": 1,
-      "reason": "An official paper is referenced (Crosslingual Generalization through Multitask Finetuning), providing detailed documentation on the model’s background and methodology."
+      "reason": "An official paper with an arXiv link is referenced, clearly documenting the model's methodology."
     },
     "2-1 하드웨어": {
       "score": 1,
-      "reason": "The hardware configuration is described in detail, including specifics such as AMD CPUs with 512GB memory per node and 64 A100 80GB GPUs across 8 nodes, indicating complete disclosure."
+      "reason": "Detailed information about the hardware configuration (AMD CPUs, 64 A100 GPUs across nodes, and connection details) is provided."
     },
     "2-2 소프트웨어": {
       "score": 1,
-      "reason": "The software environment is fully detailed, listing frameworks like Megatron-DeepSpeed, DeepSpeed, PyTorch with specific versions and CUDA details, ensuring reproducibility."
+      "reason": "Software details such as the use of Megatron-DeepSpeed and specific PyTorch versions are clearly mentioned, providing complete software specifications."
     },
     "2-3 API": {
-      "score": 1,
-      "reason": "A public API example is provided through a code snippet that demonstrates how to access and use the model via the transformers library."
+      "score": 0,
+      "reason": "No API information or documentation is provided in the evidence."
     },
     "3-1 사전학습": {
       "score": 0.5,
-      "reason": "The pre-training details mention the use of the 'bloom' checkpoint and reference the pretraining languages, but the explanation is not detailed enough for full reproducibility."
+      "reason": "The pre-training methodology is mentioned (with references to Bloom's pretraining and dataset names), but details are not fully sufficient for reproducibility."
     },
     "3-2 파인튜닝": {
       "score": 1,
-      "reason": "Detailed fine-tuning information is provided including the number of steps, tokens count, parallelism strategy (pipeline, tensor, and data parallel), and precision, ensuring a clear understanding of the process."
+      "reason": "Comprehensive fine-tuning details are provided, including specific steps, token counts, parallel layouts, and precision settings."
     },
     "3-3 강화학습": {
       "score": 0,
-      "reason": "There is no evidence or details provided regarding reinforcement learning methods (e.g., RLHF or DPO), resulting in a closed score for this section."
+      "reason": "There is no information provided regarding any reinforcement learning methods."
     },
     "4-1 사전학습 데이터": {
-      "score": 0,
-      "reason": "No detailed information or evidence regarding the pre-training data (its quantity, source, or composition) is provided."
+      "score": 1,
+      "reason": "Detailed pre-training data information (token counts and dataset origins like ROOTS and mC4) is provided in the arXiv evidence."
     },
     "4-2 파인튜닝 데이터": {
       "score": 1,
-      "reason": "The fine-tuning dataset is clearly identified as 'bigscience/xP3', indicating that the data used for fine-tuning is open and well-documented."
+      "reason": "Fine-tuning data details are clearly identified with references to datasets such as xP3 and P3 along with their links."
     },
     "4-3 강화학습 데이터": {
       "score": 0,
-      "reason": "There is no evidence provided concerning the dataset used for reinforcement learning, leaving this aspect closed."
+      "reason": "No information regarding reinforcement learning data is provided."
     },
     "4-4 데이터 필터링": {
-      "score": 0,
-      "reason": "No information or evidence is provided about the data filtering methodologies, criteria, or processes used, resulting in a closed score."
+      "score": 1,
+      "reason": "The filtering strategy is clearly described, including token limit thresholds and packing methods."
     },
     "1-1 가중치": {
       "score": 1,
@@ -66,5 +66,5 @@
       "reason": "허깅페이스 카드/config에 토크나이저 정보 공개"
     }
   },
-  "total_score": 11.5
+  "total_score": 12.0
 }

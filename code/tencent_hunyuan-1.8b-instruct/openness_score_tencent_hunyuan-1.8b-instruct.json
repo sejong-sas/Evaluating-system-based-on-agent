@@ -1,0 +1,70 @@
+{
+  "model": "tencent/Hunyuan-1.8B-Instruct",
+  "scores": {
+    "1-2 코드": {
+      "score": 1,
+      "reason": "The repository includes a detailed code snippet showing how to load and operate the model using the transformers library, which indicates that the model's code is fully accessible."
+    },
+    "1-3 라이선스": {
+      "score": 0.5,
+      "reason": "An explicit license ('TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT') is provided. However, it is a community license that may include certain restrictions, so it is considered semi-open."
+    },
+    "1-4 논문": {
+      "score": 0,
+      "reason": "No official research paper, technical report, or related document is provided."
+    },
+    "2-1 하드웨어": {
+      "score": 1,
+      "reason": "The hardware setup is clearly described via Docker command details, indicating that the training/inference hardware is fully disclosed."
+    },
+    "2-2 소프트웨어": {
+      "score": 1,
+      "reason": "The software environment is specified (e.g., use of transformers library and YAML configuration), showing complete disclosure of the software requirements."
+    },
+    "2-3 API": {
+      "score": 1,
+      "reason": "There is clear evidence and examples provided regarding API endpoints and deployment options, which confirms the availability of a public API."
+    },
+    "3-1 사전학습": {
+      "score": 1,
+      "reason": "Detailed information about the pre-training strategy, including open-sourcing of various pre-trained models and their training strategies, is provided."
+    },
+    "3-2 파인튜닝": {
+      "score": 1,
+      "reason": "The documentation contains specific guidelines and examples on how to fine-tune the Instruct model, demonstrating full transparency of the fine-tuning process."
+    },
+    "3-3 강화학습": {
+      "score": 0,
+      "reason": "No information or evidence related to reinforcement learning methods (such as RLHF or DPO) is provided."
+    },
+    "4-1 사전학습 데이터": {
+      "score": 0,
+      "reason": "There is no direct evidence provided about the pre-training data set regarding its quantity, source, or composition."
+    },
+    "4-2 파인튜닝 데이터": {
+      "score": 0,
+      "reason": "No specific evidence or documentation is provided concerning the fine-tuning dataset."
+    },
+    "4-3 강화학습 데이터": {
+      "score": 0,
+      "reason": "There is no evidence regarding the use or composition of any reinforcement learning data."
+    },
+    "4-4 데이터 필터링": {
+      "score": 0,
+      "reason": "No evidence or detailed explanation is provided about any data filtering techniques or methodologies applied."
+    },
+    "1-1 가중치": {
+      "score": 1,
+      "reason": "허깅페이스에 모델 가중치 공개"
+    },
+    "1-5 아키텍처": {
+      "score": 1,
+      "reason": "허깅페이스 카드에 아키텍처 정보 공개"
+    },
+    "1-6 토크나이저": {
+      "score": 1,
+      "reason": "허깅페이스 카드/config에 토크나이저 정보 공개"
+    }
+  },
+  "total_score": 9.5
+}

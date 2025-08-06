@@ -1,19 +1,18 @@
 {
-  "2-3 (API)": "현재 API 관련 정보나 문서, 사용 예제에 대한 구체적인 언급이 없습니다. 이 항목은 모델의 API 존재 여부, 문서 제공 및 사용 방식을 다루지만, 제공된 인용문에는 관련 세부사항이나 사례가 포함되어 있지 않아 추가적인 정보가 필요합니다.",
-  "3-1 (사전학습 Pre-training)": "이 항목에서는 원본 사전학습 체크포인트에 대한 언급이 있습니다. 구체적으로 'Not recommended'라는 문구를 통해 제시된 체크포인트의 사용이 권장되지 않는다는 부정적인 평가가 포함되어 있습니다. 이는 사전학습 과정에서 사용된 체크포인트가 최신 방법론이나 개선된 기술에 비해 적합하지 않을 수 있음을 시사하며, 하이퍼파라미터나 학습 방법에 대한 심층적인 정보는 부족하지만, 기본적인 사전학습 자료의 신뢰성 및 업데이트 필요성을 반영합니다.",
-  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝 관련 항목에서는 구체적인 파인튜닝 방법과 파이프라인에 대한 설명이 제공됩니다. 제공된 인용문에 따르면, SLURM 스크립트를 활용하여 트레이닝 스크립트를 설정하고 실행하는 과정이 상세히 언급되어 있습니다. 특히, 'xp3capmixnewcodelonglossseq'로 명명된 스크립트를 이용하여 모델을 파인튜닝하는 과정이 소개되며, 예시로 bloomz 모델을 학습시킬 때 사용된 스크립트의 링크가 제공되어 있습니다. 이는 파인튜닝 파이프라인이 체계적이며, 분산환경에서의 학습을 위해 SLURM과 같은 스케줄러를 활용하는 방식임을 보여줍니다.",
-  "3-3 (강화학습 Reinforcement Learning)": "강화학습 항목과 관련하여 RLHF/DPO 등 구체적인 강화학습 기법에 대한 설명이나 사례가 제공되지 않았습니다. 이 항목은 강화학습 방법들을 다루도록 설계되었지만, 현재 인용문에는 관련 내용이 포함되어 있지 않아 추가 정보의 부족함을 나타냅니다.",
+  "2-3 (API)": "제공된 quote에는 모델이 접근 가능한 API와 관련된 정보가 포함되어 있지 않습니다. 즉, gpt api나 gemini api와 같이 라이브러리 형태가 아닌 외부 API의 존재 여부, 문서 링크, 사용 예제, 공개 여부 등과 관련된 구체적인 내용에 대해서는 언급된 사항이 없습니다.",
+  "3-1 (사전학습 Pre-training)": "해당 quote에서는 사전학습에 사용된 방법론, 진행 절차, 데이터 흐름, 하이퍼파라미터 설정 등 사전학습 관련 세부 정보에 관한 언급이 전혀 없으므로, 이 항목에 대한 구체적인 정보는 제공되지 않았습니다.",
+  "3-2 (파인튜닝 Fine-tuning)": "제공된 quote에 따르면, 파인튜닝 단계에서는 먼저 SLURM 스크립트를 사용하여 훈련 스크립트를 설정하고 실행하는 방식이 채택되었습니다. 구체적으로, bigscience-workshop의 GitHub 저장소 내 train/tr13-mtf 디렉토리에서 'xp3capmixnewcodelonglossseq'라는 이름의 스크립트를 참조하며, 이 스크립트는 예시로 bloomz 모델을 훈련하기 위해 사용된 SLURM 스크립트로 확인됩니다. 이는 모델 파인튜닝을 위한 자동화된 환경 구성 및 스크립트 기반 실행 방법을 보여줍니다. 또한, 두 번째 quote에서는 구글 리서치에서 제공하는 T5x 파인튜닝 문서를 참조하여, pretrained mT5 모델과 xP3 데이터셋을 활용한 파인튜닝 절차를 따르도록 권장하고 있음을 알 수 있습니다. 이로써, 파인튜닝 과정이 체계적이고 재현 가능한 파이프라인을 통해 진행된다는 점을 강조하고 있습니다.",
+  "3-3 (강화학습 Reinforcement Learning)": "제공된 quote에서는 RLHF나 DPO와 같은 강화학습 알고리즘의 사용 여부, 구체적인 방식, 절차 및 설정값 등 강화학습과 관련된 모든 상세 정보가 포함되어 있지 않습니다. 따라서 해당 항목에 대한 구체적인 내용은 확인할 수 없습니다.",
   "2-3 (API)__evidence": [],
-  "3-1 (사전학습 Pre-training)__evidence": [
-    {
-      "source": "readme",
-      "quote": "Original pretrained checkpoints. Not recommended."
-    }
-  ],
+  "3-1 (사전학습 Pre-training)__evidence": [],
   "3-2 (파인튜닝 Fine-tuning)__evidence": [
     {
       "source": "readme",
       "quote": "Setup & run the training script: We use SLURM scripts available at [bigscience-workshop/bigscience/train/tr13-mtf] and referred to as `xp3capmixnewcodelonglossseq`. E.g. [this is the script launched to train bloomz](https://github.com/bigscience-workshop/bigscience/blob/master/train/tr13-mtf/tr13-176B-mtf-xp3capmixnewcodelonglossseq.slurm)."
+    },
+    {
+      "source": "readme",
+      "quote": "Follow the finetuning instructions [here](https://github.com/google-research/t5x/blob/main/docs/usage/finetune.md) making sure to use pretrained mT5 models & the xP3 dataset."
     }
   ],
   "3-3 (강화학습 Reinforcement Learning)__evidence": []

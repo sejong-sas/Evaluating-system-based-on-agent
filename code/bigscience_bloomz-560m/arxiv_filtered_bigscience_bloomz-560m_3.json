@@ -1,10 +1,40 @@
 {
-  "2-3 (API)": "주어진 인용문이 없으므로, 이 항목에 대한 구체적 내용이나 분석을 제공할 수 없습니다. 추가 자료가 제공되면 API의 기능, 접근 방식, 및 활용 사례들을 상세하게 요약할 수 있을 것입니다.",
-  "3-1 (사전학습 Pre-training)": "현재 인용문이 제공되지 않아, 사전학습과 관련된 모델의 대규모 데이터 학습, 일반적인 특성 추출 및 초기 언어 이해에 관한 구체적인 내용은 확인할 수 없습니다. 추후 인용문이 주어질 경우, 이 항목에 대해 보다 심도 있는 설명이 가능할 것입니다.",
-  "3-2 (파인튜닝 Fine-tuning)": "제공된 관련 인용문이 없어 세부적인 내용 파악이 어렵습니다. 보통 파인튜닝은 사전학습된 모델을 특정 목적이나 데이터셋에 맞추어 미세조정하는 단계를 포함하지만, 현재의 자료로는 상세하게 기술할 수 없습니다.",
-  "3-3 (강화학습 Reinforcement Learning)": "강화학습과 관련하여 구체적인 인용문이 없어, 이 항목에 대한 세부적인 전략이나 실습 방법, 학습 원리 등에 대해 상세한 설명을 제공하기 어렵습니다. 관련 구체적 내용이 제공된다면, 그에 따른 체계적 분석과 설명이 가능할 것입니다.",
+  "2-3 (API)": "이 항목에 관련된 제공된 인용문은 없습니다. 즉, 모델이 접근 가능한 API의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관한 구체적인 설명이나 예시가 인용문에서 제공되지 않았습니다.",
+  "3-1 (사전학습 Pre-training)": "인용문들은 두 종류의 대표적인 모델의 사전학습 방식을 자세하게 설명합니다. 첫 번째로, BLOOM 모델은 GPT-3와 유사한 구조의 디코더 전용 대규모 언어 모델로, 약 3500억 개의 토큰을 대상으로 사전학습이 이루어졌으며, 176B 파라미터 모델로 ROOTS 데이터셋을 사용해 학습되었고, 관련 정보는 Hugging Face 링크(https://huggingface.co/bigscience/bloom)를 통해 제공됩니다. 두 번째로, mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하며, 마스킹된 언어 모델링을 사전학습 목표로 하여 1조 개의 토큰을 대상으로 사전학습이 진행되었음을 설명합니다. 또한, mT5-300M 모델은 300M 파라미터로 mC4 데이터셋의 샘플된 버전을 기반으로 학습되었으며, 그에 관한 정보는 Hugging Face 링크(https://huggingface.co/google/mt5-small)로 확인할 수 있습니다.",
+  "3-2 (파인튜닝 Fine-tuning)": "인용문들은 모델의 파인튜닝 절차에 대해 상세하게 기술하고 있습니다. 모델들은 추가로 130억 개의 토큰을 대상으로 파인튜닝이 진행되었으며, 이 과정에서는 대상 토큰에 대해서만 손실(loss)이 계산됩니다. 특히, mT5 모델의 경우 T5X 프레임워크를 활용하여 TPU 상에서 파인튜닝이 수행되었음을 언급하고 있습니다. 최종 모델 구축 과정에서는 조기 종료(early stopping) 기법을 도입하고, 긴 작업을 추가하며, 긴 결과 생성을 위해 추론 단계에서 최소 생성 길이를 강제하는 등의 추가적인 조치가 적용되었습니다.",
+  "3-3 (강화학습 Reinforcement Learning)": "이 항목과 관련하여 제공된 인용문은 없습니다. 따라서 강화학습 알고리즘(예: RLHF, DPO 등의 사용 여부, 구체적인 방식, 절차 및 설정값 등)에 대한 정보는 인용문에서 찾을 수 없습니다.",
   "2-3 (API)__evidence": [],
-  "3-1 (사전학습 Pre-training)__evidence": [],
-  "3-2 (파인튜닝 Fine-tuning)__evidence": [],
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3."
+    },
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "C Artifacts - Table 3",
+      "quote": "BLOOM\n176B parameter model pretrained on ROOTS\nhttps://huggingface.co/bigscience/bloom"
+    },
+    {
+      "source": "C Artifacts - Table 3",
+      "quote": "mT5-300M\n300M parameter model pretrained on a sampled version of mC4\nhttps://huggingface.co/google/mt5-small"
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "We finetune the models for an additional 13 billion tokens with loss only being computed on target tokens."
+    },
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "G Increasing generation length",
+      "quote": "For our final models, we employ early stopping, adding of long tasks and recommend forcing a minimum generation length at inference for long generations."
+    }
+  ],
   "3-3 (강화학습 Reinforcement Learning)__evidence": []
 }

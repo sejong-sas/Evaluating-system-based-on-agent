@@ -1,1 +1,1 @@
-bigscience/bloomz-560m
+tencent/hunyuan-1.8b-instruct

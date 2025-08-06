@@ -1,0 +1,86 @@
+{
+  "1-1 (가중치 Weights)": "제공된 인용문들은 모델의 가중치 공개와 관련하여 두 가지 주요 측면을 보여줍니다. 첫째, 'Hunyuan 1.8B/4B/7B'와 'Qwen3' 시리즈의 모델들이 Eagle3 가중치를 공개했다는 명시적인 중국어 문장이 있으며, 이는 누구나 해당 모델의 가중치를 다운로드하여 활용할 수 있음을 시사합니다. 둘째, 코드 스니펫에서는 torch의 state_dict를 저장하는 함수 호출과 'self.weight'에 값을 할당하는 코드가 나와, 가중치가 어떻게 저장되고 관리되는지에 대한 기술적인 세부사항을 보여줍니다. 이로써 모델 가중치가 체계적으로 관리되며, 공개된 가중치가 실제 코드 내부에서 어떻게 활용되는지를 명확히 전달합니다.",
+  "1-2 (코드 Code)": "코드 부분에 포함된 인용문들은 모델 훈련 및 실행에 필요한 코드의 공개 및 사용 방법에 대한 전반적인 정보를 제공합니다. 인용문 중에는 pip 명령어를 사용하여 안정된 최신 버전의 AngelSlim을 설치하는 방법에 관한 안내문이 포함되어 있으며, 이는 사용자가 손쉽게 관련 코드를 접근하고 활용할 수 있도록 하는 점을 강조합니다. 또 다른 인용문은 모델 압축 방법을 위한 Factory 클래스와 AWQSearch 클래스, run 메서드와 같이 코드 내부의 모듈 및 클래스 구현 예시를 보여주어, 코드의 구조와 기능에 대한 구체적인 정보를 제공하고 있습니다. 또한, 코드가 로컬 디스크에 양자화된 모델과 구성 파일을 저장하는 기능을 포함하고 있음을 통해, 모델의 실행 및 배포 관련 실용적인 기능이 함께 공개되고 있다는 점을 알 수 있습니다.",
+  "1-3 (라이선스 License)": "라이선스 섹션의 인용문들은 프로젝트의 코드를 어떤 라이선스 하에서 공개하는지를 명확하게 보여줍니다. 인용문들은 AngelSlim 프로젝트가 Apache License Version 2.0 하에 공개되어 있음을 여러 번 명시하고 있으며, 이는 사용자에게 사용, 수정, 배포, 그리고 상업적 이용 등에 대한 권한을 부여함을 나타냅니다. 또한, 일부 인용문은 구체적인 라이선스 파일(LICENSE)에 대한 참조와 함께 제3자 구성 요소에 관한 예외 사항을 언급하여, 전체적인 라이선스 정책과 사용 조건에 대한 투명성과 구체성을 제공합니다.",
+  "1-4 (논문 Paper)": "논문 및 기술 문서 섹션에서는 AngelSlim과 관련된 공식 문서 및 기술 보고서에 대한 정보를 제공하고 있습니다. 인용문 중 하나는 BibTeX 형식으로 AngelSlim의 공식 소프트웨어 참고문헌을 제시하며, 출판 연도, 월, 그리고 GitHub URL과 같은 구체적인 메타데이터를 포함하고 있습니다. 또한, AWQ와 관련된 AutoClip 및 AutoScale의 구현 방식에 대해 arXiv 링크를 통해 자세한 기술 설명을 제공함으로써, 모델의 개발 및 연구 배경에 관한 추가 정보를 얻을 수 있도록 구성되어 있습니다. 이로써, 사용자와 연구자들이 모델의 기술적 배경과 세부사항을 쉽게 참조할 수 있는 문서들이 준비되어 있음을 알 수 있습니다.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "readme",
+      "quote": "我们还开源了`Hunyuan 1.8B/4B/7B`系列模型的Eagle3权重。"
+    },
+    {
+      "source": "readme",
+      "quote": "我们还开源了`Qwen3`系列模型的Eagle3权重。"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/gptq/gptq.py",
+      "quote": "save_torch_state_dict(\n            state_dict=self.model.model.state_dict(),\n            save_directory=save_dir,\n            max_shard_size=shard_size,\n            safe_serialization=safetensors,\n            force_contiguous=True,\n            shared_tensors_to_discard=self.model.model._tied_weights_keys,\n        )"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/helper_layer.py",
+      "quote": "self.weight = layer.weight"
+    }
+  ],
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "推荐使用`pip`直接安装最新稳定版`AngelSlim`：\n\n```shell\npip install angelslim\n```"
+    },
+    {
+      "source": "py_files/angelslim/compressor/compressor_factory.py",
+      "quote": "Factory class for model compression methods with flexible registration.\n    Supports both explicit name registration and direct class name registration."
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/core/save.py",
+      "quote": "save quantized model and configs to local disk"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/awq/search.py",
+      "quote": "class AWQSearch:"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/int8/int8.py",
+      "quote": "def run(self, dataloader):"
+    }
+  ],
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "readme",
+      "quote": "本项目的代码依照 [License for AngelSlim](LICENSE) 协议开源。"
+    },
+    {
+      "source": "license_files",
+      "quote": "AngelSlim-model compression tools is licensed under the Apache License Version 2.0 except for the third-party components listed below."
+    },
+    {
+      "source": "py_files/angelslim/compressor/compressor_factory.py",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/core/sample_func.py",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/awq/search.py",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/int8/int8.py",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    }
+  ],
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "@software{AngelSlim2025,\n    title={{AngelSlim}},\n    author={Tencent AngelSlim Project Contributors},\n    year={2025},\n    month={7},\n    url={https://github.com/Tencent/AngelSlim},\n}"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/awq/auto_clip.py",
+      "quote": "AutoClip from AWQ[https://arxiv.org/abs/2306.00978]"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/awq/search.py",
+      "quote": "The implementation of AutoScale from AWQ(https://arxiv.org/pdf/2306.00978.pdf)."
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
-  "1-1 (가중치 Weights)": "제공된 인용문에 따르면, 모델의 가중치는 사전 학습된 체크포인트 형태로 공개되어 있으며, 다운로드 링크를 통해 접근할 수 있습니다. 체크포인트는 모델이 PP=12, TP=4, DP=4의 설정으로 구성되어 있음을 명시하고 있습니다. 또한, 사용자가 모델의 형태를 변경하거나 재구성하려는 경우를 대비하여 별도의 'universal checkpoint'도 제공되고 있어, 두 가지 유형의 가중치 파일이 존재하며 각각의 목적에 따라 활용할 수 있음을 알 수 있습니다.",
-  "1-2 (코드 Code)": "코드 관련 인용문에서는 훈련 및 추론을 위한 코드가 GitHub 레포지토리에서 제공되고 있음을 설명하고 있습니다. 구체적으로, 't0loading' 브랜치를 클론하여 필요한 환경을 구축하는 방법이 명시되어 있으며, 제공된 setup guide를 통해 필요한 패키지와 설정이 구성됩니다. 또한, 'create_xp3x.py'라는 스크립트 파일이 포함되어 있어, 이 파일 역시 코드의 구성 요소 중 하나로 사용자의 작업 환경에서 중요한 역할을 할 것으로 보입니다.",
-  "1-3 (라이선스 License)": "라이선스 관련 인용문은 코드와 모델이 Apache License Version 2.0 (2004년 1월 버전)에 따라 배포되고 있음을 명확히 하고 있습니다. 또한, 'LICENSE.md' 파일을 통해 라이선스의 구체적인 조건과 사용자에게 부여되는 권한이 상세히 명시되어 있음을 알 수 있습니다. 이는 오픈 소스 소프트웨어의 투명한 배포 및 사용 조건을 충실히 반영하는 조치입니다.",
-  "1-4 (논문 Paper)": "논문 관련 인용문에서는 이 저장소가 BLOOMZ, mT0, 그리고 xP3 모델의 구성 요소들을 포함하는 전반적인 개요를 제공하며, 이는 'Crosslingual Generalization through Multitask Finetuning'이라는 제목의 논문과 연계되어 있습니다. 논문 링크를 통해 해당 연구의 세부 내용을 확인할 수 있을 뿐 아니라, 'plotstables/XMTF_ACL2023_POSTER.pdf' 파일을 통해 추가적인 시각적 자료나 연구 결과를 제공하고 있어, 전체 프로젝트의 이론적 배경 및 구체적 구현 내용을 이해하는 데 도움이 될 수 있습니다.",
+  "1-1 (가중치 Weights)": "이 항목은 모델의 사전 학습된 가중치가 어떻게 공개되고 배포되는지를 자세히 설명합니다. 사용자는 HuggingFace 플랫폼에서 제공된 체크포인트 링크를 통해 가중치를 다운로드할 수 있으며, 이 체크포인트는 PP=12, TP=4, DP=4의 파라미터 구성을 갖추고 있음을 명시합니다. 또한, 모델의 재구성을 원하는 사용자는 별도의 '유니버설 체크포인트'를 추가로 다운로드해야 함을 안내하여, 프로젝트의 가중치 구조 및 다중 병렬 처리 설정에 대한 세부 정보를 제공합니다.",
+  "1-2 (코드 Code)": "이 항목은 모델 훈련 및 실행에 필요한 코드를 공개하는 방법을 상세하게 설명합니다. 특히, xP3의 확장 버전인 xP3x에 관한 내용으로, 사용자는 GitHub 저장소의 'xp3x' 브랜치를 pip 명령을 통해 직접 설치할 수 있습니다. 더불어, 'create_xp3x.py'라는 이름의 스크립트 파일이 포함되어 있어, 해당 코드가 데이터셋 생성 및 처리와 관련된 구체적인 프로세스를 담고 있음을 보여줍니다.",
+  "1-3 (라이선스 License)": "이 항목은 프로젝트에 적용되는 라이선스 정보를 명확하게 전달합니다. LICENSE.md 파일을 통해, 프로젝트가 Apache License 버전 2.0 (2004년 1월 버전) 하에 배포되고 있음을 확인할 수 있으며, 이 라이선스는 사용, 변경, 배포, 상업적 이용 등 다양한 권리를 허용하는 조항들을 포함하고 있습니다. 이는 사용자가 프로젝트를 어떻게 활용할 수 있는지에 대해 명확한 지침을 제공합니다.",
+  "1-4 (논문 Paper)": "이 항목은 모델과 관련된 문서 자료들을 포괄적으로 제공하고 있음을 설명합니다. 저장소에는 BLOOMZ, mT0, xP3와 같은 모델의 구성 요소들을 다룬 발표 자료와 기술 보고서, 공식 논문 등이 포함되어 있으며, 특히 'Crosslingual Generalization through Multitask Finetuning'이라는 논문이 그 기반이 됨을 명시하고 있습니다. 또한, 추가 문서인 포스터 파일(plotstables/XMTF_ACL2023_POSTER.pdf)을 통해 연구 방법론 및 결과를 더욱 심도 있게 이해할 수 있도록 배포되고 있습니다.",
   "1-1 (가중치 Weights)__evidence": [
     {
       "source": "readme",
@@ -12,7 +12,7 @@
   "1-2 (코드 Code)__evidence": [
     {
       "source": "readme",
-      "quote": "Setup the training code: `git clone -b t0loading https://github.com/bigscience-workshop/Megatron-DeepSpeed` & follow its [setup guide](https://github.com/bigscience-workshop/Megatron-DeepSpeed/tree/t0loading#get-started-fast) to create an environment with necessary packages."
+      "quote": "For the new extension of xP3, [xP3x](https://huggingface.co/datasets/Muennighoff/xP3x), the process is largely the same except:\n\n1. Install the `xp3x` branch instead i.e. `pip install git+https://github.com/Muennighoff/promptsource.git@xp3x`\n3. The creation script is in this repository & named `create_xp3x.py`."
     },
     {
       "source": "files",
@@ -22,7 +22,7 @@
   "1-3 (라이선스 License)__evidence": [
     {
       "source": "license_files",
-      "quote": "Apache License\n                           Version 2.0, January 2004"
+      "quote": "# LICENSE.md\n                                 Apache License\n                           Version 2.0, January 2004"
     },
     {
       "source": "files",

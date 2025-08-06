@@ -1,0 +1,78 @@
+{
+  "1-5 (아키텍처 Architecture)": "이 항목의 인용문들은 모델 아키텍처가 입력의 hidden_states를 x_embedder를 통해 변환한 후, 여러 개의 transformer 블록을 순차적으로 처리하는 구조임을 보여줍니다. 또한 모델이 VLM 모달리티인 경우 language_model.layers를 사용하고, 그렇지 않은 경우에는 일반 layers를 사용하는 등 모달 타입에 따라 다른 구조적 경로를 선택하고 있습니다. 초기화 단계에서는 시퀀스 길이, hidden_size (2560로 기본 설정) 및 model_arch_type 등의 하이퍼파라미터가 설정되며, 이를 통해 아키텍처의 전반적인 구조와 심층 레이어 구성 등이 상세하게 정의됩니다.",
+  "1-6 (토크나이저 Tokenizer)": "인용문은 모델의 토크나이저가 저장 및 관리되는 과정을 보여줍니다. 특히, quant_model이나 modal_type이 LLM 또는 VLM인 경우, 해당 모델의 토크나이저를 사전 학습된 상태로 지정된 경로에 저장하는 기능을 수행합니다. 이는 모델의 언어 처리 구성 요소가 재현 가능하도록 관리되며, 토크나이저의 이름, 구조, 저장 가능 여부 등이 중요한 요소임을 암시합니다.",
+  "2-1 (하드웨어 Hardware)": "이 항목은 모델 훈련 및 최적화 과정에서 사용되는 하드웨어 관련 세부 사항을 다룹니다. 인용문에는 GPU 사용 여부 체크 및 GPU 메모리 사용량(메가바이트 단위)이 출력되는 코드가 포함되어 있어, 실제 계산 자원 모니터링이 이루어지고 있음을 보여줍니다. 또한, 단일 GPU 카드에서도 Qwen3-235B와 Deepseek-R1 등의 모델 압축 및 양자화가 가능하도록 최적화된 성능 추구 전략이 언급되어, 고성능 하드웨어 및 효율적인 모델 압축 알고리즘의 적용 사례를 나타냅니다.",
+  "2-2 (소프트웨어 Software)": "소프트웨어 구성에 관한 인용문은 다양한 라이브러리와 프레임워크의 사용을 보여줍니다. 예를 들어, 최신 안정 버전의 AngelSlim 라이브러리를 pip 설치 명령어를 통해 권장하고 있으며, torch, Huggingface Hub, diffusers의 attention processor와 관련된 joint_attention_kwargs 등 여러 모듈이 임포트되는 모습이 확인됩니다. 또한, DeepseekV3Config와 같은 구체적인 모델 설정 파일이 언급되어, 소프트웨어 스택 내에서 다양한 구성 요소와 버전 관리, 설정 값들이 세부적으로 다루어지고 있음을 나타냅니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "files",
+      "quote": "hidden_states = self.x_embedder(hidden_states)"
+    },
+    {
+      "source": "files",
+      "quote": "for index_block, block in enumerate(self.transformer_blocks):"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/awq/awq.py",
+      "quote": "if self.modal_type == \"VLM\":\n            self.layers = self.model.model.model.language_model.layers\n        else:\n            self.layers = self.model.model.model.layers"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/fp8/fp8.py",
+      "quote": "def __init__(self, model, seq_length=2048, hidden_size=2560, model_arch_type=None, low_memory=False):"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/int8/int8.py",
+      "quote": "hidden_size(int, optional): The size of the hidden layer. Default: 2560."
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "py_files/angelslim/compressor/quant/core/save.py",
+      "quote": "self.quant_model.tokenizer.save_pretrained(save_path)"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/gptq/gptq.py",
+      "quote": "if self.modal_type in [\"LLM\", \"VLM\"]:\n            self.model.tokenizer.save_pretrained(save_dir)"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "追求极致性能：在模型压缩流程、压缩算法部署方面，本工具持续端到端优化，例如单卡GPU可量化Qwen3-235B和Deepseek-R1。"
+    },
+    {
+      "source": "files",
+      "quote": "if torch.cuda.is_available():\n                print_info(f\"GPU Memory: {torch.cuda.memory_allocated() / 1024 ** 2:.2f} MB\")"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/int8/int8.py",
+      "quote": "GPU Memory: {torch.cuda.memory_allocated() / 1024 ** 2:.2f} MB"
+    }
+  ],
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "推荐使用`pip`直接安装最新稳定版`AngelSlim`：\npip install angelslim"
+    },
+    {
+      "source": "files",
+      "quote": "joint_attention_kwargs (`dict`, optional): A kwargs dictionary that if specified is passed along to the AttentionProcessor as defined under self.processor in https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/attention_processor.py. # noqa: E501"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/core/save.py",
+      "quote": "import torch"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/core/save.py",
+      "quote": "from transformers.models.deepseek_v3 import DeepseekV3Config"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/gptq/gptq.py",
+      "quote": "from huggingface_hub import save_torch_state_dict"
+    },
+    {
+      "source": "py_files/angelslim/compressor/quant/modules/int8/int8.py",
+      "quote": "import torch"
+    }
+  ]
+}

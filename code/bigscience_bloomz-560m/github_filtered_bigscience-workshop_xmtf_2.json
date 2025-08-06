@@ -1,29 +1,20 @@
 {
-  "1-5 (아키텍처 Architecture)": "제공된 정보에 따르면, 모델 아키텍처와 관련하여 두 가지 주요 사전 학습(checkpoint) 상태가 제공됩니다. 첫 번째 checkpoint는 PP=12, TP=4, DP=4의 형태를 가지며, 모델을 재구성(reshape)하려는 경우에는 추가로 universal checkpoint를 다운로드할 필요가 있습니다. 또한, 만약 파인튜닝(finetuning)을 계속 진행하고자 할 경우, PP=72, TP=1, DP=4 형태의 finetuned checkpoint를 사용하도록 안내하고 있어, 모델의 병렬 처리 구조 세부사항과 checkpoint에 따른 설정이 명시되고 있습니다.",
-  "1-6 (토크나이저 Tokenizer)": "제공된 quote에는 토크나이저의 종류나 공개 여부에 대한 구체적인 설명이 포함되어 있지 않습니다.",
-  "2-1 (하드웨어 Hardware)": "훈련 하드웨어 관련로는, 스크립트 내에서 수정해야 할 중요한 부분들이 자세히 설명되어 있습니다. 예를 들어, SLURM을 활용한 작업 스케줄링 변수(#SBATCH 변수: nodes, gpus, time 등)와, Megatron-DeepSpeed를 기반으로 하는 conda 환경 설정을 위한 경로 수정, 그리고 TRAIN_DATA_PATH와 VALID_DATA_PATH와 같이 데이터 파일들의 경로 지정에 관한 내용이 포함되어 있습니다. 또한, PP_SIZE, TP_SIZE, 배치 사이즈 등의 하드웨어 레이아웃 관련 파라미터가 명시되어 있으며, 이를 변경할 경우 모델을 재구성해야 하므로 universal checkpoint와 --universal 플래그를 사용하여 새로운 체크포인트를 저장한 후 지속적인 훈련이 권장된다는 점, 그리고 저장된 체크포인트에서 재시작할 때 불필요한 옵티마이저 관련 플래그 제거에 관한 주의사항도 함께 제공되고 있습니다.",
-  "2-2 (소프트웨어 Software)": "소프트웨어 세팅에서는 Megatron-DeepSpeed의 t0loading 브랜치를 git clone하여 다운로드하고, 제공된 setup guide를 따라 필수 패키지들이 포함된 환경을 구축하는 과정이 설명됩니다. 이어서, 파인튜닝과 관련해서는 mT5 사전 학습 모델과 xP3 데이터셋을 활용하는 구체적인 지침이 제공되어, 훈련 코드의 초기 설정 및 파인튜닝 수행에 필요한 소프트웨어 구성 요소와 버전에 대한 정보를 확인할 수 있습니다.",
+  "1-5 (아키텍처 Architecture)": "제공된 quote에 따르면, pretrained 모델의 체크포인트를 다운로드하는 과정을 설명하고 있으며, 모델의 구조 상세 정보로 PP=12, TP=4, DP=4의 형태를 갖고 있음을 명시하고 있습니다. 이는 모델의 파이프라인 병렬 처리, 텐서 병렬 처리, 데이터 병렬 처리의 구성을 나타내며, 만약 모델의 구조를 재설계하거나 재배열할 필요가 있을 경우 별도로 제공된 universal checkpoint도 함께 다운로드해야 함을 알려줍니다.",
+  "1-6 (토크나이저 Tokenizer)": "해당 항목에 대해서는 quote가 제공되지 않아, 사용된 토크나이저의 이름, 구조, 다운로드 가능 여부 등 어떠한 세부 정보도 확인할 수 없습니다.",
+  "2-1 (하드웨어 Hardware)": "quote에 하드웨어에 관한 내용이 전혀 제공되지 않았으므로, 모델 훈련에 사용된 하드웨어 종류, 수량 또는 계산 자원 규모에 관한 구체적인 정보는 확인할 수 없습니다.",
+  "2-2 (소프트웨어 Software)": "제공된 quote는 훈련 코드를 설정하는 방법을 상세히 설명합니다. 특히, 'Megatron-DeepSpeed' 저장소의 t0loading 브랜치를 git clone 명령어를 통해 복제한 후, 제공된 setup guide 링크에 따라 필요한 패키지들을 설치하여 환경을 구축하도록 안내하고 있습니다. 이로써, 사용된 소프트웨어 프레임워크, 라이브러리 및 환경 설정에 대한 기본적인 구성 정보가 드러납니다.",
   "1-5 (아키텍처 Architecture)__evidence": [
     {
       "source": "readme",
-      "quote": "1. Download the pretrained model [checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states), which is of shape PP=12, TP=4, DP=4. If you'd like to reshape the model you will also need to download [the universal checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states/tree/global_step95000_universal). If you want to continue finetuning, you should use [our finetuned checkpoint](https://huggingface.co/bigscience/bloomz-optimizer-states), which is of shape PP=72, TP=1, DP=4."
+      "quote": "Download the pretrained model [checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states), which is of shape PP=12, TP=4, DP=4. If you'd like to reshape the model you will also need to download [the universal checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states/tree/global_step95000_universal)."
     }
   ],
   "1-6 (토크나이저 Tokenizer)__evidence": [],
-  "2-1 (하드웨어 Hardware)__evidence": [
-    {
-      "source": "readme",
-      "quote": "Important parts of the script to modify are:\n- `#SBATCH` variables, such as nodes, gpus, time, etc. - Our SLURM guide is [here](https://github.com/bigscience-workshop/bigscience/tree/master/jz/slurm#slurm-how-to)\n- `source $six_ALL_CCFRWORK/start-tr13f-6B3-ml-t0` to point to your own conda environment setup via Megatron-DeepSpeed\n- PATH environment variables, notably\n    - `TRAIN_DATA_PATH` & `VALID_DATA_PATH`, which point to files pointing to your processed training and validation data. We provide our files in this repository (`xp3capmixnewcodelong_train.txt` & `xp3capmixnewcodelong_validation.txt`), but you will likely want to change the paths inside. The percentages per language are based on how much each language makes up in xP3 with code being slightly upsampled.\n- PP_SIZE=72, TP_SIZE=1 & BATCH SIZE & co specifying the layout. This will depend on the hardware available to you. If you change, you may have to reshape the model. For reshaping you need to use the universal checkpoint and use the `--universal` flag in the script. We recommend saving a new checkpoint right after & then continuing training without `--universal`, which will be faster.\n- If you want to restart from a saved checkpoint (e.g. after training a few steps like above), make sure to remove the `--no-load-optim` & `--reset-progress` flags"
-    }
-  ],
+  "2-1 (하드웨어 Hardware)__evidence": [],
   "2-2 (소프트웨어 Software)__evidence": [
     {
       "source": "readme",
       "quote": "Setup the training code: `git clone -b t0loading https://github.com/bigscience-workshop/Megatron-DeepSpeed` & follow its [setup guide](https://github.com/bigscience-workshop/Megatron-DeepSpeed/tree/t0loading#get-started-fast) to create an environment with necessary packages."
-    },
-    {
-      "source": "readme",
-      "quote": "Follow the finetuning instructions [here](https://github.com/google-research/t5x/blob/main/docs/usage/finetune.md) making sure to use pretrained mT5 models & the xP3 dataset."
     }
   ]
 }

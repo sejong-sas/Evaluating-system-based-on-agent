@@ -1,5 +1,5 @@
 {
-  "1-1 (가중치 Weights)": "Evidence shows that two files, 'model.safetensors' and 'pytorch_model.bin', are provided as the model weights. These filenames indicate that the weights are available in both a safe tensor format and a binary format commonly used in PyTorch, suggesting that users can download and use these weight files to load the model.",
+  "1-1 (가중치 Weights)": "Evidence shows the presence of model weight files, including 'model.safetensors' and 'pytorch_model.bin'. These quotes indicate that the model's weights are provided in at least two file formats, reflecting that the weight files are made publicly available for download and use.",
   "1-1 (가중치 Weights)__evidence": [
     {
       "source": "files",
@@ -10,21 +10,21 @@
       "quote": "pytorch_model.bin"
     }
   ],
-  "1-2 (코드 Code)": "The provided code snippet demonstrates the use of the transformers library to load and run the model: it begins with installing the library, retrieves a tokenizer and model from the checkpoint 'bigscience/bloomz-560m', encodes a sample input, runs generation, and decodes the output. This code offers a clear template for model inference and indicates that the training and generation processes are supported, with explicit instructions for instantiation and execution.",
+  "1-2 (코드 Code)": "The provided code snippet demonstrates the use of the transformers library to load a pre-trained checkpoint ('bigscience/bloomz-560m') by installing the package, importing the AutoModelForCausalLM and AutoTokenizer classes, and executing the model to generate output from an encoded input. This evidences that not only is the code for model import, inference, and testing shared, but it also offers direct reference steps for model utilization.",
   "1-2 (코드 Code)__evidence": [
     {
       "source": "readme",
       "quote": "# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))"
     }
   ],
-  "1-3 (라이선스 License)": "The evidence for licensing is provided in a concise statement: 'license: bigscience-bloom-rail-1.0'. This shows that a specific license has been assigned to the model, which explicitly communicates the permissions relating to usage, modification, redistribution, and potentially commercial applications under the 'bigscience-bloom-rail-1.0' license.",
+  "1-3 (라이선스 License)": "The single evidence 'license: bigscience-bloom-rail-1.0' highlights that the model is distributed under a specific license, which defines the allowed rights for usage, modification, distribution, and potential commercial application. This quote confirms the presence and identification of the license governing the model.",
   "1-3 (라이선스 License)__evidence": [
     {
       "source": "readme",
       "quote": "license: bigscience-bloom-rail-1.0"
     }
   ],
-  "1-4 (논문 Paper)": "The documentation includes a reference to an official paper: '- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)'. This evidence indicates that there is comprehensive documentation available—likely including conceptual and experimental details—linking the model to its underlying research and providing further insights into its design and performance through a published paper.",
+  "1-4 (논문 Paper)": "The evidence includes an explicit reference to a paper titled 'Crosslingual Generalization through Multitask Finetuning' with a corresponding link to the arXiv page. This indicates that official documentation, research, or technical exposition has been made publicly available to articulate the methodology and rationale behind the model.",
   "1-4 (논문 Paper)__evidence": [
     {
       "source": "readme",

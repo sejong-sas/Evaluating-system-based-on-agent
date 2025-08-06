@@ -1,0 +1,100 @@
+{
+  "1-1 (가중치 Weights)": "The evidence highlights a weight file named 'model.safetensors', indicating that the model weights are made available in a specific file format. This file serves as an example of the concrete location and format in which the weights can be accessed, implying that the model weights are publicly provided or distributed through this file.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "files",
+      "quote": "model.safetensors"
+    }
+  ],
+  "1-2 (코드 Code)": "The evidence provides a detailed description of a code snippet that utilizes the transformers library to load and apply the model. It explains that the code not only allows for the activation and deactivation of a reasoning mode but also demonstrates the process of parsing the reasoning process together with the final output, indicating that a significant portion of the model’s operational code is made publicly accessible.",
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "The following code snippet shows how to use the transformers library to load and apply the model. It also demonstrates how to enable and disable the reasoning mode , and how to parse the reasoning process along with the final output."
+    }
+  ],
+  "1-3 (라이선스 License)": "The evidence shows that there is an explicit license provided, specifically named as the 'TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT'. This indicates that the licensing details, including the permitted rights for use, modification, distribution, and possibly commercial exploitation, are formalized under this agreement.",
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "license_file",
+      "quote": "TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT"
+    }
+  ],
+  "1-4 (논문 Paper)": "The evidence does not provide any documents, links, or references to official research papers, technical reports, or related blog posts. This indicates that there is no available official documentation in the form of a paper that describes the model in detail.",
+  "1-4 (논문 Paper)__evidence": [],
+  "1-5 (아키텍처 Architecture)": "해당 증거는 모델 아키텍처의 세부 구성 요소와 하이퍼파라미터 설정을 매우 상세하게 기술하고 있다. 모델은 'HunYuanDenseV1ForCausalLM' 아키텍처를 사용하며, 32개의 숨겨진 레이어와 16개의 어텐션 헤드를 포함한다. 또한 attention head의 차원은 128로 설정되고, 내부적으로 2048 크기의 히든 사이즈 및 6144 크기의 인터미디어트 피드포워드 레이어를 사용한다. 다양한 토큰 ID (예: bos, eos, pad 등)와 함께, 로터리 포지셔널 임베딩(RoPE) 동적 스케일링 파라미터 (예: alpha 1000.0, beta_fast 32 등), RMS 정규화, qk norm 사용, 그리고 silu 활성화 함수 등의 설정이 포함되어 있다. 모델은 또한 임베딩을 공유(tie_word_embeddings)하며, bfloat16 데이터 타입과 transformers 버전 4.41.2를 사용하도록 설계되었다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "config",
+      "quote": "{\n  \"add_classification_head\": false,\n  \"architectures\": [\n    \"HunYuanDenseV1ForCausalLM\"\n  ],\n  \"attention_bias\": false,\n  \"attention_dropout\": 0.0,\n  \"attention_head_dim\": 128,\n  \"bos_token_id\": 1,\n  \"cla_share_factor\": 2,\n  \"class_num\": 0,\n  \"dense_list\": [\n    2048,\n    0\n  ],\n  \"eod_token_id\": 120026,\n  \"eos_token_id\": 120020,\n  \"head_dim\": 128,\n  \"hidden_act\": \"silu\",\n  \"hidden_size\": 2048,\n  \"im_end_id\": 5,\n  \"im_newline_id\": 11,\n  \"im_start_id\": 4,\n  \"initializer_range\": 0.02,\n  \"intermediate_size\": 6144,\n  \"mask_init_id\": 12,\n  \"max_position_embeddings\": 262144,\n  \"mlp_bias\": false,\n  \"model_type\": \"hunyuan_v1_dense\",\n  \"norm_type\": \"rms\",\n  \"num_attention_heads\": 16,\n  \"num_hidden_layers\": 32,\n  \"num_key_value_heads\": 4,\n  \"org_vocab_size\": 120818,\n  \"pad_id\": 120002,\n  \"pad_token_id\": 120002,\n  \"pool_type\": \"last\",\n  \"pretraining_tp\": 1,\n  \"rms_norm_eps\": 1e-05,\n  \"rope_scaling\": {\n    \"alpha\": 1000.0,\n    \"beta_fast\": 32,\n    \"beta_slow\": 1,\n    \"factor\": 1.0,\n    \"mscale\": 1.0,\n    \"mscale_all_dim\": 1.0,\n    \"type\": \"dynamic\"\n  },\n  \"rope_theta\": 10000.0,\n  \"sep_token_id\": 120007,\n  \"text_end_id\": 7,\n  \"text_start_id\": 6,\n  \"tie_word_embeddings\": true,\n  \"torch_dtype\": \"bfloat16\",\n  \"transformers_version\": \"4.41.2\",\n  \"use_cache\": true,\n  \"use_cla\": false,\n  \"use_qk_norm\": true,\n  \"use_rotary_pos_emb\": true,\n  \"vocab_size\": 120818\n}"
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)": "토크나이저는 HuggingFace의 AutoTokenizer를 사용하여 모델 이름이나 경로를 통해 불러오도록 구성되어 있다. 'tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)' 코드와 함께 tokenizer.json 파일이 제공됨으로써, 토크나이저의 이름, 구조, 그리고 다운로드 가능 여부에 관한 설정 및 구성이 명시되어 있다.",
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)"
+    },
+    {
+      "source": "files",
+      "quote": "tokenizer.json"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)": "훈련 혹은 추론에 사용된 하드웨어 환경은 Docker 컨테이너 명령어를 통해 확인할 수 있으며, '--gpus=all' 옵션을 사용하여 모든 GPU 자원을 활용하도록 설정되었다. Docker 컨테이너 'hunyuanLLM_infer'는 privileged 모드와 IPC, 메모리 및 스택 제한을 적절히 설정하여 안정적인 GPU 활용 및 계산 자원 확보를 목적으로 구성되었고, 컨테이너 이미지 'hunyuaninfer/hunyuan-7B:hunyuan-moe-7B-trtllm'를 통해 최적화된 환경에서 실행되고 있다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "docker run --privileged --user root --name hunyuanLLM_infer --rm -it --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 --gpus=all hunyuaninfer/hunyuan-7B:hunyuan-moe-7B-trtllm"
+    }
+  ],
+  "2-2 (소프트웨어 Software)": "훈련 및 추론에 사용된 소프트웨어는 주로 'transformers' 라이브러리를 기반으로 하며, YAML 형식의 설정 파일에서 'library_name: transformers'가 명시되어 있다. 이로써 소프트웨어 환경 설정 및 관련 라이브러리의 버전 및 구성 요소가 명확히 전달되고 있다.",
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "---\nlibrary_name: transformers\n---"
+    }
+  ],
+  "2-3 (API)": "제공된 증거는 HunyuanAPI에 대한 언급과 함께, 해당 API의 접근 가능성 및 배포에 대한 구체적인 예시를 포함하고 있다. 첫 번째 인용문은 Tencent Cloud의 HunyuanAPI에 대한 링크를 제공하여, 모델을 호출 가능한 API 형태로 제공하는 예시를 보여준다. 두 번째 인용문에서는 TensorRT-LLM, vLLM, SGLang과 같은 프레임워크를 사용해 모델을 서비스하고 OpenAI 호환 API 엔드포인트를 생성할 수 있음을 설명한다. 이로써 모델이 API 형태로 공개될 수 있다는 점, 문서와 관련된 링크, 그리고 사용 예제가 포함될 수 있음을 암시하며, 라이브러리 형태가 아닌 실제 API를 통해 모델에 접근 가능하도록 하는 모든 사항들이 포함되어 있음을 보여준다.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "🕖 <a href=\"https://cloud.tencent.com/product/hunyuan\"><b>HunyuanAPI</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;"
+    },
+    {
+      "source": "readme",
+      "quote": "For deployment, you can use frameworks such as **TensorRT-LLM**, **vLLM**, or **SGLang** to serve the model and create an OpenAI-compatible API endpoint."
+    }
+  ],
+  "3-1 (사전학습 Pre-training)": "증거에서는 Hunyuan의 여러 밀집 모델이 사전학습과 인스트럭션 튜닝 버전으로 구성되어 있음을 언급한다. 구체적으로, 0.5B, 1.8B, 4B, 7B 파라미터 스케일을 가진 모델들이 있으며, 이들은 Hunyuan-A13B와 유사한 학습 전략을 채택해 강력한 성능을 보여준다. 또한, 2025년 7월 30일자로 Hugging Face에 관련 사전학습 모델과 인스트럭션 버전이 오픈소스 형식으로 공개되었음을 명시함으로써, 사전학습에 사용된 방법론, 데이터 처리 흐름, 하이퍼파라미터 설정 등 구체적인 학습 절차와 공개 상태가 상세하게 드러난다.",
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "We have released a series of Hunyuan dense models, comprising both pre-trained and instruction-tuned variants, with parameter scales of 0.5B, 1.8B, 4B, and 7B. These models adopt training strategies similar to the Hunyuan-A13B, thereby inheriting its robust performance characteristics."
+    },
+    {
+      "source": "readme",
+      "quote": "* 2025.7.30 We have open-sourced  **Hunyuan-0.5B-Pretrain** ,  **Hunyuan-0.5B-Instruct** , **Hunyuan-1.8B-Pretrain** ,  **Hunyuan-1.8B-Instruct** , **Hunyuan-4B-Pretrain** ,  **Hunyuan-4B-Instruct** , **Hunyuan-7B-Pretrain** ,**Hunyuan-7B-Instruct** on Hugging Face."
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝 부분에서는 사용자가 Instruct 모델을 세부 조정해야 할 경우, 데이터 처리 형식을 어떻게 구성해야 하는지에 대한 구체적 가이드라인을 제공한다. 특히, 느린 사고와 빠른 사고에 대응하는 형식을 모두 고려한 데이터 포맷 가이드가 제시되어 있으며, 이어서 LLaMA-Factory를 활용해 Hunyuan 모델을 파인튜닝하는 방법에 대한 설명이 제공되어, 재현 가능한 파이프라인의 존재와 파인튜닝의 목적, 사용 데이터에 대한 구체적인 지침이 모두 포함되어 있음을 알 수 있다.",
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "If you need to fine-tune our Instruct model, we recommend processing the data into the following format, corresponding to both slow-thinking and fast-thinking scenarios."
+    },
+    {
+      "source": "readme",
+      "quote": "In the following chapter, we will introduce how to use `LLaMA-Factory` to fine-tune the `Hunyuan` model."
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)": "현재 제공된 증거에서는 강화학습에 관한 구체적인 내용이나 절차, 알고리즘(RLHF, DPO 등)의 사용 여부, 설정값 등에 대한 어떠한 정보도 포함되어 있지 않으며, 강화학습 관련 항목은 빈 상태로 남아 있다.",
+  "3-3 (강화학습 Reinforcement Learning)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "제시된 인용문이 없어 사전학습 데이터에 관한 구체적인 세부사항을 직접적으로 확인할 수 없으나, 이 항목은 모델 교육 초기 단계에서 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 데이터 구성 방식 등 전반적인 구성을 포함하고 있으며, 해당 정보가 존재할 경우 학습에 사용된 방대한 데이터 세트의 특성과 그에 따른 모델의 초기 성능에 미치는 영향을 상세히 논의할 수 있을 것입니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "제시된 인용문이 없어 파인튜닝 데이터셋과 관련된 구체적인 증거는 제공되지 않았습니다. 일반적으로 이 항목은 모델의 세부 조정 과정에서 사용된 데이터의 출처, 데이터 구성 및 예시, 그리고 공개 여부와 같이 파인튜닝이 모델 성능과 최종 응답 품질에 미치는 영향을 상세하게 다루어야 하며, 관련 증거가 있다면 이를 토대로 더욱 구체적인 설명이 가능할 것입니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [],
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "강화학습 데이터에 대한 인용문이 제시되지 않아, 이 항목에서 다루어야 할 강화학습 데이터셋의 구성, 접근 가능 여부, 출처 및 생성 방식과 관련된 구체적인 정보를 직접 인용할 수는 없습니다. 그러나 이 항목은 보통 모델이 상호작용을 통해 보상 신호를 학습하는 과정에서 활용되는 데이터의 특성과 그 데이터가 모델의 최종 결정에 미치는 영향을 상세하게 설명하는 것을 목표로 합니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
+  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링에 관한 증거 인용문이 제공되지 않아, 해당 항목에서는 데이터의 정제 및 필터링 과정에 사용된 기준, 구체적인 절차와 이에 따른 데이터 품질 향상 효과를 직접 확인할 수 있는 인용문이 없습니다. 일반적으로 이 항목은 모델 학습 전 데이터의 적절한 전처리와 필터링 과정을 통해 데이터의 활용도와 결과의 신뢰성을 높이는 방법을 상세하게 다루어야 합니다.",
+  "4-4 (데이터 필터링 Data Filtering)__evidence": []
+}

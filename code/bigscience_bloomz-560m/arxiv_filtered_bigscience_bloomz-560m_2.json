@@ -1,10 +1,45 @@
 {
-  "1-5 (아키텍처 Architecture)": "제공된 인용문이 없으므로, 아키텍처에 관련된 구체적인 설명이나 논의가 나타나지 않습니다. 본 항목은 일반적으로 시스템 구성이나 구조, 컴포넌트 상호작용 방식 등과 관련된 내용을 포함할 수 있지만, 주어진 자료에서는 이에 대한 직접적인 인용 내용이 없어 해당 분야의 상세한 기술적 요소나 설계 철학에 관한 구체적 정보는 확인할 수 없습니다.",
-  "1-6 (토크나이저 Tokenizer)": "입수된 인용문이 전혀 없어 토크나이저에 관한 구체적인 정보, 그 작동 원리, 및 처리 과정에 대한 구체적 기술은 제공되지 않습니다. 토크나이저는 보통 텍스트를 세분화하는 과정 및 알고리즘에 대해 언급될 수 있으나, 주어진 자료에서는 이와 관련한 인용 내용이 없기에 해당 항목에 대한 자세한 분석이나 설명을 이끌어내기 어렵습니다.",
-  "2-1 (하드웨어 Hardware)": "하드웨어 항목과 관련하여 제공된 인용문이 없어, 시스템의 물리적 구성 요소, 처리 속도, 성능, 또는 컴퓨팅 리소스와 관련된 구체적인 정보나 해당 기술적 측면에 대한 논의가 포함되어 있지 않습니다. 따라서 하드웨어와 관련한 세부 사항이나 최신 기술 동향, 또는 적용 사례에 대한 분석은 없는 상태입니다.",
-  "2-2 (소프트웨어 Software)": "소프트웨어에 관한 인용문이 제공되지 않음으로써, 소프트웨어의 운영 체제, 응용 프로그램, 또는 코딩 및 구현 방식과 관련된 구체적인 세부 정보나 논의가 확인되지 않습니다. 보통 이 항목에서는 소프트웨어의 기능, 알고리즘, 및 시스템 통합에 관한 내용이 다루어질 수 있으나, 주어진 자료 내에서는 해당 내용을 뒷받침할 인용문이 없어 자세한 설명을 제공하기 어렵습니다.",
-  "1-5 (아키텍처 Architecture)__evidence": [],
+  "1-5 (아키텍처 Architecture)": "BLOOM 모델은 약 3500억 토큰에 대해 사전 학습된 거대한 디코더 전용 언어 모델로, GPT-3와 유사한 아키텍처를 채택하고 있습니다. 또한, BLOOM 176B 파라미터 모델은 ROOTS를 기반으로 사전 학습되었음을 언급하고 있습니다. 반면 mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하며, 마스킹된 언어 모델링을 사전 학습 목표로 하여 1조 토큰에 달하는 방대한 데이터 셋을 통해 사전 학습되었습니다. 이들 모델은 각각의 아키텍처와 하이퍼파라미터 세부 사항을 통해 그들의 목적에 최적화된 구조적 특징을 드러내고 있습니다.",
+  "1-6 (토크나이저 Tokenizer)": "제공된 인용문에는 사용된 토크나이저의 이름, 구조, 혹은 다운로드 가능 여부와 관련하여 구체적인 정보가 포함되어 있지 않습니다.",
+  "2-1 (하드웨어 Hardware)": "mT5 모델의 미세 조정 과정에서는 T5X 프레임워크를 활용하여 TPU 상에서 모델을 학습시켰고, 이와 동시에 HPC 리소스를 제공하는 Institut du développement et des ressources en informatique scientifique (IDRIS)와 프랑스 국립과학연구센터(CNRS)의 Jean Zay 클러스터를 활용하여 평가와 데이터 처리를 수행하였습니다. 이는 모델 훈련에 필요한 고성능 계산 자원과 하드웨어의 구체적인 종류 및 규모에 대한 정보를 보여줍니다.",
+  "2-2 (소프트웨어 Software)": "mT5 모델의 미세 조정은 T5X 프레임워크를 사용하여 이루어졌으며, TPU를 통한 모델 학습을 지원하였습니다. 추가적으로, 구글 클라우드 API를 이용하여 기계 번역 작업에 필요한 소프트웨어 도구들이 활용되었으며, BLOOM(Z) 모델의 경우 Megatron-Deepspeed와 함께 사용하는 최종 옵티마이저 상태를 포함하는 별도의 저장소가 존재하여, 소프트웨어 구성 및 버전에 관련된 상세 정보를 제공하고 있습니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3 (Brown et al., 2020)."
+    },
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs. mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "Table 3",
+      "quote": "BLOOM\n176B parameter model pretrained on ROOTS"
+    }
+  ],
   "1-6 (토크나이저 Tokenizer)__evidence": [],
-  "2-1 (하드웨어 Hardware)__evidence": [],
-  "2-2 (소프트웨어 Software)__evidence": []
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "pdf_text (Acknowledgments)",
+      "quote": "This work was granted access to the HPC resources of Institut du développement et des ressources en informatique scientifique (IDRIS) du Centre national de la recherche scientifique (CNRS) ... all the evaluations and data processing ran on the Jean Zay cluster of IDRIS."
+    }
+  ],
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "pdf_text (Section 3.1 Finetuning Data)",
+      "quote": "We use the Google Cloud API for machine translation."
+    },
+    {
+      "source": "Table 3",
+      "quote": "BLOOM(Z) models have an additional repository containing the final optimizer states for training with Megatron-Deepspeed"
+    }
+  ]
 }

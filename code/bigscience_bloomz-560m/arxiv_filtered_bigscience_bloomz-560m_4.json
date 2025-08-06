@@ -1,10 +1,53 @@
 {
-  "4-1 (사전학습 데이터 Pre-training Data)": "입력된 quote 목록에 어떠한 내용도 포함되지 않아, 사전학습 데이터를 위한 구체적인 자료나 설명은 제공되지 않았습니다. 이 항목은 보통 모델의 초기 언어 이해를 위해 방대한 텍스트 자료를 활용하는 단계를 의미하지만, 주어진 quote에는 해당 내용에 대한 구체적인 예시나 세부 설명이 없어 요약할 내용이 없습니다.",
-  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터에 관련한 quote 역시 빈 목록으로 제공되므로, 이 항목에서 구체적인 데이터 종류나 처리 방식, 세부 사례에 대한 정보는 제공되지 않았습니다. 일반적으로 파인튜닝 데이터는 사전학습된 모델을 특정 작업이나 목적에 맞추어 추가 조정하는 데 사용되지만, 주어진 자료에는 이를 뒷받침하는 세부 내용이 포함되어 있지 않습니다.",
-  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "강화학습 데이터에 대한 quote의 경우도 내용이 제공되지 않아, 강화학습 과정을 위한 데이터 구성이나 구체적인 사례, 학습 과정에 대한 상세한 설명은 없는 상태입니다. 보통 강화학습 데이터는 모델이 환경과 상호작용하며 보상을 기반으로 학습하는 데 사용되지만, 제공된 quote에서는 그러한 맥락이나 예시가 나타나지 않습니다.",
-  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링에 관한 quote 역시 빈 배열로 제시되어, 데이터의 선별, 정제, 혹은 평가 방식과 관련된 구체적인 내용이 포함되어 있지 않습니다. 이 항목은 일반적으로 데이터의 품질을 높이고 불필요하거나 오류가 있는 데이터를 제거하는 프로세스를 의미하지만, 주어진 자료에서는 이에 대한 길고 상세한 설명이나 예시가 제공되지 않았습니다.",
-  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [],
-  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "제공된 인용문에 따르면, 사전학습 데이터는 BLOOM과 mT5 모델에서 사용되는 방대한 양의 토큰 데이터로 구성된다. BLOOM 모델은 GPT-3와 유사한 아키텍처를 갖춘 대형 디코더 전용 언어모델로 약 3500억 토큰에 대해 사전학습이 이루어졌으며, 다국어 데이터를 포함하는 BLOOM ROOTS 코퍼스는 46개 자연어와 13개 프로그래밍 언어를 포함하고 있다. 또한 mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하여 T5X 프레임워크를 기반으로 TPU에서 미세조정되며, 마스크드 언어 모델링을 통한 사전학습 목표와 1조 토큰의 학습 길이를 특징으로 한다. 이와 함께, mT5의 사전학습에 사용되는 mC4 코퍼스 또한 Hugging Face 플랫폼을 통해 접근 가능한 다국어 데이터셋으로 제공된다. 각 코퍼스는 다양한 출처와 구성 방식을 반영하며, 문서 내의 문장이 반드시 동일한 메타 언어에 속하지 않을 수 있다는 복잡성을 내포하고 있다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터의 경우, 크로스링구얼 멀티태스크 프롬프트 학습을 조사하기 위해 P3 데이터셋 컬렉션을 확장하여 비영어 태스크를 포함한 xP3 데이터셋이 생성되었다. 이 데이터셋은 BLOOM과 mT5 모델 모두의 파인튜닝에 활용되며, P3 데이터셋은 영어 기반의 멀티태스크 데이터와 프롬프트로 구성되어 있고, xP3는 다국어 데이터를 포함하지만 프롬프트는 영어로 제공된다. 또한 Kim et al. (2021)의 데이터셋도 파인튜닝 과정에서 사용되었으며, 두 데이터셋 모두 Hugging Face 링크를 통해 공개되어 활용 가능하다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "제공된 인용문에는 강화학습에 사용된 데이터셋에 관한 정보가 포함되어 있지 않으므로, 이에 대한 상세 내용은 확인할 수 없다.",
+  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링 과정에서는 효율적인 학습을 도모하기 위해 2048 토큰을 초과하는 샘플을 건너뛰고, 여러 샘플을 동시에 학습할 수 있도록 패킹 기법을 활용하였다. 이 과정은 Kosec et al. (2021)의 방법론을 참조하여 수행되었으며, 필터링 기준과 과정이 학습 효율성에 미치는 영향을 고려하여 데이터셋이 정제되었다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs. mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "ROOTS – Multilingual pretraining corpus of BLOOM\nhttps://huggingface.co/bigscience-data"
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "mC4 – Multilingual pretraining corpus used for mT5\nhttps://huggingface.co/datasets/mc4"
+    },
+    {
+      "source": "D ROOTS language contamination",
+      "quote": "While the BLOOM ROOTS corpus (Laurençon et al., 2022) was collected from 46 natural languages and 13 programming languages, we find that sentences from the same document do not always belong to the collected (meta) language."
+    }
+  ],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To study crosslingual multitask prompted finetuning, we create xP3 by extending the P3 dataset collection with additional non-English tasks. We finetune both BLOOM and mT5 models on xP3."
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "P3 – Multitask finetuning dataset with English data & English prompts\nhttps://huggingface.co/datasets/bigscience/P3"
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "xP3 – Multitask finetuning dataset with multilingual data & English prompts\nhttps://huggingface.co/datasets/bigscience/xP3"
+    },
+    {
+      "source": "1.1.1 GEM/BiSECT en",
+      "quote": "Dataset from Kim et al. (2021). Used in training."
+    }
+  ],
   "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
-  "4-4 (데이터 필터링 Data Filtering)__evidence": []
+  "4-4 (데이터 필터링 Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We skip samples longer than 2048 tokens and use packing to train efficiently on multiple samples at a time (Kosec et al., 2021)."
+    }
+  ]
 }

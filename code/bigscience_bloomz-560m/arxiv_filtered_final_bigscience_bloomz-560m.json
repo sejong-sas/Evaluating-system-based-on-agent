@@ -1,34 +1,182 @@
 {
-  "1-1 (가중치 Weights)": "제공된 인용문이 없으므로 가중치 항목에 대한 구체적인 내용이나 세부 사항을 파악할 수 없습니다. 인용문이 없다는 사실은 이 항목에 특별히 참고할 만한 정보가 제공되지 않았음을 의미하며, 따라서 가중치에 관한 추가적인 설명이나 분석은 불가능합니다.",
-  "1-2 (코드 Code)": "이번 코드 섹션 역시 제공된 인용문이 없어, 코드와 관련된 구체적인 내용이나 세부 사항을 확인할 수 없습니다. 인용문이 없는 상황에서는 코드에 대한 심도 있는 분석이나 상세한 정보 제공이 어려워, 별도의 참고 자료나 설명을 기대하기 어렵습니다.",
-  "1-3 (라이선스 License)": "라이선스 항목에 대한 인용문 또한 제공되지 않았습니다. 이로 인해 라이선스와 관련된 구체적인 후기나 세부사항, 또는 정책에 대한 상세한 설명을 확인할 수 없으며, 해당 항목의 종합적인 이해를 위한 추가 정보 역시 부재한 상태입니다.",
-  "1-4 (논문 Paper)": "논문 항목에서는 인용문이 존재하지 않아, 논문의 내용이나 관련된 세부 사항에 관해 구체적인 정보를 도출하기 어렵습니다. 제공된 인용문이 없다는 점은 논문과 관련된 분석이나 설명을 진행하기 위한 참고 자료가 없음을 나타내며, 따라서 이 항목에 관한 상세한 요약을 제공하기에 한계가 있습니다.",
-  "1-1 (가중치 Weights)__evidence": [],
-  "1-2 (코드 Code)__evidence": [],
-  "1-3 (라이선스 License)__evidence": [],
-  "1-4 (논문 Paper)__evidence": [],
-  "1-5 (아키텍처 Architecture)": "제공된 인용문이 없으므로, 아키텍처에 관련된 구체적인 설명이나 논의가 나타나지 않습니다. 본 항목은 일반적으로 시스템 구성이나 구조, 컴포넌트 상호작용 방식 등과 관련된 내용을 포함할 수 있지만, 주어진 자료에서는 이에 대한 직접적인 인용 내용이 없어 해당 분야의 상세한 기술적 요소나 설계 철학에 관한 구체적 정보는 확인할 수 없습니다.",
-  "1-6 (토크나이저 Tokenizer)": "입수된 인용문이 전혀 없어 토크나이저에 관한 구체적인 정보, 그 작동 원리, 및 처리 과정에 대한 구체적 기술은 제공되지 않습니다. 토크나이저는 보통 텍스트를 세분화하는 과정 및 알고리즘에 대해 언급될 수 있으나, 주어진 자료에서는 이와 관련한 인용 내용이 없기에 해당 항목에 대한 자세한 분석이나 설명을 이끌어내기 어렵습니다.",
-  "2-1 (하드웨어 Hardware)": "하드웨어 항목과 관련하여 제공된 인용문이 없어, 시스템의 물리적 구성 요소, 처리 속도, 성능, 또는 컴퓨팅 리소스와 관련된 구체적인 정보나 해당 기술적 측면에 대한 논의가 포함되어 있지 않습니다. 따라서 하드웨어와 관련한 세부 사항이나 최신 기술 동향, 또는 적용 사례에 대한 분석은 없는 상태입니다.",
-  "2-2 (소프트웨어 Software)": "소프트웨어에 관한 인용문이 제공되지 않음으로써, 소프트웨어의 운영 체제, 응용 프로그램, 또는 코딩 및 구현 방식과 관련된 구체적인 세부 정보나 논의가 확인되지 않습니다. 보통 이 항목에서는 소프트웨어의 기능, 알고리즘, 및 시스템 통합에 관한 내용이 다루어질 수 있으나, 주어진 자료 내에서는 해당 내용을 뒷받침할 인용문이 없어 자세한 설명을 제공하기 어렵습니다.",
-  "1-5 (아키텍처 Architecture)__evidence": [],
+  "1-1 (가중치 Weights)": "제공된 인용문에 따르면 모델의 가중치는 공개적으로 제공되고 있으며, 구체적으로 GitHub 저장소(https://github.com/bigscience-workshop/xmtf)에서 접근할 수 있다. 또한, BLOOM 176B 파라미터 모델과 같이 대규모 모델의 경우 Hugging Face 플랫폼(https://huggingface.co/bigscience/bloom)을 통해 접근할 수 있음을 알 수 있다. 이로 미루어 보아, 모델 가중치의 위치, 공개 방식 및 다운로드 가능 여부 등 모든 접근 관련 정보가 투명하게 제공되고 있다는 것을 알 수 있다.",
+  "1-2 (코드 Code)": "인용문에서는 모델의 훈련 및 평가를 위한 코드가 공개되어 있음을 명확하게 보여준다. GitHub의 저장소(https://github.com/bigscience-workshop/xmtf)를 통해 코드, 데이터셋, 그리고 모델 전체가 확인 가능하며, Niklas Muennighoff, Thomas Wang, Lintang Sutawika, Adam Roberts, Hailey Schoelkopf 등 여러 연구자들이 훈련 및 평가 코드를 작성하였음을 언급한다. 이와 함께 해당 코드는 표준적인 참조 자료를 제공할 목적으로 배포될 예정임을 알 수 있어, 코드 공개의 범위와 목적이 상세하게 설명되어 있다.",
+  "1-3 (라이선스 License)": "제공된 인용문은 각 모델별로 적용되는 라이선스 유형에 대해 상세한 정보를 제공한다. BLOOM(Z) 모델은 RAIL 라이선스 하에 배포되고 있으며, mT5 및 mT0 모델은 Apache 2.0 라이선스를 적용받고 있다. 또한 'license mit'라는 추가 언급을 통해, 다른 일부 코드나 모델 구성 요소의 경우 MIT 라이선스가 적용되었음을 시사한다. 이를 통해 사용, 수정, 배포 및 상업적 이용과 관련된 권리 및 제한 조건이 모델마다 상이하게 설정되어 있다는 세부 사항을 파악할 수 있다.",
+  "1-4 (논문 Paper)": "인용문에는 모델과 관련된 공식 문서 및 학술 자료가 포함되어 있음을 알 수 있다. 첫 번째 논문은 'Crosslingual Generalization through Multitask Finetuning'이라는 제목을 가지고 있으며, 이는 다국어 일반화와 다중 작업 파인튜닝에 관한 연구 결과임을 암시한다. 두 번째 인용문은 'smundo. 2022. Scaling up models and data with t5x and seqio. arXiv preprint arXiv:2203.17189.'라는 형식을 띠고 있으며, 이는 모델 및 데이터 확장과 관련된 기술 보고서 또는 학술 전산 프리프린트 자료를 제공한다. 이와 같이, 관련 문헌의 존재와 링크 등이 모델의 기술적 배경과 연구 근거를 자세히 나타내고 있다.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "abstract",
+      "quote": "Our code, datasets and models are freely available at https://github.com/bigscience-workshop/xmtf."
+    },
+    {
+      "source": "Table 3 (Artifacts)",
+      "quote": "BLOOM - 176B parameter model pretrained on ROOTS\nhttps://huggingface.co/bigscience/bloom"
+    }
+  ],
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "abstract",
+      "quote": "Our code, datasets and models are freely available at https://github.com/bigscience-workshop/xmtf."
+    },
+    {
+      "source": "A Contributions",
+      "quote": "Niklas Muennighoff, Thomas Wang, Lintang Sutawika, Adam Roberts and Hailey Schoelkopf wrote the training and evaluation code."
+    },
+    {
+      "source": "Prompts used",
+      "quote": "Code will be released to provide a canonical reference."
+    }
+  ],
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "Table 3 (Artifacts)",
+      "quote": "BLOOM(Z) models are released under the RAIL license, while mT5 / mT0 models are licensed under Apache 2.0"
+    },
+    {
+      "source": "codeparrot/github-jupyter-text-code-pairs",
+      "quote": "license\nmit"
+    }
+  ],
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "pdf_text",
+      "quote": "Crosslingual Generalization through Multitask Finetuning"
+    },
+    {
+      "source": "References",
+      "quote": "smundo. 2022. Scaling up models and data with t5x and seqio. arXiv preprint arXiv:2203.17189."
+    }
+  ],
+  "1-5 (아키텍처 Architecture)": "BLOOM 모델은 약 3500억 토큰에 대해 사전 학습된 거대한 디코더 전용 언어 모델로, GPT-3와 유사한 아키텍처를 채택하고 있습니다. 또한, BLOOM 176B 파라미터 모델은 ROOTS를 기반으로 사전 학습되었음을 언급하고 있습니다. 반면 mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하며, 마스킹된 언어 모델링을 사전 학습 목표로 하여 1조 토큰에 달하는 방대한 데이터 셋을 통해 사전 학습되었습니다. 이들 모델은 각각의 아키텍처와 하이퍼파라미터 세부 사항을 통해 그들의 목적에 최적화된 구조적 특징을 드러내고 있습니다.",
+  "1-6 (토크나이저 Tokenizer)": "제공된 인용문에는 사용된 토크나이저의 이름, 구조, 혹은 다운로드 가능 여부와 관련하여 구체적인 정보가 포함되어 있지 않습니다.",
+  "2-1 (하드웨어 Hardware)": "mT5 모델의 미세 조정 과정에서는 T5X 프레임워크를 활용하여 TPU 상에서 모델을 학습시켰고, 이와 동시에 HPC 리소스를 제공하는 Institut du développement et des ressources en informatique scientifique (IDRIS)와 프랑스 국립과학연구센터(CNRS)의 Jean Zay 클러스터를 활용하여 평가와 데이터 처리를 수행하였습니다. 이는 모델 훈련에 필요한 고성능 계산 자원과 하드웨어의 구체적인 종류 및 규모에 대한 정보를 보여줍니다.",
+  "2-2 (소프트웨어 Software)": "mT5 모델의 미세 조정은 T5X 프레임워크를 사용하여 이루어졌으며, TPU를 통한 모델 학습을 지원하였습니다. 추가적으로, 구글 클라우드 API를 이용하여 기계 번역 작업에 필요한 소프트웨어 도구들이 활용되었으며, BLOOM(Z) 모델의 경우 Megatron-Deepspeed와 함께 사용하는 최종 옵티마이저 상태를 포함하는 별도의 저장소가 존재하여, 소프트웨어 구성 및 버전에 관련된 상세 정보를 제공하고 있습니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3 (Brown et al., 2020)."
+    },
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs. mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "Table 3",
+      "quote": "BLOOM\n176B parameter model pretrained on ROOTS"
+    }
+  ],
   "1-6 (토크나이저 Tokenizer)__evidence": [],
-  "2-1 (하드웨어 Hardware)__evidence": [],
-  "2-2 (소프트웨어 Software)__evidence": [],
-  "2-3 (API)": "주어진 인용문이 없으므로, 이 항목에 대한 구체적 내용이나 분석을 제공할 수 없습니다. 추가 자료가 제공되면 API의 기능, 접근 방식, 및 활용 사례들을 상세하게 요약할 수 있을 것입니다.",
-  "3-1 (사전학습 Pre-training)": "현재 인용문이 제공되지 않아, 사전학습과 관련된 모델의 대규모 데이터 학습, 일반적인 특성 추출 및 초기 언어 이해에 관한 구체적인 내용은 확인할 수 없습니다. 추후 인용문이 주어질 경우, 이 항목에 대해 보다 심도 있는 설명이 가능할 것입니다.",
-  "3-2 (파인튜닝 Fine-tuning)": "제공된 관련 인용문이 없어 세부적인 내용 파악이 어렵습니다. 보통 파인튜닝은 사전학습된 모델을 특정 목적이나 데이터셋에 맞추어 미세조정하는 단계를 포함하지만, 현재의 자료로는 상세하게 기술할 수 없습니다.",
-  "3-3 (강화학습 Reinforcement Learning)": "강화학습과 관련하여 구체적인 인용문이 없어, 이 항목에 대한 세부적인 전략이나 실습 방법, 학습 원리 등에 대해 상세한 설명을 제공하기 어렵습니다. 관련 구체적 내용이 제공된다면, 그에 따른 체계적 분석과 설명이 가능할 것입니다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "pdf_text (Acknowledgments)",
+      "quote": "This work was granted access to the HPC resources of Institut du développement et des ressources en informatique scientifique (IDRIS) du Centre national de la recherche scientifique (CNRS) ... all the evaluations and data processing ran on the Jean Zay cluster of IDRIS."
+    }
+  ],
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "pdf_text (Section 3.2 Models)",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "pdf_text (Section 3.1 Finetuning Data)",
+      "quote": "We use the Google Cloud API for machine translation."
+    },
+    {
+      "source": "Table 3",
+      "quote": "BLOOM(Z) models have an additional repository containing the final optimizer states for training with Megatron-Deepspeed"
+    }
+  ],
+  "2-3 (API)": "이 항목에 관련된 제공된 인용문은 없습니다. 즉, 모델이 접근 가능한 API의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관한 구체적인 설명이나 예시가 인용문에서 제공되지 않았습니다.",
+  "3-1 (사전학습 Pre-training)": "인용문들은 두 종류의 대표적인 모델의 사전학습 방식을 자세하게 설명합니다. 첫 번째로, BLOOM 모델은 GPT-3와 유사한 구조의 디코더 전용 대규모 언어 모델로, 약 3500억 개의 토큰을 대상으로 사전학습이 이루어졌으며, 176B 파라미터 모델로 ROOTS 데이터셋을 사용해 학습되었고, 관련 정보는 Hugging Face 링크(https://huggingface.co/bigscience/bloom)를 통해 제공됩니다. 두 번째로, mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하며, 마스킹된 언어 모델링을 사전학습 목표로 하여 1조 개의 토큰을 대상으로 사전학습이 진행되었음을 설명합니다. 또한, mT5-300M 모델은 300M 파라미터로 mC4 데이터셋의 샘플된 버전을 기반으로 학습되었으며, 그에 관한 정보는 Hugging Face 링크(https://huggingface.co/google/mt5-small)로 확인할 수 있습니다.",
+  "3-2 (파인튜닝 Fine-tuning)": "인용문들은 모델의 파인튜닝 절차에 대해 상세하게 기술하고 있습니다. 모델들은 추가로 130억 개의 토큰을 대상으로 파인튜닝이 진행되었으며, 이 과정에서는 대상 토큰에 대해서만 손실(loss)이 계산됩니다. 특히, mT5 모델의 경우 T5X 프레임워크를 활용하여 TPU 상에서 파인튜닝이 수행되었음을 언급하고 있습니다. 최종 모델 구축 과정에서는 조기 종료(early stopping) 기법을 도입하고, 긴 작업을 추가하며, 긴 결과 생성을 위해 추론 단계에서 최소 생성 길이를 강제하는 등의 추가적인 조치가 적용되었습니다.",
+  "3-3 (강화학습 Reinforcement Learning)": "이 항목과 관련하여 제공된 인용문은 없습니다. 따라서 강화학습 알고리즘(예: RLHF, DPO 등의 사용 여부, 구체적인 방식, 절차 및 설정값 등)에 대한 정보는 인용문에서 찾을 수 없습니다.",
   "2-3 (API)__evidence": [],
-  "3-1 (사전학습 Pre-training)__evidence": [],
-  "3-2 (파인튜닝 Fine-tuning)__evidence": [],
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3."
+    },
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "C Artifacts - Table 3",
+      "quote": "BLOOM\n176B parameter model pretrained on ROOTS\nhttps://huggingface.co/bigscience/bloom"
+    },
+    {
+      "source": "C Artifacts - Table 3",
+      "quote": "mT5-300M\n300M parameter model pretrained on a sampled version of mC4\nhttps://huggingface.co/google/mt5-small"
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "We finetune the models for an additional 13 billion tokens with loss only being computed on target tokens."
+    },
+    {
+      "source": "pdf_text / 3.2 Models",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs."
+    },
+    {
+      "source": "G Increasing generation length",
+      "quote": "For our final models, we employ early stopping, adding of long tasks and recommend forcing a minimum generation length at inference for long generations."
+    }
+  ],
   "3-3 (강화학습 Reinforcement Learning)__evidence": [],
-  "4-1 (사전학습 데이터 Pre-training Data)": "입력된 quote 목록에 어떠한 내용도 포함되지 않아, 사전학습 데이터를 위한 구체적인 자료나 설명은 제공되지 않았습니다. 이 항목은 보통 모델의 초기 언어 이해를 위해 방대한 텍스트 자료를 활용하는 단계를 의미하지만, 주어진 quote에는 해당 내용에 대한 구체적인 예시나 세부 설명이 없어 요약할 내용이 없습니다.",
-  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터에 관련한 quote 역시 빈 목록으로 제공되므로, 이 항목에서 구체적인 데이터 종류나 처리 방식, 세부 사례에 대한 정보는 제공되지 않았습니다. 일반적으로 파인튜닝 데이터는 사전학습된 모델을 특정 작업이나 목적에 맞추어 추가 조정하는 데 사용되지만, 주어진 자료에는 이를 뒷받침하는 세부 내용이 포함되어 있지 않습니다.",
-  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "강화학습 데이터에 대한 quote의 경우도 내용이 제공되지 않아, 강화학습 과정을 위한 데이터 구성이나 구체적인 사례, 학습 과정에 대한 상세한 설명은 없는 상태입니다. 보통 강화학습 데이터는 모델이 환경과 상호작용하며 보상을 기반으로 학습하는 데 사용되지만, 제공된 quote에서는 그러한 맥락이나 예시가 나타나지 않습니다.",
-  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링에 관한 quote 역시 빈 배열로 제시되어, 데이터의 선별, 정제, 혹은 평가 방식과 관련된 구체적인 내용이 포함되어 있지 않습니다. 이 항목은 일반적으로 데이터의 품질을 높이고 불필요하거나 오류가 있는 데이터를 제거하는 프로세스를 의미하지만, 주어진 자료에서는 이에 대한 길고 상세한 설명이나 예시가 제공되지 않았습니다.",
-  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [],
-  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "제공된 인용문에 따르면, 사전학습 데이터는 BLOOM과 mT5 모델에서 사용되는 방대한 양의 토큰 데이터로 구성된다. BLOOM 모델은 GPT-3와 유사한 아키텍처를 갖춘 대형 디코더 전용 언어모델로 약 3500억 토큰에 대해 사전학습이 이루어졌으며, 다국어 데이터를 포함하는 BLOOM ROOTS 코퍼스는 46개 자연어와 13개 프로그래밍 언어를 포함하고 있다. 또한 mT5 모델은 T5와 동일한 인코더-디코더 아키텍처를 사용하여 T5X 프레임워크를 기반으로 TPU에서 미세조정되며, 마스크드 언어 모델링을 통한 사전학습 목표와 1조 토큰의 학습 길이를 특징으로 한다. 이와 함께, mT5의 사전학습에 사용되는 mC4 코퍼스 또한 Hugging Face 플랫폼을 통해 접근 가능한 다국어 데이터셋으로 제공된다. 각 코퍼스는 다양한 출처와 구성 방식을 반영하며, 문서 내의 문장이 반드시 동일한 메타 언어에 속하지 않을 수 있다는 복잡성을 내포하고 있다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터의 경우, 크로스링구얼 멀티태스크 프롬프트 학습을 조사하기 위해 P3 데이터셋 컬렉션을 확장하여 비영어 태스크를 포함한 xP3 데이터셋이 생성되었다. 이 데이터셋은 BLOOM과 mT5 모델 모두의 파인튜닝에 활용되며, P3 데이터셋은 영어 기반의 멀티태스크 데이터와 프롬프트로 구성되어 있고, xP3는 다국어 데이터를 포함하지만 프롬프트는 영어로 제공된다. 또한 Kim et al. (2021)의 데이터셋도 파인튜닝 과정에서 사용되었으며, 두 데이터셋 모두 Hugging Face 링크를 통해 공개되어 활용 가능하다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "제공된 인용문에는 강화학습에 사용된 데이터셋에 관한 정보가 포함되어 있지 않으므로, 이에 대한 상세 내용은 확인할 수 없다.",
+  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링 과정에서는 효율적인 학습을 도모하기 위해 2048 토큰을 초과하는 샘플을 건너뛰고, 여러 샘플을 동시에 학습할 수 있도록 패킹 기법을 활용하였다. 이 과정은 Kosec et al. (2021)의 방법론을 참조하여 수행되었으며, 필터링 기준과 과정이 학습 효율성에 미치는 영향을 고려하여 데이터셋이 정제되었다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOM models are large decoder-only language models pretrained for around 350 billion tokens with an architecture similar to GPT-3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For mT5 models, we finetune using the T5X (Roberts et al., 2022) framework on TPUs. mT5 uses the same encoder-decoder architecture, pretraining objective (masked language modeling), and pretraining length (1 trillion tokens) as T5 (Raffel et al., 2020)."
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "ROOTS – Multilingual pretraining corpus of BLOOM\nhttps://huggingface.co/bigscience-data"
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "mC4 – Multilingual pretraining corpus used for mT5\nhttps://huggingface.co/datasets/mc4"
+    },
+    {
+      "source": "D ROOTS language contamination",
+      "quote": "While the BLOOM ROOTS corpus (Laurençon et al., 2022) was collected from 46 natural languages and 13 programming languages, we find that sentences from the same document do not always belong to the collected (meta) language."
+    }
+  ],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To study crosslingual multitask prompted finetuning, we create xP3 by extending the P3 dataset collection with additional non-English tasks. We finetune both BLOOM and mT5 models on xP3."
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "P3 – Multitask finetuning dataset with English data & English prompts\nhttps://huggingface.co/datasets/bigscience/P3"
+    },
+    {
+      "source": "C Artifacts",
+      "quote": "xP3 – Multitask finetuning dataset with multilingual data & English prompts\nhttps://huggingface.co/datasets/bigscience/xP3"
+    },
+    {
+      "source": "1.1.1 GEM/BiSECT en",
+      "quote": "Dataset from Kim et al. (2021). Used in training."
+    }
+  ],
   "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
-  "4-4 (데이터 필터링 Data Filtering)__evidence": []
+  "4-4 (데이터 필터링 Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We skip samples longer than 2048 tokens and use packing to train efficiently on multiple samples at a time (Kosec et al., 2021)."
+    }
+  ]
 }

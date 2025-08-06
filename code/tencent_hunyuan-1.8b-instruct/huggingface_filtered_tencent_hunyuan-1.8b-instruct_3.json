@@ -1,0 +1,37 @@
+{
+  "2-3 (API)": "제공된 증거는 HunyuanAPI에 대한 언급과 함께, 해당 API의 접근 가능성 및 배포에 대한 구체적인 예시를 포함하고 있다. 첫 번째 인용문은 Tencent Cloud의 HunyuanAPI에 대한 링크를 제공하여, 모델을 호출 가능한 API 형태로 제공하는 예시를 보여준다. 두 번째 인용문에서는 TensorRT-LLM, vLLM, SGLang과 같은 프레임워크를 사용해 모델을 서비스하고 OpenAI 호환 API 엔드포인트를 생성할 수 있음을 설명한다. 이로써 모델이 API 형태로 공개될 수 있다는 점, 문서와 관련된 링크, 그리고 사용 예제가 포함될 수 있음을 암시하며, 라이브러리 형태가 아닌 실제 API를 통해 모델에 접근 가능하도록 하는 모든 사항들이 포함되어 있음을 보여준다.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "🕖 <a href=\"https://cloud.tencent.com/product/hunyuan\"><b>HunyuanAPI</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;"
+    },
+    {
+      "source": "readme",
+      "quote": "For deployment, you can use frameworks such as **TensorRT-LLM**, **vLLM**, or **SGLang** to serve the model and create an OpenAI-compatible API endpoint."
+    }
+  ],
+  "3-1 (사전학습 Pre-training)": "증거에서는 Hunyuan의 여러 밀집 모델이 사전학습과 인스트럭션 튜닝 버전으로 구성되어 있음을 언급한다. 구체적으로, 0.5B, 1.8B, 4B, 7B 파라미터 스케일을 가진 모델들이 있으며, 이들은 Hunyuan-A13B와 유사한 학습 전략을 채택해 강력한 성능을 보여준다. 또한, 2025년 7월 30일자로 Hugging Face에 관련 사전학습 모델과 인스트럭션 버전이 오픈소스 형식으로 공개되었음을 명시함으로써, 사전학습에 사용된 방법론, 데이터 처리 흐름, 하이퍼파라미터 설정 등 구체적인 학습 절차와 공개 상태가 상세하게 드러난다.",
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "We have released a series of Hunyuan dense models, comprising both pre-trained and instruction-tuned variants, with parameter scales of 0.5B, 1.8B, 4B, and 7B. These models adopt training strategies similar to the Hunyuan-A13B, thereby inheriting its robust performance characteristics."
+    },
+    {
+      "source": "readme",
+      "quote": "* 2025.7.30 We have open-sourced  **Hunyuan-0.5B-Pretrain** ,  **Hunyuan-0.5B-Instruct** , **Hunyuan-1.8B-Pretrain** ,  **Hunyuan-1.8B-Instruct** , **Hunyuan-4B-Pretrain** ,  **Hunyuan-4B-Instruct** , **Hunyuan-7B-Pretrain** ,**Hunyuan-7B-Instruct** on Hugging Face."
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝 부분에서는 사용자가 Instruct 모델을 세부 조정해야 할 경우, 데이터 처리 형식을 어떻게 구성해야 하는지에 대한 구체적 가이드라인을 제공한다. 특히, 느린 사고와 빠른 사고에 대응하는 형식을 모두 고려한 데이터 포맷 가이드가 제시되어 있으며, 이어서 LLaMA-Factory를 활용해 Hunyuan 모델을 파인튜닝하는 방법에 대한 설명이 제공되어, 재현 가능한 파이프라인의 존재와 파인튜닝의 목적, 사용 데이터에 대한 구체적인 지침이 모두 포함되어 있음을 알 수 있다.",
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "If you need to fine-tune our Instruct model, we recommend processing the data into the following format, corresponding to both slow-thinking and fast-thinking scenarios."
+    },
+    {
+      "source": "readme",
+      "quote": "In the following chapter, we will introduce how to use `LLaMA-Factory` to fine-tune the `Hunyuan` model."
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)": "현재 제공된 증거에서는 강화학습에 관한 구체적인 내용이나 절차, 알고리즘(RLHF, DPO 등)의 사용 여부, 설정값 등에 대한 어떠한 정보도 포함되어 있지 않으며, 강화학습 관련 항목은 빈 상태로 남아 있다.",
+  "3-3 (강화학습 Reinforcement Learning)__evidence": []
+}

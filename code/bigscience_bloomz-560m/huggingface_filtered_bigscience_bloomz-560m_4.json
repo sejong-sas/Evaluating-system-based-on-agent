@@ -1,19 +1,19 @@
 {
-  "4-1 (사전학습 데이터 Pre-training Data)": "현재 사전학습 데이터에 관련하여 제공된 증거 인용구가 없어, 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식과 관련하여 구체적인 정보나 세부 사항을 확인할 수 없습니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)": "해당 항목에 관련한 증거 인용문이 제공되지 않아, 사전학습에 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식에 대한 세부적인 내용은 확인할 수 없습니다.",
   "4-1 (사전학습 데이터 Pre-training Data)__evidence": [],
-  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "제공된 증거 인용구에 따르면, 파인튜닝 데이터셋은 'bigscience/xP3'로 구체적으로 명시되어 있으며, 이 데이터셋은 다양한 언어와 작업을 포함하는 교차 언어(task mixture) 환경으로 구성되어 있습니다. 또한, BLOOM과 mT5와 같은 사전학습된 다국어 언어 모델들이 이 데이터셋을 사용하여 파인튜닝됨으로써, 결과 모델들이 기존에 보지 못한 작업과 언어에 대해 교차 언어 일반화 능력을 나타내게 된 것으로 확인됩니다. 이 과정은 파인튜닝 데이터셋의 구성과 선택이 모델의 다국어성과 일반화 성능을 향상시키는 데 중요한 역할을 함을 시사합니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "제공된 증거 인용문에 따르면, bigscience/xP3 데이터셋이 언급되며, BLOOM 및 mT5와 같은 다국어 사전학습 언어 모델들이 xP3라는 교차언어 작업 혼합 데이터셋을 사용하여 파인튜닝된 것이 확인됩니다. 이 파인튜닝 과정은 모델들로 하여금 이전에 경험하지 못한 작업 및 언어에 대해서도 교차언어 일반화 능력을 발휘하도록 하는 중요한 역할을 수행한 것으로 보입니다.",
   "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
     {
       "source": "readme",
-      "quote": "datasets:\n- bigscience/xP3"
+      "quote": "- bigscience/xP3"
     },
     {
       "source": "readme",
       "quote": "We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
     }
   ],
-  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "현재 강화학습 데이터셋과 관련하여 제공된 증거 인용구가 없으므로, 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식 등 구체적인 내용은 확인할 수 없습니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "해당 항목에 관련한 증거 인용문이 제공되지 않아, 강화학습에 사용된 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식 등에 대한 세부적인 내용은 확인할 수 없습니다.",
   "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
-  "4-4 (데이터 필터링 Data Filtering)": "현재 데이터 필터링에 관한 증거 인용구가 제공되지 않아, 사용된 필터링 기준, 정제 방법, 과정 및 그 영향에 대한 구체적인 정보가 명시되지 않은 상태입니다.",
+  "4-4 (데이터 필터링 Data Filtering)": "해당 항목에 관련한 증거 인용문이 제공되지 않아, 데이터 필터링 또는 정제 방법, 사용된 기준, 필터링 과정과 그 영향에 대한 구체적인 내용은 확인할 수 없습니다.",
   "4-4 (데이터 필터링 Data Filtering)__evidence": []
 }
