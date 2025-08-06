@@ -1,0 +1,50 @@
+{
+  "1-5 (아키텍처 Architecture)": "제공된 증거에 따르면, 이 모델의 아키텍처는 bloom-560m과 동일한 구조를 따르며, 모델의 세부 설정은 config.json 파일에 명시되어 있습니다. 특히 'architectures' 항목에서 'BloomForCausalLM'이라는 값이 지정되어 있어, 이 구조가 특정한 causal language modeling 방식임을 암시합니다. 이러한 정보는 레이어 수, 하이퍼파라미터 및 기타 구조적 특성 등 아키텍처 구성의 중요한 세부사항을 포함하고 있음을 시사합니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Architecture:** Same as [bloom-560m](https://huggingface.co/bigscience/bloom-560m), also refer to the `config.json` file"
+    },
+    {
+      "source": "config",
+      "quote": "\"architectures\": [\n    \"BloomForCausalLM\"\n  ]"
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)": "증거 문구에 따르면, 토크나이저는 AutoTokenizer.from_pretrained 함수를 통해 불러오며, 이는 미리 학습된 체크포인트(checkpoint)에서 토크나이저를 다운로드하거나 불러오는 방식을 사용함을 나타냅니다. 이 방식은 토크나이저의 이름, 구조 및 다운로드 가능 여부와 관련된 모든 세부 정보를 암시하는 것으로, 모델 입력 처리를 위한 필수 구성 요소임을 보여줍니다.",
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)": "하드웨어 구성에 관한 증거는 모델 훈련에 있어 매우 구체적인 계산 자원 구성내역을 제공합니다. 각 노드에는 512GB 메모리를 갖춘 AMD CPU가 사용되며, 총 64개의 A100 80GB GPU가 8개 노드에 걸쳐 배치되어 있습니다. 각 노드에는 8개의 GPU가 있으며, GPU 간 연결은 NVLink 4와 4개의 OmniPath 링크를 통해 고속으로 연결되어 있어, 모델 훈련에 필요한 대규모 병렬 처리와 효율적인 데이터 통신을 보장합니다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **CPUs:** AMD CPUs with 512GB memory per node"
+    },
+    {
+      "source": "readme",
+      "quote": "- **GPUs:** 64 A100 80GB GPUs with 8 GPUs per node (8 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
+    }
+  ],
+  "2-2 (소프트웨어 Software)": "소프트웨어 구성은 다양한 오픈 소스 프레임워크와 라이브러리들을 사용하여 모델 훈련 및 병렬 처리를 진행하는 복합적인 환경을 반영합니다. 구체적으로, Megatron-DeepSpeed를 통한 오케스트레이션, DeepSpeed를 이용한 최적화 및 병렬 처리, PyTorch (특히 pytorch-1.11과 CUDA-11.5 환경)를 통한 신경망 구성, 그리고 FP16 연산 최적화를 위한 NVIDIA apex가 결합되어 전체 훈련 파이프라인의 효율성을 극대화합니다.",
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Orchestration:** [Megatron-DeepSpeed](https://github.com/bigscience-workshop/Megatron-DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Optimizer & parallelism:** [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch) (pytorch-1.11 w/ CUDA-11.5)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **FP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ]
+}

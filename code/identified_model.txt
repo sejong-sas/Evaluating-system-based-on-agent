@@ -1,1 +1,1 @@
-deepseek-ai/deepseek-r1-distill-qwen-1.5b
+bigscience/bloomz-560m

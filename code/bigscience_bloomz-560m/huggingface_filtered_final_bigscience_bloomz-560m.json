@@ -1,0 +1,122 @@
+{
+  "1-1 (가중치 Weights)": "Evidence shows that two files, 'model.safetensors' and 'pytorch_model.bin', are provided as the model weights. These filenames indicate that the weights are available in both a safe tensor format and a binary format commonly used in PyTorch, suggesting that users can download and use these weight files to load the model.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "files",
+      "quote": "model.safetensors"
+    },
+    {
+      "source": "files",
+      "quote": "pytorch_model.bin"
+    }
+  ],
+  "1-2 (코드 Code)": "The provided code snippet demonstrates the use of the transformers library to load and run the model: it begins with installing the library, retrieves a tokenizer and model from the checkpoint 'bigscience/bloomz-560m', encodes a sample input, runs generation, and decodes the output. This code offers a clear template for model inference and indicates that the training and generation processes are supported, with explicit instructions for instantiation and execution.",
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))"
+    }
+  ],
+  "1-3 (라이선스 License)": "The evidence for licensing is provided in a concise statement: 'license: bigscience-bloom-rail-1.0'. This shows that a specific license has been assigned to the model, which explicitly communicates the permissions relating to usage, modification, redistribution, and potentially commercial applications under the 'bigscience-bloom-rail-1.0' license.",
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "readme",
+      "quote": "license: bigscience-bloom-rail-1.0"
+    }
+  ],
+  "1-4 (논문 Paper)": "The documentation includes a reference to an official paper: '- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)'. This evidence indicates that there is comprehensive documentation available—likely including conceptual and experimental details—linking the model to its underlying research and providing further insights into its design and performance through a published paper.",
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)"
+    }
+  ],
+  "1-5 (아키텍처 Architecture)": "제공된 증거에 따르면, 이 모델의 아키텍처는 bloom-560m과 동일한 구조를 따르며, 모델의 세부 설정은 config.json 파일에 명시되어 있습니다. 특히 'architectures' 항목에서 'BloomForCausalLM'이라는 값이 지정되어 있어, 이 구조가 특정한 causal language modeling 방식임을 암시합니다. 이러한 정보는 레이어 수, 하이퍼파라미터 및 기타 구조적 특성 등 아키텍처 구성의 중요한 세부사항을 포함하고 있음을 시사합니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Architecture:** Same as [bloom-560m](https://huggingface.co/bigscience/bloom-560m), also refer to the `config.json` file"
+    },
+    {
+      "source": "config",
+      "quote": "\"architectures\": [\n    \"BloomForCausalLM\"\n  ]"
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)": "증거 문구에 따르면, 토크나이저는 AutoTokenizer.from_pretrained 함수를 통해 불러오며, 이는 미리 학습된 체크포인트(checkpoint)에서 토크나이저를 다운로드하거나 불러오는 방식을 사용함을 나타냅니다. 이 방식은 토크나이저의 이름, 구조 및 다운로드 가능 여부와 관련된 모든 세부 정보를 암시하는 것으로, 모델 입력 처리를 위한 필수 구성 요소임을 보여줍니다.",
+  "1-6 (토크나이저 Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    }
+  ],
+  "2-1 (하드웨어 Hardware)": "하드웨어 구성에 관한 증거는 모델 훈련에 있어 매우 구체적인 계산 자원 구성내역을 제공합니다. 각 노드에는 512GB 메모리를 갖춘 AMD CPU가 사용되며, 총 64개의 A100 80GB GPU가 8개 노드에 걸쳐 배치되어 있습니다. 각 노드에는 8개의 GPU가 있으며, GPU 간 연결은 NVLink 4와 4개의 OmniPath 링크를 통해 고속으로 연결되어 있어, 모델 훈련에 필요한 대규모 병렬 처리와 효율적인 데이터 통신을 보장합니다.",
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **CPUs:** AMD CPUs with 512GB memory per node"
+    },
+    {
+      "source": "readme",
+      "quote": "- **GPUs:** 64 A100 80GB GPUs with 8 GPUs per node (8 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
+    }
+  ],
+  "2-2 (소프트웨어 Software)": "소프트웨어 구성은 다양한 오픈 소스 프레임워크와 라이브러리들을 사용하여 모델 훈련 및 병렬 처리를 진행하는 복합적인 환경을 반영합니다. 구체적으로, Megatron-DeepSpeed를 통한 오케스트레이션, DeepSpeed를 이용한 최적화 및 병렬 처리, PyTorch (특히 pytorch-1.11과 CUDA-11.5 환경)를 통한 신경망 구성, 그리고 FP16 연산 최적화를 위한 NVIDIA apex가 결합되어 전체 훈련 파이프라인의 효율성을 극대화합니다.",
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Orchestration:** [Megatron-DeepSpeed](https://github.com/bigscience-workshop/Megatron-DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Optimizer & parallelism:** [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch) (pytorch-1.11 w/ CUDA-11.5)"
+    },
+    {
+      "source": "readme",
+      "quote": "- **FP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ],
+  "2-3 (API)": "주어진 증거는 모델이 사용 가능한 API의 구체적인 예시와 문서화를 보여줍니다. 제공된 파이썬 코드 스니펫은 transformers 라이브러리를 이용하여 'bigscience/bloomz-560m' 체크포인트로부터 AutoTokenizer와 AutoModelForCausalLM을 불러오고, 토큰화를 수행한 후 생성 결과를 출력하는 과정을 제시합니다. 이 예제는 API 사용을 위한 설치 명령어(pip install)와 함께, API 접근 및 활용 방법에 대한 문서 링크 및 사용 예제를 포함한 내용을 자세히 설명합니다.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "### CPU\n\n<details>\n<summary> Click to expand </summary>\n\n```python\n# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))\n```\n\n</details>"
+    }
+  ],
+  "3-1 (사전학습 Pre-training)": "증거는 사전학습과 관련된 언어 및 데이터 설정의 상세 정보를 제공하고 있습니다. 특히, 사전학습에 사용된 방법론과 데이터 흐름의 일부로서, Hugging Face의 'bloom' 체크포인트와 'xP3' 데이터셋에 대한 참조가 포함되어 있습니다. 이 정보는 사전학습에 사용된 언어 및 데이터 분포에 대한 이해를 돕고, 사전학습 과정에서 사용된 방법론과 데이터가 어떻게 선택되었는지를 명확하게 보여줍니다.",
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Languages:** Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions. It understands both pretraining & finetuning languages."
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝에 대해서는 구체적인 트레이닝 단계와 관련된 수치들이 증거로 제공되고 있습니다. 총 1750 스텝 동안 3.67억 토큰이 사용되었으며, 파인튜닝 과정은 1x 파이프라인 병렬, 1x 텐서 병렬, 1x 데이터 병렬로 구성된 파이프라인을 통해 수행되었습니다. 또한, float16 정밀도를 사용하였음을 명시하여 파인튜닝의 계산 세부사항과 설정값에 대해 구체적으로 설명하고 있습니다.",
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "## Training\n\n## Model\n\n- **Finetuning steps:** 1750\n- **Finetuning tokens:** 3.67 billion\n- **Finetuning layout:** 1x pipeline parallel, 1x tensor parallel, 1x data parallel\n- **Precision:** float16"
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)": "주어진 증거에 강화학습 알고리즘(RLHF, DPO 등) 또는 관련 절차, 설정값에 대한 구체적인 내용은 포함되어 있지 않습니다. 이 항목에 대한 추가적인 정보나 세부사항은 제공되지 않았습니다.",
+  "3-3 (강화학습 Reinforcement Learning)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "현재 사전학습 데이터에 관련하여 제공된 증거 인용구가 없어, 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식과 관련하여 구체적인 정보나 세부 사항을 확인할 수 없습니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "제공된 증거 인용구에 따르면, 파인튜닝 데이터셋은 'bigscience/xP3'로 구체적으로 명시되어 있으며, 이 데이터셋은 다양한 언어와 작업을 포함하는 교차 언어(task mixture) 환경으로 구성되어 있습니다. 또한, BLOOM과 mT5와 같은 사전학습된 다국어 언어 모델들이 이 데이터셋을 사용하여 파인튜닝됨으로써, 결과 모델들이 기존에 보지 못한 작업과 언어에 대해 교차 언어 일반화 능력을 나타내게 된 것으로 확인됩니다. 이 과정은 파인튜닝 데이터셋의 구성과 선택이 모델의 다국어성과 일반화 성능을 향상시키는 데 중요한 역할을 함을 시사합니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "readme",
+      "quote": "datasets:\n- bigscience/xP3"
+    },
+    {
+      "source": "readme",
+      "quote": "We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    }
+  ],
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "현재 강화학습 데이터셋과 관련하여 제공된 증거 인용구가 없으므로, 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식 등 구체적인 내용은 확인할 수 없습니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
+  "4-4 (데이터 필터링 Data Filtering)": "현재 데이터 필터링에 관한 증거 인용구가 제공되지 않아, 사용된 필터링 기준, 정제 방법, 과정 및 그 영향에 대한 구체적인 정보가 명시되지 않은 상태입니다.",
+  "4-4 (데이터 필터링 Data Filtering)__evidence": []
+}

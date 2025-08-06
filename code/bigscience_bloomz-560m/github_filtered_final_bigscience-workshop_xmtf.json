@@ -1,0 +1,126 @@
+{
+  "1-1 (가중치 Weights)": "제공된 인용문에 따르면, 모델의 가중치는 사전 학습된 체크포인트 형태로 공개되어 있으며, 다운로드 링크를 통해 접근할 수 있습니다. 체크포인트는 모델이 PP=12, TP=4, DP=4의 설정으로 구성되어 있음을 명시하고 있습니다. 또한, 사용자가 모델의 형태를 변경하거나 재구성하려는 경우를 대비하여 별도의 'universal checkpoint'도 제공되고 있어, 두 가지 유형의 가중치 파일이 존재하며 각각의 목적에 따라 활용할 수 있음을 알 수 있습니다.",
+  "1-2 (코드 Code)": "코드 관련 인용문에서는 훈련 및 추론을 위한 코드가 GitHub 레포지토리에서 제공되고 있음을 설명하고 있습니다. 구체적으로, 't0loading' 브랜치를 클론하여 필요한 환경을 구축하는 방법이 명시되어 있으며, 제공된 setup guide를 통해 필요한 패키지와 설정이 구성됩니다. 또한, 'create_xp3x.py'라는 스크립트 파일이 포함되어 있어, 이 파일 역시 코드의 구성 요소 중 하나로 사용자의 작업 환경에서 중요한 역할을 할 것으로 보입니다.",
+  "1-3 (라이선스 License)": "라이선스 관련 인용문은 코드와 모델이 Apache License Version 2.0 (2004년 1월 버전)에 따라 배포되고 있음을 명확히 하고 있습니다. 또한, 'LICENSE.md' 파일을 통해 라이선스의 구체적인 조건과 사용자에게 부여되는 권한이 상세히 명시되어 있음을 알 수 있습니다. 이는 오픈 소스 소프트웨어의 투명한 배포 및 사용 조건을 충실히 반영하는 조치입니다.",
+  "1-4 (논문 Paper)": "논문 관련 인용문에서는 이 저장소가 BLOOMZ, mT0, 그리고 xP3 모델의 구성 요소들을 포함하는 전반적인 개요를 제공하며, 이는 'Crosslingual Generalization through Multitask Finetuning'이라는 제목의 논문과 연계되어 있습니다. 논문 링크를 통해 해당 연구의 세부 내용을 확인할 수 있을 뿐 아니라, 'plotstables/XMTF_ACL2023_POSTER.pdf' 파일을 통해 추가적인 시각적 자료나 연구 결과를 제공하고 있어, 전체 프로젝트의 이론적 배경 및 구체적 구현 내용을 이해하는 데 도움이 될 수 있습니다.",
+  "1-1 (가중치 Weights)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Download the pretrained model [checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states), which is of shape PP=12, TP=4, DP=4. If you'd like to reshape the model you will also need to download [the universal checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states/tree/global_step95000_universal)."
+    }
+  ],
+  "1-2 (코드 Code)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Setup the training code: `git clone -b t0loading https://github.com/bigscience-workshop/Megatron-DeepSpeed` & follow its [setup guide](https://github.com/bigscience-workshop/Megatron-DeepSpeed/tree/t0loading#get-started-fast) to create an environment with necessary packages."
+    },
+    {
+      "source": "files",
+      "quote": "create_xp3x.py"
+    }
+  ],
+  "1-3 (라이선스 License)__evidence": [
+    {
+      "source": "license_files",
+      "quote": "Apache License\n                           Version 2.0, January 2004"
+    },
+    {
+      "source": "files",
+      "quote": "LICENSE.md"
+    }
+  ],
+  "1-4 (논문 Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "This repository provides an overview of all components used for the creation of BLOOMZ & mT0 and xP3 introduced in the paper [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)."
+    },
+    {
+      "source": "files",
+      "quote": "plotstables/XMTF_ACL2023_POSTER.pdf"
+    }
+  ],
+  "1-5 (아키텍처 Architecture)": "제공된 정보에 따르면, 모델 아키텍처와 관련하여 두 가지 주요 사전 학습(checkpoint) 상태가 제공됩니다. 첫 번째 checkpoint는 PP=12, TP=4, DP=4의 형태를 가지며, 모델을 재구성(reshape)하려는 경우에는 추가로 universal checkpoint를 다운로드할 필요가 있습니다. 또한, 만약 파인튜닝(finetuning)을 계속 진행하고자 할 경우, PP=72, TP=1, DP=4 형태의 finetuned checkpoint를 사용하도록 안내하고 있어, 모델의 병렬 처리 구조 세부사항과 checkpoint에 따른 설정이 명시되고 있습니다.",
+  "1-6 (토크나이저 Tokenizer)": "제공된 quote에는 토크나이저의 종류나 공개 여부에 대한 구체적인 설명이 포함되어 있지 않습니다.",
+  "2-1 (하드웨어 Hardware)": "훈련 하드웨어 관련로는, 스크립트 내에서 수정해야 할 중요한 부분들이 자세히 설명되어 있습니다. 예를 들어, SLURM을 활용한 작업 스케줄링 변수(#SBATCH 변수: nodes, gpus, time 등)와, Megatron-DeepSpeed를 기반으로 하는 conda 환경 설정을 위한 경로 수정, 그리고 TRAIN_DATA_PATH와 VALID_DATA_PATH와 같이 데이터 파일들의 경로 지정에 관한 내용이 포함되어 있습니다. 또한, PP_SIZE, TP_SIZE, 배치 사이즈 등의 하드웨어 레이아웃 관련 파라미터가 명시되어 있으며, 이를 변경할 경우 모델을 재구성해야 하므로 universal checkpoint와 --universal 플래그를 사용하여 새로운 체크포인트를 저장한 후 지속적인 훈련이 권장된다는 점, 그리고 저장된 체크포인트에서 재시작할 때 불필요한 옵티마이저 관련 플래그 제거에 관한 주의사항도 함께 제공되고 있습니다.",
+  "2-2 (소프트웨어 Software)": "소프트웨어 세팅에서는 Megatron-DeepSpeed의 t0loading 브랜치를 git clone하여 다운로드하고, 제공된 setup guide를 따라 필수 패키지들이 포함된 환경을 구축하는 과정이 설명됩니다. 이어서, 파인튜닝과 관련해서는 mT5 사전 학습 모델과 xP3 데이터셋을 활용하는 구체적인 지침이 제공되어, 훈련 코드의 초기 설정 및 파인튜닝 수행에 필요한 소프트웨어 구성 요소와 버전에 대한 정보를 확인할 수 있습니다.",
+  "1-5 (아키텍처 Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "1. Download the pretrained model [checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states), which is of shape PP=12, TP=4, DP=4. If you'd like to reshape the model you will also need to download [the universal checkpoint](https://huggingface.co/bigscience/bloom-optimizer-states/tree/global_step95000_universal). If you want to continue finetuning, you should use [our finetuned checkpoint](https://huggingface.co/bigscience/bloomz-optimizer-states), which is of shape PP=72, TP=1, DP=4."
+    }
+  ],
+  "1-6 (토크나이저 Tokenizer)__evidence": [],
+  "2-1 (하드웨어 Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Important parts of the script to modify are:\n- `#SBATCH` variables, such as nodes, gpus, time, etc. - Our SLURM guide is [here](https://github.com/bigscience-workshop/bigscience/tree/master/jz/slurm#slurm-how-to)\n- `source $six_ALL_CCFRWORK/start-tr13f-6B3-ml-t0` to point to your own conda environment setup via Megatron-DeepSpeed\n- PATH environment variables, notably\n    - `TRAIN_DATA_PATH` & `VALID_DATA_PATH`, which point to files pointing to your processed training and validation data. We provide our files in this repository (`xp3capmixnewcodelong_train.txt` & `xp3capmixnewcodelong_validation.txt`), but you will likely want to change the paths inside. The percentages per language are based on how much each language makes up in xP3 with code being slightly upsampled.\n- PP_SIZE=72, TP_SIZE=1 & BATCH SIZE & co specifying the layout. This will depend on the hardware available to you. If you change, you may have to reshape the model. For reshaping you need to use the universal checkpoint and use the `--universal` flag in the script. We recommend saving a new checkpoint right after & then continuing training without `--universal`, which will be faster.\n- If you want to restart from a saved checkpoint (e.g. after training a few steps like above), make sure to remove the `--no-load-optim` & `--reset-progress` flags"
+    }
+  ],
+  "2-2 (소프트웨어 Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Setup the training code: `git clone -b t0loading https://github.com/bigscience-workshop/Megatron-DeepSpeed` & follow its [setup guide](https://github.com/bigscience-workshop/Megatron-DeepSpeed/tree/t0loading#get-started-fast) to create an environment with necessary packages."
+    },
+    {
+      "source": "readme",
+      "quote": "Follow the finetuning instructions [here](https://github.com/google-research/t5x/blob/main/docs/usage/finetune.md) making sure to use pretrained mT5 models & the xP3 dataset."
+    }
+  ],
+  "2-3 (API)": "현재 API 관련 정보나 문서, 사용 예제에 대한 구체적인 언급이 없습니다. 이 항목은 모델의 API 존재 여부, 문서 제공 및 사용 방식을 다루지만, 제공된 인용문에는 관련 세부사항이나 사례가 포함되어 있지 않아 추가적인 정보가 필요합니다.",
+  "3-1 (사전학습 Pre-training)": "이 항목에서는 원본 사전학습 체크포인트에 대한 언급이 있습니다. 구체적으로 'Not recommended'라는 문구를 통해 제시된 체크포인트의 사용이 권장되지 않는다는 부정적인 평가가 포함되어 있습니다. 이는 사전학습 과정에서 사용된 체크포인트가 최신 방법론이나 개선된 기술에 비해 적합하지 않을 수 있음을 시사하며, 하이퍼파라미터나 학습 방법에 대한 심층적인 정보는 부족하지만, 기본적인 사전학습 자료의 신뢰성 및 업데이트 필요성을 반영합니다.",
+  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝 관련 항목에서는 구체적인 파인튜닝 방법과 파이프라인에 대한 설명이 제공됩니다. 제공된 인용문에 따르면, SLURM 스크립트를 활용하여 트레이닝 스크립트를 설정하고 실행하는 과정이 상세히 언급되어 있습니다. 특히, 'xp3capmixnewcodelonglossseq'로 명명된 스크립트를 이용하여 모델을 파인튜닝하는 과정이 소개되며, 예시로 bloomz 모델을 학습시킬 때 사용된 스크립트의 링크가 제공되어 있습니다. 이는 파인튜닝 파이프라인이 체계적이며, 분산환경에서의 학습을 위해 SLURM과 같은 스케줄러를 활용하는 방식임을 보여줍니다.",
+  "3-3 (강화학습 Reinforcement Learning)": "강화학습 항목과 관련하여 RLHF/DPO 등 구체적인 강화학습 기법에 대한 설명이나 사례가 제공되지 않았습니다. 이 항목은 강화학습 방법들을 다루도록 설계되었지만, 현재 인용문에는 관련 내용이 포함되어 있지 않아 추가 정보의 부족함을 나타냅니다.",
+  "2-3 (API)__evidence": [],
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Original pretrained checkpoints. Not recommended."
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Setup & run the training script: We use SLURM scripts available at [bigscience-workshop/bigscience/train/tr13-mtf] and referred to as `xp3capmixnewcodelonglossseq`. E.g. [this is the script launched to train bloomz](https://github.com/bigscience-workshop/bigscience/blob/master/train/tr13-mtf/tr13-176B-mtf-xp3capmixnewcodelonglossseq.slurm)."
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)__evidence": [],
+  "4-1 (사전학습 데이터 Pre-training Data)": "이 항목은 사전학습에 사용된 데이터의 종류와 출처를 나타내며, 제공된 quote에서는 'xp3capmixnewcodelong_validation_pretr.txt' 파일 하나가 언급되고 있습니다. 이 파일은 사전학습 데이터로서 검증 과정에 사용되었을 가능성이 있으며, 데이터의 형식이나 범위에 대한 구체적인 사항보다는 파일 이름을 통해 해당 데이터셋의 일부임을 알 수 있습니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터 항목은 여러 출처와 구성 요소를 포괄하고 있으며, 다중 태스크(finetching) 방식으로 구성된 데이터셋들을 설명하고 있습니다. 첫 번째와 두 번째 quote는 각각 영어와 비영어 프롬프트에 대해 최적화된 Hugging Face의 'xP3' 및 'xP3mt' 데이터셋에 기반한 멀티태스크 파인튜닝 데이터를 언급합니다. 세 번째 quote에서는 또 다른 멀티태스크 파인튜닝 데이터셋인 'P3'를 소개하며, 이는 연구 목적으로만 공개되었고 앞서 언급된 모델들과 비교하여 성능상 제한이 있을 수 있음을 암시합니다. 추가적으로 'xp3capmixnewcodelong_train.txt'와 'xp3capmixnewcodelong_validation.txt' 파일이 포함되어 있는 것으로 보아, 이 데이터셋은 학습과 검증을 위한 구체적인 텍스트 파일 구성을 갖추고 있음을 알 수 있습니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "이 항목에서는 강화학습을 위한 데이터가 제공되지 않았으며, quote에서 빈 배열이 나타납니다. 즉, 현재 문서에서는 강화학습 데이터의 구성이나 출처에 대한 정보가 포함되어 있지 않으며, 추후 추가될 가능성이나 별도의 데이터셋이 존재하지 않음을 알 수 있습니다.",
+  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링 항목은 모델 훈련 과정에서 불필요하거나 부적절한 프롬프트를 걸러내기 위한 기준과 과정을 상세하게 기술하고 있습니다. 제공된 quote는 'SKIP_PROMPTS'라는 변수에 여러 데이터셋에 대해 특정 테스트 조건이나 프롬프트 유형을 배제하기 위한 규칙들을 포함한 딕셔너리 형식의 설정 값을 보여줍니다. 예를 들어 'common_gen', 'piqa', 'qasc', 'imdb', 'glue/qqp', 'super_glue/record'와 같은 데이터셋에서는 'test' 분할에 대해 모든 항목이 스킵 처리되고 있으며, 'kilt_tasks/hotpotqa' 또한 같은 방식으로 처리됩니다. 또 'cosmos_qa'의 경우는 다양한 텍스트 구성 요소(예: 설명, 질문, 답변 등)의 특정 조합에 대해 필터링이 적용되며, 'clue/tnews'와 'clue/csl'에서는 전체 테스트 데이터를 대상으로 적용됩니다. 추가로 'clue/cmrc2018'과 'clue/drcd'에서는 'generate_question', 'in_an_exam', 'answer_in_the_passage', 'answer_following_question', 'xp3longcontinue'와 같은 다양한 프롬프트 유형에 대해 필터링 규칙이 설정되어 있습니다. 마지막으로 'hellaswag' 데이터셋의 경우, 프롬프트 템플릿이 다양하게 지정되어 있으며, 이는 문맥 및 이어지는 내용의 일관성을 보장하기 위한 복합적인 규칙 집합을 나타냅니다. 전반적으로 이 구성은 데이터셋별로 세밀한 필터링 조건과 절차를 통해 최종 입력 데이터의 품질을 유지하려는 노력을 반영합니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_validation_pretr.txt"
+    }
+  ],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/bigscience/xP3>xP3</a>. Recommended for prompting in English."
+    },
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/bigscience/xP3mt>xP3mt</a>. Recommended for prompting in non-English."
+    },
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/Muennighoff/P3>P3</a>. Released for research purposes only. Strictly inferior to above models!"
+    },
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_train.txt"
+    },
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_validation.txt"
+    }
+  ],
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
+  "4-4 (데이터 필터링 Data Filtering)__evidence": [
+    {
+      "source": "py_files/create_xp3x.py",
+      "quote": "SKIP_PROMPTS = {\n    \"common_gen\": {\"test\": [\"all\"]},\n    \"piqa\": {\"test\": [\"all\"]},\n    \"qasc\": {\"test\": [\"all\"]},\n    \"imdb\": {\"unsupervised\": [\"all\"]},\n    \"glue/qqp\": {\"test\": [\"all\"]},\n    \"super_glue/record\": {\"test\": [\"all\"]},\n    \"qasc\": {\"test\": [\"all\"]},\n    'kilt_tasks/hotpotqa': {\"test\": [\"all\"]},\n    \"cosmos_qa\": {\"test\": [\n        \"description_context_question_answer_text\", \n        \"description_context_question_text\",\n        \"description_context_question_answer_id\",\n        \"context_answer_to_question\",\n        \"context_description_question_answer_text\",\n        \"context_description_question_answer_id\",\n        \"context_question_description_answer_id\",\n        \"context_description_question_text\",\n        \"context_question_description_answer_text\",\n        \"only_question_answer\",\n        \"no_prompt_id\",\n        \"context_question_description_text\",\n        \"no_prompt_text\"\n    ]},\n    \"clue/tnews\": {\"test\": [\"all\"]},\n    \"clue/csl\": {\"test\": [\"all\"]},\n    \"clue/cmrc2018\": {\"test\": [\"generate_question\", \"in_an_exam\", \"answer_in_the_passage\", \"answer_following_question\", \"xp3longcontinue\"]},\n    \"clue/drcd\": {\"test\": [\"generate_question\", \"in_an_exam\", \"answer_in_the_passage\", \"answer_following_question\", \"xp3longcontinue\"]},\n    \"hellaswag\": {\"test\": [\n        \"complete_first_then\", \"Topic of the context\", \"Open-ended completion\", \"Randomized prompts template\", \"Appropriate continuation - Yes or No\", \"Predict ending with hint\", \"Open-ended start\", \"Reversed appropriate continuation - Yes or No\", \"how_ends\", \"if_begins_how_continues\"\n    ]}\n}"
+    }
+  ]
+}

@@ -2,8 +2,9 @@ from typing import Dict, Any
 import requests
 import json
 import os
+from pathlib import Path
 
-def huggingface_fetcher(model_id: str, save_to_file: bool = True) -> Dict[str, Any]:
+def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base_api = f"https://huggingface.co/api/models/{model_id}?full=true"
     resp = requests.get(base_api)
     resp.raise_for_status()
@@ -53,7 +54,9 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True) -> Dict[str, A
     # 5) JSON 저장
     if save_to_file:
         filename_safe = model_id.replace("/", "_")
-        output_path = f"huggingface_{filename_safe}.json"
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)         # ★ 폴더 생성
+        output_path = output_dir / f"huggingface_{filename_safe}.json"
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=4, ensure_ascii=False)
         print(f"✅ JSON 파일 저장 완료: {output_path}")

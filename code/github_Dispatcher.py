@@ -8,6 +8,7 @@ import os, json, re
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 # ────────────────── 환경 ──────────────────
 load_dotenv()
@@ -211,12 +212,19 @@ def _merge_all(lst: List[Dict[str, Any]]) -> Dict[str, Any]:
     return m
 
 # ───────────── 외부 함수 ─────────────
-def filter_github_features(model: str, save: bool = True) -> Dict[str, Any]:
+def filter_github_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base = model.replace("/", "_")
-    path = f"github_{base}.json"
-    if not os.path.exists(path):
-        raise FileNotFoundError(path)
-    gh = json.load(open(path, encoding="utf-8"))
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    path = output_dir / f"github_{base}.json"              # ★ 입력 우선 outdir
+    if not path.exists():
+        alt = Path(f"github_{base}.json")                  # 루트 폴백
+        if not alt.exists():
+            raise FileNotFoundError(str(path))
+        gh = json.load(open(alt, encoding="utf-8"))
+    else:
+        gh = json.load(open(path, encoding="utf-8"))
 
     parts = []
     for idx, grp in enumerate(ITEM_GROUPS, 1):
@@ -229,21 +237,18 @@ def filter_github_features(model: str, save: bool = True) -> Dict[str, Any]:
         except Exception as e:
             print(f"⚠️ 그룹 {idx} 처리 오류:", e)
             part = {}
-        out = f"github_filtered_{base}_{idx}.json"
+        out = output_dir / f"github_filtered_{base}_{idx}.json"     # ★ 저장 outdir
         if save:
-            json.dump(part, open(out,"w",encoding="utf-8"),
-                      ensure_ascii=False, indent=2)
+            json.dump(part, open(out,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
             print("✅ 그룹", idx, "결과 저장:", out)
         parts.append(part)
 
     merged = _merge_all(parts)
     if save:
-        mpath = f"github_filtered_final_{base}.json"
-        json.dump(merged, open(mpath,"w",encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
+        mpath = output_dir / f"github_filtered_final_{base}.json"   # ★
+        json.dump(merged, open(mpath,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ 최종 병합 결과 저장:", mpath)
     return merged
-
 # ───────────── CLI ─────────────
 if __name__ == "__main__":
     import sys

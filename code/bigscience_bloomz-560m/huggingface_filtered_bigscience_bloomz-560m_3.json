@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "주어진 증거는 모델이 사용 가능한 API의 구체적인 예시와 문서화를 보여줍니다. 제공된 파이썬 코드 스니펫은 transformers 라이브러리를 이용하여 'bigscience/bloomz-560m' 체크포인트로부터 AutoTokenizer와 AutoModelForCausalLM을 불러오고, 토큰화를 수행한 후 생성 결과를 출력하는 과정을 제시합니다. 이 예제는 API 사용을 위한 설치 명령어(pip install)와 함께, API 접근 및 활용 방법에 대한 문서 링크 및 사용 예제를 포함한 내용을 자세히 설명합니다.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "### CPU\n\n<details>\n<summary> Click to expand </summary>\n\n```python\n# pip install -q transformers\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\ncheckpoint = \"bigscience/bloomz-560m\"\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)\nmodel = AutoModelForCausalLM.from_pretrained(checkpoint)\n\ninputs = tokenizer.encode(\"Translate to English: Je t’aime.\", return_tensors=\"pt\")\noutputs = model.generate(inputs)\nprint(tokenizer.decode(outputs[0]))\n```\n\n</details>"
+    }
+  ],
+  "3-1 (사전학습 Pre-training)": "증거는 사전학습과 관련된 언어 및 데이터 설정의 상세 정보를 제공하고 있습니다. 특히, 사전학습에 사용된 방법론과 데이터 흐름의 일부로서, Hugging Face의 'bloom' 체크포인트와 'xP3' 데이터셋에 대한 참조가 포함되어 있습니다. 이 정보는 사전학습에 사용된 언어 및 데이터 분포에 대한 이해를 돕고, 사전학습 과정에서 사용된 방법론과 데이터가 어떻게 선택되었는지를 명확하게 보여줍니다.",
+  "3-1 (사전학습 Pre-training)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Languages:** Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions. It understands both pretraining & finetuning languages."
+    }
+  ],
+  "3-2 (파인튜닝 Fine-tuning)": "파인튜닝에 대해서는 구체적인 트레이닝 단계와 관련된 수치들이 증거로 제공되고 있습니다. 총 1750 스텝 동안 3.67억 토큰이 사용되었으며, 파인튜닝 과정은 1x 파이프라인 병렬, 1x 텐서 병렬, 1x 데이터 병렬로 구성된 파이프라인을 통해 수행되었습니다. 또한, float16 정밀도를 사용하였음을 명시하여 파인튜닝의 계산 세부사항과 설정값에 대해 구체적으로 설명하고 있습니다.",
+  "3-2 (파인튜닝 Fine-tuning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "## Training\n\n## Model\n\n- **Finetuning steps:** 1750\n- **Finetuning tokens:** 3.67 billion\n- **Finetuning layout:** 1x pipeline parallel, 1x tensor parallel, 1x data parallel\n- **Precision:** float16"
+    }
+  ],
+  "3-3 (강화학습 Reinforcement Learning)": "주어진 증거에 강화학습 알고리즘(RLHF, DPO 등) 또는 관련 절차, 설정값에 대한 구체적인 내용은 포함되어 있지 않습니다. 이 항목에 대한 추가적인 정보나 세부사항은 제공되지 않았습니다.",
+  "3-3 (강화학습 Reinforcement Learning)__evidence": []
+}

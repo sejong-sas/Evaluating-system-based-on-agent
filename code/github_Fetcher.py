@@ -1,11 +1,13 @@
 from typing import Dict, Any
 import requests
 import json
+from pathlib import Path
 
 def github_fetcher(repo_full_name: str,
                    branch: str = "main",
                    token: str = None,
-                   save_to_file: bool = True) -> Dict[str, Any]:
+                   save_to_file: bool = True,
+                   output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     Fetches from a GitHub repo:
       - files: 모든 파일 경로 리스트
@@ -55,11 +57,12 @@ def github_fetcher(repo_full_name: str,
     # 6) 파일 저장
     if save_to_file:
         filename_safe = repo_full_name.replace("/", "_")
-        output_path = f"github_{filename_safe}.json"
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / f"github_{filename_safe}.json"   # ★
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=4, ensure_ascii=False)
         print(f"✅ GitHub JSON 파일 저장 완료: {output_path}")
-
     return result
 
 

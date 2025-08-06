@@ -1,0 +1,41 @@
+{
+  "4-1 (사전학습 데이터 Pre-training Data)": "이 항목은 사전학습에 사용된 데이터의 종류와 출처를 나타내며, 제공된 quote에서는 'xp3capmixnewcodelong_validation_pretr.txt' 파일 하나가 언급되고 있습니다. 이 파일은 사전학습 데이터로서 검증 과정에 사용되었을 가능성이 있으며, 데이터의 형식이나 범위에 대한 구체적인 사항보다는 파일 이름을 통해 해당 데이터셋의 일부임을 알 수 있습니다.",
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)": "파인튜닝 데이터 항목은 여러 출처와 구성 요소를 포괄하고 있으며, 다중 태스크(finetching) 방식으로 구성된 데이터셋들을 설명하고 있습니다. 첫 번째와 두 번째 quote는 각각 영어와 비영어 프롬프트에 대해 최적화된 Hugging Face의 'xP3' 및 'xP3mt' 데이터셋에 기반한 멀티태스크 파인튜닝 데이터를 언급합니다. 세 번째 quote에서는 또 다른 멀티태스크 파인튜닝 데이터셋인 'P3'를 소개하며, 이는 연구 목적으로만 공개되었고 앞서 언급된 모델들과 비교하여 성능상 제한이 있을 수 있음을 암시합니다. 추가적으로 'xp3capmixnewcodelong_train.txt'와 'xp3capmixnewcodelong_validation.txt' 파일이 포함되어 있는 것으로 보아, 이 데이터셋은 학습과 검증을 위한 구체적인 텍스트 파일 구성을 갖추고 있음을 알 수 있습니다.",
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)": "이 항목에서는 강화학습을 위한 데이터가 제공되지 않았으며, quote에서 빈 배열이 나타납니다. 즉, 현재 문서에서는 강화학습 데이터의 구성이나 출처에 대한 정보가 포함되어 있지 않으며, 추후 추가될 가능성이나 별도의 데이터셋이 존재하지 않음을 알 수 있습니다.",
+  "4-4 (데이터 필터링 Data Filtering)": "데이터 필터링 항목은 모델 훈련 과정에서 불필요하거나 부적절한 프롬프트를 걸러내기 위한 기준과 과정을 상세하게 기술하고 있습니다. 제공된 quote는 'SKIP_PROMPTS'라는 변수에 여러 데이터셋에 대해 특정 테스트 조건이나 프롬프트 유형을 배제하기 위한 규칙들을 포함한 딕셔너리 형식의 설정 값을 보여줍니다. 예를 들어 'common_gen', 'piqa', 'qasc', 'imdb', 'glue/qqp', 'super_glue/record'와 같은 데이터셋에서는 'test' 분할에 대해 모든 항목이 스킵 처리되고 있으며, 'kilt_tasks/hotpotqa' 또한 같은 방식으로 처리됩니다. 또 'cosmos_qa'의 경우는 다양한 텍스트 구성 요소(예: 설명, 질문, 답변 등)의 특정 조합에 대해 필터링이 적용되며, 'clue/tnews'와 'clue/csl'에서는 전체 테스트 데이터를 대상으로 적용됩니다. 추가로 'clue/cmrc2018'과 'clue/drcd'에서는 'generate_question', 'in_an_exam', 'answer_in_the_passage', 'answer_following_question', 'xp3longcontinue'와 같은 다양한 프롬프트 유형에 대해 필터링 규칙이 설정되어 있습니다. 마지막으로 'hellaswag' 데이터셋의 경우, 프롬프트 템플릿이 다양하게 지정되어 있으며, 이는 문맥 및 이어지는 내용의 일관성을 보장하기 위한 복합적인 규칙 집합을 나타냅니다. 전반적으로 이 구성은 데이터셋별로 세밀한 필터링 조건과 절차를 통해 최종 입력 데이터의 품질을 유지하려는 노력을 반영합니다.",
+  "4-1 (사전학습 데이터 Pre-training Data)__evidence": [
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_validation_pretr.txt"
+    }
+  ],
+  "4-2 (파인튜닝 데이터 Fine-tuning Data)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/bigscience/xP3>xP3</a>. Recommended for prompting in English."
+    },
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/bigscience/xP3mt>xP3mt</a>. Recommended for prompting in non-English."
+    },
+    {
+      "source": "readme",
+      "quote": "Multitask finetuned on <a style=\"font-weight:bold\" href=https://huggingface.co/datasets/Muennighoff/P3>P3</a>. Released for research purposes only. Strictly inferior to above models!"
+    },
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_train.txt"
+    },
+    {
+      "source": "files",
+      "quote": "xp3capmixnewcodelong_validation.txt"
+    }
+  ],
+  "4-3 (강화학습 데이터 Reinforcement Learning Data)__evidence": [],
+  "4-4 (데이터 필터링 Data Filtering)__evidence": [
+    {
+      "source": "py_files/create_xp3x.py",
+      "quote": "SKIP_PROMPTS = {\n    \"common_gen\": {\"test\": [\"all\"]},\n    \"piqa\": {\"test\": [\"all\"]},\n    \"qasc\": {\"test\": [\"all\"]},\n    \"imdb\": {\"unsupervised\": [\"all\"]},\n    \"glue/qqp\": {\"test\": [\"all\"]},\n    \"super_glue/record\": {\"test\": [\"all\"]},\n    \"qasc\": {\"test\": [\"all\"]},\n    'kilt_tasks/hotpotqa': {\"test\": [\"all\"]},\n    \"cosmos_qa\": {\"test\": [\n        \"description_context_question_answer_text\", \n        \"description_context_question_text\",\n        \"description_context_question_answer_id\",\n        \"context_answer_to_question\",\n        \"context_description_question_answer_text\",\n        \"context_description_question_answer_id\",\n        \"context_question_description_answer_id\",\n        \"context_description_question_text\",\n        \"context_question_description_answer_text\",\n        \"only_question_answer\",\n        \"no_prompt_id\",\n        \"context_question_description_text\",\n        \"no_prompt_text\"\n    ]},\n    \"clue/tnews\": {\"test\": [\"all\"]},\n    \"clue/csl\": {\"test\": [\"all\"]},\n    \"clue/cmrc2018\": {\"test\": [\"generate_question\", \"in_an_exam\", \"answer_in_the_passage\", \"answer_following_question\", \"xp3longcontinue\"]},\n    \"clue/drcd\": {\"test\": [\"generate_question\", \"in_an_exam\", \"answer_in_the_passage\", \"answer_following_question\", \"xp3longcontinue\"]},\n    \"hellaswag\": {\"test\": [\n        \"complete_first_then\", \"Topic of the context\", \"Open-ended completion\", \"Randomized prompts template\", \"Appropriate continuation - Yes or No\", \"Predict ending with hint\", \"Open-ended start\", \"Reversed appropriate continuation - Yes or No\", \"how_ends\", \"if_begins_how_continues\"\n    ]}\n}"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import re
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 # ──────────────────────────────── 환경설정 ────────────────────────────────
 load_dotenv()
@@ -247,17 +248,25 @@ def _merge_dicts(ds: List[Dict[str, Any]]) -> Dict[str, Any]:
     return merged
 
 # ────────────────────────────── 메인 함수 ────────────────────────────────
-def filter_hf_features(model: str, save: bool = True) -> Dict[str, Any]:
+def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base = model.replace("/", "_").lower()
-    path_in = f"huggingface_{base}.json"
-    if not os.path.exists(path_in):
-        raise FileNotFoundError(path_in)
-    hf = json.load(open(path_in, encoding="utf-8"))
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 입력 JSON: 우선 output_dir에서 찾고, 없으면 루트에서 폴백
+    path_in = output_dir / f"huggingface_{base}.json"
+    if not path_in.exists():
+        alt = Path(f"huggingface_{base}.json")
+        if not alt.exists():
+            raise FileNotFoundError(str(path_in))
+        hf = json.load(open(alt, encoding="utf-8"))
+    else:
+        hf = json.load(open(path_in, encoding="utf-8"))
 
     parts = []
     for idx, grp in enumerate(ITEM_GROUPS, 1):
         try:
-            payload = _make_group_payload(hf, idx-1)
+            payload = _make_group_payload(hf, idx - 1)
             text = _payload_to_text(payload)
             evid = _recall_collect(grp, text)
             summ = _summarize(grp, evid)
@@ -265,28 +274,32 @@ def filter_hf_features(model: str, save: bool = True) -> Dict[str, Any]:
         except Exception as e:
             print(f"⚠️ 그룹 {idx} 처리 오류:", e)
             part = {}
-        out_path = f"huggingface_filtered_{base}_{idx}.json"
+
         if save:
-            json.dump(part, open(out_path, "w", encoding="utf-8"),
-                      ensure_ascii=False, indent=2)
+            out_path = output_dir / f"huggingface_filtered_{base}_{idx}.json"
+            json.dump(part, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
             print(f"✅ 그룹 {idx} 결과 저장:", out_path)
         parts.append(part)
 
     merged = _merge_dicts(parts)
     if save:
-        out_merged = f"huggingface_filtered_final_{base}.json"
-        json.dump(merged, open(out_merged, "w", encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
+        out_merged = output_dir / f"huggingface_filtered_final_{base}.json"
+        json.dump(merged, open(out_merged, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ 최종 병합 결과 저장:", out_merged)
     return merged
 
 # ─────────────────────────────── CLI 진입점 ──────────────────────────────
 if __name__ == "__main__":
     import sys
-
     model_id = "bigscience/bloomz-560m"
+    outdir = "."
+
+    # 사용법: python huggingface_Dispatcher.py <org/model> [output_dir]
     if len(sys.argv) >= 2 and sys.argv[1]:
         model_id = sys.argv[1]
+    if len(sys.argv) >= 3 and sys.argv[2]:
+        outdir = sys.argv[2]
 
     print("▶ 실행 모델:", model_id)
-    filter_hf_features(model_id)
+    print("▶ 출력 폴더:", outdir)
+    filter_hf_features(model_id, output_dir=outdir)

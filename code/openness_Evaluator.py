@@ -10,6 +10,7 @@ import os, json
 from typing import Dict, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 load_dotenv()
 _API_KEY = os.getenv("OPENAI_API_KEY")
@@ -172,18 +173,36 @@ def _load(p):
             print("⚠️ JSON 파싱 실패:", p)
     return {}
 
-def evaluate_openness_from_files(model_name: str):
+def evaluate_openness_from_files(model_name: str, base_dir: str | Path = "."):
     base = model_name.replace("/", "_").lower()
-    hf = _load(f"huggingface_filtered_final_{base}.json")
-    gh = _load(f"github_filtered_final_{base}.json")
-    ax = _load(f"arxiv_filtered_final_{base}.json")
+    base_dir = Path(base_dir)
+
+    # 폴더 우선, 없으면 루트 폴백
+    def _load_from_base(filename: str):
+        p = base_dir / filename
+        if p.exists() and p.stat().st_size:
+            try:
+                return json.load(open(p, encoding="utf-8"))
+            except json.JSONDecodeError:
+                print("⚠️ JSON 파싱 실패:", p)
+        # 루트 폴백
+        if os.path.exists(filename) and os.path.getsize(filename):
+            try:
+                return json.load(open(filename, encoding="utf-8"))
+            except json.JSONDecodeError:
+                print("⚠️ JSON 파싱 실패:", filename)
+        return {}
+
+    hf = _load_from_base(f"huggingface_filtered_final_{base}.json")
+    gh = _load_from_base(f"github_filtered_final_{base}.json")
+    ax = _load_from_base(f"arxiv_filtered_final_{base}.json")
 
     res = evaluate_openness(model_name, hf, gh, ax)
-    out = f"openness_score_{base}.json"
-    json.dump(res, open(out,"w",encoding="utf-8"),
-              ensure_ascii=False, indent=2)
+    out = base_dir / f"openness_score_{base}.json"
+    json.dump(res, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print("📝 평가 결과 저장:", out)
     return res
+
 
 if __name__ == "__main__":
     evaluate_openness_from_files("bigscience/bloomz-560m")

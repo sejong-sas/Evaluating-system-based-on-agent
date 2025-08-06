@@ -9,6 +9,7 @@ import os, json, re
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 # ─────────────────── 환경 ───────────────────
 load_dotenv()
@@ -194,13 +195,20 @@ def _merge_all(lst):
     return m
 
 # ─────────── 외부 함수 ───────────
-def filter_arxiv_features(model, save=True):
+def filter_arxiv_features(model, save=True, output_dir: str | Path = "."):
     base = model.replace("/","_").lower()
-    paths = [f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"]
-    src = next((p for p in paths if os.path.exists(p)), None)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 입력: outdir 우선 → 루트 폴백
+    candidates = [output_dir / f"arxiv_fulltext_{base}.json", output_dir / f"arxiv_{base}.json"]
+    src = next((p for p in candidates if p.exists()), None)
     if not src:
-        raise FileNotFoundError(paths)
-    ax = json.load(open(src,encoding="utf-8"))
+        alt = next((Path(p) for p in [f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"] if Path(p).exists()), None)
+        if not alt:
+            raise FileNotFoundError([str(c) for c in candidates])
+        src = alt
+    ax = json.load(open(src, encoding="utf-8"))
 
     parts=[]
     for i,grp in enumerate(ITEM_GROUPS,1):
@@ -213,17 +221,15 @@ def filter_arxiv_features(model, save=True):
         except Exception as e:
             print(f"⚠️ 그룹 {i} 오류:", e); part={}
         if save:
-            fp=f"arxiv_filtered_{base}_{i}.json"
-            json.dump(part, open(fp,"w",encoding="utf-8"),
-                      ensure_ascii=False, indent=2)
+            fp = output_dir / f"arxiv_filtered_{base}_{i}.json"     # ★ 저장 outdir
+            json.dump(part, open(fp,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
             print("✅ 그룹", i, "저장:", fp)
         parts.append(part)
 
     merged=_merge_all(parts)
     if save:
-        fp=f"arxiv_filtered_final_{base}.json"
-        json.dump(merged, open(fp,"w",encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
+        fp = output_dir / f"arxiv_filtered_final_{base}.json"       # ★
+        json.dump(merged, open(fp,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ 최종 병합 저장:", fp)
     return merged
 

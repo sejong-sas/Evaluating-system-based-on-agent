@@ -2,6 +2,7 @@ import json
 import re
 import requests
 import os
+from pathlib import Path
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -14,6 +15,7 @@ from arxiv_Dispatcher import filter_arxiv_features
 from huggingface_Dispatcher import filter_hf_features
 from openness_Evaluator import evaluate_openness_from_files
 from inference import run_inference
+
 
 # 환경 변수 로드 및 OpenAI 클라이언트 초기화
 dotenv_path = os.path.join(os.getcwd(), '.env')
@@ -181,6 +183,8 @@ Hugging Face에 등록된 모델 '{gh_id}'의 원본 코드가 저장된 Hugging
     return None
 
 def run_all_fetchers(user_input: str):
+    outdir = make_model_dir(user_input)
+    print(f"📁 출력 경로: {outdir}")
     info = extract_model_info(user_input)
     hf_id = gh_id = None
     found_rank_hf = found_rank_gh = None
@@ -227,69 +231,85 @@ def run_all_fetchers(user_input: str):
             hf_id = guess_hf
             found_rank_hf = 3
             print("⚠️ GPT 추정 결과입니다. 모델 ID가 정확한지 검토 필요")
-
+    
+    
     if hf_id:
         rank_hf = found_rank_hf or '없음'
         print(f"✅ HF model: {hf_id} (발견: {rank_hf}순위)")
-        data = huggingface_fetcher(hf_id, save_to_file=True)
-        arxiv_fetcher_from_model(hf_id, save_to_file=True)
+        data = huggingface_fetcher(hf_id, save_to_file=True, output_dir=outdir)
+        arxiv_fetcher_from_model(hf_id, save_to_file=True, output_dir=outdir)
         try:
-            hf_filtered = filter_hf_features(hf_id)
+            hf_filtered = filter_hf_features(hf_id, output_dir=outdir)
         except FileNotFoundError:
             hf_filtered = {}
             print("⚠️ HuggingFace JSON 파일이 존재하지 않아 필터링 생략")
         try:
-            ax_filtered = filter_arxiv_features(hf_id)
+            ax_filtered = filter_arxiv_features(hf_id, output_dir=outdir)
         except FileNotFoundError:
             ax_filtered = {}
             print("⚠️ arXiv JSON 파일이 존재하지 않아 필터링 생략")
     else:
         print("⚠️ HuggingFace 정보 없음")
-
     if gh_id:
         rank_gh = found_rank_gh or '없음'
         print(f"✅ GH repo: {gh_id} (발견: {rank_gh}순위)")
 
         try:
-            github_fetcher(gh_id, branch="main", save_to_file=True)
+            github_fetcher(gh_id, branch="main", save_to_file=True, output_dir=outdir)
         except requests.exceptions.HTTPError:
             print("⚠️ main 브랜치 접근 실패, master 브랜치로 재시도...")
             try:
-                github_fetcher(gh_id, branch="master", save_to_file=True)
+                github_fetcher(gh_id, branch="master", save_to_file=True, output_dir=outdir)
             except Exception as e:
                 print("❌ master 브랜치도 실패:", e)
 
         try:
-            gh_filtered = filter_github_features(gh_id)
+            gh_filtered = filter_github_features(gh_id, output_dir=outdir)
         except FileNotFoundError:
             gh_filtered = {}
             print("⚠️ GitHub JSON 파일이 존재하지 않아 필터링 생략")
     else:
         print("⚠️ GitHub 정보 없음")
+
     run_inference(data.get("readme"))
     
 # 8. Openness 평가 수행
-    
     try:
         print("📝 개방성 평가 시작...")
-        eval_res = evaluate_openness_from_files(full)
-        print(f"✅ 개방성 평가 완료. 결과 파일: openness_score_{full.replace('/', '_')}.json")
+        eval_res = evaluate_openness_from_files(full, base_dir=str(outdir))
+        base = full.replace("/", "_")
+        outfile = Path(outdir) / f"openness_score_{base}.json"
+        print(f"✅ 개방성 평가 완료. 결과 파일: {outfile}")
     except Exception as e:
         print("⚠️ 개방성 평가 중 오류 발생:", e)
 
+    # README 기반 추론은 data가 있을 때만
+    if 'data' in locals() and isinstance(data, dict) and data.get("readme"):
+        run_inference(data.get("readme"))
 
+
+def make_model_dir(user_input: str) -> Path:
+    info = extract_model_info(user_input)        # 위에 이미 있는 함수
+    base = info["hf_id"]                         # ex) 'bigscience/bloomz-560m'
+    # 폴더명으로 안전하게 변경: 슬래시/공백/금지문자 -> _
+    safe = re.sub(r'[<>:"/\\|?*\s]+', "_", base) # ex) 'bigscience_bloomz-560m'
+    path = Path(safe)
+    path.mkdir(parents=True, exist_ok=True)      # 상위 폴더까지 생성, 있으면 그냥 통과
+    return path
 
 if __name__ == "__main__":
     user_input = input("🌐 HF/GH URL 또는 org/model: ").strip()
+    model_dir = make_model_dir(user_input)
+    print(f"📁 생성/사용할 폴더: {model_dir}") 
     run_all_fetchers(user_input)
 
     info = extract_model_info(user_input)
     hf_id = info['hf_id']
 
-    # if test_hf_model_exists(hf_id):
-    #     with open("identified_model.txt", "w", encoding="utf-8") as f:
-    #         f.write(hf_id)
-    #     print(f"✅ 모델 ID 저장 완료: {hf_id}")
+    if test_hf_model_exists(hf_id):
+        with open("identified_model.txt", "w", encoding="utf-8") as f:
+            f.write(hf_id)
+        print(f"✅ 모델 ID 저장 완료: {hf_id}")
 
     #     # ✅ 바로 추론까지 실행
     #     prompt = input("📝 프롬프트를 입력하세요: ")
