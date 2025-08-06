@@ -279,7 +279,7 @@ def run_all_fetchers(user_input: str):
         eval_res = evaluate_openness_from_files(full, base_dir=str(outdir))
         base = full.replace("/", "_")
         outfile = Path(outdir) / f"openness_score_{base}.json"
-        print(f"✅ 개방성 평가 완료. 결과 파일: {outfile}")
+        print(f"✅ 개방성 평가 완료.  결과 파일: {outfile}")
     except Exception as e:
         print("⚠️ 개방성 평가 중 오류 발생:", e)
 
