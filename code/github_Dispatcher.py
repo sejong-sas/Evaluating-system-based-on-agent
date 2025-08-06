@@ -8,6 +8,7 @@ import os, json, re
 from typing import Dict, List, Any
 from dotenv import load_dotenv
 from openai import OpenAI
+from pathlib import Path
 
 # ────────────────── 환경 ──────────────────
 load_dotenv()
@@ -33,22 +34,22 @@ LABELS = {
 
 # ─────────────── 항목 설명 (간략) ───────────────
 EVAL_DESCRIPTIONS = {
-    LABELS["1-1"]: "가중치 공개 여부·위치·접근 방식",
-    LABELS["1-2"]: "훈련/추론 코드 공개 여부·범위",
-    LABELS["1-3"]: "라이선스 종류·권한",
-    LABELS["1-4"]: "공식 논문/보고서·링크",
-    LABELS["1-5"]: "모델 아키텍처 상세",
-    LABELS["1-6"]: "토크나이저 종류·공개 여부",
-    LABELS["2-1"]: "훈련 하드웨어 종류·규모",
-    LABELS["2-2"]: "사용 SW/프레임워크·버전",
-    LABELS["2-3"]: "모델 API 존재·문서·사용 예",
-    LABELS["3-1"]: "사전학습 방법·하이퍼파라미터",
-    LABELS["3-2"]: "파인튜닝 방법·파이프라인",
-    LABELS["3-3"]: "RLHF/DPO 등 강화학습 방법",
-    LABELS["4-1"]: "사전학습 데이터 종류·규모·출처",
-    LABELS["4-2"]: "파인튜닝 데이터 출처·구성·공개 여부",
-    LABELS["4-3"]: "강화학습 데이터 구성·출처",
-    LABELS["4-4"]: "데이터 필터링 기준·과정",
+    LABELS["1-1"]: "모델 가중치의 공개 여부, 위치, 접근 방식, 누구나 다운로드 가능한지에 관련된 모든 내용",
+    LABELS["1-2"]: "모델 훈련 및 실행을 위한 코드가 공개되었는지, 어떤 부분이 공개되었는지에 관련된 모든 내용",
+    LABELS["1-3"]: "라이선스의 존재 여부, 종류, 허용된 권리(사용, 수정, 배포, 상업적 이용)에 관련된 모든 내용",
+    LABELS["1-4"]: "모델과 관련된 공식 논문, 기술 보고서, 블로그 등 문서의 존재와 링크에 관련된 모든 내용",
+    LABELS["1-5"]: "모델 아키텍처(레이어 수, 하이퍼파라미터 등)와 구조 설계의 세부 정보에 관련된 모든 내용",
+    LABELS["1-6"]: "어떤 토크나이저를 사용하는지, 이름과 구조, 다운로드 가능 여부에 관련된 모든 내용",
+    LABELS["2-1"]: "모델 훈련에 사용된 하드웨어 종류(H100, TPU 등), 수량, 계산 자원 규모에 관련된 모든 내용",
+    LABELS["2-2"]: "훈련에 사용된 소프트웨어(프레임워크, 라이브러리 등)의 종류, 버전, 설정에 관련된 모든 내용",
+    LABELS["2-3"]: "모델이 접근 가능한 API(gpt api, gemini api 같은 api여야 함 라이브러리x)의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
+    LABELS["3-1"]: "사전학습 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
+    LABELS["3-2"]: "파인튜닝 방식, 목적, 데이터 사용 여부, 재현 가능한 파이프라인 존재 여부에 관련된 모든 내용",
+    LABELS["3-3"]: "RLHF, DPO 등 강화학습 알고리즘 사용 여부, 구체적인 방식과 절차, 설정값 등에 관련된 모든 내용",
+    LABELS["4-1"]: "사전학습에 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식에 관련된 모든 내용",
+    LABELS["4-2"]: "파인튜닝에 사용된 데이터셋의 출처, 구성, 데이터 예시, 공개 여부 등에 관련된 모든 내용",
+    LABELS["4-3"]: "강화학습에 사용된 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식에 관련된 모든 내용",
+    LABELS["4-4"]: "데이터 필터링 또는 정제 방법, 사용된 기준, 필터링 과정과 그 영향에 관련된 모든 내용",
 }
 
 # ───────────── 그룹 ─────────────
@@ -211,12 +212,19 @@ def _merge_all(lst: List[Dict[str, Any]]) -> Dict[str, Any]:
     return m
 
 # ───────────── 외부 함수 ─────────────
-def filter_github_features(model: str, save: bool = True) -> Dict[str, Any]:
+def filter_github_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base = model.replace("/", "_")
-    path = f"github_{base}.json"
-    if not os.path.exists(path):
-        raise FileNotFoundError(path)
-    gh = json.load(open(path, encoding="utf-8"))
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    path = output_dir / f"github_{base}.json"              # ★ 입력 우선 outdir
+    if not path.exists():
+        alt = Path(f"github_{base}.json")                  # 루트 폴백
+        if not alt.exists():
+            raise FileNotFoundError(str(path))
+        gh = json.load(open(alt, encoding="utf-8"))
+    else:
+        gh = json.load(open(path, encoding="utf-8"))
 
     parts = []
     for idx, grp in enumerate(ITEM_GROUPS, 1):
@@ -229,21 +237,18 @@ def filter_github_features(model: str, save: bool = True) -> Dict[str, Any]:
         except Exception as e:
             print(f"⚠️ 그룹 {idx} 처리 오류:", e)
             part = {}
-        out = f"github_filtered_{base}_{idx}.json"
+        out = output_dir / f"github_filtered_{base}_{idx}.json"     # ★ 저장 outdir
         if save:
-            json.dump(part, open(out,"w",encoding="utf-8"),
-                      ensure_ascii=False, indent=2)
+            json.dump(part, open(out,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
             print("✅ 그룹", idx, "결과 저장:", out)
         parts.append(part)
 
     merged = _merge_all(parts)
     if save:
-        mpath = f"github_filtered_final_{base}.json"
-        json.dump(merged, open(mpath,"w",encoding="utf-8"),
-                  ensure_ascii=False, indent=2)
+        mpath = output_dir / f"github_filtered_final_{base}.json"   # ★
+        json.dump(merged, open(mpath,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ 최종 병합 결과 저장:", mpath)
     return merged
-
 # ───────────── CLI ─────────────
 if __name__ == "__main__":
     import sys
