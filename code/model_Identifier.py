@@ -179,6 +179,16 @@ Hugging Face에 등록된 모델 '{gh_id}'의 원본 코드가 저장된 Hugging
     except Exception as e:
         print("⚠️ GPT GH→HF 추정 중 오류 발생:", e)
     return None
+def make_model_dir(user_input: str) -> Path:
+    """모델별 서브디렉토리 생성(안전한 폴더명)."""
+    info = extract_model_info(user_input)
+    base = info["hf_id"]  # 예: bigscience/bloomz-560m
+
+    # 안전한 디렉토리명: 슬래시/공백/특수문자 -> '_', 소문자
+    safe = re.sub(r"[^\w.-]+", "_", base).replace("/", "_").lower()
+    path = Path(safe)
+    path.mkdir(parents=True, exist_ok=True)
+    return path
 
 def run_all_fetchers(user_input: str):
     info = extract_model_info(user_input)
@@ -277,7 +287,8 @@ def run_all_fetchers(user_input: str):
     except Exception as e:
         print("⚠️ 개방성 평가 중 오류 발생:", e)
 
-    run_inference(data.get("readme"))
+    if "data" in locals() and isinstance(data, dict) and data.get("readme"):
+    run_inference(data["readme"])
 
 if __name__ == "__main__":
     user_input = input("🌐 HF/GH URL 또는 org/model: ").strip()
