@@ -1,8 +1,8 @@
 # github_Dispatcher.py
-# High-Recall 2-Pass  (evidence {source, quote} → 긴 요약)
-# - evidence를 객체 배열 [{source, quote}, …] 로 저장
-# - 요약은 quote 들만 사용
-# - __evidence_sources, __sources  등 불필요 필드 제거
+# High-Recall 2-Pass  (evidence {source, quote} → long summary)
+# - store evidence as an array of objects [{source, quote}, …]
+# - summaries must use quotes only
+# - remove unnecessary fields like __evidence_sources, __sources
 
 import os, json, re
 from typing import Dict, List, Any
@@ -10,49 +10,49 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pathlib import Path
 
-# ────────────────── 환경 ──────────────────
+# ────────────────── Environment ──────────────────
 load_dotenv()
 _api_key = os.getenv("OPENAI_API_KEY")
 if not _api_key:
-    raise RuntimeError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+    raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 _client = OpenAI(api_key=_api_key)
 
-# ─────────────── 16개 평가 항목 ───────────────
+# ─────────────── 16 evaluation items ───────────────
 LABELS = {
-    "1-1": "1-1 (가중치 Weights)",               "1-2": "1-2 (코드 Code)",
-    "1-3": "1-3 (라이선스 License)",            "1-4": "1-4 (논문 Paper)",
-    "1-5": "1-5 (아키텍처 Architecture)",        "1-6": "1-6 (토크나이저 Tokenizer)",
-    "2-1": "2-1 (하드웨어 Hardware)",            "2-2": "2-2 (소프트웨어 Software)",
+    "1-1": "1-1 (Weights)",                     "1-2": "1-2 (Code)",
+    "1-3": "1-3 (License)",                     "1-4": "1-4 (Paper)",
+    "1-5": "1-5 (Architecture)",                "1-6": "1-6 (Tokenizer)",
+    "2-1": "2-1 (Hardware)",                    "2-2": "2-2 (Software)",
     "2-3": "2-3 (API)",
-    "3-1": "3-1 (사전학습 Pre-training)",        "3-2": "3-2 (파인튜닝 Fine-tuning)",
-    "3-3": "3-3 (강화학습 Reinforcement Learning)",
-    "4-1": "4-1 (사전학습 데이터 Pre-training Data)",
-    "4-2": "4-2 (파인튜닝 데이터 Fine-tuning Data)",
-    "4-3": "4-3 (강화학습 데이터 Reinforcement Learning Data)",
-    "4-4": "4-4 (데이터 필터링 Data Filtering)",
+    "3-1": "3-1 (Pre-training)",                "3-2": "3-2 (Fine-tuning)",
+    "3-3": "3-3 (Reinforcement Learning)",
+    "4-1": "4-1 (Pre-training Data)",
+    "4-2": "4-2 (Fine-tuning Data)",
+    "4-3": "4-3 (Reinforcement Learning Data)",
+    "4-4": "4-4 (Data Filtering)",
 }
 
-# ─────────────── 항목 설명 (간략) ───────────────
+# ─────────────── Item descriptions (brief) ───────────────
 EVAL_DESCRIPTIONS = {
-    LABELS["1-1"]: "모델 가중치의 공개 여부, 위치, 접근 방식, 누구나 다운로드 가능한지에 관련된 모든 내용",
-    LABELS["1-2"]: "모델 훈련 및 실행을 위한 코드가 공개되었는지, 어떤 부분이 공개되었는지에 관련된 모든 내용",
-    LABELS["1-3"]: "라이선스의 존재 여부, 종류, 허용된 권리(사용, 수정, 배포, 상업적 이용)에 관련된 모든 내용",
-    LABELS["1-4"]: "모델과 관련된 공식 논문, 기술 보고서, 블로그 등 문서의 존재와 링크에 관련된 모든 내용",
-    LABELS["1-5"]: "모델 아키텍처(레이어 수, 하이퍼파라미터 등)와 구조 설계의 세부 정보에 관련된 모든 내용",
-    LABELS["1-6"]: "어떤 토크나이저를 사용하는지, 이름과 구조, 다운로드 가능 여부에 관련된 모든 내용",
-    LABELS["2-1"]: "모델 훈련에 사용된 하드웨어 종류(H100, TPU 등), 수량, 계산 자원 규모에 관련된 모든 내용",
-    LABELS["2-2"]: "훈련에 사용된 소프트웨어(프레임워크, 라이브러리 등)의 종류, 버전, 설정에 관련된 모든 내용",
-    LABELS["2-3"]: "모델이 접근 가능한 API(gpt api, gemini api 같은 api여야 함 라이브러리x)의 존재 여부, 문서 링크, 사용 예제, 공개 여부에 관련된 모든 내용",
-    LABELS["3-1"]: "사전학습 시 사용된 방법론, 절차, 데이터 흐름, 하이퍼파라미터 설정 등에 관련된 모든 내용",
-    LABELS["3-2"]: "파인튜닝 방식, 목적, 데이터 사용 여부, 재현 가능한 파이프라인 존재 여부에 관련된 모든 내용",
-    LABELS["3-3"]: "RLHF, DPO 등 강화학습 알고리즘 사용 여부, 구체적인 방식과 절차, 설정값 등에 관련된 모든 내용",
-    LABELS["4-1"]: "사전학습에 사용된 데이터의 종류, 수량, 출처, 사용 범위 및 구성 방식에 관련된 모든 내용",
-    LABELS["4-2"]: "파인튜닝에 사용된 데이터셋의 출처, 구성, 데이터 예시, 공개 여부 등에 관련된 모든 내용",
-    LABELS["4-3"]: "강화학습에 사용된 데이터셋의 구성, 접근 가능 여부, 출처, 생성 방식에 관련된 모든 내용",
-    LABELS["4-4"]: "데이터 필터링 또는 정제 방법, 사용된 기준, 필터링 과정과 그 영향에 관련된 모든 내용",
+    LABELS["1-1"]: "All information about whether model weights are public, their location, access method, and if anyone can download them",
+    LABELS["1-2"]: "All information about whether code for training/execution is public and which parts are public",
+    LABELS["1-3"]: "All information about license existence/type and granted rights (use, modification, distribution, commercial use)",
+    LABELS["1-4"]: "All information about official papers, technical reports, blogs and links related to the model",
+    LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
+    LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
+    LABELS["2-1"]: "All information about training hardware type (H100, TPU, etc.), quantity, and compute scale",
+    LABELS["2-2"]: "All information about software used for training (frameworks, libraries), versions, and settings",
+    LABELS["2-3"]: "All information about the existence of an accessible API (must be an API like GPT/Gemini, not a library), docs, examples, and public availability",
+    LABELS["3-1"]: "All information about pre-training methodology, procedures, data flow, and hyperparameter settings",
+    LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and the existence of a reproducible pipeline",
+    LABELS["3-3"]: "All information about RLHF, DPO, etc., including concrete methods, procedures, and parameter settings",
+    LABELS["4-1"]: "All information about types, quantities, sources, permitted use, and composition of pre-training data",
+    LABELS["4-2"]: "All information about sources, composition, examples, and public availability of fine-tuning datasets",
+    LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
+    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
 
-# ───────────── 그룹 ─────────────
+# ───────────── Groups ─────────────
 ITEM_GROUPS = [
     ["1-1", "1-2", "1-3", "1-4"],
     ["1-5", "1-6", "2-1", "2-2"],
@@ -60,21 +60,23 @@ ITEM_GROUPS = [
     ["4-1", "4-2", "4-3", "4-4"],
 ]
 
-# ───────────── 파라미터 ─────────────
+# ───────────── Parameters ─────────────
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
 MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3-mini")
 
-# ───────────── 유틸 ─────────────
-def _js(o: Any) -> str: return json.dumps(o, ensure_ascii=False, indent=2)
+# ───────────── Utils ─────────────
+def _js(o: Any) -> str:                      # ← keep as-is
+    return json.dumps(o, ensure_ascii=False, indent=2)
 
-def _chunk(s: str, size: int, ov: int) -> List[str]:
+def _chunk(s: str, size: int, ov: int) -> List[str]:   # ← keep as-is
     out, n, i = [], len(s), 0
     while i < n:
         end = min(i + size, n)
         out.append(s[i:end])
-        if end == n: break
+        if end == n:
+            break
         i = end - ov if end - ov > i else end
     return out
 
@@ -95,31 +97,59 @@ def _dedup_evid(evs: List[Dict[str, str]], limit: int) -> List[Dict[str, str]]:
 
 def _desc(ids: List[str]): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 
-# ───────────── 프롬프트 ─────────────
+# ───────────── Prompts ─────────────
 _BASE_RECALL_SYS = """
-당신은 GitHub 저장소에서 AI 모델 개방성 평가 정보를 추출하는 전문가입니다.
-payload(원문)만 사용하여, 각 항목별 evidence를
-  [{ "source": "...", "quote": "..." }, …]  형식으로 반환하십시오.
-· source  : [repo], [readme], [license_files], [files], [py_files/xxx.py] 중 하나
-· quote   : 해당 섹션에서 그대로 복사한 문장(수정·요약 금지)
-근거가 없으면 빈 배열 [].
-반드시 JSON 객체만 출력하십시오.
+You are an expert at extracting AI model openness evaluation information from a GitHub repository.
+Using only the payload (original text), return evidence for each item in the format:
+  [{ "source": "...", "quote": "..." }, …]
+· source  : one of [repo], [readme], [license_files], [files], [py_files/xxx.py]
+· quote   : a verbatim sentence copied from that section (no edits/summaries)
+If there is no evidence, return an empty array [].
+You must output a JSON object only.
 """.strip()
 
 _BASE_SUMMARY_SYS = """
-주어진 quote 만 사용하여 각 항목을 길고 자세히 요약하십시오.
-반드시 JSON 객체만 출력하십시오.
+Using the provided quotes only, write long and detailed summaries for each item.
+You must output a JSON object only.
 """.strip()
+
+_USAGE_SYS = """
+You are a classifier. Based only on the input text (collection of quotes), decide whether this model actually used:
+- Fine-tuning
+- Reinforcement Learning (RL, RLHF/ PPO/ DPO/ RLAIF, etc.)
+
+Answer in JSON only:
+{ "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
+"""
+
+def _classify_usage_from_merged(merged: Dict[str, Any]) -> Dict[str, str]: # whether RL or fine-tuning were used
+    # Collect quotes from evidence and decide
+    def _quotes(label: str):
+        arr = merged.get(f"{label}__evidence", []) or []
+        return [e.get("quote", "") for e in arr if isinstance(e, dict)]
+    ft = "\n".join(_quotes("3-2 (Fine-tuning)"))
+    rl = "\n".join(_quotes("3-3 (Reinforcement Learning)"))
+    text = (f"[fine_tuning]\n{ft}\n\n[reinforcement]\n{rl}").strip()
+    if not text:
+        return {"fine_tuning": "unknown", "rl": "unknown"}
+    ans = _chat_json(_USAGE_SYS, text[:12000])  # JSON only
+    ft_s = ans.get("fine_tuning", "unknown")
+    rl_s = ans.get("rl", "unknown")
+    # Defensive: if unexpected value then unknown
+    if ft_s not in {"used","not_used","unknown"}: ft_s = "unknown"
+    if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
+    return {"fine_tuning": ft_s, "rl": rl_s}
+
 
 def _recall_inst(g: List[str]) -> str:
     return (
-        f"이번 그룹 항목 정의:\n{_js(_desc(g))}\n"
-        "예시 스키마(형식 참고):\n" +
-        _js({LABELS[k]: [{"source": "readme", "quote": "문장"}] for k in g})
+        f"Definitions for this group:\n{_js(_desc(g))}\n"
+        "Example schema (format reference):\n" +
+        _js({LABELS[k]: [{"source": "readme", "quote": "sentence"}] for k in g})
     )
 
 def _summary_inst(g: List[str]) -> str:
-    return f"이번 그룹 항목 정의:\n{_js(_desc(g))}\nquote 배열이 제공됩니다. 항목별로 요약하십시오."
+    return f"Definitions for this group:\n{_js(_desc(g))}\nA quote array will be provided. Summarize by item."
 
 # ───────────── GPT ↔ JSON ─────────────
 def _chat_json(sys_msg: str, usr: str) -> Dict[str, Any]:
@@ -132,7 +162,7 @@ def _chat_json(sys_msg: str, usr: str) -> Dict[str, Any]:
     try:    return json.loads(r.choices[0].message.content.strip())
     except: return {}
 
-# ───────────── payload 빌드 ─────────────
+# ───────────── Build payload ─────────────
 def _make_payload(d: Dict, _: int) -> Dict:
     repo  = d.get("repo") or d.get("full_name") or ""
     files = (d.get("files") or [])[:3000]
@@ -176,7 +206,7 @@ def _payload_text(p: Dict) -> str:
         parts.append("[files]\n" + "\n".join(p["files"]) + "\n")
     return "\n".join(parts)
 
-# ───────────── 단계 1: evidence 수집 ─────────────
+# ───────────── Step 1: collect evidence ─────────────
 _ALLOWED = ("repo", "readme", "license_files", "files", "py_files/")
 
 def _valid(src: str): return isinstance(src, str) and src.startswith(_ALLOWED)
@@ -193,33 +223,40 @@ def _collect(g: List[str], text: str) -> Dict[str, List[Dict[str, str]]]:
         ev[k] = _dedup_evid(ev[k], EVIDENCE_LIMIT_PER_KEY)
     return ev
 
-# ───────────── 단계 2: 요약 ─────────────
-def _summarize(g: List[str], ev: Dict[str, List[Dict[str, str]]]) -> Dict[str, str]:
+# ───────────── NEW: string casting helper ─────────────
+def _as_text(v):
+    return v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)
+
+# ───────────── Step 2: summarize ─────────────
+def _summarize(g: List[str], ev: Dict[str, List[Dict[str, str]]]) -> Dict[str, Any]:
     quotes = {LABELS[k]: [e["quote"] for e in ev[LABELS[k]]] for k in g}
-    ans = _chat_json(_BASE_SUMMARY_SYS, _summary_inst(g) +
-                     "\n=== QUOTES ===\n" + _js(quotes))
+    ans = _chat_json(_BASE_SUMMARY_SYS, _summary_inst(g) + "\n=== QUOTES ===\n" + _js(quotes))
     return {LABELS[k]: ans.get(LABELS[k], "") for k in g}
 
-# ───────────── 병합 ─────────────
-def _merge(summary: Dict[str, str], ev: Dict[str, List[Dict[str, str]]]) -> Dict[str, Any]:
-    return {lbl: summary[lbl].strip() for lbl in summary} | {
-        f"{lbl}__evidence": ev.get(lbl, []) for lbl in summary
-    }
+# ─── replace _merge function ───
+def _merge(summary: Dict[str, Any],
+           ev: Dict[str, List[Dict[str, str]]]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    for lbl, val in summary.items():
+        out[lbl] = _as_text(val).strip()
+        out[f"{lbl}__evidence"] = ev.get(lbl, [])
+    return out
 
 def _merge_all(lst: List[Dict[str, Any]]) -> Dict[str, Any]:
-    m = {}
-    for d in lst: m.update(d)
+    m: Dict[str, Any] = {}
+    for d in lst:
+        m.update(d)
     return m
 
-# ───────────── 외부 함수 ─────────────
+# ───────────── Public function ─────────────
 def filter_github_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base = model.replace("/", "_")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    path = output_dir / f"github_{base}.json"              # ★ 입력 우선 outdir
+    path = output_dir / f"github_{base}.json"              # ★ prefer input from outdir
     if not path.exists():
-        alt = Path(f"github_{base}.json")                  # 루트 폴백
+        alt = Path(f"github_{base}.json")                  # root fallback
         if not alt.exists():
             raise FileNotFoundError(str(path))
         gh = json.load(open(alt, encoding="utf-8"))
@@ -235,19 +272,26 @@ def filter_github_features(model: str, save: bool = True, output_dir: str | Path
             summ  = _summarize(grp, ev)
             part  = _merge(summ, ev)
         except Exception as e:
-            print(f"⚠️ 그룹 {idx} 처리 오류:", e)
+            print(f"⚠️ Error processing group {idx}:", e)
             part = {}
-        out = output_dir / f"github_filtered_{base}_{idx}.json"     # ★ 저장 outdir
+        out = output_dir / f"github_filtered_{base}_{idx}.json"     # ★ save to outdir
         if save:
             json.dump(part, open(out,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
-            print("✅ 그룹", idx, "결과 저장:", out)
+            print("✅ Saved group", idx, "result:", out)
         parts.append(part)
 
     merged = _merge_all(parts)
+
+    try:
+        merged["__usage"] = _classify_usage_from_merged(merged)
+    except Exception as e:
+        print("⚠️ Failed to classify usage:", e)
+        merged["__usage"] = {"fine_tuning":"unknown","rl":"unknown"}
+
     if save:
-        mpath = output_dir / f"github_filtered_final_{base}.json"   # ★
-        json.dump(merged, open(mpath,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
-        print("✅ 최종 병합 결과 저장:", mpath)
+        mpath = output_dir / f"github_filtered_final_{base}.json"
+        json.dump(merged, open(mpath, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        print("✅ Saved final merged result:", mpath)
     return merged
 # ───────────── CLI ─────────────
 if __name__ == "__main__":
@@ -255,5 +299,5 @@ if __name__ == "__main__":
     mid = "bigscience/bloomz-560m"
     if len(sys.argv) > 1 and sys.argv[1]:
         mid = sys.argv[1]
-    print("▶ 실행 모델:", mid)
+    print("▶ Model to run:", mid)
     filter_github_features(mid)
