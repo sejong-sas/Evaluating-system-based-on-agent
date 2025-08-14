@@ -1,9 +1,9 @@
 # openness_Evaluator.py
 # ─────────────────────────────────────────────────────────
-# • Hugging Face 모델 존재 시 자동 1점: 1-1, 1-5, 1-6
-# • 나머지 13개 항목은 GPT 평가
-# • 훈련 방법론(3-1~3-3)은 arxiv_Dispatcher JSON을 최우선 참고
-# • GPT 응답 스키마 강제: {"scores": {...}, "total_score": ...}
+# • If a Hugging Face model exists: auto 1 point for 1-1, 1-5, 1-6
+# • The remaining 13 items are evaluated by GPT
+# • For training methodology (3-1~3-3), prioritize arxiv_Dispatcher JSON
+# • Enforce GPT response schema: {"scores": {...}, "total_score": ...}
 # ─────────────────────────────────────────────────────────
 
 import os, json
@@ -15,124 +15,144 @@ from pathlib import Path
 load_dotenv()
 _API_KEY = os.getenv("OPENAI_API_KEY")
 if not _API_KEY:
-    raise RuntimeError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+    raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 client = OpenAI(api_key=_API_KEY)
 
-# ─────────── 평가 기준 전문 ───────────
+# ─────────── Full evaluation criteria ───────────
 CRITERIA_TEXT = """
-## 1. 모델 기본 개방성 (Model Basic Openness) - 6개 항목
-### 1-1. 가중치 (Weights) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 Open
-- Open(1점): 모델 가중치가 허가 없이 공개적으로 이용 가능
-- Semi-Open(0.5점): 허가를 받은 후 모델 가중치 이용 가능
-- Closed(0점): 모델 가중치가 공개되지 않아 사용 불가
-### 1-2. 코드 (Code) - 만약 허깅페이스에 .py 파일이 있으면 무조건 Open
-- Open(1점): 모델 훈련 및 구현에 사용된 전체 코드가 공개
-- Semi-Open(0.5점): 모델 훈련 및 구현 코드의 일부만 공개
-- Closed(0점): 훈련 및 구현 코드가 공개되지 않음
-### 1-3. 라이선스 (License)
-- Open(1점): 사용, 수정, 재배포, 상업적 이용에 제한 없음 (MIT, Apache 등)
-- Semi-Open(0.5점): 사용, 수정, 재배포, 상업적 이용 중 1개 이상 제한
-- Closed(0점): 3개 이상 제한 존재하거나 해당 라이선스 없음
-### 1-4. 논문 (Paper)
-- Open(1점): 공식 논문 또는 기술 보고서 존재
-- Semi-Open(0.5점): 웹사이트 또는 블로그 포스트 존재
-- Closed(0점): 관련 문서 없음
-### 1-5. 아키텍처 (Architecture) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 Open
-- Open(1점): 모델 구조와 하이퍼파라미터가 완전히 공개
-- Semi-Open(0.5점): 모델 구조만 공개
-- Closed(0점): 모델 구조 정보 미공개
-### 1-6. 토크나이저 (Tokenizer) - 만약 허깅페이스에 모델이 올라와 있다면 무조건 Open
-- Open(1점): 사용된 토크나이저가 명시적으로 공개
-- Semi-Open(0.5점): 다운로드 가능한 토크나이저 존재
-- Closed(0점): 토크나이저 정보 미공개
+## 1. Model Basic Openness – 6 items
+### 1-1. Weights – If hosted on Hugging Face, always Open
+- Open (1): Model weights are publicly available without permission
+- Semi-Open (0.5): Model weights are available after approval
+- Closed (0): Model weights are not available for use
+### 1-2. Code – If there are .py files on Hugging Face, always Open
+- Open (1): Full code for training and implementation is public
+- Semi-Open (0.5): Only part of the training/implementation code is public
+- Closed (0): Training/implementation code is not public
+### 1-3. License
+- Open (1): No restrictions on use, modification, redistribution, and commercial use (e.g., MIT, Apache)
+- Semi-Open (0.5): One or more restrictions on use, modification, redistribution, or commercial use
+- Closed (0): Three or more restrictions exist, or no applicable license
+### 1-4. Paper
+- Open (1): Official paper or technical report exists
+- Semi-Open (0.5): Website or blog post exists
+- Closed (0): No related document
+### 1-5. Architecture – If hosted on Hugging Face, always Open
+- Open (1): Model structure and hyperparameters are fully disclosed
+- Semi-Open (0.5): Only the model structure is disclosed
+- Closed (0): Model structure info is not disclosed
+### 1-6. Tokenizer – If hosted on Hugging Face, always Open
+- Open (1): Tokenizer used is explicitly disclosed
+- Semi-Open (0.5): A downloadable tokenizer exists
+- Closed (0): Tokenizer info is not disclosed
 
-## 2. 접근성 및 재현성 (Accessibility and Reproducibility) - 3개 항목
-### 2-1. 하드웨어 (Hardware)
-- Open(1점): 훈련 하드웨어 종류·수량 완전 공개
-- Semi-Open(0.5점): 하드웨어 종류만 공개
-- Closed(0점): 하드웨어 정보 미공개
-### 2-2. 소프트웨어 (Software)
-- Open(1점): 훈련에 필요한 소프트웨어 사양 완전 공개
-- Semi-Open(0.5점): 일부만 공개
-- Closed(0점): 정보 미공개
+## 2. Accessibility and Reproducibility – 3 items
+### 2-1. Hardware
+- Open (1): Training hardware type and quantity fully disclosed
+- Semi-Open (0.5): Only hardware type disclosed
+- Closed (0): No hardware info
+### 2-2. Software
+- Open (1): Full software specifications for training disclosed
+- Semi-Open (0.5): Only partial disclosure
+- Closed (0): No information
 ### 2-3. API
-- Open(1점): 공개 API 존재
-- Semi-Open(0.5점): 향후 공개 예정
-- Closed(0점): API 없음
+- Open (1): Public API available
+- Semi-Open (0.5): Planned to be made public
+- Closed (0): No API
 
-## 3. 훈련 방법론 개방성 (Training Methodology Openness) - 3개 항목
-### 3-1. 사전학습 (Pre-training)
-- Open(1점): 재현 가능 수준의 상세 공개
-- Semi-Open(0.5점): 일부 방법만 언급
-- Closed(0점): 방법 미공개
-### 3-2. 파인튜닝 (Fine-tuning)
-- Open(1점): 방법론 완전 공개
-- Semi-Open(0.5점): 일부 공개
-- Closed(0점): 미공개/N/A
-### 3-3. 강화학습 (Reinforcement Learning)
-- Open(1점): RLHF, DPO 등 상세 공개
-- Semi-Open(0.5점): 일부 공개
-- Closed(0점): 미공개/N/A
+## 3. Training Methodology Openness – 3 items
+### 3-1. Pre-training
+- Open (1): Detailed disclosure sufficient for reproduction
+- Semi-Open (0.5): Only partial methods mentioned
+- Closed (0): Methods not disclosed
+### 3-2. Fine-tuning
+- Open (1): Methodology fully disclosed
+- Semi-Open (0.5): Partial disclosure
+- Closed (0): Not disclosed/N/A
+### 3-3. Reinforcement Learning
+- Open (1): RLHF, DPO, etc. disclosed in detail
+- Semi-Open (0.5): Partial disclosure
+- Closed (0): Not disclosed/N/A
 
-## 4. 데이터 개방성 (Data Openness) - 4개 항목
-### 4-1. 사전학습 데이터 (Pre-training Data)
-- Open(1점): 수량·출처 완전 공개
-- Semi-Open(0.5점): 종류만 공개
-- Closed(0점): 미공개
-### 4-2. 파인튜닝 데이터 (Fine-tuning Data)
-- Open(1점): 데이터 완전 공개
-- Semi-Open(0.5점): 일부 공개
-- Closed(0점): 미공개/N/A
-### 4-3. 강화학습 데이터 (Reinforcement Learning Data)
-- Open(1점): 데이터 완전 공개
-- Semi-Open(0.5점): 일부 공개
-- Closed(0점): 미공개/N/A
-### 4-4. 데이터 필터링 (Data Filtering)
-- Open(1점): 필터링 방법론·내용 완전 공개
-- Semi-Open(0.5점): 일부 공개
-- Closed(0점): 미공개
+## 4. Data Openness – 4 items
+### 4-1. Pre-training Data
+- Open (1): Quantity and sources fully disclosed
+- Semi-Open (0.5): Only types disclosed
+- Closed (0): Not disclosed
+### 4-2. Fine-tuning Data
+- Open (1): Data fully disclosed
+- Semi-Open (0.5): Partial disclosure
+- Closed (0): Not disclosed/N/A
+### 4-3. Reinforcement Learning Data
+- Open (1): Data fully disclosed
+- Semi-Open (0.5): Partial disclosure
+- Closed (0): Not disclosed/N/A
+### 4-4. Data Filtering
+- Open (1): Filtering methodology and contents fully disclosed
+- Semi-Open (0.5): Partial disclosure
+- Closed (0): Not disclosed
 """.strip()
 
-# ─────────── GPT 시스템 프롬프트 ───────────
+# ─────────── GPT system prompt ───────────
 EVALUATION_PROMPT = f"""
 {CRITERIA_TEXT}
 
-❗️훈련 방법론 개방성(3-1 ~ 3-3)은 arxiv_Dispatcher가 만든 JSON(논문 정보)을 **가장 우선** 참고하세요.
-HuggingFace·GitHub 정보는 보조 참고만 허용됩니다.
+❗️For Training Methodology Openness (3-1 ~ 3-3), consult the JSON produced by arxiv_Dispatcher (paper information) **first**.
+Hugging Face and GitHub information may be used only as secondary references.
 
-또한 Hugging Face에 모델이 존재하므로 **다음 세 항목은 이미 Open(1점)** 입니다.
+Also, because the model exists on Hugging Face, **the following three items are already Open (1 point)**:
   • 1-1 Weights • 1-5 Architecture • 1-6 Tokenizer
-→ 이 세 항목은 scores에 넣지 마세요.
+→ Do not include these three items in the 'scores'.
 
-반드시 아래 스키마처럼 단일 JSON 블록을 반환하십시오:
+Return a single JSON block exactly like the schema below:
 
 {{
   "scores": {{
-    "1-2 코드": {{ "score": 1,   "reason": "..." }},
+    "1-2 Code": {{ "score": 1,   "reason": "..." }},
     ...
   }},
   "total_score": 12.5
 }}
-다른 주석·백틱·불필요 텍스트를 포함하면 안 됩니다.
+Do not include any extra comments, backticks, or unnecessary text.
+- For items 3-1 and 4-1: if a data.pretrain list exists, first look for evidence in that list (the pretrained model info).  # added
 """.strip()
 
-# ─────────── 자동 1점 항목 ───────────
+# ─────────── Auto-Open items (1 point) ───────────
 AUTO_OPEN_LABELS = {
-    "1-1 가중치":   "허깅페이스에 모델 가중치 공개",
-    "1-5 아키텍처": "허깅페이스 카드에 아키텍처 정보 공개",
-    "1-6 토크나이저": "허깅페이스 카드/config에 토크나이저 정보 공개",
+    "1-1 Weights":     "Model weights are published on Hugging Face",
+    "1-5 Architecture": "Architecture info disclosed on the Hugging Face card",
+    "1-6 Tokenizer":   "Tokenizer info disclosed on the Hugging Face card/config",
 }
+
+# ─────────── Pretrained JSON loader helper ───────────
+def _load_pretrain_parts(base_id: str | None, base_dir: Path) -> list[dict]:
+    """
+    Load pretrain_hf|gh|arxiv_{base}.json (3 types) → return as a list
+    """
+    if not base_id:
+        return []
+    b = base_id.replace("/", "_").lower()
+    out = []
+    for src in ["hf", "gh", "arxiv"]:
+        p = base_dir / f"pretrain_{src}_{b}.json"
+        if p.exists() and p.stat().st_size:
+            try:
+                out.append(json.load(open(p, encoding="utf-8")))
+            except json.JSONDecodeError:
+                print("⚠️ JSON parsing failed:", p)
+    return out
 
 def _auto_scores(hf_json: Dict[str, Any]) -> Dict[str, Dict]:
     return {lbl: {"score": 1, "reason": reason}
             for lbl, reason in AUTO_OPEN_LABELS.items()} if hf_json else {}
 
-# ─────────── GPT 평가 함수 ───────────
+# ─────────── GPT evaluation function ───────────
 def _gpt_evaluate(model: str,
-                  hf: Dict, gh: Dict, ax: Dict) -> Dict[str, Dict]:
+                  hf: Dict, gh: Dict, ax: Dict,
+                  pretrain: list[Dict]) -> Dict[str, Dict]: 
     payload = {
         "model": model,
-        "data": {"huggingface": hf, "github": gh, "arxiv": ax}
+        "data": {"pretrain": pretrain, "huggingface": hf, "github": gh, "arxiv": ax}
     }
     rsp = client.chat.completions.create(
         model="o3-mini",
@@ -144,7 +164,7 @@ def _gpt_evaluate(model: str,
         ]
     )
     raw = json.loads(rsp.choices[0].message.content.strip())
-    scores_dict = raw.get("scores", raw)      # 유연 파싱
+    scores_dict = raw.get("scores", raw)      # flexible parsing
     out = {}
     for k, v in scores_dict.items():
         if isinstance(v, dict):
@@ -153,54 +173,119 @@ def _gpt_evaluate(model: str,
             out[k] = {"score": v, "reason": ""}
     return out
 
-# ─────────── 메인 평가 함수 ───────────
+# ─────────── Main evaluation helpers ───────────
+def _read_usage_from_dispatch(hf: dict, gh: dict, ax: dict) -> dict:
+    # Priority: arXiv > HF > GH  (switch to a voting rule if desired)
+    for src in (ax, hf, gh):
+        u = (src or {}).get("__usage")
+        if isinstance(u, dict):
+            ft = u.get("fine_tuning", "unknown")
+            rl = u.get("rl", "unknown")
+            if ft in {"used","not_used"} or rl in {"used","not_used"}:
+                return {"fine_tuning": ft, "rl": rl}
+    # If everything is absent or unknown → unknown
+    return {"fine_tuning":"unknown", "rl":"unknown"}
+
+def _aggregate_usage(hf: dict, gh: dict, ax: dict) -> dict:
+    def norm(x): return x if x in {"used","not_used"} else "unknown"
+    votes = []
+    for src in (ax, hf, gh):
+        u = (src or {}).get("__usage") or {}
+        votes.append({
+            "ft": norm(u.get("fine_tuning")),
+            "rl": norm(u.get("rl")),
+        })
+
+    def decide(key):
+        vals = [v[key] for v in votes if v[key] != "unknown"]
+        if not vals:
+            return "unknown"
+        if "used" in vals:
+            return "used"
+        return "not_used"
+
+    return {"fine_tuning": decide("ft"), "rl": decide("rl")}
+
 def evaluate_openness(model_name: str,
-                      hf_json=None, gh_json=None, arxiv_json=None) -> Dict:
+                      hf_json=None, gh_json=None, arxiv_json=None, pretrain_parts=None) -> Dict:
     hf, gh, ax = hf_json or {}, gh_json or {}, arxiv_json or {}
+    pretrain = pretrain_parts or []
 
-    scores = _gpt_evaluate(model_name, hf, gh, ax)
-    scores.update(_auto_scores(hf))           # 자동 1점 항목 추가/덮어쓰기
+    scores = _gpt_evaluate(model_name, hf, gh, ax, pretrain)
+    scores.update(_auto_scores(hf))  # 1-1/1-5/1-6
 
-    total = sum(v["score"] for v in scores.values())
-    return {"model": model_name, "scores": scores, "total_score": total}
+    # ★ Decide only from usage inserted by Dispatchers
+    usage = _aggregate_usage(hf_json, gh_json, arxiv_json)
 
-# ─────────── 파일 로더 & CLI ───────────
+    exclude = []
+    if usage["fine_tuning"] == "not_used":
+        exclude += ["3-2", "4-2"]
+    if usage["rl"] == "not_used":
+        exclude += ["3-3", "4-3"]
+
+    included = {k:v for k,v in scores.items()
+                if not any(k.startswith(p) for p in exclude)}
+
+    raw_sum = sum(v.get("score",0) for v in included.values())
+    denom  = max(len(included), 1)
+    final_10 = round(raw_sum * (10.0 / denom), 3)
+
+    return {
+        "model": model_name,
+        "scores": scores,
+        "included_scores": included,
+        "final_score_10pt": final_10,
+        "meta": {
+            "usage_from_dispatch": usage,
+            "excluded": [k for k in scores if k not in included],
+            "denominator": denom,
+            "raw_sum": raw_sum,
+            "scale": f"10/{denom}"
+        }
+    }
+
+
+# ─────────── File loader & CLI ───────────
 def _load(p):
     if os.path.exists(p) and os.path.getsize(p):
         try:
             return json.load(open(p,encoding="utf-8"))
         except json.JSONDecodeError:
-            print("⚠️ JSON 파싱 실패:", p)
+            print("⚠️ JSON parsing failed:", p)
     return {}
 
-def evaluate_openness_from_files(model_name: str, base_dir: str | Path = "."):
+def evaluate_openness_from_files(model_name: str,
+                                 base_dir: str | Path = ".",
+                                 base_model_id: str | None = None):
     base = model_name.replace("/", "_").lower()
     base_dir = Path(base_dir)
 
-    # 폴더 우선, 없으면 루트 폴백
+    # Prefer the given folder; if missing, fall back to project root
     def _load_from_base(filename: str):
         p = base_dir / filename
         if p.exists() and p.stat().st_size:
             try:
                 return json.load(open(p, encoding="utf-8"))
             except json.JSONDecodeError:
-                print("⚠️ JSON 파싱 실패:", p)
-        # 루트 폴백
+                print("⚠️ JSON parsing failed:", p)
+        # root fallback
         if os.path.exists(filename) and os.path.getsize(filename):
             try:
                 return json.load(open(filename, encoding="utf-8"))
             except json.JSONDecodeError:
-                print("⚠️ JSON 파싱 실패:", filename)
+                print("⚠️ JSON parsing failed:", filename)
         return {}
 
     hf = _load_from_base(f"huggingface_filtered_final_{base}.json")
     gh = _load_from_base(f"github_filtered_final_{base}.json")
     ax = _load_from_base(f"arxiv_filtered_final_{base}.json")
 
-    res = evaluate_openness(model_name, hf, gh, ax)
+    pretrain_parts = _load_pretrain_parts(base_model_id, base_dir)
+
+    res = evaluate_openness(model_name, hf_json=hf,gh_json=gh, arxiv_json=ax, pretrain_parts=pretrain_parts)
     out = base_dir / f"openness_score_{base}.json"
     json.dump(res, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print("📝 평가 결과 저장:", out)
+    print("📝 Saved evaluation result:", out)
     return res
 
 
