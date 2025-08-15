@@ -5,6 +5,30 @@ import os
 from pathlib import Path
 import re
 import fitz  # PyMuPDF
+from urllib.parse import urlparse
+
+
+# ==== HF auth + safe GET (added, minimal) ====
+HF_TOKEN = (os.getenv("HF_TOKEN") or "").strip()
+_UA = {"User-Agent": "Mozilla/5.0"}
+_HF_HEADERS = dict(_UA)
+if HF_TOKEN:
+    _HF_HEADERS["Authorization"] = f"Bearer {HF_TOKEN}"
+
+def _get_hf(url: str, timeout: int = 20, allow_redirects: bool = True) -> requests.Response:
+    """
+    GET for Hugging Face endpoints:
+    - Try with token first (if present).
+    - If 401/403, retry anonymously so public models still work.
+    Returns the Response without raising for non-200 (so caller can check status_code).
+    """
+    if "Authorization" in _HF_HEADERS:
+        r = requests.get(url, headers=_HF_HEADERS, timeout=timeout, allow_redirects=allow_redirects)
+        if r.status_code in (401, 403):
+            r = requests.get(url, headers=_UA, timeout=timeout, allow_redirects=allow_redirects)
+    else:
+        r = requests.get(url, headers=_UA, timeout=timeout, allow_redirects=allow_redirects)
+    return r
 
 
 # -----------------------------
@@ -17,21 +41,42 @@ def _extract_urls(text: str) -> list[str]:
     urls = re.findall(r'https?://[^\s)>\"]+', text)
     return list(dict.fromkeys(urls))
 
-
 def _is_probable_report_url(u: str) -> bool:
     """
-    Heuristics for deciding if a URL likely points to a 'technical report' page.
-    - Accept direct PDFs
-    - Accept docs/blog/research/whitepaper-like pages
+    Decide if a URL is likely a 'technical report' target.
+
+    Accept if:
+    - It is a direct PDF URL
+    - It is a well-known shortener/redirector (goo.gle, g.co, bit.ly, t.co, etc.)
+      → we'll follow redirects and detect PDF by Content-Type in _fetch_html_text
+    - It comes from known research/report hosts (arxiv.org, storage.googleapis.com, deepmind-media)
+    - It contains common report-ish keywords
     """
     ul = u.lower()
     if ul.endswith(".pdf"):
         return True
-    return any(k in ul for k in [
-        "technical-report", "tech-report", "whitepaper", "white-paper", "paper",
-        "/docs", "docs.", "/blog", "blog.", "/research", "research."
-    ])
 
+    host = urlparse(ul).netloc
+
+    # Shorteners / redirectors frequently used for papers/reports
+    shorteners = {
+        "goo.gle", "g.co", "bit.ly", "t.co", "tinyurl.com",
+        "ow.ly", "lnkd.in", "rb.gy", "rebrand.ly"
+    }
+    if host in shorteners:
+        return True
+
+    # Known sources for research PDFs (Gemma report lives on GCS / DeepMind media)
+    if ("arxiv.org" in host) or ("storage.googleapis.com" in host) or ("deepmind-media" in ul):
+        return True
+
+    # Generic keywords (kept broad on purpose)
+    keywords = [
+        "technical-report", "tech-report", "whitepaper", "white-paper",
+        "paper", "/docs", "docs.", "/blog", "blog.", "/research", "research.",
+        "gemma3report", "report", "gemma-3"
+    ]
+    return any(k in ul for k in keywords)
 
 def _fetch_pdf_text(url: str) -> str:
     """Download PDF and return plain text using PyMuPDF."""
@@ -42,13 +87,24 @@ def _fetch_pdf_text(url: str) -> str:
 
 
 def _fetch_html_text(url: str) -> str:
-    """Download HTML and strip tags/scripts/styles to plain text."""
-    r = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+    """
+    Download HTML and strip tags/scripts/styles to plain text.
+    If the URL (e.g., a short link) actually returns a PDF, detect it by
+    Content-Type or final URL and extract text as PDF instead.
+    """
+    r = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"}, allow_redirects=True)
     r.raise_for_status()
+
+    # Detect PDF even if the URL doesn't end with .pdf (e.g., short link → GCS PDF)
+    ct = (r.headers.get("Content-Type") or "").lower()
+    final_url = (r.url or "").lower()
+    if ("pdf" in ct) or final_url.endswith(".pdf"):
+        with fitz.open(stream=r.content, filetype="pdf") as doc:
+            return "\n".join(p.get_text() for p in doc)
+
+    # Otherwise treat as HTML
     html = r.text
-    # strip scripts/styles first
     html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
-    # strip all tags
     text = re.sub(r"(?is)<[^>]+>", " ", html)
     text = re.sub(r"\s+", " ", text)
     return text[:800_000]
@@ -59,7 +115,7 @@ def _save_reports_for_model(model_id: str, output_dir: str | Path, items: list[d
     Append/merge into reports_fulltext_{model}.json.
     Schema compatible with arxiv dispatcher expectations:
       { "model_id": str, "full_texts": [ { "arxiv_id": str, "full_text": str }, ... ] }
-    Note: 'arxiv_id' holds the source URL even if it's not from arXiv.
+    Note: 'arxiv_id' holds the source URL even if it's not from ArXiv.
     """
     if not items:
         return
@@ -82,7 +138,7 @@ def _save_reports_for_model(model_id: str, output_dir: str | Path, items: list[d
 
 def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     base_api = f"https://huggingface.co/api/models/{model_id}?full=true"
-    resp = requests.get(base_api)
+    resp = _get_hf(base_api)  # (patched to send token if present)
     resp.raise_for_status()
     data = resp.json()
 
@@ -94,7 +150,7 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
         branches = ["main", "refs/convert", "refs/pr/1"]
         for branch in branches:
             url = f"https://huggingface.co/{model_id}/resolve/{branch}/{filename}"
-            r = requests.get(url)
+            r = _get_hf(url)  # (patched to send token if present)
             if r.status_code == 200:
                 return r.text
         return ""
@@ -193,7 +249,7 @@ if __name__ == "__main__":
 
 # usage
 if __name__ == "__main__":
-    result = huggingface_fetcher("deepseek-ai/DeepSeek-R1")
+    result = huggingface_fetcher("google/gemma-3-4b-it")
     # import json
     # print(json.dumps(result, indent=2, ensure_ascii=False))
 
