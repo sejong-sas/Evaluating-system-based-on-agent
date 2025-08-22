@@ -17,19 +17,13 @@ from pathlib import Path
 _PARA_SPLIT = re.compile(r"\n\s*\n+")  # blank-line separated paragraphs
 
 def _normalize_for_hash(text: str) -> str:
-    """
-    Normalize text for hashing so that trivial whitespace/casing differences
-    do not defeat deduplication.
-    """
+    """Normalize text for hashing so that trivial whitespace/casing differences do not defeat deduplication."""
     return re.sub(r"\s+", " ", text).strip().lower()
 
 def _dedup_texts_by_paragraph(texts: list[str], min_keep_len: int = 0) -> str:
     """
     Concatenate multiple documents while removing duplicate paragraphs.
     Keeps original order of first occurrences.
-    - texts: list of raw document strings
-    - min_keep_len: paragraphs shorter than this will still be deduped,
-      but you can bump it (e.g., 30~60) if headers cause over-dedup.
     """
     seen: set[str] = set()
     out: list[str] = []
@@ -42,7 +36,6 @@ def _dedup_texts_by_paragraph(texts: list[str], min_keep_len: int = 0) -> str:
             if not p:
                 continue
             if min_keep_len and len(p) < min_keep_len:
-                # still dedup tiny paragraphs (e.g., headers)
                 key = hashlib.sha1(_normalize_for_hash(p).encode("utf-8")).hexdigest()
                 if key in seen:
                     continue
@@ -108,7 +101,7 @@ ITEM_GROUPS = [
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")
+MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")  # change if not accessible
 
 # Section limits (0 = unlimited)
 SECTION_CHAR_CAP = int(os.getenv("ARXIV_DISPATCHER_SECTION_CHAR_CAP", "0"))
@@ -178,6 +171,8 @@ STRICT RULES:
   (e.g., "we fine-tuned", "post-trained on", "instruction-tuned", "SFT", "LoRA/QLoRA applied").
 - "not_used" only if quotes explicitly deny it.
 - Otherwise return "unknown".
+- ✅ If the quotes describe ONLY supervised finetuning (e.g., xP3/MTF) and contain ZERO RL signals
+  (RLHF/DPO/PPO/reward model/human feedback), classify reinforcement learning as "not_used".
 
 Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
@@ -211,9 +206,24 @@ def _classify_usage_from_merged(merged: dict) -> dict:
     if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
     return {"fine_tuning": ft_s, "rl": rl_s}
 
-def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}  # description (token-saving)
-def _recall_inst(g): return "Items in this group:\n"+_js(_desc(g))
-def _summ_inst(g):   return "Items in this group:\n"+_js(_desc(g))
+def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
+
+def _skeleton(g):  # exact keys to force model output shape
+    return {LABELS[i]: [] for i in g}
+
+def _recall_inst(g):
+    return (
+        "Items in this group:\n" + _js(_desc(g)) +
+        "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
+        _js(_skeleton(g))
+    )
+
+def _summ_inst(g):
+    return (
+        "Items in this group:\n" + _js(_desc(g)) +
+        "\nReturn a JSON object with EXACTLY these keys (string summaries):\n" +
+        _js({LABELS[i]: "" for i in g})
+    )
 
 # ─────────── GPT JSON call ───────────
 def _chat_json(sys, usr):
@@ -223,8 +233,10 @@ def _chat_json(sys, usr):
         messages=[{"role":"system","content":sys},
                   {"role":"user","content":usr}]
     )
-    try:    return json.loads(r.choices[0].message.content.strip())
-    except: return {}
+    try:
+        return json.loads(r.choices[0].message.content.strip())
+    except Exception:
+        return {}
 
 # ─────────── Build payload ───────────
 def _make_payload(d: Dict[str, Any]) -> Dict[str, Any]:
@@ -297,32 +309,70 @@ def _payload_text(p: Dict[str, Any]) -> str:
 
 
 # ─────────── Collect evidence ───────────
-_ALLOWED = ("arxiv_id","title","abstract","pdf_text","sections/",
-            "categories","license","authors","bib")
+_ALLOWED_PREFIXES = ("arxiv_id","title","abstract","pdf_text","sections/","categories","license","authors","bib")
+_EXTRA_OK_PREFIXES = ("section","sec.","appendix","table","figure","fig.")
 
 def _valid(src: str) -> bool:
-    return isinstance(src,str) and src.startswith(_ALLOWED)
+    if not isinstance(src, str):
+        return False
+    s = src.strip().lower()
+    # allow bracketed sources like "[pdf_text]" or "[sections/Intro]"
+    s = s.strip("[]")
+    return s.startswith(_ALLOWED_PREFIXES) or s.startswith(_EXTRA_OK_PREFIXES)
+
+def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Dict[str,str]]]:
+    """If 4-2 is empty but 3-2 contains dataset-ish quotes, copy a subset."""
+    ft_lbl = "3-2 (Fine-tuning)"
+    fd_lbl = "4-2 (Fine-tuning Data)"
+    if (not ev.get(fd_lbl)) and ev.get(ft_lbl):
+        kws = r"(dataset|corpus|xP3(?:mt)?|p3\b|language distribution|languages|split|examples|released|Flores200|ROOTS|license|public links?)"
+        moved = [e for e in ev[ft_lbl] if isinstance(e, dict) and re.search(kws, e.get("quote",""), re.I)]
+        if moved:
+            ev[fd_lbl] = _dedup_evs(moved, EVIDENCE_LIMIT_PER_KEY)
+    return ev
 
 def _collect(g, text: str) -> Dict[str, List[Dict[str,str]]]:
+    # ev의 키는 애초에 풀 라벨(예: "1-1 (Weights)")
     ev = {LABELS[k]: [] for k in g}
     for ch in _chunk(text, CHUNK_CHARS, CHUNK_OVERLAP):
         ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g)+"\n=== PAYLOAD ===\n"+ch)
+        if not isinstance(ans, dict):
+            ans = {}
+        # debug: what keys came back?
+        if ans:
+            print("🔎 recall keys:", list(ans.keys())[:16])
         for k in g:
-            arr = ans.get(LABELS[k], [])
+            lbl = LABELS[k]
+            arr = ans.get(lbl, [])
             if isinstance(arr, list):
-                ev[LABELS[k]].extend(arr)
-    for k in ev:
-        # keep only valid sources
-        ev[LABELS[k]] = [e for e in ev[LABELS[k]] if _valid(e.get("source",""))]
-        ev[LABELS[k]] = _dedup_evs(ev[LABELS[k]], EVIDENCE_LIMIT_PER_KEY)
+                ev[lbl].extend(arr)
+
+    # 방어적 후처리: 이미 풀 라벨을 키로 사용
+    raw_counts = {lbl: len(ev.get(lbl) or []) for lbl in ev}
+    for lbl in list(ev.keys()):
+        arr = ev.get(lbl) or []
+        arr = [e for e in arr
+               if isinstance(e, dict)
+               and _valid((e.get("source") or ""))
+               and isinstance(e.get("quote"), str)
+               and (e.get("source") or "").strip()
+               and (e.get("quote") or "").strip()]
+        ev[lbl] = _dedup_evs(arr, EVIDENCE_LIMIT_PER_KEY)
+    kept_counts = {lbl: len(ev.get(lbl) or []) for lbl in ev}
+    print("evidence counts before/after filter:", {"raw": raw_counts, "kept": kept_counts})
+
+    # 재배치 휴리스틱 (특히 3-2 → 4-2)
+    ev = _rebalance_evidence(ev)
     return ev
 
 
 # ─────────── Summarize ───────────
 def _summarize(g, ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, str]:
-    quotes = {LABELS[k]: [e["quote"] for e in ev[LABELS[k]]] for k in g}
+    lbls = [LABELS[k] for k in g]
+    quotes = {lbl: [(e.get("quote") or "") for e in (ev.get(lbl) or [])] for lbl in lbls}
     ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g)+"\n=== QUOTES ===\n"+_js(quotes))
-    return {LABELS[k]: ans.get(LABELS[k], "") for k in g}
+    # 결과도 풀 라벨 키로 안전 반환
+    return {lbl: (ans.get(lbl, "") or "") for lbl in lbls}
 
 
 # ─────────── Merge ───────────
@@ -353,8 +403,7 @@ def _family_tokens_from_model_id(model_id: str) -> set[str]:
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
     base: set[str] = set()
-    for t in raw:
-        tt = t.strip()
+    for tt in (t.strip() for t in raw):
         if not tt: 
             continue
         if tt in {"base","it","instruct","chat","hf","model"}:
@@ -407,10 +456,58 @@ def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int 
         if not t: 
             continue
         hits += tl.count(t)
-        # allow separated variants (e.g., "llama 3", "gemma-3")
         if re.search(rf"\b{re.escape(t)}\b", tl):
             hits += 1
     return hits >= max(1, min_hits)
+
+
+# ─────────── BLOOMZ RL not-used rule helpers ───────────
+# Tokens for heuristic checks
+_FT_TOKENS = (
+    "finetune", "fine-tuning", "instruction-tune", "sft",
+    "xp3", "xp3mt", "mtf", "prompted finetuning"
+)
+_RL_TOKENS = (
+    "rlhf", "reinforcement learning", "dpo", "ppo",
+    "reward model", "preference model", "human feedback",
+    "rlaif", "kl penalty",
+    # optional: 더 잡고 싶으면 아래도 추가
+    "reward modeling", "preference optimization", "rm"
+)
+
+# ✅ Python 3.8 호환 타입힌트 (3.9+면 tuple[str, ...]로 바꿔도 됨)
+from typing import Tuple
+
+def _contains_any(text: str, toks: Tuple[str, ...]) -> bool:
+    tl = (text or "").casefold()
+    # normalize en-dash/em-dash → hyphen (fine–tuning/fine—tuning도 매치되게)
+    tl = tl.replace("–", "-").replace("—", "-")
+    return any(t in tl for t in toks)
+
+def _all_quotes(merged: dict) -> str:
+    buf = []
+    for k, v in merged.items():
+        if not (isinstance(k, str) and k.endswith("__evidence")):
+            continue
+        for e in (v or []):
+            if isinstance(e, dict):
+                q = e.get("quote") or ""
+                if q:
+                    buf.append(q)
+    return "\n".join(buf)
+
+
+def _rule_infer_rl_not_used(model_id: str, merged: dict) -> bool:
+    # BLOOMZ 전용: SFT 신호는 있고 RL 신호는 전혀 없으면 not_used
+    fam = bool(re.match(r"^bigscience/bloomz(?:[/-].*)?$", (model_id or ""), re.I))
+    txt = "\n".join([
+        merged.get("3-2 (Fine-tuning)", "") or "",
+        merged.get("3-3 (Reinforcement Learning)", "") or "",
+        _all_quotes(merged)
+    ])
+    has_ft = _contains_any(txt, _FT_TOKENS)
+    has_rl = _contains_any(txt, _RL_TOKENS)
+    return fam and has_ft and not has_rl
 
 
 # ─────────── Public function ───────────
@@ -419,7 +516,7 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1) Input: prefer outdir → fallback to project root
+    # 1) Input: prefer outdir → fallback to project root (reports_* intentionally NOT included)
     candidates = [
         output_dir / f"arxiv_fulltext_{base}.json",
         output_dir / f"arxiv_{base}.json",
@@ -441,7 +538,13 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
         try:
             docs.append(json.load(open(src, encoding="utf-8")))
         except Exception:
-            pass
+            # Rare: accept raw text fallback
+            try:
+                raw = open(src, encoding="utf-8").read()
+                if raw.strip():
+                    docs.append({"full_texts": [{"arxiv_id": str(src), "full_text": raw}]})
+            except Exception:
+                pass
 
     # Normalization: unify to {"full_texts":[{"arxiv_id" (or URL), "full_text"}...]}
     merged_full_texts: List[Dict[str, str]] = []
@@ -455,10 +558,11 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
                     })
         else:
             # older single-doc schema → map to unified
-            merged_full_texts.append({
-                "arxiv_id": str(ax.get("arxiv_id", "")).strip(),
-                "full_text": str(ax.get("full_text") or ax.get("pdf_text") or "")
-            })
+            if isinstance(ax, dict):
+                merged_full_texts.append({
+                    "arxiv_id": str(ax.get("arxiv_id", "")).strip(),
+                    "full_text": str(ax.get("full_text") or ax.get("pdf_text") or "")
+                })
 
     # 2) Model relevance filter (NEW)
     fam = _family_tokens_from_model_id(model)
@@ -471,7 +575,6 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
             t = str(it.get("full_text",""))
             if _looks_related_doc(u, t, fam, ARXIV_MIN_HITS_IN_TEXT):
                 filtered.append(it)
-        # keep filtered if non-empty; otherwise keep original to avoid accidental drop-all
         if filtered:
             merged_full_texts = filtered
         print(f"🔎 Relevance filter: kept {len(merged_full_texts)}/{before} docs for '{model}'")
@@ -490,9 +593,8 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
         "categories": "",
         "license": "",
         "authors": "",
-        "pdf_text": _dedup_pdf_text,  # ✅ use deduped text
+        "pdf_text": _dedup_pdf_text,
         "sections": [
-            # keep original per-doc sections to help source tracing
             {
                 "title": (x.get("arxiv_id") or "doc")[:300],
                 "text":  (x.get("full_text") or "") if SECTION_CHAR_CAP == 0
@@ -526,11 +628,18 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
     merged = _merge_all(parts)
 
     try:
-        merged["__usage"] = _classify_usage_from_merged(merged)
+        usage = _classify_usage_from_merged(merged)
+        # 🔁 BLOOMZ 전용 규칙: RL 신호가 전무하면 not_used로 확정
+        try:
+            if (usage.get("rl") in (None, "unknown")) and _rule_infer_rl_not_used(model, merged):
+                usage["rl"] = "not_used"
+        except Exception:
+            pass
+        merged["__usage"] = usage
     except Exception as e:
         print("⚠️ Failed to classify usage:", e)
         merged["__usage"] = {"fine_tuning":"unknown","rl":"unknown"}
-        
+
     if save:
         fp = output_dir / f"arxiv_filtered_final_{base}.json"
         json.dump(merged, open(fp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
