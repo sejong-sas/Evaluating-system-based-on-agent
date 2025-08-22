@@ -1,3 +1,4 @@
+# pip install --upgrade pip
 # pip install requests python-dotenv openai huggingface_hub PyMuPDF
 # pip install -U accelerate
 import json
@@ -1269,7 +1270,7 @@ def run_all_fetchers(user_input: str):
     if readme_text and readme_text.strip():
         try:
             os.environ["MODEL_OUTPUT_DIR"] = str(outdir)
-            run_inference(readme_text, output_dir=outdir, keep_code=True)
+            #run_inference(readme_text, output_dir=outdir, keep_code=True)
         except Exception as e:
             print("⚠️ Failed to run inference:", e)
     else:
