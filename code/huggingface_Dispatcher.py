@@ -41,23 +41,24 @@ LABELS = {
 
 # ──────────────────────────── Item descriptions ────────────────────────────
 EVAL_DESCRIPTIONS = {
-    LABELS["1-1"]: "All information about the availability, location, and access method of model weights, including whether anyone can download them",
-    LABELS["1-2"]: "All information about whether the code for training and running the model is public, and which parts are public",
-    LABELS["1-3"]: "All information about license existence/type and granted rights (use, modification, distribution, commercial use)",
-    LABELS["1-4"]: "All information about official papers, technical reports, blogs, and links related to the model",
-    LABELS["1-5"]: "All information about model architecture (number of layers, hyperparameters, etc.) and design details",
+    LABELS["1-1"]: "All information about whether model weights are public, their location, access method, and if anyone can download them",
+    LABELS["1-2"]: "All information about whether TRAINING code is public. Distinguish training pipeline (data prep, configs, scripts, schedules) from inference/serving-only code. Specify which parts of training are public (pre-training, fine-tuning, RL).",
+    LABELS["1-3"]: "All information about the license and explicit grants/restrictions for each right: (a) use, (b) modification, (c) redistribution, (d) commercial use. Extract exact quoted lines from the model card/license; include license name/version and phrases like 'non-commercial', 'research only', 'no derivatives', 'no redistribution', 'evaluation only'.",
+    LABELS["1-4"]: "All information about official papers, technical reports, blogs and links related to the model",
+    LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
     LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
-    LABELS["2-1"]: "All information about the hardware used for training (H100, TPU, etc.), quantity, and compute scale",
+    LABELS["2-1"]: "All information about training hardware type (H100, TPU, etc.), quantity, and compute scale",
     LABELS["2-2"]: "All information about software used for training (frameworks, libraries), versions, and settings",
-    LABELS["2-3"]: "All information about the existence of an accessible API (e.g., GPT API, Gemini API; libraries do not count), docs, examples, and public availability",
-    LABELS["3-1"]: "All information about pre-training methodology, procedure, data flow, and hyperparameter settings",
-    LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and existence of a reproducible pipeline",
-    LABELS["3-3"]: "All information about the use of RLHF, DPO, etc., including concrete methods, procedures, and parameters",
-    LABELS["4-1"]: "All information about the types, quantities, sources, allowed use, and composition of pre-training data",
-    LABELS["4-2"]: "All information about the source, composition, examples, and public availability of fine-tuning datasets",
-    LABELS["4-3"]: "All information about the composition, accessibility, sources, and generation of reinforcement learning datasets",
-    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impacts",
+    LABELS["2-3"]: "All information about the existence of an accessible API (must be an API like GPT/Gemini, not a library), docs, examples, and public availability",
+    LABELS["3-1"]: "All information about pre-training methodology, procedures, data flow, and hyperparameter settings",
+    LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and the existence of a reproducible pipeline",
+    LABELS["3-3"]: "All information about RLHF, DPO, etc., including concrete methods, procedures, and parameter settings",
+    LABELS["4-1"]: "All information about types, quantities, sources, permitted use, and composition of pre-training data",
+    LABELS["4-2"]: "All information about sources, composition, examples, and public availability of fine-tuning datasets",
+    LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
+    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
+
 
 # ─────────────────────────────── Grouping ───────────────────────────────
 ITEM_GROUPS: List[List[str]] = [
@@ -131,11 +132,22 @@ You must return a JSON object only (no extra text).
 """.strip()
 
 _USAGE_SYS = """
-You are a classifier. Based only on the input text (quotes/summaries), determine whether this model actually used
-Fine-tuning / Reinforcement Learning.
-JSON only:
+You are a classifier. Decide whether the MODEL ITSELF (as released by the authors)
+actually USED the following stages in its training pipeline:
+- Fine-tuning (SFT/Instruction/Adapters/etc.)
+- Reinforcement Learning (RLHF/DPO/PPO/etc.)
+
+STRICT RULES:
+- Do NOT infer "used" from generic advice like "you can fine-tune this model".
+- "used" only if quotes explicitly state the authors performed that stage
+  (e.g., "we fine-tuned", "post-trained on", "instruction-tuned", "SFT", "LoRA/QLoRA applied").
+- "not_used" only if quotes explicitly deny it.
+- Otherwise return "unknown".
+
+Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
 """
+
 
 def _classify_usage_from_merged(merged: dict) -> dict:  # whether RL / fine-tuning were used
     def _pull(label):
