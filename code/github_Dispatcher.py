@@ -35,8 +35,8 @@ LABELS = {
 # ─────────────── Item descriptions (brief) ───────────────
 EVAL_DESCRIPTIONS = {
     LABELS["1-1"]: "All information about whether model weights are public, their location, access method, and if anyone can download them",
-    LABELS["1-2"]: "All information about whether code for training/execution is public and which parts are public",
-    LABELS["1-3"]: "All information about license existence/type and granted rights (use, modification, distribution, commercial use)",
+    LABELS["1-2"]: "All information about whether TRAINING code is public. Distinguish training pipeline (data prep, configs, scripts, schedules) from inference/serving-only code. Specify which parts of training are public (pre-training, fine-tuning, RL).",
+    LABELS["1-3"]: "All information about the license and explicit grants/restrictions for each right: (a) use, (b) modification, (c) redistribution, (d) commercial use. Extract exact quoted lines from LICENSE/README; include license name/version and phrases like 'non-commercial', 'research only', 'no derivatives', 'no redistribution', 'evaluation only'.",
     LABELS["1-4"]: "All information about official papers, technical reports, blogs and links related to the model",
     LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
     LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
@@ -51,6 +51,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
     LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
+
 
 # ───────────── Groups ─────────────
 ITEM_GROUPS = [
@@ -114,11 +115,19 @@ You must output a JSON object only.
 """.strip()
 
 _USAGE_SYS = """
-You are a classifier. Based only on the input text (collection of quotes), decide whether this model actually used:
-- Fine-tuning
-- Reinforcement Learning (RL, RLHF/ PPO/ DPO/ RLAIF, etc.)
+You are a classifier. Decide whether the MODEL ITSELF (as released by the authors)
+actually USED the following stages in its training pipeline:
+- Fine-tuning (SFT/Instruction/Adapters/etc.)
+- Reinforcement Learning (RLHF/DPO/PPO/etc.)
 
-Answer in JSON only:
+STRICT RULES:
+- Do NOT infer "used" from generic advice like "you can fine-tune this model".
+- "used" only if quotes explicitly state the authors performed that stage
+  (e.g., "we fine-tuned", "post-trained on", "instruction-tuned", "SFT", "LoRA/QLoRA applied").
+- "not_used" only if quotes explicitly deny it.
+- Otherwise return "unknown".
+
+Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
 """
 
