@@ -177,10 +177,13 @@ STRICT RULES:
   (e.g., "we fine-tuned", "post-trained on", "instruction-tuned", "SFT", "LoRA/QLoRA applied").
 - "not_used" only if quotes explicitly deny it.
 - Otherwise return "unknown".
+- ✅ If the quotes describe ONLY supervised finetuning (e.g., xP3/MTF) and contain ZERO RL signals
+  (RLHF/DPO/PPO/reward model/human feedback), classify reinforcement learning as "not_used".
 
 Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
 """
+
 
 
 # ─────────────── Payload builder ───────────────
