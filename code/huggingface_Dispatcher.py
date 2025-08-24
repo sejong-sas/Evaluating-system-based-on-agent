@@ -3,6 +3,7 @@
 # - store evidence as an array of objects
 # - summaries must use quotes only
 # - remove __evidence_sources field
+# - STRICT: collect ONLY quotes that explicitly mention the TARGET model
 
 import os
 import json
@@ -43,12 +44,12 @@ LABELS = {
 EVAL_DESCRIPTIONS = {
     LABELS["1-1"]: "All information about whether model weights are public, their location, access method, and if anyone can download them",
     LABELS["1-2"]: "All information about whether TRAINING code is public. Distinguish training pipeline (data prep, configs, scripts, schedules) from inference/serving-only code. Specify which parts of training are public (pre-training, fine-tuning, RL).",
-    LABELS["1-3"]: "All information about the license and explicit grants/restrictions for each right: (a) use, (b) modification, (c) redistribution, (d) commercial use. Extract exact quoted lines from the model card/license; include license name/version and phrases like 'non-commercial', 'research only', 'no derivatives', 'no redistribution', 'evaluation only'.",
+    LABELS["1-3"]: "All information about the license and explicit grants/restrictions for each right: (a) use, (b) modification, (c) redistribution, (d) commercial use. Extract exact quoted lines from LICENSE/README; include license name/version and phrases like 'non-commercial', 'research only', 'no derivatives', 'no redistribution', 'evaluation only'.",
     LABELS["1-4"]: "All information about official papers, technical reports, blogs and links related to the model",
     LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
     LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
     LABELS["2-1"]: "All information about training hardware type (H100, TPU, etc.), quantity, and compute scale",
-    LABELS["2-2"]: "All information about software used for training (frameworks, libraries), versions, and settings",
+    LABELS["2-2"]: "All information about the software stack used to TRAIN the model (not inference/serving): core ML frameworks (e.g., PyTorch/JAX/TensorFlow), distributed-training libraries (DeepSpeed, Megatron-LM, FSDP/ZeRO), acceleration kernels (FlashAttention/xFormers/Apex), data-loading pipelines, optimizers/schedulers, exact versions, configs, and runtime flags",
     LABELS["2-3"]: "All information about the existence of an accessible API (must be an API like GPT/Gemini, not a library), docs, examples, and public availability",
     LABELS["3-1"]: "All information about pre-training methodology, procedures, data flow, and hyperparameter settings",
     LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and the existence of a reproducible pipeline",
@@ -58,7 +59,6 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
     LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
-
 
 # ─────────────────────────────── Grouping ───────────────────────────────
 ITEM_GROUPS: List[List[str]] = [
@@ -74,12 +74,12 @@ CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
 MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
 
-# (Note) Not used now, but can be used for tag validation
-_SRC_TAG_RE = re.compile(r'^\s*\[([^\]]+)\]\s*.*$')
-
 # ─────────────────────────────── Utils ───────────────────────────────
 def _json(obj: Any) -> str:
     return json.dumps(obj, ensure_ascii=False, indent=2)
+
+def _js(obj: Any) -> str:
+    return _json(obj)
 
 def _chunk_text(s: str, chunk: int, overlap: int) -> List[str]:
     out, n, i = [], len(s), 0
@@ -98,8 +98,8 @@ def _dedup_evidences(evs: List[Dict[str, str]], limit: int) -> List[Dict[str, st
                 and isinstance(ev.get("source"), str)
                 and isinstance(ev.get("quote"), str)):
             continue
-        src = ev["source"].strip()
-        qt  = ev["quote"].strip()
+        src = (ev.get("source") or "").strip()
+        qt  = (ev.get("quote") or "").strip()
         if not src or not qt:
             continue
         key = (src, qt)
@@ -113,6 +113,12 @@ def _dedup_evidences(evs: List[Dict[str, str]], limit: int) -> List[Dict[str, st
 
 def _group_desc_map(ids: List[str]) -> Dict[str, str]:
     return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
+
+def _desc(ids: List[str]) -> Dict[str, str]:
+    return _group_desc_map(ids)
+
+def _skeleton(ids: List[str]) -> Dict[str, list]:
+    return {LABELS[i]: [] for i in ids}
 
 # ─────────────────────────────── Prompts ───────────────────────────────
 _BASE_RECALL_SYS = """
@@ -148,46 +154,51 @@ STRICT RULES:
 
 Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
-"""
+""".strip()
 
+# === Target-model guard (공통) =========================================
+def _canonical_model_tokens(model_id: str) -> list:
+    """모델 ID에서 비교적 안정적인 토큰/별칭 후보 추출 (짧고 흔한 토큰 제외)."""
+    name = (model_id or "").split("/", 1)[-1].lower()
+    raw = re.split(r"[^a-z0-9.]+", name)
+    alts = set()
+    for t in raw:
+        t = t.strip()
+        if len(t) >= 3 and t not in {"base","it","instruct","chat","model"}:
+            alts.add(t)
+    # 숫자/구두점 제거/축약형까지 추가
+    joined = re.sub(r"[^a-z0-9]", "", name)
+    nodigit = re.sub(r"\d+", "", joined)
+    if len(joined) >= 3: alts.add(joined)
+    if len(nodigit) >= 3: alts.add(nodigit)
+    return sorted(alts)
 
-def _classify_usage_from_merged(merged: dict) -> dict:  # whether RL / fine-tuning were used
-    def _pull(label):
-        txt = merged.get(label, "") or ""
-        evs = merged.get(f"{label}__evidence", []) or []
-        quotes = "\n".join([e.get("quote","") for e in evs if isinstance(e, dict)])
-        return (txt + "\n" + quotes).strip()
-    ft_txt = _pull("3-2 (Fine-tuning)")
-    rl_txt = _pull("3-3 (Reinforcement Learning)")
-    text = f"[fine_tuning]\n{ft_txt}\n\n[reinforcement]\n{rl_txt}".strip()
-    if not text:
-        return {"fine_tuning":"unknown","rl":"unknown"}
-    ans = _chat_json(_USAGE_SYS, text[:12000])
-    ft_s = ans.get("fine_tuning","unknown"); rl_s = ans.get("rl","unknown")
-    if ft_s not in {"used","not_used","unknown"}: ft_s = "unknown"
-    if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
-    return {"fine_tuning": ft_s, "rl": rl_s}
-
-
-def _build_recall_inst(group: List[str]) -> str:
-    desc = _json(_group_desc_map(group))
-    example = _json({
-        LABELS[k]: [
-            {"source": "readme", "quote": "Example original sentence 1"},
-            {"source": "py_files/train.py", "quote": "Example original sentence 2"}
-        ] for k in group
-    })
+def _model_guard_text(model_id: str) -> str:
+    toks = _canonical_model_tokens(model_id)
     return (
-        f"Definitions for this group:\n{desc}\n"
-        "For each key, return an array of evidence objects. Example schema:\n"
-        f"{example}"
+        "STRICT MODEL FILTER\n"
+        f"- Target model: {model_id}\n"
+        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
+        "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
+        "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
+        "- If in doubt, DROP the quote.\n"
     )
 
-def _build_summary_inst(group: List[str]) -> str:
-    desc = _json(_group_desc_map(group))
+def _recall_inst(group: List[str], model_id: str) -> str:
     return (
-        f"Definitions for this group:\n{desc}\n"
-        "You will receive an array of quotes next. Write long summaries for each item."
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(group)) +
+        "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
+        _js(_skeleton(group))
+    )
+
+def _summ_inst(group: List[str], model_id: str) -> str:
+    return (
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(group)) +
+        "\nReturn a JSON object with EXACTLY these keys (string summaries):\n" +
+        _js({LABELS[i]: "" for i in group}) +
+        "\nUse ONLY the provided quotes."
     )
 
 # ─────────────────────────────── GPT call ───────────────────────────────
@@ -239,37 +250,84 @@ def _payload_to_text(p: Dict) -> str:
 # ───────────────────────────── Evidence collection ─────────────────────────────
 _ALLOWED_PREFIX = ("model_id", "readme", "license_file", "config",
                    "generation_config", "files", "py_files/")
+_EXTRA_OK_PREFIX = ("section", "sec.", "appendix", "table", "figure", "fig.")
 
 def _is_valid_source(src: str) -> bool:
-    return isinstance(src, str) and src.startswith(_ALLOWED_PREFIX)
+    if not isinstance(src, str):
+        return False
+    s = src.strip().lower()
+    s = s.strip("[]")  # allow bracketed tags like [readme]
+    return s.startswith(_ALLOWED_PREFIX) or s.startswith(_EXTRA_OK_PREFIX)
 
-def _recall_collect(group: List[str], text: str) -> Dict[str, List[Dict[str, str]]]:
+def _quote_mentions_target(q: str, model_id: str) -> bool:
+    if not q:
+        return False
+    ql = q.lower()
+    for t in _canonical_model_tokens(model_id):
+        if t and t in ql:
+            return True
+    return False
+
+def _filter_evidence_by_model(ev: Dict[str, List[Dict[str, str]]], model_id: str) -> Dict[str, List[Dict[str, str]]]:
+    out: Dict[str, List[Dict[str, str]]] = {}
+    for lbl, arr in ev.items():
+        kept = []
+        for e in arr or []:
+            src = (e.get("source") or "").strip()
+            qt  = (e.get("quote")  or "").strip()
+            if not src or not qt:
+                continue
+            if not _is_valid_source(src):
+                continue
+            if not _quote_mentions_target(qt, model_id):
+                continue
+            kept.append({"source": src, "quote": qt})
+        out[lbl] = _dedup_evidences(kept, EVIDENCE_LIMIT_PER_KEY)
+    return out
+
+def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Dict[str,str]]]:
+    """If 4-2 is empty but 3-2 contains dataset-ish quotes, copy a subset."""
+    ft_lbl = "3-2 (Fine-tuning)"
+    fd_lbl = "4-2 (Fine-tuning Data)"
+    if (not ev.get(fd_lbl)) and ev.get(ft_lbl):
+        kws = r"(dataset|corpus|xP3(?:mt)?|p3\b|language distribution|languages|split|examples|released|Flores200|ROOTS|license|public links?)"
+        moved = [e for e in ev[ft_lbl] if isinstance(e, dict) and re.search(kws, e.get("quote",""), re.I)]
+        if moved:
+            ev[fd_lbl] = _dedup_evidences(moved, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
+def _collect(group: List[str], text: str, model_id: str) -> Dict[str, List[Dict[str, str]]]:
     chunks = _chunk_text(text, CHUNK_CHARS, CHUNK_OVERLAP)
     out: Dict[str, List[Dict[str, str]]] = {LABELS[k]: [] for k in group}
 
     for chunk in chunks:
-        ans = _chat_json(_BASE_RECALL_SYS, _build_recall_inst(group) +
-                         "\n=== PAYLOAD ===\n" + chunk)
-
+        ans = _chat_json(
+            _BASE_RECALL_SYS,
+            _recall_inst(group, model_id) + "\n=== PAYLOAD ===\n" + chunk
+        )
+        # debug (optional): print("🔎 recall keys:", list(ans.keys())[:16])
         for k in group:
             lbl = LABELS[k]
             evs = ans.get(lbl, [])
-            if not isinstance(evs, list):
-                continue
-            # type validation + dedup
-            out[lbl].extend(_dedup_evidences(evs, EVIDENCE_LIMIT_PER_KEY))
+            if isinstance(evs, list):
+                out[lbl].extend(evs)
 
+    # post-filter: source validity + model-mention guard + dedup
+    raw_counts = {lbl: len(out.get(lbl) or []) for lbl in out}
+    out = _filter_evidence_by_model(out, model_id)
+    out = _rebalance_evidence(out)
+    kept_counts = {lbl: len(out.get(lbl) or []) for lbl in out}
+    print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
     return out
 
 # ─────────────────────────────── Summary generation ──────────────────────────────
-def _summarize(group: List[str], evid: Dict[str, List[Dict[str, str]]]) -> Dict[str, str]:
-    quotes = {
-        LABELS[k]: [e["quote"] for e in evid[LABELS[k]]]
-        for k in group
-    }
-    ans = _chat_json(_BASE_SUMMARY_SYS, _build_summary_inst(group) +
-                     "\n=== EVIDENCE_QUOTES ===\n" + _json(quotes))
-    return {LABELS[k]: ans.get(LABELS[k], "") for k in group}
+def _summarize(group: List[str], evid: Dict[str, List[Dict[str, str]]], model_id: str) -> Dict[str, str]:
+    quotes = {LABELS[k]: [e["quote"] for e in (evid.get(LABELS[k]) or [])] for k in group}
+    ans = _chat_json(
+        _BASE_SUMMARY_SYS,
+        _summ_inst(group, model_id) + "\n=== EVIDENCE_QUOTES ===\n" + _js(quotes)
+    )
+    return {LABELS[k]: (ans.get(LABELS[k], "") or "") for k in group}
 
 # ─────────────────────────────── Merge utils ───────────────────────────────
 def _merge_for_final(summary: Dict[str, str],
@@ -285,6 +343,48 @@ def _merge_dicts(ds: List[Dict[str, Any]]) -> Dict[str, Any]:
     for d in ds:
         merged.update(d)
     return merged
+
+# ───────────────────────────── RL/FT usage classifier (+heuristic) ─────────────────────────────
+_T_TOKENS = ["finetune", "fine-tuning", "instruction-tune", "sft", "xp3", "xp3mt", "mtf", "prompted finetuning"]
+_RL_TOKENS = ["rlhf", "reinforcement learning", "dpo", "ppo", "reward model", "preference model", "human feedback", "rlaif", "kl penalty"]
+
+def _contains_any(text: str, toks: List[str]) -> bool:
+    tl = (text or "").lower()
+    return any(t in tl for t in toks)
+
+def _all_quotes(merged: dict) -> str:
+    buf = []
+    for k, v in merged.items():
+        if not (isinstance(k, str) and k.endswith("__evidence")):
+            continue
+        for e in (v or []):
+            if isinstance(e, dict):
+                q = e.get("quote") or ""
+                if q:
+                    buf.append(q)
+    return "\n".join(buf)
+
+def _rule_infer_rl_not_used(merged: dict) -> bool:
+    q = _all_quotes(merged)
+    return (_contains_any(q, _T_TOKENS) and not _contains_any(q, _RL_TOKENS))
+
+def _classify_usage_from_merged(merged: dict) -> dict:
+    """whether RL / fine-tuning were used (model-card based)"""
+    def _pull(label):
+        txt = merged.get(label, "") or ""
+        evs = merged.get(f"{label}__evidence", []) or []
+        quotes = "\n".join([e.get("quote","") for e in evs if isinstance(e, dict)])
+        return (txt + "\n" + quotes).strip()
+    ft_txt = _pull("3-2 (Fine-tuning)")
+    rl_txt = _pull("3-3 (Reinforcement Learning)")
+    text = f"[fine_tuning]\n{ft_txt}\n\n[reinforcement]\n{rl_txt}".strip()
+    if not text:
+        return {"fine_tuning":"unknown","rl":"unknown"}
+    ans = _chat_json(_USAGE_SYS, text[:12000])
+    ft_s = ans.get("fine_tuning","unknown"); rl_s = ans.get("rl","unknown")
+    if ft_s not in {"used","not_used","unknown"}: ft_s = "unknown"
+    if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
+    return {"fine_tuning": ft_s, "rl": rl_s}
 
 # ────────────────────────────── Main function ────────────────────────────────
 def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
@@ -307,8 +407,8 @@ def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = "
         try:
             payload = _make_group_payload(hf, idx - 1)
             text = _payload_to_text(payload)
-            evid = _recall_collect(grp, text)
-            summ = _summarize(grp, evid)
+            evid = _collect(grp, text, model)
+            summ = _summarize(grp, evid, model)
             part = _merge_for_final(summ, evid)
         except Exception as e:
             print(f"⚠️ Error processing group {idx}:", e)
@@ -322,8 +422,12 @@ def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = "
 
     merged = _merge_dicts(parts)
 
+    # usage classification (+ heuristic: FT-only → RL not_used)
     try:
-        merged["__usage"] = _classify_usage_from_merged(merged)
+        usage = _classify_usage_from_merged(merged)
+        if (usage.get("rl") in (None, "unknown")) and _rule_infer_rl_not_used(merged):
+            usage["rl"] = "not_used"
+        merged["__usage"] = usage
     except Exception as e:
         print("⚠️ Failed to classify usage:", e)
         merged["__usage"] = {"fine_tuning":"unknown","rl":"unknown"}
