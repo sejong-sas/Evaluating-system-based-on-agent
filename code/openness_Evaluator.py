@@ -41,10 +41,9 @@ CRITERIA_TEXT = """
 - Semi-Open (0.5): **One or two** rights are restricted (e.g., non-commercial / no redistribution / no derivatives / research-only), or terms partially restrict usage.
 - Closed (0): **Three or more** rights are restricted, **or** there is **no license** / undefined custom terms that substantially limit usage.
 
-### 1-4. Paper
-- Open (1): Official paper or technical report exists
-- Semi-Open (0.5): Website or blog post exists
-- Closed (0): No related document
+- Open (1): A peer-reviewed paper or an official technical report that is **specifically about the TARGET model** (exact version/variant).
+- Semi-Open (0.5): A model blog/announcement page or a model card that **primarily reports results** but is not a full technical report.
+- Closed (0): No document **for this model**, or the document is about a **different model/family** or a **previous version**.
 
 ### 1-5. Architecture
 - Open (1): Model structure and hyperparameters are fully disclosed
@@ -128,7 +127,9 @@ EVALUATION_PROMPT = (
     + "3) SEMI-OPEN (0.5) requires some direct evidence; OPEN (1) requires fully reproducible methods or fully disclosed datasets.\n"
     + "4) You may use auxiliary JSON for context, but NEVER override rule (1).\n"
     + "5) Do NOT treat data scale/types/hardware alone as methodology disclosure. Without concrete method details\n"
-    + "   (objectives, training schedules, key hyperparameters, or an executable pipeline), score it CLOSED (0).\n\n"
+    + "   (objectives, training schedules, key hyperparameters, or an executable pipeline), score it CLOSED (0).\n"
+    + "6) For **1-4 Paper**, apply the rubric above **ONLY to documents about the TARGET model** (payload.model). "
+    + "   Blogs/model cards are Semi-Open; papers/tech reports about other models or older versions are Closed.\n\n"
     + "Return JSON:\n"
     + "{\n"
     + '  "scores": {\n'
