@@ -7,11 +7,10 @@
 # - NOTE: This dispatcher intentionally ignores reports_fulltext_* (handled by Reports Dispatcher)
 
 import os, json, re, hashlib
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 from dotenv import load_dotenv
 from openai import OpenAI
 from pathlib import Path
-
 
 # ─────────── Dedup helpers ───────────
 _PARA_SPLIT = re.compile(r"\n\s*\n+")  # blank-line separated paragraphs
@@ -20,13 +19,13 @@ def _normalize_for_hash(text: str) -> str:
     """Normalize text for hashing so that trivial whitespace/casing differences do not defeat deduplication."""
     return re.sub(r"\s+", " ", text).strip().lower()
 
-def _dedup_texts_by_paragraph(texts: list[str], min_keep_len: int = 0) -> str:
+def _dedup_texts_by_paragraph(texts: List[str], min_keep_len: int = 0) -> str:
     """
     Concatenate multiple documents while removing duplicate paragraphs.
     Keeps original order of first occurrences.
     """
     seen: set[str] = set()
-    out: list[str] = []
+    out: List[str] = []
     for doc in texts:
         if not doc:
             continue
@@ -46,7 +45,6 @@ def _dedup_texts_by_paragraph(texts: list[str], min_keep_len: int = 0) -> str:
             seen.add(key)
             out.append(p)
     return "\n\n".join(out)
-
 
 # ─────────────────── Environment ───────────────────
 load_dotenv()
@@ -78,7 +76,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
     LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
     LABELS["2-1"]: "All information about training hardware type (H100, TPU, etc.), quantity, and compute scale",
-    LABELS["2-2"]: "All information about software used for training (frameworks, libraries), versions, and settings",
+    LABELS["2-2"]: "All information about the software stack used to TRAIN the model (not inference/serving): core ML frameworks (e.g., PyTorch/JAX/TensorFlow), distributed-training libraries (DeepSpeed, Megatron-LM, FSDP/ZeRO), acceleration kernels (FlashAttention/xFormers/Apex), data-loading pipelines, optimizers/schedulers, exact versions, configs, and runtime flags",
     LABELS["2-3"]: "All information about the existence of an accessible API (must be an API like GPT/Gemini, not a library), docs, examples, and public availability",
     LABELS["3-1"]: "All information about pre-training methodology, procedures, data flow, and hyperparameter settings",
     LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and the existence of a reproducible pipeline",
@@ -88,6 +86,59 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
     LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
+
+# === Target-model guard ==================================================
+def _family_tokens_from_model_id(model_id: str) -> set[str]:
+    """
+    Extract stable tokens from the model id for family/version matching.
+    Examples:
+      "google/gemma-3-27b-it" -> {"gemma", "gemma3", "3", "27b"}
+      "meta-llama/Llama-3.1-8B" -> {"llama", "llama3", "3.1", "31", "8b"}
+    Ignore overly generic tokens like 'base', 'it', 'chat', 'model'.
+    """
+    name = (model_id or "").split("/", 1)[-1].lower()
+    raw = re.split(r"[^a-z0-9.]+", name)
+    base: set[str] = set()
+    for tt in (t.strip() for t in raw):
+        if not tt: 
+            continue
+        if tt in {"base","it","instruct","chat","hf","model"}:
+            continue
+        if len(tt) >= 2:
+            base.add(tt)
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", tt)  # llama3 / llama3.1 → (llama, 3/3.1)
+        if m:
+            base.add(m.group(1))
+            base.add(m.group(1)+m.group(2).replace(".",""))
+            base.add(m.group(2))              # "3.1"
+            base.add(m.group(2).replace(".",""))  # "31"
+    # joined/nodigit variants
+    joined = re.sub(r"[^a-z0-9]", "", name)
+    nodigit = re.sub(r"\d+", "", joined)
+    if len(joined) >= 3: base.add(joined)
+    if len(nodigit) >= 3: base.add(nodigit)
+    return base
+
+def _model_guard_text(model_id: str) -> str:
+    toks = sorted(_family_tokens_from_model_id(model_id))
+    return (
+        "STRICT MODEL FILTER\n"
+        f"- Target model: {model_id}\n"
+        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
+        "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
+        "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
+        "- If in doubt, DROP the quote.\n"
+    )
+
+def _quote_mentions_target(q: str, model_id: str) -> bool:
+    if not q: return False
+    ql = q.lower()
+    # normalize dashes to match fine–tuning/fine—tuning
+    ql = ql.replace("–", "-").replace("—", "-")
+    for t in _family_tokens_from_model_id(model_id):
+        if len(t) >= 2 and t in ql:
+            return True
+    return False
 
 # ─────────── 4 groups ───────────
 ITEM_GROUPS = [
@@ -114,11 +165,10 @@ ARXIV_MIN_HITS_IN_TEXT = int(os.getenv("ARXIV_MIN_HITS_IN_TEXT", "2"))   # body 
 ARXIV_FAMILY_HINTS = os.getenv("ARXIV_FAMILY_HINTS", "")                 # extra tokens (comma/space-separated)
 ARXIV_URL_DENY_SUBSTR = os.getenv("ARXIV_URL_DENY_SUBSTR", "")           # denylist substrings in URL
 
-
 # ─────────── Utils ───────────
 def _js(o): return json.dumps(o, ensure_ascii=False, indent=2)
 
-def _chunk(s, n, ov):
+def _chunk(s: str, n: int, ov: int) -> List[str]:
     out, L, i = [], len(s), 0
     while i < L:
         end = min(i + n, L)
@@ -141,7 +191,6 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         seen.add(key); out.append({"source": src, "quote": qt})
         if len(out) >= limit: break
     return out
-
 
 # ─────────── Prompts ───────────
 _BASE_RECALL_SYS = """
@@ -176,57 +225,32 @@ STRICT RULES:
 
 Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
-"""
-
-
-def _classify_usage_from_merged(merged: dict) -> dict:
-    """whether RL or fine-tuning were used"""
-    def _pull(label):
-        txt = merged.get(label, "") or ""
-        evs = merged.get(f"{label}__evidence", []) or []
-        quotes = "\n".join([e.get("quote","") for e in evs if isinstance(e, dict)])
-        return (txt + "\n" + quotes).strip()
-    ft_txt = _pull("3-2 (Fine-tuning)")
-    rl_txt = _pull("3-3 (Reinforcement Learning)")
-    text = f"[fine_tuning]\n{ft_txt}\n\n[reinforcement]\n{rl_txt}".strip()
-    if not text:
-        return {"fine_tuning":"unknown","rl":"unknown"}
-    ans = _client.chat.completions.create(
-        model=MODEL_NAME, reasoning_effort="medium",
-        response_format={"type":"json_object"},
-        messages=[{"role":"system","content":_USAGE_SYS},
-                  {"role":"user","content":text[:12000]}]
-    )
-    try:
-        out = json.loads(ans.choices[0].message.content.strip())
-    except Exception:
-        out = {}
-    ft_s = out.get("fine_tuning","unknown"); rl_s = out.get("rl","unknown")
-    if ft_s not in {"used","not_used","unknown"}: ft_s = "unknown"
-    if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
-    return {"fine_tuning": ft_s, "rl": rl_s}
+""".strip()
 
 def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 
 def _skeleton(g):  # exact keys to force model output shape
     return {LABELS[i]: [] for i in g}
 
-def _recall_inst(g):
+def _recall_inst(g: List[str], model_id: str) -> str:
     return (
-        "Items in this group:\n" + _js(_desc(g)) +
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(g)) +
         "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
         _js(_skeleton(g))
     )
 
-def _summ_inst(g):
+def _summ_inst(g: List[str], model_id: str) -> str:
     return (
-        "Items in this group:\n" + _js(_desc(g)) +
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(g)) +
         "\nReturn a JSON object with EXACTLY these keys (string summaries):\n" +
-        _js({LABELS[i]: "" for i in g})
+        _js({LABELS[i]: "" for i in g}) +
+        "\nUse ONLY the provided quotes."
     )
 
 # ─────────── GPT JSON call ───────────
-def _chat_json(sys, usr):
+def _chat_json(sys: str, usr: str):
     r = _client.chat.completions.create(
         model=MODEL_NAME, reasoning_effort="medium",
         response_format={"type":"json_object"},
@@ -240,7 +264,6 @@ def _chat_json(sys, usr):
 
 # ─────────── Build payload ───────────
 def _make_payload(d: Dict[str, Any]) -> Dict[str, Any]:
-    # basic fields
     pid   = d.get("arxiv_id") or d.get("id") or ""
     title = d.get("title") or d.get("meta",{}).get("title") or ""
     abstr = d.get("abstract") or ""
@@ -250,7 +273,7 @@ def _make_payload(d: Dict[str, Any]) -> Dict[str, Any]:
     body  = d.get("pdf_text") or d.get("fulltext") or d.get("body") or ""
 
     # section text
-    secs = []
+    secs: List[Dict[str,str]] = []
     src_secs = (d.get("sections") or [])
     if MAX_SECTIONS > 0:
         src_secs = src_secs[:MAX_SECTIONS]
@@ -307,18 +330,29 @@ def _payload_text(p: Dict[str, Any]) -> str:
         parts.append("[bib]\n"+p["bib"]+"\n")
     return "\n".join(parts)
 
-
 # ─────────── Collect evidence ───────────
 _ALLOWED_PREFIXES = ("arxiv_id","title","abstract","pdf_text","sections/","categories","license","authors","bib")
 _EXTRA_OK_PREFIXES = ("section","sec.","appendix","table","figure","fig.")
 
-def _valid(src: str) -> bool:
+def _valid_source(src: str) -> bool:
     if not isinstance(src, str):
         return False
-    s = src.strip().lower()
-    # allow bracketed sources like "[pdf_text]" or "[sections/Intro]"
-    s = s.strip("[]")
+    s = src.strip().lower().strip("[]")  # allow bracketed tags
     return s.startswith(_ALLOWED_PREFIXES) or s.startswith(_EXTRA_OK_PREFIXES)
+
+def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str, List[Dict[str,str]]]:
+    out: Dict[str, List[Dict[str,str]]] = {}
+    for lbl, arr in ev.items():
+        kept = []
+        for e in arr or []:
+            src = (e.get("source") or "").strip()
+            qt  = (e.get("quote")  or "").strip()
+            if not src or not qt: continue
+            if not _valid_source(src): continue
+            if not _quote_mentions_target(qt, model_id): continue
+            kept.append({"source": src, "quote": qt})
+        out[lbl] = _dedup_evs(kept, EVIDENCE_LIMIT_PER_KEY)
+    return out
 
 def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Dict[str,str]]]:
     """If 4-2 is empty but 3-2 contains dataset-ish quotes, copy a subset."""
@@ -331,14 +365,12 @@ def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Di
             ev[fd_lbl] = _dedup_evs(moved, EVIDENCE_LIMIT_PER_KEY)
     return ev
 
-def _collect(g, text: str) -> Dict[str, List[Dict[str,str]]]:
-    # ev의 키는 애초에 풀 라벨(예: "1-1 (Weights)")
+def _collect(g: List[str], text: str, model_id: str) -> Dict[str, List[Dict[str,str]]]:
     ev = {LABELS[k]: [] for k in g}
     for ch in _chunk(text, CHUNK_CHARS, CHUNK_OVERLAP):
-        ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g)+"\n=== PAYLOAD ===\n"+ch)
+        ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g, model_id) + "\n=== PAYLOAD ===\n" + ch)
         if not isinstance(ans, dict):
             ans = {}
-        # debug: what keys came back?
         if ans:
             print("🔎 recall keys:", list(ans.keys())[:16])
         for k in g:
@@ -347,33 +379,20 @@ def _collect(g, text: str) -> Dict[str, List[Dict[str,str]]]:
             if isinstance(arr, list):
                 ev[lbl].extend(arr)
 
-    # 방어적 후처리: 이미 풀 라벨을 키로 사용
     raw_counts = {lbl: len(ev.get(lbl) or []) for lbl in ev}
-    for lbl in list(ev.keys()):
-        arr = ev.get(lbl) or []
-        arr = [e for e in arr
-               if isinstance(e, dict)
-               and _valid((e.get("source") or ""))
-               and isinstance(e.get("quote"), str)
-               and (e.get("source") or "").strip()
-               and (e.get("quote") or "").strip()]
-        ev[lbl] = _dedup_evs(arr, EVIDENCE_LIMIT_PER_KEY)
+    ev = _filter_evidence_by_model(ev, model_id)
     kept_counts = {lbl: len(ev.get(lbl) or []) for lbl in ev}
-    print("evidence counts before/after filter:", {"raw": raw_counts, "kept": kept_counts})
+    print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
 
     # 재배치 휴리스틱 (특히 3-2 → 4-2)
-    ev = _rebalance_evidence(ev)
-    return ev
-
+    return _rebalance_evidence(ev)
 
 # ─────────── Summarize ───────────
-def _summarize(g, ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, str]:
+def _summarize(g: List[str], ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str, str]:
     lbls = [LABELS[k] for k in g]
     quotes = {lbl: [(e.get("quote") or "") for e in (ev.get(lbl) or [])] for lbl in lbls}
-    ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g)+"\n=== QUOTES ===\n"+_js(quotes))
-    # 결과도 풀 라벨 키로 안전 반환
+    ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g, model_id) + "\n=== QUOTES ===\n" + _js(quotes))
     return {lbl: (ans.get(lbl, "") or "") for lbl in lbls}
-
 
 # ─────────── Merge ───────────
 def _merge(sum_: Dict[str,str], ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, Any]:
@@ -386,41 +405,10 @@ def _merge_all(lst: List[Dict[str, Any]]) -> Dict[str, Any]:
     for d in lst: m.update(d)
     return m
 
-
-# ─────────── Relevance filtering helpers (NEW) ───────────
+# ─────────── Relevance filtering helpers (doc-level) ───────────
 def _tok(s: str) -> List[str]:
     s = re.sub(r"[^a-z0-9.]+", " ", (s or "").lower())
     return [t for t in s.split() if t]
-
-def _family_tokens_from_model_id(model_id: str) -> set[str]:
-    """
-    Extract stable tokens from the model id for family matching.
-    Examples:
-      "google/gemma-3-27b-it" -> {"gemma", "gemma3", "27b"}
-      "meta-llama/Llama-3.1-8B" -> {"llama", "llama3", "3.1", "8b"}
-    Ignore overly generic tokens like 'base', 'it', 'chat', 'model'.
-    """
-    name = (model_id or "").split("/", 1)[-1].lower()
-    raw = re.split(r"[^a-z0-9.]+", name)
-    base: set[str] = set()
-    for tt in (t.strip() for t in raw):
-        if not tt: 
-            continue
-        if tt in {"base","it","instruct","chat","hf","model"}:
-            continue
-        if len(tt) >= 2:
-            base.add(tt)
-        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", tt)  # llama3 / llama3.1 → (llama, 3/3.1)
-        if m:
-            base.add(m.group(1))
-            base.add(m.group(1)+m.group(2).replace(".",""))
-    # manual hints
-    extra = ARXIV_FAMILY_HINTS.lower()
-    for h in re.split(r"[,\s]+", extra):
-        h = h.strip()
-        if len(h) >= 3:
-            base.add(h)
-    return base
 
 def _deny_url(u: str) -> bool:
     if not ARXIV_URL_DENY_SUBSTR.strip():
@@ -441,16 +429,11 @@ def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int 
     """
     ul = (url or "").lower()
     tl = (text or "").lower()
-
     if _deny_url(ul):
         return False
-
-    # strong URL hit
     for t in fam_tokens:
         if len(t) >= 3 and t in ul:
             return True
-
-    # body frequency
     hits = 0
     for t in fam_tokens:
         if not t: 
@@ -460,55 +443,27 @@ def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int 
             hits += 1
     return hits >= max(1, min_hits)
 
-
-# ─────────── BLOOMZ RL not-used rule helpers ───────────
-# Tokens for heuristic checks
-_FT_TOKENS = (
-    "finetune", "fine-tuning", "instruction-tune", "sft",
-    "xp3", "xp3mt", "mtf", "prompted finetuning"
-)
-_RL_TOKENS = (
-    "rlhf", "reinforcement learning", "dpo", "ppo",
-    "reward model", "preference model", "human feedback",
-    "rlaif", "kl penalty",
-    # optional: 더 잡고 싶으면 아래도 추가
-    "reward modeling", "preference optimization", "rm"
-)
-
-# ✅ Python 3.8 호환 타입힌트 (3.9+면 tuple[str, ...]로 바꿔도 됨)
-from typing import Tuple
+# ─────────── RL not-used rule (general) ───────────
+_T_TOKENS: Tuple[str, ...] = ("finetune","fine-tuning","instruction-tune","sft","xp3","xp3mt","mtf","prompted finetuning")
+_RL_TOKENS: Tuple[str, ...] = ("rlhf","reinforcement learning","dpo","ppo","reward model","preference model","human feedback","rlaif","kl penalty")
 
 def _contains_any(text: str, toks: Tuple[str, ...]) -> bool:
-    tl = (text or "").casefold()
-    # normalize en-dash/em-dash → hyphen (fine–tuning/fine—tuning도 매치되게)
-    tl = tl.replace("–", "-").replace("—", "-")
+    tl = (text or "").lower().replace("–","-").replace("—","-")
     return any(t in tl for t in toks)
 
 def _all_quotes(merged: dict) -> str:
-    buf = []
+    buf: List[str] = []
     for k, v in merged.items():
-        if not (isinstance(k, str) and k.endswith("__evidence")):
-            continue
-        for e in (v or []):
-            if isinstance(e, dict):
-                q = e.get("quote") or ""
-                if q:
-                    buf.append(q)
+        if isinstance(k, str) and k.endswith("__evidence"):
+            for e in (v or []):
+                if isinstance(e, dict):
+                    q = e.get("quote") or ""
+                    if q: buf.append(q)
     return "\n".join(buf)
 
-
-def _rule_infer_rl_not_used(model_id: str, merged: dict) -> bool:
-    # BLOOMZ 전용: SFT 신호는 있고 RL 신호는 전혀 없으면 not_used
-    fam = bool(re.match(r"^bigscience/bloomz(?:[/-].*)?$", (model_id or ""), re.I))
-    txt = "\n".join([
-        merged.get("3-2 (Fine-tuning)", "") or "",
-        merged.get("3-3 (Reinforcement Learning)", "") or "",
-        _all_quotes(merged)
-    ])
-    has_ft = _contains_any(txt, _FT_TOKENS)
-    has_rl = _contains_any(txt, _RL_TOKENS)
-    return fam and has_ft and not has_rl
-
+def _rule_infer_rl_not_used(merged: dict) -> bool:
+    q = _all_quotes(merged)
+    return (_contains_any(q, _T_TOKENS) and not _contains_any(q, _RL_TOKENS))
 
 # ─────────── Public function ───────────
 def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path = "."):
@@ -538,7 +493,6 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
         try:
             docs.append(json.load(open(src, encoding="utf-8")))
         except Exception:
-            # Rare: accept raw text fallback
             try:
                 raw = open(src, encoding="utf-8").read()
                 if raw.strip():
@@ -557,14 +511,13 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
                         "full_text": str(t.get("full_text") or t.get("pdf_text") or "")
                     })
         else:
-            # older single-doc schema → map to unified
             if isinstance(ax, dict):
                 merged_full_texts.append({
                     "arxiv_id": str(ax.get("arxiv_id", "")).strip(),
                     "full_text": str(ax.get("full_text") or ax.get("pdf_text") or "")
                 })
 
-    # 2) Model relevance filter (NEW)
+    # 2) Model relevance filter (doc-level)
     fam = _family_tokens_from_model_id(model)
     need_filter = ARXIV_FILTER_ALWAYS or (len(merged_full_texts) > ARXIV_FILTER_THRESHOLD)
     if need_filter and fam:
@@ -606,13 +559,13 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
     }
 
     # 6) Process by group
-    parts = []
+    parts: List[Dict[str, Any]] = []
     for i, grp in enumerate(ITEM_GROUPS, 1):
         try:
             pay = _make_payload(doc_for_payload)
             text = _payload_text(pay)
-            ev = _collect(grp, text)
-            summ = _summarize(grp, ev)
+            ev   = _collect(grp, text, model)
+            summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)
         except Exception as e:
             print(f"⚠️ Error in group {i}:", e)
@@ -628,13 +581,36 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
     merged = _merge_all(parts)
 
     try:
-        usage = _classify_usage_from_merged(merged)
-        # 🔁 BLOOMZ 전용 규칙: RL 신호가 전무하면 not_used로 확정
-        try:
-            if (usage.get("rl") in (None, "unknown")) and _rule_infer_rl_not_used(model, merged):
+        # initial GPT-based classification
+        def _pull(label):
+            txt = merged.get(label, "") or ""
+            evs = merged.get(f"{label}__evidence", []) or []
+            quotes = "\n".join([e.get("quote","") for e in evs if isinstance(e, dict)])
+            return (txt + "\n" + quotes).strip()
+        ft_txt = _pull("3-2 (Fine-tuning)")
+        rl_txt = _pull("3-3 (Reinforcement Learning)")
+        text = f"[fine_tuning]\n{ft_txt}\n\n[reinforcement]\n{rl_txt}".strip()
+        usage = {"fine_tuning":"unknown","rl":"unknown"}
+        if text:
+            ans = _client.chat.completions.create(
+                model=MODEL_NAME, reasoning_effort="medium",
+                response_format={"type":"json_object"},
+                messages=[{"role":"system","content":_USAGE_SYS},
+                          {"role":"user","content":text[:12000]}]
+            )
+            try:
+                out = json.loads(ans.choices[0].message.content.strip())
+            except Exception:
+                out = {}
+            ft_s = out.get("fine_tuning","unknown"); rl_s = out.get("rl","unknown")
+            if ft_s in {"used","not_used","unknown"}: usage["fine_tuning"] = ft_s
+            if rl_s in {"used","not_used","unknown"}: usage["rl"] = rl_s
+
+        # general FT-only → RL not_used rule
+        if usage.get("rl") in (None, "unknown"):
+            if _rule_infer_rl_not_used(merged):
                 usage["rl"] = "not_used"
-        except Exception:
-            pass
+
         merged["__usage"] = usage
     except Exception as e:
         print("⚠️ Failed to classify usage:", e)
@@ -645,7 +621,6 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
         json.dump(merged, open(fp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
         print("✅ Saved final merged:", fp)
     return merged
-
 
 # ─────────── CLI ───────────
 if __name__=="__main__":
