@@ -3,18 +3,19 @@
 #   - Merge and deduplicate "report-ish" texts gathered by fetchers
 #     (HF: reports_fulltext_{hf}.json, GH: reports_fulltext_github_{owner_repo}.json)
 #     PLUS arXiv fetcher outputs (arxiv_fulltext_{hf}.json / arxiv_{hf}.json).
-#   - Filter out irrelevant sources to the given model.
+#   - Filter out irrelevant sources to the given model (doc-level + quote-level).
 #   - Run a 2-pass (evidence → summary) extraction for the 16 openness items.
 #   - Save group outputs and a final merged JSON:
 #       reports_filtered_{base}_{1..4}.json, reports_filtered_final_{base}.json
 #
-# Notes:
-#   - Keep prompts and overall style consistent with other dispatchers.
-#   - Minimal external changes to the existing pipeline (see step 3 and 4).
-#
 # Env:
 #   OPENAI_API_KEY (required)
-#   OPENAI_MODEL_REPORTS_DISPATCHER (optional, default "o3-mini")
+#   OPENAI_MODEL_REPORTS_DISPATCHER (default "o3-mini")
+#   REPORTS_FILTER_ALWAYS=1 (force doc-level relevance filter)
+#   REPORTS_FILTER_THRESHOLD=20 (apply doc-filter when docs > threshold)
+#   REPORTS_MIN_HITS_IN_TEXT=2 (min body hits for doc to be related)
+#   REPORTS_URL_DENY_SUBSTR="blog.foo, old-version" (denylist substrings)
+#   REPORTS_SECTION_CHAR_CAP / REPORTS_MAX_SECTIONS (optional caps)
 
 import os, json, re, hashlib
 from typing import Dict, List, Any, Tuple
@@ -30,7 +31,7 @@ _client = OpenAI(api_key=_API_KEY)
 
 MODEL_NAME = os.getenv("OPENAI_MODEL_REPORTS_DISPATCHER", "o3-mini")
 
-# ─────────────── 16 evaluation items (same as others) ───────────────
+# ─────────────── 16 evaluation items ───────────────
 LABELS = {
     "1-1": "1-1 (Weights)",                     "1-2": "1-2 (Code)",
     "1-3": "1-3 (License)",                     "1-4": "1-4 (Paper)",
@@ -52,7 +53,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["1-5"]: "All information about model architecture (e.g., number of layers, hyperparameters) and structural design details",
     LABELS["1-6"]: "All information about which tokenizer is used, its name/structure, and whether it is downloadable",
     LABELS["2-1"]: "All information about training hardware type (H100, TPU, etc.), quantity, and compute scale",
-    LABELS["2-2"]: "All information about software used for training (frameworks, libraries), versions, and settings",
+    LABELS["2-2"]: "All information about the software stack used to TRAIN the model (not inference/serving): core ML frameworks (e.g., PyTorch/JAX/TensorFlow), distributed-training libraries (DeepSpeed, Megatron-LM, FSDP/ZeRO), acceleration kernels (FlashAttention/xFormers/Apex), data-loading pipelines, optimizers/schedulers, exact versions, configs, and runtime flags",
     LABELS["2-3"]: "All information about the existence of an accessible API (must be an API like GPT/Gemini, not a library), docs, examples, and public availability",
     LABELS["3-1"]: "All information about pre-training methodology, procedures, data flow, and hyperparameter settings",
     LABELS["3-2"]: "All information about fine-tuning methods, goals, whether data is used, and the existence of a reproducible pipeline",
@@ -76,6 +77,11 @@ CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
 SECTION_CHAR_CAP = int(os.getenv("REPORTS_DISPATCHER_SECTION_CHAR_CAP", "0"))  # 0=unlimited
 MAX_SECTIONS = int(os.getenv("REPORTS_DISPATCHER_MAX_SECTIONS", "0"))          # 0=unlimited
+
+REPORTS_FILTER_ALWAYS = os.getenv("REPORTS_FILTER_ALWAYS", "0") == "1"
+REPORTS_FILTER_THRESHOLD = int(os.getenv("REPORTS_FILTER_THRESHOLD", "20"))
+REPORTS_MIN_HITS_IN_TEXT = int(os.getenv("REPORTS_MIN_HITS_IN_TEXT", "2"))
+REPORTS_URL_DENY_SUBSTR = os.getenv("REPORTS_URL_DENY_SUBSTR", "")
 
 # ─────────────── Utils ───────────────
 def _js(o): return json.dumps(o, ensure_ascii=False, indent=2)
@@ -113,26 +119,84 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         if len(out) >= limit: break
     return out
 
-def _tok(s: str) -> List[str]:
-    s = re.sub(r"[^a-z0-9]+", " ", (s or "").lower())
-    return [t for t in s.split() if t]
+# === Target-model guard (공통) =========================================
+def _family_tokens_from_model_id(model_id: str) -> set[str]:
+    name = (model_id or "").split("/", 1)[-1].lower()
+    raw = re.split(r"[^a-z0-9.]+", name)
+    base: set[str] = set()
+    for tt in (t.strip() for t in raw):
+        if not tt: 
+            continue
+        if tt in {"base","it","instruct","chat","hf","model"}:
+            continue
+        if len(tt) >= 2:
+            base.add(tt)
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", tt)
+        if m:
+            base.add(m.group(1))
+            base.add(m.group(1)+m.group(2).replace(".",""))
+            base.add(m.group(2))
+            base.add(m.group(2).replace(".",""))
+    joined = re.sub(r"[^a-z0-9]", "", name)
+    nodigit = re.sub(r"\d+", "", joined)
+    if len(joined) >= 3: base.add(joined)
+    if len(nodigit) >= 3: base.add(nodigit)
+    return base
 
-def _related_to_model(url: str, text: str, hf_id: str) -> bool:
-    """
-    Heuristic filter:
-      - Always accept arXiv entries from arxiv_fetcher.
-      - Accept if URL contains model tokens (name/family).
-      - OR if body contains model tokens more than once.
-    """
-    model = hf_id.split("/",1)[1] if "/" in hf_id else hf_id
-    toks = set(_tok(model))
-    if not toks: return True
-    s_url = (url or "").lower()
-    if any(t in s_url for t in toks):  # URL hint
-        return True
-    body = (text or "").lower()
-    hit = sum(1 for t in toks if body.count(t) >= 2)  # at least 2 mentions of any token
-    return hit > 0
+def _model_guard_text(model_id: str) -> str:
+    toks = sorted(_family_tokens_from_model_id(model_id))
+    return (
+        "STRICT MODEL FILTER\n"
+        f"- Target model: {model_id}\n"
+        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
+        "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
+        "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
+        "- If in doubt, DROP the quote.\n"
+    )
+
+def _quote_mentions_target(q: str, model_id: str) -> bool:
+    if not q: return False
+    ql = q.lower().replace("–","-").replace("—","-")
+    for t in _family_tokens_from_model_id(model_id):
+        if len(t) >= 2 and t in ql:
+            return True
+    return False
+
+# ─────────────── Prompts ───────────────
+def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
+def _skeleton(g):  return {LABELS[i]: [] for i in g}
+
+_BASE_RECALL_SYS = """
+You are an expert at extracting AI model openness evaluation information from *technical reports, papers, and blogs*.
+Using only the payload (original text), return evidence for each item in the format
+  [{ "source": "...", "quote": "..." }, …]
+· source : e.g., [url:<...>], [sections/<url>], [pdf_text]
+· quote  : a verbatim sentence copied from that section (no edits)
+If there is no evidence, return an empty array [].
+You must output a JSON object only.
+""".strip()
+
+_BASE_SUMMARY_SYS = """
+Using the provided quotes only, write long and detailed summaries for each item.
+You must output a JSON object only.
+""".strip()
+
+def _recall_inst(g: List[str], model_id: str) -> str:
+    return (
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(g)) +
+        "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
+        _js(_skeleton(g))
+    )
+
+def _summ_inst(g: List[str], model_id: str) -> str:
+    return (
+        _model_guard_text(model_id) +
+        "\nItems in this group:\n" + _js(_desc(g)) +
+        "\nReturn a JSON object with EXACTLY these keys (string summaries):\n" +
+        _js({LABELS[i]: "" for i in g}) +
+        "\nUse ONLY the provided quotes."
+    )
 
 # ─────────────── GPT JSON call ───────────────
 def _chat_json(sys, usr):
@@ -145,25 +209,114 @@ def _chat_json(sys, usr):
     try:    return json.loads(r.choices[0].message.content.strip())
     except: return {}
 
-def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
-def _recall_inst(g): return "Items in this group:\n"+_js(_desc(g))
-def _summ_inst(g):   return "Items in this group:\n"+_js(_desc(g))
+# ─────────────── Payload builder ───────────────
+def _make_payload(doc: Dict[str, Any]) -> Dict[str, Any]:
+    secs = []
+    for it in (doc.get("full_texts") or []):
+        u = str(it.get("arxiv_id") or it.get("id") or it.get("url") or "")[:2000]
+        tx = str(it.get("full_text") or it.get("pdf_text") or "")
+        if not tx: continue
+        if SECTION_CHAR_CAP > 0: tx = tx[:SECTION_CHAR_CAP]
+        secs.append({"title": u or "doc", "text": tx})
 
-# ─────────────── Prompts ───────────────
-_BASE_RECALL_SYS = """
-You are an expert at extracting AI model openness evaluation information from *technical reports and papers*.
-Using only the payload (original text), return evidence for each item in the format
-  [{ "source": "...", "quote": "..." }, …]
-· source : e.g., [url:<...>], [sections/<url>], [pdf_text]
-· quote  : a verbatim sentence copied from that section
-If there is no evidence, return an empty array [].
-You must output a JSON object only.
-""".strip()
+    joined = _dedup_texts_by_paragraph([s["text"] for s in secs])
 
-_BASE_SUMMARY_SYS = """
-Using the provided quotes only, write long and detailed summaries for each item.
-You must output a JSON object only.
-""".strip()
+    return {
+        "title":    "",
+        "abstract": "",
+        "pdf_text": joined,
+        "sections": secs[:MAX_SECTIONS] if (MAX_SECTIONS>0) else secs,
+        "bib": "",
+    }
+
+def _payload_text(p: Dict[str, Any]) -> str:
+    parts = [f"[pdf_text]\n{p.get('pdf_text','')}\n"]
+    for s in p.get("sections", []):
+        tag = (s.get("title") or "doc").strip()
+        parts.append(f"[sections/{tag}]\n{s.get('text','')}\n")
+    return "\n".join(parts)
+
+# ─────────────── Allowed source tags & validators ───────────────
+_ALLOWED_PREFIX = ("url:", "sections/", "pdf_text")
+def _valid_source(src: str) -> bool:
+    if not isinstance(src, str): return False
+    s = src.strip().lower().strip("[]")
+    return s.startswith(_ALLOWED_PREFIX)
+
+def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str, List[Dict[str,str]]]:
+    out: Dict[str, List[Dict[str,str]]] = {}
+    for lbl, arr in ev.items():
+        kept = []
+        for e in (arr or []):
+            src = (e.get("source") or "").strip()
+            qt  = (e.get("quote")  or "").strip()
+            if not src or not qt: continue
+            if not _valid_source(src): continue
+            if not _quote_mentions_target(qt, model_id): continue
+            kept.append({"source": src, "quote": qt})
+        out[lbl] = _dedup_evs(kept, EVIDENCE_LIMIT_PER_KEY)
+    return out
+
+# ─────────────── Doc-level relevance filter ───────────────
+def _deny_url(u: str) -> bool:
+    if not REPORTS_URL_DENY_SUBSTR.strip():
+        return False
+    ul = (u or "").lower()
+    for sub in re.split(r"[,\s]+", REPORTS_URL_DENY_SUBSTR.lower()):
+        sub = sub.strip()
+        if sub and sub in ul:
+            return True
+    return False
+
+def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int) -> bool:
+    ul = (url or "").lower()
+    tl = (text or "").lower()
+    if _deny_url(ul): return False
+    for t in fam_tokens:
+        if len(t) >= 3 and t in ul:
+            return True
+    hits = 0
+    for t in fam_tokens:
+        if not t: continue
+        hits += tl.count(t)
+        if re.search(rf"\b{re.escape(t)}\b", tl): hits += 1
+    return hits >= max(1, min_hits)
+
+# ─────────────── Evidence & Summary ───────────────
+def _collect(g: List[str], text: str, model_id: str):
+    ev = {LABELS[k]: [] for k in g}
+    i = 0; n = len(text)
+    while i < n:
+        end = min(i+CHUNK_CHARS, n)
+        ch = text[i:end]
+        i = end - CHUNK_OVERLAP if end - CHUNK_OVERLAP > i else end
+        ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g, model_id)+"\n=== PAYLOAD ===\n"+ch)
+        for k in g:
+            arr = ans.get(LABELS[k], [])
+            if isinstance(arr, list):
+                ev[LABELS[k]].extend(arr)
+    # quote-level 모델 필터
+    ev = _filter_evidence_by_model(ev, model_id)
+    return ev
+
+def _summarize(g: List[str], ev: Dict[str, List[Dict[str,str]]], model_id: str):
+    quotes = {LABELS[k]: [e["quote"] for e in ev[LABELS[k]]] for k in g}
+    ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g, model_id)+"\n=== QUOTES ===\n"+_js(quotes))
+    return {LABELS[k]: ans.get(LABELS[k], "") for k in g}
+
+def _merge(sum_, ev):
+    return {lbl: (sum_.get(lbl,"") or "").strip() for lbl in sum_} | {
+        f"{lbl}__evidence": ev.get(lbl, []) for lbl in sum_
+    }
+
+def _merge_all(lst):
+    m={}
+    for d in lst: m.update(d)
+    return m
+
+# ─────────────── RL usage classifier (with FT-only → RL not_used rule) ───────────────
+_T_TOKENS: Tuple[str, ...] = ("finetune","fine-tuning","instruction-tune","sft","xp3","xp3mt","mtf","prompted finetuning")
+_RL_TOKENS: Tuple[str, ...] = ("rlhf","reinforcement learning","dpo","ppo","reward model","preference model","human feedback","rlaif","kl penalty")
 
 _USAGE_SYS = """
 You are a classifier. Decide whether the MODEL ITSELF (as released by the authors)
@@ -184,69 +337,19 @@ Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
 """
 
+def _contains_any(text: str, toks: Tuple[str, ...]) -> bool:
+    tl = (text or "").lower().replace("–","-").replace("—","-")
+    return any(t in tl for t in toks)
 
-
-# ─────────────── Payload builder ───────────────
-def _make_payload(doc: Dict[str, Any]) -> Dict[str, Any]:
-    # Flatten into a big text with per-source sections
-    secs = []
-    for it in (doc.get("full_texts") or []):
-        u = str(it.get("arxiv_id") or it.get("id") or it.get("url") or "")[:2000]
-        tx = str(it.get("full_text") or it.get("pdf_text") or "")
-        if not tx: continue
-        if SECTION_CHAR_CAP > 0:
-            tx = tx[:SECTION_CHAR_CAP]
-        secs.append({"title": u or "doc", "text": tx})
-
-    joined = _dedup_texts_by_paragraph([s["text"] for s in secs])
-
-    return {
-        "title":    "",
-        "abstract": "",
-        "pdf_text": joined,
-        "sections": secs[:MAX_SECTIONS] if (MAX_SECTIONS>0) else secs,
-        "bib": "",
-    }
-
-def _payload_text(p: Dict[str, Any]) -> str:
-    parts = [f"[pdf_text]\n{p.get('pdf_text','')}\n"]
-    for s in p.get("sections", []):
-        tag = (s.get("title") or "doc").strip()
-        parts.append(f"[sections/{tag}]\n{s.get('text','')}\n")
-    return "\n".join(parts)
-
-# ─────────────── Core steps ───────────────
-def _collect(g, text):
-    ev = {LABELS[k]: [] for k in g}
-    # chunked recall
-    i = 0; n = len(text)
-    while i < n:
-        end = min(i+CHUNK_CHARS, n)
-        ch = text[i:end]
-        i = end - CHUNK_OVERLAP if end - CHUNK_OVERLAP > i else end
-        ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g)+"\n=== PAYLOAD ===\n"+ch)
-        for k in g:
-            arr = ans.get(LABELS[k], [])
-            if isinstance(arr, list):
-                ev[LABELS[k]].extend(arr)
-    for k in ev:
-        ev[k] = _dedup_evs(ev[k], EVIDENCE_LIMIT_PER_KEY)
-    return ev
-
-def _summarize(g, ev):
-    quotes = {LABELS[k]: [e["quote"] for e in ev[LABELS[k]]] for k in g}
-    ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g)+"\n=== QUOTES ===\n"+_js(quotes))
-    return {LABELS[k]: ans.get(LABELS[k], "") for k in g}
-
-def _merge(sum_, ev):
-    return {lbl: (sum_.get(lbl,"") or "").strip() for lbl in sum_} | {
-        f"{lbl}__evidence": ev.get(lbl, []) for lbl in sum_
-    }
-
-def _merge_all(lst):
-    m={}
-    for d in lst: m.update(d)
-    return m
+def _all_quotes(merged: dict) -> str:
+    buf: List[str] = []
+    for k, v in merged.items():
+        if isinstance(k, str) and k.endswith("__evidence"):
+            for e in (v or []):
+                if isinstance(e, dict):
+                    q = e.get("quote") or ""
+                    if q: buf.append(q)
+    return "\n".join(buf)
 
 def _classify_usage_from_merged(merged: dict) -> dict:
     def _pull(label):
@@ -257,13 +360,18 @@ def _classify_usage_from_merged(merged: dict) -> dict:
     ft_txt = _pull("3-2 (Fine-tuning)")
     rl_txt = _pull("3-3 (Reinforcement Learning)")
     text = f"[fine_tuning]\n{ft_txt}\n\n[reinforcement]\n{rl_txt}".strip()
-    if not text:
-        return {"fine_tuning":"unknown","rl":"unknown"}
-    ans = _chat_json(_USAGE_SYS, text[:12000])
-    ft_s = ans.get("fine_tuning","unknown"); rl_s = ans.get("rl","unknown")
-    if ft_s not in {"used","not_used","unknown"}: ft_s = "unknown"
-    if rl_s not in {"used","not_used","unknown"}: rl_s = "unknown"
-    return {"fine_tuning": ft_s, "rl": rl_s}
+    usage = {"fine_tuning":"unknown","rl":"unknown"}
+    if text:
+        ans = _chat_json(_USAGE_SYS, text[:12000])
+        ft_s = ans.get("fine_tuning","unknown"); rl_s = ans.get("rl","unknown")
+        if ft_s in {"used","not_used","unknown"}: usage["fine_tuning"] = ft_s
+        if rl_s in {"used","not_used","unknown"}: usage["rl"] = rl_s
+    # FT-only → RL not_used 보정
+    if usage.get("rl") in (None, "unknown"):
+        q = _all_quotes(merged)
+        if _contains_any(q, _T_TOKENS) and not _contains_any(q, _RL_TOKENS):
+            usage["rl"] = "not_used"
+    return usage
 
 # ─────────────── Public entry ───────────────
 def filter_reports_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
@@ -272,7 +380,7 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
       - reports_fulltext_{hf}.json                (HF fetcher)
       - reports_fulltext_github_{owner_repo}.json (GH fetcher, if same model repo is known)
       - arxiv_fulltext_{hf}.json / arxiv_{hf}.json (arXiv fetcher)
-    Merge → dedup → filter by model relevance → 2-pass extraction.
+    Merge → doc-level filter → dedup → quote-level filter → 2-pass extraction.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -292,7 +400,7 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
         except Exception:
             pass
 
-    # (C) arXiv papers (still considered "reports" corpus for this dispatcher)
+    # (C) arXiv papers
     candidates += [
         output_dir / f"arxiv_fulltext_{base}.json",
         output_dir / f"arxiv_{base}.json",
@@ -307,7 +415,7 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
     if not existing:
         raise FileNotFoundError([str(c) for c in candidates])
 
-    # Normalize into unified schema: {"full_texts":[{"arxiv_id":<url/id>,"full_text":<text>}...]}
+    # Normalize into unified schema
     merged_full_texts: List[Dict[str,str]] = []
     for src in existing:
         try:
@@ -322,13 +430,12 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
                 if not txt.strip(): continue
                 merged_full_texts.append({"arxiv_id": url, "full_text": txt})
         else:
-            # older single-doc schema
             url = str(d.get("arxiv_id","") or d.get("id","") or "")
             txt = str(d.get("full_text") or d.get("pdf_text") or "")
             if txt.strip():
                 merged_full_texts.append({"arxiv_id": url, "full_text": txt})
 
-    # De-dup by URL key (host+path) first
+    # De-dup by URL key (host+path)
     def _urlkey(u:str)->str:
         m = re.match(r"^https?://([^/\s]+)(/[^?#\s]*)?", str(u).strip(), flags=re.I)
         if not m: return (u or "").strip().lower()
@@ -342,19 +449,23 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
         if key in seen_urls: continue
         seen_urls.add(key); dedup_by_url.append(it)
 
-    # Model relevance filter (keep arXiv items by default)
+    # Doc-level relevance
+    fam = _family_tokens_from_model_id(model)
+    need_filter = REPORTS_FILTER_ALWAYS or (len(dedup_by_url) > REPORTS_FILTER_THRESHOLD)
     filtered: List[Dict[str,str]] = []
     for it in dedup_by_url:
         u = str(it.get("arxiv_id",""))
         tx = str(it.get("full_text",""))
-        if u.startswith("http"):  # external url
-            if _related_to_model(u, tx, model):
-                filtered.append(it)
+        if (not need_filter) or not fam:
+            ok = True
         else:
-            # arXiv IDs or unknown IDs (assume relevant)
+            ok = _looks_related_doc(u, tx, fam, REPORTS_MIN_HITS_IN_TEXT)
+        if ok:
             filtered.append(it)
+    if need_filter:
+        print(f"🔎 Relevance filter: kept {len(filtered)}/{len(dedup_by_url)} docs for '{model}'")
 
-    # Build one payload doc with original sections retained
+    # Build one payload doc
     doc_for_payload = {"full_texts": filtered}
     payload = _make_payload(doc_for_payload)
     text = _payload_text(payload)
@@ -362,8 +473,8 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
     parts = []
     for i, grp in enumerate(ITEM_GROUPS, 1):
         try:
-            ev = _collect(grp, text)
-            summ = _summarize(grp, ev)
+            ev = _collect(grp, text, model)
+            summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)
         except Exception as e:
             print(f"⚠️ Error in group {i}:", e)
