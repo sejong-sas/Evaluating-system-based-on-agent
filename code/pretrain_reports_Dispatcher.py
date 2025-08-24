@@ -2,14 +2,24 @@
 # Collect only pre-training related reports/blog links from base HF/GH README,
 # summarize 3-1 (Pre-training) & 4-1 (Pre-training Data) with quotes-only,
 # and output a single json: pretrain_reports_{base}.json
+#
+# ★ Target-model guard:
+#   - Only keep articles/quotes that explicitly mention the TARGET model tokens.
+#   - If no valid evidence remains → "No information".
+#
+# NOTE:
+#   - o3-mini (reasoning) 계열은 temperature/top_p 등의 샘플링 파라미터를 지원하지 않음.
+#   - 아래 _chat_json_smart() 는 샘플링 파라미터를 절대 넣지 않으며,
+#     reasoning 모델(o1/o3*)에만 reasoning_effort를 추가해 호출함.
 
-import os, re, json
+import os, re, json, hashlib
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 import requests
 from dotenv import load_dotenv
 from openai import OpenAI
 
+# ───────────────── Env ─────────────────
 load_dotenv()
 _API = os.getenv("OPENAI_API_KEY")
 if not _API:
@@ -19,21 +29,93 @@ _client = OpenAI(api_key=_API)
 MODEL_NAME = os.getenv("OPENAI_MODEL_PRETRAIN_REPORTS", "o3-mini")
 USER_AGENT = {"User-Agent": "Mozilla/5.0 (pretrain-reports-dispatcher)"}
 
-# ---------- helpers ----------
+# Payload size knobs
+PER_ARTICLE_CHAR_CAP   = int(os.getenv("PR_PER_ARTICLE_CHAR_CAP", "200000"))   # per article text cap
+TOTAL_PAYLOAD_CHAR_CAP = int(os.getenv("PR_TOTAL_PAYLOAD_CHAR_CAP", "900000")) # per chunk total cap
+MIN_TOKEN_HITS_IN_BODY = int(os.getenv("PR_MIN_TOKEN_HITS_IN_BODY", "2"))      # body ≥ N matches of any model token to keep article
+MAX_ARTICLES_PER_CHUNK = int(os.getenv("PR_MAX_ARTICLES_PER_CHUNK", "8"))      # soft limiter
+
+# ───────────────── Helpers ─────────────────
 def _js(o) -> str:
     return json.dumps(o, ensure_ascii=False, indent=2)
 
+def _tok(s: str) -> List[str]:
+    s = re.sub(r"[^a-z0-9.]+", " ", (s or "").lower())
+    return [t for t in s.split() if t]
+
+def _canonical_model_tokens(model_id: str) -> List[str]:
+    name = (model_id or "").split("/", 1)[-1].lower()
+    raw = re.split(r"[^a-z0-9.]+", name)
+    alts = set()
+    for t in raw:
+        t = t.strip()
+        if len(t) >= 3 and t not in {"base","it","instruct","chat","model"}:
+            alts.add(t)
+    collapsed = re.sub(r"[^a-z0-9]", "", name)
+    nodigit   = re.sub(r"\d+", "", collapsed)
+    if len(collapsed) >= 3: alts.add(collapsed)
+    if len(nodigit)   >= 3: alts.add(nodigit)
+    # llama3 / llama3.1 → {llama, llama3}
+    for t in list(alts):
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
+        if m:
+            alts.add(m.group(1))
+            alts.add(m.group(1)+m.group(2).replace(".",""))
+    return sorted(alts)
+
+def _contains_any_token(text: str, toks: List[str]) -> bool:
+    tl = (text or "").lower().replace("–","-").replace("—","-")
+    return any((t and (t in tl)) for t in toks)
+
+def _token_hits(text: str, toks: List[str]) -> int:
+    tl = (text or "").lower()
+    hits = 0
+    for t in toks:
+        if not t: continue
+        hits += tl.count(t)
+        if re.search(rf"\b{re.escape(t)}\b", tl):
+            hits += 1
+    return hits
+
+def _dedup_evidence(evs: List[Dict[str,str]], limit:int=300) -> List[Dict[str,str]]:
+    seen, out = set(), []
+    for ev in evs:
+        if not (isinstance(ev, dict) and isinstance(ev.get("source"), str) and isinstance(ev.get("quote"), str)):
+            continue
+        src = ev["source"].strip(); qt = ev["quote"].strip()
+        if not src or not qt: continue
+        key = (src, qt)
+        if key in seen: continue
+        seen.add(key); out.append({"source": src, "quote": qt})
+        if len(out) >= limit: break
+    return out
+
+def _hash_norm(s: str) -> str:
+    return hashlib.sha1(re.sub(r"\s+"," ", (s or "")).strip().lower().encode("utf-8")).hexdigest()
+
+def _dedup_articles_by_url(arts: List[Dict[str,str]]) -> List[Dict[str,str]]:
+    seen, out = set(), []
+    for a in arts:
+        u = a.get("url","").strip().lower()
+        k = re.sub(r"^https?://", "", u)
+        k = re.sub(r"[?#].*$", "", k).rstrip("/")
+        if k in seen: continue
+        seen.add(k); out.append(a)
+    return out
+
+# ───────────────── Fetchers ─────────────────
 def _hf_card_and_readme(hf_id: str, max_len: int = 120_000) -> str:
     txt = ""
     try:
-        r = requests.get(f"https://huggingface.co/api/models/{hf_id}?full=true", timeout=15)
-        card = (r.json() or {}).get("cardData", {}) or {}
-        txt += (card.get("content") or "")[:max_len]
+        r = requests.get(f"https://huggingface.co/api/models/{hf_id}?full=true", timeout=15, headers=USER_AGENT)
+        if r.ok:
+            card = (r.json() or {}).get("cardData", {}) or {}
+            txt += (card.get("content") or "")[:max_len]
     except Exception:
         pass
     for br in ("main", "master"):
         try:
-            rr = requests.get(f"https://huggingface.co/{hf_id}/raw/{br}/README.md", timeout=12)
+            rr = requests.get(f"https://huggingface.co/{hf_id}/raw/{br}/README.md", timeout=12, headers=USER_AGENT)
             if rr.status_code == 200:
                 txt += "\n\n" + rr.text[:max_len]
                 break
@@ -66,37 +148,42 @@ def _looks_report(u: str) -> bool:
         or "/paper" in ul or "arxiv.org" in ul
     )
 
-def _fetch_pdf(url: str) -> str:
-    import fitz
+def _fetch_pdf(url: str, cap: int) -> str:
+    try:
+        import fitz  # PyMuPDF
+    except Exception:
+        return ""
     r = requests.get(url, timeout=25, headers=USER_AGENT)
     r.raise_for_status()
     with fitz.open(stream=r.content, filetype="pdf") as doc:
-        return "\n".join(p.get_text() for p in doc)
+        t = "\n".join(p.get_text() for p in doc)
+    t = re.sub(r"\s+", " ", t)
+    return t[:cap]
 
-def _fetch_html(url: str, max_len: int = 800_000) -> str:
+def _fetch_html(url: str, cap: int) -> str:
     r = requests.get(url, timeout=20, headers=USER_AGENT)
     r.raise_for_status()
     h = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", r.text)
     t = re.sub(r"(?is)<[^>]+>", " ", h)
     t = re.sub(r"\s+", " ", t)
-    return t[:max_len]
+    return t[:cap]
 
 def _collect_reports_text(hf_id: str, gh_repo: Optional[str]) -> List[Dict[str, str]]:
-    """Return list of {'url','text','source'} harvested from HF/GH READMEs."""
-    corpus = []
+    """Return list of {'url','text','source'} harvested from HF/GH READMEs (report-ish only)."""
+    corpus: List[Dict[str,str]] = []
 
     # HF README links
     hf_md = _hf_card_and_readme(hf_id)
     if hf_md:
         urls = list(dict.fromkeys(_LINK_PAT.findall(hf_md)))
         for u in urls:
-            if _looks_report(u):
-                try:
-                    text = _fetch_pdf(u) if u.lower().endswith(".pdf") else _fetch_html(u)
-                    if text.strip():
-                        corpus.append({"url": u, "text": text, "source": "hf_readme_link"})
-                except Exception:
-                    continue
+            if not _looks_report(u): continue
+            try:
+                text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
+                if text.strip():
+                    corpus.append({"url": u, "text": text, "source": "hf_readme_link"})
+            except Exception:
+                continue
 
     # GH README links
     if gh_repo:
@@ -104,27 +191,63 @@ def _collect_reports_text(hf_id: str, gh_repo: Optional[str]) -> List[Dict[str, 
         if gh_md:
             urls = list(dict.fromkeys(_LINK_PAT.findall(gh_md)))
             for u in urls:
-                if _looks_report(u):
-                    try:
-                        text = _fetch_pdf(u) if u.lower().endswith(".pdf") else _fetch_html(u)
-                        if text.strip():
-                            corpus.append({"url": u, "text": text, "source": "gh_readme_link"})
-                    except Exception:
-                        continue
-    return corpus
+                if not _looks_report(u): continue
+                try:
+                    text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
+                    if text.strip():
+                        corpus.append({"url": u, "text": text, "source": "gh_readme_link"})
+                except Exception:
+                    continue
+    return _dedup_articles_by_url(corpus)
 
-# ---------- prompts ----------
+# ───────────────── Model relevance filter ─────────────────
+def _article_related_to_model(art: Dict[str,str], model_tokens: List[str]) -> bool:
+    url = (art.get("url") or "").lower()
+    body = (art.get("text") or "").lower()
+    if any(t in url for t in model_tokens):
+        return True
+    return _token_hits(body, model_tokens) >= MIN_TOKEN_HITS_IN_BODY
+
+def _filter_articles_for_target(arts: List[Dict[str,str]], model_id: str) -> List[Dict[str,str]]:
+    toks = _canonical_model_tokens(model_id)
+    if not toks:
+        return arts
+    out = [a for a in arts if _article_related_to_model(a, toks)]
+    return out or []  # allow empty → later "No information"
+
+# ───────────────── Chunking articles ─────────────────
+def _chunk_articles(arts: List[Dict[str,str]]) -> List[List[Dict[str,str]]]:
+    if not arts:
+        return []
+    chunks: List[List[Dict[str,str]]] = []
+    cur: List[Dict[str,str]] = []
+    total = 0
+    for a in arts:
+        txt_len = len(a.get("text",""))
+        if (cur and (total + txt_len > TOTAL_PAYLOAD_CHAR_CAP)) or (len(cur) >= MAX_ARTICLES_PER_CHUNK):
+            chunks.append(cur); cur=[]; total=0
+        cur.append(a); total += txt_len
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+# ───────────────── Prompts ─────────────────
 _SYS_RECALL = """
-You extract EVIDENCE about *pre-training* only (methodology and data) for an AI model.
-Return a JSON object with two arrays of quotes:
+You extract **EVIDENCE about pre-training only** (methodology and data) for the **TARGET model**.
 
+STRICT MODEL FILTER:
+- Accept a quote ONLY if the sentence explicitly mentions one of the TARGET tokens.
+- If an article mixes multiple models or earlier/other versions, keep only sentences that also name the TARGET tokens.
+- If in doubt, DROP the quote.
+
+Return a JSON object with two arrays of evidence objects:
 {
-  "3-1 (Pre-training)": [{"source":"<short id>","quote":"<verbatim sentence>"}],
-  "4-1 (Pre-training Data)": [{"source":"<short id>","quote":"<verbatim sentence>"}]
+  "3-1 (Pre-training)": [{"source":"<short id>","quote":"<verbatim sentence mentioning TARGET>"}],
+  "4-1 (Pre-training Data)": [{"source":"<short id>","quote":"<verbatim sentence mentioning TARGET>"}]
 }
 
 Rules:
-- Use ONLY the provided payload articles (each article has url, source and text).
+- Use ONLY the provided payload articles (each article has id, url, source, and text).
 - Quotes must be verbatim spans copied from the text (no paraphrase).
 - If no evidence for a key, return [] for that key.
 - Do NOT include anything outside 3-1 and 4-1.
@@ -142,54 +265,103 @@ Rules:
   { "pretrain_method": "...", "pretrain_data": "..." }
 """.strip()
 
-def _chat_json(sys: str, user: str) -> Dict[str, Any]:
-    r = _client.chat.completions.create(
-        model=MODEL_NAME,
-        reasoning_effort="medium",
-        response_format={"type": "json_object"},
-        messages=[{"role":"system","content":sys},{"role":"user","content":user}],
-    )
+def _recall_user_payload(model_id: str, model_tokens: List[str], arts: List[Dict[str,str]]) -> str:
+    # compact payload for the model
+    payload = {"target_model": model_id, "target_tokens": model_tokens,
+               "articles": [{"id": f"art{i+1}",
+                             "url": a.get("url",""),
+                             "source": a.get("source",""),
+                             "text": (a.get("text","")[:PER_ARTICLE_CHAR_CAP])}
+                            for i, a in enumerate(arts)]}
+    return json.dumps(payload, ensure_ascii=False)
+
+# ───────────────── Chat helper (o3 규칙 반영) ─────────────────
+def _is_reasoning_model(name: str) -> bool:
+    n = (name or "").lower()
+    return n.startswith(("o1", "o3"))
+
+def _chat_json_smart(model_name: str, system: str, user: str, json_only: bool = True) -> Dict[str, Any]:
+    """
+    • 샘플링 파라미터(temperature, top_p 등)는 절대 추가하지 않음.
+    • o1/o3 계열에만 reasoning_effort 추가.
+    """
+    payload: Dict[str, Any] = {
+        "model": model_name,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+    }
+    if json_only:
+        payload["response_format"] = {"type": "json_object"}
+    if _is_reasoning_model(model_name):
+        payload["reasoning_effort"] = "medium"
+
+    r = _client.chat.completions.create(**payload)
     try:
         return json.loads(r.choices[0].message.content.strip())
     except Exception:
         return {}
 
-# ---------- public ----------
+# ───────────────── Public ─────────────────
 def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     Make one file: pretrain_reports_{base}.json with:
       - pretrain_method
       - pretrain_data
       - __evidence: {"3-1 (Pre-training)": [...], "4-1 (Pre-training Data)": [...]}
+    Only evidence that explicitly names the TARGET tokens is kept.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     base = base_hf_id.replace("/", "_").lower()
     out_path = output_dir / f"pretrain_reports_{base}.json"
 
-    # 1) harvest articles
-    articles = _collect_reports_text(base_hf_id, gh_repo)
-    # compact payload for the model
-    payload = {"articles": [{"id": f"art{i+1}", "url": a["url"], "source": a["source"], "text": a["text"][:400_000]} for i, a in enumerate(articles)]}
-    user_txt = json.dumps(payload, ensure_ascii=False)
+    # 1) harvest articles → filter by target-model relevance
+    all_articles = _collect_reports_text(base_hf_id, gh_repo)
+    articles = _filter_articles_for_target(all_articles, base_hf_id)
 
-    # 2) evidence (quotes only)
-    ev = _chat_json(_SYS_RECALL, user_txt)
-    if "3-1 (Pre-training)" not in ev: ev["3-1 (Pre-training)"] = []
-    if "4-1 (Pre-training Data)" not in ev: ev["4-1 (Pre-training Data)"] = []
+    toks = _canonical_model_tokens(base_hf_id)
+    ev_all_31: List[Dict[str,str]] = []
+    ev_all_41: List[Dict[str,str]] = []
 
-    # 3) summary (quotes → method/data)
-    quotes_only = {"3-1 (Pre-training)": [q.get("quote","") for q in ev.get("3-1 (Pre-training)", [])],
-                   "4-1 (Pre-training Data)": [q.get("quote","") for q in ev.get("4-1 (Pre-training Data)", [])]}
-    summ = _chat_json(_SYS_SUMMARY, json.dumps(quotes_only, ensure_ascii=False))
+    # 2) chunked evidence recall
+    for chunk in _chunk_articles(articles):
+        if not chunk: continue
+        user_txt = _recall_user_payload(base_hf_id, toks, chunk)
+        ev = _chat_json_smart(MODEL_NAME, _SYS_RECALL, user_txt, json_only=True)
+        arr31 = ev.get("3-1 (Pre-training)", []) or []
+        arr41 = ev.get("4-1 (Pre-training Data)", []) or []
+        # keep only quotes that still mention target tokens (double-check)
+        arr31 = [e for e in arr31 if isinstance(e, dict) and _contains_any_token(e.get("quote",""), toks)]
+        arr41 = [e for e in arr41 if isinstance(e, dict) and _contains_any_token(e.get("quote",""), toks)]
+        ev_all_31.extend(arr31); ev_all_41.extend(arr41)
+
+    # 3) dedup & summarize
+    ev_all_31 = _dedup_evidence(ev_all_31, 300)
+    ev_all_41 = _dedup_evidence(ev_all_41, 300)
+
+    quotes_only = {
+        "3-1 (Pre-training)": [q.get("quote","") for q in ev_all_31],
+        "4-1 (Pre-training Data)": [q.get("quote","") for q in ev_all_41],
+    }
+    summ = _chat_json_smart(MODEL_NAME, _SYS_SUMMARY, json.dumps(quotes_only, ensure_ascii=False), json_only=True)
+
+    pretrain_method = (summ.get("pretrain_method") or "").strip()
+    pretrain_data   = (summ.get("pretrain_data") or "").strip()
+
+    # If no evidence remains, downgrade to "No information"
+    if not (ev_all_31 or ev_all_41):
+        pretrain_method = "No information"
+        pretrain_data   = "No information"
 
     out = {
         "model_id": base_hf_id,
-        "pretrain_method": summ.get("pretrain_method",""),
-        "pretrain_data":   summ.get("pretrain_data",""),
+        "pretrain_method": pretrain_method,
+        "pretrain_data":   pretrain_data,
         "__evidence": {
-            "3-1 (Pre-training)": ev.get("3-1 (Pre-training)", []),
-            "4-1 (Pre-training Data)": ev.get("4-1 (Pre-training Data)", []),
+            "3-1 (Pre-training)": ev_all_31,
+            "4-1 (Pre-training Data)": ev_all_41,
         }
     }
     json.dump(out, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
@@ -197,6 +369,6 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
     return out
 
 if __name__ == "__main__":
-    # quick test
+    # Example:
     # filter_pretrain_reports("bigscience/bloom", "bigscience/bloom")
     pass
