@@ -4,6 +4,7 @@
 # - summaries must use quotes only
 # - remove __evidence_sources field
 # - STRICT: collect ONLY quotes that explicitly mention the TARGET model
+#   (단, README의 불릿/Key:Value 라인은 모델 소개 직후 이어지는 규격 정보로 간주하여 예외 허용)
 
 import os
 import json
@@ -182,6 +183,9 @@ def _model_guard_text(model_id: str) -> str:
         "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
         "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
         "- If in doubt, DROP the quote.\n"
+        "\nEXCEPTION:\n"
+        "- Bullet or key:value lines from the README that immediately follow the model introduction may be accepted\n"
+        "  even if they don't repeat the TARGET token verbatim (common in model cards: spec bullets).\n"
     )
 
 def _recall_inst(group: List[str], model_id: str) -> str:
@@ -248,9 +252,15 @@ def _payload_to_text(p: Dict) -> str:
     return "\n".join(parts)
 
 # ───────────────────────────── Evidence collection ─────────────────────────────
-_ALLOWED_PREFIX = ("model_id", "readme", "license_file", "config",
-                   "generation_config", "files", "py_files/")
-_EXTRA_OK_PREFIX = ("section", "sec.", "appendix", "table", "figure", "fig.")
+# ⬇️ 확장: README/License 표기 변주와 일반적 헤딩/섹션 표기 허용
+_ALLOWED_PREFIX = (
+    "model_id", "readme", "readme.md", "modelcard", "card", "carddata",
+    "license", "license_file", "license.md",
+    "config", "generation_config", "files", "py_files/"
+)
+_EXTRA_OK_PREFIX = (
+    "section", "sec.", "appendix", "table", "figure", "fig.", "header", "heading"
+)
 
 def _is_valid_source(src: str) -> bool:
     if not isinstance(src, str):
@@ -259,13 +269,24 @@ def _is_valid_source(src: str) -> bool:
     s = s.strip("[]")  # allow bracketed tags like [readme]
     return s.startswith(_ALLOWED_PREFIX) or s.startswith(_EXTRA_OK_PREFIX)
 
-def _quote_mentions_target(q: str, model_id: str) -> bool:
+# ⬇️ README 불릿/Key:Value 예외 허용
+_BULLET_OR_KV = re.compile(r"^\s*(?:[-*•]\s+|[A-Za-z0-9 _/()+\.\-]+:\s+\S+)")
+
+def _quote_mentions_target(q: str, model_id: str, *, source: str = "") -> bool:
     if not q:
         return False
     ql = q.lower()
-    for t in _canonical_model_tokens(model_id):
-        if t and t in ql:
-            return True
+    toks = _canonical_model_tokens(model_id)
+
+    # 1) 원 규칙: 인용문 자체에 토큰 포함
+    if any(t for t in toks if t and t in ql):
+        return True
+
+    # 2) 예외 규칙: README의 불릿/Key:Value 라인은 허용
+    s = (source or "").lower()
+    if s.startswith("readme") and _BULLET_OR_KV.match(q or ""):
+        return True
+
     return False
 
 def _filter_evidence_by_model(ev: Dict[str, List[Dict[str, str]]], model_id: str) -> Dict[str, List[Dict[str, str]]]:
@@ -279,7 +300,7 @@ def _filter_evidence_by_model(ev: Dict[str, List[Dict[str, str]]], model_id: str
                 continue
             if not _is_valid_source(src):
                 continue
-            if not _quote_mentions_target(qt, model_id):
+            if not _quote_mentions_target(qt, model_id, source=src):
                 continue
             kept.append({"source": src, "quote": qt})
         out[lbl] = _dedup_evidences(kept, EVIDENCE_LIMIT_PER_KEY)
@@ -296,6 +317,29 @@ def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Di
             ev[fd_lbl] = _dedup_evidences(moved, EVIDENCE_LIMIT_PER_KEY)
     return ev
 
+# ⬇️ 백스톱: 가중치/라이선스 최소 근거 자동 주입
+def _inject_backstops_if_empty(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str, Any]) -> Dict[str, List[Dict[str,str]]]:
+    files = [str(x) for x in (payload.get("files") or [])]
+    # Weights (파일 목록에서 확장자 히트)
+    lbl_w = "1-1 (Weights)"
+    if lbl_w in ev and not ev.get(lbl_w):
+        hits = [f for f in files if re.search(r"\.(?:safetensors|bin|pt|onnx|gguf|ckpt)$", f, re.I)]
+        if hits:
+            ev[lbl_w] = [{"source":"files","quote":hits[0]}]
+    # License (license_file 첫 줄)
+    lbl_l = "1-3 (License)"
+    if lbl_l in ev and not ev.get(lbl_l):
+        lic = (payload.get("license_file") or "").strip().splitlines()
+        line = ""
+        for ln in lic:
+            ln = (ln or "").strip()
+            if ln:
+                line = ln[:240]
+                break
+        if line:
+            ev[lbl_l] = [{"source":"license_file","quote":line}]
+    return ev
+
 def _collect(group: List[str], text: str, model_id: str) -> Dict[str, List[Dict[str, str]]]:
     chunks = _chunk_text(text, CHUNK_CHARS, CHUNK_OVERLAP)
     out: Dict[str, List[Dict[str, str]]] = {LABELS[k]: [] for k in group}
@@ -305,7 +349,6 @@ def _collect(group: List[str], text: str, model_id: str) -> Dict[str, List[Dict[
             _BASE_RECALL_SYS,
             _recall_inst(group, model_id) + "\n=== PAYLOAD ===\n" + chunk
         )
-        # debug (optional): print("🔎 recall keys:", list(ans.keys())[:16])
         for k in group:
             lbl = LABELS[k]
             evs = ans.get(lbl, [])
@@ -408,6 +451,8 @@ def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = "
             payload = _make_group_payload(hf, idx - 1)
             text = _payload_to_text(payload)
             evid = _collect(grp, text, model)
+            # ⬇️ 백스톱 주입 (가중치/라이선스 최소 근거)
+            evid = _inject_backstops_if_empty(evid, payload)
             summ = _summarize(grp, evid, model)
             part = _merge_for_final(summ, evid)
         except Exception as e:
