@@ -23,15 +23,15 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
+# ───────────────────────────── Env ─────────────────────────────
 load_dotenv()
 _API_KEY = os.getenv("OPENAI_API_KEY")
 if not _API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 _client = OpenAI(api_key=_API_KEY)
-
 MODEL_NAME = os.getenv("OPENAI_MODEL_REPORTS_DISPATCHER", "o3-mini")
 
-# ─────────────── 16 evaluation items ───────────────
+# ─────────────────────── 16 evaluation items ───────────────────────
 LABELS = {
     "1-1": "1-1 (Weights)",                     "1-2": "1-2 (Code)",
     "1-3": "1-3 (License)",                     "1-4": "1-4 (Paper)",
@@ -71,7 +71,7 @@ ITEM_GROUPS = [
     ["4-1","4-2","4-3","4-4"],
 ]
 
-# ─────────────── Parameters ───────────────
+# ───────────────────────── Parameters ─────────────────────────
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
@@ -83,7 +83,7 @@ REPORTS_FILTER_THRESHOLD = int(os.getenv("REPORTS_FILTER_THRESHOLD", "20"))
 REPORTS_MIN_HITS_IN_TEXT = int(os.getenv("REPORTS_MIN_HITS_IN_TEXT", "2"))
 REPORTS_URL_DENY_SUBSTR = os.getenv("REPORTS_URL_DENY_SUBSTR", "")
 
-# ─────────────── Utils ───────────────
+# ───────────────────────── Utils ─────────────────────────
 def _js(o): return json.dumps(o, ensure_ascii=False, indent=2)
 
 _PARA_SPLIT = re.compile(r"\n\s*\n+")
@@ -92,6 +92,7 @@ def _normalize_for_hash(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip().lower()
 
 def _dedup_texts_by_paragraph(texts: List[str]) -> str:
+    """Concatenate documents while removing duplicate paragraphs (first-seen wins)."""
     seen, out = set(), []
     for doc in texts:
         if not doc: continue
@@ -119,19 +120,23 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         if len(out) >= limit: break
     return out
 
-# === Target-model guard (공통) =========================================
+# ────────────────── Target-model guard (공통) ──────────────────
 def _family_tokens_from_model_id(model_id: str) -> set[str]:
+    """
+    Extract stable tokens for family/version matching.
+    Ignore too-generic tokens such as base/it/chat/model.
+    """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
     base: set[str] = set()
     for tt in (t.strip() for t in raw):
-        if not tt: 
+        if not tt:
             continue
         if tt in {"base","it","instruct","chat","hf","model"}:
             continue
         if len(tt) >= 2:
             base.add(tt)
-        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", tt)
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", tt)  # llama3.1 → (llama, 3.1)
         if m:
             base.add(m.group(1))
             base.add(m.group(1)+m.group(2).replace(".",""))
@@ -162,7 +167,7 @@ def _quote_mentions_target(q: str, model_id: str) -> bool:
             return True
     return False
 
-# ─────────────── Prompts ───────────────
+# ───────────────────────── Prompts ─────────────────────────
 def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 def _skeleton(g):  return {LABELS[i]: [] for i in g}
 
@@ -170,7 +175,7 @@ _BASE_RECALL_SYS = """
 You are an expert at extracting AI model openness evaluation information from *technical reports, papers, and blogs*.
 Using only the payload (original text), return evidence for each item in the format
   [{ "source": "...", "quote": "..." }, …]
-· source : e.g., [url:<...>], [sections/<url>], [pdf_text]
+· source : e.g., [url:<...>], [sections/<url>], [pdf_text], [title], [abstract]
 · quote  : a verbatim sentence copied from that section (no edits)
 If there is no evidence, return an empty array [].
 You must output a JSON object only.
@@ -198,7 +203,7 @@ def _summ_inst(g: List[str], model_id: str) -> str:
         "\nUse ONLY the provided quotes."
     )
 
-# ─────────────── GPT JSON call ───────────────
+# ───────────────────── GPT JSON call ─────────────────────
 def _chat_json(sys, usr):
     r = _client.chat.completions.create(
         model=MODEL_NAME, reasoning_effort="medium",
@@ -209,7 +214,7 @@ def _chat_json(sys, usr):
     try:    return json.loads(r.choices[0].message.content.strip())
     except: return {}
 
-# ─────────────── Payload builder ───────────────
+# ───────────────────── Payload builder ─────────────────────
 def _make_payload(doc: Dict[str, Any]) -> Dict[str, Any]:
     secs = []
     for it in (doc.get("full_texts") or []):
@@ -230,32 +235,23 @@ def _make_payload(doc: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 def _payload_text(p: Dict[str, Any]) -> str:
-    parts = [f"[pdf_text]\n{p.get('pdf_text','')}\n"]
+    parts = []
+    # keep title/abstract tags to give the model options if present later
+    if p.get("title"):    parts.append(f"[title]\n{p.get('title')}\n")
+    if p.get("abstract"): parts.append(f"[abstract]\n{p.get('abstract')}\n")
+    parts.append(f"[pdf_text]\n{p.get('pdf_text','')}\n")
     for s in p.get("sections", []):
         tag = (s.get("title") or "doc").strip()
         parts.append(f"[sections/{tag}]\n{s.get('text','')}\n")
     return "\n".join(parts)
 
-# ─────────────── Allowed source tags & validators ───────────────
-_ALLOWED_PREFIX = ("url:", "sections/", "pdf_text")
+# ───────────────── Allowed source tags & validators ─────────────────
+_ALLOWED_PREFIX = ("url:", "sections/", "pdf_text", "title", "abstract")
+_EXTRA_OK_PREFIX = ("section","sec.","appendix","table","figure","fig.")
 def _valid_source(src: str) -> bool:
     if not isinstance(src, str): return False
     s = src.strip().lower().strip("[]")
-    return s.startswith(_ALLOWED_PREFIX)
-
-def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str, List[Dict[str,str]]]:
-    out: Dict[str, List[Dict[str,str]]] = {}
-    for lbl, arr in ev.items():
-        kept = []
-        for e in (arr or []):
-            src = (e.get("source") or "").strip()
-            qt  = (e.get("quote")  or "").strip()
-            if not src or not qt: continue
-            if not _valid_source(src): continue
-            if not _quote_mentions_target(qt, model_id): continue
-            kept.append({"source": src, "quote": qt})
-        out[lbl] = _dedup_evs(kept, EVIDENCE_LIMIT_PER_KEY)
-    return out
+    return s.startswith(_ALLOWED_PREFIX) or s.startswith(_EXTRA_OK_PREFIX)
 
 # ─────────────── Doc-level relevance filter ───────────────
 def _deny_url(u: str) -> bool:
@@ -269,6 +265,11 @@ def _deny_url(u: str) -> bool:
     return False
 
 def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int) -> bool:
+    """
+    Keep doc if:
+      • URL contains any family token (strong)
+      • OR body contains >= min_hits occurrences of those tokens (word-boundary boosts)
+    """
     ul = (url or "").lower()
     tl = (text or "").lower()
     if _deny_url(ul): return False
@@ -279,10 +280,11 @@ def _looks_related_doc(url: str, text: str, fam_tokens: set[str], min_hits: int)
     for t in fam_tokens:
         if not t: continue
         hits += tl.count(t)
-        if re.search(rf"\b{re.escape(t)}\b", tl): hits += 1
+        if re.search(rf"\b{re.escape(t)}\b", tl):
+            hits += 1
     return hits >= max(1, min_hits)
 
-# ─────────────── Evidence & Summary ───────────────
+# ───────────────── Evidence & Summary ─────────────────
 def _collect(g: List[str], text: str, model_id: str):
     ev = {LABELS[k]: [] for k in g}
     i = 0; n = len(text)
@@ -295,14 +297,29 @@ def _collect(g: List[str], text: str, model_id: str):
             arr = ans.get(LABELS[k], [])
             if isinstance(arr, list):
                 ev[LABELS[k]].extend(arr)
-    # quote-level 모델 필터
-    ev = _filter_evidence_by_model(ev, model_id)
-    return ev
+
+    # quote-level 모델 필터 + dedup
+    raw_counts = {LABELS[k]: len(ev.get(LABELS[k]) or []) for k in g}
+    ev2 = {}
+    for k in g:
+        lbl = LABELS[k]
+        kept = []
+        for e in (ev.get(lbl) or []):
+            src = (e.get("source") or "").strip()
+            qt  = (e.get("quote")  or "").strip()
+            if not src or not qt: continue
+            if not _valid_source(src): continue
+            if not _quote_mentions_target(qt, model_id): continue
+            kept.append({"source": src, "quote": qt})
+        ev2[lbl] = _dedup_evs(kept, EVIDENCE_LIMIT_PER_KEY)
+    kept_counts = {k: len(ev2.get(k) or []) for k in ev2}
+    print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
+    return ev2
 
 def _summarize(g: List[str], ev: Dict[str, List[Dict[str,str]]], model_id: str):
-    quotes = {LABELS[k]: [e["quote"] for e in ev[LABELS[k]]] for k in g}
+    quotes = {LABELS[k]: [e["quote"] for e in (ev.get(LABELS[k]) or [])] for k in g}
     ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g, model_id)+"\n=== QUOTES ===\n"+_js(quotes))
-    return {LABELS[k]: ans.get(LABELS[k], "") for k in g}
+    return {LABELS[k]: (ans.get(LABELS[k], "") or "") for k in g}
 
 def _merge(sum_, ev):
     return {lbl: (sum_.get(lbl,"") or "").strip() for lbl in sum_} | {
@@ -314,7 +331,7 @@ def _merge_all(lst):
     for d in lst: m.update(d)
     return m
 
-# ─────────────── RL usage classifier (with FT-only → RL not_used rule) ───────────────
+# ─────────────── RL usage classifier (FT-only → RL not_used 보정) ───────────────
 _T_TOKENS: Tuple[str, ...] = ("finetune","fine-tuning","instruction-tune","sft","xp3","xp3mt","mtf","prompted finetuning")
 _RL_TOKENS: Tuple[str, ...] = ("rlhf","reinforcement learning","dpo","ppo","reward model","preference model","human feedback","rlaif","kl penalty")
 
@@ -373,7 +390,18 @@ def _classify_usage_from_merged(merged: dict) -> dict:
             usage["rl"] = "not_used"
     return usage
 
-# ─────────────── Public entry ───────────────
+# ─────────────── Backstop injection (Paper URL) ───────────────
+def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str, Any]) -> Dict[str, List[Dict[str,str]]]:
+    if not ev.get("1-4 (Paper)"):
+        secs = payload.get("sections") or []
+        for s in secs:
+            title = (s.get("title") or "").strip()
+            if title.startswith("http://") or title.startswith("https://"):
+                ev["1-4 (Paper)"] = [{"source": f"sections/{title}", "quote": title}]
+                break
+    return ev
+
+# ───────────────────────── Public entry ─────────────────────────
 def filter_reports_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     Input candidates:
@@ -394,7 +422,7 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
     if gh_meta.exists():
         try:
             gh_j = json.load(open(gh_meta, encoding="utf-8"))
-            repo = (gh_j.get("repo") or "").replace("/", "_").lower()
+            repo = (gh_j.get("repo") or gh_j.get("full_name") or "").replace("/", "_").lower()
             if repo:
                 candidates.append(output_dir / f"reports_fulltext_github_{repo}.json")
         except Exception:
@@ -474,6 +502,8 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
     for i, grp in enumerate(ITEM_GROUPS, 1):
         try:
             ev = _collect(grp, text, model)
+            # 최소 백스톱: Paper URL 보강
+            ev = _inject_backstop_paper(ev, payload)
             summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)
         except Exception as e:
@@ -498,7 +528,7 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
         print("✅ Saved final merged:", fp)
     return merged
 
-# CLI
+# ───────────────────────── CLI ─────────────────────────
 if __name__ == "__main__":
     import sys
     mid="bigscience/bloomz-560m"
