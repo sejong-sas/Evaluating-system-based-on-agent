@@ -18,6 +18,18 @@ if not _api_key:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 _client = OpenAI(api_key=_api_key)
 
+# Tunables
+MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3-mini")
+GITHUB_README_CHAR_CAP      = int(os.getenv("GITHUB_README_CHAR_CAP", "120000"))
+GITHUB_LICENSE_CHAR_CAP     = int(os.getenv("GITHUB_LICENSE_CHAR_CAP", "20000"))
+GITHUB_MAX_LICENSE_PARTS    = int(os.getenv("GITHUB_MAX_LICENSE_PARTS", "5"))
+GITHUB_MAX_PY_FILES         = int(os.getenv("GITHUB_MAX_PY_FILES", "40"))
+GITHUB_PY_FILE_CHAR_CAP     = int(os.getenv("GITHUB_PY_FILE_CHAR_CAP", "20000"))
+GITHUB_MAX_FILES_LIST       = int(os.getenv("GITHUB_MAX_FILES_LIST", "3000"))
+CHUNK_CHARS                 = int(os.getenv("GITHUB_CHUNK_CHARS", "60000"))
+CHUNK_OVERLAP               = int(os.getenv("GITHUB_CHUNK_OVERLAP", "2000"))
+EVIDENCE_LIMIT_PER_KEY      = int(os.getenv("GITHUB_EVIDENCE_LIMIT_PER_KEY", "300"))
+
 # ─────────────── 16 evaluation items ───────────────
 LABELS = {
     "1-1": "1-1 (Weights)",                     "1-2": "1-2 (Code)",
@@ -33,7 +45,7 @@ LABELS = {
     "4-4": "4-4 (Data Filtering)",
 }
 
-# ─────────────── Item descriptions (brief) ───────────────
+# ───────────── Item descriptions (brief) ─────────────
 EVAL_DESCRIPTIONS = {
     LABELS["1-1"]: "All information about whether model weights are public, their location, access method, and if anyone can download them",
     LABELS["1-2"]: "All information about whether TRAINING code is public. Distinguish training pipeline (data prep, configs, scripts, schedules) from inference/serving-only code. Specify which parts of training are public (pre-training, fine-tuning, RL).",
@@ -60,12 +72,6 @@ ITEM_GROUPS = [
     ["2-3", "3-1", "3-2", "3-3"],
     ["4-1", "4-2", "4-3", "4-4"],
 ]
-
-# ───────────── Parameters ─────────────
-CHUNK_CHARS = 60_000
-CHUNK_OVERLAP = 2_000
-EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3-mini")
 
 # ───────────── Utils ─────────────
 def _js(o: Any) -> str:
@@ -98,16 +104,43 @@ def _dedup_evid(evs: List[Dict[str, str]], limit: int) -> List[Dict[str, str]]:
 def _desc(ids: List[str]) -> Dict[str, str]:
     return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 
-# === Target-model guard (공통) =========================================
-def _canonical_model_tokens(model_id: str) -> list[str]:
-    """모델 ID에서 비교적 안정적인 토큰/별칭 후보 추출 (짧고 흔한 토큰 제외)."""
+# === Target-model guard (공통, 강화판) =========================================
+# 더 넓은 스톱워드(짧은/범용/버전 토큰) → 거짓양성 억제
+_STOPWORDS = {
+    # generic
+    "ai","llm","ml","nlp","model","models","base","chat","instruct","instruction","sft","rl","rm",
+    "eval","evaluation","bench","benchmark","paper","release","repo","library","toolkit","example",
+    # versions/quality
+    "v","v1","v2","v3","v4","dev","alpha","beta","rc","preview","nightly","experimental","test","demo",
+    # misc
+    "hf","torch","cuda","jit"
+}
+
+def _canonical_model_tokens(model_id: str) -> List[str]:
+    """
+    Robust tokens from model id:
+      - split on non-alnum, drop short/generic tokens
+      - add joined (remove non-alnum) and no-digit variants
+      - add (name, name+digits) splits like llama3, llama3.1 → llama, llama3, 31
+    """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
     alts = set()
     for t in raw:
         t = t.strip()
-        if len(t) >= 3 and t not in {"base","it","instruct","chat","model"}:
+        if not t: 
+            continue
+        if t in _STOPWORDS: 
+            continue
+        if len(t) >= 2:
             alts.add(t)
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
+        if m:
+            base = m.group(1); ver = m.group(2)
+            alts.add(base)
+            alts.add(base + ver.replace(".", ""))  # llama31
+            alts.add(ver)                          # 3.1
+            alts.add(ver.replace(".", ""))         # 31
     joined = re.sub(r"[^a-z0-9]", "", name)
     nodigit = re.sub(r"\d+", "", joined)
     if len(joined) >= 3: alts.add(joined)
@@ -127,7 +160,7 @@ def _model_guard_text(model_id: str) -> str:
 
 def _quote_mentions_target(q: str, model_id: str) -> bool:
     if not q: return False
-    ql = q.lower()
+    ql = q.lower().replace("–","-").replace("—","-")
     for t in _canonical_model_tokens(model_id):
         if t and t in ql:
             return True
@@ -146,7 +179,7 @@ You must output a JSON object only.
 
 _BASE_SUMMARY_SYS = """
 Using the provided quotes only, write long and detailed summaries for each item.
-You must output a JSON object only.
+Do not paraphrase without quotation support. Output JSON only.
 """.strip()
 
 _USAGE_SYS = """
@@ -188,7 +221,8 @@ def _summ_inst(g: List[str], model_id: str) -> str:
 # ───────────── GPT ↔ JSON ─────────────
 def _chat_json(sys_msg: str, usr: str) -> Dict[str, Any]:
     r = _client.chat.completions.create(
-        model=MODEL_NAME, reasoning_effort="medium",
+        model=MODEL_NAME,
+        reasoning_effort="medium",
         response_format={"type": "json_object"},
         messages=[{"role":"system","content":sys_msg},
                   {"role":"user","content":usr}]
@@ -198,32 +232,31 @@ def _chat_json(sys_msg: str, usr: str) -> Dict[str, Any]:
 
 # ───────────── Build payload ─────────────
 def _make_payload(d: Dict, _: int) -> Dict:
-    repo  = d.get("repo") or d.get("full_name") or ""
-    files = (d.get("files") or [])[:3000]
-    readme = (d.get("readme") or "")[:120_000]
+    repo   = d.get("repo") or d.get("full_name") or ""
+    files  = (d.get("files") or [])[:GITHUB_MAX_FILES_LIST]
+    readme = (d.get("readme") or "")[:GITHUB_README_CHAR_CAP]
 
-    # license
+    # license (dict or list both 지원)
     lic = d.get("license_files") or {}
     if isinstance(lic, dict):
-        lic_text = "\n\n".join(
-            f"# {k}\n{(v or '')[:20_000]}" for k, v in list(lic.items())[:5]
-        )
+        items = list(lic.items())[:GITHUB_MAX_LICENSE_PARTS]
+        lic_text = "\n\n".join(f"# {k}\n{(v or '')[:GITHUB_LICENSE_CHAR_CAP]}" for k, v in items)
     elif isinstance(lic, list):
         buf = []
-        for it in lic[:5]:
+        for it in lic[:GITHUB_MAX_LICENSE_PARTS]:
             if isinstance(it, dict):
                 name = it.get("name") or it.get("path") or "LICENSE"
-                buf.append(f"# {name}\n{(it.get('content') or '')[:20_000]}")
+                buf.append(f"# {name}\n{(it.get('content') or '')[:GITHUB_LICENSE_CHAR_CAP]}")
             elif isinstance(it, str):
-                buf.append(it[:20_000])
+                buf.append(it[:GITHUB_LICENSE_CHAR_CAP])
         lic_text = "\n\n".join(buf)
     else:
-        lic_text = str(lic)[:20_000]
+        lic_text = str(lic)[:GITHUB_LICENSE_CHAR_CAP]
 
     py_files = {}
     for fn, src in (d.get("py_files") or {}).items():
-        if len(py_files) >= 40: break
-        py_files[fn] = (src or "")[:20_000]
+        if len(py_files) >= GITHUB_MAX_PY_FILES: break
+        py_files[fn] = (src or "")[:GITHUB_PY_FILE_CHAR_CAP]
 
     return {"repo": repo, "files": files, "readme": readme,
             "license_files": lic_text, "py_files": py_files}
@@ -263,6 +296,30 @@ def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str)
         out[lbl] = _dedup_evid(kept, EVIDENCE_LIMIT_PER_KEY)
     return out
 
+# ───────────── Evidence re-balance (3-2 → 4-2) ─────────────
+def _rebalance_evidence(ev: Dict[str, List[Dict[str,str]]]) -> Dict[str, List[Dict[str,str]]]:
+    ft_lbl = "3-2 (Fine-tuning)"
+    fd_lbl = "4-2 (Fine-tuning Data)"
+    if (not ev.get(fd_lbl)) and ev.get(ft_lbl):
+        kws = r"(dataset|corpus|xP3(?:mt)?|p3\b|language distribution|languages|split|examples|released|Flores200|ROOTS|license|public links?)"
+        moved = [e for e in ev[ft_lbl] if isinstance(e, dict) and re.search(kws, e.get("quote",""), re.I)]
+        if moved:
+            ev[fd_lbl] = _dedup_evid(moved, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
+# ───────────── README paper backstop (1-4) ─────────────
+_PAPER_URL_RE = re.compile(r"(https?://\S*(arxiv\.org|openreview\.net|doi\.org|acm\.org|ieee\.org)\S*)", re.I)
+def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str,Any]) -> Dict[str, List[Dict[str,str]]]:
+    lbl = "1-4 (Paper)"
+    if ev.get(lbl):
+        return ev
+    readme = payload.get("readme") or ""
+    m = _PAPER_URL_RE.search(readme)
+    if m:
+        url = m.group(1).strip()
+        ev[lbl] = [{"source":"readme","quote":url}]
+    return ev
+
 # ───────────── Step 1: collect (then post-filter) ─────────────
 def _collect(g, text: str, model_id: str) -> Dict[str, List[Dict[str,str]]]:
     ev = {LABELS[k]: [] for k in g}
@@ -274,6 +331,7 @@ def _collect(g, text: str, model_id: str) -> Dict[str, List[Dict[str,str]]]:
                 ev[LABELS[k]].extend(arr)
     raw_counts = {k: len(v or []) for k, v in ev.items()}
     ev = _filter_evidence_by_model(ev, model_id)
+    ev = _rebalance_evidence(ev)
     kept_counts = {k: len(v or []) for k, v in ev.items()}
     print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
     return ev
@@ -285,7 +343,7 @@ def _summarize(g, ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str
     ans = _chat_json(_BASE_SUMMARY_SYS, _summ_inst(g, model_id) + "\n=== QUOTES ===\n" + _js(quotes))
     return {lbl: (ans.get(lbl, "") or "") for lbl in lbls}
 
-# ─── replace _merge function ───
+# ─── merge ───
 def _merge(summary: Dict[str, Any],
            ev: Dict[str, List[Dict[str, str]]]) -> Dict[str, Any]:
     out: Dict[str, Any] = {}
@@ -360,6 +418,7 @@ def filter_github_features(model: str, save: bool = True, output_dir: str | Path
             payload = _make_payload(gh, idx-1)
             text = _payload_text(payload)
             ev   = _collect(grp, text, model)
+            ev   = _inject_backstop_paper(ev, payload)  # README 내 논문 링크 백스톱
             summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)
         except Exception as e:
