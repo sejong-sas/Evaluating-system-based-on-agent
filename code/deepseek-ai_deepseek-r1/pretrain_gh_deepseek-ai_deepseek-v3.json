@@ -1,0 +1,8 @@
+{
+  "pretrain_method": "DeepSeek-V3 is pre-trained using a multi-stage approach that includes Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities.",
+  "pretrain_data": "14.8 trillion diverse and high-quality tokens",
+  "__evidence": [
+    "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities.",
+    "At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+  ]
+}

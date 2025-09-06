@@ -1,0 +1,10 @@
+{
+  "4-1 (Pre-training Data)": "No evidence quotes were provided, so there is no available evidence to summarize details such as the types, quantities, sources, allowed use, or composition of the pre-training data.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "There are no provided evidence quotes to elaborate on this item. As a result, no evidence is available to detail the source, composition, examples, or the public availability of fine-tuning datasets.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "No evidence quotes have been shared for this category. Consequently, it is not possible to summarize any information regarding the composition, accessibility, sources, or generation of reinforcement learning datasets.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "With no evidence quotes provided, there is insufficient information to summarize any details about data filtering or cleaning methods, the criteria used, the processes, or their impacts.",
+  "4-4 (Data Filtering)__evidence": []
+}

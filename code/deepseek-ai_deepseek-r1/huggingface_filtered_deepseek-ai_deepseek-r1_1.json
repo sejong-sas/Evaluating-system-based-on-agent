@@ -1,0 +1,25 @@
+{
+  "1-1 (Weights)": "The provided quote for DeepSeek-R1 outlines the availability of model weights with multiple configurations. It specifically mentions the DeepSeek-R1 model, listing weights of 671B and 37B parameters along with a 128K context window. The availability is confirmed via a link to the model’s page on HuggingFace, ensuring that users can access and download the weights.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1   | 671B | 37B |  128K   | [🤗 HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-R1)"
+    }
+  ],
+  "1-2 (Code)": "No information regarding training or inference/serving code for DeepSeek-R1 is provided in the supplied quotes.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "The quote explicitly states that the DeepSeek-R1 series supports commercial use, allowing modifications and derivative works. This includes activities such as distillation for training other language models, thereby granting broad rights for use and adaptation.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1 series support commercial use, allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs."
+    }
+  ],
+  "1-4 (Paper)": "The provided citation for DeepSeek-R1 is from an official source, referencing a paper titled 'DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning'. The citation includes details such as the title and authorship by DeepSeek-AI, establishing it as the authoritative technical document related to the model.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{deepseekai2025deepseekr1incentivizingreasoningcapability,\n      title={DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning}, \n      author={DeepSeek-AI},"
+    }
+  ]
+}

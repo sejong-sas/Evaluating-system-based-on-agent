@@ -1,0 +1,9 @@
+{
+  "model_id": "deepseek-ai/DeepSeek-V3-Base",
+  "pretrain_method": "No information",
+  "pretrain_data": "No information",
+  "__evidence": {
+    "3-1 (Pre-training)": [],
+    "4-1 (Pre-training Data)": []
+  }
+}

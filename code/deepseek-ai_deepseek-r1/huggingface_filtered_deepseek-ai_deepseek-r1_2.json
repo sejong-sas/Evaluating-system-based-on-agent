@@ -1,0 +1,19 @@
+{
+  "1-5 (Architecture)": "The provided quotes detail the architecture of the DeepSeek-R1 model. One quote explicitly displays the model details as 'DeepSeek-R1 | 671B | 37B | 128K', suggesting key numerical attributes associated with the model such as a high parameter count and a large context window, hinting at its extensive capacity and scale. The architecture is further specified by the mention of 'DeepseekV3ForCausalLM', indicating that the model employs a variant tailored for causal language modeling. This architectural nuance may be indicative of advanced transformer-based designs and further aligns with its deployment on platforms like HuggingFace.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1   | 671B | 37B |  128K   | [🤗 HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-R1)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"DeepseekV3ForCausalLM\"\n  ]"
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

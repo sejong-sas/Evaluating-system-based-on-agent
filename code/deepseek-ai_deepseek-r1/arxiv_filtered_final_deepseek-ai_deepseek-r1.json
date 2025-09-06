@@ -1,0 +1,84 @@
+{
+  "1-1 (Weights)": "The quote details the public availability of model weights for various versions of DeepSeek-R1. Notably, the release includes DeepSeek-R1-Zero and DeepSeek-R1 alongside six additional dense models distilled from DeepSeek-R1, with parameter sizes ranging from 1.5B to 70B. These models have been derived using methodologies based on both Qwen and Llama, and their open-source release emphasizes support for the research community by facilitating access, experimentation, and further development.",
+  "1-2 (Code)": "",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "The provided quote indicates that an official paper or technical document on DeepSeek-R1 has been published, which includes detailed benchmark performance information illustrated in Figure 1. The reference to arXiv with the identifier arXiv:2501.12948v1, dated 22 Jan 2025, underscores the availability of an academic resource that documents the model's evaluation and performance metrics, offering insights into its capabilities and research relevance.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To support the research community, we open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1 based on Qwen and Llama."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1 | Benchmark performance of DeepSeek-R1. arXiv:2501.12948v1  [cs.CL]  22 Jan 2025"
+    }
+  ],
+  "1-5 (Architecture)": "",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The provided quotes indicate that DeepSeek-R1 and its corresponding API have been open-sourced, making them publicly available. This open source release is expected to significantly aid the research community, enabling them to develop and distill smaller, more efficient models in the future.",
+  "3-1 (Pre-training)": "",
+  "3-2 (Fine-tuning)": "The quotes describe a comprehensive pipeline used to develop DeepSeek-R1. This pipeline includes two reinforcement learning (RL) stages focused on discovering improved reasoning patterns and aligning the model's behavior with human preferences, as well as two supervised fine-tuning (SFT) stages that seed the model’s reasoning and non-reasoning capabilities. Additionally, after the fine-tuning phase with new data, the checkpoint is subjected to a further RL process that integrates prompts from various scenarios, ultimately resulting in a model checkpoint named DeepSeek-R1, which performs on par with competitive benchmarks such as OpenAI-o1-1217.",
+  "3-3 (Reinforcement Learning)": "The quotes provide detailed insights into the training methodology of DeepSeek-R1-Zero. This model variant was trained using large-scale reinforcement learning (RL) without an initial supervised fine-tuning stage, and as a result, it developed remarkable reasoning capabilities. Furthermore, throughout its training, DeepSeek-R1-Zero naturally developed a variety of powerful and interesting reasoning behaviors through thousands of RL steps, ultimately achieving super performance on reasoning benchmarks.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[sections/Introduction - 1.1 Contributions]",
+      "quote": "We open-source DeepSeek-R1, as well as its API, will benefit the research community to distill better smaller models in the future."
+    },
+    {
+      "source": "sections/1.1 Contributions",
+      "quote": "The open source DeepSeek-R1, as well as its API, will benefit the research community to distill better smaller models in the future."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[sections/Introduction - 1.1 Contributions]",
+      "quote": "We introduce our pipeline to develop DeepSeek-R1. The pipeline incorporates two RL stages aimed at discovering improved reasoning patterns and aligning with human preferences, as well as two SFT stages that serve as the seed for the model’s reasoning and non-reasoning capabilities."
+    },
+    {
+      "source": "sections/1.1 Contributions",
+      "quote": "After fine-tuning with the new data, the checkpoint undergoes an additional RL process, taking into account prompts from all scenarios. After these steps, we obtained a checkpoint referred to as DeepSeek-R1, which achieves performance on par with OpenAI-o1-1217."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text Abstract]",
+      "quote": "DeepSeek-R1-Zero, a model trained via large-scale reinforcement learning (RL) without supervised fine-tuning (SFT) as a preliminary step, demonstrates remarkable reasoning capabilities."
+    },
+    {
+      "source": "sections/Introduction",
+      "quote": "During training, DeepSeek-R1-Zero naturally emerged with numerous powerful and interesting reasoning behaviors. After thousands of RL steps, DeepSeek-R1-Zero exhibits super performance on reasoning benchmarks."
+    }
+  ],
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "The fine-tuning data details specify that for DeepSeek-R1 the process involves the careful construction and collection of a small set of long chain-of-thought (CoT) data. This approach is implemented to counteract the early unstable cold start phase encountered during reinforcement learning training. In particular, the quotes distinguish DeepSeek-R1 from its variant DeepSeek-R1-Zero by highlighting that the collected data is used to fine-tune the base model. Several methods are described for obtaining this CoT data, including using few-shot prompting that employs a long CoT example, generating detailed answers with steps of reflection and verification from the models, processing outputs generated in a clear and readable format, and refining the results with post-processing by human annotators. This multifaceted method ensures that the fine-tuning data for DeepSeek-R1 is robust and tailored specifically to its reinforcement learning requirements.",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/2.3.1]",
+      "quote": "Unlike DeepSeek-R1-Zero, to prevent the early unstable cold start phase of RL training from the base model, for DeepSeek-R1 we construct and collect a small amount of long CoT data to fine-tune the DeepSeek-V3-Base as the starting point for RL."
+    },
+    {
+      "source": "sections/2.3.1. Cold Start",
+      "quote": "Unlike DeepSeek-R1-Zero, to prevent the early unstable cold start phase of RL training from the base model, for DeepSeek-R1 we construct and collect a small amount of long CoT data to fine-tune the model as the initial RL actor. To collect such data, we have explored several approaches: using few-shot prompting with a long CoT as an example, directly prompting models to generate detailed answers with reflection and verification, gathering DeepSeek-R1-Zero outputs in a readable format, and refining the results through post-processing by human annotators."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

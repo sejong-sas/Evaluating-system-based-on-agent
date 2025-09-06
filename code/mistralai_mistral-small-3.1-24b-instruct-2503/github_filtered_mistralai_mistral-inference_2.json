@@ -1,0 +1,19 @@
+{
+  "1-5 (Architecture)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)": "The provided quotes indicate the use of a dedicated Mistral tokenizer. In the first quote, the tokenizer is instantiated with the command 'tokenizer = MistralTokenizer.from_file(\"./mistral-nemo-instruct-v0.1/tekken.json\")  # change to extracted tokenizer file', explicitly referencing 'MistralTokenizer' and a file path for loading the tokenizer configuration. The second quote, 'mistral_tokenizer: MistralTokenizer = load_tokenizer(Path(model_path))', further confirms the specific usage of the Mistral tokenizer by instantiating a variable with the identifier 'mistral_tokenizer' and using a loading function that accepts a model path. Both quotes make it clear that the tokenizer used is intended for Mistral, ensuring that only relevant details connected to the mistral model are included.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = MistralTokenizer.from_file(\"./mistral-nemo-instruct-v0.1/tekken.json\")  # change to extracted tokenizer file"
+    },
+    {
+      "source": "py_files/src/mistral_inference/main.py",
+      "quote": "mistral_tokenizer: MistralTokenizer = load_tokenizer(Path(model_path))"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

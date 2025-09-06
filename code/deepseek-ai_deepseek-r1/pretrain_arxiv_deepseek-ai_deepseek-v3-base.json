@@ -1,0 +1,10 @@
+{
+  "pretrain_method": "No information",
+  "pretrain_data": "Pretrained on a multilingual corpus (with English and Chinese as the majority) and trained on 14.8T tokens",
+  "__evidence": [
+    "During pre-training, we train DeepSeek-V3 on 14.8T high-quality and diverse tokens.",
+    "At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model.",
+    "The base model of DeepSeek-V3 is pretrained on a multilingual corpus with English and Chinese constituting the majority.",
+    "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+  ]
+}

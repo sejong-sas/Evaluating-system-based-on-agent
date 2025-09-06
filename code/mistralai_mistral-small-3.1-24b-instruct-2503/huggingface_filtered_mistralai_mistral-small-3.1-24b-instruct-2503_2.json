@@ -1,0 +1,46 @@
+{
+  "1-5 (Architecture)": "The model builds upon the foundation of Mistral Small 3 (2501) and introduces significant enhancements, as noted in the evidence: 'Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance.' This is further supported by its impressive scale, being equipped with '24 billion parameters,' which enables it to achieve 'top-tier capabilities in both text and vision tasks.'",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance."
+    },
+    {
+      "source": "readme",
+      "quote": "With 24 billion parameters, this model achieves top-tier capabilities in both text and vision tasks."
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer details for this group are clearly defined in the evidence provided. The model 'Utilizes a Tekken tokenizer with a 131k vocabulary size,' indicating that it leverages a specialized tokenizer designed with a substantial vocabulary that is likely critical for handling the diverse language patterns expected in its domain.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "- **Tokenizer:** Utilizes a Tekken tokenizer with a 131k vocabulary size."
+    }
+  ],
+  "2-1 (Hardware)": "The hardware requirements and deployment flexibility of Mistral Small 3.1 are well-articulated in the evidence. It is highlighted that the model 'can be deployed locally and is exceptionally \"knowledge-dense,\" fitting within a single RTX 4090 or a 32GB RAM MacBook once quantized.' Additionally, it is explicitly mentioned that 'running Mistral-Small-3.1-24B-Instruct-2503 on GPU requires ~55 GB of GPU RAM in bf16 or fp16,' underlining the hardware scale considerations necessary for optimal performance.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Mistral Small 3.1 can be deployed locally and is exceptionally \"knowledge-dense,\" fitting within a single RTX 4090 or a 32GB RAM MacBook once quantized."
+    },
+    {
+      "source": "readme",
+      "quote": "Note: Running Mistral-Small-3.1-24B-Instruct-2503 on GPU requires ~55 GB of GPU RAM in bf16 or fp16."
+    }
+  ],
+  "2-2 (Software)": "The software ecosystem supporting this model is outlined through specific version requirements and dependencies. The evidence mentions that the model relies on a particular library with 'library_name: vllm' and comes with the instruction to 'Make sure you install [`vllm >= 0.8.1`],' which in turn 'should automatically install [`mistral_common >= 1.5.4`].' This ensures that the necessary software packages and compatible versions are in place to support the model's operation.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "library_name: vllm"
+    },
+    {
+      "source": "readme",
+      "quote": "Make sure you install [`vllm >= 0.8.1`](https://github.com/vllm-project/vllm/releases/tag/v0.8.1):"
+    },
+    {
+      "source": "readme",
+      "quote": "Doing so should automatically install [`mistral_common >= 1.5.4`](https://github.com/mistralai/mistral-common/releases/tag/v1.5.4)."
+    }
+  ]
+}
