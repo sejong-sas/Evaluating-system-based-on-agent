@@ -14,7 +14,7 @@
 
 import os, re, json, hashlib
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 import requests
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -29,11 +29,14 @@ _client = OpenAI(api_key=_API)
 MODEL_NAME = os.getenv("OPENAI_MODEL_PRETRAIN_REPORTS", "o3-mini")
 USER_AGENT = {"User-Agent": "Mozilla/5.0 (pretrain-reports-dispatcher)"}
 
-# Payload size knobs
-PER_ARTICLE_CHAR_CAP   = int(os.getenv("PR_PER_ARTICLE_CHAR_CAP", "200000"))   # per article text cap
-TOTAL_PAYLOAD_CHAR_CAP = int(os.getenv("PR_TOTAL_PAYLOAD_CHAR_CAP", "900000")) # per chunk total cap
-MIN_TOKEN_HITS_IN_BODY = int(os.getenv("PR_MIN_TOKEN_HITS_IN_BODY", "2"))      # body ≥ N matches of any model token to keep article
-MAX_ARTICLES_PER_CHUNK = int(os.getenv("PR_MAX_ARTICLES_PER_CHUNK", "8"))      # soft limiter
+# Payload & filter knobs
+PER_ARTICLE_CHAR_CAP   = int(os.getenv("PR_PER_ARTICLE_CHAR_CAP", "200000"))    # per-article text cap
+TOTAL_PAYLOAD_CHAR_CAP = int(os.getenv("PR_TOTAL_PAYLOAD_CHAR_CAP", "900000"))  # per-chunk total cap
+MIN_TOKEN_HITS_IN_BODY = int(os.getenv("PR_MIN_TOKEN_HITS_IN_BODY", "2"))       # body ≥ N token hits to keep article
+MAX_ARTICLES_PER_CHUNK = int(os.getenv("PR_MAX_ARTICLES_PER_CHUNK", "8"))       # soft limiter
+
+# Require article body to look pretraining-related (helps precision)
+PR_REQUIRE_PRETRAIN_HINT = os.getenv("PR_REQUIRE_PRETRAIN_HINT", "1") == "1"
 
 # ───────────────── Helpers ─────────────────
 def _js(o) -> str:
@@ -44,18 +47,25 @@ def _tok(s: str) -> List[str]:
     return [t for t in s.split() if t]
 
 def _canonical_model_tokens(model_id: str) -> List[str]:
+    """
+    Stable tokens derived from model id:
+      - split on non-alnum, drop short/generic
+      - add collapsed (remove non-alnum) and no-digit variants
+      - add (name, name+digits) pattern like llama3 / llama3.1 → llama, llama3
+    """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
     alts = set()
+    stop = {"base","it","instruct","chat","model"}
     for t in raw:
         t = t.strip()
-        if len(t) >= 3 and t not in {"base","it","instruct","chat","model"}:
+        if len(t) >= 3 and t not in stop:
             alts.add(t)
     collapsed = re.sub(r"[^a-z0-9]", "", name)
     nodigit   = re.sub(r"\d+", "", collapsed)
     if len(collapsed) >= 3: alts.add(collapsed)
     if len(nodigit)   >= 3: alts.add(nodigit)
-    # llama3 / llama3.1 → {llama, llama3}
+    # llama3 / llama3.1
     for t in list(alts):
         m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
         if m:
@@ -96,7 +106,7 @@ def _hash_norm(s: str) -> str:
 def _dedup_articles_by_url(arts: List[Dict[str,str]]) -> List[Dict[str,str]]:
     seen, out = set(), []
     for a in arts:
-        u = a.get("url","").strip().lower()
+        u = (a.get("url","") or "").strip().lower()
         k = re.sub(r"^https?://", "", u)
         k = re.sub(r"[?#].*$", "", k).rstrip("/")
         if k in seen: continue
@@ -106,6 +116,7 @@ def _dedup_articles_by_url(arts: List[Dict[str,str]]) -> List[Dict[str,str]]:
 # ───────────────── Fetchers ─────────────────
 def _hf_card_and_readme(hf_id: str, max_len: int = 120_000) -> str:
     txt = ""
+    # HF model card API
     try:
         r = requests.get(f"https://huggingface.co/api/models/{hf_id}?full=true", timeout=15, headers=USER_AGENT)
         if r.ok:
@@ -113,6 +124,7 @@ def _hf_card_and_readme(hf_id: str, max_len: int = 120_000) -> str:
             txt += (card.get("content") or "")[:max_len]
     except Exception:
         pass
+    # README raw
     for br in ("main", "master"):
         try:
             rr = requests.get(f"https://huggingface.co/{hf_id}/raw/{br}/README.md", timeout=12, headers=USER_AGENT)
@@ -149,27 +161,34 @@ def _looks_report(u: str) -> bool:
     )
 
 def _fetch_pdf(url: str, cap: int) -> str:
+    # Try PyMuPDF (fitz). If not available or fails → return "".
     try:
         import fitz  # PyMuPDF
     except Exception:
         return ""
-    r = requests.get(url, timeout=25, headers=USER_AGENT)
-    r.raise_for_status()
-    with fitz.open(stream=r.content, filetype="pdf") as doc:
-        t = "\n".join(p.get_text() for p in doc)
-    t = re.sub(r"\s+", " ", t)
-    return t[:cap]
+    try:
+        r = requests.get(url, timeout=25, headers=USER_AGENT)
+        r.raise_for_status()
+        with fitz.open(stream=r.content, filetype="pdf") as doc:
+            t = "\n".join(p.get_text() for p in doc)
+        t = re.sub(r"\s+", " ", t)
+        return t[:cap]
+    except Exception:
+        return ""
 
 def _fetch_html(url: str, cap: int) -> str:
-    r = requests.get(url, timeout=20, headers=USER_AGENT)
-    r.raise_for_status()
-    h = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", r.text)
-    t = re.sub(r"(?is)<[^>]+>", " ", h)
-    t = re.sub(r"\s+", " ", t)
-    return t[:cap]
+    try:
+        r = requests.get(url, timeout=20, headers=USER_AGENT)
+        r.raise_for_status()
+        h = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", r.text)
+        t = re.sub(r"(?is)<[^>]+>", " ", h)
+        t = re.sub(r"\s+", " ", t)
+        return t[:cap]
+    except Exception:
+        return ""
 
 def _collect_reports_text(hf_id: str, gh_repo: Optional[str]) -> List[Dict[str, str]]:
-    """Return list of {'url','text','source'} harvested from HF/GH READMEs (report-ish only)."""
+    """Return list of {'id','url','text','source'} harvested from HF/GH READMEs (report-ish only)."""
     corpus: List[Dict[str,str]] = []
 
     # HF README links
@@ -178,12 +197,9 @@ def _collect_reports_text(hf_id: str, gh_repo: Optional[str]) -> List[Dict[str, 
         urls = list(dict.fromkeys(_LINK_PAT.findall(hf_md)))
         for u in urls:
             if not _looks_report(u): continue
-            try:
-                text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
-                if text.strip():
-                    corpus.append({"url": u, "text": text, "source": "hf_readme_link"})
-            except Exception:
-                continue
+            text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
+            if text.strip():
+                corpus.append({"url": u, "text": text, "source": "hf_readme_link"})
 
     # GH README links
     if gh_repo:
@@ -192,28 +208,54 @@ def _collect_reports_text(hf_id: str, gh_repo: Optional[str]) -> List[Dict[str, 
             urls = list(dict.fromkeys(_LINK_PAT.findall(gh_md)))
             for u in urls:
                 if not _looks_report(u): continue
-                try:
-                    text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
-                    if text.strip():
-                        corpus.append({"url": u, "text": text, "source": "gh_readme_link"})
-                except Exception:
-                    continue
-    return _dedup_articles_by_url(corpus)
+                text = _fetch_pdf(u, PER_ARTICLE_CHAR_CAP) if u.lower().endswith(".pdf") else _fetch_html(u, PER_ARTICLE_CHAR_CAP)
+                if text.strip():
+                    corpus.append({"url": u, "text": text, "source": "gh_readme_link"})
+
+    # de-dup by URL
+    corpus = _dedup_articles_by_url(corpus)
+
+    # assign ids
+    for i, a in enumerate(corpus):
+        a["id"] = f"art{i+1}"
+    return corpus
 
 # ───────────────── Model relevance filter ─────────────────
+_PRETRAIN_HINTS = (
+    "pretrain", "pre-training", "pretraining",
+    "training corpus", "training data", "dataset", "datasets", "corpus",
+    "tokens", "billion tokens", "trillion tokens",
+    "compute", "flops", "gpu hours", "h100", "tpu", "v100",
+    "mixture", "data mixture", "crawl", "common crawl", "c4", "pile", "roots"
+)
+
 def _article_related_to_model(art: Dict[str,str], model_tokens: List[str]) -> bool:
+    """
+    Keep article if:
+      • URL contains any model token, OR
+      • Body contains ≥ MIN_TOKEN_HITS_IN_BODY of model tokens.
+      • AND (optionally) body contains pretraining hints to reduce false positives.
+    """
     url = (art.get("url") or "").lower()
     body = (art.get("text") or "").lower()
     if any(t in url for t in model_tokens):
+        model_ok = True
+    else:
+        model_ok = _token_hits(body, model_tokens) >= MIN_TOKEN_HITS_IN_BODY
+
+    if not model_ok:
+        return False
+
+    if not PR_REQUIRE_PRETRAIN_HINT:
         return True
-    return _token_hits(body, model_tokens) >= MIN_TOKEN_HITS_IN_BODY
+    return any(h in body for h in _PRETRAIN_HINTS)
 
 def _filter_articles_for_target(arts: List[Dict[str,str]], model_id: str) -> List[Dict[str,str]]:
     toks = _canonical_model_tokens(model_id)
     if not toks:
-        return arts
+        return []
     out = [a for a in arts if _article_related_to_model(a, toks)]
-    return out or []  # allow empty → later "No information"
+    return out  # allow empty → later "No information"
 
 # ───────────────── Chunking articles ─────────────────
 def _chunk_articles(arts: List[Dict[str,str]]) -> List[List[Dict[str,str]]]:
@@ -267,12 +309,19 @@ Rules:
 
 def _recall_user_payload(model_id: str, model_tokens: List[str], arts: List[Dict[str,str]]) -> str:
     # compact payload for the model
-    payload = {"target_model": model_id, "target_tokens": model_tokens,
-               "articles": [{"id": f"art{i+1}",
-                             "url": a.get("url",""),
-                             "source": a.get("source",""),
-                             "text": (a.get("text","")[:PER_ARTICLE_CHAR_CAP])}
-                            for i, a in enumerate(arts)]}
+    payload = {
+        "target_model": model_id,
+        "target_tokens": model_tokens,
+        "articles": [
+            {
+                "id": a.get("id",""),
+                "url": a.get("url",""),
+                "source": a.get("source",""),
+                "text": (a.get("text","")[:PER_ARTICLE_CHAR_CAP])
+            }
+            for a in arts
+        ]
+    }
     return json.dumps(payload, ensure_ascii=False)
 
 # ───────────────── Chat helper (o3 규칙 반영) ─────────────────
@@ -303,6 +352,26 @@ def _chat_json_smart(model_name: str, system: str, user: str, json_only: bool = 
     except Exception:
         return {}
 
+# ────────────────── Local GH repo inference ──────────────────
+def _infer_gh_repo_from_outdir(base_hf_id: str, output_dir: Path) -> Optional[str]:
+    """
+    If gh_repo is not provided, try to infer from output_dir/github_{base}.json
+    (expects {"repo": "owner/name"} or {"full_name": "owner/name"}).
+    """
+    base = base_hf_id.replace("/", "_").lower()
+    p = output_dir / f"github_{base}.json"
+    if not p.exists():
+        # fallback to project root
+        p = Path(f"github_{base}.json")
+        if not p.exists():
+            return None
+    try:
+        j = json.load(open(p, encoding="utf-8"))
+        rep = (j.get("repo") or j.get("full_name") or "").strip()
+        return rep or None
+    except Exception:
+        return None
+
 # ───────────────── Public ─────────────────
 def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
@@ -317,7 +386,11 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
     base = base_hf_id.replace("/", "_").lower()
     out_path = output_dir / f"pretrain_reports_{base}.json"
 
-    # 1) harvest articles → filter by target-model relevance
+    # 0) infer GH repo if not provided
+    if not gh_repo:
+        gh_repo = _infer_gh_repo_from_outdir(base_hf_id, output_dir)
+
+    # 1) harvest articles → filter by target-model relevance (+ pretrain hints if enabled)
     all_articles = _collect_reports_text(base_hf_id, gh_repo)
     articles = _filter_articles_for_target(all_articles, base_hf_id)
 
@@ -368,7 +441,12 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
     print("✅ Saved pretrain reports:", out_path)
     return out
 
+# ───────────────────────── CLI ─────────────────────────
 if __name__ == "__main__":
     # Example:
-    # filter_pretrain_reports("bigscience/bloom", "bigscience/bloom")
-    pass
+    #   filter_pretrain_reports("bigscience/bloom", "bigscience/bloom")
+    import sys
+    if len(sys.argv) >= 2:
+        hf = sys.argv[1]
+        gh = sys.argv[2] if len(sys.argv) >= 3 else None
+        filter_pretrain_reports(hf, gh)

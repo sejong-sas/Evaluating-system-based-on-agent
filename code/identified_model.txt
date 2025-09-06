@@ -1,1 +1,1 @@
-deepseek-ai/deepseek-r1-distill-qwen-1.5b
+tencent/hunyuan-1.8b-instruct

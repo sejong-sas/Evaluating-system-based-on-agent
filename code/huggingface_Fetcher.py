@@ -1,29 +1,22 @@
 # huggingface_Fetcher.py
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List
 import requests
 import json
 import os
 from pathlib import Path
 import re
 import fitz  # PyMuPDF
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urlparse
 
-# =========================
-# Auth / HTTP
-# =========================
+# ==== HF auth + safe GET (token → fallback) ====
 HF_TOKEN = (os.getenv("HF_TOKEN") or "").strip()
 _UA = {"User-Agent": "Mozilla/5.0"}
 _HF_HEADERS = dict(_UA)
 if HF_TOKEN:
     _HF_HEADERS["Authorization"] = f"Bearer {HF_TOKEN}"
 
+
 def _get_hf(url: str, timeout: int = 20, allow_redirects: bool = True) -> requests.Response:
-    """
-    GET for Hugging Face endpoints:
-    - Try with token first (if present).
-    - If 401/403, retry anonymously so public models still work.
-    Returns the Response without raising for non-200 (so caller can check status_code).
-    """
     if "Authorization" in _HF_HEADERS:
         r = requests.get(url, headers=_HF_HEADERS, timeout=timeout, allow_redirects=allow_redirects)
         if r.status_code in (401, 403):
@@ -32,125 +25,134 @@ def _get_hf(url: str, timeout: int = 20, allow_redirects: bool = True) -> reques
         r = requests.get(url, headers=_UA, timeout=timeout, allow_redirects=allow_redirects)
     return r
 
-# =========================
-# Report-ish link heuristics (model-agnostic)
-# =========================
-REPORTISH_STATIC: Tuple[str, ...] = (
-    "technical-report", "tech-report", "techreport",
-    "whitepaper", "white-paper", "white_paper",
-    "paper", "/docs", "docs.", "/blog", "blog.",
-    "/research", "research."
-)
 
-_MD_LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")  # [text](url)
-_URL_RE = re.compile(r"https?://[^\s)>\]}]+")
+# ----------------------------- URL helpers -----------------------------
+def _clean_url(u: str) -> str:
+    if not isinstance(u, str):
+        return ""
+    s = u.strip()
+    # keep the last http(s) chunk if the string accidentally includes two URLs mashed together
+    if s.count("http://") + s.count("https://") >= 2:
+        idx = s.rfind("http")
+        s = s[idx:]
+    return s.strip().rstrip('.,;:)]}>"\'')
 
-def _extract_md_links(md: str) -> List[Tuple[str, str]]:
+
+def _extract_urls(text: str) -> List[str]:
     """
-    Extract (url, anchor_text) from Markdown.
-    Also includes plain URLs found in the text with empty anchor.
+    Robust URL extractor for Markdown/HTML text.
+    - Avoids trailing punctuation/brackets that cause 404s (e.g., '...12948}' → '...12948')
+    - Keeps the last full 'http...' chunk if multiple got concatenated
+    - De-duplicates while preserving order
     """
-    if not md:
+    if not text:
         return []
-    links: List[Tuple[str, str]] = []
-    for m in _MD_LINK_RE.finditer(md):
-        text, href = m.group(1).strip(), m.group(2).strip()
-        links.append((href, text))
-    # plus plain URLs without markdown
-    for u in _URL_RE.findall(md):
-        links.append((u, ""))  # no anchor text
-    # preserve order but de-dup
-    seen = set()
-    uniq = []
-    for href, text in links:
-        key = (href, text)
-        if key in seen:
-            continue
-        seen.add(key)
-        uniq.append((href, text))
-    return uniq
+    # Grab liberal URL spans but stop before obvious terminators
+    raw = re.findall(r'https?://[^\s<>"\'\)\]\}]+', text)
+    out: List[str] = []
+    seen: set[str] = set()
+    for u in raw:
+        cu = _clean_url(u)
+        if cu and cu not in seen:
+            seen.add(cu)
+            out.append(cu)
+    return out
 
-def _is_reportish_url_or_anchor(url: str, anchor_text: str = "") -> bool:
+
+def _is_probable_report_url(u: str) -> bool:
     """
-    Model-agnostic check:
-    - Accept if 'report' OR 'technical' appears anywhere in URL or anchor text (substring match),
-      so things like 'gemma3report' are caught WITHOUT hardcoding model names.
-    - OR if any static generic keyword appears (docs/blog/research/paper/whitepaper/...).
+    Generic detector for 'report-like' or 'paper-like' links — model/vendor agnostic.
+    Prioritizes scholarly & technical content without hardcoding org-specific strings.
     """
-    if not url:
+    if not isinstance(u, str) or not u:
         return False
-    s = f"{url} {anchor_text}".lower()
-    if ("report" in s) or ("technical" in s):
+    ul = u.lower()
+
+    # 1) Obvious: direct PDFs
+    if ul.endswith(".pdf"):
         return True
-    return any(k in s for k in REPORTISH_STATIC)
 
-def _norm_url_key(u: str) -> str:
-    """Normalize URL to a scheme-agnostic key for de-dup (host+path, lowercase, no query/fragment)."""
+    # 2) Parse host/path
     try:
-        pr = urlparse(u)
-        return (pr.netloc.lower().strip("/") + pr.path.lower().rstrip("/")) or u
+        parsed = urlparse(u)
+        host = (parsed.netloc or "").lower()
+        path = (parsed.path or "").lower()
     except Exception:
-        return u
+        return False
 
-# =========================
-# Fetchers
-# =========================
+    # Shorteners (let them pass so we can expand and parse the target)
+    shorteners = {
+        "goo.gle", "g.co", "bit.ly", "t.co", "tinyurl.com",
+        "ow.ly", "lnkd.in", "rb.gy", "rebrand.ly"
+    }
+    if host in shorteners:
+        return True
+
+    # 3) Scholarly hosts (generic, not vendor-specific)
+    scholarly_hosts = (
+        "arxiv.org",
+        "openreview.net",
+        "aclanthology.org",
+        "ieeexplore.ieee.org",
+        "dl.acm.org",
+        "papers.nips.cc",
+        "proceedings.mlr.press",
+        "hal.science",
+        "biorxiv.org",
+        "medrxiv.org",
+        "arxiv-vanity.com",
+    )
+    if any(h in host for h in scholarly_hosts):
+        return True
+
+    # 4) Generic path tokens that typically indicate technical documents
+    path_tokens = (
+        "/paper", "/papers",
+        "/publication", "/publications",
+        "whitepaper", "white-paper",
+        "technical-report", "techreport", "tech-report",
+        "/docs", "/documentation",
+        "/research",
+        "/resources/",
+        "/post/", "/posts/",
+        "/blog/",  # blogs often announce and link to reports
+        "/news/",  # news/announcements pages that typically link to reports
+        "announce", "announc", "release",
+        "report",
+    )
+    if any(tok in path for tok in path_tokens):
+        return True
+
+    # 5) End-of-path patterns for doc-like slugs
+    if re.search(r"/(paper|report|whitepaper|technical[-_]report)s?/?$", path):
+        return True
+
+    return False
+
+
 def _fetch_pdf_text(url: str) -> str:
-    """Download PDF and return plain text using PyMuPDF."""
-    r = requests.get(url, timeout=20, headers=_UA, allow_redirects=True)
+    r = requests.get(url, headers=_UA, timeout=25)
     r.raise_for_status()
     with fitz.open(stream=r.content, filetype="pdf") as doc:
-        return "\n".join(p.get_text() for p in doc)
+        return "\n".join(p.get_text("text") for p in doc)
+
 
 def _fetch_html_text(url: str) -> str:
-    """
-    Download HTML and strip tags/scripts/styles to plain text.
-    If the URL (e.g., a short link) actually returns a PDF, detect it by
-    Content-Type or final URL and extract text as PDF instead.
-    Also tries to follow a direct PDF link inside the HTML (e.g., 'Download PDF').
-    """
-    r = requests.get(url, timeout=15, headers=_UA, allow_redirects=True)
+    r = requests.get(url, headers=_UA, timeout=20, allow_redirects=True)
     r.raise_for_status()
-
-    # Detect PDF even if the URL doesn't end with .pdf (e.g., short link → GCS PDF)
     ct = (r.headers.get("Content-Type") or "").lower()
     final_url = (r.url or "").lower()
     if ("pdf" in ct) or final_url.endswith(".pdf"):
         with fitz.open(stream=r.content, filetype="pdf") as doc:
-            return "\n".join(p.get_text() for p in doc)
-
+            return "\n".join(p.get_text("text") for p in doc)
     html = r.text
-
-    # Try to locate embedded PDF links and fetch one
-    pdf_links = re.findall(r'href=["\']([^"\']+\.pdf)["\']', html, flags=re.I)
-    if pdf_links:
-        first = pdf_links[0]
-        try:
-            abs_pdf = urljoin(final_url, first)
-            rr = requests.get(abs_pdf, timeout=20, headers=_UA, allow_redirects=True)
-            rr.raise_for_status()
-            if ("pdf" in (rr.headers.get("Content-Type") or "").lower()) or abs_pdf.lower().endswith(".pdf"):
-                with fitz.open(stream=rr.content, filetype="pdf") as doc:
-                    return "\n".join(p.get_text() for p in doc)
-        except Exception:
-            pass
-
-    # Otherwise treat as HTML
     html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
     text = re.sub(r"(?is)<[^>]+>", " ", html)
     text = re.sub(r"\s+", " ", text)
     return text[:800_000]
 
-# =========================
-# Save reports_fulltext
-# =========================
-def _save_reports_for_model(model_id: str, output_dir: str | Path, items: List[Dict[str, str]]) -> None:
-    """
-    Append/merge into reports_fulltext_{model}.json.
-    Schema compatible with arxiv dispatcher expectations:
-      { "model_id": str, "full_texts": [ { "arxiv_id": str, "full_text": str }, ... ] }
-    Note: 'arxiv_id' holds the source URL even if it's not from ArXiv.
-    """
+
+def _save_reports_for_model(model_id: str, output_dir: str | Path, items: List[dict]) -> None:
     if not items:
         return
     output_dir = Path(output_dir)
@@ -169,50 +171,49 @@ def _save_reports_for_model(model_id: str, output_dir: str | Path, items: List[D
     json.dump(payload, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print(f"📄 Reports saved/merged: {out}")
 
-# =========================
-# Main fetcher
-# =========================
+
+# ----------------------------- Main HF fetcher -----------------------------
 def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
-    """
-    Fetches metadata and key files for a Hugging Face model repository,
-    and additionally harvests 'technical/report-ish' documents from README links
-    and repository-hosted PDFs, using ONLY model-agnostic heuristics.
-    """
     base_api = f"https://huggingface.co/api/models/{model_id}?full=true"
     resp = _get_hf(base_api)
     resp.raise_for_status()
     data = resp.json()
 
-    # 1) list siblings
-    siblings: List[str] = [f.get("rfilename", "") for f in data.get("siblings", []) if isinstance(f, dict)]
+    siblings = [f.get("rfilename", "") for f in data.get("siblings", [])]
 
-    # Helper: fetch raw file text from a few branches
+    # Resolve helper: try multiple branches in order
     def fetch_raw(filename: str) -> str:
-        branches = ["main", "refs/convert", "refs/pr/1"]
-        for branch in branches:
-            url = f"https://huggingface.co/{model_id}/resolve/{branch}/{filename}"
+        for br in ["main", "refs/convert", "refs/pr/1"]:
+            url = f"https://huggingface.co/{model_id}/resolve/{br}/{filename}"
             r = _get_hf(url)
             if r.status_code == 200:
                 return r.text
         return ""
 
-    # 2) fetch contents of key files
-    readme = fetch_raw("README.md") if "README.md" in siblings else ""
+    # README variants
+    readme = ""
+    for cand in ["README.md", "README.MD", "README", "Readme.md", "readme.md"]:
+        if cand in siblings:
+            readme = fetch_raw(cand)
+            break
+
+    # Key JSONs
     config = fetch_raw("config.json") if "config.json" in siblings else ""
     generation_config = fetch_raw("generation_config.json") if "generation_config.json" in siblings else ""
 
-    # LICENSE file(s)
-    license_candidates = [fn for fn in siblings if isinstance(fn, str) and fn.upper().startswith("LICENSE")]
-    license_file = fetch_raw(license_candidates[0]) if license_candidates else ""
+    # LICENSE*
+    license_file = ""
+    lic_cands = [fn for fn in siblings if fn.upper().startsWith("LICENSE")] if False else [fn for fn in siblings if fn.upper().startswith("LICENSE")]
+    if lic_cands:
+        license_file = fetch_raw(lic_cands[0])
 
-    # 3) fetch all .py files (not strictly needed for reports but useful downstream)
-    py_files: Dict[str, str] = {}
+    # .py files (raw)
+    py_files = {}
     for fn in siblings:
-        if isinstance(fn, str) and fn.endswith(".py"):
+        if fn.endswith(".py"):
             py_files[fn] = fetch_raw(fn)
 
-    # 4) assemble main result
-    result: Dict[str, Any] = {
+    result = {
         "model_id": model_id,
         "files": siblings,
         "readme": readme,
@@ -222,59 +223,40 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
         "py_files": py_files
     }
 
-    # 4.5) Harvest technical/report-ish docs from README links + repo PDFs
+    # Technical reports (README links + PDFs in HF repo)
     try:
-        report_texts: List[Dict[str, str]] = []
-        seen_keys: set = set()   # normalized keys for de-dup
-        seen_urls: set = set()   # original URLs for sanity
+        report_texts: List[dict] = []
+        seen_urls: set[str] = set()
 
-        # (A) README links (markdown links + plain URLs)
-        repo_home = f"https://huggingface.co/{model_id}"
-        for href, text in _extract_md_links(readme):
-            if not href:
+        # (A) README links
+        for u in _extract_urls(readme):
+            if not _is_probable_report_url(u):
                 continue
-            # Make absolute if relative
+            if u in seen_urls:
+                continue
             try:
-                if href.startswith("/"):
-                    href = urljoin(repo_home + "/", href.lstrip("/"))
-            except Exception:
-                pass
-
-            if not _is_reportish_url_or_anchor(href, text):
-                continue
-
-            key = _norm_url_key(href)
-            if key in seen_keys:
-                continue
-
-            try:
-                # If endswith .pdf use PDF fetcher; else try HTML (with embedded-PDF sniffing)
-                txt = _fetch_pdf_text(href) if href.lower().endswith(".pdf") else _fetch_html_text(href)
-                if txt and txt.strip():
-                    report_texts.append({"arxiv_id": href, "full_text": txt})
-                    seen_keys.add(key)
-                    seen_urls.add(href)
+                txt = _fetch_pdf_text(u) if u.lower().endswith(".pdf") else _fetch_html_text(u)
+                if txt.strip():
+                    report_texts.append({"arxiv_id": u, "full_text": txt})
+                    seen_urls.add(u)
             except Exception as e:
-                print("⚠️ report fetch failed:", href, e)
+                print("⚠️ report fetch failed:", u, e)
 
-        # (B) PDFs hosted directly in the repo
+        # (B) PDFs included in the model repo itself
         for fn in siblings:
-            if not isinstance(fn, str) or not fn.lower().endswith(".pdf"):
-                continue
-            for br in ["main", "refs/convert", "refs/pr/1"]:
-                url = f"https://huggingface.co/{model_id}/resolve/{br}/{fn}"
-                key = _norm_url_key(url)
-                if key in seen_keys:
-                    break
-                try:
-                    txt = _fetch_pdf_text(url)
-                    if txt and txt.strip():
-                        report_texts.append({"arxiv_id": url, "full_text": txt})
-                        seen_keys.add(key)
-                        seen_urls.add(url)
-                        break  # success on this branch
-                except Exception:
-                    continue
+            if fn.lower().endswith(".pdf"):
+                for br in ["main", "refs/convert", "refs/pr/1"]:
+                    url = f"https://huggingface.co/{model_id}/resolve/{br}/{fn}"
+                    if url in seen_urls:
+                        break
+                    try:
+                        txt = _fetch_pdf_text(url)
+                        if txt.strip():
+                            report_texts.append({"arxiv_id": url, "full_text": txt})
+                            seen_urls.add(url)
+                        break
+                    except Exception:
+                        continue
 
         if save_to_file and report_texts:
             _save_reports_for_model(model_id, output_dir, report_texts)
@@ -284,7 +266,7 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
     except Exception as e:
         print("⚠️ report extraction (HF) failed:", e)
 
-    # 5) save main JSON
+    # Save main JSON
     if save_to_file:
         filename_safe = model_id.replace("/", "_")
         output_dir = Path(output_dir)
@@ -296,19 +278,10 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
 
     return result
 
-# =========================
-# Standalone test
-# =========================
-if __name__ == "__main__":
-    # Example run
-    test_model_id = "google/gemma-3-4b-it"  # change to any repo; logic is model-agnostic
-    result = huggingface_fetcher(test_model_id)
 
-    # Quick print
-    for key, values in result.items():
-        print("*" * 30)
-        print(key)
-        if isinstance(values, dict):
-            print(list(values.keys()))
-        else:
-            print(values if isinstance(values, (str, list)) else type(values))
+if __name__ == "__main__":
+    test_model_id = "google/gemma-3-4b-it"
+    result = huggingface_fetcher(test_model_id)
+    for k, v in result.items():
+        print("*" * 30, k)
+        print(v)

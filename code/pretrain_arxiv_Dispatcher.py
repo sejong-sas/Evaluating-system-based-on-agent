@@ -8,7 +8,7 @@ Extract pre-training method/data **for the target (base) model only** from arXiv
 
 import os, json, re, hashlib
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -17,8 +17,11 @@ CHUNK_CHARS   = 60_000
 CHUNK_OVERLAP = 2_000
 
 load_dotenv()
+API_KEY = os.getenv("OPENAI_API_KEY")
+if not API_KEY:
+    raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")
-_cli = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+_cli = OpenAI(api_key=API_KEY)
 
 # ─────────────────────────── Helpers ───────────────────────────
 _PARA_SPLIT = re.compile(r"\n\s*\n+")
@@ -66,6 +69,7 @@ def _canonical_model_tokens(model_id: str) -> List[str]:
     - Keep tokens len>=3
     - Add collapsed form (remove non-alnum), and no-digit form
     - Drop generic suffixes (base/it/instruct/chat/model)
+    - Add head+digits (e.g., llama3 / llama3.1 → llama, llama3)
     """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
@@ -78,7 +82,6 @@ def _canonical_model_tokens(model_id: str) -> List[str]:
     nodigit   = re.sub(r"\d+", "", collapsed)
     if len(collapsed) >= 3: alts.add(collapsed)
     if len(nodigit)   >= 3: alts.add(nodigit)
-    # e.g., llama3 / llama3.1 → {llama, llama3, 31/optional}
     for t in list(alts):
         m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
         if m:
@@ -116,22 +119,26 @@ def _paragraphs_for_target(text: str, model_tokens: List[str]) -> List[str]:
     cand2 = [p for p in paras if _contains_any_token(p, model_tokens)]
     if cand2:
         return cand2
-    # final fallback: keep everything
     return paras
 
 # ─────────────────────────── I/O ───────────────────────────
 def _load_fulltext(p: Path) -> str:
     j = json.load(open(p, encoding="utf-8"))
     # Our storage format: full_texts(list) or full_text(str)
-    if isinstance(j.get("full_texts"), list):
-        texts = [t.get("full_text","") if isinstance(t, dict) else str(t) for t in j["full_texts"]]
-        return "\n\n".join(texts)
-    return j.get("full_text","")
+    if isinstance(j, dict) and isinstance(j.get("full_texts"), list):
+        texts = []
+        for t in j["full_texts"]:
+            if isinstance(t, dict):
+                texts.append(str(t.get("full_text") or t.get("pdf_text") or ""))
+            else:
+                texts.append(str(t))
+        return "\n\n".join(x for x in texts if x)
+    return str(j.get("full_text","") or j.get("pdf_text","") or "")
 
 # ─────────────────────────── Prompts ───────────────────────────
 def _sys_prompt(model_id: str, model_tokens: List[str]) -> str:
     return (
-        "You analyze arXiv full-text to extract the **pre-training method** and **pre-training data**\n"
+        "You analyze arXiv full-text to extract the **pre-training method** and **pre-training data** "
         "for the **TARGET model only**. STRICT RULES:\n"
         f"- TARGET model: {model_id}\n"
         f"- Accept/use a sentence ONLY if it explicitly mentions one of: {model_tokens}\n"
@@ -154,7 +161,7 @@ def _user_prompt(chunk_text: str) -> str:
     )
 
 # ─────────────────────────── Main ───────────────────────────
-def filter_pretrain_arxiv(model_id: str, save: bool=True, output_dir: str | Path = ".") -> Dict:
+def filter_pretrain_arxiv(model_id: str, save: bool=True, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     Analyze arXiv texts **only for the specified (base) model**.
     """
@@ -192,26 +199,23 @@ def filter_pretrain_arxiv(model_id: str, save: bool=True, output_dir: str | Path
                 ]
             )
             data = json.loads(rsp.choices[0].message.content)
-            results.append(data)
+            if isinstance(data, dict):
+                results.append(data)
         except Exception as e:
             print(f"⚠️ arXiv-pretrain chunk {i} failed:", e)
 
     # Merge results
-    out = {"pretrain_method":"No information","pretrain_data":"No information","__evidence":[]}
+    out: Dict[str, Any] = {"pretrain_method":"No information","pretrain_data":"No information","__evidence":[]}
     for r in results:
-        if isinstance(r, dict):
-            pm = (r.get("pretrain_method") or "").strip()
-            pd = (r.get("pretrain_data") or "").strip()
-            ev = r.get("__evidence") or []
-
-            # prefer the *longest* non-default text seen so far
-            if pm and pm.lower() != "no information" and (len(pm) > len(out["pretrain_method"]) or out["pretrain_method"]=="No information"):
-                out["pretrain_method"] = pm
-            if pd and pd.lower() != "no information" and (len(pd) > len(out["pretrain_data"]) or out["pretrain_data"]=="No information"):
-                out["pretrain_data"] = pd
-
-            if isinstance(ev, list):
-                out["__evidence"].extend([str(x) for x in ev if isinstance(x, (str,))])
+        pm = (r.get("pretrain_method") or "").strip() if isinstance(r, dict) else ""
+        pd = (r.get("pretrain_data") or "").strip() if isinstance(r, dict) else ""
+        ev = (r.get("__evidence") or []) if isinstance(r, dict) else []
+        if pm and pm.lower() != "no information" and (len(pm) > len(out["pretrain_method"]) or out["pretrain_method"]=="No information"):
+            out["pretrain_method"] = pm
+        if pd and pd.lower() != "no information" and (len(pd) > len(out["pretrain_data"]) or out["pretrain_data"]=="No information"):
+            out["pretrain_data"] = pd
+        if isinstance(ev, list):
+            out["__evidence"].extend([str(x) for x in ev if isinstance(x, str)])
 
     # Post-filter evidence to ensure model tokens are present, then dedup
     out["__evidence"] = _dedup_list_str([q for q in out["__evidence"] if _contains_any_token(q, toks)])

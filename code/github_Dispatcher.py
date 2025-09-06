@@ -105,13 +105,12 @@ def _desc(ids: List[str]) -> Dict[str, str]:
     return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 
 # === Target-model guard (공통, 강화판) =========================================
-# 더 넓은 스톱워드(짧은/범용/버전 토큰) → 거짓양성 억제
 _STOPWORDS = {
     # generic
     "ai","llm","ml","nlp","model","models","base","chat","instruct","instruction","sft","rl","rm",
     "eval","evaluation","bench","benchmark","paper","release","repo","library","toolkit","example",
     # versions/quality
-    "v","v1","v2","v3","v4","dev","alpha","beta","rc","preview","nightly","experimental","test","demo",
+    "v","v1","v2","v3","dev","alpha","beta","rc","preview","nightly","experimental","test","demo",
     # misc
     "hf","torch","cuda","jit"
 }

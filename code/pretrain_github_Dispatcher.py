@@ -17,7 +17,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
-# 👉 전용 환경변수로 변경 (없으면 o3-mini)
+# 전용 환경변수 (없으면 o3-mini)
 MODEL_NAME = os.getenv("OPENAI_MODEL_PRETRAIN_GH_DISPATCHER", "o3-mini")
 _cli = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -65,7 +65,8 @@ def _filter_text_for_model(text: str, toks: List[str]) -> str:
     """Keep only paragraphs that mention any target token."""
     if not text or not toks: return ""
     keep = []
-    for p in (_PARA_SPLIT.split(text) if _PARA_SPLIT.search(text) else [text]):
+    blocs = _PARA_SPLIT.split(text) if _PARA_SPLIT.search(text or "") else [text]
+    for p in blocs:
         pl = p.lower()
         if any(t in pl for t in toks):
             keep.append(p.strip())
@@ -106,7 +107,6 @@ def _chat_json_jsononly(model_name: str, system: str, user: str) -> Dict[str, An
     }
     if _is_reasoning_model(model_name):
         payload["reasoning_effort"] = "medium"
-    # ✅ temperature/top_p/*_penalty 일절 사용하지 않음 (o3-mini 규정 준수)
     r = _cli.chat.completions.create(**payload)
     try:
         return json.loads(r.choices[0].message.content.strip())
@@ -134,6 +134,11 @@ def filter_pretrain_gh(model_id: str,
     base = model_id.replace("/", "_").lower()
     root = Path(output_dir)
     pin  = root / f"github_{base}.json"
+    if not pin.exists():
+        # fallback to project root
+        alt = Path(f"github_{base}.json")
+        if alt.exists():
+            pin = alt
     if not pin.exists():
         print("⚠️ No GH JSON:", pin)
         out = {"pretrain_method":"No information","pretrain_data":"No information","__evidence":[]}

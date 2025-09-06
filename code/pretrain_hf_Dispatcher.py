@@ -26,7 +26,7 @@ load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
 if not API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
-# o3-mini (reasoning) 기본값. temperature 등 샘플링 파라미터는 절대 사용하지 않음.
+# o3-mini 기본, 샘플링 파라미터 사용 금지
 MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
 
 _client = OpenAI(api_key=API_KEY)

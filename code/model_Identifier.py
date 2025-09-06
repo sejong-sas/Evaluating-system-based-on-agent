@@ -284,6 +284,19 @@ def _fetch_repo_snapshot(repo: str) -> dict:
     return {"readme": (readme or "")[:12000], "paths": paths[:600]}
 
 # ──────────────────────────────────────────────────────────────
+# URL sanitize helper (공통)
+def _sanitize_url(u: str) -> str:
+    """
+    문서/마크다운 파싱에서 종종 딸려오는 꼬리 문자를 제거한다.
+    예: '.../abs/2501.12948}' → '.../abs/2501.12948'
+    """
+    s = (u or "").strip()
+    # 앞쪽 여는 괄호/꺾쇠/따옴표 제거는 과하지 않게 – 보수적으로 꼬리만 정리
+    s = re.sub(r'[>\)\]\}]+$','', s)
+    s = re.sub(r'["\'’”]+$', '', s)
+    return s
+
+# ──────────────────────────────────────────────────────────────
 # Robust report fetcher (unchanged interface, minor refactor)
 def _robust_fetch_report(url: str) -> tuple[str, str, str]:
     """
@@ -296,6 +309,9 @@ def _robust_fetch_report(url: str) -> tuple[str, str, str]:
     except Exception:
         fitz = None
 
+    # ★ URL 꼬리 정리
+    url = _sanitize_url(url)
+
     UA = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                       "(KHTML, like Gecko) Chrome/123.0 Safari/537.36",
@@ -305,6 +321,7 @@ def _robust_fetch_report(url: str) -> tuple[str, str, str]:
     }
 
     def _norm_candidates(u: str) -> list[str]:
+        u = _sanitize_url(u)
         out = [u]
         if "d4mucfpksywv.cloudfront.net" in u:
             out.append(u.replace("d4mucfpksywv.cloudfront.net", "cdn.openai.com"))
@@ -376,21 +393,26 @@ def _robust_fetch_report(url: str) -> tuple[str, str, str]:
     return "", url, "failed"
 
 # ──────────────────────────────────────────────────────────────
-# HF JSON → 리포트 링크 수확 (유지)
+# HF/GH → 리포트 링크 수확
 def harvest_reports_from_github_json(gh: dict, hf_id: str, output_dir: str | Path = "."):
     import re
     from pathlib import Path
 
-    def _extract_urls(text: str) -> list[str]:
-        urls = re.findall(r'https?://[^\s)>"\']+', text or "")
+    def _uniq(seq):
         seen, out = set(), []
-        for u in urls:
-            if u not in seen:
-                seen.add(u); out.append(u)
+        for s in seq:
+            if isinstance(s, str) and s:
+                s2 = _sanitize_url(s)
+                if s2 not in seen:
+                    seen.add(s2); out.append(s2)
         return out
 
+    def _extract_urls(text: str) -> list[str]:
+        # 꼬리 문자가 따라붙어도 추출 → 이후 sanitize에서 정리
+        return _uniq(re.findall(r'https?://[^\s)>"\']+', text or ""))
+
     def _looks_report(u: str) -> bool:
-        ul = u.lower()
+        ul = (u or "").lower()
         return (
             ul.endswith(".pdf")
             or "arxiv.org" in ul
@@ -404,31 +426,59 @@ def harvest_reports_from_github_json(gh: dict, hf_id: str, output_dir: str | Pat
             ])
         )
 
-    full_texts = []
+    def _raw_try_branches(repo: str, path: str, prefer: str = "main") -> list[str]:
+        """Try preferred branch first, then the common alternative."""
+        prefer = (prefer or "main")
+        branches = [prefer] + ([b for b in ("main", "master") if b != prefer])
+        return [f"https://raw.githubusercontent.com/{repo}/{b}/{path}" for b in branches]
+
+    full_texts: list[dict] = []
+    seen_used_urls: set[str] = set()  # de-dup by final used_url
 
     def _append_link_only(u: str, how: str = "link-only"):
-        full_texts.append({"arxiv_id": u, "full_text": "", "fetch_method": how})
+        u = _sanitize_url(u)
+        if u and u not in seen_used_urls:
+            full_texts.append({"arxiv_id": u, "full_text": "", "fetch_method": how})
+            seen_used_urls.add(u)
 
+    # 1) README-linked report-ish URLs
     for u in _extract_urls(gh.get("readme", "")):
         if not _looks_report(u):
             continue
         try:
             text, used_url, how = _robust_fetch_report(u)
-            full_texts.append({"arxiv_id": used_url, "full_text": text, "fetch_method": how})
+            used_url = _sanitize_url(used_url or u)
+            if used_url not in seen_used_urls:
+                full_texts.append({"arxiv_id": used_url, "full_text": text, "fetch_method": how})
+                seen_used_urls.add(used_url)
         except Exception:
             _append_link_only(u)
 
-    repo = gh.get("repo", "")
+    # 2) Repo files that look like PDFs (try main/master gracefully)
+    repo   = gh.get("repo", "")
     branch = gh.get("branch", "main")
     for p in (gh.get("files") or []):
-        if str(p).lower().endswith(".pdf"):
-            raw = f"https://raw.githubusercontent.com/{repo}/{branch}/{p}"
+        path = (p.get("path") if isinstance(p, dict) else str(p)) or ""
+        if not path.lower().endswith(".pdf"):
+            continue
+
+        tried_any = False
+        for raw in _raw_try_branches(repo, path, branch):
+            tried_any = True
             try:
                 text, used_url, how = _robust_fetch_report(raw)
-                full_texts.append({"arxiv_id": used_url, "full_text": text, "fetch_method": how})
+                used_url = _sanitize_url(used_url or raw)
+                if used_url not in seen_used_urls:
+                    full_texts.append({"arxiv_id": used_url, "full_text": text, "fetch_method": how})
+                    seen_used_urls.add(used_url)
+                break  # success on one branch → stop trying others
             except Exception:
-                _append_link_only(raw)
+                continue
+        if tried_any and not any(u for u in _raw_try_branches(repo, path, branch) if _sanitize_url(u) in seen_used_urls):
+            # If all attempts failed, keep at least the first candidate as link-only
+            _append_link_only(_raw_try_branches(repo, path, branch)[0])
 
+    # 3) Save merged result (append if file exists)
     if full_texts:
         base = _norm_base(hf_id)
         out = Path(output_dir) / f"reports_fulltext_{base}.json"
@@ -448,11 +498,18 @@ def harvest_reports_from_hf_json(hf: dict, hf_id: str, output_dir: str | Path = 
     from pathlib import Path
 
     def _uniq(seq):
-        return list(dict.fromkeys([s for s in seq if isinstance(s, str) and s.strip()]))
+        out = []
+        seen = set()
+        for s in seq:
+            if isinstance(s, str) and s.strip():
+                s2 = _sanitize_url(s)
+                if s2 not in seen:
+                    seen.add(s2); out.append(s2)
+        return out
 
     def _extract_urls_from_text(txt: str) -> list[str]:
         if not txt: return []
-        urls = re.findall(r'https?://[^\s)>"\'\]]+', txt)
+        urls = re.findall(r'https?://[^\s)>"\'\]]+', txt)  # ]는 제외, 나머지는 sanitize로 후처리
         return _uniq(urls)
 
     def _looks_report_like(u: str) -> bool:
@@ -495,8 +552,8 @@ def harvest_reports_from_hf_json(hf: dict, hf_id: str, output_dir: str | Path = 
         try:
             text, used_url, how = _robust_fetch_report(u)
         except NameError:
-            text, used_url, how = "", u, "missing-robust-fetcher"
-        full_texts.append({"arxiv_id": used_url, "full_text": text, "fetch_method": how})
+            text, used_url, how = "", _sanitize_url(u), "missing-robust-fetcher"
+        full_texts.append({"arxiv_id": _sanitize_url(used_url), "full_text": text, "fetch_method": how})
 
     base = _norm_base(hf_id)
     out = Path(output_dir) / f"reports_fulltext_{base}.json"
@@ -863,6 +920,99 @@ Return strict JSON:
         _warn(f"🔑 OpenAI error during repo-signal check: {e}")
         return (False, 0.0, "OpenAI error")
 
+
+# ──────────────────────────────────────────────────────────────
+# Heuristic base-model detector (in Identifier)
+_BASE_SUFFIXES = (
+    "instruct", "chat", "sft", "dpo", "ppo", "orpo", "rlhf",
+    "alignment", "align", "ft", "finetune", "fine-tuned", "it"
+)
+
+def _guess_base_model_id(hf_id: str) -> str | None:
+    """
+    Try to guess the pretrained (base) model id for a given Hugging Face model.
+    Priority:
+      1) HF 카드/README에서 base model을 직접 언급 (base_model, fine-tuned from, based on 등)
+      2) 휴리스틱: instruct/chat/sft 등 접미사 제거 (버전 꼬리 유지)
+      3) 특수 케이스 (필요 시 하드코딩 규칙)
+    Returns org/name or None.
+    """
+    if not hf_id or "/" not in hf_id:
+        return None
+
+    org, name = hf_id.split("/", 1)
+    org_l = org.lower()
+    name_l = name.lower()
+
+    # 1) 카드/README에서 직접 언급 스캔
+    ctx = _hf_card_and_readme(hf_id, max_len=60000)
+    blob = (ctx.get("card_content", "") or "") + "\n" + (ctx.get("readme_md", "") or "")
+
+    # 패턴: base_model: org/name | fine-tuned from org/name | based on org/name ...
+    # org이 생략된 경우, 동일 org로 보정
+    import re as _re
+    pats = [
+        r"(?:^|\b)base[_\- ]?model\s*:\s*([A-Za-z0-9_.\-]+/[A-Za-z0-9_.\-]+)",
+        r"(?:fine[- ]?tuned\s*from|instruction[- ]?tuned\s*from|derived\s*from|based\s*on)\s*([A-Za-z0-9_.\-]+/[A-Za-z0-9_.\-]+)",
+        r"(?:^|\b)base[_\- ]?model\s*:\s*([A-Za-z0-9_.\-]+)",  # 이름만 있는 경우
+    ]
+    for p in pats:
+        m = _re.search(p, blob, flags=_re.IGNORECASE)
+        if m:
+            cand = m.group(1).strip()
+            if "/" not in cand:
+                cand = f"{org}/{cand}"
+            cand = cand.replace(" ", "")
+            if cand.lower() != hf_id.lower() and test_hf_model_exists(cand):
+                return cand
+
+    # 2) 휴리스틱: instruct/chat/sft/ft 접미사 제거 (버전은 유지)
+    # ex) "Mixtral-8x7B-Instruct-v0.1" → "Mixtral-8x7B-v0.1"
+    tokens = _re.split(r"([-_])", name)  # 구분자를 유지해서 재조립 시 버전 꼬리 보존
+    # 접미사 토큰 제거
+    def _is_suffix(tok: str) -> bool:
+        t = tok.lower()
+        return t in _BASE_SUFFIXES
+
+    # 토큰 스캔하며 instruct/chat/... 단독 토큰 제거
+    cleaned = []
+    for t in tokens:
+        if t in ("-", "_"):
+            cleaned.append(t)  # 구분자는 일단 유지
+            continue
+        if _is_suffix(t):
+            # 앞뒤 구분자 정리: 바로 직전이 구분자였다면 제거
+            if cleaned and cleaned[-1] in ("-", "_"):
+                cleaned.pop()
+            continue
+        cleaned.append(t)
+    cand_name = "".join(cleaned).strip("-_")
+    # 흔한 양자화/파생 꼬리 제거
+    for junk in ("-awq", "-gptq", "-int4", "-int8", "-hf"):
+        if cand_name.lower().endswith(junk):
+            cand_name = cand_name[: -len(junk)]
+
+    if cand_name and cand_name.lower() != name_l:
+        cand = f"{org}/{cand_name}"
+        if cand.lower() != hf_id.lower() and test_hf_model_exists(cand):
+            return cand
+
+    # 3) 특수 규칙 (원하면 추가)
+    # Mixtral instruct 계열
+    if "mixtral-8x7b" in name_l and "instruct" in name_l:
+        # 일반적으로 v0.1 꼬리를 유지
+        if "-v0.1" in name_l or "_v0.1" in name_l:
+            cand = f"{org}/Mixtral-8x7B-v0.1"
+        else:
+            cand = f"{org}/Mixtral-8x7B"
+        if cand.lower() != hf_id.lower() and test_hf_model_exists(cand):
+            return cand
+
+    return None
+
+
+
+
 # ──────────────────────────────────────────────────────────────
 # Base model detector (temperature 제거)
 def gpt_detect_base_model(hf_id: str) -> str | None:
@@ -952,7 +1102,7 @@ def extract_model_info(input_str: str) -> dict:
 # ──────────────────────────────────────────────────────────────
 # 메인 파이프라인
 def run_all_fetchers(user_input: str):
-    import os, json, requests
+    import os, json, requests, re
     from pathlib import Path
     from inference import run_inference
 
@@ -1051,48 +1201,102 @@ def run_all_fetchers(user_input: str):
         rpt_filtered = {}
         print("⚠️ No report inputs found for reports dispatcher; skipping")
 
-    # ─── 베이스 모델 탐지 + 동일 리졸버 재사용 ───────────────
-    base_model_id = gpt_detect_base_model(hf_id) if hf_id else None
-    if base_model_id:
-        print(f"🧱 Pretrained (base) model found by GPT: {base_model_id}")
+    # ─── 베이스 모델 탐지 (휴리스틱 → GPT 보조) + 동일 리졸버 재사용 ───────────────
+    base_model_id = None
+    if hf_id:
+        # 로컬 간단 휴리스틱 (instruct/chat/sft 접미사 제거) — _guess_base_model_id가 있으면 우선 사용
+        def _fallback_basic_guess(hf_full_id: str) -> str | None:
+            org, name = hf_full_id.split("/", 1)
+            name_l = name.lower()
+            # 흔한 접미사
+            suffixes = ("instruct", "chat", "sft", "dpo", "ppo", "orpo", "rlhf", "it", "finetune", "fine-tuned")
+            parts = re.split(r"([-_])", name)  # 구분자 보존
+            cleaned = []
+            for t in parts:
+                if t in ("-", "_"):
+                    cleaned.append(t)
+                    continue
+                if t.lower() in suffixes:
+                    if cleaned and cleaned[-1] in ("-", "_"):
+                        cleaned.pop()
+                    continue
+                cleaned.append(t)
+            cand_name = "".join(cleaned).strip("-_")
+            # 흔한 양자화 꼬리 제거
+            for junk in ("-awq", "-gptq", "-int4", "-int8", "-hf"):
+                if cand_name.lower().endswith(junk):
+                    cand_name = cand_name[: -len(junk)]
+            if cand_name and cand_name.lower() != name_l:
+                cand = f"{org}/{cand_name}"
+                if cand.lower() != hf_full_id.lower() and test_hf_model_exists(cand):
+                    return cand
+            return None
 
-        huggingface_fetcher(base_model_id, save_to_file=True, output_dir=outdir)
-        _ensure_lowercase_alias("huggingface", base_model_id, outdir)
-
+        # 1) 강력 휴리스틱(_guess_base_model_id 함수가 존재하면 우선 사용)
         try:
-            from pretrain_hf_Dispatcher import filter_pretrain_hf
-            filter_pretrain_hf(base_model_id, output_dir=outdir)
+            base_model_id = _guess_base_model_id(hf_id)  # 존재하지 않으면 NameError
+            if base_model_id:
+                print(f"🧱 Pretrained (base) model found by heuristic: {base_model_id}")
+        except NameError:
+            base_model_id = _fallback_basic_guess(hf_id)
+            if base_model_id:
+                print(f"🧱 Pretrained (base) model found by basic heuristic: {base_model_id}")
         except Exception as e:
-            print("⚠️ pretrain_hf dispatcher failed:", e)
+            print("⚠️ heuristic base-model guess failed:", e)
 
-        base_gh = resolve_github_repo_for_hf_model(base_model_id)
-        if base_gh:
+        # 2) 휴리스틱 실패 시 GPT 보조
+        if not base_model_id:
             try:
-                github_fetcher(base_gh, save_to_file=True, output_dir=outdir)
-                _ensure_lowercase_alias("github", base_gh, outdir)
-                from pretrain_github_Dispatcher import filter_pretrain_gh
-                filter_pretrain_gh(base_gh, output_dir=outdir)
+                base_model_id = gpt_detect_base_model(hf_id)
+                if base_model_id:
+                    print(f"🧱 Pretrained (base) model found by GPT: {base_model_id}")
             except Exception as e:
-                print("⚠️ GH fetch/dispatch failed:", e)
-        else:
-            print("⚠️ Could not find the base model's GitHub repo; skipping GH fetcher")
+                print("⚠️ GPT base-model detection failed:", e)
+                base_model_id = None
 
+    if base_model_id:
         try:
-            ax_ok = arxiv_fetcher_from_model(base_model_id, save_to_file=True, output_dir=outdir)
-            if ax_ok:
-                _ensure_lowercase_alias("arxiv_fulltext", base_model_id, outdir)
-                from pretrain_arxiv_Dispatcher import filter_pretrain_arxiv
-                filter_pretrain_arxiv(base_model_id, output_dir=outdir)
+            # HF fetch + pretrain dispatchers
+            huggingface_fetcher(base_model_id, save_to_file=True, output_dir=outdir)
+            _ensure_lowercase_alias("huggingface", base_model_id, outdir)
+            try:
+                from pretrain_hf_Dispatcher import filter_pretrain_hf
+                filter_pretrain_hf(base_model_id, output_dir=outdir)
+            except Exception as e:
+                print("⚠️ pretrain_hf dispatcher failed:", e)
+
+            # 동일 리졸버 재사용해서 GH도 시도
+            base_gh = resolve_github_repo_for_hf_model(base_model_id)
+            if base_gh:
+                try:
+                    github_fetcher(base_gh, save_to_file=True, output_dir=outdir)
+                    _ensure_lowercase_alias("github", base_gh, outdir)
+                    from pretrain_github_Dispatcher import filter_pretrain_gh
+                    filter_pretrain_gh(base_gh, output_dir=outdir)
+                except Exception as e:
+                    print("⚠️ GH fetch/dispatch failed:", e)
             else:
-                print("⚠️ Could not find a paper link; skipping arXiv fetcher")
-        except Exception as e:
-            print("⚠️ arXiv fetch/dispatch failed:", e)
+                print("⚠️ Could not find the base model's GitHub repo; skipping GH fetcher")
 
-        try:
-            from pretrain_reports_Dispatcher import filter_pretrain_reports
-            filter_pretrain_reports(base_model_id, output_dir=outdir)
-        except FileNotFoundError:
-            print("⚠️ No pretrain reports/arXiv inputs found for pretrain_reports; skipping")
+            # arXiv / reports도 동일 파이프라인
+            try:
+                ax_ok = arxiv_fetcher_from_model(base_model_id, save_to_file=True, output_dir=outdir)
+                if ax_ok:
+                    _ensure_lowercase_alias("arxiv_fulltext", base_model_id, outdir)
+                    from pretrain_arxiv_Dispatcher import filter_pretrain_arxiv
+                    filter_pretrain_arxiv(base_model_id, output_dir=outdir)
+                else:
+                    print("⚠️ Could not find a paper link; skipping arXiv fetcher")
+            except Exception as e:
+                print("⚠️ arXiv fetch/dispatch failed:", e)
+
+            try:
+                from pretrain_reports_Dispatcher import filter_pretrain_reports
+                filter_pretrain_reports(base_model_id, output_dir=outdir)
+            except FileNotFoundError:
+                print("⚠️ No pretrain reports/arXiv inputs found for pretrain_reports; skipping")
+        except Exception as e:
+            print("⚠️ Base model post-processing failed:", e)
 
     # ───────────────── Openness evaluation ─────────────────
     try:
@@ -1131,6 +1335,7 @@ def run_all_fetchers(user_input: str):
             print("⚠️ Failed to run inference:", e)
     else:
         print("⚠️ README is empty; skipping inference stage")
+
 
 def make_model_dir(user_input: str) -> Path:
     info = extract_model_info(user_input)

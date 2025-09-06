@@ -41,6 +41,7 @@ CRITERIA_TEXT = """
 - Semi-Open (0.5): **One or two** rights are restricted (e.g., non-commercial / no redistribution / no derivatives / research-only), or terms partially restrict usage.
 - Closed (0): **Three or more** rights are restricted, **or** there is **no license** / undefined custom terms that substantially limit usage.
 
+### 1-4. Paper
 - Open (1): A peer-reviewed paper or an official technical report that is **specifically about the TARGET model** (exact version/variant).
 - Semi-Open (0.5): A model blog/announcement page or a model card that **primarily reports results** but is not a full technical report.
 - Closed (0): No document **for this model**, or the document is about a **different model/family** or a **previous version**.
@@ -78,7 +79,7 @@ CRITERIA_TEXT = """
 
 ### 2-3. API
 - Open (1): Public API available
-- Semi-Open (0.5): Planned to be made public
+- Semi-Open (0.5): Planned to be made public or a public-API claim without concrete details
 - Closed (0): No API
 
 ## 3. Training Methodology – STRICT (quotes required)
@@ -175,16 +176,38 @@ def _has_method_hints(quotes: List[str], key: str) -> bool:
     text = " \n".join(q.lower() for q in quotes)
     return any(h in text for h in hints)
 
-# ─────────── API evidence detector (endpoint/key) ───────────
-API_PATTERNS_POS = (
-    "api key", "apikey", "authorization: bearer", "bearer ",
-    "curl -x", "curl -h", "curl -d", "curl -H", "curl https://", "post https://", "get https://",
-    "endpoint", "rest api", "openapi", "swagger", "api reference",
-)
-API_PATTERNS_NEG = (
-    "python api", "torch api", "transformers api", "sdk", "library api",
-)
+# --- Method categories for stricter scoring of 3-x items ---
+_METHOD_CATS = {
+    "objective": ("causal lm","next-token","masked lm","span corruption","autoregressive"),
+    "optimizer": ("adam","adamw","sgd","adafactor"),
+    "schedule":  ("warmup","scheduler","cosine","polynomial","linear decay","decay"),
+    "batching":  ("batch size","global batch","micro batch","grad accumulate"),
+    "duration":  ("steps","epochs","update steps"),
+    "context":   ("context length","sequence length","seq len","max length"),
+    "dist":      ("deepspeed","fsdp","megatron","tensor parallel","pipeline parallel"),
+    "precision": ("mixed precision","fp16","bf16")
+}
 
+def _method_category_hits(quotes: List[str]) -> set:
+    txt = " \n".join(q.lower() for q in quotes)
+    hits = set()
+    for cat, kws in _METHOD_CATS.items():
+        if any(k in txt for k in kws):
+            hits.add(cat)
+    return hits
+
+def _strict_method_score_from_quotes(quotes: List[str]) -> float:
+    if not quotes:
+        return 0.0
+    cats = _method_category_hits(quotes)
+    # Strong reproducibility: objective + (optimizer or schedule) + (batching or duration) and ≥4 cats total
+    if len(cats) >= 4 and ("objective" in cats) and (("optimizer" in cats) or ("schedule" in cats)) and (("batching" in cats) or ("duration" in cats)):
+        return 1.0
+    if len(cats) >= 2:
+        return 0.5
+    return 0.0
+
+# ─────────── Shared quote collector ───────────
 def _collect_quotes_from(src: Dict[str, Any], keys: List[str]) -> List[str]:
     out: List[str] = []
     if not isinstance(src, dict):
@@ -199,17 +222,82 @@ def _collect_quotes_from(src: Dict[str, Any], keys: List[str]) -> List[str]:
                         out.append(q.strip())
     return out
 
-def _detect_public_api_from_sources(hf: Dict, gh: Dict, ax: Dict, rp: Dict) -> bool:
-    keys = ["2-3 (API)__evidence", "2-3 API__evidence"]
-    quotes = []
-    for src in (hf, gh, ax, rp):
-        quotes.extend(_collect_quotes_from(src or {}, keys))
-    txt = "\n".join(q.lower() for q in quotes)
-    if not txt:
-        return False
-    if any(n in txt for n in API_PATTERNS_NEG) and not any(p in txt for p in API_PATTERNS_POS):
-        return False
-    return any(p in txt for p in API_PATTERNS_POS)
+# ─────────── Lenient API scorer (library-safe) ───────────
+API_LABEL_KEY_CANDIDATES = [
+    "2-3 (API)__evidence",
+    "2-3 API__evidence",
+]
+
+# Mentions that usually mean a real API (not just a library)
+_API_STRONG_HINTS = (
+    "openai-compatible api", "openai compatible api",
+    "rest api", "http api", "json api", "https api",
+    "api endpoint", "api key", "api keys",
+    "platform.", "api.", ".api", "/api",
+    "swagger", "openapi", "endpoint", "curl", "post /", "get /"
+)
+
+# Words that typically indicate a library/binding/SDK/client (NOT an API by itself)
+_API_DISQUALIFIERS = (
+    "sdk", "client", "bindings", "binding", "wrapper", "library",
+    "pip install", "npm install", "conda install", "maven", "gradle",
+    "import ", "from ", "require(", "go get", "composer require",
+    "ollama", "gguf", "llama.cpp", "mlc", "ncnn", "tensorrt", "onnx",
+    "webui", "text-generation-webui", "lm studio", "kobold", "oobabooga"
+)
+
+_URL_RE = re.compile(r"https?://[^\s)>\]\"'}]+")
+
+def _looks_like_library_only(q: str) -> bool:
+    ql = q.lower()
+    return any(tok in ql for tok in _API_DISQUALIFIERS)
+
+def _has_strong_api_signal(q: str) -> bool:
+    ql = q.lower()
+    if any(h in ql for h in _API_STRONG_HINTS):
+        return True
+    # explicit URL also counts as strong evidence
+    return bool(_URL_RE.search(q))
+
+def _mentions_api(q: str) -> bool:
+    ql = q.lower()
+    return (" api" in ql) or ql.startswith("api ") or ("api:" in ql)
+
+def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict) -> Tuple[float, str]:
+    """
+    Lenient but library-safe API scoring:
+      - strong signal (OpenAI-compatible/REST/endpoint/URL etc.) → 1.0
+      - weak 'API' claim w/o details → 0.5
+      - library/SDK/client-only or no mention → 0.0
+    Env:
+      OP_EVAL_API_STRICT=1  → require strong evidence for Open (1.0), otherwise 0.5 at most.
+    """
+    quotes: List[str] = []
+    for src in (hf or {}, gh or {}, ax or {}, rp or {}):
+        quotes.extend(_collect_quotes_from(src, API_LABEL_KEY_CANDIDATES))
+
+    if not quotes:
+        return 0.0, "No API-related evidence."
+
+    strict = os.getenv("OP_EVAL_API_STRICT", "0") == "1"
+    best_strong = None
+    best_weak = None
+
+    for q in quotes:
+        if not q or not _mentions_api(q):
+            continue
+        if _looks_like_library_only(q):
+            continue  # library/SDK/client-only mentions do not count as API
+        if _has_strong_api_signal(q):
+            best_strong = best_strong or q
+        else:
+            best_weak = best_weak or q
+
+    if best_strong:
+        return 1.0, f"API available (strong evidence): {best_strong}"
+    if best_weak:
+        return (0.0 if strict else 0.5), f"API claim present (weak evidence): {best_weak}"
+    return 0.0, "Only library/SDK/client mentions or no valid API statements."
 
 # ─────────── Pretrain merge helpers ───────────
 def _merge_pretrain_parts(pretrain_parts: Dict[str, Dict[str, Any]] | None) -> Dict[str, Any]:
@@ -257,14 +345,46 @@ def _merge_pretrain_parts(pretrain_parts: Dict[str, Dict[str, Any]] | None) -> D
     }
 
 # ─────────── Utilities ───────────
-def _auto_open_items(hf_json: Dict[str, Any]) -> Dict[str, Dict]:
-    if not hf_json:
-        return {}
-    return {
-        "1-1 Weights":     {"score": 1, "reason": "Weights hosted on Hugging Face or equivalent"},
-        "1-5 Architecture": {"score": 1, "reason": "Architecture disclosed on the model card/config"},
-        "1-6 Tokenizer":   {"score": 1, "reason": "Tokenizer details available on the model card/config"},
-    }
+def _auto_open_items(hf_json: Dict[str, Any], hf_raw: Dict[str, Any] | None = None) -> Dict[str, Dict]:
+    """
+    Auto-open items based on concrete evidence:
+    - 1-1 Weights: only if raw HF repo contains weight files (safetensors/bin/pt/ckpt)
+    - 1-5 Architecture: if extracted evidence exists in filtered HF JSON
+    - 1-6 Tokenizer:
+        * Open (1.0) if tokenizer files are downloadable in raw HF repo
+        * Semi-Open (0.5) if only evidence quotes exist but no files found
+    """
+    out: Dict[str, Dict] = {}
+
+    # 1-1 Weights from raw HF repo files
+    if hf_raw:
+        files = [f for f in (hf_raw.get("files") or []) if isinstance(f, str)]
+        if any(f.lower().endswith((".safetensors", ".bin", ".pt", ".ckpt")) for f in files):
+            out["1-1 Weights"] = {"score": 1, "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."}
+
+    # 1-5 Architecture
+    if isinstance(hf_json, dict) and hf_json.get("1-5 (Architecture)__evidence"):
+        out["1-5 Architecture"] = {"score": 1, "reason": "Architecture evidence present in extracted quotes."}
+
+    # 1-6 Tokenizer
+    tokenizer_score = None
+    tokenizer_reason = ""
+    if hf_raw:
+        files = [f.lower() for f in (hf_raw.get("files") or []) if isinstance(f, str)]
+        tok_file_patterns = (
+            "tokenizer.json", "tokenizer.model", "vocab.json", "merges.txt",
+            "sentencepiece.model", "spiece.model", "spm.model", "bpe.codes"
+        )
+        if any(any(pat in f for pat in tok_file_patterns) for f in files):
+            tokenizer_score = 1.0
+            tokenizer_reason = "Tokenizer files downloadable in repository."
+    if tokenizer_score is None and isinstance(hf_json, dict) and hf_json.get("1-6 (Tokenizer)__evidence"):
+        tokenizer_score = 0.5
+        tokenizer_reason = "Tokenizer details disclosed in documentation, but no tokenizer files detected."
+    if tokenizer_score is not None:
+        out["1-6 Tokenizer"] = {"score": tokenizer_score, "reason": tokenizer_reason}
+
+    return out
 
 def _collect_evidence_maps(ax: Dict, hf: Dict, gh: Dict,
                            rp: Dict | None = None,
@@ -288,7 +408,7 @@ def _collect_evidence_maps(ax: Dict, hf: Dict, gh: Dict,
                 if isinstance(evs3, list):
                     quotes.extend([e.get("quote","") for e in evs3 if isinstance(e, dict) and e.get("quote")])
 
-        # 🔗 inject pretrain-bundle quotes for 3-1 & 4-1
+        # inject pretrain-bundle quotes for 3-1 & 4-1
         if pretrain_bundle and isinstance(pretrain_bundle.get("__evidence"), list):
             if score_lbl in ("3-1 Pre-training", "4-1 Pre-training Data"):
                 quotes.extend(pretrain_bundle.get("__evidence", []))
@@ -387,7 +507,8 @@ def _gpt_evaluate(model: str,
 
 # ─────────── Main evaluation ───────────
 def evaluate_openness(model_name: str,
-                      hf_json=None, gh_json=None, arxiv_json=None, reports_json=None, pretrain_parts=None) -> Dict:
+                      hf_json=None, gh_json=None, arxiv_json=None, reports_json=None,
+                      pretrain_parts=None, hf_raw_json=None) -> Dict:
     hf, gh, ax = hf_json or {}, gh_json or {}, arxiv_json or {}
     rp = reports_json or {}
 
@@ -397,14 +518,14 @@ def evaluate_openness(model_name: str,
     # 1) Strict evidence map for 3-x / 4-x (+inject pretrain bundle)
     evmap = _collect_evidence_maps(ax, hf, gh, rp, pretrain_bundle=pre_bundle)
 
-    # 2) Strict GPT scoring for the rest
+    # 2) Strict GPT scoring for the rest (acts as baseline for non-strict items)
     scores = _gpt_evaluate(model_name, hf, gh, ax, evmap)
 
-    # 3) Auto-open (1-1 / 1-5 / 1-6)
-    scores.update(_auto_open_items(hf))
+    # 3) Auto-open (1-1 / 1-5 / 1-6) → use filtered HF + raw HF
+    scores.update(_auto_open_items(hf, hf_raw_json))
 
-    # 4) Code (1-2) heuristic overwrite (training-centric)
-    code_score, code_reason = _detect_code_openness(hf)
+    # 4) Code (1-2) heuristic overwrite (training-centric) → raw HF preferred
+    code_score, code_reason = _detect_code_openness(hf_raw_json or hf)
     scores["1-2 Code"] = {"score": code_score, "reason": code_reason}
 
     # 5) Usage aggregation → exclusion base
@@ -456,7 +577,7 @@ def evaluate_openness(model_name: str,
                 "reason": (scores.get(key_41, {}).get("reason","") + " Adjusted to Semi-Open: quotes indicate partial disclosure.").strip()
             }
 
-    # 6.2) Tight methodology guardrail:
+    # 6.2) Stricter methodology scoring from quotes (no auto-escalation)
     for meth_key in ("3-1 Pre-training", "3-2 Fine-tuning", "3-3 Reinforcement Learning"):
         used_flag = {
             "3-1 Pre-training": "used",  # pretraining은 모델이 존재하면 사용된 것으로 간주
@@ -466,38 +587,27 @@ def evaluate_openness(model_name: str,
         if used_flag[meth_key] == "not_used":
             continue
         qts = evmap.get(meth_key, {}).get("quotes", [])
-        if not _has_method_hints(qts, meth_key):
-            label_nice = {"3-1 Pre-training":"pre-training",
-                          "3-2 Fine-tuning":"fine-tuning",
-                          "3-3 Reinforcement Learning":"reinforcement learning"}[meth_key]
-            scores[meth_key] = {
-                "score": 0.0,
-                "reason": (
-                    f"No concrete {label_nice} method details (objectives/schedules/hyperparameters/pipeline). "
-                    "Only data scale/types/hardware were mentioned → Closed (0) by tight policy."
-                )
-            }
+        score_val = _strict_method_score_from_quotes(qts)
+        if score_val == 0.0 and not _has_method_hints(qts, meth_key):
+            reason = (
+                "No concrete method details (objectives/schedules/hyperparameters/pipeline). "
+                "Only high-level claims or unrelated info → Closed (0)."
+            )
+        elif score_val == 0.5:
+            reason = "Partial methodology details present (some categories), not fully reproducible."
+        else:
+            reason = "Methodology appears fully reproducible across key categories (objective/optimizer/schedule/batching/duration)."
+        scores[meth_key] = {"score": score_val, "reason": reason}
 
-    # 6.3) 2-3 API: no endpoint/key evidence → force 0
-    if "2-3 API" in scores:
-        if not _detect_public_api_from_sources(hf, gh, ax, rp):
-            scores["2-3 API"] = {"score": 0.0, "reason": "No concrete public API evidence (no endpoint/key/example)."}
+    # 6.3) 2-3 API: lenient, library-safe override
+    api_score, api_reason = _score_api_lenient(hf, gh, ax, rp)
+    scores["2-3 API"] = {"score": api_score, "reason": api_reason}
 
-    # 7) Code=Open ⇒ methodology(3-1/3-2/3-3) auto-Open (unless excluded by usage)
-    if scores.get("1-2 Code", {}).get("score", 0) >= 1.0:
-        for prefix in ["3-1", "3-2", "3-3"]:
-            if any(prefix == ex for ex in exclude_prefix):
-                continue
-            for key in list(scores.keys()):
-                if key.startswith(prefix):
-                    scores[key] = {"score": 1.0, "reason": "Full training code published; methods reproducible (auto-escalation)."}
-                    break
-
-    # 8) Build included set after exclusion
+    # 7) Build included set after exclusion
     included = {k:v for k,v in scores.items()
                 if not any(k.startswith(p) for p in exclude_prefix)}
 
-    # 9) Aggregate to 10-point scale
+    # 8) Aggregate to 10-point scale
     raw_sum = sum(float(v.get("score",0)) for v in included.values())
     denom  = max(len(included), 1)
     final_10 = round(raw_sum * (10.0 / denom), 3)
@@ -540,23 +650,27 @@ def evaluate_openness_from_files(model_name: str,
                 print("⚠️ JSON parsing failed:", filename)
         return {}
 
+    # Filtered (dispatcher) outputs
     hf = _load_from_base(f"huggingface_filtered_final_{base}.json")
     gh = _load_from_base(f"github_filtered_final_{base}.json")
     ax = _load_from_base(f"arxiv_filtered_final_{base}.json")
     rp = _load_from_base(f"reports_filtered_final_{base}.json")
 
+    # Raw HF fetcher output (for code/weights/tokenizer detection)
+    hf_raw = _load_from_base(f"huggingface_{base}.json")
+
     # Load pretrain bundles if base_model_id is present
     pretrain = {"hf": {}, "github": {}, "arxiv": {}, "reports": {}}
     if base_model_id:
         pbase = base_model_id.replace("/", "_").lower()
-        # support both naming schemes
         pretrain["hf"]      = _load_from_base(f"pretrain_hf_{pbase}.json") or _load_from_base(f"pretrain_huggingface_{pbase}.json")
         pretrain["github"]  = _load_from_base(f"pretrain_gh_{pbase}.json") or _load_from_base(f"pretrain_github_{pbase}.json")
         pretrain["arxiv"]   = _load_from_base(f"pretrain_arxiv_{pbase}.json")
         pretrain["reports"] = _load_from_base(f"pretrain_reports_{pbase}.json")
 
     res = evaluate_openness(model_name, hf_json=hf, gh_json=gh, arxiv_json=ax,
-                            reports_json=rp, pretrain_parts=pretrain)
+                            reports_json=rp, pretrain_parts=pretrain,
+                            hf_raw_json=hf_raw)
     out = base_dir / f"openness_score_{base}.json"
     json.dump(res, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print("📝 Saved evaluation result:", out)

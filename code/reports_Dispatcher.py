@@ -15,7 +15,7 @@
 #   REPORTS_FILTER_THRESHOLD=20 (apply doc-filter when docs > threshold)
 #   REPORTS_MIN_HITS_IN_TEXT=2 (min body hits for doc to be related)
 #   REPORTS_URL_DENY_SUBSTR="blog.foo, old-version" (denylist substrings)
-#   REPORTS_SECTION_CHAR_CAP / REPORTS_MAX_SECTIONS (optional caps)
+#   REPORTS_DISPATCHER_SECTION_CHAR_CAP / REPORTS_DISPATCHER_MAX_SECTIONS (optional caps)
 
 import os, json, re, hashlib
 from typing import Dict, List, Any, Tuple
@@ -112,7 +112,7 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
                 and isinstance(ev.get("source"), str)
                 and isinstance(ev.get("quote"), str)):
             continue
-        src, qt = ev["source"].strip(), ev["quote"].strip()
+        src, qt = (ev.get("source") or "").strip(), (ev.get("quote") or "").strip()
         if not src or not qt: continue
         key = (src, qt)
         if key in seen: continue
@@ -120,11 +120,17 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         if len(out) >= limit: break
     return out
 
-# ────────────────── Target-model guard (공통) ──────────────────
+# ────────────────── Target-model guard (강화) ──────────────────
+_STOPWORDS = {
+    "ai","llm","language","nlp","ml","model","models","base","chat","instruct","instruction",
+    "sft","rl","rlhf","eval","evaluation","bench","benchmark","dev","test","demo","preview",
+    "alpha","beta","rc","hf","release","v","v1","v2","v3","v4","v5","it"
+}
+
 def _family_tokens_from_model_id(model_id: str) -> set[str]:
     """
     Extract stable tokens for family/version matching.
-    Ignore too-generic tokens such as base/it/chat/model.
+    Ignore too-generic tokens.
     """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw = re.split(r"[^a-z0-9.]+", name)
@@ -132,7 +138,7 @@ def _family_tokens_from_model_id(model_id: str) -> set[str]:
     for tt in (t.strip() for t in raw):
         if not tt:
             continue
-        if tt in {"base","it","instruct","chat","hf","model"}:
+        if tt in _STOPWORDS:
             continue
         if len(tt) >= 2:
             base.add(tt)
@@ -236,7 +242,6 @@ def _make_payload(doc: Dict[str, Any]) -> Dict[str, Any]:
 
 def _payload_text(p: Dict[str, Any]) -> str:
     parts = []
-    # keep title/abstract tags to give the model options if present later
     if p.get("title"):    parts.append(f"[title]\n{p.get('title')}\n")
     if p.get("abstract"): parts.append(f"[abstract]\n{p.get('abstract')}\n")
     parts.append(f"[pdf_text]\n{p.get('pdf_text','')}\n")
@@ -391,14 +396,22 @@ def _classify_usage_from_merged(merged: dict) -> dict:
     return usage
 
 # ─────────────── Backstop injection (Paper URL) ───────────────
+_PAPER_URL_RE = re.compile(r"(https?://\S*(arxiv\.org|openreview\.net|doi\.org|acm\.org|ieee\.org)\S*)", re.I)
 def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str, Any]) -> Dict[str, List[Dict[str,str]]]:
-    if not ev.get("1-4 (Paper)"):
-        secs = payload.get("sections") or []
-        for s in secs:
-            title = (s.get("title") or "").strip()
-            if title.startswith("http://") or title.startswith("https://"):
-                ev["1-4 (Paper)"] = [{"source": f"sections/{title}", "quote": title}]
-                break
+    lbl = "1-4 (Paper)"
+    if ev.get(lbl):
+        return ev
+    # 1) 섹션 title(URL) 사용
+    for s in (payload.get("sections") or []):
+        title = (s.get("title") or "").strip()
+        if title.startswith("http://") or title.startswith("https://"):
+            ev[lbl] = [{"source": f"sections/{title}", "quote": title}]
+            return ev
+    # 2) 본문에서 arxiv/doi 등의 링크 스캔
+    m = _PAPER_URL_RE.search(payload.get("pdf_text") or "")
+    if m:
+        url = m.group(1).strip()
+        ev[lbl] = [{"source":"pdf_text","quote":url}]
     return ev
 
 # ───────────────────────── Public entry ─────────────────────────
