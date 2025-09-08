@@ -67,7 +67,7 @@ ITEM_GROUPS: List[List[str]] = [
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
+MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3")
 
 # Optional: post-filter by model tokens (0=off, 1=on). Safer default OFF for HF readmes.
 HF_APPLY_MODEL_GUARD = os.getenv("HF_APPLY_MODEL_GUARD", "0") == "1"

@@ -168,7 +168,7 @@ ITEM_GROUPS = [
 CHUNK_CHARS = 60_000
 CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
-MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")  # change if not accessible
+MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3")  # change if not accessible
 
 # Section limits (0 = unlimited)
 SECTION_CHAR_CAP = int(os.getenv("ARXIV_DISPATCHER_SECTION_CHAR_CAP", "0"))

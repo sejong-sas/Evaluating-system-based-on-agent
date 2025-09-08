@@ -1,4 +1,4 @@
-# openness_Evaluator.py  — STRICT + Code-as-Training transparency + Pretrain sources merge
+# openness_Evaluator.py  — STRICT + Code-as-Training transparency + Pretrain sources merge (file-based code check)
 import os, json, re
 from typing import Dict, Any, List, Tuple
 from dotenv import load_dotenv
@@ -23,6 +23,15 @@ LBL_MAP_ARX_TO_SCORE = {
 }
 STRICT_KEYS = set(LBL_MAP_ARX_TO_SCORE.values())
 
+ALL_SCORE_KEYS = [
+    "1-1 Weights", "1-2 Code", "1-3 License", "1-4 Paper",
+    "1-5 Architecture", "1-6 Tokenizer",
+    "2-1 Hardware", "2-2 Software", "2-3 API",
+    "3-1 Pre-training", "3-2 Fine-tuning", "3-3 Reinforcement Learning",
+    "4-1 Pre-training Data", "4-2 Fine-tuning Data",
+    "4-3 Reinforcement Learning Data", "4-4 Data Filtering",
+]
+
 # ─────────── Evaluation rubric text (STRICT) ───────────
 CRITERIA_TEXT = """
 ## 1. Model Basic Openness – 6 items
@@ -32,8 +41,8 @@ CRITERIA_TEXT = """
 - Closed (0): Model weights are not available for use
 
 ### 1-2. Code (TRAINING vs inference/serving)
-- Open (1): End-to-end TRAINING code is public and sufficient to reproduce training (data prep, configs, scripts, schedules).
-- Semi-Open (0.5): Some TRAINING code is public (e.g., fine-tuning scripts, adapters, RL scripts) but not a full pipeline.
+- Open (1): End-to-end TRAINING code is public and sufficient to reproduce training (data prep, configs, scripts, schedules) **and actual training pipeline files exist in the repo tree (e.g., train.py, training/, scripts/train, pretrain*.py, run_*.py)**.
+- Semi-Open (0.5): Some TRAINING code is public (e.g., SFT/LoRA/QLoRA, RL scripts) but not a full pipeline, or only partial components without end-to-end training.
 - Closed (0): Only inference/serving/evaluation code is public, or no code at all.
 
 ### 1-3. License
@@ -115,8 +124,8 @@ CRITERIA_TEXT = """
 - Closed (0): No info (default if no quotes)
 
 ### 4-4. Data Filtering
-- Open (1): Full disclosure of filtering/cleaning criteria and impact
-- Semi-Open (0.5): Partial disclosure
+- Open (1): Full disclosure of filtering/cleaning criteria and impact (e.g., concrete pipeline steps, classifier names, thresholds, removal ratios)
+- Semi-Open (0.5): Partial disclosure (mentions of dedup, toxicity/NSFW filters, language-ID, quality filters, etc., without full details)
 - Closed (0): No info (default if no quotes)
 """.strip()
 
@@ -143,7 +152,7 @@ EVALUATION_PROMPT = (
     + "}\n"
 ).strip()
 
-# ---- Methodology hint dictionaries (tight policy) ----
+# ---- Methodology hint dictionaries (more permissive for Semi-Open) ----
 METHOD_HINTS = {
     "3-1 Pre-training": (
         "causal lm","next-token","masked lm","span corruption","autoregressive",
@@ -176,7 +185,7 @@ def _has_method_hints(quotes: List[str], key: str) -> bool:
     text = " \n".join(q.lower() for q in quotes)
     return any(h in text for h in hints)
 
-# --- Method categories for stricter scoring of 3-x items ---
+# --- Method categories (for detecting truly reproducible OPEN cases) ---
 _METHOD_CATS = {
     "objective": ("causal lm","next-token","masked lm","span corruption","autoregressive"),
     "optimizer": ("adam","adamw","sgd","adafactor"),
@@ -196,14 +205,19 @@ def _method_category_hits(quotes: List[str]) -> set:
             hits.add(cat)
     return hits
 
-def _strict_method_score_from_quotes(quotes: List[str]) -> float:
+def _lenient_method_score_from_quotes(quotes: List[str], key: str) -> float:
+    """
+    Permissive rules:
+      - Open (1.0): Reproducible — objective + (optimizer or schedule) + (batching or duration), and ≥4 categories in total.
+      - Semi-Open (0.5): Any concrete method hints for that family (pretrain / finetune / RL).
+      - Closed (0.0): No method info in quotes.
+    """
     if not quotes:
         return 0.0
     cats = _method_category_hits(quotes)
-    # Strong reproducibility: objective + (optimizer or schedule) + (batching or duration) and ≥4 cats total
     if len(cats) >= 4 and ("objective" in cats) and (("optimizer" in cats) or ("schedule" in cats)) and (("batching" in cats) or ("duration" in cats)):
         return 1.0
-    if len(cats) >= 2:
+    if _has_method_hints(quotes, key) or len(cats) >= 1:
         return 0.5
     return 0.0
 
@@ -228,7 +242,6 @@ API_LABEL_KEY_CANDIDATES = [
     "2-3 API__evidence",
 ]
 
-# Mentions that usually mean a real API (not just a library)
 _API_STRONG_HINTS = (
     "openai-compatible api", "openai compatible api",
     "rest api", "http api", "json api", "https api",
@@ -237,7 +250,6 @@ _API_STRONG_HINTS = (
     "swagger", "openapi", "endpoint", "curl", "post /", "get /"
 )
 
-# Words that typically indicate a library/binding/SDK/client (NOT an API by itself)
 _API_DISQUALIFIERS = (
     "sdk", "client", "bindings", "binding", "wrapper", "library",
     "pip install", "npm install", "conda install", "maven", "gradle",
@@ -256,7 +268,6 @@ def _has_strong_api_signal(q: str) -> bool:
     ql = q.lower()
     if any(h in ql for h in _API_STRONG_HINTS):
         return True
-    # explicit URL also counts as strong evidence
     return bool(_URL_RE.search(q))
 
 def _mentions_api(q: str) -> bool:
@@ -264,14 +275,6 @@ def _mentions_api(q: str) -> bool:
     return (" api" in ql) or ql.startswith("api ") or ("api:" in ql)
 
 def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict) -> Tuple[float, str]:
-    """
-    Lenient but library-safe API scoring:
-      - strong signal (OpenAI-compatible/REST/endpoint/URL etc.) → 1.0
-      - weak 'API' claim w/o details → 0.5
-      - library/SDK/client-only or no mention → 0.0
-    Env:
-      OP_EVAL_API_STRICT=1  → require strong evidence for Open (1.0), otherwise 0.5 at most.
-    """
     quotes: List[str] = []
     for src in (hf or {}, gh or {}, ax or {}, rp or {}):
         quotes.extend(_collect_quotes_from(src, API_LABEL_KEY_CANDIDATES))
@@ -284,10 +287,8 @@ def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict) -> Tuple[float, s
     best_weak = None
 
     for q in quotes:
-        if not q or not _mentions_api(q):
-            continue
-        if _looks_like_library_only(q):
-            continue  # library/SDK/client-only mentions do not count as API
+        if not q or not _mentions_api(q): continue
+        if _looks_like_library_only(q): continue
         if _has_strong_api_signal(q):
             best_strong = best_strong or q
         else:
@@ -301,41 +302,26 @@ def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict) -> Tuple[float, s
 
 # ─────────── Pretrain merge helpers ───────────
 def _merge_pretrain_parts(pretrain_parts: Dict[str, Dict[str, Any]] | None) -> Dict[str, Any]:
-    """
-    Normalize/merge pretrain_* dispatchers (hf/github/arxiv/reports) into a simple bundle:
-    {
-      "pretrain_method": "<concat summaries>",
-      "pretrain_data":   "<concat summaries>",
-      "__evidence":      ["quote", ...]   # may be generic; used to support 3-1/4-1
-    }
-    Also supports legacy structures where __evidence is a dict per label.
-    """
     if not pretrain_parts:
         return {}
     texts_m, texts_d, quotes = [], [], []
     for k in ("hf", "github", "arxiv", "reports", "gh", "ax"):
         obj = (pretrain_parts.get(k) or {})
         pm = obj.get("pretrain_method") or ""
-        pd = obj.get("pretrain_data") or ""
-        ev = obj.get("__evidence") or []
-        # string summaries
-        if isinstance(pm, str) and pm.strip():
-            texts_m.append(pm.strip())
-        if isinstance(pd, str) and pd.strip():
-            texts_d.append(pd.strip())
-        # evidence could be list[str] or dict[label->list[dict]]
+        pd = obj.get("pretrain_data")   or ""
+        ev = obj.get("__evidence")      or []
+        if isinstance(pm, str) and pm.strip(): texts_m.append(pm.strip())
+        if isinstance(pd, str) and pd.strip(): texts_d.append(pd.strip())
         if isinstance(ev, list):
             for q in ev:
-                if isinstance(q, str) and q.strip():
-                    quotes.append(q.strip())
+                if isinstance(q, str) and q.strip(): quotes.append(q.strip())
         elif isinstance(ev, dict):
             for v in ev.values():
                 if isinstance(v, list):
                     for e in v:
                         if isinstance(e, dict):
                             q = (e.get("quote") or "").strip()
-                            if q:
-                                quotes.append(q)
+                            if q: quotes.append(q)
     if not (texts_m or texts_d or quotes):
         return {}
     return {
@@ -346,17 +332,9 @@ def _merge_pretrain_parts(pretrain_parts: Dict[str, Dict[str, Any]] | None) -> D
 
 # ─────────── Utilities ───────────
 def _auto_open_items(hf_json: Dict[str, Any], hf_raw: Dict[str, Any] | None = None) -> Dict[str, Dict]:
-    """
-    Auto-open items based on concrete evidence:
-    - 1-1 Weights: only if raw HF repo contains weight files (safetensors/bin/pt/ckpt)
-    - 1-5 Architecture: if extracted evidence exists in filtered HF JSON
-    - 1-6 Tokenizer:
-        * Open (1.0) if tokenizer files are downloadable in raw HF repo
-        * Semi-Open (0.5) if only evidence quotes exist but no files found
-    """
     out: Dict[str, Dict] = {}
 
-    # 1-1 Weights from raw HF repo files
+    # 1-1 Weights
     if hf_raw:
         files = [f for f in (hf_raw.get("files") or []) if isinstance(f, str)]
         if any(f.lower().endswith((".safetensors", ".bin", ".pt", ".ckpt")) for f in files):
@@ -392,7 +370,6 @@ def _collect_evidence_maps(ax: Dict, hf: Dict, gh: Dict,
     out: Dict[str, Dict[str, List[str]]] = {}
     for arx_lbl, score_lbl in LBL_MAP_ARX_TO_SCORE.items():
         quotes: List[str] = []
-        # arXiv/reports/hf/gh evidence arrays
         evs = (ax or {}).get(f"{arx_lbl}__evidence") or []
         if isinstance(evs, list):
             quotes.extend([e.get("quote","") for e in evs if isinstance(e, dict) and e.get("quote")])
@@ -408,13 +385,12 @@ def _collect_evidence_maps(ax: Dict, hf: Dict, gh: Dict,
                 if isinstance(evs3, list):
                     quotes.extend([e.get("quote","") for e in evs3 if isinstance(e, dict) and e.get("quote")])
 
-        # inject pretrain-bundle quotes for 3-1 & 4-1
+        # Inject pretrain bundle quotes for 3-1 & 4-1
         if pretrain_bundle and isinstance(pretrain_bundle.get("__evidence"), list):
             if score_lbl in ("3-1 Pre-training", "4-1 Pre-training Data"):
                 quotes.extend(pretrain_bundle.get("__evidence", []))
 
         quotes = [q for q in quotes if isinstance(q, str) and q.strip()]
-        # optional: attach pretrain summaries in the "summary" (context only)
         summ = (ax or {}).get(arx_lbl, "") or ""
         if pretrain_bundle:
             if score_lbl == "3-1 Pre-training" and pretrain_bundle.get("pretrain_method"):
@@ -438,55 +414,99 @@ def _aggregate_usage(ax: dict, hf: dict, gh: dict, rp: dict | None = None) -> Di
         return "not_used"
     return {"fine_tuning": decide("ft"), "rl": decide("rl")}
 
-# ─────────── Code openness detection (training vs inference) ───────────
-_TRAIN_FILE_HINTS = (
-    "train.py","training.py","pretrain","pre-train","pretraining",
-    "run_clm.py","run_squad.py","run_translation.py","run_sft.py",
-    "scripts/train","examples/train","training/","trainer","finetune.py",
-    "fine_tune.py","sft","dpo","ppo","rlhf","accelerate launch","deepspeed","torchrun"
-)
-_PARTIAL_ONLY_HINTS = (
-    "finetune","fine-tune","lora","qlora","peft","adapter","sft","dpo","ppo","rlhf"
-)
-_INFER_ONLY_HINTS = (
-    "inference","infer","generate.py","generation.py","server","api","gradio","demo","app.py","serve","endpoint"
-)
+# ─────────── Code openness detection (strict file-based) ───────────
+def _detect_code_openness(hf_filtered: Dict[str, Any] | None,
+                          hf_raw: Dict[str, Any] | None) -> Tuple[float, str]:
+    """
+    Open(1.0): 레포 '경로/파일'에 학습 파이프라인 파일이 실제로 있어야 함
+               (train.py / training/ / scripts/train / pretrain*.py / run_*.py 등)
+    Semi(0.5): 부분 학습 스크립트 파일(예: finetune*.py / *sft*.py / *lora*.py / *dpo*.py / *ppo*.py / *rlhf*.py)만 존재.
+    Closed(0): 그 외(README 문구만 있는 경우 포함).
 
-def _detect_code_openness(hf_json: Dict[str, Any]) -> Tuple[float, str]:
-    if not hf_json:
-        return 0.0, "No Hugging Face metadata"
-    files = [f for f in (hf_json.get("files") or []) if isinstance(f, str)]
-    py_files = list((hf_json.get("py_files") or {}).keys())
-    readme = (hf_json.get("readme") or "").lower()
-    joined = " ".join(files + py_files).lower() + " " + readme
+    OP_EVAL_CODE_USE_FILTERED_ONLY=1 이면 dispatcher의 1-2 (Code)__evidence만 기준으로 판단:
+      - 증거 없음 → 0.0 Closed
+      - 증거 있음(파일 유무는 불명) → 0.5 Semi-Open
+      - 단, 실제 파이프라인 파일이 있으면 1.0 Open
+    """
+    import re
+    hf_filtered = hf_filtered or {}
+    hf_raw = hf_raw or {}
 
-    has_train = any(h in joined for h in _TRAIN_FILE_HINTS)
-    has_partial = any(h in joined for h in _PARTIAL_ONLY_HINTS)
-    has_infer_only = any(h in joined for h in _INFER_ONLY_HINTS)
+    files = [f for f in (hf_raw.get("files") or []) if isinstance(f, str)]
+    py_files = list((hf_raw.get("py_files") or {}).keys())
+    paths = " ".join(files + py_files).lower()
 
-    if has_train:
-        return 1.0, "Training pipeline code detected (files/README contain training scripts or instructions)."
-    if has_partial:
-        return 0.5, "Only partial training code detected (fine-tune/adapter/RL scripts) without full pipeline."
-    if py_files or files:
-        if has_infer_only:
-            return 0.0, "Only inference/serving/evaluation code detected; no training pipeline."
-        return 0.0, "Repository lacks explicit training code hints; treated as Closed."
-    return 0.0, "No code files."
+    TRAIN_PAT = re.compile(r'(^|/|\\)(train\.py|pretrain[^/\\]*\.py|run_[a-z0-9_]+\.py)(\b|$)')
+    has_train_dir = ("training/" in paths) or ("/scripts/train" in paths) or ("\\scripts\\train" in paths)
+    has_train_files = bool(TRAIN_PAT.search(paths)) or has_train_dir
+    if has_train_files:
+        return 1.0, "Training pipeline files exist in repository (train.py / training/ / scripts/train / pretrain*.py / run_*.py)."
 
-# ─────────── GPT evaluation for strict items ───────────
+    PARTIAL_PAT = re.compile(
+        r'(^|/|\\)(finetune[^/\\]*\.py|fine[_-]?tune[^/\\]*\.py|[^/\\]*sft[^/\\]*\.py|[^/\\]*(lora|qlora)[^/\\]*\.py|[^/\\]*(dpo|ppo|rlhf)[^/\\]*\.py)(\b|$)'
+    )
+    has_partial_files = bool(PARTIAL_PAT.search(paths))
+
+    if os.getenv("OP_EVAL_CODE_USE_FILTERED_ONLY", "0") == "1":
+        ev = (hf_filtered.get("1-2 (Code)__evidence")
+              or hf_filtered.get("1-2 Code__evidence")
+              or [])
+        if has_train_files:
+            return 1.0, "Training pipeline files exist in repository."
+        if not ev:
+            return 0.0, "Dispatcher found no training-code evidence; treat as Closed."
+        return 0.5, "Dispatcher provided training-code evidence, but no full pipeline files detected."
+
+    if has_partial_files:
+        return 0.5, "Partial training scripts exist as files but no full pipeline."
+    return 0.0, "No training pipeline files; README mentions are ignored."
+
+# ─────────── Data filtering scorer (4-4) ───────────
+_FILTERING_CATS = {
+    "dedup": ("dedup","de-dup","near-duplicate","minhash","simhash","lsh","exact-dup","exact dedup"),
+    "safety": ("toxicity","nsfw","safety","violence","sexual","hate","abuse","self-harm"),
+    "langid": ("langid","language identification","language-id","cld3","fasttext","langdetect"),
+    "quality": ("quality filter","ppl","perplexity","classifier","reward model","quality score","heuristic","rule-based","regex"),
+    "copyright": ("copyright","dmca","licensed","license filtering","watermark","attribution"),
+    "thresholds": ("threshold","cutoff","score >","score>","score>=","ppl <","ppl<","removed %","% removed","we removed","we filtered out"),
+}
+
+def _filtering_category_hits(quotes: List[str]) -> set:
+    txt = " \n".join(q.lower() for q in quotes)
+    hits = set()
+    for cat, kws in _FILTERING_CATS.items():
+        if any(k in txt for k in kws):
+            hits.add(cat)
+    return hits
+
+def _score_data_filtering_from_quotes(quotes: List[str]) -> float:
+    if not quotes:
+        return 0.0
+    cats = _filtering_category_hits(quotes)
+    if ("thresholds" in cats) and len(cats) >= 3:
+        return 1.0
+    if len(cats) >= 1:
+        return 0.5
+    return 0.0
+
+# ─────────── GPT evaluation for strict/non-strict items ───────────
 def _gpt_evaluate(model: str,
                   hf: Dict, gh: Dict, ax: Dict,
                   evidence_map: Dict[str, Dict[str, List[str]]]) -> Dict[str, Dict]:
+    """
+    Default evaluator model: o3 (set OPENAI_MODEL_EVALUATOR=o3 to be explicit)
+    """
     payload = {
         "model": model,
-        "evidence": evidence_map,               # quotes for strict items
+        "evidence": evidence_map,
         "data": {"huggingface": hf, "github": gh, "arxiv": ax},
     }
+    target_model = os.getenv("OPENAI_MODEL_EVALUATOR", "o3")
     rsp = client.chat.completions.create(
-        model=os.getenv("OPENAI_MODEL_EVALUATOR", "o3-mini"),
+        model=target_model,
         reasoning_effort="medium",
         response_format={"type":"json_object"},
+        # temperature=0.0,
         messages=[
             {"role":"system","content":EVALUATION_PROMPT},
             {"role":"user",  "content":json.dumps(payload, ensure_ascii=False)}
@@ -496,7 +516,7 @@ def _gpt_evaluate(model: str,
         raw = json.loads(rsp.choices[0].message.content.strip())
     except Exception:
         raw = {"scores": {}}
-    scores_dict = raw.get("scores", raw)
+    scores_dict = raw.get("scores", raw) if isinstance(raw, dict) else {}
     out: Dict[str, Dict] = {}
     for k, v in scores_dict.items():
         if isinstance(v, dict):
@@ -512,26 +532,26 @@ def evaluate_openness(model_name: str,
     hf, gh, ax = hf_json or {}, gh_json or {}, arxiv_json or {}
     rp = reports_json or {}
 
-    # 0) Merge pretrain sources (optional)
+    # 0) Merge pretrain sources (optional, used for 3-1 / 4-1)
     pre_bundle = _merge_pretrain_parts(pretrain_parts)
 
-    # 1) Strict evidence map for 3-x / 4-x (+inject pretrain bundle)
+    # 1) Strict evidence map for 3-x / 4-x (+inject pretrain bundle where applicable)
     evmap = _collect_evidence_maps(ax, hf, gh, rp, pretrain_bundle=pre_bundle)
 
-    # 2) Strict GPT scoring for the rest (acts as baseline for non-strict items)
+    # 2) Baseline GPT scoring (we will overwrite some items with deterministic rules)
     scores = _gpt_evaluate(model_name, hf, gh, ax, evmap)
 
-    # 3) Auto-open (1-1 / 1-5 / 1-6) → use filtered HF + raw HF
+    # 3) Auto-open (1-1 / 1-5 / 1-6)
     scores.update(_auto_open_items(hf, hf_raw_json))
 
-    # 4) Code (1-2) heuristic overwrite (training-centric) → raw HF preferred
-    code_score, code_reason = _detect_code_openness(hf_raw_json or hf)
+    # 4) Code (1-2) strict file-based detection
+    code_score, code_reason = _detect_code_openness(hf, hf_raw_json)
     scores["1-2 Code"] = {"score": code_score, "reason": code_reason}
 
     # 5) Usage aggregation → exclusion base
     usage = _aggregate_usage(ax, hf, gh, rp)
 
-    # Heuristic: "you can fine-tune" 류 문구만 있고 저자 수행 근거 없으면 not_used
+    # Heuristic: fine-tuning 'generic claim only' → not_used
     def _has_phrase(src_dict: Dict[str, Any], *phrases: str) -> bool:
         if not isinstance(src_dict, dict):
             return False
@@ -559,15 +579,14 @@ def evaluate_openness(model_name: str,
 
     # 6) STRICT guardrail: if no quotes for strict keys → force CLOSED
     for strict_key in STRICT_KEYS:
-        if strict_key not in scores:
-            continue
-        has_quotes = bool(evmap.get(strict_key, {}).get("quotes"))
-        if not has_quotes:
-            reason = scores[strict_key].get("reason","").strip()
-            note = "No direct quote evidence; defaulting to Closed by strict rule."
-            scores[strict_key] = {"score": 0.0, "reason": (reason + " " + note).strip()}
+        if strict_key in scores:
+            has_quotes = bool(evmap.get(strict_key, {}).get("quotes"))
+            if not has_quotes:
+                reason = scores[strict_key].get("reason","").strip()
+                note = "No direct quote evidence; defaulting to Closed by strict rule."
+                scores[strict_key] = {"score": 0.0, "reason": (reason + " " + note).strip()}
 
-    # 6.1) 4-1 Pre-training Data: if quotes exist → minimum 0.5 (partial disclosure)
+    # 6.1) 4-1 Pre-training Data: if quotes exist → minimum 0.5
     key_41 = "4-1 Pre-training Data"
     if key_41 in scores:
         has_quotes_41 = bool(evmap.get(key_41, {}).get("quotes"))
@@ -577,31 +596,48 @@ def evaluate_openness(model_name: str,
                 "reason": (scores.get(key_41, {}).get("reason","") + " Adjusted to Semi-Open: quotes indicate partial disclosure.").strip()
             }
 
-    # 6.2) Stricter methodology scoring from quotes (no auto-escalation)
+    # 6.2) New lenient methodology scoring (Open/Semi-Open/Closed) for 3-1/3-2/3-3
     for meth_key in ("3-1 Pre-training", "3-2 Fine-tuning", "3-3 Reinforcement Learning"):
         used_flag = {
-            "3-1 Pre-training": "used",  # pretraining은 모델이 존재하면 사용된 것으로 간주
+            "3-1 Pre-training": "used",
             "3-2 Fine-tuning": usage.get("fine_tuning", "unknown"),
             "3-3 Reinforcement Learning": usage.get("rl", "unknown"),
         }
         if used_flag[meth_key] == "not_used":
             continue
         qts = evmap.get(meth_key, {}).get("quotes", [])
-        score_val = _strict_method_score_from_quotes(qts)
-        if score_val == 0.0 and not _has_method_hints(qts, meth_key):
-            reason = (
-                "No concrete method details (objectives/schedules/hyperparameters/pipeline). "
-                "Only high-level claims or unrelated info → Closed (0)."
-            )
+        score_val = _lenient_method_score_from_quotes(qts, meth_key)
+        if score_val == 1.0:
+            reason = "Methodology is sufficiently detailed to reproduce training (objective/optimizer/schedule + batching/duration)."
         elif score_val == 0.5:
-            reason = "Partial methodology details present (some categories), not fully reproducible."
+            reason = "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
         else:
-            reason = "Methodology appears fully reproducible across key categories (objective/optimizer/schedule/batching/duration)."
+            reason = "No concrete method details in quotes."
         scores[meth_key] = {"score": score_val, "reason": reason}
 
-    # 6.3) 2-3 API: lenient, library-safe override
+    # 6.3) 4-4 Data Filtering: dedicated override based on quotes only
+    key_44 = "4-4 Data Filtering"
+    q44 = evmap.get(key_44, {}).get("quotes", [])
+    df_score = _score_data_filtering_from_quotes(q44)
+    if q44:
+        if df_score == 1.0:
+            scores[key_44] = {"score": 1.0, "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios)."}
+        elif df_score == 0.5:
+            scores[key_44] = {"score": 0.5, "reason": "Partial filtering details disclosed (dedup/safety/langid/quality etc.)."}
+        else:
+            scores[key_44] = {"score": 0.0, "reason": "No concrete filtering details in quotes."}
+
+    # 6.4) 2-3 API: lenient, library-safe override
     api_score, api_reason = _score_api_lenient(hf, gh, ax, rp)
     scores["2-3 API"] = {"score": api_score, "reason": api_reason}
+
+    # 6.5) Ensure all 16 keys exist (avoid missing items in output)
+    for k in ALL_SCORE_KEYS:
+        if k not in scores:
+            if k in STRICT_KEYS and not evmap.get(k, {}).get("quotes"):
+                scores[k] = {"score": 0.0, "reason": "No direct quote evidence; Closed by strict rule."}
+            else:
+                scores[k] = {"score": 0.0, "reason": "No evidence."}
 
     # 7) Build included set after exclusion
     included = {k:v for k,v in scores.items()
@@ -678,4 +714,4 @@ def evaluate_openness_from_files(model_name: str,
 
 
 if __name__ == "__main__":
-    evaluate_openness_from_files("bigscience/bloomz-560m")
+    evaluate_openness_from_files("deepseek-ai/deepseek-r1")

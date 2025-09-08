@@ -29,7 +29,7 @@ _API_KEY = os.getenv("OPENAI_API_KEY")
 if not _API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 _client = OpenAI(api_key=_API_KEY)
-MODEL_NAME = os.getenv("OPENAI_MODEL_REPORTS_DISPATCHER", "o3-mini")
+MODEL_NAME = os.getenv("OPENAI_MODEL_REPORTS_DISPATCHER", "o3")
 
 # ─────────────────────── 16 evaluation items ───────────────────────
 LABELS = {

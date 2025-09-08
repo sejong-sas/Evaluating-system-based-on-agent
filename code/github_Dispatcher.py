@@ -19,7 +19,7 @@ if not _api_key:
 _client = OpenAI(api_key=_api_key)
 
 # Tunables
-MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3-mini")
+MODEL_NAME = os.getenv("OPENAI_MODEL_GH_DISPATCHER", "o3")
 GITHUB_README_CHAR_CAP      = int(os.getenv("GITHUB_README_CHAR_CAP", "120000"))
 GITHUB_LICENSE_CHAR_CAP     = int(os.getenv("GITHUB_LICENSE_CHAR_CAP", "20000"))
 GITHUB_MAX_LICENSE_PARTS    = int(os.getenv("GITHUB_MAX_LICENSE_PARTS", "5"))
