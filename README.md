@@ -30,10 +30,3 @@ Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a
 
 
 
-## 현재 상황
-### 문제점
-- [ ] 3순위인 openai api를 이용한 hf->git, git->hf id 알아내기
-- [ ] _Dispatcher.py에서 기존의 Fetcher에서 가저온 정보를 16가지 평가 항목에 관련된 내용을 뽑아 요약을 해야 하는데 output이 gpt가 너무 요약을 해서 한줄로 밖에 안나옴
-- [ ] openness_Evaluator.py 가 신뢰성이 없음
-
-### 목표
