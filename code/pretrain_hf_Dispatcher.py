@@ -1,9 +1,15 @@
 # pretrain_hf_Dispatcher.py
 """
 HF dispatcher dedicated to pretraining items
-Targets ONLY the specified (base) model; drops quotes about other/earlier models.
+Targets ONLY the specified (base) model.
 
-Input : huggingface_{base}.json  (includes readme/cardData.content)
+CHANGELOG (relaxed guard):
+- If an entire section (README / card_content) is clearly about the TARGET model
+  (model-family token hits across the whole section are high enough),
+  then quotes from that section are accepted even if the SAME sentence does not
+  explicitly repeat the target token.
+
+Input : huggingface_{base}.json  (includes readme; cardData.content optional)
 Output: pretrain_hf_{base}.json
         {
           "pretrain_method": str,
@@ -13,7 +19,7 @@ Output: pretrain_hf_{base}.json
 """
 
 import os, json, re
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -26,28 +32,33 @@ load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
 if not API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
-# o3-mini 기본, 샘플링 파라미터 사용 금지
+# o3 계열: temperature 설정 금지. chat.completions에서 reasoning_effort만 사용.
 MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3-mini")
 
 _client = OpenAI(api_key=API_KEY)
 
-# ─────────────── Strict model guard ───────────────
+# ─────────────── Model-family tokens & guards ───────────────
+_STOPWORDS = {
+    "ai","llm","language","model","models","chat","instruct","base","it",
+    "sft","rl","eval","preview","alpha","beta","rc","release","v"
+}
+
 def _family_tokens_from_model_id(model_id: str) -> List[str]:
     """
-    Extract stable tokens from the model id for family matching.
+    Extract stable tokens for family/version matching.
     Examples:
-      "google/gemma-3-27b-it"      -> ["gemma","gemma3","3","27b"]
-      "meta-llama/Llama-3.1-8B"    -> ["llama","llama3","31","3.1","8b"]
+      "google/gemma-3-27b-it"   -> ["gemma","gemma3","3","27b"]
+      "meta-llama/Llama-3.1-8B" -> ["llama","llama31","3.1","31","8b"]
     """
     name = (model_id or "").split("/", 1)[-1].lower()
     raw  = re.split(r"[^a-z0-9.]+", name)
     toks = set()
     for t in raw:
         t = t.strip()
-        if not t or t in {"base","it","instruct","chat","model"}:
+        if not t or t in _STOPWORDS:
             continue
         toks.add(t)
-        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)  # llama3 / llama3.1
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)  # e.g., llama3 / llama3.1
         if m:
             head, ver = m.group(1), m.group(2)
             toks.add(head)
@@ -72,16 +83,35 @@ def _quote_mentions_target(q: str, model_id: str) -> bool:
 def _strict_guard_text(model_id: str) -> str:
     toks = _family_tokens_from_model_id(model_id)
     return (
-        "STRICT MODEL FILTER\n"
+        "STRICT MODEL FILTER (sentence-level)\n"
         f"- Target model: {model_id}\n"
-        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
-        "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
-        "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
-        "- If in doubt, DROP the quote."
+        f"- Prefer quotes where the sentence explicitly mentions one of: {toks}.\n"
+        "- Drop sentences that are clearly about *other* models/versions unless the TARGET is named.\n"
+        "- If in doubt, drop the sentence. (A relaxed section-level backstop will be applied afterwards.)"
     )
 
 def _STRICT_SUMMARY_GUARD(model_id: str) -> str:
     return _strict_guard_text(model_id) + "\nUse ONLY the provided quotes."
+
+# ─────────────── Section-level on-topic relaxation ───────────────
+def _section_is_about_target(section_text: str, model_id: str, threshold: int = 3) -> bool:
+    """
+    Lightweight doc-level relatedness:
+    - Count family-token hits across the whole section.
+    - If total hits >= threshold, regard the section as 'on-topic' for the target model.
+    """
+    if not section_text:
+        return False
+    tl = section_text.lower()
+    hits = 0
+    for t in _family_tokens_from_model_id(model_id):
+        if not t:
+            continue
+        # URL/name-like hit (no word boundary) + word-boundary bonus
+        hits += tl.count(t)
+        if re.search(rf"\b{re.escape(t)}\b", tl):
+            hits += 1
+    return hits >= max(1, threshold)
 
 # ─────────────── Payload helpers ───────────────
 def _chunk(t: str) -> List[str]:
@@ -99,6 +129,7 @@ def _extract_context(j: Dict[str, Any]) -> Dict[str,str]:
     """
     model_id = str(j.get("model_id") or j.get("id") or "")
     readme   = j.get("readme") or ""
+    # Some HF APIs surface card content under cardData.content; keep optional
     card     = j.get("cardData") or {}
     card_md  = (card.get("content") if isinstance(card, dict) else "") or ""
     return {
@@ -153,8 +184,8 @@ def _recall(sections: Dict[str,str], model_id: str) -> Dict[str, List[Dict[str,s
         try:
             rsp = _client.chat.completions.create(
                 model=MODEL_NAME,
-                reasoning_effort="medium",                # o3-mini OK
-                response_format={"type":"json_object"},   # JSON 강제
+                reasoning_effort="medium",
+                response_format={"type":"json_object"},
                 messages=[
                     {"role":"system","content":"Return JSON only."},
                     {"role":"user","content":msg}
@@ -174,8 +205,20 @@ def _recall(sections: Dict[str,str], model_id: str) -> Dict[str, List[Dict[str,s
                     qt  = str(e.get("quote","")).strip()
                     if not src or not qt: continue
                     if src not in {"model_id","readme","card_content"}: continue
-                    # quote-level strict filter
-                    if not _quote_mentions_target(qt, model_id): continue
+
+                    # ── Relaxed acceptance:
+                    # accept if sentence mentions the target OR
+                    # the WHOLE section is clearly about the target model.
+                    accept = False
+                    if _quote_mentions_target(qt, model_id):
+                        accept = True
+                    else:
+                        sec_text = sections.get(src, "") or ""
+                        if _section_is_about_target(sec_text, model_id, threshold=3):
+                            accept = True
+                    if not accept:
+                        continue
+
                     bucket.append({"source": src, "quote": qt})
 
     # dedup
@@ -216,7 +259,8 @@ def _summarize(evs: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str,s
 def filter_pretrain_hf(model_id: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     model_id should be the BASE (pretrained) model id discovered by the agent.
-    Only quotes that explicitly mention this target (or its stable family tokens) are used.
+    We accept quotes that either (a) mention the target in the same sentence, or
+    (b) come from a section that is globally about the target (token hits >= threshold).
     """
     base = model_id.replace("/", "_").lower()
     path_in = Path(output_dir) / f"huggingface_{base}.json"

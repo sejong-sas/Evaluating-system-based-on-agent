@@ -1,242 +1,286 @@
 # pretrain_arxiv_Dispatcher.py
 """
-Extract pre-training method/data **for the target (base) model only** from arXiv full paper text.
-- Input:  arxiv_fulltext_{base}.json or arxiv_{base}.json
-- Output: pretrain_arxiv_{base}.json
-- Strict model guard: collect/use **only** sentences that explicitly mention the target model tokens.
+arXiv dispatcher dedicated to pretraining items (BASE model).
+Relaxed guard:
+- Accept a quote if (a) the sentence mentions target tokens OR
+  (b) the *section/doc* is clearly about the target model.
+
+Inputs (search in output_dir, then CWD fallback):
+  arxiv_fulltext_{base_model}.json   # preferred
+  └─ { "full_texts": [ { "arxiv_id": "...", "full_text": "..." }, ... ] }
+  (optional) arxiv_{base_model}.json # same schema or single doc
+
+Output:
+  pretrain_arxiv_{base_model}.json
+  {
+    "pretrain_method": "...",
+    "pretrain_data":   "...",
+    "__evidence":      [ { "source": "arxiv:<id>|sections:<id>", "quote": "..." }, ... ]
+  }
 """
 
-import os, json, re, hashlib
+import os, json, re
+from typing import Dict, Any, List
 from pathlib import Path
-from typing import Dict, List, Optional, Any
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# ─────────────────────────── Config ───────────────────────────
+# ───────── Config ─────────
 CHUNK_CHARS   = 60_000
 CHUNK_OVERLAP = 2_000
+DOC_HITS_THRESHOLD = int(os.getenv("PRETRAIN_DOC_HITS", "3"))
 
 load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
 if not API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
-MODEL_NAME = os.getenv("OPENAI_MODEL_ARXIV_DISPATCHER", "o3-mini")
-_cli = OpenAI(api_key=API_KEY)
+MODEL_NAME = os.getenv("OPENAI_MODEL_PRETRAIN_DISPATCHER", "o3-mini")
+_client = OpenAI(api_key=API_KEY)
 
-# ─────────────────────────── Helpers ───────────────────────────
-_PARA_SPLIT = re.compile(r"\n\s*\n+")
+# ───────── Tokens/guards ─────────
+_STOPWORDS = {
+    "ai","llm","language","model","models","chat","instruct","base","it",
+    "sft","rl","eval","preview","alpha","beta","rc","release","v"
+}
 
-def _split_paragraphs(text: str) -> List[str]:
+def _family_tokens_from_model_id(model_id: str) -> List[str]:
+    name = (model_id or "").split("/", 1)[-1].lower()
+    raw  = re.split(r"[^a-z0-9.]+", name)
+    toks = set()
+    for t in raw:
+        t = t.strip()
+        if not t or t in _STOPWORDS:
+            continue
+        toks.add(t)
+        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
+        if m:
+            head, ver = m.group(1), m.group(2)
+            toks.add(head)
+            toks.add(head + ver.replace(".", ""))
+            toks.add(ver)
+            toks.add(ver.replace(".", ""))
+    joined  = re.sub(r"[^a-z0-9]", "", name)
+    nodigit = re.sub(r"\d+", "", joined)
+    if len(joined)  >= 3: toks.add(joined)
+    if len(nodigit) >= 3: toks.add(nodigit)
+    return sorted(toks)
+
+def _quote_mentions_target(q: str, model_id: str) -> bool:
+    if not q:
+        return False
+    ql = q.lower().replace("–","-").replace("—","-")
+    for t in _family_tokens_from_model_id(model_id):
+        if len(t) >= 2 and t in ql:
+            return True
+    return False
+
+def _section_is_about_target(text: str, model_id: str, threshold: int = DOC_HITS_THRESHOLD) -> bool:
     if not text:
-        return []
-    if _PARA_SPLIT.search(text):
-        return [p.strip() for p in _PARA_SPLIT.split(text) if p.strip()]
-    return [text.strip()]
+        return False
+    tl = text.lower()
+    hits = 0
+    for t in _family_tokens_from_model_id(model_id):
+        if not t: continue
+        hits += tl.count(t)
+        if re.search(rf"\b{re.escape(t)}\b", tl):
+            hits += 1
+    return hits >= max(1, threshold)
 
-def _chunk(text: str) -> List[str]:
-    out=[]; n=len(text); i=0
+def _strict_guard_text(model_id: str) -> str:
+    toks = _family_tokens_from_model_id(model_id)
+    return (
+        "STRICT MODEL FILTER (sentence-level preferred; section-level backstop applies later)\n"
+        f"- Target model: {model_id}\n"
+        f"- Prefer quotes where the sentence explicitly mentions one of: {toks}."
+    )
+
+def _STRICT_SUMMARY_GUARD(model_id: str) -> str:
+    return _strict_guard_text(model_id) + "\nUse ONLY the provided quotes."
+
+# ───────── Payload helpers ─────────
+def _chunk(t: str) -> List[str]:
+    out=[]; n=len(t or ""); i=0
     while i<n:
-        end=min(i+CHUNK_CHARS,n); out.append(text[i:end])
+        end=min(i+CHUNK_CHARS,n)
+        out.append(t[i:end])
         if end==n: break
         i=end-CHUNK_OVERLAP if end-CHUNK_OVERLAP>i else end
     return out
 
-def _find_full(base: str, root: Path) -> Optional[Path]:
-    for name in (f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"):
-        p = root / name
-        if p.exists(): return p
-    # fallback to project root
-    for name in (f"arxiv_fulltext_{base}.json", f"arxiv_{base}.json"):
-        p = Path(name)
-        if p.exists(): return p
-    return None
+def _load_json_guess(path: Path) -> Dict[str, Any]:
+    if path.exists():
+        return json.load(open(path, encoding="utf-8"))
+    alt = Path(path.name)
+    if alt.exists():
+        return json.load(open(alt, encoding="utf-8"))
+    raise FileNotFoundError(str(path))
 
-def _normalize_for_hash(text: str) -> str:
-    return re.sub(r"\s+", " ", (text or "")).strip().lower()
+def _extract_sections(arxiv_full_json: Dict[str, Any]) -> Dict[str, str]:
+    sections: Dict[str, str] = {}
+    # preferred multi-doc schema
+    for it in (arxiv_full_json.get("full_texts") or []):
+        aid = str(it.get("arxiv_id") or "")[:2000]
+        txt = str(it.get("full_text") or it.get("pdf_text") or "")
+        if not txt: continue
+        tag = f"arxiv:{aid}" if aid else "arxiv"
+        sections[tag] = txt
+    # single-doc fallback (rare)
+    if not sections and ("full_text" in arxiv_full_json or "pdf_text" in arxiv_full_json):
+        aid = str(arxiv_full_json.get("arxiv_id") or "")[:2000]
+        txt = str(arxiv_full_json.get("full_text") or arxiv_full_json.get("pdf_text") or "")
+        if txt:
+            tag = f"arxiv:{aid}" if aid else "arxiv"
+            sections[tag] = txt
+    return sections
 
-def _dedup_list_str(items: List[str]) -> List[str]:
-    seen=set(); out=[]
-    for s in items:
-        k = hashlib.sha1(_normalize_for_hash(s).encode("utf-8")).hexdigest()
-        if k in seen: continue
-        seen.add(k); out.append(s)
-    return out
+def _payload_text(sections: Dict[str,str]) -> str:
+    parts = []
+    for tag, val in sections.items():
+        if not isinstance(val, str):
+            val = json.dumps(val, ensure_ascii=False)
+        parts.append(f"[{tag}]\n{val}\n")
+    return "\n".join(parts)
 
-# ─────────────────────────── Model-token guard ───────────────────────────
-def _canonical_model_tokens(model_id: str) -> List[str]:
-    """
-    Extract relatively stable tokens from model id.
-    - Keep tokens len>=3
-    - Add collapsed form (remove non-alnum), and no-digit form
-    - Drop generic suffixes (base/it/instruct/chat/model)
-    - Add head+digits (e.g., llama3 / llama3.1 → llama, llama3)
-    """
-    name = (model_id or "").split("/", 1)[-1].lower()
-    raw = re.split(r"[^a-z0-9.]+", name)
-    alts = set()
-    for t in raw:
-        t = t.strip()
-        if len(t) >= 3 and t not in {"base","it","instruct","chat","model"}:
-            alts.add(t)
-    collapsed = re.sub(r"[^a-z0-9]", "", name)
-    nodigit   = re.sub(r"\d+", "", collapsed)
-    if len(collapsed) >= 3: alts.add(collapsed)
-    if len(nodigit)   >= 3: alts.add(nodigit)
-    for t in list(alts):
-        m = re.match(r"([a-z]+)(\d+(?:\.\d+)*)$", t)
-        if m:
-            alts.add(m.group(1))
-            alts.add(m.group(1)+m.group(2).replace(".",""))
-    return sorted(alts)
+# ───────── Prompts ─────────
+_RECALL_SYS = """
+You are an assistant for AI model evaluation.
+Using only the provided arXiv payload, extract evidence about the TARGET model's:
+- pre-training METHOD (how pre-training was done)
+- pre-training DATA (with what data)
 
-def _contains_any_token(text: str, toks: List[str]) -> bool:
-    tl = (text or "").lower().replace("–","-").replace("—","-")
-    return any(t for t in toks if t and t in tl)
+Return JSON ONLY with EXACTLY these keys:
+{
+  "pretrain_method_evidence": [ { "source": "arxiv:<id>", "quote": "..." } ],
+  "pretrain_data_evidence":   [ { "source": "arxiv:<id>", "quote": "..." } ]
+}
 
-_T_PRETRAIN = (
-    "pretraining", "pre-training", "pre train", "pretrained", "pre-trained",
-    "corpus", "dataset", "data mixture", "mixture of data", "tokens", "webtext",
-    "crawl", "filtering", "dedup", "training data", "pretraining data", "pre-training data",
-    "method", "objective", "loss", "optimizer", "schedule", "steps", "compute"
-)
+Rules:
+- 'quote' must be a verbatim sentence copied from the payload.
+- 'source' must be the section tag (e.g., [arxiv:<id>]).
+- If no evidence, use [].
+""".strip()
 
-def _paragraphs_for_target(text: str, model_tokens: List[str]) -> List[str]:
-    """
-    Prefer paragraphs mentioning BOTH model tokens and pretraining-ish keywords.
-    If none, keep paragraphs that mention model tokens.
-    If still none, fallback to full text (last resort).
-    """
-    paras = _split_paragraphs(text)
-    if not paras: return []
+_SUMMARY_SYS = """
+Write concise but detailed English summaries using ONLY the provided quotes.
+Return JSON ONLY:
+{ "pretrain_method": "...", "pretrain_data": "..." }
+If no information, write "No information".
+""".strip()
 
-    def has_kw(p: str) -> bool:
-        pl = p.lower()
-        return any(k in pl for k in _T_PRETRAIN)
+# ───────── Core (recall → filter → summarize) ─────────
+def _recall(sections: Dict[str,str], model_id: str) -> Dict[str, List[Dict[str,str]]]:
+    text = _payload_text(sections)
+    agg_method: List[Dict[str,str]] = []
+    agg_data:   List[Dict[str,str]] = []
 
-    cand1 = [p for p in paras if _contains_any_token(p, model_tokens) and has_kw(p)]
-    if cand1:
-        return cand1
-    cand2 = [p for p in paras if _contains_any_token(p, model_tokens)]
-    if cand2:
-        return cand2
-    return paras
-
-# ─────────────────────────── I/O ───────────────────────────
-def _load_fulltext(p: Path) -> str:
-    j = json.load(open(p, encoding="utf-8"))
-    # Our storage format: full_texts(list) or full_text(str)
-    if isinstance(j, dict) and isinstance(j.get("full_texts"), list):
-        texts = []
-        for t in j["full_texts"]:
-            if isinstance(t, dict):
-                texts.append(str(t.get("full_text") or t.get("pdf_text") or ""))
-            else:
-                texts.append(str(t))
-        return "\n\n".join(x for x in texts if x)
-    return str(j.get("full_text","") or j.get("pdf_text","") or "")
-
-# ─────────────────────────── Prompts ───────────────────────────
-def _sys_prompt(model_id: str, model_tokens: List[str]) -> str:
-    return (
-        "You analyze arXiv full-text to extract the **pre-training method** and **pre-training data** "
-        "for the **TARGET model only**. STRICT RULES:\n"
-        f"- TARGET model: {model_id}\n"
-        f"- Accept/use a sentence ONLY if it explicitly mentions one of: {model_tokens}\n"
-        "- If the paper mixes multiple models or earlier versions, ignore those unless the TARGET is named in the same sentence.\n"
-        "- If there is no evidence for the TARGET, return \"No information\" and an empty evidence list.\n"
-        "- Use only the provided payload; do not invent content.\n\n"
-        'Return **JSON only**:\n'
-        '{\n'
-        '  "pretrain_method": "string (or \\"No information\\")",\n'
-        '  "pretrain_data": "string (or \\"No information\\")",\n'
-        '  "__evidence": ["verbatim sentence mentioning TARGET", ...]\n'
-        "}\n"
-    )
-
-def _user_prompt(chunk_text: str) -> str:
-    return (
-        "Read the following paper text and reply with JSON only. "
-        "Use only sentences that explicitly name the TARGET tokens.\n\n"
-        f"{chunk_text}"
-    )
-
-# ─────────────────────────── Main ───────────────────────────
-def filter_pretrain_arxiv(model_id: str, save: bool=True, output_dir: str | Path = ".") -> Dict[str, Any]:
-    """
-    Analyze arXiv texts **only for the specified (base) model**.
-    """
-    base=model_id.replace("/","_").lower()
-    root=Path(output_dir)
-    root.mkdir(parents=True, exist_ok=True)
-
-    p_in=_find_full(base, root)
-    if not p_in:
-        print("⚠️ No arXiv JSON found"); return {}
-
-    raw_txt=_load_fulltext(p_in)
-    toks = _canonical_model_tokens(model_id)
-
-    # Narrow to likely relevant paragraphs first
-    target_paras = _paragraphs_for_target(raw_txt, toks)
-    target_text  = "\n\n".join(target_paras)
-
-    # As a hint, also try starting near 'pre-training' section if present
-    m = re.search(r"(?is)(pre[- ]?training|pretraining).*", target_text)
-    target = m.group(0) if m else target_text
-
-    # Call LLM over chunks  (⚠️ o3-mini: no temperature/top_p/etc.)
-    sys_msg = _sys_prompt(model_id, toks)
-    results=[]
-    for i, ch in enumerate(_chunk(target), 1):
+    for ch in _chunk(text):
+        msg = _strict_guard_text(model_id) + "\n\n" + _RECALL_SYS + "\n\n=== PAYLOAD ===\n" + ch
         try:
-            rsp=_cli.chat.completions.create(
+            rsp = _client.chat.completions.create(
                 model=MODEL_NAME,
                 reasoning_effort="medium",
                 response_format={"type":"json_object"},
                 messages=[
-                    {"role":"system","content":sys_msg},
-                    {"role":"user","content":_user_prompt(ch)}
-                ]
+                    {"role":"system","content":"Return JSON only."},
+                    {"role":"user","content":msg}
+                ],
             )
-            data = json.loads(rsp.choices[0].message.content)
-            if isinstance(data, dict):
-                results.append(data)
-        except Exception as e:
-            print(f"⚠️ arXiv-pretrain chunk {i} failed:", e)
+            obj = json.loads(rsp.choices[0].message.content.strip())
+        except Exception:
+            obj = {}
 
-    # Merge results
-    out: Dict[str, Any] = {"pretrain_method":"No information","pretrain_data":"No information","__evidence":[]}
-    for r in results:
-        pm = (r.get("pretrain_method") or "").strip() if isinstance(r, dict) else ""
-        pd = (r.get("pretrain_data") or "").strip() if isinstance(r, dict) else ""
-        ev = (r.get("__evidence") or []) if isinstance(r, dict) else []
-        if pm and pm.lower() != "no information" and (len(pm) > len(out["pretrain_method"]) or out["pretrain_method"]=="No information"):
-            out["pretrain_method"] = pm
-        if pd and pd.lower() != "no information" and (len(pd) > len(out["pretrain_data"]) or out["pretrain_data"]=="No information"):
-            out["pretrain_data"] = pd
-        if isinstance(ev, list):
-            out["__evidence"].extend([str(x) for x in ev if isinstance(x, str)])
+        for k, bucket in (("pretrain_method_evidence", agg_method),
+                          ("pretrain_data_evidence",   agg_data)):
+            arr = obj.get(k, [])
+            if isinstance(arr, list):
+                for e in arr:
+                    if not isinstance(e, dict): continue
+                    src = str(e.get("source","")).strip()
+                    qt  = str(e.get("quote","")).strip()
+                    if not src or not qt: continue
+                    if src not in sections:
+                        continue
+                    # Accept if sentence mentions target OR the whole section is on-topic
+                    accept = _quote_mentions_target(qt, model_id) or _section_is_about_target(sections[src], model_id)
+                    if not accept:
+                        continue
+                    bucket.append({"source": src, "quote": qt})
 
-    # Post-filter evidence to ensure model tokens are present, then dedup
-    out["__evidence"] = _dedup_list_str([q for q in out["__evidence"] if _contains_any_token(q, toks)])
+    # dedup
+    def _dedup(lst: List[Dict[str,str]]) -> List[Dict[str,str]]:
+        seen=set(); out=[]
+        for e in lst:
+            key=(e["source"], e["quote"])
+            if key in seen: continue
+            seen.add(key); out.append(e)
+        return out
 
-    # If no valid evidence remains, downgrade to "No information"
-    if not out["__evidence"]:
-        out["pretrain_method"] = "No information"
-        out["pretrain_data"]   = "No information"
+    return {
+        "pretrain_method_evidence": _dedup(agg_method),
+        "pretrain_data_evidence":   _dedup(agg_data),
+    }
 
-    # Save
-    p_out = root / f"pretrain_arxiv_{base}.json"
+def _summarize(evs: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str,str]:
+    quotes = {
+        "pretrain_method": [e["quote"] for e in evs.get("pretrain_method_evidence",[])],
+        "pretrain_data":   [e["quote"] for e in evs.get("pretrain_data_evidence",[])],
+    }
+    try:
+        rsp = _client.chat.completions.create(
+            model=MODEL_NAME,
+            reasoning_effort="medium",
+            response_format={"type":"json_object"},
+            messages=[
+                {"role":"system","content":_STRICT_SUMMARY_GUARD(model_id)},
+                {"role":"user","content":_SUMMARY_SYS + "\n\n=== QUOTES ===\n" +
+                                       json.dumps(quotes, ensure_ascii=False, indent=2)},
+            ],
+        )
+        return json.loads(rsp.choices[0].message.content.strip())
+    except Exception:
+        return {"pretrain_method":"No information","pretrain_data":"No information"}
+
+# ───────── Public API ─────────
+def filter_pretrain_arxiv(model_id: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
+    """
+    model_id should be the BASE (pretrained) model id.
+    """
+    base = model_id.replace("/", "_").lower()
+    # Prefer fulltext file, then single-file fallback
+    cand = [
+        Path(output_dir) / f"arxiv_fulltext_{base}.json",
+        Path(output_dir) / f"arxiv_{base}.json",
+    ]
+    src = None
+    for p in cand:
+        try:
+            src = _load_json_guess(p)
+            break
+        except FileNotFoundError:
+            continue
+    if src is None:
+        raise FileNotFoundError([str(x) for x in cand])
+
+    sections = _extract_sections(src)
+    evs = _recall(sections, model_id)
+    summ = _summarize(evs, model_id)
+
+    all_evs = (evs.get("pretrain_method_evidence", []) +
+               evs.get("pretrain_data_evidence", []))
+    result = {
+        "pretrain_method": summ.get("pretrain_method","No information"),
+        "pretrain_data":   summ.get("pretrain_data","No information"),
+        "__evidence":      all_evs,
+    }
+
+    out = Path(output_dir) / f"pretrain_arxiv_{base}.json"
     if save:
-        json.dump(out, open(p_out,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
-        print(f"✅ Saved: {p_out}")
-    return out
+        json.dump(result, open(out,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
+        print(f"✅ Saved: {out}")
+    return result
 
 # CLI
 if __name__ == "__main__":
-    import sys
-    mid = "bigscience/bloom-560m"  # example: must be the *base* model id
-    if len(sys.argv)>1 and sys.argv[1]:
-        mid=sys.argv[1]
+    mid = os.environ.get("PRETRAIN_BASE_ID", "bigscience/bloomz-560m")
     print("▶ Base model to run:", mid)
     filter_pretrain_arxiv(mid)

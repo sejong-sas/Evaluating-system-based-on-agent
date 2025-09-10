@@ -3,12 +3,13 @@
 # summarize 3-1 (Pre-training) & 4-1 (Pre-training Data) with quotes-only,
 # and output a single json: pretrain_reports_{base}.json
 #
-# ★ Target-model guard:
-#   - Only keep articles/quotes that explicitly mention the TARGET model tokens.
-#   - If no valid evidence remains → "No information".
+# Target-model guard (RELAXED):
+#   1) 우선순위 A — 문장 수준: 문장 안에 타깃 토큰(예: deepseek, deepseek-v3, llama3.1 등)이 직접 언급된 인용만 채택
+#   2) 우선순위 B — 섹션/문서(on-topic) 수준: 만약 해당 기사(문서)가 타깃 모델에 관한 글로 판정되면,
+#      같은 문장에 토큰이 없어도 인용을 허용 (단, 가급적 프리트레이닝 관련 내용이어야 함)
 #
 # NOTE:
-#   - o3-mini (reasoning) 계열은 temperature/top_p 등의 샘플링 파라미터를 지원하지 않음.
+#   - o3/o1 reasoning 계열은 temperature/top_p 같은 샘플링 파라미터를 지원하지 않음.
 #   - 아래 _chat_json_smart() 는 샘플링 파라미터를 절대 넣지 않으며,
 #     reasoning 모델(o1/o3*)에만 reasoning_effort를 추가해 호출함.
 
@@ -37,6 +38,9 @@ MAX_ARTICLES_PER_CHUNK = int(os.getenv("PR_MAX_ARTICLES_PER_CHUNK", "8"))       
 
 # Require article body to look pretraining-related (helps precision)
 PR_REQUIRE_PRETRAIN_HINT = os.getenv("PR_REQUIRE_PRETRAIN_HINT", "1") == "1"
+
+# Allow section/doc on-topic fallback for quotes that don't mention target tokens
+PR_ALLOW_ON_TOPIC_FALLBACK = os.getenv("PR_ALLOW_ON_TOPIC_FALLBACK", "1") == "1"
 
 # ───────────────── Helpers ─────────────────
 def _js(o) -> str:
@@ -233,7 +237,7 @@ def _article_related_to_model(art: Dict[str,str], model_tokens: List[str]) -> bo
     """
     Keep article if:
       • URL contains any model token, OR
-      • Body contains ≥ MIN_TOKEN_HITS_IN_BODY of model tokens.
+      • Body contains ≥ MIN_TOKEN_HITS_IN_BODY of those tokens.
       • AND (optionally) body contains pretraining hints to reduce false positives.
     """
     url = (art.get("url") or "").lower()
@@ -274,22 +278,24 @@ def _chunk_articles(arts: List[Dict[str,str]]) -> List[List[Dict[str,str]]]:
     return chunks
 
 # ───────────────── Prompts ─────────────────
+# NEW: on-topic fallback 규칙을 시스템 프롬프트에 명시
 _SYS_RECALL = """
 You extract **EVIDENCE about pre-training only** (methodology and data) for the **TARGET model**.
 
-STRICT MODEL FILTER:
-- Accept a quote ONLY if the sentence explicitly mentions one of the TARGET tokens.
-- If an article mixes multiple models or earlier/other versions, keep only sentences that also name the TARGET tokens.
-- If in doubt, DROP the quote.
+MODEL FILTER (two-tier):
+1) Prefer quotes where the sentence itself explicitly mentions one of the TARGET tokens.
+2) If an article/section is marked as `on_topic = true` for the TARGET model,
+   you may also select quotes that do not contain the tokens, as long as they still
+   describe the TARGET model's pretraining method or pretraining data.
 
 Return a JSON object with two arrays of evidence objects:
 {
-  "3-1 (Pre-training)": [{"source":"<short id>","quote":"<verbatim sentence mentioning TARGET>"}],
-  "4-1 (Pre-training Data)": [{"source":"<short id>","quote":"<verbatim sentence mentioning TARGET>"}]
+  "3-1 (Pre-training)": [{"source":"<short id>","quote":"<verbatim sentence>"}],
+  "4-1 (Pre-training Data)": [{"source":"<short id>","quote":"<verbatim sentence>"}]
 }
 
 Rules:
-- Use ONLY the provided payload articles (each article has id, url, source, and text).
+- Use ONLY the provided payload articles (each item has: id, url, source, on_topic, text).
 - Quotes must be verbatim spans copied from the text (no paraphrase).
 - If no evidence for a key, return [] for that key.
 - Do NOT include anything outside 3-1 and 4-1.
@@ -308,7 +314,7 @@ Rules:
 """.strip()
 
 def _recall_user_payload(model_id: str, model_tokens: List[str], arts: List[Dict[str,str]]) -> str:
-    # compact payload for the model
+    # compact payload for the model, include on_topic flag per article
     payload = {
         "target_model": model_id,
         "target_tokens": model_tokens,
@@ -317,6 +323,7 @@ def _recall_user_payload(model_id: str, model_tokens: List[str], arts: List[Dict
                 "id": a.get("id",""),
                 "url": a.get("url",""),
                 "source": a.get("source",""),
+                "on_topic": bool(a.get("_on_topic", False)),
                 "text": (a.get("text","")[:PER_ARTICLE_CHAR_CAP])
             }
             for a in arts
@@ -379,7 +386,9 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
       - pretrain_method
       - pretrain_data
       - __evidence: {"3-1 (Pre-training)": [...], "4-1 (Pre-training Data)": [...]}
-    Only evidence that explicitly names the TARGET tokens is kept.
+    Evidence selection:
+      • sentence-level token match (preferred)
+      • OR (if enabled) article on-topic fallback
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -394,9 +403,16 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
     all_articles = _collect_reports_text(base_hf_id, gh_repo)
     articles = _filter_articles_for_target(all_articles, base_hf_id)
 
+    # mark on_topic for accepted articles
+    for a in articles:
+        a["_on_topic"] = True
+
     toks = _canonical_model_tokens(base_hf_id)
     ev_all_31: List[Dict[str,str]] = []
     ev_all_41: List[Dict[str,str]] = []
+
+    # Build id → on_topic map for post-filter
+    id_on_topic = {a.get("id",""): bool(a.get("_on_topic", False)) for a in articles}
 
     # 2) chunked evidence recall
     for chunk in _chunk_articles(articles):
@@ -405,9 +421,20 @@ def filter_pretrain_reports(base_hf_id: str, gh_repo: Optional[str] = None, outp
         ev = _chat_json_smart(MODEL_NAME, _SYS_RECALL, user_txt, json_only=True)
         arr31 = ev.get("3-1 (Pre-training)", []) or []
         arr41 = ev.get("4-1 (Pre-training Data)", []) or []
-        # keep only quotes that still mention target tokens (double-check)
-        arr31 = [e for e in arr31 if isinstance(e, dict) and _contains_any_token(e.get("quote",""), toks)]
-        arr41 = [e for e in arr41 if isinstance(e, dict) and _contains_any_token(e.get("quote",""), toks)]
+
+        # keep quotes if:
+        #   (A) quote mentions target tokens, OR
+        #   (B) PR_ALLOW_ON_TOPIC_FALLBACK = True AND source id is on_topic
+        def _keep(e):
+            if not isinstance(e, dict): return False
+            q = e.get("quote","") or ""
+            sid = (e.get("source","") or "").strip()
+            if _contains_any_token(q, toks):
+                return True
+            return PR_ALLOW_ON_TOPIC_FALLBACK and id_on_topic.get(sid, False)
+
+        arr31 = [e for e in arr31 if _keep(e)]
+        arr41 = [e for e in arr41 if _keep(e)]
         ev_all_31.extend(arr31); ev_all_41.extend(arr41)
 
     # 3) dedup & summarize
