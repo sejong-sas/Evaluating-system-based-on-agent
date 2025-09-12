@@ -1,7 +1,10 @@
 # Evaluating-system-based-on-agent
 Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a Focus on LLMs)
 
-##  시스템 구조
+## System Architecture
+
+
+##  Code Architecture
 ![시스템 구조](./스크린샷%202025-07-23%20114845.png)
 
 ## 구성 모듈
