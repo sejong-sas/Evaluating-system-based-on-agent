@@ -1,0 +1,117 @@
+{
+  "1-1 (Weights)": "The quotes repeatedly describe Phi-4-Multimodal as an “open-sourced” model, calling it both “the first open-sourced model with speech summarization capability” and “the smallest open-sourced multi-modal LLM that behaves better than the open-sourced Qwen2-audio [CXY+24] with ∼2x in size.”  They also clarify release status across the Phi family: “reasoning-enhanced Phi-4-Mini is a separate model and currently in a preview stage and will not be released concurrently with Phi-4-Mini and Phi-4-Multimodal.”  Together, these lines indicate that (1) weights for Phi-4-Multimodal are openly released, (2) the weights enable speech-summarization and other multimodal functionality, and (3) the reasoning variant of Phi-4-Mini is not yet released at the same time, so its weights remain unavailable according to the statements provided.",
+  "1-2 (Code)": "No sentence in the supplied quotes explicitly mentions the release, location, or availability of any Phi-4 training code, data-preparation scripts, or configuration files. Therefore, no information about public or private TRAINING code can be extracted from the given material.",
+  "1-3 (License)": "The only licensing detail present is a single link: “https://www.bigcode-project.org/docs/pages/model-license/”.  The quotes provide no further text describing the specific license name, version, or any clauses on use, modification, redistribution, or commercial terms.",
+  "1-4 (Paper)": "Multiple technical reports are explicitly cited for the Phi-4 model family:\n• “Phi-4 Technical Report” – repeatedly referenced with the statement, “We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality.”  Architectural facts included are “The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096,” and that “phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K.”  The report is hosted on arXiv as “arXiv:2412.08905, 2024,” with the author list headed by Marah Abdin and colleagues.\n• “Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs” – introduced alongside the sentence, “We introduce Phi-4-Mini and Phi-4-Multimodal, compact yet highly capable language and multimodal models.”\n• “Phi-4-Multimodal” is further detailed: “In this report, we introduce Phi-4-Multimodal, a unified multimodal SLM that supports multiple inference modes combining various modalities (e.g., text-only, text + image, speech/audio, speech + image) within a single model checkpoint.”\n• “Phi-4-reasoning Technical Report” – summarized in two separate lines: “We introduce Phi-4-reasoning, a 14-billion parameter reasoning model that achieves strong performance on complex reasoning tasks,” and “We present Phi-4-reasoning, a 14-billion parameter model supervised fine-tuned on Phi-4 [2], and Phi-4-reasoning-plus obtained by a further round of reinforcement learning.”  The report states it reuses “the benchmarks from the Phi-4 report [2].”\nThese quotes confirm at least four publicly described documents: the main Phi-4 technical report (arXiv link provided), the Phi-4-Mini report, the Phi-4-Multimodal report, and the Phi-4-reasoning report, each outlining different members of the Phi-4 family and their respective architectures, training approaches, or application domains.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Multimodal is the first open-sourced model with speech summarization capability."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Multimodal is the smallest open-sourced multi-modal LLM that behaves better than the open-sourced Qwen2-audio [CXY+24] with ∼2x in size."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "Please note that reasoning-enhanced Phi-4-Mini is a separate model and currently in a preview stage and will not be released concurrently with Phi-4-Mini and Phi-4-Multimodal."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• Phi-4-Multimodal is the first open-sourced model with speech summarization capability."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• Phi-4-Multimodal is the smallest open-sourced multi-modal LLM that behaves better than the open-sourced Qwen2-audio [CXY+24] with ∼2x in size."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4 Technical Report"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[title]",
+      "quote": "Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce Phi-4-Multimodal, a unified multimodal SLM that supports multi- ple inference modes combining various modalities (e.g., text-only, text + image, speech/audio, speech + image) within a single model checkpoint."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Marah Abdin, Jyoti Aneja, Harkirat Behl, S´ebastien Bubeck, Ronen Eldan, Suriya Gu-nasekar, Michael Harrison, Russell J Hewett, Mojan Javaheripi, Piero Kauffmann, et al. Phi-4 technical report. arXiv preprint arXiv:2412.08905, 2024."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-reasoning Technical Report"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We introduce Phi-4-reasoning, a 14-billion parameter reasoning model that achieves strong performance on complex reasoning tasks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[2] Marah Abdin, Jyoti Aneja, Harkirat Behl, Sébastien Bubeck, Ronen Eldan, Suriya Gunasekar, Michael Harrison, Russell J. Hewett, Mojan Javaheripi, Piero Kauffmann, James R. Lee, Yin Tat Lee, Yuanzhi Li, Weishung Liu, Caio C. T. Mendes, Anh Nguyen, Eric Price, Gustavo de Rosa, Olli Saarikivi, Adil Salim, Shital Shah, Xin Wang, Rachel Ward, and Yi Zhang. Phi-4 technical report, 2024. URL https://arxiv.org/abs/2412.08905."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "Phi-4 Technical Report"
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "Phi-4-Mini Technical Report: Compact yet Powerful Multimodal Language Models via Mixture-of-LoRAs"
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "We introduce Phi-4-Mini and Phi-4-Multimodal, compact yet highly capable language and multimodal models."
+    },
+    {
+      "source": "[sections/References]",
+      "quote": "[AAB+24] Marah Abdin, Jyoti Aneja, Harkirat Behl, S´ebastien Bubeck, Ronen Eldan, Suriya Gunasekar, Michael Harrison, Russell J Hewett, Mojan Javaheripi, Piero Kauffmann, et al. Phi-4 technical report. arXiv preprint arXiv:2412.08905, 2024."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Phi-4-reasoning Technical Report\n...\nWe introduce Phi-4-reasoning, a 14-billion parameter reasoning model that achieves strong performance on complex reasoning tasks."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "We present Phi-4-reasoning, a 14-billion parameter model supervised fine-tuned on Phi-4 [2], and Phi-4-reasoning-plus obtained by a further round of reinforcement learning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "First, we use the benchmarks from the Phi-4 report [2]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[2] Marah Abdin, Jyoti Aneja, Harkirat Behl, Sébastien Bubeck, Ronen Eldan, Suriya Gunasekar, Michael Harrison, Russell J. Hewett, Mojan Javaheripi, Piero Kauffmann, James R. Lee, Yin Tat Lee, Yuanzhi Li, Weishung Liu, Caio C. T. Mendes, Anh Nguyen, Eric Price, Gustavo de Rosa, Olli Saarikivi, Adil Salim, Shital Shah, Xin Wang, Rachel Ward, Yue Wu, Dingli Yu, Cyril Zhang, and Yi Zhang. Phi-4 technical report, 2024. URL https://arxiv.org/abs/2412.08905."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "1-1 (Weights)": "The quotes explicitly referencing microsoft/phi-4 show that the weight files are publicly downloadable on Hugging Face. A sample usage snippet (“pipeline = transformers.pipeline( … model=\"microsoft/phi-4\" … )”) demonstrates that anyone can pull the checkpoint directly with the Transformers API. The repository exposes six sharded weight files named “model-00001-of-00006.safetensors” through “model-00006-of-00006.safetensors,” confirming that the full set of parameters is available for download without restriction mentioned in the text.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "pipeline = transformers.pipeline(\n    \"text-generation\",\n    model=\"microsoft/phi-4\",\n    model_kwargs={\"torch_dtype\": \"auto\"},\n    device_map=\"auto\",\n)"
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00006.safetensors\nmodel-00002-of-00006.safetensors\nmodel-00003-of-00006.safetensors\nmodel-00004-of-00006.safetensors\nmodel-00005-of-00006.safetensors\nmodel-00006-of-00006.safetensors"
+    }
+  ],
+  "1-2 (Code)": "No quoted sentences mention any public release of training, fine-tuning, RL, or inference code for phi-4, so no information is available.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Every quoted license sentence names MIT as the governing terms for phi-4: “license: mit,” “**License** | MIT,” and the full MIT notice beginning “Permission is hereby granted, free of charge, to any person obtaining a copy… .” A LICENSE file is present in the repository with a direct link (“license_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE”). The MIT License allows “use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies” of the software, subject to the standard MIT conditions.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: mit"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**License**             | MIT"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "MIT License\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: mit\nlicense_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE\nlanguage:\n- en\npipeline_tag: text-generation\ntags:\n- phi\n- nlp\n- math\n- code\n- chat\n-"
+    },
+    {
+      "source": "[readme]",
+      "quote": "|\n| **Release date** | December 12, 2024 |\n| **License** | MIT |\n\n## Intended Use \n\n| |"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The only referenced publication is the “[Phi-4 Technical Report](https://arxiv.org/pdf/2412.08905),” indicating that an official technical report exists on arXiv specifically for phi-4.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[Phi-4 Technical Report](https://arxiv.org/pdf/2412.08905)"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "1-5 (Architecture)": "The phi-4 family is built around a decoder-only Transformer design with 14 billion parameters and an initial context window of 4 096 tokens, which is later stretched to 16 K tokens during a dedicated mid-training phase.  Phi-4-Mini and Phi-4-Multimodal inherit the same language-model backbone: Phi-4-Mini packs 3.8 billion parameters into 32 Transformer layers with a 3 072-dimensional hidden size.  It ties input and output embeddings to cut memory use, and adopts 24 query heads alongside 8 key/value heads so the KV cache shrinks to roughly one-third of the standard footprint—yet the wider vocabulary coverage surpasses Phi-3.5.  For multimodal usage, Phi-4-Multimodal preserves the entire language model in a frozen state and adds only lightweight LoRA adapters, so pure-text performance stays intact.  A reasoning-oriented branch, Phi-4-reasoning, keeps the same core architecture but introduces two structural changes: (1) two placeholder tokens are reassigned as <think> … </think> delimiters to bracket explicit reasoning chains, and (2) the RoPE base frequency is doubled so the maximum sequence length can be trained out to 32 K tokens (double the 16 K limit of the base Phi-4).  Collectively, these variants demonstrate that the underlying Phi-4 architecture can scale from a memory-lean 3.8 B-parameter Mini model up through full 14 B-parameter versions with extended context and specialized reasoning hooks.",
+  "1-6 (Tokenizer)": "Across the suite, phi-4 models migrate to the tiktoken family of tokenizers.  The base phi-4 swaps the phi-3-medium tokenizer for tiktoken, padded to a 100 352-token vocabulary and paired with full attention over the 4 K context (abandoning the earlier 2 K sliding window).  All Phi-4-Mini checkpoints move further to an o200k-base tiktoken-2 tokenizer whose 200 064-token vocabulary is designed for stronger multilingual and multimodal coverage; compared with Phi-3.5-Mini the vocabulary expansion reaches roughly 200 K tokens.  Within Phi-4-reasoning, two tokens already present in the tokenizer are repurposed as the special <think> and </think> markers that wrap internal reasoning blocks.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "Phi-4-reasoning is trained via supervised fine-tuning on the 14 B-parameter Phi-4 base.  The run spans about 16 000 steps with a global batch size of 32 examples and a 32 K-token sequence length.  Optimization uses AdamW at a 1×10⁻⁵ learning rate, features linear warm-up over the first 450 steps, and applies a weight decay of 1×10⁻⁴.  The supervised stage relies on a carefully curated set of “teachable” prompts and reasoning demonstrations, while an additional, shorter outcome-based reinforcement-learning pass (yielding Phi-4-reasoning-plus) further boosts quality by encouraging longer reasoning traces.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. This is later extended to a 16K context length during midtraining."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[sections/Model architecture]",
+      "quote": "Phi-4-Mini and Phi-4-Multimodal share the same language model backbone. Phi-4-Mini consist of 32 Transformer layers with hidden state size of 3,072 and tied input / output embedding which reduces the memory consumption significantly while providing much wider coverage of vocabularies compared Phi-3.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike other open-source vision-language models that fully fine-tune their base language models (often resulting in performance degradation on pure language benchmarks), Phi-4-Multimodal keeps the language model entirely frozen by only incorporating additional fine-tunable LoRA modules."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Despite having only 3.8B parameters, Phi-4-Mini reasoning-enhanced model outperforms DeepSeek-R1-Distill-Llama-8B [GYZ+25], Bespoke-Stratos-7B [Lab25], OpenThinker-7B [Tea25a], and achieves performance comparable to DeepSeek-R1-Distill-Qwen-7B as shown in the Table 9."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We introduce Phi-4-reasoning, a 14-billion parameter reasoning model that achieves strong performance on complex reasoning tasks."
+    },
+    {
+      "source": "[sections/3 Phi-4-reasoning: Supervised Finetuning of Phi-4]",
+      "quote": "Phi-4-reasoning is obtained by supervised finetuning (SFT) of the 14-billion parameter Phi-4 model [2], prior to any reinforcement learning. The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications."
+    },
+    {
+      "source": "[sections/3 Phi-4-reasoning: Supervised Finetuning of Phi-4]",
+      "quote": "The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications. • Increased Token Length: The base model (Phi-4) originally supported a maximum token length of 16K. To accommodate additional reasoning tokens, the RoPE base frequency was doubled, and the model was trained for a maximum length of 32K tokens."
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "Phi-4-Mini is a 3.8-billion-parameter language model trained on high-quality web and synthetic data, significantly outperforming recent open-source models of similar size and matching the performance of models twice its size on math and coding tasks requiring complex reasoning."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "Phi-4-Mini consists of 32 Transformer layers with hidden state size of 3,072 and tied input / output embedding which reduces the memory consumption significantly while providing much wider coverage of vocabularies compared Phi-3.5. Specifically, the model employs 24 query heads and 8 key/value heads, reducing KV cache consumption to one-third of its standard size."
+    },
+    {
+      "source": "[sections/Multimodal Benchmarks]",
+      "quote": "Unlike other open-source vision-language models that fully fine-tune their base language models (often resulting in performance degradation on pure language benchmarks), Phi-4-Multimodal keeps the language model entirely frozen by only incorporating additional fine-tunable LoRA modules. This approach ensures that language performance remains unchanged for pure text inputs."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "We introduce Phi-4-reasoning, a 14-billion parameter reasoning model that achieves strong performance on complex reasoning tasks."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "We present Phi-4-reasoning, a 14-billion parameter model supervised fine-tuned on Phi-4 [2], and Phi-4-reasoning-plus obtained by a further round of reinforcement learning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-reasoning is obtained by supervised finetuning (SFT) of the 14-billion parameter Phi-4 model [2], prior to any reinforcement learning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications. • Reasoning tokens: Two placeholder tokens from the base model were repurposed as <think> and </think> tokens to mark the beginning and end of a reasoning (“thinking”) block, respectively."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The base model (Phi-4) originally supported a maximum token length of 16K. To accommodate additional reasoning tokens, the RoPE [51] base frequency was doubled, and the model was trained for a maximum length of 32K tokens."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. The architecture closely follows phi-3-medium, except that we now use the tiktoken tokenizer (for better multilingual support) with a padded vocabulary size of 100,352 (including unused tokens) and we use full attention over the 4K context length, rather than a 2K sliding window used in phi-3-medium."
+    },
+    {
+      "source": "[sections/Model architecture]",
+      "quote": "All Phi-4-Mini models use the tokenizer o200k base tiktoken 2 with a vocabulary size of 200,064 intended to support multilingual and multimodal input and output more efficiently."
+    },
+    {
+      "source": "[sections/3 Phi-4-reasoning: Supervised Finetuning of Phi-4]",
+      "quote": "The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications. • Reasoning tokens: Two placeholder tokens from the base model were repurposed as <think> and </think> tokens to mark the beginning and end of a reasoning (“thinking”) block, respectively."
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "The architecture closely follows phi-3-medium, except that we now use the tiktoken tokenizer (for better multilingual support) with a padded vocabulary size of 100,352 (including unused tokens) and we use full attention over the 4K context length, rather than a 2K sliding window used in phi-3-medium."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "All Phi-4-Mini models use the tokenizer o200k base tiktoken 2 with a vocabulary size of 200,064 intended to support multilingual and multimodal input and output more efficiently."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "Compared to its predecessor, Phi-3.5-Mini, Phi-4-Mini features an expanded vocabulary size of 200K tokens to better support multilingual applications, as well as group query attention for more efficient long-sequence generation."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications. • Reasoning tokens: Two placeholder tokens from the base model were repurposed as <think> and </think> tokens to mark the beginning and end of a reasoning (“thinking”) block, respectively."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/3 Phi-4-reasoning: Supervised Finetuning of Phi-4]",
+      "quote": "Phi-4-reasoning is obtained by supervised finetuning (SFT) of the 14-billion parameter Phi-4 model [2], prior to any reinforcement learning. Training is run over roughly 16K steps, with a global batch size of 32 and a context length of 32K tokens. We use AdamW with a learning rate of 10−5, linear warm up over 450 steps, and a weight decay of 10−4."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Trained via supervised fine-tuning of Phi-4 on carefully curated set of “teachable” prompts–selected for the right level of complexity and diversity–and reasoning demonstrations generated using o3-mini, Phi-4-reasoning generates detailed reasoning chains that effectively leverage inference-time compute."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "We further develop Phi-4-reasoning-plus, a variant enhanced through a short phase of outcome-based reinforcement learning that offers higher performance by generating longer reasoning traces."
+    }
+  ]
+}

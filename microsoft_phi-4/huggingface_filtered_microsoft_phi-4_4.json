@@ -1,0 +1,34 @@
+{
+  "4-1 (Pre-training Data)": "The available statements explain that \"`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets.\"  In addition, it is noted that the project’s \"training data is an extension of the data used for Phi-3 and includes a wide variety of sources.\"  Taken together, these sentences indicate that Phi-4’s pre-training corpus inherits the breadth of the earlier Phi-3 collection while further expanding it.  Concretely, the mix covers (1) synthetic material generated for training purposes, (2) content drawn from public-domain web pages that have already passed a filtering step, and (3) licensed or otherwise acquired academic books and question-and-answer resources.  No other source types, quantities or licenses are listed beyond this blend, but the phrasing “wide variety of sources” underscores that the final corpus is intentionally diverse and larger than its Phi-3 predecessor.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Our training data is an extension of the data used for Phi-3 and includes a wide variety of sources from:"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "For supervised or instruction-style post-training, the documentation states that \"`phi-4` has adopted a robust safety post-training approach.\"  Specifically, \"the overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories.\"  From these remarks we know that the safety-oriented fine-tuning stage draws on open, publicly available corpora whose primary themes are helpful behavior, avoidance of harmful content, and coverage of numerous predefined safety categories.  The data are applied first in SFT (to teach desired behavior directly) and then reused within repeated DPO cycles that leverage preference feedback to refine the model’s alignment.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` has adopted a robust safety post-training approach. The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "The same passage that describes supervised fine-tuning also describes the reinforcement learning component used for alignment: \"`phi-4` has adopted a robust safety post-training approach\" where \"the overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization).\"  In this context, DPO acts as the reinforcement-learning-from-preferences phase.  The data that feed this iterative DPO loop are \"publicly available datasets focusing on helpfulness and harmlessness\" together with \"various questions and answers targeted to multiple safety categories.\"  Thus, Phi-4’s RL (preference optimization) corpus is identical in source to its supervised fine-tuning set—public, safety-oriented, helpful/harmless Q&A material—but is re-used under a preference-optimization paradigm to further align the model’s responses.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` has adopted a robust safety post-training approach. The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "4-4 (Data Filtering)": "The only explicit filtering information provided states that \"`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets.\"  This sentence makes clear that at least the web-sourced portion of the training corpus underwent a filtering process before inclusion.  While no numeric thresholds, classifier names, or rejection ratios are disclosed, the wording confirms that public-domain websites were actively screened so that only pre-vetted content entered the mixture alongside synthetic data and licensed textual resources.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    }
+  ]
+}

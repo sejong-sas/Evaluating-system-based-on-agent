@@ -1,0 +1,273 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "phi-4 is a decoder-only Transformer family whose training recipe revolves around data quality and large-scale synthetic corpora.  For the 14-billion-parameter base model, roughly 10 trillion tokens were consumed with linear warm-up, decay scheduling, a peak learning rate of 0.0003, constant weight-decay of 0.1, and a global batch-size of 5 760.  The default context window starts at 4 096 tokens, then a dedicated mid-training stage extends it to 16 K; later experiments probe generation up to 65 536 tokens without modifying RoPE parameters.  The final mixture assigns 30 % of tokens to web + web-rewrite data (split evenly) and 40 % to diverse synthetic data created by multi-agent prompting, self-revision workflows and instruction-reversal.  This synthetic portion is credited with the model’s tendency to avoid admitting ignorance and with its strong math, coding and reasoning skills.\n\nA smaller variant, Phi-4-Mini (3.8 B parameters), follows the same philosophy: it is trained on a 5-trillion-token corpus of high-quality web and reasoning-rich synthetic text.  It uses the o200k_base tiktoken-2 tokenizer (vocab = 200 064), supports 128 K context via LongRoPE, and comprises 32 layers with hidden size = 3 072, tied input/output embeddings, and Group Query Attention for KV-cache efficiency.  Compared with Phi-3.5-Mini, pre-training data were filtered more aggressively, the share of reasoning data was increased, and the overall corpus size and quality were raised.  Across the family, synthetic data curation “at the heart of training all Phi models” is explicitly intended to prioritize complex problem-solving.",
+  "3-2 (Fine-tuning)": "phi-4 undergoes an extensive \"post-training\" (i.e., fine-tuning) phase that begins with supervised fine-tuning (SFT) and can extend to Direct Preference Optimization (DPO) while deliberately freezing or lightly adapting the base weights depending on the variant.\n\nSupervised fine-tuning / SFT:\n• A refined SFT data set is built from three patterns: (question, correct answer) when the base phi-4 is usually correct; (question, refusal) when it is usually wrong; and (bogus question, refusal) for nonsensical inputs.  This recipe directly addresses hallucinations.\n• Phi-4-reasoning is produced by SFT over 14 B-parameter phi-4 for ≈16 K steps, global batch-size 32, at 32 K-token context.  Two placeholder tokens are repurposed as <think> … </think> markers so the model can emit explicit reasoning chains.  Experiments used both phi-4 and a mid-trained \"phi-4-base\" checkpoint as starting points, with the full phi-4 giving slightly safer and better-aligned results.\n• Fine-tunes intentionally optimize single-turn QA behaviour even when that sacrifices some leaderboard scores (e.g., SimpleQA, DROP, IFEval).\n\nMultimodal and LoRA-based fine-tuning:\n• Phi-4-Multimodal keeps the language model completely frozen and adds a “mixture of LoRAs”.  Two LoRA modules are trained alongside modality-specific encoders/projectors to unlock vision-language and speech-language tasks.\n• Speech/audio adaptation follows a two-stage scheme: after language pre-training the audio encoder is frozen, while the audio projector and LoRA are updated for another 50 K steps with learning-rate 1 e-4.  Conversational SQQA data is weighted heavily in this post-training stage.\n\nReasoning-focused fine-tuning for smaller models:\n• The continued training of Phi-4-Mini proceeds through a three-stage pipeline whose final \"Roll-Out DPO\" stage (see RL summary) begins only after SFT.  Fine-tuned Phi-4-Mini models are subsequently evaluated for reasoning gains.\n\nTogether these procedures demonstrate that phi-4 variants rely on carefully curated SFT data, strategic refusal tokens, and parameter-efficient LoRA insertions to adapt the frozen backbone to instruction-following, multimodal and reasoning-heavy use-cases.",
+  "3-3 (Reinforcement Learning)": "phi-4’s reinforcement-learning stack revolves around preference-based methods applied after a strong SFT checkpoint.\n\nDirect Preference Optimization (DPO):\n• Synthetic data continues to matter: rejection sampling plus a new \"pivotal token search\" (PTS) method generate preference pairs.  For each question where the base phi-4 is intermittently right, (correct > refusal) examples are logged; when it is sometimes wrong, (refusal > wrong) is captured.  Only the first five response tokens are kept in DPO pairs.\n• In Phi-4-Mini’s three-stage training, the final \"Roll-Out DPO\" step labels filtered wrong outputs as dis-preferred and their corrected versions as preferred, yielding ~300 K preference samples.\n\nOutcome-based RL / GRPO:\n• Starting from the SFT model Phi-4-reasoning, a brief round of Group Relative Policy Optimization (GRPO) — just 90 updates — lifts AIME accuracy by >10 %.  A full plot tracks behaviour across the first 125 GRPO updates.\n• Phi-4-reasoning-plus is produced by this RL stage; it incorporates longer reasoning traces and is trained on ~6 K high-quality, verifiable math problems.  The model was tuned with 32 K maximum length and empirically performs well up to 64 K tokens.\n\nOverall, reinforcement learning in the phi-4 family mixes DPO (driven by synthetic or roll-out preferences) and outcome-based GRPO to sharpen answer preference, enhance safety, and extend chain-of-thought quality without extensive additional compute.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture with 14B parameters and a default context length of 4096. The model was pretrained for approximately 10T tokens using linear warm-up and decay schedules with peak learning rate of 0.0003, constant weight decay of 0.1, and global batch size of 5760."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them. The remaining tokens are largely sourced from synthetic data which accounts for 40% of the data mixture tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Without any mitigation, phi-4 would almost never admit to ignorance. Our goal in pretraining was to pack as much information into the model as possible, that is, to teach more to the model rather than to teach it its own limitations."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Mini is a 3.8-billion-parameter language model trained on high-quality web and synthetic data, significantly outperforming recent open-source models of similar size and matching the performance of models twice its size on math and coding tasks requiring complex reasoning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "All Phi-4-Mini models use the tokenizer o200k base tiktoken 2 with a vocabulary size of 200,064 intended to support multilingual and multimodal input and output more efficiently. All models are based on decoder-only Transformer [VSP+17] and support 128K context length based on LongRoPE [DZZ+24a]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Mini consist of 32 Transformer layers with hidden state size of 3,072 and tied input / output embedding which reduces the memory consumption significantly while providing much wider coverage of vocabularies compared Phi-3.5. Each Transformer block includes an attention mechanism based on Group Query Attention (GQA) [ALTdJ+23], which optimizes key and value memory (KV cache) usage for long-context generation."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared with Phi-3.5-Mini, we improved the quality of the pre-training data from several key aspects: 1. Better data filtering: ... 4. Better data mixture: With the better classifiers, we re-tuned the data mixture with ablation experiments. Especially we increased the ratio for the reasoning data. With these techniques, we built the 5 trillion pre-training data corpus, which is larger and in higher quality compared to the Phi-3.5-Mini."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2. Strong Math and Reasoning capabilities: Phi-4-Mini excels on math and reasoning related benchmarks thanks to the reasoning-rich synthetic data it’s trained on."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Phi-4-Mini training, we have put special emphasis on the coding capability. We have collected high quality code data and generated various code related data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "High quality data curation that integrates creatively designed synthetic generations and filtered organic data has been at the heart of training all Phi models [20, 28, 1, 2]. The Phi-4 base model was pretrained using large innovative synthetic datasets specifically curated to prioritize reasoning and complex problem-solving."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality. Unlike most language models, where pre-training is based primarily on organic data sources such as web content or code, phi-4 strategically incorporates synthetic data throughout the training process."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. The model was pretrained for approximately 10T tokens using linear warm-up and decay schedules with peak learning rate of 0.0003, constant weight decay of 0.1, and global batch size of 5760."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them. The remaining tokens are largely sourced from synthetic data which accounts for 40% of the data mixture tokens."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "For the language model, we train Phi-4-Mini using high-quality, reasoning-rich text data."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "With these techniques, we built the 5 trillion pre-training data corpus, which is larger and in higher quality compared to the Phi-3.5-Mini."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "The Phi-4 base model was pretrained using large innovative synthetic datasets specifically curated to prioritize reasoning and complex problem-solving."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "The base model (Phi-4) originally supported a maximum token length of 16K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "*For Phi-4-reasoning and Phi-4-reasoning-plus evaluations on AIME, HMMT, GPQA, and Codeforces we use 65,536 as the maximum number of tokens for generation without changing any RoPE parameters. We note that neither model has properly trained on this length."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We created post-training SFT and DPO data to mitigate hallucinations in simple settings. Without any mitigation, phi-4 would almost never admit to ignorance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Multimodal employs a novel “mixture of LoRAs” technique, enabling multimodal capabilities by integrating modality-specific LoRAs while keeping the base language model entirely frozen."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the language model, we train Phi-4-Mini using high-quality, reasoning-rich text data. Once the language model training is complete, we freeze the language model and implement our “Mixture of LoRAs” technique to proceed with the multimodal training stage. Specifically, we train two additional LoRA modules alongside modality-specific encoders and projectors to enable vision-related tasks (e.g., vision-language and vision-speech) and speech/audio-related tasks (e.g., speech-language)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "With the Phi-4-Mini language model, we conduct a two-stage paradigm for speech and audio training, also known as speech/audio pre-training and post-training. In speech/audio post-training, the audio encoder is frozen. We update the audio projector and LoRAA with a learning rate of 1e-4 for another 50k steps."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike other open-source vision-language models that fully fine-tune their base language models (often resulting in performance degradation on pure language benchmarks), Phi-4-Multimodal keeps the language model entirely frozen by only incorporating additional fine-tunable LoRA modules."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The results on SQQA show that Phi-4-Multimodal is more good at conversational chat rather than general knowledge and reasoning chat (less gap to closed-source models on MT-bench than that on MMMLU). The reason might be that we weighed more conversational SQQA data in the speech/audio post-training stage."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-reasoning is obtained by supervised finetuning (SFT) of the 14-billion parameter Phi-4 model [2], prior to any reinforcement learning. Training is run over roughly 16K steps, with a global batch size of 32 and a context length of 32K tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The architecture of Phi-4-reasoning is the same as Phi-4 model, with two key modifications. • Reasoning tokens: Two placeholder tokens from the base model were repurposed as <think> and </think> tokens to mark the beginning and end of a reasoning (“thinking”) block, respectively."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Base Model for Reasoning. We experimented with two base models for reasoning-focused SFT: Phi-4 and Phi-4-base (mid-trained checkpoint before vanilla post-training). Both variations performed similarly on reasoning benchmarks, while Phi-4 performed slightly better in terms of safety and alignment, as measured by the automated measurement of Responsible AI metrics for LLMs framework [37]."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While phi-4 underperforms relative to Qwen-2.5-14B-Instruct on the benchmark numbers for SimpleQA, DROP, and IFEval, we consider phi-4’s behavior on SimpleQA to actually be better than Qwen’s. In fact, our base model gets a higher benchmark score than Qwen-2.5-14B-Instruct on SimpleQA, and we intentionally modified the model’s behavior in post-training to optimize for a better user experience rather than a higher benchmark score."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "while phi-4 can function as a chat bot, it has been fine-tuned to maximize performance on single-turn queries."
+    },
+    {
+      "source": "[sections/Post-Training_Dataset_Details]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "For the language model, we train Phi-4-Mini using high-quality, reasoning-rich text data. Once the language model training is complete, we freeze the language model and implement our “Mixture of LoRAs” technique to proceed with the multimodal training stage."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "The Phi-4-Multimodal model’s pre-training phase involves a rich and varied dataset, encompassing interleaved image-text documents, image-text pairs, image grounding data, synthetic datasets from OCR of PDFs and realistic images, and synthesized datasets for chart comprehension. For supervised fine-tuning (SFT), we utilized a combination of a text SFT dataset, publicly available multimodal instruction tuning datasets, and large-scale in-house multimodal instruction tuning datasets that we developed."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-Multimodal instead can naturally encode long-form audio in one-shot and perform speech understanding. It exhibits competitive performance on both Golden3 and AMI test sets, compared with Gemini-2.0-Flash and GPT-4o. Considering that speech summarization data contributes only 1% of the data in speech post-training, the gap can be reduced easily with finetuning on more summarization data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We evaluate the reasoning performance of a reasoning-enhanced model that we have trained over Phi-4-Mini."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Trained via supervised fine-tuning of Phi-4 on carefully curated set of “teachable” prompts–selected for the right level of complexity and diversity–and reasoning demonstrations generated using o3-mini, Phi-4-reasoning generates detailed reasoning chains that effectively leverage inference-time compute."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Phi-4-reasoning is obtained by supervised finetuning (SFT) of the 14-billion parameter Phi-4 model [2], prior to any reinforcement learning. Training is run over roughly 16K steps, with a global batch size of 32 and a context length of 32K tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Starting from a strong SFT model, i.e., Phi-4-reasoning, additional GRPO training for only 90 steps boosts AIME performance by more than 10% (Figure 7a)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The continued training of Phi-4-Mini for reasoning proceeds in three distinct stages. Roll-Out DPO: finally, in the third stage, we label filtered incorrect outputs as “dis-preferred” and their corrected counterparts as ‘preferred’, compiling a new dataset of 300K preference samples for DPO training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "+ Roll-Out DPO (final reasoning-enhanced Phi-4-Mini)"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We further develop Phi-4-reasoning-plus, a variant enhanced through a short phase of outcome-based reinforcement learning that offers higher performance by generating longer reasoning traces."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4-reasoning-plus is further trained with Reinforcement Learning on a small set of ∼6K high-quality math-focused problems with verifiable solutions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Following the supervised fine-tuning (SFT) stage described previously, we applied outcome-based reinforcement learning (RL) to further enhance the reasoning capabilities of the Phi-4-reasoning model following a similar recipe to [48, 21, 36]. We specifically utilized the Group Relative Policy Optimization (GRPO) algorithm [48, 21], incorporating modifications tailored specifically to our setup."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "By generating DPO data targeting such choices, we believe PTS helps phi-4 work better in the modes it is especially favorable to."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By generating DPO data targeting such choices, we believe PTS helps phi-4 work better in the modes it is especially stronger."
+    },
+    {
+      "source": "[sections/Post-Training_Dataset_Details]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly. The DPO data used the first 5 tokens of the response."
+    },
+    {
+      "source": "[sections/2503.01743]",
+      "quote": "The continued training of Phi-4-Mini for reasoning proceeds in three distinct stages. In the third stage, we label filtered incorrect outputs as “dis-preferred” and their corrected counterparts as ‘preferred’, compiling a new dataset of 300K preference samples for DPO training."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "We present Phi-4-reasoning, a 14-billion parameter model supervised fine-tuned on Phi-4 [2], and Phi-4-reasoning-plus obtained by a further round of reinforcement learning."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Phi-4-reasoning-plus is further trained with Reinforcement Learning on a small set of ∼6K high-quality math-focused problems with verifiable solutions."
+    },
+    {
+      "source": "[sections/2504.21318]",
+      "quote": "Following the supervised fine-tuning (SFT) stage described previously, we applied outcome-based reinforcement learning (RL) to further enhance the reasoning capabilities of the Phi-4-reasoning model following a similar recipe to [48, 21, 36]. We specifically utilized the Group Relative Policy Optimization (GRPO) algorithm [48, 21], incorporating modifications tailored specifically to our setup."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The Phi-4-reasoning-plus was trained with 32k maximum length but has been tested to perform well on select benchmarks for up to 64k tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 7: Behaviour of Phi-4-reasoning-plus during the first 125 GRPO updates."
+    }
+  ]
+}

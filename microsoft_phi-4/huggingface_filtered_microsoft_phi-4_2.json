@@ -1,0 +1,74 @@
+{
+  "1-5 (Architecture)": "The quoted material presents a concise yet data-rich snapshot of the model’s internals. It identifies the system as a “dense decoder-only Transformer model” with a total scale of “14B parameters.” Configuration lines then spell out the principal hyper-parameters: a hidden (embedding) size of 5 120 (\"hidden_size\": 5120), forty transformer blocks (\"num_hidden_layers\": 40), and forty attention heads per block (\"num_attention_heads\": 40). The feed-forward sub-layers expand to 17 920 neurons (\"intermediate_size\": 17920), while positional encoding is provisioned up to 16 384 tokens (\"max_position_embeddings\": 16384). Taken together, these figures detail depth, width, attention parallelism, and maximum context window purely from the supplied quotes.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Architecture**        | 14B parameters, dense decoder-only Transformer model"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 5120,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 40,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 40,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"intermediate_size\": 17920,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 16384,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information is given in explicit key–value pairs. Special token identifiers are fixed as \"bos_token_id\": 100 257, \"eos_token_id\": 100 265, and \"pad_token_id\": 100 349. The full lexical inventory spans 100 352 entries (\"vocab_size\": 100352). Accompanying file names—tokenizer.json, tokenizer_config.json, and vocab.json—signal that the tokenizer implementation and its configuration are available as standard JSON assets, enabling deterministic reconstruction or deployment using only these referenced files.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 100257,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 100265,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"pad_token_id\": 100349,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 100352"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer_config.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "vocab.json"
+    }
+  ],
+  "2-1 (Hardware)": "The hardware footprint is summarized in a single but highly specific line: “**GPUs | 1920 H100-80G**.” This states that training leveraged 1 920 NVIDIA H100 GPUs, each equipped with 80 GB of memory, providing a large-scale compute cluster for model training workloads described elsewhere.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**GPUs**                | 1920 H100-80G"
+    }
+  ],
+  "2-2 (Software)": "The software stack is represented by one direct configuration entry: \"transformers_version\": \"4.47.0\". This pinpoints the exact release of the Hugging Face Transformers library used during the training process, allowing precise replication of the code environment referenced by the quotes.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.47.0\""
+    }
+  ]
+}
