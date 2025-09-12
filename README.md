@@ -5,7 +5,7 @@ Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a
 ![시스템 구조](./System%20Architecture.png)
 
 ##  Code Architecture
-![코드 구조](./스크린샷%202025-07-23%20114845.png)
+![코드 구조](./Code%20Architecture.png)
 
 ## 구성 모듈
 | 모듈                          | 설명                                                   |
