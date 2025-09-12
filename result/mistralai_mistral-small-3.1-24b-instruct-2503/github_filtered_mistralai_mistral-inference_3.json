@@ -1,0 +1,15 @@
+{
+  "2-3 (API)": "The quotes clearly state that users can \"Use Mistral models on Mistral AI official API (La Plateforme).\" This single sentence confirms the existence of an official, publicly accessible API—identified as “La Plateforme”—through which inference with mistral models can be carried out.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Use Mistral models on [Mistral AI official API](https://console.mistral.ai/) (La Plateforme)"
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

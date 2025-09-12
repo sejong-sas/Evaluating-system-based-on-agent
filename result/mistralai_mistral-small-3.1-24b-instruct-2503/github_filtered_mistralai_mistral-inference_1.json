@@ -1,0 +1,50 @@
+{
+  "1-1 (Weights)": "The documentation explicitly states that end-users can obtain binary checkpoints for Mistral models from Hugging Face. A concrete example is given: “For Hugging Face models' weights, here is an example to download [Mistral Small 3.1 24B Instruct](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503).”  The use of a public Hugging Face URL indicates open, direct HTTP / `huggingface-cli` download capability (no gated approval call-outs are mentioned in the quote).  In addition, the maintainers note that archival checkpoints remain accessible: “You can download the previous versions of our models from our [docs](https://docs.mistral.ai/getting-started/open_weight_models/#downloading).”  Together these quotes make it clear that (i) at least one concrete model file is published openly, (ii) there is a central documentation page collecting historical releases, and (iii) the standard retrieval workflow is a self-service download rather than a request-only procedure.  No quote mentions any paywall or authentication step, so, by default, the weights appear to be publicly downloadable by anyone who consults the links provided.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For Hugging Face models' weights, here is an example to download [Mistral Small 3.1 24B Instruct](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503):"
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can download the previous versions of our models from our [docs](https://docs.mistral.ai/getting-started/open_weight_models/#downloading)."
+    }
+  ],
+  "1-2 (Code)": "Two sentences describe the publicly available codebase and its purpose.  First: “This repository contains minimal code to run Mistral models.”  This indicates that at least inference / serving helpers are shipped.  Second: “The `deploy` folder contains code to build a [vLLM](https://M7B_DIR.com/vllm-project/vllm) image with the required dependencies to serve the Mistral AI model.”  The wording highlights that container-level artifacts (Dockerfile or similar) are included to generate a vLLM image, implying that the repository covers environment setup, dependency pinning, and launch scripts for production or benchmark inference.  There is no direct statement that full pre-training or fine-tuning pipelines are open; the quotes only guarantee code for ‘run’ and ‘serve’.  Consequently, the public code scope is limited to inference/serving, while training-time assets (data preprocessing, optimizer schedules, RLHF loops, etc.) are not confirmed.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains minimal code to run Mistral models."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The `deploy` folder contains code to build a [vLLM](https://M7B_DIR.com/vllm-project/vllm) image with the required dependencies to serve the Mistral AI model."
+    }
+  ],
+  "1-3 (License)": "Multiple licensing regimes are present.  For general source files, the header states: “Licensed under the Apache License, Version 2.0 (the \\\"License\\\"); you may not use this file except in compliance with the License.”  Apache-2.0 is a permissive license granting use, modification, redistribution, and commercial exploitation, provided conditions such as NOTICE retention are respected.  However, some model tarballs are explicitly distributed under restrictive research-only or non-production terms: “- `codestral-22B-v0.1.tar` has a custom non-commercial license, called [Mistral AI Non-Production (MNPL) License](https://mistral.ai/licenses/MNPL-0.1.md)” and “- `mistral-large-instruct-2407.tar` has a custom non-commercial license, called [Mistral AI Research (MRL) License](https://mistral.ai/licenses/MRL-0.1.md)”.  The phrases “non-commercial” and “non-production” signal that at least some checkpoints forbid commercial use and probably limit derivative distribution.  Therefore: (a) Code: Apache-2.0 (free use, mod, redistribution, commercial OK). (b) Certain weight archives: MNPL or MRL, both restricting commercial/production usage.  The quotes do not mention any additional click-through or evaluation-only clauses beyond those titles.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- `codestral-22B-v0.1.tar` has a custom non-commercial license, called [Mistral AI Non-Production (MNPL) License](https://mistral.ai/licenses/MNPL-0.1.md)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- `mistral-large-instruct-2407.tar` has a custom non-commercial license, called [Mistral AI Research (MRL) License](https://mistral.ai/licenses/MRL-0.1.md)"
+    }
+  ],
+  "1-4 (Paper)": "The released material includes official blog-style technical write-ups rather than a conventional peer-reviewed paper.  Two posts are referenced: “Blog 7B: https://mistral.ai/news/announcing-mistral-7b/” and “Blog 8x7B: https://mistral.ai/news/mixtral-of-experts/”.  The URLs imply overviews of (i) the original Mistral-7B base/instruct model and (ii) a Mixtral MoE family with eight 7B experts.  Even though no arXiv or conference citation is present in the quotes, these blogs typically contain architectural details, training-compute summaries, and evaluation tables serving as the primary technical disclosure for the models in question.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Blog 7B: [https://mistral.ai/news/announcing-mistral-7b/](https://mistral.ai/news/announcing-mistral-7b/)\\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Blog 8x7B: [https://mistral.ai/news/mixtral-of-experts/](https://mistral.ai/news/mixtral-of-experts/)\\"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "1-5 (Architecture)": "The architecture description for mistralai/mistral-small-3.1-24b-instruct-2503 is limited but still highlights several key points. First, the model is explicitly said to “build upon Mistral Small 3 (2501),” so 3.1 (2503) is positioned as an evolutionary step rather than a complete redesign. The summary sentence notes two concrete architectural advances over its predecessor: the addition of “state-of-the-art vision understanding” and an extension of the usable context window “up to 128k tokens,” and it stresses that these gains come “without compromising text performance.” Second, the parameter count is given precisely: “24 billion parameters.” Taken together, the quotes tell us that mistral-small-3.1-24b-instruct-2503 is a 24 B-parameter multimodal model capable of handling very long context sizes (128 k tokens) while maintaining strong text quality, representing an incremental upgrade on the earlier 2501 release.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance."
+    },
+    {
+      "source": "[readme]",
+      "quote": "With 24 billion parameters, this model achieves top-tier capabilities in both text and vision tasks."
+    }
+  ],
+  "1-6 (Tokenizer)": "The only tokenizer detail provided states: “Utilizes a Tekken tokenizer with a 131k vocabulary size.” Therefore, mistral-small-3.1-24b-instruct-2503 uses the Tekken tokenizer and exposes a vocabulary of roughly 131 000 unique tokens, but no further downloadable or structural information is supplied in the available quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Tokenizer:** Utilizes a Tekken tokenizer with a 131k vocabulary size."
+    }
+  ],
+  "2-1 (Hardware)": "Hardware information is confined to deployment notes rather than training clusters. One sentence reports that “Mistral Small 3.1 can be deployed locally” and, when quantized, the model’s memory footprint is small enough to “fit within a single RTX 4090 or a 32 GB RAM MacBook.” Thus, while no large-scale training hardware is disclosed, the quote emphasizes the model’s efficiency and ‘knowledge-density,’ highlighting that even a 24 B-parameter system can run on modest consumer-grade GPUs or laptops when quantized.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Mistral Small 3.1 can be deployed locally and is exceptionally \"knowledge-dense,\" fitting within a single RTX 4090 or a 32GB RAM MacBook once quantized."
+    }
+  ],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

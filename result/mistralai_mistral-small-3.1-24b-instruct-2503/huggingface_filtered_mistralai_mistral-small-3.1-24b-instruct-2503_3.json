@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "The only directly stated implementation guideline for public or private API exposure is a recommendation: “We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting.”  From this sentence we can infer that the preferred way to access the model is to host it as a server process (locally or in the cloud) and interact with it through client calls, rather than embedding it in-process.  No additional information about endpoint formats, authentication, rate limits, code examples, or official SDKs is supplied in the available material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training description is limited to a single comparative statement: “Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance.”  This reveals three key facts.  (1) Lineage: the 3.1 (2503) release is an incremental evolution of the earlier 3 (2501) checkpoint, implying that the underlying architecture and many training choices are retained while extensions are layered on top.  (2) Multimodality: the training corpus or objectives now encompass vision data, yielding “state-of-the-art vision understanding.”  (3) Context window: the training regime (data mixture, positional-embedding strategy, or memory-efficient attention technique) was modified so the model can process sequences as long as 128 000 tokens, a major jump in context length, and this boost comes “without compromising text performance,” suggesting that the optimization preserved or improved perplexity on textual benchmarks despite the huge window.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) **adds state-of-the-art vision understanding** and enhances **long context capabilities up to 128k tokens** without compromising text performance."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Instruction fine-tuning is explicitly declared: “This model is an instruction-finetuned version of: Mistral-Small-3.1-24B-Base-2503.”  Consequently, Mistral-Small-3.1-24B-Instruct-2503 inherits the frozen weights of the 24 B-parameter Base model and is then further optimized on an instruction-following corpus.  The quote confirms both the parent checkpoint and the objective (instruction alignment), but provides no further details on dataset size, epoch count, or hyperparameters.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This model is an instruction-finetuned version of: [Mistral-Small-3.1-24B-Base-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Base-2503)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

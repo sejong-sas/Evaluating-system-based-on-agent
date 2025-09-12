@@ -1,0 +1,111 @@
+{
+  "1-1 (Weights)": "The available statements highlight that \"we recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting,\" explicitly encouraging users to deploy the model in a hosted inference scenario rather than downloading the weights to edge devices. A concrete, reproducible launch command is supplied: \"vllm serve mistralai/Mistral-Small-3.1-24B-Instruct-2503 --tokenizer_mode mistral --config_format mistral --load_format mistral --tool-call-parser mistral --enable-auto-tool-choice --limit_mm_per_prompt 'image=10' --tensor-parallel-size 2,\" which indicates that the model weights can be pulled directly by `vllm` from the Hugging Face hub under the repository name `mistralai/Mistral-Small-3.1-24B-Instruct-2503`.  In addition to the Mistral-native format, \"Transformers-compatible model weights are also uploaded (thanks a lot @cyrilvallez),\" confirming a second distribution format that works with the Hugging Face Transformers ecosystem.  A shard filename, \"model-00001-of-00010.safetensors,\" demonstrates that the actual checkpoints are released as a ten-part `safetensors` archive, which users can download piece-by-piece from the hub.  Together these quotes establish that publicly hosted, fully downloadable weight files exist in both Mistral and Transformers formats, and they can be accessed through standard clients such as `vllm` without additional gating.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting."
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve mistralai/Mistral-Small-3.1-24B-Instruct-2503 --tokenizer_mode mistral --config_format mistral --load_format mistral --tool-call-parser mistral --enable-auto-tool-choice --limit_mm_per_prompt 'image=10' --tensor-parallel-size 2"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Transformers-compatible model weights are also uploaded (thanks a lot @cyrilvallez)."
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00010.safetensors"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Multiple lines explicitly list \"license: apache-2.0,\" and the documentation repeats that the model is provided under an \"**Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\"  The same tag appears in a metadata block that enumerates supported languages and again states \"license: apache-2.0.\"  A further bullet reiterates: \"- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\"  These quotes collectively confirm that all distributions of Mistral-Small-3.1-24B-Instruct-2503 are governed by the permissive Apache License 2.0, granting broad rights to use, modify, and redistribute—including commercial use—without additional restrictions beyond standard AL2 terms.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: apache-2.0"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes."
+    },
+    {
+      "source": "[readme]",
+      "quote": "eadme]\n---\nlibrary_name: vllm\nlanguage:\n- en\n- fr\n- de\n- es\n- pt\n- it\n- ja\n- ko\n- ru\n- zh\n- ar\n- fa\n- id\n- ms\n- ne\n- pl\n- ro\n- sr\n- sv\n- tr\n- uk\n- vi\n- hi\n- bn\nlicense: apache-2.0\ninference: false\nbase_model:\n- mistralai/Mistral-Small-3.1-24B-Base-2503\nextra_gated_description: >-\n If you want to learn more about how we process your pers"
+    },
+    {
+      "source": "[readme]",
+      "quote": "reasoning capabilities.\n- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\n- **Context Window:** A 128k context window.\n- **System Prompt:** Maintains strong adherence and support for"
+    }
+  ],
+  "1-4 (Paper)": "Formal written material is provided via a single reference: \"Learn more about Mistral Small 3.1 in our [blog post](https://mistral.ai/news/mistral-small-3-1/).\"  This indicates that the primary public technical description is a blog-post announcement hosted on the Mistral AI website; no separate peer-reviewed paper or technical report is cited in the available text.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Learn more about Mistral Small 3.1 in our [blog post](https://mistral.ai/news/mistral-small-3-1/)."
+    }
+  ],
+  "1-5 (Architecture)": "The architecture description for mistralai/mistral-small-3.1-24b-instruct-2503 is limited but still highlights several key points. First, the model is explicitly said to “build upon Mistral Small 3 (2501),” so 3.1 (2503) is positioned as an evolutionary step rather than a complete redesign. The summary sentence notes two concrete architectural advances over its predecessor: the addition of “state-of-the-art vision understanding” and an extension of the usable context window “up to 128k tokens,” and it stresses that these gains come “without compromising text performance.” Second, the parameter count is given precisely: “24 billion parameters.” Taken together, the quotes tell us that mistral-small-3.1-24b-instruct-2503 is a 24 B-parameter multimodal model capable of handling very long context sizes (128 k tokens) while maintaining strong text quality, representing an incremental upgrade on the earlier 2501 release.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance."
+    },
+    {
+      "source": "[readme]",
+      "quote": "With 24 billion parameters, this model achieves top-tier capabilities in both text and vision tasks."
+    }
+  ],
+  "1-6 (Tokenizer)": "The only tokenizer detail provided states: “Utilizes a Tekken tokenizer with a 131k vocabulary size.” Therefore, mistral-small-3.1-24b-instruct-2503 uses the Tekken tokenizer and exposes a vocabulary of roughly 131 000 unique tokens, but no further downloadable or structural information is supplied in the available quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Tokenizer:** Utilizes a Tekken tokenizer with a 131k vocabulary size."
+    }
+  ],
+  "2-1 (Hardware)": "Hardware information is confined to deployment notes rather than training clusters. One sentence reports that “Mistral Small 3.1 can be deployed locally” and, when quantized, the model’s memory footprint is small enough to “fit within a single RTX 4090 or a 32 GB RAM MacBook.” Thus, while no large-scale training hardware is disclosed, the quote emphasizes the model’s efficiency and ‘knowledge-density,’ highlighting that even a 24 B-parameter system can run on modest consumer-grade GPUs or laptops when quantized.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Mistral Small 3.1 can be deployed locally and is exceptionally \"knowledge-dense,\" fitting within a single RTX 4090 or a 32GB RAM MacBook once quantized."
+    }
+  ],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The only directly stated implementation guideline for public or private API exposure is a recommendation: “We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting.”  From this sentence we can infer that the preferred way to access the model is to host it as a server process (locally or in the cloud) and interact with it through client calls, rather than embedding it in-process.  No additional information about endpoint formats, authentication, rate limits, code examples, or official SDKs is supplied in the available material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training description is limited to a single comparative statement: “Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance.”  This reveals three key facts.  (1) Lineage: the 3.1 (2503) release is an incremental evolution of the earlier 3 (2501) checkpoint, implying that the underlying architecture and many training choices are retained while extensions are layered on top.  (2) Multimodality: the training corpus or objectives now encompass vision data, yielding “state-of-the-art vision understanding.”  (3) Context window: the training regime (data mixture, positional-embedding strategy, or memory-efficient attention technique) was modified so the model can process sequences as long as 128 000 tokens, a major jump in context length, and this boost comes “without compromising text performance,” suggesting that the optimization preserved or improved perplexity on textual benchmarks despite the huge window.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Building upon Mistral Small 3 (2501), Mistral Small 3.1 (2503) **adds state-of-the-art vision understanding** and enhances **long context capabilities up to 128k tokens** without compromising text performance."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Instruction fine-tuning is explicitly declared: “This model is an instruction-finetuned version of: Mistral-Small-3.1-24B-Base-2503.”  Consequently, Mistral-Small-3.1-24B-Instruct-2503 inherits the frozen weights of the 24 B-parameter Base model and is then further optimized on an instruction-following corpus.  The quote confirms both the parent checkpoint and the objective (instruction alignment), but provides no further details on dataset size, epoch count, or hyperparameters.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This model is an instruction-finetuned version of: [Mistral-Small-3.1-24B-Base-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Base-2503)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}
