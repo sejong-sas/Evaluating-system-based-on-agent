@@ -52,7 +52,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-1"]: "All information about types/sources/licenses/quantities of pre-training data",
     LABELS["4-2"]: "All information about sources/composition/examples/public availability of fine-tuning datasets",
     LABELS["4-3"]: "All information about composition/accessibility/sources/generation of RL datasets",
-    LABELS["4-4"]: "All information about data filtering/cleaning criteria/procedures/impacts",
+    LABELS["4-4"]: "All information about data filtering/cleaning criteria/procedures/impacts(or include llama guard)",
 }
 
 # ─────────────────────────────── Grouping ───────────────────────────────
@@ -69,8 +69,10 @@ CHUNK_OVERLAP = 2_000
 EVIDENCE_LIMIT_PER_KEY = 300
 MODEL_NAME = os.getenv("OPENAI_MODEL_HF_DISPATCHER", "o3")
 
-# Optional: post-filter by model tokens (0=off, 1=on). Safer default OFF for HF readmes.
-HF_APPLY_MODEL_GUARD = os.getenv("HF_APPLY_MODEL_GUARD", "0") == "1"
+# Optional toggles
+HF_APPLY_MODEL_GUARD = os.getenv("HF_APPLY_MODEL_GUARD", "0") == "1"  # stricter filtering
+HF_ENABLE_LICENSE_WEB = os.getenv("HF_ENABLE_LICENSE_WEB", "0") == "1" # optional web fetch for license-only
+HF_LICENSE_TIMEOUT = float(os.getenv("HF_LICENSE_TIMEOUT", "8.0"))     # seconds
 
 # ─────────────────────────────── Utils ───────────────────────────────
 _PARA_SPLIT = re.compile(r"\n\s*\n+")  # for potential dedup helpers
@@ -144,9 +146,8 @@ def _model_guard_text(model_id: str) -> str:
     return (
         "STRICT MODEL FILTER\n"
         f"- Target model: {model_id}\n"
-        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
+        f"- Prefer quotes where the sentence explicitly mentions one of: {toks}.\n"
         "- If a section mixes multiple models or earlier/other versions, keep only sentences that also include TARGET tokens.\n"
-        "- If in doubt, DROP the quote.\n"
         "- If the TARGET is named in the immediately previous sentence and the current sentence contains the fact, include BOTH sentences together as one quote."
     )
 
@@ -158,6 +159,217 @@ def _quote_mentions_target(q: str, model_id: str) -> bool:
             return True
     return False
 
+# ─────────── Generalized signals for data filtering (model/tool-agnostic) ───────────
+_HF_FILTER_HINTS = (
+    "dedup", "near-duplicate", "minhash", "minhashlsh", "simhash", "lsh", "jaccard",
+    "toxicity", "nsfw", "safety", "unsafe", "hate", "abuse", "violence", "sexual", "moderation",
+    "langid", "language identification", "cld3", "fasttext", "langdetect",
+    "quality filter", "perplexity", "ppl", "classifier", "detector", "model-based filter", "llm-based filter",
+    "pii", "redaction", "anonymization", "de-identification",
+    "contamination", "decontamination", "benchmark leakage",
+    "advertisement", "spam",
+    "cascaded filtering pipeline", "multi-stage filter", "filtering pipeline", "series of filtering"
+)
+
+_TOOL_NEAR_FILTER_PAT = re.compile(
+    r'(?is)\b(?:use|using|employ(?:ing)?|leverage|apply|applied|adopt(?:ed|ing)?|'
+    r'build(?:ing)?|train(?:ed|ing)?|run(?:ning)?)\b[^\.]{0,120}?'
+    r'\b(?:model(?:-based)?|classifier|detector|moderation|guard(?:rail)?|'
+    r'filter|sieve|cleaner|scrubber|anonymi[sz]er|redactor|safety model|content filter)\b'
+)
+_PROPER_TOOL_TITLE_PAT = re.compile(
+    r'\b[A-Z][A-Za-z0-9_.-]{2,}\s+(?:Guard|Moderation|Shield|Filter|Detector|Classifier)\b'
+)
+_PERCENT_CHANGE_PAT = re.compile(
+    r'(?i)\b(?:removed|discarded|dropped|filtered out|kept|retained|reduced(?: by)?)\b'
+    r'[^.%]{0,60}\b\d{1,3}\s?%')
+_THRESH_GENERIC_PAT = re.compile(
+    r'(?i)\b(?:threshold|cut-?off|cutoff|score)\b[^\.]{0,40}?(?:>=|≤|<=|<|>|=)\s*'
+    r'(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_METRIC_THRESH_PAT = re.compile(
+    r'(?i)\b(?:jaccard|similarity|overlap|perplexity|ppl|score)\b[^\.]{0,40}?'
+    r'(?:>=|≤|<=|<|>|=)\s*(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_PIPELINE_PAT = re.compile(
+    r'(?i)\b(?:pipeline|multi[- ]?stage|cascad(?:ed|e)|series of filter|'
+    r'stage\s*\d+|step\s*\d+)\b'
+)
+
+def _quote_has_filtering_signal(q: str) -> bool:
+    if not q:
+        return False
+    ql = q.lower()
+    if any(k in ql for k in _HF_FILTER_HINTS):
+        return True
+    if (_TOOL_NEAR_FILTER_PAT.search(q) or _PROPER_TOOL_TITLE_PAT.search(q) or
+        _PERCENT_CHANGE_PAT.search(q) or _THRESH_GENERIC_PAT.search(q) or
+        _METRIC_THRESH_PAT.search(q) or _PIPELINE_PAT.search(q)):
+        return True
+    return False
+
+# ─────────── License detection (weak-guard allowed + backstop scan + optional web) ───────────
+_LICENSE_NAME_PAT = re.compile(
+    r'(?i)\b(?:license|licence|licensing|licensed under|license:)\b[^.\n]{0,120}?'
+    r'(apache\s*2(\.0)?|apache-2\.0|mit|bsd|gpl|lgpl|agpl|mpl|mozilla public license|'
+    r'cc[- ]?by(?:[- ]?sa)?|creative commons|openrail(?:-m)?|bigcode\s*openrail(?:-m)?|'
+    r'falcon-llm\s*license|tii\s*f(alcon)?-llm\s*license|llama\s*2\s*community\s*license)'
+)
+
+_LICENSE_RESTRICTION_PAT = re.compile(
+    r'(?i)\b(non[- ]?commercial|research[- ]?only|no\s+derivatives|no\s+redistribution|'
+    r'evaluation\s+only|restricted|no\s+use\s+for\s+(?:illegal|harmful|abusive)\s+purposes)\b'
+)
+
+# weak-guard labels (data/method) + license
+ALLOW_WEAK_GUARD = { LABELS["4-4"], LABELS["4-1"], LABELS["3-1"], LABELS["1-3"] }
+
+def _is_relevant_quote(lbl: str, quote: str, model_id: str) -> bool:
+    # 1) original rule: mention target tokens
+    if _quote_mentions_target(quote, model_id):
+        return True
+    # 2) if guard ON: allow weak-guard in selected labels
+    if HF_APPLY_MODEL_GUARD and lbl in ALLOW_WEAK_GUARD:
+        if lbl == LABELS["1-3"]:
+            return bool(_LICENSE_NAME_PAT.search(quote))
+        return _quote_has_filtering_signal(quote)
+    return not HF_APPLY_MODEL_GUARD  # when guard is OFF, accept as-is
+
+def _find_license_files(files: List[str]) -> List[str]:
+    outs = []
+    if not files: return outs
+    for f in files:
+        try:
+            s = str(f).lower()
+        except Exception:
+            s = ""
+        if re.search(r'(^|/)(license|licen[cs]e)(\.|$)', s):
+            outs.append(str(f))
+    return outs
+
+def _inject_license_backstop(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str,Any]) -> Dict[str, List[Dict[str,str]]]:
+    """
+    If 1-3 has no evidence, scan README / license_file / config texts for license phrases
+    and inject quotes. Also add evidence that LICENSE file exists from [files] list.
+    """
+    lbl = LABELS["1-3"]
+    if ev.get(lbl) is None:
+        ev[lbl] = []
+    if ev.get(lbl):
+        # still allow adding file-presence hints if any
+        pass
+
+    buf_texts = []
+    for key in ("readme","license_file","config","generation_config"):
+        t = payload.get(key) or ""
+        if isinstance(t, str) and t.strip():
+            buf_texts.append(f"[{key}]\n{t}")
+
+    scan_text = "\n\n".join(buf_texts)
+    adds: List[Dict[str,str]] = []
+
+    for m in _LICENSE_NAME_PAT.finditer(scan_text):
+        start = max(0, m.start()-160)
+        end   = min(len(scan_text), m.end()+160)
+        q = re.sub(r"[ \t]+"," ", scan_text[start:end].strip())
+        if q:
+            # try to keep the logical section tag as source
+            src = "[license_file]" if "license_file" in scan_text[max(0, start-600):min(len(scan_text), end+600)].lower() else "[readme]"
+            adds.append({"source": src, "quote": q})
+
+    # include explicit restriction lines if present (strengthens Semi-Open classification)
+    for m in _LICENSE_RESTRICTION_PAT.finditer(scan_text):
+        start = max(0, m.start()-120)
+        end   = min(len(scan_text), m.end()+120)
+        q = re.sub(r"[ \t]+"," ", scan_text[start:end].strip())
+        if q:
+            src = "[license_file]" if "license_file" in scan_text[max(0, start-600):min(len(scan_text), end+600)].lower() else "[readme]"
+            adds.append({"source": src, "quote": q})
+
+    # if LICENSE-like files are listed, add a factual hint
+    files = payload.get("files") or []
+    lf = _find_license_files(files)
+    for name in lf[:8]:
+        adds.append({"source":"[files]", "quote": f"LICENSE file present: {name}"})
+
+    if adds:
+        ev[lbl] = _dedup_evidences((ev.get(lbl) or []) + adds, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
+def _maybe_fetch_license_from_web(ev: Dict[str, List[Dict[str,str]]],
+                                  model: str,
+                                  output_dir: Path) -> Dict[str, List[Dict[str,str]]]:
+    """
+    Optional: If license evidence is still empty and HF_ENABLE_LICENSE_WEB=1,
+    try fetching a small set of external pages to extract license lines.
+    Sources are provided via:
+      1) {output_dir}/license_hints.json  OR ./license_hints.json
+         format: { "<token or model_id>": ["https://...", ...], ... }
+      2) env HF_LICENSE_FALLBACK_URLS="https://...,https://..."
+    This function is generic (no per-model hardcoding here).
+    """
+    if not HF_ENABLE_LICENSE_WEB:
+        return ev
+
+    lbl = LABELS["1-3"]
+    if ev.get(lbl):
+        return ev
+
+    import requests
+
+    # load mapping file if present
+    hint_paths = [output_dir / "license_hints.json", Path("license_hints.json")]
+    hint_map: Dict[str, List[str]] = {}
+    for p in hint_paths:
+        try:
+            if p.exists() and p.stat().st_size:
+                hint_map.update(json.load(open(p, encoding="utf-8")))
+        except Exception:
+            pass
+
+    # collect candidate urls from mapping by tokens or exact model id
+    urls: List[str] = []
+    fam = _family_tokens_from_model_id(model)
+    if model in hint_map:
+        urls.extend(hint_map.get(model, []))
+    for t in fam:
+        urls.extend(hint_map.get(t, []))
+
+    # env-supplied fallbacks (comma/space separated)
+    env_urls = os.getenv("HF_LICENSE_FALLBACK_URLS", "")
+    for u in re.split(r"[,\s]+", env_urls):
+        if u.strip():
+            urls.append(u.strip())
+
+    urls = [u for u in dict.fromkeys(urls)]  # dedup, keep order
+    if not urls:
+        return ev
+
+    grabbed: List[Dict[str,str]] = []
+    for u in urls[:8]:
+        try:
+            r = requests.get(u, timeout=HF_LICENSE_TIMEOUT, headers={"User-Agent":"hf-license-scout/1.0"})
+            if r.status_code != 200:
+                continue
+            txt = r.text or ""
+            # extract tight snippets around license keywords/restrictions
+            for m in _LICENSE_NAME_PAT.finditer(txt):
+                start = max(0, m.start()-160)
+                end   = min(len(txt), m.end()+160)
+                q = re.sub(r"[ \t]+"," ", txt[start:end].strip())
+                if q:
+                    grabbed.append({"source": f"[web:{u}]", "quote": q})
+            for m in _LICENSE_RESTRICTION_PAT.finditer(txt):
+                start = max(0, m.start()-120)
+                end   = min(len(txt), m.end()+120)
+                q = re.sub(r"[ \t]+"," ", txt[start:end].strip())
+                if q:
+                    grabbed.append({"source": f"[web:{u}]", "quote": q})
+        except Exception:
+            continue
+
+    if grabbed:
+        ev[lbl] = _dedup_evidences((ev.get(lbl) or []) + grabbed, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
 # ─────────────────────────────── Prompts ───────────────────────────────
 _BASE_RECALL_SYS = """
 You are an expert at extracting AI model openness evaluation information from a Hugging Face repository.
@@ -166,10 +378,12 @@ Return evidence for each item as an array of objects:
   [{ "source": "...", "quote": "..." }, ...]
 - "source": a payload tag (e.g., [readme], [files], [py_files/train.py], [config], [generation_config])
 - "quote" : a verbatim sentence copied from that section (no edits/summaries)
+
 STRICT TARGET POLICY:
 - Prefer quotes where the sentence itself explicitly names a TARGET token.
-- If the TARGET name is in the immediately previous sentence and the current sentence carries the fact,
+- If the TARGET name appears in the immediately previous sentence and the current sentence carries the fact,
   include BOTH sentences together as one quote (previous + current).
+
 If there is no evidence, return [].
 Output a JSON object only.
 """.strip()
@@ -196,21 +410,47 @@ Answer JSON only:
 def _build_recall_inst(group: List[str], model_id: str) -> str:
     desc = _json(_group_desc_map(group))
     skeleton = _json({LABELS[k]: [] for k in group})
-    return (
+    base = (
         _model_guard_text(model_id) + "\n"
         "Items in this group:\n" + desc + "\n"
         "Return a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" + skeleton
     )
+    # Data Filtering(4-4) hint injection (tool-agnostic)
+    if "4-4" in group:
+        hints = (
+            "\nHINTS (Data filtering — look for ANY of these):\n"
+            "- dedup/near-duplicate/Minhash/SimHash/LSH/Jaccard\n"
+            "- PII redaction/anonymization; language-ID; toxicity/NSFW/safety\n"
+            "- use of model/classifier/detector/moderation/guard for filtering\n"
+            "- numeric thresholds/ratios: ppl < …, score >= …, removed XX%\n"
+            "- phrases: cascaded filtering pipeline / multi-stage / series of filtering\n"
+        )
+        return base + hints
+    # License(1-3) hint injection (help GPT recall from README/model card text)
+    if "1-3" in group:
+        hints = (
+            "\nHINTS (License): look for phrases like 'licensed under', 'License:', 'Apache-2.0', 'MIT', "
+            "'OpenRAIL', 'Falcon-LLM License', 'Llama 2 Community License', 'Creative Commons', and any "
+            "explicit restrictions like 'non-commercial', 'research only', 'no redistribution', 'evaluation only'.\n"
+        )
+        return base + hints
+    return base
 
 def _build_summary_inst(group: List[str], model_id: str) -> str:
     desc = _json(_group_desc_map(group))
-    targets = sorted(_family_tokens_from_model_id(model_id))
+    extra = ""
+    if "4-4" in group:
+        extra = (
+            "\nFor '4-4 (Data Filtering)', prefer quotes that include concrete criteria: "
+            "tool/classifier mentions, numeric thresholds/ratios (e.g., Jaccard 0.95, ppl < X, removed Y%), "
+            "or pipeline-stage wording."
+        )
     return (
         _model_guard_text(model_id) + "\n"
         "Items in this group:\n" + desc + "\n"
         "Return a JSON object with EXACTLY these keys (string summaries):\n" +
         _json({LABELS[k]: "" for k in group}) +
-        "\nUse ONLY the provided quotes."
+        "\nUse ONLY the provided quotes." + extra
     )
 
 # ─────────────────────────────── GPT call ───────────────────────────────
@@ -268,17 +508,24 @@ def _is_valid_source(src: str) -> bool:
     return isinstance(src, str) and src.strip().lower().strip("[]").startswith(_ALLOWED_PREFIX)
 
 def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str) -> Dict[str, List[Dict[str,str]]]:
-    """Optional stricter guard (disabled by default). Keeps only valid sources; if enabled, also require TARGET tokens in quote."""
+    """
+    Optional stricter guard (disabled by default).
+    Keeps only valid sources; if enabled, also require TARGET tokens in quote.
+    For 4-4/4-1/3-1/1-3, if guard is ON, allow quotes without explicit target tokens
+    if the quote clearly contains data-filtering/data-method signals or license phrases.
+    """
     out: Dict[str, List[Dict[str,str]]] = {}
     for lbl, arr in ev.items():
         kept = []
         for e in arr or []:
             src = (e.get("source") or "").strip()
             qt  = (e.get("quote")  or "").strip()
-            if not src or not qt: continue
-            if not _is_valid_source(src): continue
+            if not src or not qt:
+                continue
+            if not _is_valid_source(src):
+                continue
             if HF_APPLY_MODEL_GUARD:
-                if not _quote_mentions_target(qt, model_id):
+                if not _is_relevant_quote(lbl, qt, model_id):
                     continue
             kept.append({"source": src, "quote": qt})
         out[lbl] = _dedup_evidences(kept, EVIDENCE_LIMIT_PER_KEY)
@@ -398,6 +645,13 @@ def filter_hf_features(model: str, save: bool = True, output_dir: str | Path = "
             payload = _make_group_payload(hf, idx - 1)
             text = _payload_to_text(payload)
             evid = _recall_collect(grp, text, model)
+
+            # License backstop (README / license_file / config scan + file presence)
+            evid = _inject_license_backstop(evid, payload)
+
+            # Optional web backstop (license-only, gated by env)
+            evid = _maybe_fetch_license_from_web(evid, model, output_dir)
+
             summ = _summarize(grp, evid, model)
             part = _merge_for_final(summ, evid)
         except Exception as e:

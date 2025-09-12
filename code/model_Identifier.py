@@ -1373,6 +1373,59 @@ def tee_logs(log_path: Path, mode: str = "a"):
                 sys.stdout, sys.stderr = orig_out, orig_err
 
 ###################################################################
+# if __name__ == "__main__":
+#     try:
+#         n = int(input("🔢 Number of models to process: ").strip())
+#     except ValueError:
+#         print("Please enter a number."); exit(1)
+
+#     models: list[str] = []
+#     for i in range(1, n + 1):
+#         m = input(f"[{i}/{n}] 🌐 HF/GH URL or org/model: ").strip()
+#         if m:
+#             models.append(m)
+
+#     print("\n🚀 Processing", len(models), "models sequentially.\n")
+
+#     for idx, user_input in enumerate(models, 1):
+#         try:
+#             model_dir = make_model_dir(user_input)
+#         except Exception:
+#             model_dir = Path(".")
+#         ts = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+
+#         try:
+#             info = extract_model_info(user_input)
+#             base_name = info["hf_id"].replace("/", "_").lower()
+#         except Exception:
+#             base_name = re.sub(r"[^a-z0-9_]+", "_", user_input.lower())
+#         log_file = model_dir / f"run_{ts}_{base_name}.log"
+
+#         with tee_logs(log_file):
+#             print(f"\n======== {idx}/{len(models)} ▶ {user_input} ========")
+#             try:
+#                 print(f"📁 Directory to create/use: {model_dir}")
+#                 run_all_fetchers(user_input)
+
+#                 info  = extract_model_info(user_input)
+#                 hf_id = info["hf_id"]
+#                 if test_hf_model_exists(hf_id):
+#                     with open(model_dir / "identified_model.txt", "w", encoding="utf-8") as f:
+#                         f.write(hf_id)
+#                     print(f"✅ Saved model ID: {model_dir / 'identified_model.txt'}")
+
+#             except Exception as e:
+#                 import traceback
+#                 print("❌ Error encountered while processing:", e)
+#                 traceback.print_exc()
+#                 continue
+
+#             print(f"🧾 Log saved to: {log_file}")
+
+#     print("\n🎉 All tasks completed.")
+import datetime
+import time  # <--- 추가: 시간 측정을 위해 time 모듈을 가져옵니다.
+
 if __name__ == "__main__":
     try:
         n = int(input("🔢 Number of models to process: ").strip())
@@ -1388,6 +1441,8 @@ if __name__ == "__main__":
     print("\n🚀 Processing", len(models), "models sequentially.\n")
 
     for idx, user_input in enumerate(models, 1):
+        start_time = time.time()  # <--- 추가: 모델 처리 시작 시간 기록
+
         try:
             model_dir = make_model_dir(user_input)
         except Exception:
@@ -1418,8 +1473,13 @@ if __name__ == "__main__":
                 import traceback
                 print("❌ Error encountered while processing:", e)
                 traceback.print_exc()
-                continue
+                # 에러가 발생해도 시간은 측정하기 위해 루프를 계속 진행합니다.
+                # continue 문이 원래 있었다면 유지합니다.
 
+            end_time = time.time()  # <--- 추가: 모델 처리 종료 시간 기록
+            elapsed_time = end_time - start_time  # <--- 추가: 시작과 종료 시간의 차이를 계산
+
+            print(f"⏳ **Time taken for this model: {elapsed_time:.2f} seconds**") # 소수점 2자리까지 표시
             print(f"🧾 Log saved to: {log_file}")
 
     print("\n🎉 All tasks completed.")

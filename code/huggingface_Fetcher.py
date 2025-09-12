@@ -1,6 +1,6 @@
 # huggingface_Fetcher.py
 from __future__ import annotations
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Optional
 import requests, json, os, re
 from pathlib import Path
 import fitz  # PyMuPDF
@@ -27,7 +27,6 @@ def _clean_url(u: str) -> str:
     if not isinstance(u, str):
         return ""
     s = u.strip()
-    # keep the last http(s) chunk if the string accidentally includes two URLs mashed together
     if s.count("http://") + s.count("https://") >= 2:
         idx = s.rfind("http")
         s = s[idx:]
@@ -69,7 +68,7 @@ def _family_tokens_from_model_id(model_id: str) -> set[str]:
         if m:
             base.add(m.group(1))
             base.add(m.group(1)+m.group(2).replace(".",""))
-            base.add(m.group(2))              # "3.1"
+            base.add(m.group(2))                  # "3.1"
             base.add(m.group(2).replace(".",""))  # "31"
     joined = re.sub(r"[^a-z0-9]", "", name)
     nodigit = re.sub(r"\d+", "", joined)
@@ -92,7 +91,7 @@ def _looks_related_to_model(text: str, url: str, model_id: str, min_hits: int = 
 def _is_probable_report_url(u: str) -> bool:
     """
     Generic detector for 'report-like' or 'paper-like' links — model/vendor agnostic.
-    NOTE: We do NOT parse HF top badges; we only look at README links (caller controls that).
+    We do NOT parse HF top badges; we only look at README links (caller controls that).
     """
     if not isinstance(u, str) or not u:
         return False
@@ -153,6 +152,15 @@ def _extract_links_from_html(html: str, base_url: str) -> List[str]:
             seen.add(u); out.append(u)
     return out
 
+def _html_to_text(html: str) -> str:
+    """Lightweight HTML → plain text normalization."""
+    if not html:
+        return ""
+    html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
+    html = re.sub(r"(?is)<[^>]+>", " ", html)
+    html = re.sub(r"\s+", " ", html)
+    return html.strip()
+
 def _maybe_follow_version_page(html: str, base_url: str, model_id: str) -> Tuple[str, str] | None:
     """
     If the page is a family/overview page, try to find a version-specific page
@@ -161,9 +169,7 @@ def _maybe_follow_version_page(html: str, base_url: str, model_id: str) -> Tuple
     """
     toks = _family_tokens_from_model_id(model_id)
     links = _extract_links_from_html(html, base_url)
-    # Prefer links with any token in URL or anchor-ish words
     candidates = [u for u in links if any(t in u.lower() for t in toks)]
-    # heuristics: also allow 'model card' / 'model page'
     if not candidates:
         extra = [u for u in links if re.search(r"model\s+(card|page)|documentation|docs", u, re.I)]
         candidates = extra[:5]
@@ -177,10 +183,7 @@ def _maybe_follow_version_page(html: str, base_url: str, model_id: str) -> Tuple
                 with fitz.open(stream=r.content, filetype="pdf") as doc:
                     txt = "\n".join(p.get_text("text") for p in doc)
             else:
-                txt = r.text
-                txt = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", txt)
-                txt = re.sub(r"(?is)<[^>]+>", " ", txt)
-                txt = re.sub(r"\s+", " ", txt)
+                txt = _html_to_text(r.text)
             if _looks_related_to_model(txt, u, model_id):
                 return (u, txt[:800_000])
         except Exception:
@@ -203,7 +206,6 @@ def _fetch_html_text(url: str, model_id: str | None = None) -> str:
         with fitz.open(stream=r.content, filetype="pdf") as doc:
             return "\n".join(p.get_text("text") for p in doc)
     html = r.text
-    # optional one-hop follow to version-specific page
     hop = None
     try:
         if model_id:
@@ -214,10 +216,99 @@ def _fetch_html_text(url: str, model_id: str | None = None) -> str:
         _, hop_text = hop
         html = hop_text
     else:
-        html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
-        html = re.sub(r"(?is)<[^>]+>", " ", html)
-        html = re.sub(r"\s+", " ", html)
+        html = _html_to_text(html)
     return html[:800_000]
+
+# ----------------------------- License (header) scraper -----------------------------
+def _scrape_license_from_header(model_id: str) -> List[dict]:
+    """
+    If there is no LICENSE file in the repo listing, scrape the model page header:
+      - Try to capture the license name (e.g., 'apache-2.0' or 'bigscience-bloom-rail-1.0')
+      - Try to capture the popover/summary text ("About this license ...")
+      - If there is a "View LICENSE file" (or any license-ish) link, follow it and fetch its content
+    Returns a list of items compatible with _save_reports_for_model:
+      [{"arxiv_id": <url or synthetic id>, "full_text": <text>}]
+    """
+    results: List[dict] = []
+    base_url = f"https://huggingface.co/{model_id}"
+    try:
+        r = requests.get(base_url, headers=_UA, timeout=20, allow_redirects=True)
+        r.raise_for_status()
+        html = r.text
+
+        # 1) License name near the header (very loose, no hardcoding)
+        lic_name = ""
+        m_name = re.search(r'License\s*:\s*([A-Za-z0-9._+\- ]{2,64})', html, re.I)
+        if not m_name:
+            # Sometimes rendered as aria-label or title
+            m_name = re.search(r'aria-label=["\']License:\s*([^"\']+)["\']', html, re.I)
+        if m_name:
+            lic_name = m_name.group(1).strip()
+
+        # 2) "About this license" tooltip/section text (if present)
+        lic_about = ""
+        m_about = re.search(
+            r'About this license(?:(?!</)[\s\S]){0,2000}',  # grab a nearby chunk
+            html, re.I
+        )
+        if m_about:
+            snippet = html[m_about.start(): m_about.end()]
+            lic_about = _html_to_text(snippet)
+
+        # 3) Link to LICENSE document (button/anchor)
+        #    Prefer anchors with text "View LICENSE file"; fallback to hrefs containing 'license'
+        lic_link = ""
+        m_view = re.search(
+            r'<a[^>]+href=["\']([^"\']+)["\'][^>]*>\s*(?:View\s+LICENSE\s+file|LICENSE)\s*</a>',
+            html, re.I
+        )
+        if m_view:
+            lic_link = urljoin(base_url, m_view.group(1).strip())
+        else:
+            # fallback: any link with 'license' token
+            for href in _HREF_RE.findall(html or ""):
+                if re.search(r'license', href, re.I):
+                    lic_link = urljoin(base_url, href.strip())
+                    break
+
+        # 4) Fetch the linked license text if we found a link
+        linked_text = ""
+        if lic_link:
+            try:
+                ct_resp = requests.get(lic_link, headers=_UA, timeout=20, allow_redirects=True)
+                ct_resp.raise_for_status()
+                ct_type = (ct_resp.headers.get("Content-Type") or "").lower()
+                final = (ct_resp.url or "").lower()
+                if ("pdf" in ct_type) or final.endswith(".pdf"):
+                    with fitz.open(stream=ct_resp.content, filetype="pdf") as doc:
+                        linked_text = "\n".join(p.get_text("text") for p in doc)
+                else:
+                    # Could be raw text, markdown or HTML. Normalize lightly.
+                    body = ct_resp.text
+                    if "<html" in (body[:200].lower()):
+                        linked_text = _html_to_text(body)
+                    else:
+                        linked_text = body
+            except Exception as e:
+                print("⚠️ license link fetch failed:", lic_link, e)
+
+        # 5) Compose entries for saving (de-dup handled by _save_reports_for_model)
+        composed_blocks: List[str] = []
+        if lic_name:
+            composed_blocks.append(f"[HF License] {lic_name}")
+        if lic_about:
+            composed_blocks.append(lic_about)
+        if linked_text:
+            composed_blocks.append(linked_text)
+
+        if composed_blocks:
+            full = ("\n\n---\n\n").join([b.strip() for b in composed_blocks if b.strip()])
+            tag = lic_link if lic_link else (f"hf://license/{lic_name}" if lic_name else "hf://license/header")
+            results.append({"arxiv_id": tag, "full_text": full})
+    except Exception as e:
+        print("⚠️ license header scrape failed:", e)
+
+    return results
 
 # ----------------------------- Report file IO -----------------------------
 def _save_reports_for_model(model_id: str, output_dir: str | Path, items: List[dict]) -> Path | None:
@@ -308,7 +399,7 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
         "py_files": py_files
     }
 
-    # Technical reports (README links + PDFs in HF repo)
+    # Technical reports & license additions (README links + PDFs in HF repo + header license if no file)
     try:
         report_texts: List[dict] = []
         seen_urls: set[str] = set()
@@ -342,6 +433,17 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
                     except Exception:
                         continue
 
+        # (C) If there is NO LICENSE file in the repo list, try to scrape the header badge/tooltip
+        if not license_file:
+            lic_items = _scrape_license_from_header(model_id)
+            if lic_items:
+                # Do not filter by _looks_related_to_model — license is model-agnostic but relevant.
+                for it in lic_items:
+                    tag = it.get("arxiv_id") or ""
+                    if tag and tag not in seen_urls:
+                        report_texts.append(it)
+                        seen_urls.add(tag)
+
         if save_to_file and report_texts:
             _save_reports_for_model(model_id, output_dir, report_texts)
         elif report_texts:
@@ -363,8 +465,11 @@ def huggingface_fetcher(model_id: str, save_to_file: bool = True, output_dir: st
     return result
 
 if __name__ == "__main__":
-    test_model_id = "google/gemma-3-4b-it"
+    test_model_id = "bigscience/bloomz"
     result = huggingface_fetcher(test_model_id)
     for k, v in result.items():
         print("*"*30, k)
-        print(v)
+        if isinstance(v, dict):
+            print(list(v.keys()))
+        else:
+            print(v if isinstance(v, str) and len(v) < 600 else (str(type(v)) + f" len={len(v) if hasattr(v,'__len__') else ''}"))

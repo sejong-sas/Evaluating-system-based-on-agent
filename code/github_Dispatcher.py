@@ -2,7 +2,8 @@
 # High-Recall 2-Pass  (evidence {source, quote} → long summary)
 # - store evidence as an array of objects [{source, quote}, …]
 # - summaries must use quotes only
-# - STRICT: collect ONLY quotes that explicitly mention the TARGET model
+# - STRICT by default: collect ONLY quotes that explicitly mention the TARGET model
+#   BUT for data/method items (4-4, 4-1, 3-1) and LICENSE (1-3) allow weak-guard when strong signals exist
 # - remove unnecessary fields like __evidence_sources, __sources
 
 import os, json, re
@@ -62,7 +63,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-1"]: "All information about types, quantities, sources, permitted use, and composition of pre-training data",
     LABELS["4-2"]: "All information about sources, composition, examples, and public availability of fine-tuning datasets",
     LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
-    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
+    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact(or include llama guard)",
 }
 
 # ───────────── Groups ─────────────
@@ -127,9 +128,9 @@ def _canonical_model_tokens(model_id: str) -> List[str]:
     alts = set()
     for t in raw:
         t = t.strip()
-        if not t: 
+        if not t:
             continue
-        if t in _STOPWORDS: 
+        if t in _STOPWORDS:
             continue
         if len(t) >= 2:
             alts.add(t)
@@ -151,9 +152,9 @@ def _model_guard_text(model_id: str) -> str:
     return (
         "STRICT MODEL FILTER\n"
         f"- Target model: {model_id}\n"
-        f"- Accept a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
-        "- Reject sentences about other models or earlier/other versions unless the TARGET is named in the same sentence.\n"
-        "- If a document mixes multiple models, keep only sentences that also contain the TARGET tokens.\n"
+        f"- Prefer quotes whose sentence explicitly mentions one of: {toks}.\n"
+        "- Reject sentences about other models unless the TARGET is named in the same sentence.\n"
+        "- Exception (data/method items 4-4, 4-1, 3-1 and LICENSE 1-3): if a sentence clearly describes filtering/data criteria or LICENSE tokens/links, accept it even without the TARGET token.\n"
         "- If in doubt, DROP the quote.\n"
     )
 
@@ -165,20 +166,126 @@ def _quote_mentions_target(q: str, model_id: str) -> bool:
             return True
     return False
 
+# ───────────── Generalized filtering signal detectors (for weak-guard) ─────────────
+_GENERIC_FILTER_KWS = (
+    # categories
+    "dedup", "duplicate", "near-duplicate", "minhash", "minhashlsh", "simhash", "lsh", "jaccard",
+    "pii", "personally identifiable", "anonymiz", "redact", "de-identif",
+    "language identification", "language-id", "langid", "cld3", "fasttext", "langdetect",
+    "toxicity", "nsfw", "safety", "unsafe", "hate", "abuse", "violence", "sexual", "guardrail", "moderation",
+    "quality filter", "quality score", "perplexity", "ppl", "classifier", "detector", "model-based", "llm-based",
+    "contamination", "decontamination", "benchmark leakage", "advertisement", "ad spam", "spam",
+    # pipeline-y words
+    "cascaded filtering", "filtering pipeline", "multi-stage", "series of filtering", "stage 1", "stage 2", "step 1", "step 2",
+)
+
+_TOOL_NEAR_FILTER_PAT = re.compile(
+    r'(?is)\b(?:use|using|employ(?:ing)?|leverage|apply|applied|adopt(?:ed|ing)?|'
+    r'build(?:ing)?|train(?:ed|ing)?|run(?:ning)?)\b[^\.]{0,120}?'
+    r'\b(?:model(?:-based)?|classifier|detector|moderation|guard(?:rail)?|'
+    r'filter|sieve|cleaner|scrubber|anonymi[sz]er|redactor|safety model|content filter)\b'
+)
+_PROPER_TOOL_TITLE_PAT = re.compile(
+    r'\b[A-Z][A-Za-z0-9_.-]{2,}\s+(?:Guard|Moderation|Shield|Filter|Detector|Classifier)\b'
+)
+_PERCENT_CHANGE_PAT = re.compile(
+    r'(?i)\b(?:removed|discarded|dropped|filtered out|kept|retained|reduced(?: by)?)\b'
+    r'[^.%]{0,60}\b\d{1,3}\s?%')
+_THRESH_GENERIC_PAT = re.compile(
+    r'(?i)\b(?:threshold|cut-?off|cutoff|score)\b[^\.]{0,40}?(?:>=|≤|<=|<|>|=)\s*'
+    r'(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_METRIC_THRESH_PAT = re.compile(
+    r'(?i)\b(?:jaccard|similarity|overlap|perplexity|ppl)\b[^\.]{0,40}?'
+    r'(?:>=|≤|<=|<|>|=)\s*(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_PIPELINE_PAT = re.compile(
+    r'(?i)\b(?:pipeline|multi[- ]?stage|cascad(?:ed|e)|series of filter|'
+    r'stage\s*\d+|step\s*\d+)\b'
+)
+
+def _quote_has_filtering_signal(q: str) -> bool:
+    if not q: return False
+    ql = q.lower()
+    if any(k in ql for k in _GENERIC_FILTER_KWS): return True
+    if (_TOOL_NEAR_FILTER_PAT.search(q) or _PROPER_TOOL_TITLE_PAT.search(q) or
+        _PERCENT_CHANGE_PAT.search(q) or _THRESH_GENERIC_PAT.search(q) or
+        _METRIC_THRESH_PAT.search(q) or _PIPELINE_PAT.search(q)):
+        return True
+    return False
+
+# ───────────── LICENSE detectors (weak-guard 허용) ─────────────
+LICENSE_TOKENS = (
+    # SPDX/common names
+    "apache-2.0","apache 2.0","mit","bsd-2-clause","bsd-3-clause","bsd 2-clause","bsd 3-clause",
+    "gpl-2.0","gpl-3.0","lgpl-3.0","agpl-3.0","mpl-2.0","mpl 2.0",
+    "cc-by","cc by","cc-by-sa","cc by-sa","cc-by-nc","cc by-nc","cc0","unlicense",
+    # model licenses
+    "openrail","openrail-m","open rail","bigcode openrail","falcon-llm license","falcon llm license",
+    "tii falcon-llm license","tii falcon llm license",
+)
+
+LICENSE_LINE_PAT = re.compile(r'(?im)^\s*(license|license_name)\s*:\s*([^\n]+)$')
+LICENSE_LINK_PAT = re.compile(r'(?i)\b(license_link|licen[cs]e url|licen[cs]e link)\b\s*[:=]\s*([^\s]+)')
+ANY_LICENSE_INLINE_PAT = re.compile(r'(?i)\blicen[cs]e\b[^:\n]*[:\-]?\s*([A-Za-z0-9 .+/\-]+)')
+
+KNOWN_LICENSE_URLS = {
+    "apache-2.0": "https://www.apache.org/licenses/LICENSE-2.0",
+    "mit": "https://opensource.org/license/mit/",
+    "openrail": "https://www.bigcode-project.org/docs/pages/model-license/",
+    "openrail-m": "https://www.bigcode-project.org/docs/pages/model-license/",
+    "falcon-llm license": "https://falconllm.tii.ae/falcon-terms-and-conditions.html",
+}
+
+def _quote_has_license_signal(q: str) -> bool:
+    if not q: return False
+    ql = q.lower()
+    if "license" in ql and any(tok in ql for tok in LICENSE_TOKENS):
+        return True
+    # front-matter or explicit 'license:' lines
+    if LICENSE_LINE_PAT.search(q) or LICENSE_LINK_PAT.search(q) or ANY_LICENSE_INLINE_PAT.search(q):
+        return True
+    return False
+
+ALLOW_WEAK_GUARD = {
+    LABELS["4-4"], LABELS["4-1"], LABELS["3-1"],  # 기존
+    LABELS["1-3"],                                # ← LICENSE 약한 가드 허용
+}
+
+def _is_relevant_quote(lbl: str, quote: str, model_id: str) -> bool:
+    # 1) Strong rule: sentence mentions target tokens
+    if _quote_mentions_target(quote, model_id):
+        return True
+    # 2) Weak rule for data/method items + LICENSE
+    if lbl in ALLOW_WEAK_GUARD:
+        if lbl == LABELS["1-3"]:
+            return _quote_has_license_signal(quote)
+        return _quote_has_filtering_signal(quote)
+    return False
+
 # ───────────── Prompts ─────────────
-_BASE_RECALL_SYS = """
+_GH_FILTER_HINTS = (
+    "dedup/near-duplicate/Minhash/SimHash/LSH/Jaccard",
+    "PII redaction/anonymization; language-ID (CLD3/fastText/langdetect)",
+    "toxicity/NSFW/safety; guard/moderation; model/LLM-based filtering",
+    "numeric thresholds/ratios: ppl < …, score ≥ …, removed XX%",
+    "phrases: cascaded filtering pipeline / multi-stage / series of filtering",
+)
+
+_BASE_RECALL_SYS = f"""
 You are an expert at extracting AI model openness evaluation information from a GitHub repository.
 Using only the payload (original text), return evidence for each item in the format:
-  [{ "source": "...", "quote": "..." }, …]
+  [{{ "source": "...", "quote": "..." }}, …]
 · source  : one of [repo], [readme], [license_files], [files], [py_files/xxx.py]
 · quote   : a verbatim sentence copied from that section (no edits/summaries)
 If there is no evidence, return an empty array [].
+Focus: for "4-4 (Data Filtering)" look for these signals → {", ".join(_GH_FILTER_HINTS)}
 You must output a JSON object only.
 """.strip()
 
 _BASE_SUMMARY_SYS = """
 Using the provided quotes only, write long and detailed summaries for each item.
 Do not paraphrase without quotation support. Output JSON only.
+For "4-4 (Data Filtering)", prefer quotes with concrete criteria: tool/classifier mentions,
+numeric thresholds/ratios (e.g., ppl < X, Jaccard >= Y, removed Z%), or pipeline-stage wording.
 """.strip()
 
 _USAGE_SYS = """
@@ -201,12 +308,25 @@ Answer JSON only:
 """.strip()
 
 def _recall_inst(g: List[str], model_id: str) -> str:
-    return (
+    base = (
         _model_guard_text(model_id) +
         "\nItems in this group:\n" + _js(_desc(g)) +
         "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
         _js({LABELS[i]: [] for i in g})
     )
+    # Add explicit hints when 4-4 is in scope
+    if "4-4" in g:
+        hints = (
+            "\nHINTS for 4-4 (Data Filtering):\n"
+            "- dedup/near-duplicate/Minhash/SimHash/LSH/Jaccard\n"
+            "- PII redaction/anonymization; language-ID (CLD3/fastText/langdetect)\n"
+            "- toxicity/NSFW/safety; guard/moderation; model/LLM-based filtering\n"
+            "- numeric thresholds/ratios (ppl < …, score ≥ …, removed XX%)\n"
+            "- pipeline phrases: cascaded filtering pipeline / multi-stage / series of filtering\n"
+            "For 4-4/4-1/3-1 you may keep a quote without the TARGET token if it clearly describes these signals."
+        )
+        return base + hints
+    return base
 
 def _summ_inst(g: List[str], model_id: str) -> str:
     return (
@@ -290,7 +410,7 @@ def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str)
             qt  = (e.get("quote")  or "").strip()
             if not src or not qt: continue
             if not _valid_source(src): continue
-            if not _quote_mentions_target(qt, model_id): continue
+            if not _is_relevant_quote(lbl, qt, model_id): continue
             kept.append({"source": src, "quote": qt})
         out[lbl] = _dedup_evid(kept, EVIDENCE_LIMIT_PER_KEY)
     return out
@@ -319,6 +439,55 @@ def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str
         ev[lbl] = [{"source":"readme","quote":url}]
     return ev
 
+# ───────────── LICENSE backstops (1-3): README / front-matter / links / known URLs ─────────────
+def _scan_license_in_text(text: str) -> List[str]:
+    out: List[str] = []
+    if not text:
+        return out
+    # front-matter style
+    for m in LICENSE_LINE_PAT.finditer(text):
+        out.append(m.group(0).strip())
+    # explicit link line
+    for m in LICENSE_LINK_PAT.finditer(text):
+        out.append(f"{m.group(1)}: {m.group(2)}")
+    # generic inline mention
+    for m in ANY_LICENSE_INLINE_PAT.finditer(text):
+        line = m.group(0).strip()
+        if any(tok in line.lower() for tok in LICENSE_TOKENS):
+            out.append(line)
+    return out
+
+def _inject_backstop_license(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str,Any]) -> Dict[str, List[Dict[str,str]]]:
+    lbl = "1-3 (License)"
+    if ev.get(lbl):
+        return ev
+
+    readme = payload.get("readme") or ""
+    injected: List[Dict[str,str]] = []
+
+    # 1) README/front-matter lines
+    for ln in _scan_license_in_text(readme):
+        injected.append({"source":"readme", "quote": ln})
+
+    # 2) Known license URL hints from README text
+    rl = readme.lower()
+    for key, url in KNOWN_LICENSE_URLS.items():
+        if key in rl:
+            injected.append({"source":"readme", "quote": f"License reference: {url}"})
+
+    # 3) If still empty AND license_files text exists, grab first non-empty heading/line
+    if not injected:
+        lic_text = payload.get("license_files") or ""
+        lines = [ln.strip() for ln in lic_text.splitlines() if ln.strip()]
+        for ln in lines[:20]:
+            if _quote_has_license_signal(ln) or ln.lower().startswith(("license","copyright")):
+                injected.append({"source":"license_files", "quote": ln})
+                if len(injected) >= 5: break
+
+    if injected:
+        ev[lbl] = _dedup_evid(injected, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
 # ───────────── Step 1: collect (then post-filter) ─────────────
 def _collect(g, text: str, model_id: str) -> Dict[str, List[Dict[str,str]]]:
     ev = {LABELS[k]: [] for k in g}
@@ -331,6 +500,8 @@ def _collect(g, text: str, model_id: str) -> Dict[str, List[Dict[str,str]]]:
     raw_counts = {k: len(v or []) for k, v in ev.items()}
     ev = _filter_evidence_by_model(ev, model_id)
     ev = _rebalance_evidence(ev)
+    # Backstops
+    payload = None  # only for logging; backstops are injected in filter_github_features()
     kept_counts = {k: len(v or []) for k, v in ev.items()}
     print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
     return ev
@@ -417,6 +588,13 @@ def filter_github_features(model: str, save: bool = True, output_dir: str | Path
             payload = _make_payload(gh, idx-1)
             text = _payload_text(payload)
             ev   = _collect(grp, text, model)
+
+            # Backstops after post-filter:
+            if LABELS["1-3"] in ev and not ev[LABELS["1-3"]]:
+                ev = _inject_backstop_license(ev, payload)
+            elif LABELS["1-3"] not in ev:
+                ev = _inject_backstop_license(ev, payload)
+
             ev   = _inject_backstop_paper(ev, payload)  # README 내 논문 링크 백스톱
             summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)

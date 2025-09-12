@@ -34,10 +34,10 @@ def _dedup_texts_by_paragraph(texts: List[str], min_keep_len: int = 0) -> str:
             p = p.strip()
             if not p:
                 continue
-            # short-paragraph path (optional knob)
             key = hashlib.sha1(_normalize_for_hash(p).encode("utf-8")).hexdigest()
             if key in seen:
                 continue
+            # optional: allow short paragraphs to pass (for sentence merges)
             if min_keep_len and len(p) < min_keep_len:
                 seen.add(key); out.append(p); continue
             seen.add(key)
@@ -208,8 +208,117 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         if len(out) >= limit: break
     return out
 
+# ─────────── Generalized filtering-signal detection (for weak-guard) ───────────
+_GENERIC_FILTER_KWS = (
+    # categories / signals
+    "dedup", "duplicate", "near-duplicate", "minhash", "minhashlsh", "simhash", "lsh", "jaccard",
+    "pii", "anonymiz", "de-identif", "redact",
+    "langid", "language identification", "language-id", "language detection", "cld3", "fasttext", "langdetect",
+    "toxicity", "nsfw", "safety", "unsafe", "hate", "abuse", "violence", "sexual", "guardrail", "moderation",
+    "quality filter", "quality score", "perplexity", "ppl", "classifier", "detector", "model-based filter", "llm-based filter",
+    "contamination", "decontamination", "benchmark leakage",
+    "advertisement", "ad spam", "spam",
+    # pipeline phrasing
+    "cascaded filtering", "filtering pipeline", "multi-stage", "series of filtering", "stage 1", "stage 2", "step 1", "step 2",
+)
+
+_TOOL_NEAR_FILTER_PAT = re.compile(
+    r'(?is)\b(?:use|using|employ(?:ing)?|leverage|apply|applied|adopt(?:ed|ing)?|'
+    r'build(?:ing)?|train(?:ed|ing)?|run(?:ning)?)\b[^\.]{0,120}?'
+    r'\b(?:model(?:-based)?|classifier|detector|moderation|guard(?:rail)?|'
+    r'filter|sieve|cleaner|scrubber|anonymi[sz]er|redactor|safety model|content filter)\b'
+)
+_PROPER_TOOL_TITLE_PAT = re.compile(
+    r'\b[A-Z][A-Za-z0-9_.-]{2,}\s+(?:Guard|Moderation|Shield|Filter|Detector|Classifier)\b'
+)
+_PERCENT_CHANGE_PAT = re.compile(
+    r'(?i)\b(?:removed|discarded|dropped|filtered out|kept|retained|reduced(?: by)?)\b'
+    r'[^.%]{0,60}\b\d{1,3}\s?%')
+_THRESH_GENERIC_PAT = re.compile(
+    r'(?i)\b(?:threshold|cut-?off|cutoff|score)\b[^\.]{0,40}?(?:>=|≤|<=|<|>|=)\s*'
+    r'(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_METRIC_THRESH_PAT = re.compile(
+    r'(?i)\b(?:jaccard|similarity|overlap|perplexity|ppl|score)\b[^\.]{0,40}?'
+    r'(?:>=|≤|<=|<|>|=)\s*(?:0?\.\d+|[1-9]\d*(?:\.\d+)?)')
+_PIPELINE_PAT = re.compile(
+    r'(?i)\b(?:pipeline|multi[- ]?stage|cascad(?:ed|e)|series of filter|'
+    r'stage\s*\d+|step\s*\d+)\b'
+)
+
+def _quote_has_filtering_signal(q: str) -> bool:
+    if not q: return False
+    ql = q.lower()
+    if any(k in ql for k in _GENERIC_FILTER_KWS): return True
+    if (_TOOL_NEAR_FILTER_PAT.search(q) or _PROPER_TOOL_TITLE_PAT.search(q) or
+        _PERCENT_CHANGE_PAT.search(q) or _THRESH_GENERIC_PAT.search(q) or
+        _METRIC_THRESH_PAT.search(q) or _PIPELINE_PAT.search(q)):
+        return True
+    return False
+
+# ─────────── License detection (weak-guard allowed + backstop scan) ───────────
+_LICENSE_NAME_PAT = re.compile(
+    r'(?i)\b(?:license|licence|licensing|licensed under|license:)\b[^.\n]{0,80}?'
+    r'(apache\s*2(\.0)?|apache-2\.0|mit|bsd|gpl|lgpl|agpl|mpl|mozilla public license|'
+    r'cc[- ]?by(?:[- ]?sa)?|creative commons|openrail(?:-m)?|tii\s*f(alcon)?-llm\s*license|'
+    r'falcon-llm\s*license|llama\s*2\s*community\s*license|bigcode\s*openrail(?:-m)?)'
+)
+
+# ─────────── RL data signal detection (NEW, generic) ───────────
+_RL_DATA_KWS = (
+    "reward model", "preference data", "preference dataset", "pairwise preference",
+    "offline preference", "public preference", "human feedback", "ai feedback",
+    "rlhf", "dpo", "ppo", "preference optimization", "preference modeling"
+)
+_RL_DATA_NEAR_PAT = re.compile(
+    r'(?is)\b(?:reward model|preference(?:s)?(?:\s*(?:data|dataset|model|optimization))?|rlhf|dpo|ppo|human feedback|ai feedback)\b'
+    r'[^.]{0,120}?\b(?:data|dataset|corpus|public|released|open|collected|train(?:ed|ing) on)\b'
+)
+
+def _quote_has_rl_data_signal(q: str) -> bool:
+    """Detect generic RL data signals without tying to a specific model name."""
+    if not q: return False
+    ql = q.lower()
+    if any(k in ql for k in _RL_DATA_KWS): return True
+    if _RL_DATA_NEAR_PAT.search(q):
+        return True
+    return False
+
+# Labels where weak-guard is allowed (data/method heavy sections) + License + RL-Data
+def _allow_weak_guard_labels() -> set[str]:
+    # ADD: LABELS["4-3"] to catch RL data quotes even if the sentence lacks explicit target tokens.
+    return { LABELS["4-4"], LABELS["4-1"], LABELS["3-1"], LABELS["1-3"], LABELS["4-3"] }
+
+def _snippet_around(text: str, m: re.Match, radius: int = 160) -> str:
+    start = max(0, m.start() - radius)
+    end   = min(len(text), m.end() + radius)
+    snip  = text[start:end].strip()
+    # collapse whitespace for readability
+    snip  = re.sub(r"[ \t]+", " ", snip)
+    return snip
+
+def _inject_license_backstop(ev: Dict[str, List[Dict[str,str]]],
+                             payload_text: str) -> Dict[str, List[Dict[str,str]]]:
+    """
+    If no license evidence was captured, scan payload text for license phrases
+    and inject quotes with source=[pdf_text]. Allowed even if model tokens are absent.
+    """
+    lbl = LABELS["1-3"]
+    if ev.get(lbl):
+        return ev
+    if not payload_text:
+        return ev
+    adds: List[Dict[str,str]] = []
+    for m in _LICENSE_NAME_PAT.finditer(payload_text):
+        q = _snippet_around(payload_text, m)
+        if q:
+            adds.append({"source": "[pdf_text]", "quote": q})
+    if adds:
+        ev[lbl] = _dedup_evs(adds, EVIDENCE_LIMIT_PER_KEY)
+    return ev
+
 # ─────────── Prompts ───────────
-# (EN comment) Evidence recall prompt: strict target filter + allow previous+current sentence merge rule.
+# Evidence recall prompt: strict target filter + allow previous+current sentence merge rule.
+# Hints for data-filtering are injected per-group from _recall_inst().
 _BASE_RECALL_SYS = """
 You are an expert at extracting AI model openness evaluation information from arXiv source text.
 Using only the payload (original text), return evidence for each item in the format
@@ -224,13 +333,15 @@ If there is no evidence, return an empty array [].
 You must output a JSON object only.
 """.strip()
 
-# (EN comment) Summary prompt: produce long, detailed summaries using quotes only.
+# Summary prompt: produce long, detailed summaries using quotes only.
 _BASE_SUMMARY_SYS = """
 Using the provided quotes only, write long and detailed summaries for each item.
+- For "4-4 (Data Filtering)", prefer quotes that include concrete criteria: tool/classifier mentions,
+  numeric thresholds/ratios (e.g., Jaccard 0.95, ppl < X, removed Y%), or pipeline-stage wording.
 You must output a JSON object only.
 """.strip()
 
-# (EN comment) Usage classifier prompt: decide whether FT / RL were actually used for the TARGET model.
+# Usage classifier prompt: decide whether FT / RL were actually used for the TARGET model.
 _USAGE_SYS = """
 You are a classifier. Decide whether the MODEL ITSELF (as released by the authors)
 actually USED the following stages in its training pipeline:
@@ -250,18 +361,37 @@ Answer JSON only:
 { "fine_tuning": "used|not_used|unknown", "rl": "used|not_used|unknown" }
 """.strip()
 
+# Filter hints used in _recall_inst (only for 4-4 groups)
+_FILTER_HINTS = (
+    "dedup/near-duplicate/Minhash/SimHash/LSH/Jaccard",
+    "PII anonymization/redaction; language-ID (CLD3, fastText, langdetect)",
+    "toxicity/NSFW/safety; moderation/guard",
+    "model/LLM-based filtering; classifier/detector",
+    "numeric thresholds/ratios: ppl < …, score >= …, removed XX%",
+    "pipeline phrasing: cascaded filtering pipeline / multi-stage / series of filtering"
+)
+
 def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 
 def _skeleton(g):  # exact keys to force model output shape
     return {LABELS[i]: [] for i in g}
 
 def _recall_inst(g: List[str], model_id: str) -> str:
-    return (
+    base = (
         _model_guard_text(model_id) +
         "\nItems in this group:\n" + _js(_desc(g)) +
         "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
         _js(_skeleton(g))
     )
+    if "4-4" in g:  # inject data-filtering hints
+        hints = (
+            "\n\nMUST LOOK HARD FOR '4-4 (Data Filtering)':\n- Hints: " +
+            "; ".join(_FILTER_HINTS) +
+            "\n- Accept numeric thresholds/ratios (e.g., 0.95, 80%, ppl < 40), pipeline phrases (cascaded/multi-stage),\n"
+            "  and 'model/LLM-based filtering' or 'classifier/detector' as concrete details."
+        )
+        return base + hints
+    return base
 
 def _summ_inst(g: List[str], model_id: str) -> str:
     return (
@@ -367,9 +497,14 @@ def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str)
     """
     Keep evidence if:
       - quote mentions TARGET tokens, OR
-      - source tag (e.g., [title], [sections/Llama 3.1 Overview]) mentions TARGET tokens.
+      - source tag (e.g., [title], [sections/Llama 3.1 Overview]) mentions TARGET tokens, OR
+      - (for selected labels) the quote carries generalized signals (weak-guard):
+          · 4-4, 4-1, 3-1: filtering/data/method signals
+          · 1-3 (License): license-name/phrase patterns (_LICENSE_NAME_PAT)
+          · 4-3 (RL Data): reward-model / preference-data signals (_quote_has_rl_data_signal)
     """
     out: Dict[str, List[Dict[str,str]]] = {}
+    weak_labels = _allow_weak_guard_labels()  # e.g., 4-4, 4-1, 3-1, 1-3, 4-3
     for lbl, arr in ev.items():
         kept = []
         for e in arr or []:
@@ -377,9 +512,18 @@ def _filter_evidence_by_model(ev: Dict[str, List[Dict[str,str]]], model_id: str)
             qt  = (e.get("quote")  or "").strip()
             if not src or not qt: continue
             if not _valid_source(src): continue
-            if not (_quote_mentions_target(qt, model_id) or _source_tag_mentions_target(src, model_id)):
-                continue
-            kept.append({"source": src, "quote": qt})
+
+            ok = (_quote_mentions_target(qt, model_id) or _source_tag_mentions_target(src, model_id))
+            if not ok and (lbl in weak_labels):
+                if lbl == LABELS["1-3"]:
+                    ok = bool(_LICENSE_NAME_PAT.search(qt))
+                elif lbl == LABELS["4-3"]:
+                    ok = _quote_has_rl_data_signal(qt)
+                else:
+                    ok = _quote_has_filtering_signal(qt)
+
+            if ok:
+                kept.append({"source": src, "quote": qt})
         out[lbl] = _dedup_evs(kept, EVIDENCE_LIMIT_PER_KEY)
     return out
 
@@ -413,7 +557,6 @@ def _collect(g: List[str], text: str, model_id: str) -> Dict[str, List[Dict[str,
     kept_counts = {lbl: len(ev.get(lbl) or []) for lbl in ev}
     print("evidence counts before/after model-guard:", {"raw": raw_counts, "kept": kept_counts})
 
-    # 재배치 휴리스틱 (특히 3-2 → 4-2)
     return _rebalance_evidence(ev)
 
 # ─────────── Summarize ───────────
@@ -596,6 +739,8 @@ def filter_arxiv_features(model: str, save: bool = True, output_dir: str | Path 
             pay = _make_payload(doc_for_payload)
             text = _payload_text(pay)
             ev   = _collect(grp, text, model)
+            # License backstop injection (scan payload text if missing)
+            ev   = _inject_license_backstop(ev, pay.get("pdf_text","") or text)
             summ = _summarize(grp, ev, model)
             part = _merge(summ, ev)
         except Exception as e:
