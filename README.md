@@ -2,7 +2,7 @@
 Follow-up project of paper(Evaluating the Openness of Impactful AI Models with a Focus on LLMs)
 
 ## System Architecture
-![시스템 구조](./System%20Architecture.png)
+![시스템 구조](./System%20Architecture2.png)
 
 ##  Code Architecture
 ![코드 구조](./Code%20Architecture.png)
