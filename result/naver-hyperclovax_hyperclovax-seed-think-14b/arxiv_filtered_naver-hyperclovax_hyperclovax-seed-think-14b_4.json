@@ -1,0 +1,78 @@
+{
+  "4-1 (Pre-training Data)": "The available statements repeatedly emphasize that HyperCLOVA X THINK is pre-trained on “roughly 6 trillion high-quality Korean, and English tokens” that are “balanced” across the two languages and “augmented with targeted synthetic Korean data.”  The authors say they “curated a corpus of roughly six trillion tokens” expressly “to meet the imperatives of both advanced reasoning and sovereign AI—for Korea, in particular.”  In another passage they reiterate that the model’s pre-training dataset “comprises approximately 6 trillion high-quality tokens spanning Korean, English, and [is] further enhanced by targeted synthetic Korean data.”  Together, these quotes show that THINK’s foundation model was built from a very large-scale multilingual corpus, with special effort placed on Korean coverage and additional synthetic Korean examples to enhance reasoning capabilities, while keeping total volume near six trillion tokens.",
+  "4-2 (Fine-tuning Data)": "After the core pre-training stage, HyperCLOVA X THINK is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” a process that “supports both detailed rationale and concise-answer modes.”  The fine-tuning (SFT) set is described as being “constructed by aggregating various sources across mathematics, coding, STEM, and general abilities.”  THINK is “trained to operate in an integrated manner, allowing for dynamic switching between a detailed ‘reasoning mode’ for complex, multi-step reasoning and a more direct ‘non-reasoning mode’ for rapid, context-driven responses.”  For the reasoning portion, “each sample contains [a] prompt, assistant think, and assistant response.”  Collectively, these statements specify that the SFT data pool is multi-domain, that it encodes both reasoning and non-reasoning interaction styles, and that its annotation schema explicitly separates the intermediate chain-of-thought (“assistant think”) from the final answer (“assistant response”).",
+  "4-3 (Reinforcement Learning Data)": "The same post-training pipeline notes that HyperCLOVA X THINK is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” indicating that a dedicated reward signal guides optimization beyond SFT.  One quote further clarifies that the RLHF phase uses prompts that are “a mixture of reasoning and non-reasoning tasks.”  During RLHF, “for non-reasoning, the model is expected to generate [the] assistant response directly, while for reasoning, the model first generates [an] intermediate think step followed by [the] assistant response.”  Hence, the reinforcement data include paired prompts and model outputs, labelled (implicitly through reward or preference data) to favor step-by-step explanations when reasoning is required and to favor direct answers otherwise; this mirrors the dual-mode behaviour encouraged during SFT.",
+  "4-4 (Data Filtering)": "Two excerpts describe a dedicated data-processing pipeline for THINK.  First, “the data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh,” letting new corpora be added “with minimal latency while maintaining strict quality guarantees.”  The pipeline “separates schema standardization from quality assessment and filtering”: raw documents are passed through “lightweight cleansing, canonicalization of field names, and storage in a unified schema” before quality checks occur.  A companion passage adds that, after ingestion, a “two-tier filtering framework” is applied, one that is “tailored to the linguistic and typographic characteristics of Korean,” again reinforcing the guarantee of both breadth and high quality.  While the quotes do not list concrete numeric thresholds, they do document a multi-stage process that first normalizes heterogeneous data and then applies language-specific filters to ensure only high-quality content reaches the final training set.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    },
+    {
+      "source": "[sections/Pre-Training]",
+      "quote": "To meet the imperatives of both advanced reasoning and sovereign AI—for Korea, in particular—we present HyperCLOVA X THINK (henceforth THINK). In particular, we curated a corpus of roughly six trillion tokens that balances high-quality Korean and English text with targeted synthetic Korean data."
+    },
+    {
+      "source": "[sections/Pre-Training §2.3]",
+      "quote": "Stage 1 establishes a general-purpose foundational knowledge base spanning multiple domains. … Training proceeds on sequences up to 8 K tokens, consuming 6 trillion tokens in total."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduced HyperCLOVA X THINK, the first reasoning-focused LLM within HyperCLOVA X family. Its pre-training dataset comprises approximately 6 trillion high-quality tokens spanning Korean, English, and further enhanced by targeted synthetic Korean data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, ... and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "HyperCLOVA X THINK … was … post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/Post-Training §3.1]",
+      "quote": "THINK is trained to operate in an integrated manner, allowing for dynamic switching between a detailed ‘reasoning mode’ for complex, multi-step reasoning and a more direct ‘non-reasoning mode’ for rapid, context-driven responses. The dataset used for SFT is constructed by aggregating various sources across mathematics, coding, STEM, and general abilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For reasoning data, each sample contains prompt, assistant think, and assistant response."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, ... and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "HyperCLOVA X THINK … was … post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/Post-Training Figure 3 caption]",
+      "quote": "A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The prompts used during RLHF training consist of a mixture of reasoning and non-reasoning tasks. For non-reasoning, the model is expected to generate assistant response directly, while for reasoning, the model first generates intermediate think step followed by assistant response."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Pre-Training/Data Preparation]",
+      "quote": "Data Pipeline. The data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh, so that new corpora can be incorporated with minimal latency while maintaining strict quality guarantees. Following Weber et al. (2024a), the pipeline separates schema standardization from quality assessment and filtering. During standardization, raw documents in heterogeneous formats undergo lightweight cleansing, canonicalization of field names, and storage in a unified schema."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "The data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh, so that new corpora can be incorporated with minimal latency while maintaining strict quality guarantees. To obtain a corpus that is simultaneously broad and reliably high-quality, we devise a two-tier filtering framework tailored to the linguistic and typographic characteristics of Korean."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "Among various quantitative signals, five representative examples—symbol-to-word ratio, mean word length, sentence count, masked-PII ratio, and the proportion of normalized to raw length—are computed for each document."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "Near-duplicates are removed with a MinHash index that is rebuilt at every refresh."
+    }
+  ]
+}

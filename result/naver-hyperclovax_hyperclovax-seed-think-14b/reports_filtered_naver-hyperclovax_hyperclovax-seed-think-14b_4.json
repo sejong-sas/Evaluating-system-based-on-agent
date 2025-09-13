@@ -1,0 +1,54 @@
+{
+  "4-1 (Pre-training Data)": "The pre-training of the target model family is centered on HyperCLOVA X THINK, described as “the first reasoning-focused large language model in the HyperCLOVA X family.”  According to the disclosure, the model is “pre-trained on roughly 6 trillion high-quality Korean and English tokens, augmented with targeted synthetic Korean data.”  The language mix therefore spans at least two natural-language sources (Korean and English) plus an additional tranche of synthetic Korean material generated specifically to strengthen coverage of that language.  During the pre-training stage, “each model was trained under a controlled random seed.”  Progress is monitored at “iteration 14,000—corresponding to the completion of 30 B tokens,” whose training loss is used as the principal reference point.  A smaller experimental configuration is also mentioned: “We pre-train the 400 M-parameter Transformers on 30 B tokens each under the controlled same training seed.”  Although individual corpus titles or licensing terms are not enumerated, the quotes jointly specify (i) overall scale (≈6 T tokens), (ii) language composition (Korean, English, synthetic Korean), (iii) the existence of strict seeding for reproducibility, and (iv) a 30 B-token milestone that anchors empirical evaluation during the pre-training run.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning is situated in a broader “post-training pipeline” and begins with a supervised fine-tuning (SFT) phase.  The pipeline explicitly enumerates the data-driven stages that follow: “Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF).”  A second statement reiterates that THINK is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” and emphasizes that the resulting model can operate in “both detailed rationale and concise-answer modes.”  Together, the quotes establish that fine-tuning datasets are purpose-built for (a) injecting core reasoning patterns, (b) supplying reward-model supervision, and (c) enabling controllable answer length.  They further clarify that the data are processed on “a large-scale GPU cluster,” implying sizeable dataset volume, although exact token counts, public availability, or individual dataset names are not provided.",
+  "4-3 (Reinforcement Learning Data)": "After the initial SFT stage, reinforcement learning data shape the model through a “multi-stage reinforcement learning pipeline that incorporates verifiable rewards, length-controllability, and human feedback.”  The curriculum begins with supervised fine-tuning “on carefully designed reasoning tasks,” then transitions to reinforcement learning where the reward signal is explicitly described as “verifiable.”  Human-authored feedback is folded in via RLHF, and additional stages enforce explicit control over answer length.  These data collectively aim to “achieve aligned, efficient, and scalable reasoning.”  While no numeric dataset sizes are supplied, the disclosure affirms that the reinforcement data are multi-sourced (verifiable evaluations, length control signals, and human feedback) and specifically engineered around complex reasoning use-cases.",
+  "4-4 (Data Filtering)": "Data quality is enforced before training through a dedicated preparation and filtering pipeline.  In the “Data-Preparation Phase,” the system “collects raw corpora, carries out cleansing, language identification, deduplication, and masking; attaches quantitative quality signals, applies filtering, synthesizes targeted data, and serializes the resulting shards.”  A follow-up description adds three guiding principles—“scalability, reusability, and quick refresh”—and explains that the pipeline first performs schema standardization, then a separate “quality assessment and filtering” stage.  During annotation, it “attaches quantitative quality signals, including structural and linguistic metrics, and applies masking to all personally identifiable information (PII).”  Finally, “the filtering stage then materializes stage-specific corpora by applying threshold rules to the annotated data and serializes the result into shard files optimized for streaming.”  Although explicit numeric thresholds are not divulged, the cited steps reveal concrete criteria and tooling: (1) language ID classifiers, (2) deduplication procedures, (3) PII masking, (4) structural & linguistic quality metrics, and (5) rule-based thresholds that decide corpus inclusion.  The result is a set of pre-filtered, versioned shards ready for large-scale training.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the pretraining stage, each model was trained under a controlled random seed. We used the training loss at iteration 14, 000—corresponding to the completion of 30B tokens—as our main reference point."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train the 400M-parameter Transformers on 30B tokens each under the controlled same training seed."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 3: Post-training pipeline of HyperCLOVA X THINK. (2) Training Phase: A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data. It was implemented as a compute-memory-balanced Peri-LN Transformer scaled with µP, pre-trained through a three-stage curriculum that expands the context window to 128K tokens, and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "During pre-training, A three-stage curriculum gradually increases the context window, culminating in 128k tokens, which enables THINK to process long documents and perform multi-step reasoning within a single pass. Then, for post-training, we combine supervised fine-tuning on carefully designed reasoning tasks with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "This section outlines the post-training methodology of THINK: a supervised fine-tuning (SFT) phase that injects core reasoning patterns and task-specific capabilities (Section 3.1); and a multi-stage reinforcement learning pipeline that incorporates verifiable rewards, length-controllability, and human feedback to achieve aligned, efficient, and scalable reasoning (Sections 3.2–3.4)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1: Pre-training pipeline of HyperCLOVA X THINK. (1) Data-Preparation Phase: A scalable pipeline collects raw corpora, carries out cleansing, language identification, deduplication, and masking; attaches quantitative quality signals, applies filtering, synthesizes targeted data, and serializes the resulting shards"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "The data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh, so that new corpora can be incorporated with minimal latency while maintaining strict quality guarantees. Following Weber et al. (2024a), the pipeline separates schema standardization from quality assessment and filtering. The subsequent annotation stage attaches quantitative quality signals, including structural and linguistic metrics, and applies masking to all personally identifiable information (PII). The filtering stage then materializes stage-specific corpora by applying threshold rules to the annotated data and serializes the result into shard files optimized for streaming."
+    }
+  ]
+}

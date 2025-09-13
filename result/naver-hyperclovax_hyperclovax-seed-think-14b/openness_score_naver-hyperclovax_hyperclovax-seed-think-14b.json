@@ -1,0 +1,148 @@
+{
+  "model": "naver-hyperclovax/HyperCLOVAX-SEED-Think-14B",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report dedicated to this model is on arXiv (eprint 2506.22403 ‘HyperCLOVA X THINK Technical Report’)."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Quotes mention training GPU type (A100-80 GB) and GPU-hour accounting, but give no card counts or cluster size."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only generic inference stack is quoted (Transformers ≥ 4.53, timm).  No training-time frameworks or distributed libraries are stated."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only third-party or generic API mentions; no official owner-hosted API.  Web search found no official API docs."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Discloses overall volume (≈ 6 T tokens) and language mix (Korean, English, synthetic Korean) but not specific source lists or licensing breakdowns."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that SFT data is aggregated from math, coding, STEM, etc., but no dataset names, sizes, or release links are given."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions mixed reasoning / non-reasoning prompt set used for RLHF and verifiable-reward stages; composition details are absent."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report dedicated to this model is on arXiv (eprint 2506.22403 ‘HyperCLOVA X THINK Technical Report’)."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Quotes mention training GPU type (A100-80 GB) and GPU-hour accounting, but give no card counts or cluster size."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only generic inference stack is quoted (Transformers ≥ 4.53, timm).  No training-time frameworks or distributed libraries are stated."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only third-party or generic API mentions; no official owner-hosted API.  Web search found no official API docs."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Discloses overall volume (≈ 6 T tokens) and language mix (Korean, English, synthetic Korean) but not specific source lists or licensing breakdowns."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that SFT data is aggregated from math, coding, STEM, etc., but no dataset names, sizes, or release links are given."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions mixed reasoning / non-reasoning prompt set used for RLHF and verifiable-reward stages; composition details are absent."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+    }
+  },
+  "final_score_10pt": 5.938,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 9.5,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

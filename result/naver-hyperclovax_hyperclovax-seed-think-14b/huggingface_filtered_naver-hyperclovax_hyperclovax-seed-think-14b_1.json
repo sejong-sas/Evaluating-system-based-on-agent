@@ -1,0 +1,89 @@
+{
+  "1-1 (Weights)": "All available sentences point to an openly downloadable checkpoint on Hugging Face for naver-hyperclovax/HyperCLOVAX-SEED-Think-14B. The instructions say that, after “downloading the model binaries, including the configuration files, to a local path (`/path/to/hyperclova-x-seed-think-14b`)” a user can load the weights with\n  model_name = \"naver-hyperclovax/HyperCLOVAX-SEED-Think-14B\"\n  model = AutoModelForCausalLM.from_pretrained(model_name, trust_remote_code=True, device_map=\"auto\")\nAlternatively, a one-line command – `vllm serve naver-hyperclovax/HyperCLOVAX-SEED-Think-14B --trust_remote_code` – exposes the model for inference. The repository contains sharded weight files such as “model-00001-of-00012.safetensors” as well as the corresponding index “model.safetensors.index.json”. The presence of these concrete filenames and the loading examples together indicate that anyone who can reach the Hugging Face repository can fetch the full 12-shard weight set together with configuration data and run it locally without further authentication keys or gated approval.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model binaries, including the configuration files, to a local path(`/path/to/hyperclova-x-seed-think-14b`), you can run the following in a Python environment with the Huggingface library"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"naver-hyperclovax/HyperCLOVAX-SEED-Think-14B\" model = AutoModelForCausalLM.from_pretrained(model_name, trust_remote_code=True, device_map=\"auto\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "`vllm serve naver-hyperclovax/HyperCLOVAX-SEED-Think-14B --trust_remote_code`"
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00012.safetensors"
+    },
+    {
+      "source": "[files]",
+      "quote": "model.safetensors.index.json"
+    }
+  ],
+  "1-2 (Code)": "No quote explicitly mentions the release status of TRAINING code (pre-training, fine-tuning or RL). The snippets only show example *inference* usage with Hugging Face and vLLM. Therefore, based solely on the provided material, there is no public training code disclosed for HyperCLOVA X SEED Think 14B.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "The repo declares \"license: other\" with a specific file: “HyperCLOVA X SEED Model License Agreement”. Multiple sentences refer to it as the “HyperCLOVA X SEED 14B Think Model License Agreement.”  The agreement grants “a non-exclusive, worldwide, non-transferable, revocable and royalty-free limited license … to access, download, install, copy, use, reproduce, distribute, create derivative works of, and make modifications to the Model,” but it also reserves all other rights to NAVER.  Redistribution is allowed only if the distributor (i) passes along the Prohibited Use Policy, (ii) provides recipients with the same Agreement, (iii) marks modified files, (iv) includes the attribution notice: “HyperCLOVA X SEED 14B Think Model is licensed under the HyperCLOVA X SEED 14B Think Model License Agreement, Copyright © NAVER Corp. All Rights Reserved.”, and (v) “prominently display[s] ‘Powered by HyperCLOVA X’”.  The prohibited-use clause broadly bans any unlawful purpose.  Entities with more than “10 million monthly active users” or offering “any product or service … which is substantially similar to or directly competes with” NAVER’s must obtain a separate commercial license.  In addition, two source files that accompany the architecture comment: “# Licensed under the Apache License, Version 2.0,” indicating that auxiliary implementation code is Apache 2.0 even though the model weights themselves fall under the bespoke HyperCLOVA X SEED license.  A “LICENSE” file is explicitly present.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "---\nlicense: other\nlicense_name: hyperclovax-seed\nlicense_link: LICENSE\n---"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model is licensed under [HyperCLOVA X SEED Model License Agreement](./LICENSE)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "HyperCLOVA X SEED 14B Think Model License Agreement"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Subject to the terms and conditions of this Agreement, NAVER hereby grants to you a non-exclusive, worldwide, non-transferable, revocable and royalty-free limited license under NAVER’s intellectual property or other rights owned by NAVER embodied in the Model to access, download, install, copy, use, reproduce, distribute, create derivative works of, and make modifications to the Model."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "NAVER expressly prohibits the use of its products or services for any purpose in violation of applicable law and regulation, including but not limited to:"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You may reproduce, distribute or make available the Model or Derivative Models thereof, or a product or service (including another AI model) that contains any of them, if you meet all of the following conditions: you must (i) include the Prohibited Use Policy referenced in Section 2.3. as an enforceable provision in any agreement (e.g., license agreement, terms of use, etc.) governing the use and/or distribution of the Model or Derivative Model and you must provide notice to subsequence users you distribute to the Model or Derivative Models are subject to the use restrictions in Section 2.3., (ii) provide all third party recipients of the Model or Derivative Models a copy of this Agreement, (iii) cause any modified files to carry prominent notices stating that you modified the files; (iv) include the following attribution notice within a “Notice” text file distributed as part of such copies: “HyperCLOVA X SEED 14B Think Model is licensed under the HyperCLOVA X SEED 14B Think Model License Agreement, Copyright © NAVER Corp. All Rights Reserved.”, and (v) prominently display “Powered by HyperCLOVA X” on a related website, user interface, blogpost, about page, or product documentation."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If (i) as of the Model Release Date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s Affiliates, is greater than 10 million monthly active users in the preceding calendar month, or (ii) the Licensee or its Affiliate distributes or makes available any product or service, which is substantially similar to or directly competes with any product and service provided by NAVER, then the Licensee must request a license from NAVER."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "NAVER is committed to promoting safe and responsible use of its AI technologies, including the HyperCLOVA X SEED 14B Think Model (the “Model”)."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture.\n# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/modeling_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture.\n# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[readme]",
+      "quote": "n this Agreement, NAVER Corp. reserves all rights, interests and remedies in connection with the Model and Derivative Model created by NAVER Corp. and no other license or right is granted to you by implication, estoppel or otherwise. Subject to NAVER Corp.’s ownership of the Model and any Derivative Model made by or for NAVER Corp., with respect to any derivat"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two citations document the model.  First, deployment notes state that the project applies “the latest RL recipe validated in HyperCLOVA X Think” and link to https://arxiv.org/pdf/2506.22403.  Second, the full reference is given as @misc{navercloudhyperclovaxteam2025hyperclovaxthinktechnical, title={HyperCLOVA X THINK Technical Report}, author={NAVER Cloud HyperCLOVA X Team}, year={2025}, eprint={2506.22403}, archivePrefix={arXiv}, primaryClass={cs.CL}.  This confirms an official technical report on arXiv (e-print 2506.22403) dedicated to HyperCLOVA X THINK.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{navercloudhyperclovaxteam2025hyperclovaxthinktechnical,\n      title={HyperCLOVA X THINK Technical Report}, \n      author={NAVER Cloud HyperCLOVA X Team},\n      year={2025},\n      eprint={2506.22403},\n      archivePrefix={arXiv},\n      primaryClass={cs.CL},\n      url={https://arxiv.org/abs/2506.22403}, \n}"
+    }
+  ]
+}

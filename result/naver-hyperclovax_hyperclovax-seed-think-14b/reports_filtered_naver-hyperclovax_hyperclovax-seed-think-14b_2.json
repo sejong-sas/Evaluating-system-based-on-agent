@@ -1,0 +1,37 @@
+{
+  "1-5 (Architecture)": "The available information on the architecture comes from two passages that explicitly name the target‐family tokens “THINK” and “SEED.”  First, we are told that “HyperCLOVA X THINK” is a reasoning-focused large language model that belongs to the HyperCLOVA X family.  It is implemented as “a compute-memory-balanced Peri-LN Transformer scaled with µP,” and it is “pre-trained through a three-stage curriculum that expands the context window to 128 K tokens.”  The same sentence notes that roughly “6 trillion high-quality Korean and English tokens,” augmented with targeted synthetic Korean data, are used in pre-training.  After this curriculum, the model is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” enabling it to operate in “detailed rationale” or “concise-answer” modes.  Second, another sentence highlights a related model in the family: “HyperCLOVA X SEED 0.5B … is the first open-source model in the HyperCLOVA X series trained using pruning and knowledge distillation.”  Together, these quotes establish that the THINK variant relies on a Peri-LN Transformer architecture with µP scaling, very large context lengths (up to 128 K tokens), and a curriculum/post-training pipeline aimed at high-quality reasoning, while the SEED sub-model showcases the family’s use of pruning and distillation techniques.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "The only explicit hardware detail appears in the sentence that accompanies Figure 3 and names the model: during the post-training phase of “HyperCLOVA X THINK,” “a sequence of fine-tuning procedures … is executed across a large-scale GPU cluster.”  No additional numbers or GPU classes are provided, but the quote confirms that a sizable, multi-GPU setup is employed for the training/fine-tuning stages that follow pre-training.",
+  "2-2 (Software)": "For the software‐side training procedures, the quote that references “THINK” explains that pre-training follows “a three-stage curriculum” which gradually grows the context window until it reaches 128 K tokens, allowing the model to process long documents and perform multi-step reasoning in a single pass.  After this curriculum, the post-training stack combines “supervised fine-tuning on carefully designed reasoning tasks” with “Reinforcement Learning from Verifiable Rewards.”  These two ingredients—SFT and RL with verifiable reward signals—form the core of the software pipeline that adapts the pre-trained model into its final reasoning-capable form.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data. It was implemented as a compute-memory-balanced Peri-LN Transformer scaled with µP, pre-trained through a three-stage curriculum that expands the context window to 128K tokens, and post-trained via supervised fine-tuning with Rein- forcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As illustrated in Figure 2, the Peri-LN model exhibits fewer gradient and loss spikes than its Pre-LN counterpart, reproducing the large-scale stability benefits reported by Kim et al. (2025). Furthermore, the Peri-LN configuration attains, on average, a 15 % lower training loss within the same wall-clock budget. These findings confirm that Peri-LN delivers superior stability and performance without incurring additional computational cost, and thus we adopt it as the default normalization scheme in the THINK architecture."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data. It was implemented as a compute-memory-balanced Peri-LN Transformer scaled with µP, pre-trained through a three-stage curriculum that expands the context window to 128K tokens, and post-trained via supervised fine-tuning with Rein- forcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As a real-world example, HyperCLOVA X SEED 0.5B, recently released on HuggingFace, is the\nfirst open-source model in the HyperCLOVA X series trained using pruning and knowledge distil-\nlation."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "Figure 3: Post-training pipeline of HyperCLOVA X THINK. ... (2) Training Phase: A sequence of fine-tuning procedures—including Su- pervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Re- wards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/pdf/2506.22403]",
+      "quote": "During pre-training, A three-stage curriculum gradually increases the context window, culminating in 128k tokens, which enables THINK to process long documents and perform multi-step reason- ing within a single pass. Then, for post-training, we combine supervised fine-tuning on carefully designed reasoning tasks with Reinforcement Learning from Verifiable Rewards."
+    }
+  ]
+}

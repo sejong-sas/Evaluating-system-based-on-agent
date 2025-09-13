@@ -1,0 +1,252 @@
+{
+  "1-1 (Weights)": "Across several statements, the developers repeatedly say they have not yet released the full 14-billion-parameter HyperCLOVA X THINK checkpoint, but that they are actively preparing a smaller, pruned-and-distilled edition that WILL be released. Direct wording includes: “Currently, a pruned and distilled version of THINK is under preparation to be open-sourced.”  Similar language is echoed in two other places: “Lastly, we plan to open-source a pruned and distilled version of HyperCLOVA X THINK,” and, with more detail, “Lastly, we present a pruning and distillation technique that will soon be applied to HyperCLOVA X THINK for an open-source and business-friendly foundation model. We plan to open-source release this model under a business-friendly license.”  One sentence places the effort in a broader series context by noting that “HyperCLOVA X SEED 0.5B, recently released on HuggingFace, is the first open-source model in the HyperCLOVA X series trained using pruning and knowledge distillation.”  Collectively, these quotes convey that (a) weights for the original 14 B THINK are not yet public, (b) a lighter distilled/pruned variant is in active preparation, (c) the release will be under a business-friendly license and open to anyone, and (d) the precedent of releasing HyperCLOVA X SEED 0.5B on HuggingFace indicates the likely distribution platform and download-by-anyone model once the distilled THINK weights are ready.",
+  "1-2 (Code)": "The provided material contains no sentence that explicitly describes the availability (or absence) of the full TRAINING code, data-prep scripts, configuration files, or scheduling scripts for HyperCLOVA X THINK. Therefore, based strictly on the supplied quotes, no information is available regarding public release or licensing of the training pipeline or fine-tuning code.",
+  "1-3 (License)": "Every mention of licensing ties back to the future open-sourced, pruned-and-distilled THINK model. The authors repeatedly emphasize a “…business-friendly license.”  For example: “This technique will soon be applied to THINK itself … We plan to open-source release this model under a business-friendly license.”  They reinforce the same point in the pipeline description: “Third, we share a practical pruning-distillation pipeline and commit to apply it for an open-source version of THINK—fostering further research and commercial deployment, even under more resource-constrained settings.”  Finally they restate: “We plan to open-source release this model under a business-friendly license.”  The language explicitly highlights that commercial use will be allowed (“business-friendly” and “commercial deployment”), but does not set out any restrictions or conditions on modification or redistribution beyond implying the license will permit those actions. No specific license name (e.g., Apache-2.0, MIT) nor explicit prohibitions such as “non-commercial,” “research-only,” or “no derivatives” is provided in the quoted text.",
+  "1-4 (Paper)": "Multiple sentences reference an official technical report on HyperCLOVA X THINK. It is characterized as “the first reasoning-focused large language model in the HyperCLOVA X family,” trained on “roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data.”  The report itself is cited with an arXiv identifier: “arXiv:2506.22403 v2 [cs.CL] 1 Jul 2025 HyperCLOVA X THINK.”  Two additional lines specify separate demonstration or appendix files: “HyperCLOVA X THINK (Translated Model Input&Output – English)” and “HyperCLOVA X THINK (Model Input&Output – Korean).”  A second sentence restates the scope: “In this report, we introduced HyperCLOVA X THINK, the first reasoning-focused LLM within HyperCLOVA X family.”  Collectively, these quotes confirm the existence of an official arXiv paper (version 2, July 2025), provide a high-level overview of the training data scale, emphasize the model’s focus on reasoning, and list at least two supplementary documents covering I/O in English and Korean.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "This technique will soon be applied to THINK itself to produce a model suitable for limited resource settings. We plan to open-source release this model under a business-friendly license."
+    },
+    {
+      "source": "[sections/Extensions/Lightening through Pruning and Distillation]",
+      "quote": "Currently, a pruned and distilled version of THINK is under preparation to be open-sourced."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Lastly, we plan to open-source a pruned and distilled version of HyperCLOVA X THINK."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Lastly, we present a pruning and distillation technique that will soon be applied to HyperCLOVA X THINK for an open-source and business-friendly foundation model. We plan to open-source release this model under a business-friendly license."
+    },
+    {
+      "source": "[sections/6.2 Lightening through Pruning and Distillation]",
+      "quote": "As a real-world example, HyperCLOVA X SEED 0.5B, recently released on HuggingFace, is the first open-source model in the HyperCLOVA X series trained using pruning and knowledge distillation."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "This technique will soon be applied to THINK itself to produce a model suitable for limited resource settings. We plan to open-source release this model under a business-friendly license."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Third, we share a practical pruning-distillation pipeline and commit to apply it for an open-source version of THINK—fostering further research and commercial deployment, even under more resource-constrained settings."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Lastly, we present a pruning and distillation technique that will soon be applied to HyperCLOVA X THINK for an open-source and business-friendly foundation model. We plan to open-source release this model under a business-friendly license."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this report, we introduced HyperCLOVA X THINK, the first reasoning-focused LLM within HyperCLOVA X family."
+    },
+    {
+      "source": "[sections/2506.22403]",
+      "quote": "arXiv:2506.22403v2  [cs.CL]  1 Jul 2025\nHyperCLOVA X THINK"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "HyperCLOVA X THINK (Translated Model Input&Output – English)"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "HyperCLOVA X THINK (Model Input&Output – Korean)"
+    }
+  ],
+  "1-5 (Architecture)": "HyperCLOVA X THINK is a 14-billion-parameter, reasoning-focused large language model. It is pre-trained on roughly 6 trillion high-quality Korean and English tokens, plus targeted synthetic Korean data. The core network is a compute-and-memory-balanced Peri-LN Transformer that has been scaled with μP. Training follows a three-stage curriculum that progressively enlarges the context window until the model can process up to 128 K tokens. After pre-training, the model undergoes supervised fine-tuning and reinforcement learning from verifiable rewards, producing two operational modes inside a single model: a detailed \"reasoning\" mode for multi-step problems and a concise \"non-reasoning\" mode for rapid answers. The adoption of Peri-LN as the default normalization scheme is highlighted as delivering greater stability and performance without added cost. Overall, the architecture is designed for high efficiency while supporting dynamic switching between the two answer styles.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "All quoted material points to training being carried out on a \"large-scale GPU cluster.\" The authors note that, because of the model’s high-efficiency architecture and data strategy, HyperCLOVA X THINK required \"significantly fewer GPU hours than similar sized models\"; however, no exact GPU model counts or compute totals are disclosed.",
+  "2-2 (Software)": "The training stack for HyperCLOVA X THINK includes a multi-step post-training pipeline executed on the GPU cluster. The cited stages are: Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), specialized training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF). LC is implemented by incorporating the length-penalized reward functions proposed by Aggarwal and Welleck (2025). No further details about underlying frameworks or distributed-training libraries are provided.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data. It was implemented as a compute-memory-balanced Peri-LN Transformer scaled with µP, pre-trained through a three-stage curriculum that expands the context window to 128K tokens, and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "These findings confirm that Peri-LN delivers superior stability and performance without incurring additional computational cost, and thus we adopt it as the default normalization scheme in the THINK architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "THINK is trained to operate in an integrated manner, allowing for dynamic switching between a detailed ‘reasoning mode’ for complex, multi-step reasoning and a more direct ‘non-reasoning mode’ for rapid, context-driven responses. This unified framework eliminates the need for users to switch between separate models (e.g., a dedicated reasoning model and a chatbot), as illustrated in Table 2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "THINK is developed with a focus on creating a high-efficiency architecture and a training strategy grounded in high-quality data."
+    },
+    {
+      "source": "[sections/Performance on Math & Coding Benchmarks]",
+      "quote": "THINK (14B)"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/Post-Training Figure 3 caption]",
+      "quote": "Figure 3: Post-training pipeline of HyperCLOVA X THINK. … (2) Training Phase: A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[figure3_caption]",
+      "quote": "Figure 3: Post-training pipeline of HyperCLOVA X THINK. (1) Data-Preparation Phase: ... (2) Training Phase: A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "THINK is developed with a focus on creating a high-efficiency architecture and a training strategy grounded in high-quality data. As a result, it required significantly fewer GPU hours than similar sized models to be trained, as shown in Figure 6."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[figure3_caption]",
+      "quote": "Figure 3: Post-training pipeline of HyperCLOVA X THINK. (1) Data-Preparation Phase: ... (2) Training Phase: A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To induce LC in HyperCLOVA X THINK, we additionally incorporate the length-penalized reward functions introduced by Aggarwal and Welleck, 2025."
+    }
+  ],
+  "2-3 (API)": "The only explicit statement about public programmatic access comes from the NAVER Cloud HyperCLOVA X team’s notice that “HyperCLOVA X SEED Vision Instruct 3B” is “Available on Hugging Face Hub.” Because the sentence contains the token “SEED,” it satisfies the model-filter rule and shows that at least one member of the SEED product line is distributed through Hugging Face’s hosted model registry. The presence of a Hugging Face URL implies that users can download weights or invoke the standard Hugging Face inference end-points (REST, Python SDK, or Spaces) without a private agreement, meaning that a self-service, publicly reachable API endpoint exists for HyperCLOVA X SEED models. No additional documentation, rate-limit information, or separate commercial endpoint is mentioned in the provided material.",
+  "3-1 (Pre-training)": "All quoted sentences consistently credit “HyperCLOVA X THINK” as the focus of pre-training. The model is described as “the first reasoning-focused large language model in the HyperCLOVA X family.” Its corpus totals “roughly 6 trillion high-quality Korean and English tokens,” further “augmented with targeted synthetic Korean data,” underlining a Korean-centric orientation. The workflow is broken down into a well-defined pipeline: (1) “a scalable, Korean-centric data pipeline enriched with targeted synthetic corpora,” (2) “a compute–memory-efficient yet stability-oriented Transformer, instantiated with scale-invariant parameterization principles,” and (3) “a three-stage curriculum” that “sequentially builds foundational linguistic knowledge, refines competence with higher-fidelity data, and expands contextual capacity to support long-form reasoning.” This curriculum “gradually increases the context window, culminating in 128K tokens,” enabling the model to “process long documents and perform multi-step reasoning within a single pass.” Together, these quotes reveal the major design choices—huge bilingual token count, synthetic augmentation, scale-invariant µP style parameterization, and a staged curriculum that ends with extremely long sequence lengths—all of which are presented as the technical basis for THINK’s reasoning abilities.",
+  "3-2 (Fine-tuning)": "Post-training for THINK begins immediately after the three-stage pre-training curriculum. The quotes say, “Then, for post-training, we combine supervised fine-tuning on carefully designed reasoning tasks with Reinforcement Learning from Verifiable Rewards,” demonstrating that fine-tuning is not generic but explicitly oriented toward reasoning problems. The formal write-up further states that the post-training stack has two components: (i) “a supervised fine-tuning (SFT) phase that injects core reasoning patterns and task-specific capabilities,” and (ii) “a multi-stage reinforcement learning pipeline.” The SFT stage provides the initial alignment and task coverage, while subsequent RL stages refine alignment, “length-controllability,” and answer style. One quote summarises the entire life-cycle: the model is “pre-trained through a three-stage curriculum … and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards [that] supports both detailed rationale and concise-answer modes.” Although concrete hyper-parameters are not listed, the text establishes a reproducible two-step fine-tuning recipe that couples SFT on curated reasoning data with RL-based alignment techniques.",
+  "3-3 (Reinforcement Learning)": "The RL portion of THINK’s post-training is explicitly multi-stage. First, the same sentence that outlines SFT also introduces “a multi-stage reinforcement learning pipeline that incorporates verifiable rewards, length-controllability, and human feedback.” These three reward sources—verifiable (task-grounded) signals, style/length penalties, and human preference data—form the backbone of the RL strategy. A later sentence details the length-control sub-stage: “we additionally incorporate the length-penalized reward functions … (L1-Exact and L1-Max).” This training operates “on top of the training configurations from the previous RLVR stage,” implying a sequential pipeline where RL with Verifiable Rewards (RLVR) is followed by a length-control fine-tuning pass. No specific batch sizes, learning rates, or PPO/DPO references are provided, but the quotes make clear that (1) RL is applied after SFT, (2) it is divided into at least two sub-stages, and (3) it explicitly targets alignment, verifiable correctness, and output-length management using Aggarwal & Welleck’s 2025 reward functions.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "NAVER Cloud HyperCLOVA X Team. 2024. HyperCLOVA X SEED Vision Instruct 3B. https://huggingface.co/naver-hyperclovax/HyperCLOVAX-SEED-Vision-Instruct-3B. Available on Hugging Face Hub. Accessed: 2025-06-23."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section outlines the pre-training methodology behind THINK: a scalable, Korean-centric data pipeline enriched with targeted synthetic corpora (Section 2.1); a compute–memory-efficient yet stability-oriented Transformer, instantiated with scale-invariant parameterization principles (Section 2.2); and a three-stage curriculum that sequentially builds foundational linguistic knowledge, refines competence with higher-fidelity data, and expands contextual capacity to support long-form reasoning (Section 2.3)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During pre-training, A three-stage curriculum gradually increases the context window, culminating in 128K tokens, which enables THINK to process long documents and perform multi-step reasoning within a single pass."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "During pre-training, A three-stage curriculum gradually increases the context window, culminating in 128K tokens, which enables THINK to process long documents and perform multi-step reasoning within a single pass."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this report, we introduced HyperCLOVA X THINK, the first reasoning-focused LLM within HyperCLOVA X family. Its pre-training dataset comprises approximately 6 trillion high-quality tokens spanning Korean, English, and further enhanced by targeted synthetic Korean data."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "During pre-training, A three-stage curriculum gradually increases the context window, culminating in 128K tokens, which enables THINK to process long documents and perform multi-step reasoning within a single pass. Then, for post-training, we combine supervised fine-tuning on carefully designed reasoning tasks with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise answers when brevity is preferred."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section outlines the post-training methodology of THINK: a supervised fine-tuning (SFT) phase that injects core reasoning patterns and task-specific capabilities (Section 3.1); and a multi-stage reinforcement learning pipeline that incorporates verifiable rewards, length-controllability, and human feedback to achieve aligned, efficient, and scalable reasoning (Sections 3.2–3.4)."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data. It was implemented as a compute-memory-balanced Peri-LN Transformer scaled with µP, pre-trained through a three-stage curriculum that expands the context window to 128K tokens, and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This section outlines the post-training methodology of THINK: a supervised fine-tuning (SFT) phase that injects core reasoning patterns and task-specific capabilities (Section 3.1); and a multi-stage reinforcement learning pipeline that incorporates verifiable rewards, length-controllability, and human feedback to achieve aligned, efficient, and scalable reasoning (Sections 3.2–3.4)."
+    },
+    {
+      "source": "[sections/Reasoning Length Controllability]",
+      "quote": "To induce LC in HyperCLOVA X THINK, we additionally incorporate the length-penalized reward functions introduced by Aggarwal and Welleck, 2025. On top of the training configurations from the previous RLVR stage, we train our model on the length-penalized reward functions (L1-Exact and L1-Max) from Aggarwal and Welleck, 2025."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The available statements repeatedly emphasize that HyperCLOVA X THINK is pre-trained on “roughly 6 trillion high-quality Korean, and English tokens” that are “balanced” across the two languages and “augmented with targeted synthetic Korean data.”  The authors say they “curated a corpus of roughly six trillion tokens” expressly “to meet the imperatives of both advanced reasoning and sovereign AI—for Korea, in particular.”  In another passage they reiterate that the model’s pre-training dataset “comprises approximately 6 trillion high-quality tokens spanning Korean, English, and [is] further enhanced by targeted synthetic Korean data.”  Together, these quotes show that THINK’s foundation model was built from a very large-scale multilingual corpus, with special effort placed on Korean coverage and additional synthetic Korean examples to enhance reasoning capabilities, while keeping total volume near six trillion tokens.",
+  "4-2 (Fine-tuning Data)": "After the core pre-training stage, HyperCLOVA X THINK is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” a process that “supports both detailed rationale and concise-answer modes.”  The fine-tuning (SFT) set is described as being “constructed by aggregating various sources across mathematics, coding, STEM, and general abilities.”  THINK is “trained to operate in an integrated manner, allowing for dynamic switching between a detailed ‘reasoning mode’ for complex, multi-step reasoning and a more direct ‘non-reasoning mode’ for rapid, context-driven responses.”  For the reasoning portion, “each sample contains [a] prompt, assistant think, and assistant response.”  Collectively, these statements specify that the SFT data pool is multi-domain, that it encodes both reasoning and non-reasoning interaction styles, and that its annotation schema explicitly separates the intermediate chain-of-thought (“assistant think”) from the final answer (“assistant response”).",
+  "4-3 (Reinforcement Learning Data)": "The same post-training pipeline notes that HyperCLOVA X THINK is “post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards,” indicating that a dedicated reward signal guides optimization beyond SFT.  One quote further clarifies that the RLHF phase uses prompts that are “a mixture of reasoning and non-reasoning tasks.”  During RLHF, “for non-reasoning, the model is expected to generate [the] assistant response directly, while for reasoning, the model first generates [an] intermediate think step followed by [the] assistant response.”  Hence, the reinforcement data include paired prompts and model outputs, labelled (implicitly through reward or preference data) to favor step-by-step explanations when reasoning is required and to favor direct answers otherwise; this mirrors the dual-mode behaviour encouraged during SFT.",
+  "4-4 (Data Filtering)": "Two excerpts describe a dedicated data-processing pipeline for THINK.  First, “the data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh,” letting new corpora be added “with minimal latency while maintaining strict quality guarantees.”  The pipeline “separates schema standardization from quality assessment and filtering”: raw documents are passed through “lightweight cleansing, canonicalization of field names, and storage in a unified schema” before quality checks occur.  A companion passage adds that, after ingestion, a “two-tier filtering framework” is applied, one that is “tailored to the linguistic and typographic characteristics of Korean,” again reinforcing the guarantee of both breadth and high quality.  While the quotes do not list concrete numeric thresholds, they do document a multi-stage process that first normalizes heterogeneous data and then applies language-specific filters to ensure only high-quality content reaches the final training set.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, pre-trained on roughly 6 trillion high-quality Korean, and English tokens, augmented with targeted synthetic Korean data."
+    },
+    {
+      "source": "[sections/Pre-Training]",
+      "quote": "To meet the imperatives of both advanced reasoning and sovereign AI—for Korea, in particular—we present HyperCLOVA X THINK (henceforth THINK). In particular, we curated a corpus of roughly six trillion tokens that balances high-quality Korean and English text with targeted synthetic Korean data."
+    },
+    {
+      "source": "[sections/Pre-Training §2.3]",
+      "quote": "Stage 1 establishes a general-purpose foundational knowledge base spanning multiple domains. … Training proceeds on sequences up to 8 K tokens, consuming 6 trillion tokens in total."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduced HyperCLOVA X THINK, the first reasoning-focused LLM within HyperCLOVA X family. Its pre-training dataset comprises approximately 6 trillion high-quality tokens spanning Korean, English, and further enhanced by targeted synthetic Korean data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, ... and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "HyperCLOVA X THINK … was … post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/Post-Training §3.1]",
+      "quote": "THINK is trained to operate in an integrated manner, allowing for dynamic switching between a detailed ‘reasoning mode’ for complex, multi-step reasoning and a more direct ‘non-reasoning mode’ for rapid, context-driven responses. The dataset used for SFT is constructed by aggregating various sources across mathematics, coding, STEM, and general abilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For reasoning data, each sample contains prompt, assistant think, and assistant response."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce HyperCLOVA X THINK, the first reasoning-focused large language model in the HyperCLOVA X family, ... and post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "HyperCLOVA X THINK … was … post-trained via supervised fine-tuning with Reinforcement Learning from Verifiable Rewards supports both detailed rationale and concise-answer modes."
+    },
+    {
+      "source": "[sections/Post-Training Figure 3 caption]",
+      "quote": "A sequence of fine-tuning procedures—including Supervised Fine-Tuning (SFT), Reward Modeling (RM), Reinforcement Learning with Verifiable Rewards (RLVR), training for reasoning Length Controllability (LC), and Reinforcement Learning from Human Feedback (RLHF) —is executed across a large-scale GPU cluster."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The prompts used during RLHF training consist of a mixture of reasoning and non-reasoning tasks. For non-reasoning, the model is expected to generate assistant response directly, while for reasoning, the model first generates intermediate think step followed by assistant response."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Pre-Training/Data Preparation]",
+      "quote": "Data Pipeline. The data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh, so that new corpora can be incorporated with minimal latency while maintaining strict quality guarantees. Following Weber et al. (2024a), the pipeline separates schema standardization from quality assessment and filtering. During standardization, raw documents in heterogeneous formats undergo lightweight cleansing, canonicalization of field names, and storage in a unified schema."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "The data pipeline for THINK is designed around three guiding principles: scalability, reusability, and quick refresh, so that new corpora can be incorporated with minimal latency while maintaining strict quality guarantees. To obtain a corpus that is simultaneously broad and reliably high-quality, we devise a two-tier filtering framework tailored to the linguistic and typographic characteristics of Korean."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "Among various quantitative signals, five representative examples—symbol-to-word ratio, mean word length, sentence count, masked-PII ratio, and the proportion of normalized to raw length—are computed for each document."
+    },
+    {
+      "source": "[sections/Data Preparation §2.1]",
+      "quote": "Near-duplicates are removed with a MinHash index that is rebuilt at every refresh."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "1-1 (Weights)": "All available sentences point to an openly downloadable checkpoint on Hugging Face for naver-hyperclovax/HyperCLOVAX-SEED-Think-14B. The instructions say that, after “downloading the model binaries, including the configuration files, to a local path (`/path/to/hyperclova-x-seed-think-14b`)” a user can load the weights with\n  model_name = \"naver-hyperclovax/HyperCLOVAX-SEED-Think-14B\"\n  model = AutoModelForCausalLM.from_pretrained(model_name, trust_remote_code=True, device_map=\"auto\")\nAlternatively, a one-line command – `vllm serve naver-hyperclovax/HyperCLOVAX-SEED-Think-14B --trust_remote_code` – exposes the model for inference. The repository contains sharded weight files such as “model-00001-of-00012.safetensors” as well as the corresponding index “model.safetensors.index.json”. The presence of these concrete filenames and the loading examples together indicate that anyone who can reach the Hugging Face repository can fetch the full 12-shard weight set together with configuration data and run it locally without further authentication keys or gated approval.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model binaries, including the configuration files, to a local path(`/path/to/hyperclova-x-seed-think-14b`), you can run the following in a Python environment with the Huggingface library"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"naver-hyperclovax/HyperCLOVAX-SEED-Think-14B\" model = AutoModelForCausalLM.from_pretrained(model_name, trust_remote_code=True, device_map=\"auto\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "`vllm serve naver-hyperclovax/HyperCLOVAX-SEED-Think-14B --trust_remote_code`"
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00012.safetensors"
+    },
+    {
+      "source": "[files]",
+      "quote": "model.safetensors.index.json"
+    }
+  ],
+  "1-2 (Code)": "No quote explicitly mentions the release status of TRAINING code (pre-training, fine-tuning or RL). The snippets only show example *inference* usage with Hugging Face and vLLM. Therefore, based solely on the provided material, there is no public training code disclosed for HyperCLOVA X SEED Think 14B.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "The repo declares \"license: other\" with a specific file: “HyperCLOVA X SEED Model License Agreement”. Multiple sentences refer to it as the “HyperCLOVA X SEED 14B Think Model License Agreement.”  The agreement grants “a non-exclusive, worldwide, non-transferable, revocable and royalty-free limited license … to access, download, install, copy, use, reproduce, distribute, create derivative works of, and make modifications to the Model,” but it also reserves all other rights to NAVER.  Redistribution is allowed only if the distributor (i) passes along the Prohibited Use Policy, (ii) provides recipients with the same Agreement, (iii) marks modified files, (iv) includes the attribution notice: “HyperCLOVA X SEED 14B Think Model is licensed under the HyperCLOVA X SEED 14B Think Model License Agreement, Copyright © NAVER Corp. All Rights Reserved.”, and (v) “prominently display[s] ‘Powered by HyperCLOVA X’”.  The prohibited-use clause broadly bans any unlawful purpose.  Entities with more than “10 million monthly active users” or offering “any product or service … which is substantially similar to or directly competes with” NAVER’s must obtain a separate commercial license.  In addition, two source files that accompany the architecture comment: “# Licensed under the Apache License, Version 2.0,” indicating that auxiliary implementation code is Apache 2.0 even though the model weights themselves fall under the bespoke HyperCLOVA X SEED license.  A “LICENSE” file is explicitly present.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "---\nlicense: other\nlicense_name: hyperclovax-seed\nlicense_link: LICENSE\n---"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model is licensed under [HyperCLOVA X SEED Model License Agreement](./LICENSE)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "HyperCLOVA X SEED 14B Think Model License Agreement"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Subject to the terms and conditions of this Agreement, NAVER hereby grants to you a non-exclusive, worldwide, non-transferable, revocable and royalty-free limited license under NAVER’s intellectual property or other rights owned by NAVER embodied in the Model to access, download, install, copy, use, reproduce, distribute, create derivative works of, and make modifications to the Model."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "NAVER expressly prohibits the use of its products or services for any purpose in violation of applicable law and regulation, including but not limited to:"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You may reproduce, distribute or make available the Model or Derivative Models thereof, or a product or service (including another AI model) that contains any of them, if you meet all of the following conditions: you must (i) include the Prohibited Use Policy referenced in Section 2.3. as an enforceable provision in any agreement (e.g., license agreement, terms of use, etc.) governing the use and/or distribution of the Model or Derivative Model and you must provide notice to subsequence users you distribute to the Model or Derivative Models are subject to the use restrictions in Section 2.3., (ii) provide all third party recipients of the Model or Derivative Models a copy of this Agreement, (iii) cause any modified files to carry prominent notices stating that you modified the files; (iv) include the following attribution notice within a “Notice” text file distributed as part of such copies: “HyperCLOVA X SEED 14B Think Model is licensed under the HyperCLOVA X SEED 14B Think Model License Agreement, Copyright © NAVER Corp. All Rights Reserved.”, and (v) prominently display “Powered by HyperCLOVA X” on a related website, user interface, blogpost, about page, or product documentation."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If (i) as of the Model Release Date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s Affiliates, is greater than 10 million monthly active users in the preceding calendar month, or (ii) the Licensee or its Affiliate distributes or makes available any product or service, which is substantially similar to or directly competes with any product and service provided by NAVER, then the Licensee must request a license from NAVER."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "NAVER is committed to promoting safe and responsible use of its AI technologies, including the HyperCLOVA X SEED 14B Think Model (the “Model”)."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture.\n# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/modeling_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture.\n# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[readme]",
+      "quote": "n this Agreement, NAVER Corp. reserves all rights, interests and remedies in connection with the Model and Derivative Model created by NAVER Corp. and no other license or right is granted to you by implication, estoppel or otherwise. Subject to NAVER Corp.’s ownership of the Model and any Derivative Model made by or for NAVER Corp., with respect to any derivat"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two citations document the model.  First, deployment notes state that the project applies “the latest RL recipe validated in HyperCLOVA X Think” and link to https://arxiv.org/pdf/2506.22403.  Second, the full reference is given as @misc{navercloudhyperclovaxteam2025hyperclovaxthinktechnical, title={HyperCLOVA X THINK Technical Report}, author={NAVER Cloud HyperCLOVA X Team}, year={2025}, eprint={2506.22403}, archivePrefix={arXiv}, primaryClass={cs.CL}.  This confirms an official technical report on arXiv (e-print 2506.22403) dedicated to HyperCLOVA X THINK.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{navercloudhyperclovaxteam2025hyperclovaxthinktechnical,\n      title={HyperCLOVA X THINK Technical Report}, \n      author={NAVER Cloud HyperCLOVA X Team},\n      year={2025},\n      eprint={2506.22403},\n      archivePrefix={arXiv},\n      primaryClass={cs.CL},\n      url={https://arxiv.org/abs/2506.22403}, \n}"
+    }
+  ],
+  "1-5 (Architecture)": "According to the quotes that explicitly name HyperCLOVA X SEED 14B Think, the model is described as “a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance.”  Its core technical design is spelled out in the same block: “Architecture : Transformer-based architecture with Peri-Layer Normalization and Maximal Update Parameterization(μP) (Dense Model).”  Concrete numerical specifications for HyperCLOVA X SEED 14B Think are also given:\n• Parameters: “14.74B.”  \n• Hidden layers: the configuration file lists “\"num_hidden_layers\": 38.”  \n• Model dimensionality: “\"hidden_size\": 6144.”  \n• Attention heads: “\"num_attention_heads\": 48,” and the file header confirms that it “was created for the HyperCLOVA X SEED 14B Think architecture.”  A repeat line emphasizes the same point.  Altogether, the provided quotes establish that HyperCLOVA X SEED 14B Think is a dense 38-layer Transformer using Per-Layer Norm and μP scaling, with 14.74 billion parameters, a 6 144-wide hidden size and 48 attention heads, all encoded under the internal \"model_type\": \"hyperclovax\" entry.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "HyperCLOVA X SEED 14B Think is a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Architecture** : Transformer-based architecture with Peri-Layer Normalization and Maximal Update Parameterization(μP) (Dense Model)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Parameters** : 14.74B"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 38,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 6144,"
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture."
+    },
+    {
+      "source": "[py_files/modeling_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"hyperclovax\",\n  \"hidden_size\": 6144,\n  \"num_attention_heads\": 48,\n  \"num_hidden_layers\": 38,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer details that appear alongside the HyperCLOVA X SEED 14B Think references state the following exact configuration entries: “\"bos_token_id\": 100257,” “\"eos_token_id\": 100257,” and “\"vocab_size\": 110592.”  Usage instructions also show that the model’s official tokenizer can be loaded directly from the Hugging Face hub: “tokenizer = AutoTokenizer.from_pretrained(model_name).”  These lines together imply that HyperCLOVA X SEED 14B Think employs a single-ID BOS/EOS scheme (both at 100 257) and a vocabulary of 110 592 tokens, and that the tokenizer is distributed in a format compatible with the standard AutoTokenizer interface and thus can be downloaded and instantiated without custom code.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 100257,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 100257,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 110592"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(model_name)"
+    }
+  ],
+  "2-1 (Hardware)": "The hardware information tied to HyperCLOVA X SEED 14B Think is limited to inference guidance and a GPU-hour table reference.  One quote instructs that, after obtaining the checkpoint “/path/to/hyperclova-x-seed-think-14b,” users can run text inference “on a GPU environment with A100 or higher.”  Another line lists a resources table header: “| Model (Base) | GPU Hours (A100-80GB, MFU 50%) |,” indicating that the team tracked training or deployment costs in GPU-hours on 80 GB NVIDIA A100 cards at a 50 % model-flop-utilization setting.  While the exact count of GPUs or total compute is not provided, the explicit requirement of an A100-class accelerator (or better) and the mention of GPU-hour accounting suggest that both training and inference were expected to leverage high-end NVIDIA hardware.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model checkpoint to a local path (`/path/to/hyperclova-x-seed-think-14b`), you can perform text inference by running the following commands on a GPU environment with A100 or higher."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| Model (Base)                    | GPU Hours (A100-80GB, MFU 50%)     |"
+    }
+  ],
+  "2-2 (Software)": "Software stack details for HyperCLOVA X SEED 14B Think are supplied in two distinct quotes.  First, users are told to run the model “in a Python environment with the Huggingface library (verified to work with version >= 4.53.0) and timm(pytorch-image-models) installed.”  Second, the configuration explicitly records “\"transformers_version\": \"4.52.4\",” indicating that training or export was carried out with at least Transformers 4.52.4 and that later 4.53+ versions are compatible.  Together, these sentences confirm that the training/inference environment revolves around the Hugging Face Transformers ecosystem complemented by the timm library, and that the validated version window starts at 4.52.4, with explicit testing at 4.53.0 or newer.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model binaries, including the configuration files, to a local path(`/path/to/hyperclova-x-seed-think-14b`), you can run the following in a Python environment with the Huggingface library (verified to work with version >= 4.53.0) and timm(pytorch-image-models) installed."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.52.4\","
+    }
+  ],
+  "2-3 (API)": "The HyperCLOVA X SEED Think 14B model offers a practical, user-facing interface that is explicitly designed for easy integration with vLLM. According to the quotes, “The HyperCLOVA X SEED Think model is built on a custom LLM architecture based on the LLaMA architecture, incorporating μP and Peri-LN techniques. For convenient use with vLLM, it is available as a dedicated vLLM plugin that can be installed and used with ease once vLLM is set up.” Once the user has “download[ed] the model checkpoint to a local path (`/path/to/hyperclova-x-seed-think-14b`)” they can “perform text inference by running the following commands on a GPU environment with A100 or higher.” In short, the API story centers on (1) a pre-packaged plugin for vLLM, (2) a straightforward local-checkpoint workflow, and (3) an expectation of modern, high-end GPUs (A100+) for inference.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The HyperCLOVA X SEED Think model is built on a custom LLM architecture based on the LLaMA architecture, incorporating μP and Peri-LN techniques. For convenient use with vLLM, it is available as a dedicated vLLM plugin that can be installed and used with ease once vLLM is set up."
+    },
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model checkpoint to a local path (`/path/to/hyperclova-x-seed-think-14b`), you can perform text inference by running the following commands on a GPU environment with A100 or higher."
+    }
+  ],
+  "3-1 (Pre-training)": "HyperCLOVA X SEED 14B Think is framed in the quotes as “a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance.” Its pre-training formula combines “HyperCLOVA X’s lightweighting technology for building high-efficiency LLMs with advanced reasoning capabilities.” The process rests on “two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability.” Concretely, the team “prun[es] low-importance parameters and distill[s] knowledge from a large model into a smaller one,” which the quotes emphasize has “significantly reduced” training cost. Additional implementation artifacts highlighted in the quoted material include the presence of a dedicated architecture file (“# This file was created for the HyperCLOVA X SEED 14B Think architecture.”) as well as tokenizer-level details such as the “Vocabulary size of the HyperCLOVAX model” and the explicit JSON line “\"model_type\": \"hyperclovax\".” All of these points, drawn directly from the supplied sentences, underscore a pre-training pipeline that compresses and distills knowledge while simultaneously preparing for later RL-based capability maximization.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "HyperCLOVA X SEED 14B Think is a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance. It combines [HyperCLOVA X’s lightweighting technology](https://tinyurl.com/y3hrfz67) for building high-efficiency LLMs with advanced reasoning capabilities. Its development relied on two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability."
+    },
+    {
+      "source": "[readme]",
+      "quote": "By pruning low-importance parameters and distilling knowledge from a large model into a smaller one, training costs have been significantly reduced."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "Vocabulary size of the HyperCLOVAX model. Defines the number of different tokens that can be represented by the"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"hyperclovax\","
+    }
+  ],
+  "3-2 (Fine-tuning)": "The fine-tuning phase for HyperCLOVA X SEED Think 14B is described in a single but information-dense quote. The model adopts “the latest RL recipe validated in HyperCLOVA X Think … in a multi-stage process” consisting of: “(1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR.” Thus, the fine-tuning pipeline first aligns the model via standard SFT, then iteratively refines behavior using reward-based objectives that can be independently verified (RLVR), introduces an LC mechanism to regulate the length—and thereby the structure—of generated reasoning chains, and finally merges human-feedback signals with RLVR in a combined objective to consolidate alignment and reasoning performance.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process: (1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "Reinforcement learning is treated as a central capability amplifier for HyperCLOVA X SEED Think 14B. One quote lists it as one of “two key technologies,” stating explicitly that “a Reinforcement Learning (RL) pipeline … maximizes reasoning ability.” A second quote expands this into a concrete, staged recipe: “(1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR.” Taken together, these sentences outline an RL strategy that layers verifiable reward shaping, length-aware control, and human-feedback-augmented objectives on top of an SFT baseline. The pipeline’s ultimate goal, as stated, is to “maximize reasoning ability” while preserving the compactness achieved through earlier pruning and distillation steps.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Its development relied on two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability."
+    },
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process: (1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR."
+    }
+  ],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "For the hyperclovax-seed-think-14b line, the material explicitly states that reinforcement-learning work is carried out only after cost-saving model-compression steps in which low-importance parameters are pruned and knowledge is distilled from a larger teacher into the smaller student.  Once the compressed version is in place, HyperCLOVA X Think applies what it calls “the latest RL recipe” in a carefully sequenced four-stage programme:  (1) Supervised Fine-Tuning (SFT) is first used to create a strong instruction-following baseline; (2) Reinforcement Learning with Verifiable Rewards (RLVR) then introduces reward signals that can be automatically validated; (3) a dedicated Length-Controllability (LC) phase follows, targeting improvements in the length and structure of the model’s reasoning paths; and (4) the process concludes with a joint optimisation that merges Reinforcement Learning from Human Feedback (RLHF) and RLVR in the same training loop.  The quotation does not specify the exact datasets, their provenance, licences, or public availability; it focuses entirely on the multi-stage methodological design just described.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "By pruning low-importance parameters and distilling knowledge from a large model into a smaller one, training costs have been significantly reduced. On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process: (1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR."
+    }
+  ],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
