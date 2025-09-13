@@ -1,0 +1,72 @@
+{
+  "4-1 (Pre-training Data)": "The available statements about the pre-training corpus for BLOOMZ concentrate on its language composition and the hypothesised effect of that composition on downstream behaviour. One passage specifies the relative proportions of sentences for the three most dominant languages in the sub-sampled corpus—English at 46.23 %, French at 15.73 % and Spanish at 13.38 %. It also highlights that a set of “unseen” languages is present only in small proportions; nonetheless, the authors suggest these low-resource languages may still support the language-generalisation capabilities later observed in BLOOMZ (§4.2). Another sentence links model performance to corpus make-up, observing that mT0 outperforms BLOOMZ on Swahili, and attributing this to Swahili being a larger share of mT0’s pre-training corpus. Together, these remarks indicate that BLOOMZ’s pre-training data are multilingual but strongly skewed toward high-resource languages, with markedly smaller fractions for other tongues such as Swahili, a factor considered relevant when analysing cross-lingual generalisation and comparative performance.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning for BLOOMZ is carried out through a multi-task finetuning (MTF) procedure applied to the multilingual BLOOM family, giving rise to several clearly defined variants that differ in the data mixture and prompt languages used. The paper enumerates three principal data configurations: (1) BLOOMZ-P3 models, finetuned exclusively on the English-only P3 collection; (2) BLOOMZ models, finetuned on xP3, a multilingual suite whose instances are paired with English prompts; and (3) BLOOMZ-MT models, finetuned on xP3mt, which augments xP3 with machine-translated prompts, making both the underlying datasets and the prompts multilingual.\n\nMultiple sizes are released for each configuration. Explicitly named checkpoints include: BLOOMZ-560M (560 M parameters, xP3); BLOOMZ-7.1B (7.1 B parameters, xP3); BLOOMZ-7.1B-P3 (7.1 B parameters, P3); BLOOMZ-7.1B-MT (7.1 B parameters, xP3mt); BLOOMZ-MT (the full 176 B-parameter model, xP3mt); and BLOOMZ-P3 (176 B parameters, P3). The authors further remark that the presence or absence of code data in the fine-tuning mix can significantly shift performance: when no code data are included in BLOOMZ-P3, results drop notably, whereas meaningful gains over the base BLOOM model appear mainly for smaller checkpoints such as BLOOMZ-560M. In summary, the fine-tuning pipeline for BLOOMZ relies on carefully curated, instruction-style corpora (P3, xP3, xP3mt) with English-only, multilingual-English-prompt and multilingual-plus-MT-prompt variants, and it produces a spectrum of parameter-scaled checkpoints whose empirical behaviour is sensitive to both the chosen data mixture and the presence of auxiliary code examples.",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[sections/ROOTS language contamination]",
+      "quote": "These “unseen” languages only have small sentence proportions in our subsample compared to English (en: 46.23%), French (fr: 15.73%) and Spanish (es: 13.38%). Yet, they may help the language generalization of BLOOMZ models described in §4.2."
+    },
+    {
+      "source": "[sections/B Figure 10 caption]",
+      "quote": "In Figure 10, we visualize task generalization to multilingual datasets. We also find that mT0 consistently outperforms BLOOMZ on Swahili (SW), possibly due to it being a larger part of its pretraining corpus (see Figure 2 and §4.6)."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3: Models finetuned on the English-only P3. • BLOOMZ / mT0: Models finetuned on xP3, which consists of multilingual datasets with English prompts. • BLOOMZ-MT / mT0-MT: Models fine-tuned on xP3mt, which consists of multilingual datasets with English and machine-translated prompts."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Only for small models, such as BLOOMZ-560M vs. BLOOM-560M, there are meaningful performance gains. When no code data is included in finetuning (BLOOMZ-P3) performance decreases significantly."
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-560M\n560M parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B\n7.1B parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-MT\n7.1B parameter model finetuned on xP3mt"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-P3\n7.1B parameter model finetuned on P3"
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0."
+    },
+    {
+      "source": "[sections/Models]",
+      "quote": "We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3: Models finetuned on the English-only P3. • BLOOMZ / mT0: Models finetuned on xP3, which consists of multilingual datasets with English prompts. • BLOOMZ-MT / mT0-MT: Models fine- tuned on xP3mt, which consists of multilingual datasets with English and machine-translated prompts."
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-560M 560M parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-P3 7.1B parameter model finetuned on P3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-MT 7.1B parameter model finetuned on xP3mt"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-MT 176B parameter model finetuned on xP3mt"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-P3 176B parameter model finetuned on P3"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": []
+}

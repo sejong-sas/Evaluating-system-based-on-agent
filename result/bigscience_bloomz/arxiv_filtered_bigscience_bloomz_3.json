@@ -1,0 +1,60 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The only explicit pre-training detail that mentions BLOOMZ is an empirical observation: “We also find that mT0 consistently outperforms BLOOMZ on Swahili (SW), possibly due to it being a larger part of its pretraining corpus (see Figure 2 and §4.6).”  From this, we can summarize that BLOOMZ’s pre-training corpus contains comparatively less Swahili data than mT0’s corpus, and this reduced representation correlates with weaker downstream performance on Swahili tasks.  No other hyper-parameter settings, data-flow diagrams, or procedural descriptions are given in the provided material.",
+  "3-2 (Fine-tuning)": "The fine-tuning strategy for BLOOMZ is described as a multi-task fine-tuning (MTF) procedure applied on top of pretrained BLOOM checkpoints: “We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0.”  Three distinct training regimes are spelled out:\n• BLOOMZ-P3: fine-tuned on the English-only P3 collection of prompts and tasks.\n• BLOOMZ: fine-tuned on xP3, a multilingual suite that keeps English prompts.\n• BLOOMZ-MT: fine-tuned on xP3mt, which augments xP3 with machine-translated prompts in many languages.\nThe paper stresses this taxonomy twice, emphasizing that each regime targets a different multilingual balance: “We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3 … • BLOOMZ / mT0 … • BLOOMZ-MT / mT0-MT …”.  Concrete parameter counts are provided:\n• BLOOMZ-560M – 560 M parameters, xP3-tuned.\n• BLOOMZ-1.1B – 1.1 B parameters, xP3-tuned.\n• BLOOMZ-7.1B-P3 – 7.1 B parameters, P3-tuned.\n• BLOOMZ-7.1B-MT – 7.1 B parameters, xP3mt-tuned.\n• BLOOMZ – 176 B parameters, xP3-tuned.\nEmpirical outcomes highlight the benefit of the procedure: “BLOOMZ-MT, which is fine-tuned on xP3mt, significantly improves on multilingual prompts,” and “Finetuned BLOOMZ and BLOOMZ-P3 models significantly improve over BLOOM and XGLM on held-out tasks.”  Further evidence appears in Table 5, which benchmarks 7.1 B-parameter BLOOMZ variants on MultiEURLEX English-French translation, underscoring performance sensitivity to the chosen fine-tuning corpus.  In summary, BLOOMZ’s fine-tuning pipeline centers on MTF with three dataset conditions (P3, xP3, xP3mt) and scales from 560 M to 176 B parameters, consistently yielding gains over the base BLOOM model on a variety of multilingual evaluations.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[Figure 10 caption]",
+      "quote": "We also find that mT0 consistently outperforms BLOOMZ on Swahili (SW), possibly due to it being a larger part of its pretraining corpus (see Figure 2 and §4.6)."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3: Models finetuned on the English-only P3. • BLOOMZ / mT0: Models finetuned on xP3, which consists of multilingual datasets with English prompts. • BLOOMZ-MT / mT0-MT: Models fine-tuned on xP3mt, which consists of multilingual datasets with English and machine-translated prompts."
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-560M\n560M parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-1.1B\n1.1B parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-MT\n7.1B parameter model finetuned on xP3mt"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-7.1B-P3\n7.1B parameter model finetuned on P3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ\n176B parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Models]",
+      "quote": "We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3: Models finetuned on the English-only P3. • BLOOMZ / mT0: Models finetuned on xP3, which consists of multilingual datasets with English prompts. • BLOOMZ-MT / mT0-MT: Models fine- tuned on xP3mt, which consists of multi- lingual datasets with English and machine- translated prompts."
+    },
+    {
+      "source": "[sections/Multilingual prompting]",
+      "quote": "BLOOMZ-MT, which is fine- tuned on xP3mt, significantly improves on multilin- gual prompts."
+    },
+    {
+      "source": "[sections/Task generalization]",
+      "quote": "In Figure 4, we show that the same applies to multilingual models: Finetuned BLOOMZ and BLOOMZ-P3 models significantly improve over BLOOM and XGLM on held-out tasks."
+    },
+    {
+      "source": "[Table 5 caption]",
+      "quote": "Table 5: 7.1 billion parameter BLOOMZ models with various modifications benchmarked on MultiEURLEX English-French translation (Chalkidis et al., 2021)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

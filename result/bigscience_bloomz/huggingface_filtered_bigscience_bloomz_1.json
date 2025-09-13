@@ -1,0 +1,30 @@
+{
+  "1-1 (Weights)": "The only explicit statement about the weight files is the line: “checkpoint = \"bigscience/bloomz\"”.  From this sentence we learn three concrete facts.  (1) The BLOOMZ parameters have been packaged and published as an identifiable checkpoint rather than remaining private or unnamed.  (2) The official identifier of that checkpoint is exactly the string bigscience/bloomz, which points to the Hugging Face model hub namespace that starts with “bigscience/”.  (3) Because the quotation is written in the conventional format used in Hugging Face loading scripts, it directly signals that users can retrieve the model by passing the string bigscience/bloomz to the standard loading utilities (e.g., AutoModel.from_pretrained).  No further limitations, authentication steps, or mirrors are mentioned inside the quote, so the single line establishes both the existence and the publicly named location of the BLOOMZ weight files.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    }
+  ],
+  "1-2 (Code)": "The code-availability information is confined to a single bullet that reads: “- **Repository:** [bigscience-workshop/xmtf](https://github.com/bigscience-workshop/xmtf)”.  This sentence tells us that at least one GitHub repository, hosted under the bigscience-workshop organization and carrying the name xmtf, is officially linked to BLOOMZ.  The quote does not qualify whether the repository contains pre-training, fine-tuning, or inference scripts, but its explicit listing under a heading of repositories underscores that *some* portion of the BLOOMZ pipeline is open-sourced there.  The presence of a clickable GitHub URL also implies public access; no private or restricted qualifier appears in the quoted sentence.  Hence, the quote substantiates the existence of publicly visible code, though the exact training phase coverage remains unspecified within the provided material.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Repository:** [bigscience-workshop/xmtf](https://github.com/bigscience-workshop/xmtf)"
+    }
+  ],
+  "1-3 (License)": "Licensing is summarized by the terse line “license: bigscience-bloom-rail-1.0”.  This sentence gives the formal license identifier attached to BLOOMZ.  The string bigscience-bloom-rail-1.0 signals that the model is distributed under the BigScience BLOOM Responsible AI License, version 1.0.  While the quote does not reproduce the clauses themselves, the explicit naming of the license makes clear that the model’s usage, modification, and redistribution rights are governed by that specific Responsible AI License version, rather than a generic permissive or copyleft license.  No additional restrictions or grants are mentioned outside the license tag provided here.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: bigscience-bloom-rail-1.0"
+    }
+  ],
+  "1-4 (Paper)": "The documentation links one principal reference: “- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)”.  This paired sentence provides both the title and the permanent arXiv link for the canonical BLOOMZ paper.  From the citation we learn that the official technical account of the model is published under the title “Crosslingual Generalization through Multitask Finetuning,” and it is accessible on arXiv at the specified URL (arxiv.org/abs/2211.01786).  No additional white papers, blog posts, or conference proceedings are referenced in the supplied quotes, so this single paper stands as the central scholarly documentation of BLOOMZ in the provided material.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)"
+    }
+  ]
+}

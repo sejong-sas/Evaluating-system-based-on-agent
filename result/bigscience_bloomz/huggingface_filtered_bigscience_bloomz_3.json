@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "The sole API-related detail available is the code snippet checkpoint = \"bigscience/bloomz\", indicating that users can retrieve or reference the model under the identifier \"bigscience/bloomz\" (e.g., in a model-loading call or configuration setting). No further public-facing endpoints, documentation links, or usage examples are provided in the quotes.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "The provided statement explains that the BLOOMZ models (together with their companion mT0 models) originate from a fine-tuning stage applied to the multilingual pretrained language models BLOOM and mT5. This fine-tuning is carried out on a cross-lingual task mixture called xP3, resulting in models that can follow human instructions in dozens of languages with zero-shot capability. The authors highlight that the resulting BLOOMZ family demonstrates cross-lingual generalization, successfully transferring to new tasks and languages that were not seen during training.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

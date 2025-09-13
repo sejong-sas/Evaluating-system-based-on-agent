@@ -1,0 +1,109 @@
+
+======== 1/1 ▶ bigscience/bloomz ========
+📁 Directory to create/use: bigscience_bloomz
+📁 Output path: bigscience_bloomz
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: bigscience-workshop/Megatron-DeepSpeed (score=6, detail={'org_affinity': 9, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 11, 'from_hf_link': 1, 'version_conflict': 0})
+🔎 Candidate rejected: microsoft/DeepSpeed (score=6, detail={'org_affinity': 9, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 15, 'from_hf_link': 1, 'version_conflict': 0})
+🔎 Candidate rejected: pytorch/pytorch (score=6, detail={'org_affinity': 9, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 13, 'from_hf_link': 1, 'version_conflict': 0})
+🔎 Candidate rejected: NVIDIA/apex (score=6, detail={'org_affinity': 9, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 4, 'from_hf_link': 1, 'version_conflict': 0})
+🔎 Candidate rejected: NouamaneTazi/bloomz.cpp (score=-3, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 14, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: srogmann/JBLOOMz (score=-5, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 9, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: SDGP-CS-09/BLOOM_Official_Website (score=-14, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 6, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: huggingface/optimum-habana (score=-14, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 0, 'bad_keywords': 10, 'from_hf_link': 0, 'version_conflict': 0})
+✅ Resolved GH repo: bigscience-workshop/xmtf (score=11, detail={'org_affinity': 9, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 8, 'from_hf_link': 1, 'version_conflict': 0})
+✅ HF model: bigscience/bloomz (found at priority: 1)
+📄 Reports saved/merged (HF): bigscience_bloomz\reports_fulltext_huggingface_bigscience_bloomz.json
+✅ JSON file saved: bigscience_bloomz\huggingface_bigscience_bloomz.json
+📄 Reports merged to: bigscience_bloomz\reports_fulltext_bigscience_bloomz.json (HF sources)
+✅ Saved group 1 result: bigscience_bloomz\huggingface_filtered_bigscience_bloomz_1.json
+✅ Saved group 2 result: bigscience_bloomz\huggingface_filtered_bigscience_bloomz_2.json
+✅ Saved group 3 result: bigscience_bloomz\huggingface_filtered_bigscience_bloomz_3.json
+✅ Saved group 4 result: bigscience_bloomz\huggingface_filtered_bigscience_bloomz_4.json
+✅ Saved final merged result: bigscience_bloomz\huggingface_filtered_final_bigscience_bloomz.json
+✅ GH repo: bigscience-workshop/xmtf
+⚠️ Failed to access 'main' branch; retrying with 'master'...
+📄 Reports saved/merged (GH): bigscience_bloomz\reports_fulltext_github_bigscience-workshop_xmtf.json
+ℹ️ Merge skipped: could not determine a single target HF model id.
+✅ GitHub JSON file saved: bigscience_bloomz\github_bigscience-workshop_xmtf.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 0, '1-2 (Code)': 0, '1-3 (License)': 4, '1-4 (Paper)': 1}, 'kept': {'1-1 (Weights)': 0, '1-2 (Code)': 0, '1-3 (License)': 4, '1-4 (Paper)': 0}}
+✅ Saved group 1 result: bigscience_bloomz\github_filtered_bigscience-workshop_xmtf_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 0, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 0, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 result: bigscience_bloomz\github_filtered_bigscience-workshop_xmtf_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 0, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 0, '3-2 (Fine-tuning)': 0, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 result: bigscience_bloomz\github_filtered_bigscience-workshop_xmtf_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 3, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 4}, 'kept': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 1}}
+✅ Saved group 4 result: bigscience_bloomz\github_filtered_bigscience-workshop_xmtf_4.json
+✅ Saved final merged result: bigscience_bloomz\github_filtered_final_bigscience-workshop_xmtf.json
+🔎 HF tags found arXiv IDs: ['2211.01786']
+🔄 Simplified query: 'bloomz'
+🔎 Tavily search: bloomz paper
+  → arXiv link found: https://arxiv.org/pdf/2212.09535
+🔎 Tavily search: bloomz technical report
+  → No arXiv link found in results.
+🛰️ Tavily candidates: ['2212.09535']
+🔬 Verifying 1 Tavily candidate(s) with GPT…
+  • Candidate: 2212.09535
+    - GPT verdict: ❌ no match (The candidate paper is an adaptation study (BLOOM+1) focused on adding language support to BLOOM/BLOOMZ rather than the primary technical report for bigscience/bloomz. It is not the official or primar)
+✅ GPT-verified IDs: []
+📦 Final merged arXiv IDs: ['2211.01786']
+📄 PDF saved: bigscience_bloomz\arxiv_2211.01786.pdf
+✅ Full paper text saved: bigscience_bloomz\arxiv_fulltext_bigscience_bloomz.json
+📄 Reports merged to: bigscience_bloomz\reports_fulltext_bigscience_bloomz.json
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 7, '1-2 (Code)': 1, '1-3 (License)': 2, '1-4 (Paper)': 5}, 'kept': {'1-1 (Weights)': 7, '1-2 (Code)': 1, '1-3 (License)': 2, '1-4 (Paper)': 5}}
+✅ Saved group 1 : bigscience_bloomz\arxiv_filtered_bigscience_bloomz_1.json
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 9, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 2}, 'kept': {'1-5 (Architecture)': 9, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 2}}
+✅ Saved group 2 : bigscience_bloomz\arxiv_filtered_bigscience_bloomz_2.json
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 1, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 15, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 11, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : bigscience_bloomz\arxiv_filtered_bigscience_bloomz_3.json
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 13, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 13, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 : bigscience_bloomz\arxiv_filtered_bigscience_bloomz_4.json
+✅ Saved final merged: bigscience_bloomz\arxiv_filtered_final_bigscience_bloomz.json
+🔎 Relevance filter: kept 20/42 docs for 'bigscience/bloomz'
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 0, '1-2 (Code)': 0, '1-3 (License)': 0, '1-4 (Paper)': 2}, 'kept': {'1-1 (Weights)': 0, '1-2 (Code)': 0, '1-3 (License)': 0, '1-4 (Paper)': 2}}
+✅ Saved group 1 : bigscience_bloomz\reports_filtered_bigscience_bloomz_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 1, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 1, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 : bigscience_bloomz\reports_filtered_bigscience_bloomz_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : bigscience_bloomz\reports_filtered_bigscience_bloomz_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 2, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 2, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 : bigscience_bloomz\reports_filtered_bigscience_bloomz_4.json
+✅ Saved final merged: bigscience_bloomz\reports_filtered_final_bigscience_bloomz.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: bigscience_bloomz\openness_score_bigscience_bloomz.json
+✅ Openness evaluation complete. Result file: bigscience_bloomz\openness_score_bigscience_bloomz.json
+✅ Saved model ID: bigscience_bloomz\identified_model.txt
+⏳ **Time taken for this model: 1866.93 seconds**
+🧾 Log saved to: bigscience_bloomz\run_20250914-041033_bigscience_bloomz.log

@@ -1,0 +1,19 @@
+{
+  "1-1 (Weights)": "The quote set supplied for this section is empty, therefore the provided material contains no explicit statements about whether the BLOOMZ model weights are publicly released, where they might be hosted, what authentication or request procedures apply, or whether any portion of the weights can be downloaded by outside users. Because no sentences describe snapshot locations, checkpoints, hosting services, or access policies, no weight-related information can be summarized from the current evidence.",
+  "1-2 (Code)": "The corpus supplied for the “Code” category includes no sentences at all. Consequently, the provided material offers no details about availability of BLOOMZ training code, data-preparation scripts, configuration files, training schedules, or inference helpers. There is no mention of open-sourcing, repository URLs, or distinctions between pre-training, fine-tuning, or RLHF stages. As a result, no conclusions about code release or its scope can be drawn strictly from the present quotes.",
+  "1-3 (License)": "No licensing text or references appear in the supplied quotes. The excerpt set is completely empty for this category, so there is no information indicating which license—if any—governs use, modification, redistribution, or commercial exploitation of BLOOMZ. Phrases such as “research only,” “non-commercial,” “Apache 2.0,” or similar do not occur. Hence, the current evidence base is silent on licensing terms.",
+  "1-4 (Paper)": "Two brief but relevant statements discuss scholarly or technical context for BLOOMZ. First, the sentence “We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0.” indicates that the work built BLOOMZ by applying the MTF technique to two existing multilingual model families—BLOOM and mT5—and that the resulting finetuned variants were named BLOOMZ (and mT0 for the mT5 lineage). This reveals (1) the methodological step of using MTF, (2) the parent models from which BLOOMZ was derived, and (3) the framing of BLOOMZ as a finetuned variant, suggesting that a corresponding technical report or paper likely centers on this adaptation process. Second, the simple listing “BLOOMZ-7.1B\nBLOOMZ” provides an explicit model designation, highlighting at least one concrete size variant (7.1 billion parameters) that is covered in the documentation. Together these quotes confirm the existence of an accompanying publication or technical write-up describing the application of MTF to produce BLOOMZ, and they signal that the paper explicitly enumerates the BLOOMZ-7.1B checkpoint as part of the results or release lineup.",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2211.01786]",
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/bigscience-workshop/xmtf/master/plotstables/task_generalization_bloom_paper.pdf]",
+      "quote": "BLOOMZ-7.1B\nBLOOMZ"
+    }
+  ]
+}

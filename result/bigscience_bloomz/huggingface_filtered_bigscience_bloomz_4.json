@@ -1,0 +1,32 @@
+{
+  "4-1 (Pre-training Data)": "The only explicit statement about BLOOMZ pre-training data specifies that its language coverage and the proportion of each language are identical to those documented for the original BLOOM model: “Languages: Refer to BLOOM for pretraining … language proportions.” No other details (such as corpus names, licences, or token counts) are provided in the available quotes, so all that can be concluded from the cited material is that BLOOMZ inherits its pre-training corpus directly from BLOOM and users should consult the BLOOM documentation for full source and quantity information.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Languages:** Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The cited material explains that BLOOMZ is obtained through a supervised fine-tuning stage. One quote states: “We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot,” and the immediately following sentence clarifies that the training recipe “finetune[s] BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3).” Concretely, the fine-tuning dataset is the publicly-available HuggingFace corpus “bigscience/xP3,” a large cross-lingual mixture of human-written tasks. Quantitative details in the quotes specify that the fine-tuning run consumed 2.09 billion tokens and was carried out for 498 gradient-update steps. After this procedure, the resulting BLOOMZ models exhibit the ability to generalize to previously unseen tasks and languages without further supervised examples.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigscience/xP3"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Finetuning tokens:** 2.09 billion"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Finetuning steps:** 498"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

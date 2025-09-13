@@ -1,0 +1,56 @@
+{
+  "1-5 (Architecture)": "The paper describes BLOOMZ as a family of multilingual transformer checkpoints obtained by applying Multi-Task Finetuning (MTF) to the pretrained BLOOM backbone. Three prompt-specific variants are released: (i) BLOOMZ-P3, fine-tuned on the English-only P3 collection; (ii) the default BLOOMZ, fine-tuned on xP3, a multilingual set that keeps English prompts; and (iii) BLOOMZ-MT, fine-tuned on xP3mt, which augments xP3 with machine-translated prompts. Each variant is provided at several parameter scales. Explicitly mentioned sizes include a BLOOMZ-560M model with 560 million parameters, a BLOOMZ-7.1B model with 7.1 billion parameters, and a flagship BLOOMZ model with 176 billion parameters. Figure 4 shows that these fine-tuned checkpoints consistently outperform the underlying BLOOM and XGLM baselines on held-out tasks, although competing mT0 (13 B) is still competitive despite being an order of magnitude smaller than BLOOMZ-176 B. In essence, the architectural design mirrors the original BLOOM transformer across three concrete scales (≈0.6 B, 7 B, and 176 B parameters) and is packaged into distinct P3/xP3/xP3mt variants to target different multilingual prompt sets.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "The authors state that BLOOMZ models are trained with the Megatron-DeepSpeed stack: they provide an additional repository that holds the final optimizer states produced by Megatron-DeepSpeed, accessible by appending “-optimizer-states” to a BLOOMZ model URL. This disclosure confirms that the multi-task finetuning runs were executed using Megatron-DeepSpeed’s distributed-training infrastructure and its optimizer checkpointing mechanism.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In Figure 4, we show that the same applies to multilingual models: Finetuned BLOOMZ and BLOOMZ-P3 models significantly improve over BLOOM and XGLM on held-out tasks. Despite an order of magnitude fewer parameters, mT0 (13 billion parameters) is ahead of BLOOMZ (176 billion parameters)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We produce three core model variants available in different sizes: • BLOOMZ-P3 / mT0-P3: Models finetuned on the English-only P3. • BLOOMZ / mT0: Models finetuned on xP3, which consists of multilingual datasets with English prompts. • BLOOMZ-MT / mT0-MT: Models fine- tuned on xP3mt, which consists of multilingual datasets with English and machine- translated prompts."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOMZ-560M 560M parameter model finetuned on xP3"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOMZ-7.1B 7.1B parameter model finetuned on xP3"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOMZ 176B parameter model finetuned on xP3"
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0."
+    },
+    {
+      "source": "[sections/4.1 Task generalization]",
+      "quote": "Despite an order of magnitude fewer parameters, mT0 (13 billion parameters) is ahead of BLOOMZ (176 billion parameters)."
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ-560M 560M parameter model finetuned on xP3"
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ 176B parameter model finetuned on xP3"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "BLOOMZ models have an additional repository containing the final optimizer states for training with Megatron-Deepspeed that can be found by appending “-optimizer-states\" to the respective URL."
+    },
+    {
+      "source": "[sections/Artifacts]",
+      "quote": "BLOOMZ models have an additional repository containing the final optimizer states for training with Megatron-Deepspeed that can be found by appending “- optimizer-states\" to the respective URL."
+    }
+  ]
+}

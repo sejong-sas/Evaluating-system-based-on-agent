@@ -1,0 +1,86 @@
+{
+  "1-5 (Architecture)": "For bigscience/bloomz, the authors state that the network is \"Same as [bloom]\", pointing users to the model’s own config.json for exact values.  The exposed configuration lines show the concrete shape of the Transformer: 70 decoder layers (\"n_layer\": 70) each with 112 self-attention heads (\"num_attention_heads\": 112).  The hidden representation width is 14 336 (\"n_embed\": 14336).  Maximum supported context length during training/inference is 2 048 tokens (\"seq_length\": 2048).  The learned vocabulary contains 250 880 entries (\"vocab_size\": 250880).",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Architecture:** Same as [bloom](https://huggingface.co/bigscience/bloom), also refer to the `config.json` file"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_layer\": 70,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 112,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_embed\": 14336,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"seq_length\": 2048,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 250880"
+    }
+  ],
+  "1-6 (Tokenizer)": "The code snippet explicitly loads the tokenizer with checkpoint = \"bigscience/bloomz\" and tokenizer = AutoTokenizer.from_pretrained(checkpoint), confirming that the released tokenizer artefacts reside in the same repository as the model.  All of the standard Hugging Face tokenizer assets are provided and downloadable, including tokenizer.json, tokenizer_config.json, and special_tokens_map.json.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer_config.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "special_tokens_map.json"
+    }
+  ],
+  "2-1 (Hardware)": "Training of bigscience/bloomz is reported on a large GPU cluster composed of 288 NVIDIA A100 80 GB GPUs.  The machines are organised as 36 nodes, each hosting 8 A100s connected locally via NVLink 4, while nodes inter-connect through four OmniPath links.  Each node is powered by AMD CPUs and offers 512 GB of system memory.  GPU-to-GPU communication is handled on a dedicated subnet using the NCCL library.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **CPUs:** AMD CPUs with 512GB memory per node"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **GPUs:** 288 A100 80GB GPUs with 8 GPUs per node (36 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Communication:** NCCL-communications network with a fully dedicated subnet"
+    }
+  ],
+  "2-2 (Software)": "The software stack for bigscience/bloomz combines multiple open-source HPC and deep-learning packages.  Workflow orchestration and pipeline parallelism rely on Megatron-DeepSpeed.  Parameter sharding, optimiser states, and additional parallelism come from DeepSpeed.  The neural-network framework underneath is PyTorch 1.11 compiled against CUDA 11.5.  Mixed-precision (FP16) support is enabled through NVIDIA’s apex.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Orchestration:** [Megatron-DeepSpeed](https://github.com/bigscience-workshop/Megatron-DeepSpeed)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Optimizer & parallelism:** [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch) (pytorch-1.11 w/ CUDA-11.5)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **FP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ]
+}

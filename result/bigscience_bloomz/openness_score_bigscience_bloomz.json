@@ -1,0 +1,143 @@
+{
+  "model": "bigscience/bloomz",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The model is released under the BigScience-BLOOM RAIL 1.0 license, which the rubric explicitly lists among the licenses counted as Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report—“Cross-lingual Generalization through Multitask Finetuning” (arXiv:2211.01786)—describes BLOOMZ specifically."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes list both the type and quantity of training hardware: 288 × A100 80 GB GPUs (8 per node, 36 nodes) plus CPU/RAM specs."
+    },
+    "2-2 Software": {
+      "score": 1.0,
+      "reason": "The stack is fully named: Megatron-DeepSpeed, DeepSpeed (ZeRO), PyTorch 1.11 + CUDA 11.5, NVIDIA Apex—sufficient to reconstruct the training environment."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.0,
+      "reason": "Only a passing mention that Swahili is a small part of the pre-training corpus is given; no methodological details are disclosed."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Datasets (P3, xP3, xP3mt) and model variants are listed, but hyper-parameters and full reproducible settings are not, giving partial disclosure."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No reinforcement-learning procedure is mentioned in the supplied material. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.0,
+      "reason": "No concrete information is provided about the pre-training corpus composition or access. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "The three fine-tuning mixtures (P3, xP3, xP3mt) are named and qualitatively described, but sizes, licenses, and full lists are not disclosed."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No RLHF/RLAIF datasets are discussed. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements describe any filtering or cleaning pipeline for either pre-training or fine-tuning data. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The model is released under the BigScience-BLOOM RAIL 1.0 license, which the rubric explicitly lists among the licenses counted as Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report—“Cross-lingual Generalization through Multitask Finetuning” (arXiv:2211.01786)—describes BLOOMZ specifically."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes list both the type and quantity of training hardware: 288 × A100 80 GB GPUs (8 per node, 36 nodes) plus CPU/RAM specs."
+    },
+    "2-2 Software": {
+      "score": 1.0,
+      "reason": "The stack is fully named: Megatron-DeepSpeed, DeepSpeed (ZeRO), PyTorch 1.11 + CUDA 11.5, NVIDIA Apex—sufficient to reconstruct the training environment."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.0,
+      "reason": "Only a passing mention that Swahili is a small part of the pre-training corpus is given; no methodological details are disclosed."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Datasets (P3, xP3, xP3mt) and model variants are listed, but hyper-parameters and full reproducible settings are not, giving partial disclosure."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.0,
+      "reason": "No concrete information is provided about the pre-training corpus composition or access. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "The three fine-tuning mixtures (P3, xP3, xP3mt) are named and qualitatively described, but sizes, licenses, and full lists are not disclosed."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements describe any filtering or cleaning pipeline for either pre-training or fine-tuning data. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "final_score_10pt": 5.714,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "not_used"
+    },
+    "excluded": [
+      "3-3 Reinforcement Learning",
+      "4-3 Reinforcement Learning Data"
+    ],
+    "denominator": 14,
+    "raw_sum": 8.0,
+    "scale": "10/14",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

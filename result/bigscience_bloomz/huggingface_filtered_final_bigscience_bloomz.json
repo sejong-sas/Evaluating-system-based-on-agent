@@ -1,0 +1,166 @@
+{
+  "1-1 (Weights)": "The only explicit statement about the weight files is the line: “checkpoint = \"bigscience/bloomz\"”.  From this sentence we learn three concrete facts.  (1) The BLOOMZ parameters have been packaged and published as an identifiable checkpoint rather than remaining private or unnamed.  (2) The official identifier of that checkpoint is exactly the string bigscience/bloomz, which points to the Hugging Face model hub namespace that starts with “bigscience/”.  (3) Because the quotation is written in the conventional format used in Hugging Face loading scripts, it directly signals that users can retrieve the model by passing the string bigscience/bloomz to the standard loading utilities (e.g., AutoModel.from_pretrained).  No further limitations, authentication steps, or mirrors are mentioned inside the quote, so the single line establishes both the existence and the publicly named location of the BLOOMZ weight files.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    }
+  ],
+  "1-2 (Code)": "The code-availability information is confined to a single bullet that reads: “- **Repository:** [bigscience-workshop/xmtf](https://github.com/bigscience-workshop/xmtf)”.  This sentence tells us that at least one GitHub repository, hosted under the bigscience-workshop organization and carrying the name xmtf, is officially linked to BLOOMZ.  The quote does not qualify whether the repository contains pre-training, fine-tuning, or inference scripts, but its explicit listing under a heading of repositories underscores that *some* portion of the BLOOMZ pipeline is open-sourced there.  The presence of a clickable GitHub URL also implies public access; no private or restricted qualifier appears in the quoted sentence.  Hence, the quote substantiates the existence of publicly visible code, though the exact training phase coverage remains unspecified within the provided material.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Repository:** [bigscience-workshop/xmtf](https://github.com/bigscience-workshop/xmtf)"
+    }
+  ],
+  "1-3 (License)": "Licensing is summarized by the terse line “license: bigscience-bloom-rail-1.0”.  This sentence gives the formal license identifier attached to BLOOMZ.  The string bigscience-bloom-rail-1.0 signals that the model is distributed under the BigScience BLOOM Responsible AI License, version 1.0.  While the quote does not reproduce the clauses themselves, the explicit naming of the license makes clear that the model’s usage, modification, and redistribution rights are governed by that specific Responsible AI License version, rather than a generic permissive or copyleft license.  No additional restrictions or grants are mentioned outside the license tag provided here.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: bigscience-bloom-rail-1.0"
+    }
+  ],
+  "1-4 (Paper)": "The documentation links one principal reference: “- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)”.  This paired sentence provides both the title and the permanent arXiv link for the canonical BLOOMZ paper.  From the citation we learn that the official technical account of the model is published under the title “Crosslingual Generalization through Multitask Finetuning,” and it is accessible on arXiv at the specified URL (arxiv.org/abs/2211.01786).  No additional white papers, blog posts, or conference proceedings are referenced in the supplied quotes, so this single paper stands as the central scholarly documentation of BLOOMZ in the provided material.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Paper:** [Crosslingual Generalization through Multitask Finetuning](https://arxiv.org/abs/2211.01786)"
+    }
+  ],
+  "1-5 (Architecture)": "For bigscience/bloomz, the authors state that the network is \"Same as [bloom]\", pointing users to the model’s own config.json for exact values.  The exposed configuration lines show the concrete shape of the Transformer: 70 decoder layers (\"n_layer\": 70) each with 112 self-attention heads (\"num_attention_heads\": 112).  The hidden representation width is 14 336 (\"n_embed\": 14336).  Maximum supported context length during training/inference is 2 048 tokens (\"seq_length\": 2048).  The learned vocabulary contains 250 880 entries (\"vocab_size\": 250880).",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Architecture:** Same as [bloom](https://huggingface.co/bigscience/bloom), also refer to the `config.json` file"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_layer\": 70,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 112,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_embed\": 14336,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"seq_length\": 2048,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 250880"
+    }
+  ],
+  "1-6 (Tokenizer)": "The code snippet explicitly loads the tokenizer with checkpoint = \"bigscience/bloomz\" and tokenizer = AutoTokenizer.from_pretrained(checkpoint), confirming that the released tokenizer artefacts reside in the same repository as the model.  All of the standard Hugging Face tokenizer assets are provided and downloadable, including tokenizer.json, tokenizer_config.json, and special_tokens_map.json.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer_config.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "special_tokens_map.json"
+    }
+  ],
+  "2-1 (Hardware)": "Training of bigscience/bloomz is reported on a large GPU cluster composed of 288 NVIDIA A100 80 GB GPUs.  The machines are organised as 36 nodes, each hosting 8 A100s connected locally via NVLink 4, while nodes inter-connect through four OmniPath links.  Each node is powered by AMD CPUs and offers 512 GB of system memory.  GPU-to-GPU communication is handled on a dedicated subnet using the NCCL library.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **CPUs:** AMD CPUs with 512GB memory per node"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **GPUs:** 288 A100 80GB GPUs with 8 GPUs per node (36 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Communication:** NCCL-communications network with a fully dedicated subnet"
+    }
+  ],
+  "2-2 (Software)": "The software stack for bigscience/bloomz combines multiple open-source HPC and deep-learning packages.  Workflow orchestration and pipeline parallelism rely on Megatron-DeepSpeed.  Parameter sharding, optimiser states, and additional parallelism come from DeepSpeed.  The neural-network framework underneath is PyTorch 1.11 compiled against CUDA 11.5.  Mixed-precision (FP16) support is enabled through NVIDIA’s apex.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Orchestration:** [Megatron-DeepSpeed](https://github.com/bigscience-workshop/Megatron-DeepSpeed)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Optimizer & parallelism:** [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch) (pytorch-1.11 w/ CUDA-11.5)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **FP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ],
+  "2-3 (API)": "The sole API-related detail available is the code snippet checkpoint = \"bigscience/bloomz\", indicating that users can retrieve or reference the model under the identifier \"bigscience/bloomz\" (e.g., in a model-loading call or configuration setting). No further public-facing endpoints, documentation links, or usage examples are provided in the quotes.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigscience/bloomz\""
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "The provided statement explains that the BLOOMZ models (together with their companion mT0 models) originate from a fine-tuning stage applied to the multilingual pretrained language models BLOOM and mT5. This fine-tuning is carried out on a cross-lingual task mixture called xP3, resulting in models that can follow human instructions in dozens of languages with zero-shot capability. The authors highlight that the resulting BLOOMZ family demonstrates cross-lingual generalization, successfully transferring to new tasks and languages that were not seen during training.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The only explicit statement about BLOOMZ pre-training data specifies that its language coverage and the proportion of each language are identical to those documented for the original BLOOM model: “Languages: Refer to BLOOM for pretraining … language proportions.” No other details (such as corpus names, licences, or token counts) are provided in the available quotes, so all that can be concluded from the cited material is that BLOOMZ inherits its pre-training corpus directly from BLOOM and users should consult the BLOOM documentation for full source and quantity information.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Languages:** Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The cited material explains that BLOOMZ is obtained through a supervised fine-tuning stage. One quote states: “We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot,” and the immediately following sentence clarifies that the training recipe “finetune[s] BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3).” Concretely, the fine-tuning dataset is the publicly-available HuggingFace corpus “bigscience/xP3,” a large cross-lingual mixture of human-written tasks. Quantitative details in the quotes specify that the fine-tuning run consumed 2.09 billion tokens and was carried out for 498 gradient-update steps. After this procedure, the resulting BLOOMZ models exhibit the ability to generalize to previously unseen tasks and languages without further supervised examples.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigscience/xP3"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Finetuning tokens:** 2.09 billion"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Finetuning steps:** 498"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}
