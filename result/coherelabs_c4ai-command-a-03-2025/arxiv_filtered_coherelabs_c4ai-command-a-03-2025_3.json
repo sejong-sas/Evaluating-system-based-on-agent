@@ -1,0 +1,74 @@
+{
+  "2-3 (API)": "The only sentence in the supplied material that meets the strict model-token filter simply states that “Command A shows strong performance in various categories of unsafe content.”  No additional filtered sentences describe endpoints, rate limits, authentication, SDKs, pricing tiers, public documentation, example cURL calls or any other concrete aspect of an externally accessible API.  As a result, the quotes provide no evidence of a public, self-serve or partner API for coherelabs/c4ai-command-a-03-2025, nor any information about how developers might invoke the model programmatically.  Consequently, all that can be reported for this section is that the quotes do not reveal an API; they only indicate the model’s safety behaviour in an unspecified evaluation setting.",
+  "3-1 (Pre-training)": "The filtered quotations reveal several key features of the pre-training stage for coherelabs/c4ai-command-a-03-2025:\n• Training corpus composition Command A is pre-trained on a multilingual mixture that combines (i) publicly available web text and code, (ii) internally generated synthetic data sets, (iii) instruction-tuning data produced by human annotators, and (iv) high-quality text purchased from specialised data vendors.  \n• Data quality strategy To improve signal quality the team (a) increases the proportion of educational content, which is under-represented on the open web, (b) performs careful de-duplication, (c) applies heuristic safety filters, and (d) down-samples examples that automatic ML-based quality classifiers mark as low quality.\n• Model architecture A decoder-only Transformer, following the canonical Vaswani et al. (2017) design, is adopted for Command A; Figure 2 in the source text depicts this architecture.\n• Long-context component During pre-training, fragments of up to 8,192 tokens are sampled from a long-context data set; the internal model “Command R+ Refresh” is prompted on those fragments to generate question–answer pairs, enriching the training signal for extended-context comprehension.\nCollectively, the quotes portray a large-scale, multilingual, quality-filtered web-plus-synthetic pipeline married to a standard decoder-only Transformer backbone, with explicit attention to long-context capability and safety-oriented data curation.",
+  "3-2 (Fine-tuning)": "According to the filtered sentences, fine-tuning (post-training) of coherelabs/c4ai-command-a-03-2025 is a multi-stage, decentralised pipeline designed to balance broad coverage with targeted expertise:\n1. Overall philosophy The system is “post-trained using a novel decentralised approach” so that many capability areas can be tuned in parallel while still converging on a single model.\n2. Instruction-following sequence For instruction tasks the team first applies supervised fine-tuning (SFT) and then preference tuning, executed one after the other.\n3. Expert SFT phase Six SFT expert models are trained on top of an earlier “Instruct” checkpoint, each receiving its own specialised data mixture to maximise competence in a specific domain.\n4. Model-soup merging (stage 1) Those expert checkpoints are merged into an initial “SFT model soup,” creating a single model that aggregates their strengths.\n5. Offline preference experts & merging (stage 2) Additional experts are trained with offline preference-optimisation techniques on the SFT soup; these are then merged into an “off-pref soup.”\n6. Final refinement loop A best-of-N supervised stage is first run on the RL-soup variant, after which the team alternates (“ping-pong”) between offline preference tuning and online reinforcement learning until human-preference scores plateau, at which point the final Command A model is frozen.\nTaken together, the fine-tuning regimen blends specialised SFT, preference optimisation and iterative merging to create a single robust checkpoint while continuously monitoring human-judged quality.",
+  "3-3 (Reinforcement Learning)": "The reinforcement-learning stage for coherelabs/c4ai-command-a-03-2025 is closely intertwined with the fine-tuning pipeline but has distinct characteristics highlighted in the quotes:\n• RL expert creation Six “RL Expert Models” are trained on top of the previously formed SFT soup.  The training uses RL algorithms customised per domain and can rely either on pairwise human preference comparisons or on verifiable programmatic reward signals.\n• Ping-pong schedule Training proceeds by alternating—i.e., ping-ponging—between offline preference optimisation and online RL optimisation.  This alternation continues until human preference evaluations reach a plateau.\n• Stability & performance tracking Figure 13 (referenced in the quotes) tracks Command A’s win rate against GPT-4o throughout the CoPG/SRPO ping-pong schedule.  Interleaving the two optimisation methods is reported to enhance stability: any regression in one phase is likely to be corrected in the next.\nThe evidence therefore depicts a reinforcement-learning strategy that (a) begins with multiple domain-specific experts, (b) relies on both offline and online reward formulations, (c) cycles the two methods to mitigate instability, and (d) monitors progress via head-to-head evaluations against strong baselines until convergence.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[sections/Default Safety]",
+      "quote": "In the default setting, we evaluate the safety of the model without a system preamble to simulate cases outside of Cohere’s API or enterprise contexts. Command A shows strong performance in various categories of unsafe content."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 2: Schematic of the Command A model architecture. We use a decoder-only Transformer architecture (Vaswani et al., 2017) as depicted in Figure 2."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[sections/Long Context Data]",
+      "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024)."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A is post-trained using a novel decentralised approach to maximise and control its performance over a wide spectrum of domains and capability areas."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the context of instruction-following we post-train Command A in sequence with SFT and preference tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • SFT Expert Models: We train six SFT experts on top of the Instruct checkpoint with specialised data mixtures to maximise capability-specific performance."
+    },
+    {
+      "source": "[sections/Expert Merging]",
+      "quote": "The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "First, we apply a best-of-N supervised training stage to the RL Soup model. Then, we alternate between offline preference and online RL optimisation in a ping-pong approach, iterating as required until we observe a human preference performance plateau, to obtain the final Command A model."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Then, we alternate between offline preference and online RL optimisation in a ping-pong approach, iterating as required until we observe a human preference performance plateau, to obtain the final Command A model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Figure 13, we show Command A win rates against GPT-4o (1120) according to a pool of LLM judges at each phase of the CoPG/SRPO ping-pong. While this method allows us to achieve high win rates, we also observe that interleaving the two methods tends to increase overall training stability: a potential regression occurring at a particular phase is likely to be corrected by the next one."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    },
+    {
+      "source": "[sections/Polishing]",
+      "quote": "In Figure 13, we show Command A win rates against GPT-4o (1120) according to a pool of LLM judges at each phase of the CoPG/SRPO ping-pong. While this method allows us to achieve high win rates, we also observe that interleaving the two methods tends to increase overall training stability: a potential regression occurring at a particular phase is likely to be corrected by the next one."
+    }
+  ]
+}

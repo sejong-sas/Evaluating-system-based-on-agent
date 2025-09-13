@@ -1,0 +1,44 @@
+{
+  "1-5 (Architecture)": "The available statements describe coherelabs/c4ai-command-a-03-2025 (\"Command A\") as a \"decoder-only Transformer architecture (Vaswani et al., 2017).\" A schematic is provided in Figure 2. The model is explicitly said to have \"111 B parameters,\" and it is compared with a smaller sibling (Command R7B) while being characterized as delivering \"best-in-class\" benchmark results for its size. The architecture is further described as a \"hybrid architecture\" that preserves strong long-context performance while cutting KV-cache memory use. Quantitatively, at an 8 k token sequence length it needs only \"75 % of the KV cache memory\" used by Llama 3.3 70B Instruct, \"23.8 %\" of that required by Llama 3.1 405B Instruct, and \"45.5 %\" of Mistral Large. These points together give the only publicly-quoted structural details: (1) decoder-only Transformer backbone, (2) 111 B parameter scale, and (3) a memory-efficient hybrid attention design delivering reduced KV-cache footprint.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "The sole hardware detail concerns inference/serving, not training: \"With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models.\" No quotes mention the training cluster size, accelerator count, or total compute budget, so the only confirmed fact is that the model can be served on as few as two NVIDIA A100 or H100 GPUs.",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 2: Schematic of the Command A model architecture. We use a decoder-only Transformer architecture (Vaswani et al., 2017) as depicted in Figure 2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Both the 111B parameter Command A and Command R7B perform best-in-class across a suite of established benchmarks for their respective model sizes."
+    },
+    {
+      "source": "[sections/4.8 Long-Context Benchmarks]",
+      "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture. For instance, at an 8k sequence length, Command A requires only 75% of the KV cache memory used by Llama 3.3 70B Instruct, 23.8% of that used by Llama 3.1 405B Instruct, and 45.5% of that used by Mistral Large."
+    },
+    {
+      "source": "[sections/2.3 Model Architecture]",
+      "quote": "Figure 2: Schematic of the Command A model architecture."
+    },
+    {
+      "source": "[sections/Long-Context Benchmarks]",
+      "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture."
+    },
+    {
+      "source": "[sections/Long-Context Benchmarks]",
+      "quote": "For instance, at an 8k sequence length, Command A requires only 75% of the KV cache memory used by Llama 3.3 70B Instruct, 23.8% of that used by Llama 3.1 405B Instruct, and 45.5% of that used by Mistral Large."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Command A focuses on delivering competitive performance as efficiently as possible. With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
+    }
+  ],
+  "2-2 (Software)__evidence": []
+}

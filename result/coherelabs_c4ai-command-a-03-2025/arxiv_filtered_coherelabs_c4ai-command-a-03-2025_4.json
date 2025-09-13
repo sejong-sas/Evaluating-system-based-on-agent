@@ -1,0 +1,49 @@
+{
+  "4-1 (Pre-training Data)": "The available statements indicate that the pre-training corpus for the Command-series model is intentionally broad and multi-source. For Command A the creators combine: (a) multilingual publicly available text-and-code scraped from the open web, (b) internally generated synthetic corpora, (c) instruction-tuning sets written by human annotators, and (d) additional \"high-quality\" material licensed from specialised data vendors. While absolute token counts are not given, the authors explicitly characterise the mix as spanning many languages and data modalities. In addition to the raw web and vendor text, the team exploits a dedicated long-context pre-training dataset: they sample fragments up to 8,192 tokens long and use Command R+ Refresh to generate paired question-answer examples from those excerpts, thereby seeding the model with long-range context-handling skills. No further numerical breakdown or licensing detail is supplied, but the quoted passages make clear that the pre-training pool is a heterogeneous blend of public, synthetic, and commercially sourced data whose composition was chosen to balance coverage (via large-scale web text and code) with quality (via curated vendor deliveries and human-authored instruction data).",
+  "4-2 (Fine-tuning Data)": "Fine-tuning for Command A proceeds in multiple successive steps that each depend on purpose-built datasets. First, a collection of expert sub-models is trained with supervised fine-tuning (SFT) on task-specific instruction/response pairs; these experts are then merged into an initial “SFT model soup.” Next, additional experts are trained on the same soup with offline preference-optimisation methods, producing an “off-pref soup” that captures human-style preferences. During both of these stages the pipeline injects synthetic preamble material: the team programmatically generates diverse preambles, attaches them to incoming prompts, and ensures that completions and preference labels are conditioned on those preambles. Consequently, the fine-tuning data encompass (i) SFT instruction sets, (ii) preference-labelled variants of those sets, and (iii) the automatically generated preamble-augmented versions of each. The public availability, licensing terms, or exact token counts of these corpora are not disclosed in the quoted text.",
+  "4-3 (Reinforcement Learning Data)": "None of the supplied quotations describe any reinforcement-learning (RL) or RL-from-human-feedback datasets used for Command A; therefore no information about the composition, provenance, or accessibility of RL data can be summarised from the provided material.",
+  "4-4 (Data Filtering)": "Data cleaning for Command A is addressed at two distinct points in the training pipeline. (1) Web-scale text filtering: after deduplicating raw crawls, the team increases the relative proportion of hard-to-find educational material and aggressively down-samples low-quality documents that are flagged by machine-learning-based quality classifiers. Additional heuristic filters target both safety and general quality issues before the corpus is admitted to pre-training. (2) Prompt-level filtering: when constructing instruction datasets, the authors feed candidate prompts through Command R+ Refresh and evaluate them along multiple axes (described as a \"more comprehensive notion of prompt complexity\"). Prompts that fail these automated checks are discarded, a process that the authors note can be \"overly strict\" but nevertheless yields a remaining pool that is \"sufficiently difficult even for state-of-the-art models.\" Together these procedures control duplication, elevate educational content, suppress low-quality or unsafe text, and enforce a minimum complexity threshold on prompts—although no explicit numerical thresholds (e.g., Jaccard scores, perplexity cut-offs, or size reductions) are published in the quoted excerpts.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
+    },
+    {
+      "source": "[sections/Long Context/Data]",
+      "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024)."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/3.4.3 Expert Merging]",
+      "quote": "The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
+    },
+    {
+      "source": "[sections/Instruction-Following]",
+      "quote": "To train Command A to follow preamble instructions, we develop methods based on synthetic data generation to create diverse preambles that are attached to prompts flowing into the above-described pipeline. The preambles are then taken into account when creating the respective completions and preferences, i.e., preamble-augmented data is used during both SFT and preference tuning."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[sections/4.11.1 Evaluation Data]",
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[sections/Human Evaluation]",
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity. While the filtering may be overly strict in some instances, our findings show that the resulting pool of prompts is sufficiently difficult even for state-of-the-art models."
+    }
+  ]
+}

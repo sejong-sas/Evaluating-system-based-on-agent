@@ -1,0 +1,181 @@
+{
+  "1-1 (Weights)": "The available information explicitly states that the model weights for the target model have been made public: “Weights for both models have been released for research purposes.”  Concrete evidence of where and how the community can obtain them is given through the code snippet that loads the artefacts directly from Hugging Face. The snippet specifies the exact repository slug — \"CohereForAI/c4ai-command-a-03-2025\" — and demonstrates that both the tokenizer and the causal-LM weights can be fetched with the standard `transformers` API (`AutoTokenizer.from_pretrained(...)` and `AutoModelForCausalLM.from_pretrained(...)`). Taken together, these quotes confirm (a) the existence of downloadable checkpoint files, (b) open access for at least “research purposes,” and (c) the practical retrieval path (Hugging Face hub) under that model ID.",
+  "1-2 (Code)": "No quotation mentions the release of any TRAINING-related code (data preparation scripts, configuration files, optimisation schedules, RL-HF loops, etc.). The only code shown is an inference example for loading the published weights, which does not constitute disclosure of the model’s training pipeline. Therefore, based on the provided material, there is no evidence that the authors have open-sourced the training code for this model.",
+  "1-3 (License)": "The supplied quotes do not include any licence text, licence name, or wording about usage, redistribution, modification, commercial rights, or other legal conditions. Consequently, no licensing details can be summarised from the current evidence.",
+  "1-4 (Paper)": "Two identical references testify to the presence of an official technical report: “Title: Command A: An Enterprise-Ready Large Language Model,” followed by the abstract-style sentence, “In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases.” These lines confirm that (a) a formal document exists, (b) its focus is the development process of Command A, and (c) the paper positions the model specifically for enterprise scenarios. No additional bibliographic metadata (authors, venue, date, URL) is given in the quotes, but the existence and thematic scope of the report are clearly established.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\""
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\""
+    },
+    {
+      "source": "[sections/https://huggingface.co/docs/transformers/main/en/chat_templating#advanced-retrieval-augmented-generation]",
+      "quote": "PYTHON 1 from transformers import AutoTokenizer, AutoModelForCausalLM 2 3 # Load the model and tokenizer 4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id) 6 model = AutoModelForCausalLM.from_pretrained(model_id)"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: Command A: An Enterprise-Ready Large Language Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "Title: Command A: An Enterprise-Ready Large Language Model"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases."
+    }
+  ],
+  "1-5 (Architecture)": "The available material about the model c4ai-command-a-03-2025 (referred to in the quote as “Command A”) states that it is an “agent-optimised and multilingual-capable model” that explicitly supports 23 languages used in global business contexts. Architectural-wise, it is said to rely on “a novel hybrid architecture” whose stated goal is to balance computational efficiency with “top-of-the-range performance.” No other structural information—such as layer counts, parameter size, attention layout, or other hyper-parameters—is revealed in the supplied text.",
+  "1-6 (Tokenizer)": "The quotes provide two code snippets that show how to obtain the tokenizer: \nmodel_id = \"CohereForAI/c4ai-command-a-03-2025\";\n​tokenizer = AutoTokenizer.from_pretrained(model_id).\nThis confirms that a tokenizer artefact is hosted under the same model repository name and can be instantiated through Hugging Face’s AutoTokenizer interface, implying that the tokenizer is publicly downloadable and ready for immediate use. No further technical details (e.g., vocabulary size, byte-pair encoding, special tokens) are disclosed.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\"\n tokenizer = AutoTokenizer.from_pretrained(model_id)"
+    },
+    {
+      "source": "[sections/https://huggingface.co/docs/transformers/main/en/chat_templating#advanced-retrieval-augmented-generation]",
+      "quote": "4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id)"
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The publicly-released model checkpoint \"CohereForAI/c4ai-command-a-03-2025\" can be accessed exactly like any other Hugging Face Hub model: the documentation shows a minimal Python snippet that loads the tokenizer and weights with `AutoTokenizer.from_pretrained(model_id)` and `AutoModelForCausalLM.from_pretrained(model_id)`.  The authors also provide a full Hugging Face guide that covers how to \"run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases\" and how to \"set system instructions for Command A\".  For chat-style interactions the recommended interface is the Transformers chat-template system: users call `apply_chat_template()` and pass a list of evidence passages through the dedicated `documents` parameter, thereby enabling “grounded generation in Command A.”  Taken together, the quotes confirm that an API-style, hosted workflow is supported (no local library hacking required), that concrete instructions and examples are already published, and that the same entry points let developers build classic chatbots, retrieval-augmented generation pipelines, function-calling single-shot tools, or multi-step agent loops on top of the exact 03-2025 checkpoint.",
+  "3-1 (Pre-training)": "The technical report explains that Command A was conceived as “a powerful large language model purpose-built to excel at real-world enterprise use cases.”  Its strong performance is attributed to a deliberately “decentralised training approach,” which combines self-refinement algorithms with explicit model-merging techniques.  An “original training pipeline” is laid out in detail in the report, after which an “extensive evaluation” demonstrates the benefits of the approach on enterprise-relevant public benchmarks.  Although the authors also discuss a sibling model called Command R7B in the same family (released for research and sharing architectural commonalities), the focus remains on the 03-2025 Command A checkpoint.  The text further stresses that the pre-training phase already imbues the model with domain-targeted competences: it \"has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG),\" indicating that the upstream corpus and objectives were curated to support grounded generation scenarios.",
+  "3-2 (Fine-tuning)": "After the core pre-training, Command A undergoes multiple post-training stages described as “a mixture of supervised fine-tuning and preference fine-tuning.”  This composite regimen is directly credited for teaching the model high-level behaviors such as enterprise-grade summarization and end-of-pipeline RAG answer generation.  The same process is repeated for more advanced agentic skills: the documentation says that conversational tool use, single-shot function calling, and iterative Plan → Action → Observation agent loops were also “trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template.”  Thus, the fine-tuning stage is characterized by two ingredients—labeled datasets for supervised objectives and preference-based feedback for alignment—and by explicit prompt engineering that standardizes how those capabilities are invoked.",
+  "3-3 (Reinforcement Learning)": "While no standalone RLHF section is provided, the authors repeatedly note that in addition to supervised updates, Command A received “preference fine-tuning.”  In current LLM practice this term typically denotes reinforcement-learning-style optimization (e.g., DPO or PPO on reward models derived from human preferences).  The quote directly ties that preference-based stage to the emergence of summarization and RAG competence, implying that the model’s final alignment loop relied on human-or-human-proxy preferences rather than purely generative log-prob objectives.  Therefore, the only reinforcement-learning-like detail disclosed is the existence of a preference-tuning pass that complements supervised fine-tuning; specific reward models, batch sizes, or hyperparameters are not enumerated in the source material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[sections/Using Command A on Hugging Face]",
+      "quote": "Grounded generation in Command A is supported through chat templates in Transformers. Simply provide document snippets using the documents parameter of Hugging Face’s apply_chat_template()."
+    },
+    {
+      "source": "[sections/Using Command A on Hugging Face]",
+      "quote": "This page contains detailed instructions about: How to set system instructions for Command A in Hugging Face How to run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "This page contains detailed instructions about: How to set system instructions for Command A in Hugging Face How to run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "4 model_id = \"CohereForAI/c4ai-command-a-03-2025\"\n5 tokenizer = AutoTokenizer.from_pretrained(model_id)\n6 model = AutoModelForCausalLM.from_pretrained(model_id)"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. These abilities are achieved through a decentralised training approach, including self-refinement algorithms and model merging techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This technical report details our original training pipeline and presents an extensive evaluation of our models across a suite of enterprise-relevant tasks and public benchmarks, demonstrating excellent performance and efficiency."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Grounded Generation and RAG Capabilities: Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG)."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[sections/Using Command A on Hugging Face]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/Using Command A on Hugging Face]",
+      "quote": "These tool use capabilities unlock two use cases: Function Calling : A single inference where Command A selects relevant tools to fulfill a user request. Agents : Several inference cycles where Command A iterates through Plan → Action → Observation loops until it arrives at a final response. These capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Command A has been specifically trained with conversational tool use capabilities. These capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The only explicit statements about pre-training relate to high-level characteristics of the resulting model rather than to the underlying corpus itself. The quotes tell us that “Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business,” and that it employs “a novel hybrid architecture balancing efficiency with top-of-the-range performance.” From this we can infer that the pre-training data must cover at least 23 languages commonly used in international business contexts and that it was large and diverse enough to enable agent-style reasoning and general multilingual competence. However, the excerpts provide no numeric breakdown of tokens, no list of data sources (e.g., web, books, code, or proprietary corpora), no licensing or usage-rights discussion, and no indication of how much of the data was proprietary versus public. Likewise, they do not describe any domain weighting strategies, geographic or temporal coverage, or safeguards for personal or copyrighted text. In short, the public information on pre-training data for the target model is confined to the broad qualitative claim that the corpus yields strong multilingual and agent-style capabilities; all quantitative and source-level specifics remain undisclosed in the available material.",
+  "4-2 (Fine-tuning Data)": "The model’s task-specific capabilities arise from an additional fine-tuning stage that combines supervised learning with preference-based techniques. The provided quotes repeatedly note that “Command A has been trained specifically for tasks like summarization and the final step of Retrieval-Augmented Generation (RAG).” They further clarify that “this behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning,” and that “tool-use capabilities have been trained into the model … using a specific prompt template.” Taken together, these statements indicate three important facets of the fine-tuning data: (1) it contains supervised instruction–response pairs that teach high-quality summarization and RAG answering; (2) it includes preference datasets—likely human comparisons or ranking data—used to nudge the model toward preferred outputs; and (3) some portion of the fine-tuning corpus focuses on tool invocation or function-calling patterns expressed through a dedicated prompt schema. What is not revealed are dataset sizes, the exact origins or licenses of the instructional and preference examples, any demographic or domain distribution, or whether publicly available benchmarks contributed. Thus, the public record confines itself to a qualitative description of the mixture (supervised + preference) and the tasks it targets, without divulging granular composition details.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-style tuning, referred to in the excerpts as “preference fine-tuning,” constitutes the RL component for the target model. The same sentences that detail the fine-tuning mixture explain that both summarization and RAG behaviors were refined through human or synthetic preference signals. While no dedicated RLHF acronym is used, the wording—“mixture of supervised fine-tuning and preference fine-tuning”—clearly indicates that an additional dataset of ranked or rated model outputs was compiled and used to optimize the policy. The scope of this preference dataset appears to include (a) high-level text summarization quality and (b) correctness or relevance in RAG’s answer-synthesis, as well as (c) appropriate tool-use sequences governed by the prompt template. The material does not disclose who generated the preferences, how many comparison pairs were collected, whether reinforcement learning from human feedback (RLHF) or direct policy optimization (DPO) was employed, or how the reward model was validated. Consequently, the available evidence confirms the existence of a preference-based RL phase centered on summarization, RAG, and tool usage, yet leaves all quantitative and procedural details unspecified.",
+  "4-4 (Data Filtering)": "The supplied record contains no sentences that mention any aspect of data filtering, cleaning, deduplication, quality scoring, profanity removal, license compliance checks, or any other pipeline stage that might have altered the raw corpora before or during training. As a result, there is no publicly available information about filtering tools, classifier thresholds, language or domain exclusions, or the proportion of data removed. In short, no data-filtering details have been released for the target model.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG)."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

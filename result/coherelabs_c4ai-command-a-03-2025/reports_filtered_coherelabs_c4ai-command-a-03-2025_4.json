@@ -1,0 +1,41 @@
+{
+  "4-1 (Pre-training Data)": "The only explicit statements about pre-training relate to high-level characteristics of the resulting model rather than to the underlying corpus itself. The quotes tell us that “Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business,” and that it employs “a novel hybrid architecture balancing efficiency with top-of-the-range performance.” From this we can infer that the pre-training data must cover at least 23 languages commonly used in international business contexts and that it was large and diverse enough to enable agent-style reasoning and general multilingual competence. However, the excerpts provide no numeric breakdown of tokens, no list of data sources (e.g., web, books, code, or proprietary corpora), no licensing or usage-rights discussion, and no indication of how much of the data was proprietary versus public. Likewise, they do not describe any domain weighting strategies, geographic or temporal coverage, or safeguards for personal or copyrighted text. In short, the public information on pre-training data for the target model is confined to the broad qualitative claim that the corpus yields strong multilingual and agent-style capabilities; all quantitative and source-level specifics remain undisclosed in the available material.",
+  "4-2 (Fine-tuning Data)": "The model’s task-specific capabilities arise from an additional fine-tuning stage that combines supervised learning with preference-based techniques. The provided quotes repeatedly note that “Command A has been trained specifically for tasks like summarization and the final step of Retrieval-Augmented Generation (RAG).” They further clarify that “this behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning,” and that “tool-use capabilities have been trained into the model … using a specific prompt template.” Taken together, these statements indicate three important facets of the fine-tuning data: (1) it contains supervised instruction–response pairs that teach high-quality summarization and RAG answering; (2) it includes preference datasets—likely human comparisons or ranking data—used to nudge the model toward preferred outputs; and (3) some portion of the fine-tuning corpus focuses on tool invocation or function-calling patterns expressed through a dedicated prompt schema. What is not revealed are dataset sizes, the exact origins or licenses of the instructional and preference examples, any demographic or domain distribution, or whether publicly available benchmarks contributed. Thus, the public record confines itself to a qualitative description of the mixture (supervised + preference) and the tasks it targets, without divulging granular composition details.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-style tuning, referred to in the excerpts as “preference fine-tuning,” constitutes the RL component for the target model. The same sentences that detail the fine-tuning mixture explain that both summarization and RAG behaviors were refined through human or synthetic preference signals. While no dedicated RLHF acronym is used, the wording—“mixture of supervised fine-tuning and preference fine-tuning”—clearly indicates that an additional dataset of ranked or rated model outputs was compiled and used to optimize the policy. The scope of this preference dataset appears to include (a) high-level text summarization quality and (b) correctness or relevance in RAG’s answer-synthesis, as well as (c) appropriate tool-use sequences governed by the prompt template. The material does not disclose who generated the preferences, how many comparison pairs were collected, whether reinforcement learning from human feedback (RLHF) or direct policy optimization (DPO) was employed, or how the reward model was validated. Consequently, the available evidence confirms the existence of a preference-based RL phase centered on summarization, RAG, and tool usage, yet leaves all quantitative and procedural details unspecified.",
+  "4-4 (Data Filtering)": "The supplied record contains no sentences that mention any aspect of data filtering, cleaning, deduplication, quality scoring, profanity removal, license compliance checks, or any other pipeline stage that might have altered the raw corpora before or during training. As a result, there is no publicly available information about filtering tools, classifier thresholds, language or domain exclusions, or the proportion of data removed. In short, no data-filtering details have been released for the target model.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG)."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#using-command-a-on-hugging-face]",
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": []
+}

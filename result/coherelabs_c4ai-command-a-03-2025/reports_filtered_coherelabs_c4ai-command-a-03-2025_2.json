@@ -1,0 +1,28 @@
+{
+  "1-5 (Architecture)": "The available material about the model c4ai-command-a-03-2025 (referred to in the quote as “Command A”) states that it is an “agent-optimised and multilingual-capable model” that explicitly supports 23 languages used in global business contexts. Architectural-wise, it is said to rely on “a novel hybrid architecture” whose stated goal is to balance computational efficiency with “top-of-the-range performance.” No other structural information—such as layer counts, parameter size, attention layout, or other hyper-parameters—is revealed in the supplied text.",
+  "1-6 (Tokenizer)": "The quotes provide two code snippets that show how to obtain the tokenizer: \nmodel_id = \"CohereForAI/c4ai-command-a-03-2025\";\n​tokenizer = AutoTokenizer.from_pretrained(model_id).\nThis confirms that a tokenizer artefact is hosted under the same model repository name and can be instantiated through Hugging Face’s AutoTokenizer interface, implying that the tokenizer is publicly downloadable and ready for immediate use. No further technical details (e.g., vocabulary size, byte-pair encoding, special tokens) are disclosed.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\"\n tokenizer = AutoTokenizer.from_pretrained(model_id)"
+    },
+    {
+      "source": "[sections/https://huggingface.co/docs/transformers/main/en/chat_templating#advanced-retrieval-augmented-generation]",
+      "quote": "4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id)"
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}
