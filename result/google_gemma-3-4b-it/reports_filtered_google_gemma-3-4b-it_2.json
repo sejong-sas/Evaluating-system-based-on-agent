@@ -1,0 +1,52 @@
+{
+  "1-5 (Architecture)": "The quotes indicate that the Gemma line is offered in several clearly defined sizes, specifically 270 M, 1 B, 4 B, 12 B and 27 B parameters. Within this family, the 4 B, 12 B and 27 B variants are highlighted for supporting prompt inputs as large as 128 K tokens—described as a sixteen-fold increase in context length over earlier Gemma releases. All Gemma 3 models ship with Quantization-Aware Trained checkpoints so that users can lower numerical precision while maintaining high quality. The project positions Gemma as a lightweight, state-of-the-art open-source model series that re-uses research and technology originally developed for the Gemini model family. Comparative experiments cited in the material place Gemma alongside other well-known open and proprietary LLMs, and one reference notes that a Gemma-7B instruction-tuned variant surpasses LLaMA-13B and LLaMA-65B on most evaluated tasks, reinforcing the claim of competitive performance.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "For Gemma pre-training, automated techniques were applied to filter personal information and other sensitive data out of the training corpus, reflecting a software-level effort to make the resulting models safer and more reliable.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 models are available in 5 parameter sizes: 270M, 1B, 4B, 12B, and 27B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 models (4B, 12B, and 27B) can handle prompt inputs up to 128K tokens, a\n16x larger context window than previous Gemma models."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Gemma 3 models (4B, 12B, and 27B) can handle prompt inputs up to 128K tokens, a 16x larger context window than previous Gemma models."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Gemma 3 models are available in 5 parameter sizes: 270M, 1B, 4B, 12B, and 27B."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "For all Gemma 3 models, Quantization-Aware Trained checkpoints are provided, which allow quantizing (reducing the precision), while preserving high-quality."
+    },
+    {
+      "source": "[sections/Responsible AI Progress Report]",
+      "quote": "Our Gemma models are a family of lightweight, state-of-the-art open models built from the same research and technology used to create the Gemini family of models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We perform experiments with a variety of open-source LLMs — mT5 (Xue et al., 2021), LLaMA (Tou vron et al., 2023),6, BLOOMZ (Workshop et al., 2022), Gemma (Team et al., 2024); and proprietary LLMs — GPT-3.5, GPT-4 (OpenAI et al., 2023), and PaLM-2 (Anil et al., 2023)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma-7B instruction tuned model performs better than LLaMA-13B as well as LLaMA-65B on most tasks."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[sections/Responsible AI Progress Report]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    }
+  ]
+}

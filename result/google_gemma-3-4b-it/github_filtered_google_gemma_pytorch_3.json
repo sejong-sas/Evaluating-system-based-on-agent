@@ -1,0 +1,19 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "\"Gemma is a family of lightweight, state-of-the art open models built from research and technology used to create Google Gemini models.\" This single sentence is the core of the available pre-training information. It establishes that the Gemma models inherit their design and training lineage from the work that produced Google’s Gemini series, emphasizing both their \"lightweight\" nature and their positioning as \"state-of-the-art open models.\" The additional fragment, \"\"\"Gemma model config.\"\"\", confirms the existence of a specific configuration file associated with the model—implying that architectural or hyper-parameter settings are recorded there. No other quantitative or procedural details (e.g., dataset size, number of tokens, optimizer choice, schedule, or hardware) are present in the supplied quotations, so the summary of pre-training is necessarily limited to these two explicit statements.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Gemma** is a family of lightweight, state-of-the art open models built from research and technology used to create Google Gemini models."
+    },
+    {
+      "source": "[py_files/gemma/config.py]",
+      "quote": "\"\"\"Gemma model config.\"\"\""
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

@@ -1,0 +1,24 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The only explicit pre-training information for Gemma comes from a single performance line: “Gemma-7B-PT 25.7 22.5 23.1 0.6 0.1 0.0 0.0 0.0 16.5 6.9 10.5 40.7 / 58.8 25.5 / 49.5 29.8 / 45.0.”  From this we can state that a pre-trained checkpoint named “Gemma-7B-PT” exists and that it was evaluated, producing a series of numeric scores (beginning with 25.7, 22.5, 23.1, etc.) that likely correspond to multiple benchmarks.  No other details—such as training data composition, data flow, architectural hyper-parameters, training duration, or optimization strategy—are supplied in the quoted material.",
+  "3-2 (Fine-tuning)": "Fine-tuning information is narrowly conveyed through two sentences.  First: “Gemma-7B-IT 29.5 23.9 21.9 38.8 24.8 13.9 11.5 10.0 18.9 8.3 12.2 17.6 / 33.7 15.0 / 26.1 21.3 / 27.7.”  This reveals that an instruction-tuned variant of Gemma with 7 B parameters (“Gemma-7B-IT”) exists and has been benchmarked, yielding the listed scores.  Second: “We included open models, namely the latest versions of Gemma … all in sizes of between 7 and 9 billion parameters that underwent instruction tuning.”  Together, these statements confirm that recent Gemma models in the 7-to-9 B parameter range have undergone an instruction-tuning process, and that “Gemma-7B-IT” represents one such fine-tuned release, again accompanied by detailed metric outputs.  No pipeline description, objective details, or hyper-parameter settings for the fine-tuning procedure are provided beyond these numeric results and the assertion that instruction tuning occurred.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[tables/Table 10]",
+      "quote": "Gemma-7B-PT 25.7 22.5 23.1 0.6 0.1 0.0 0.0 0.0 16.5 6.9 10.5 40.7 / 58.8 25.5 / 49.5 29.8 / 45.0"
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[tables/Table 10]",
+      "quote": "Gemma-7B-IT 29.5 23.9 21.9 38.8 24.8 13.9 11.5 10.0 18.9 8.3 12.2 17.6 / 33.7 15.0 / 26.1 21.3 / 27.7"
+    },
+    {
+      "source": "[sections/4.1]",
+      "quote": "We included open models, namely the latest versions of Gemma,3 Mistral,4 Qwen5, and Olmo,6, all in sizes of between 7 and 9 billion parameters that underwent instruction tuning."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

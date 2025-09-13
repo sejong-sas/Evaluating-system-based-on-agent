@@ -1,0 +1,20 @@
+{
+  "4-1 (Pre-training Data)": "A single sentence in the provided material specifies the scale of pre-training for the Gemma 4B variant: “the 4B model was trained with 4 trillion tokens.”  The same sentence also notes, for context, that larger and smaller companion models (27B, 12B, 1B) were trained with different token counts, but the only figure tied directly to the Gemma 4B model is the 4 trillion-token total, giving the sole quantitative insight into the amount of raw text consumed during its pre-training stage.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The material states that during preparation of the Gemma pre-training corpus, “automated techniques were used to filter out certain personal information and other sensitive data.”  This indicates the presence of a safety-oriented data-cleaning step that removes personally identifiable or otherwise sensitive content before or during model training, with the explicit goal of making the Gemma pre-trained models “safe and reliable.”",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "-   Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets."
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "model": "google/gemma-3-4b-it",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Gemma is released under the permissive Google Gemma license which grants use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "A dedicated Gemma 3 technical report is publicly available and describes the target model."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes specify both hardware type (TPUv5e) and quantity (2,048 devices) for the 4 B training run."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack mentions JAX and Google’s Pathways framework, but does not give full version/config details."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-vllm, https://cloud.google.com/run/docs/tutorials/gpu-gemma-with-ollama, https://cloud.google.com/run/docs/run-gemma-on-cloud-run"
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Provides token budgets and states knowledge-distillation, but omits full objective, schedule and hyper-parameters."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Describes goals and a ‘novel post-training recipe’, but lacks full reproducible details."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Mentions RLHF and several reward sources; methodology not given in full."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Discloses total token counts but not exact sources, proportions or licensing."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that vision-assistant data were used and gives image size; no further dataset specifics."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "General reference to human-feedback and other reward data without concrete composition details."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Filtering for personal/sensitive information is acknowledged, but the concrete pipeline is not disclosed."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Gemma is released under the permissive Google Gemma license which grants use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "A dedicated Gemma 3 technical report is publicly available and describes the target model."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes specify both hardware type (TPUv5e) and quantity (2,048 devices) for the 4 B training run."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack mentions JAX and Google’s Pathways framework, but does not give full version/config details."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-vllm, https://cloud.google.com/run/docs/tutorials/gpu-gemma-with-ollama, https://cloud.google.com/run/docs/run-gemma-on-cloud-run"
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Provides token budgets and states knowledge-distillation, but omits full objective, schedule and hyper-parameters."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Describes goals and a ‘novel post-training recipe’, but lacks full reproducible details."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Mentions RLHF and several reward sources; methodology not given in full."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Discloses total token counts but not exact sources, proportions or licensing."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that vision-assistant data were used and gives image size; no further dataset specifics."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "General reference to human-feedback and other reward data without concrete composition details."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Filtering for personal/sensitive information is acknowledged, but the concrete pipeline is not disclosed."
+    }
+  },
+  "final_score_10pt": 6.875,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 11.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

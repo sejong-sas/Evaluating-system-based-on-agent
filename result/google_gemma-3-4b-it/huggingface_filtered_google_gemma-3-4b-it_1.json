@@ -1,0 +1,41 @@
+{
+  "1-1 (Weights)": "The quotes explicitly state that “Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants.”  This confirms that the weights for every officially released Gemma 3 model type (both the base pre-trained checkpoints and their instruction-tuned counterparts) are openly provided.  A second quote adds the concrete distribution channel and access condition: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license.”  Together, these sentences show that although the weights are openly released, users must first pass through a license-gating click-through on Hugging Face before download or direct use, indicating that the weights are publicly hosted but subject to acceptance of Google’s terms.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license."
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Licensing details are conveyed in three separate quotes.  First, the model repository declares the short identifier “license: gemma,” signalling a proprietary Google license specific to Gemma resources rather than a standard open-source license.  Second, the distribution page warns: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license,” clarifying that any user must explicitly consent to Google’s own legal terms before obtaining the model.  Third, the policy scope is constrained by the statement: “Prohibited uses of Gemma models are outlined in the [Gemma Prohibited Use Policy][prohibited-use],” which implies an accompanying document enumerating forbidden activities.  Synthesising the three points, Gemma models are governed by a dedicated Google ‘gemma’ license that permits access only after affirmative agreement, and that same license references an additional Prohibited Use Policy that delineates disallowed applications.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: gemma"
+    },
+    {
+      "source": "[readme]",
+      "quote": "To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Prohibited uses of Gemma models are outlined in the [Gemma Prohibited Use Policy][prohibited-use]."
+    }
+  ],
+  "1-4 (Paper)": "Two references confirm the existence of an official publication.  The first uses markdown link syntax—“* [Gemma 3 Technical Report][g3-tech-report]”—signalling that a formal technical report for Gemma 3 is publicly linked.  The second quote—“@article{gemma_2025,”—shows that a bib-entry or citation key is provided, suggesting that the technical report (or potentially a journal or conference article) is citable.  Taken together, these lines establish that an official technical document named “Gemma 3 Technical Report” exists, is publicly referenced in the repository, and has an accompanying bibliographic citation entry labelled ‘gemma_2025.’",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* [Gemma 3 Technical Report][g3-tech-report]"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{gemma_2025,"
+    }
+  ]
+}

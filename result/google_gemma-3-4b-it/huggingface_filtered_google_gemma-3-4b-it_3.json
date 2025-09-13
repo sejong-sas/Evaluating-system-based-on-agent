@@ -1,0 +1,29 @@
+{
+  "2-3 (API)": "Gemma 3 is natively integrated into the Hugging Face Transformers code-base beginning with version 4.50.0. As soon as a user upgrades to Transformers ≥ 4.50.0, every standard API entry-point exposed by the library (model loading, tokenization, generate(), etc.) recognises the Gemma family. Consequently, developers obtain GPT-style programmatic access to Gemma 3 through a mature, well-documented interface without any extra wrappers or custom code, allowing immediate public use in scripts, notebooks, or production services.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 is supported starting from transformers 4.50.0."
+    }
+  ],
+  "3-1 (Pre-training)": "Within the Gemma portfolio, the 4B model was pre-trained on a corpus of 4 trillion tokens. (For context, other sizes in the same run received 14 T tokens for the 27B variant, 12 T for the 12B variant and 2 T for the 1B variant.) All of these large-scale training runs, including the 4B checkpoint, were executed on Google Tensor Processing Unit hardware—specifically TPUv4p, TPUv5p and TPUv5e devices—indicating a high-performance, massively parallel training pipeline optimised for TPU architectures.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p, TPUv5p and TPUv5e)."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Gemma 3 models have publicly released open weights for both their base checkpoints and their instruction-tuned counterparts. The instruction-tuned versions extend the original pre-training by allowing the models to operate in a multimodal setting: they accept combined text-and-image inputs and return text-only outputs. Because the tuned weights are openly available, external practitioners can inspect, reproduce, or further fine-tune the Gemma 3 checkpoints on their own datasets with full transparency.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

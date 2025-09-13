@@ -1,0 +1,28 @@
+{
+  "4-1 (Pre-training Data)": "The available information about the pre-training data for Gemma models is extremely limited. The single qualifying sentence states that, “As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets.” From this we can conclude that: (1) the data involved is specifically tied to the Gemma family of pre-trained models; (2) a safety-oriented objective guided decisions about the data; and (3) automated filtering techniques were applied to excise personal and otherwise sensitive information before or during pre-training. No further detail is provided in the quote about quantities, domains, languages, or the precise nature of the data sources—only that an automated sanitation step was integral to preparing the pre-training corpus so that the resulting Gemma models would be considered “safe and reliable.”",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "All explicit information about data filtering for Gemma comes from the sentence, “As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets.” This establishes that: (a) data filtering was performed specifically for Gemma pre-trained models; (b) the motivation was safety and reliability; (c) the method was automated rather than manual; and (d) the target of the filtering was personal or sensitive information present in the raw training data. No other procedural or technical specifics (criteria thresholds, toolchain, human review, or impact metrics) are revealed in the provided quote.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[title: Responsible AI Progress Report]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[title: Responsible AI Progress Report]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    }
+  ]
+}
