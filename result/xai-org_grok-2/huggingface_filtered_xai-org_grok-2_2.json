@@ -1,0 +1,20 @@
+{
+  "1-5 (Architecture)": "The only explicit architecture information available for xai-org/grok-2 comes from the model-card style JSON fragment in which the key \"architectures\" is followed by the single value \"Grok1ForCausalLM\". This quote—\"\"architectures\": [\\n    \"Grok1ForCausalLM\"\\n  ],\"—shows that Grok-2 identifies itself with the internal class name Grok1ForCausalLM, indicating it is treated as a causal language-model variant. No other structural elements (layer counts, parameter totals, hidden sizes, attention heads, etc.) are disclosed in the supplied material, so the summary is limited to confirming that the model’s declared architecture label is Grok1ForCausalLM and that this is the sole entry in the list.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"Grok1ForCausalLM\"\n  ],"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer details are revealed only indirectly through the command-line invocation: \"python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\". From this we learn that Grok-2 relies on an external tokenizer file named \"tokenizer.tok.json\" residing inside the same model directory. The use of an explicit --tokenizer-path flag implies that the tokenizer is distributed as a separate, downloadable JSON specification rather than being hard-wired into code, and that it must be provided at runtime to correctly process text. No additional information (vocabulary size, tokenization scheme, etc.) is present in the available quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The only software-stack evidence appears in the same launch command: \"python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\". This indicates that Grok-2 can be served through the sglang framework’s launch_server module, executed under Python 3. The options show support for tensor-parallelism (\"--tp 8\"), FP8 quantization (\"--quantization fp8\"), and a Triton-based attention backend (\"--attention-backend triton\"). Although this line pertains to model serving rather than explicit training, it is the only quotation that touches on the software environment associated with Grok-2, and therefore constitutes the entirety of the directly cited software information.",
+  "2-2 (Software)__evidence": []
+}

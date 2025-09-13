@@ -1,0 +1,15 @@
+{
+  "1-5 (Architecture)": "",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Grokking refers to the abrupt improvement in test set generalization long after models have overfit. Our experimental method is summarized as follows: We trained 12-layer Llama models (Touvron et al., 2023) using 40 billion tokens and saved checkpoints at regular intervals."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

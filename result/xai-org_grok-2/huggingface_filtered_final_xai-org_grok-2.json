@@ -1,0 +1,121 @@
+{
+  "1-1 (Weights)": "The quotes state that \"This repository contains the weights of Grok 2, a model trained and used at xAI in 2024.\"  The weights are hosted on the Hugging Face repository \"xai-org/grok-2.\"  A concrete download command is given:  \n  •  \"hf download xai-org/grok-2 --local-dir /local/grok-2\"  \nand users are told that \"You can replace `/local/grok-2` with any other folder name you prefer.\"  After a successful download, \"the folder should contain **42 files** and be approximately 500 GB.\"  Thus, the repository is publicly downloadable via the HF CLI, the expected payload is 42 files, and the on-disk footprint is about 500 GB.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the weights of Grok 2, a model trained and used at xAI in 2024."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Download the weights. You can replace `/local/grok-2` with any other folder name you prefer."
+    },
+    {
+      "source": "[readme]",
+      "quote": "hf download xai-org/grok-2 --local-dir /local/grok-2"
+    },
+    {
+      "source": "[readme]",
+      "quote": "If the download succeeds, the folder should contain **42 files** and be approximately 500 GB."
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Multiple sentences explicitly describe the \"Grok 2 Community License Agreement\" (linked at https://huggingface.co/xai-org/grok-2/blob/main/LICENSE) as governing the model.  The text begins: \"By downloading, accessing, or using the Materials (as defined below) relating to Grok 2 provided by X.AI LLC (“xAI”), you (“Licensee” or “you”) agree to the terms of this agreement (“Agreement”).\"  \"Materials\" are defined to include \"(1) one or more machine learning models (including architecture and parameters); and (2) related artifacts (including associated data, documentation, and software).\"  \n\nPermitted uses are spelled out:  \n  •  \"xAI grants you a non-exclusive, worldwide, revocable license to use, reproduce, distribute, and modify the Materials:\n\t•\tFor non-commercial and research purposes; and\n\t•\tFor commercial use solely if you and your affiliates abide by all of the guardrails provided in xAI's Acceptable Use Policy.\"  \n\nKey restrictions are also quoted:  \n  •  \"You may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement.\"  \n\nDistribution obligations include:  \n  •  \"Include this Agreement and a notice stating: ‘This product includes materials licensed under the xAI Community License. Copyright © 2025 xAI. All rights reserved.’\"  \n  •  \"Prominently display ‘Powered by xAI’ in related materials or interfaces.\"  \n\nLiability and termination are addressed: the license disclaims \"ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, OR FOR AGGREGATE LIABILITY EXCEEDING $100\" and notes that \"This license terminates immediately upon your breach or if you exceed the permitted commercial threshold. Upon termination, you must cease all use and delete all copies of the Materials and derivatives.\"  A brief snippet confirms a LICENSE file is present: \"LICENSE file present: LICENSE.\"",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The weights are licensed under the [Grok 2 Community License Agreement](https://huggingface.co/xai-org/grok-2/blob/main/LICENSE)."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "By downloading, accessing, or using the Materials (as defined below) relating to Grok 2 provided by X.AI LLC (“xAI”), you (“Licensee” or “you”) agree to the terms of this agreement (“Agreement”)."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "As used in this Agreement, “Materials” means the Grok 2 materials provided to you by xAI under this Agreement, consisting of: (1) one or more machine learning models (including architecture and parameters); and (2) related artifacts (including associated data, documentation, and software) that are provided to you hereunder."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "a. Permitted Uses: xAI grants you a non-exclusive, worldwide, revocable license to use, reproduce, distribute, and modify the Materials:\n\t•\tFor non-commercial and research purposes; and\n\t•\tFor commercial use solely if you and your affiliates abide by all of the guardrails provided in xAI's Acceptable Use Policy (https://x.ai/legal/acceptable-use-policy), including 1. Comply with the law, 2. Do not harm people or property, and 3. Respect guardrails and don't mislead."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "b. Restrictions:\n\t•\tYou may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If you distribute the Materials, derivatives, or products/services incorporating them:\n\t•\tInclude this Agreement and a notice stating: “This product includes materials licensed under the xAI Community License. Copyright © 2025 xAI. All rights reserved.”\n\t•\tProminently display “Powered by xAI” in related materials or interfaces."
+    },
+    {
+      "source": "[readme]",
+      "quote": "OR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, OR FOR AGGREGATE LIABILITY EXCEEDING $100, REGARDLESS OF THE LEGAL THEORY.\n\n7. Termination\nThis license terminates immediately upon your breach or if you exceed the permitted commercial threshold. Upon termination, you must cease all use and delete all copies of the Materials and derivatives.\nAdditionally, if you file, maintain,"
+    },
+    {
+      "source": "[readme]",
+      "quote": "rants you a non-exclusive, worldwide, revocable license to use, reproduce, distribute, and modify the Materials:\n • For non-commercial and research purposes; and\n • For commercial use solely if you and your affiliates abide by all of the guardrails provi"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "",
+  "1-4 (Paper)__evidence": [],
+  "1-5 (Architecture)": "The only explicit architecture information available for xai-org/grok-2 comes from the model-card style JSON fragment in which the key \"architectures\" is followed by the single value \"Grok1ForCausalLM\". This quote—\"\"architectures\": [\\n    \"Grok1ForCausalLM\"\\n  ],\"—shows that Grok-2 identifies itself with the internal class name Grok1ForCausalLM, indicating it is treated as a causal language-model variant. No other structural elements (layer counts, parameter totals, hidden sizes, attention heads, etc.) are disclosed in the supplied material, so the summary is limited to confirming that the model’s declared architecture label is Grok1ForCausalLM and that this is the sole entry in the list.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"Grok1ForCausalLM\"\n  ],"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer details are revealed only indirectly through the command-line invocation: \"python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\". From this we learn that Grok-2 relies on an external tokenizer file named \"tokenizer.tok.json\" residing inside the same model directory. The use of an explicit --tokenizer-path flag implies that the tokenizer is distributed as a separate, downloadable JSON specification rather than being hard-wired into code, and that it must be provided at runtime to correctly process text. No additional information (vocabulary size, tokenization scheme, etc.) is present in the available quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The only software-stack evidence appears in the same launch command: \"python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\". This indicates that Grok-2 can be served through the sglang framework’s launch_server module, executed under Python 3. The options show support for tensor-parallelism (\"--tp 8\"), FP8 quantization (\"--quantization fp8\"), and a Triton-based attention backend (\"--attention-backend triton\"). Although this line pertains to model serving rather than explicit training, it is the only quotation that touches on the software environment associated with Grok-2, and therefore constitutes the entirety of the directly cited software information.",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The available material gives a concrete, command-line level glimpse of how Grok 2 can be exposed through an API-style server. One quote explains that a user can point the software to “/local/grok-2” (or any other directory that contains the model) and explicitly notes: “You can replace `/local/grok-2` with any other folder name you prefer.”  A second quote provides the full launch command:  \n\npython3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\n\nFrom this we learn several operational details.  • The server is started with the sglang.launch_server module, indicating that Grok 2 can be exposed in a hosted fashion similar to other GPT-like services.  • The model path and tokenizer path are passed explicitly, so the API stack loads the exact Grok 2 weights and its matching tokenizer.  • The flag “--tp 8” shows that tensor-parallel sharding across eight processes is directly supported, implying multi-GPU or distributed inference.  • “--quantization fp8” demonstrates that the runtime supports FP8 quantized weights for Grok 2, trading memory for speed.  • “--attention-backend triton” reveals that the server can switch attention implementations and that the Triton kernel is considered performant for Grok 2.  These command-level flags collectively illustrate how Grok 2 is expected to be offered as an on-prem or self-hosted API endpoint, although no public URL or hosted SaaS endpoint is disclosed in the provided text.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can replace `/local/grok-2` with any other folder name you prefer."
+    },
+    {
+      "source": "[readme]",
+      "quote": "python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton"
+    }
+  ],
+  "3-1 (Pre-training)": "The only direct statement about pre-training says: “This repository contains the weights of Grok 2, a model trained and used at xAI in 2024.”  From this, several facts are firmly established.  • Grok 2 underwent a full pre-training phase (implied by the existence of trained weights).  • The training was carried out by xAI itself and was completed in or before 2024.  • Those final weights are now packaged in a repository for distribution or downstream use.  No further numerical hyper-parameters, corpus descriptions, or training schedules are disclosed in the supplied excerpts, so the summary is necessarily limited to acknowledging the completion of pre-training, the ownership by xAI, the naming of the version (Grok 2), and the release year (2024).",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the weights of Grok 2, a model trained and used at xAI in 2024."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning policy is described in a licensing sentence that specifically references Grok 2: “You may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement.”  The quote clarifies two key points.  • Derivative training on other foundation models is expressly prohibited, establishing a strong restriction on data or weight reuse.  • Conversely, the agreement does allow users to perform modifications or fine-tuning directly on Grok 2 itself, provided those activities comply with the license.  This positions fine-tuning as the officially sanctioned path for adapting Grok 2 to downstream tasks while preventing leakage or bootstrapping of competing foundation models.  No technical recipe (e.g., learning rates, data sizes, or adapter formats) is revealed, but the licensing language clearly governs the permissible scope of fine-tuning work.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[license_file]",
+      "quote": "•\tYou may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "not_used"
+  }
+}

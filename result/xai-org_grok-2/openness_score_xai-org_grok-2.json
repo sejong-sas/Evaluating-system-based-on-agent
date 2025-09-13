@@ -1,0 +1,137 @@
+{
+  "model": "xai-org/grok-2",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The “Grok 2 Community License” permits use, modification, redistribution and commercial use, but imposes notable extra restrictions (e.g. no training of other foundation models, mandatory ‘Powered by xAI’ notice). Hence the license is partially but not fully open."
+    },
+    "1-4 Paper": {
+      "score": 0.0,
+      "reason": "No peer-reviewed paper or official tech report specifically about Grok 2 is cited; the quoted PDF text concerns separate small-scale grokking experiments."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 0.5,
+      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted information about the type or quantity of hardware used to train Grok 2."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only serving-time flags (`sglang.launch_server`, Triton, FP8, TP-8) are mentioned; there is no disclosure of the training software stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Quotes describe the use of regularization and learning-rate schedules to enhance grokking, but do not give full, reproducible details (data size, steps, hyper-parameters)."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Apart from a licensing sentence permitting fine-tuning, no technical fine-tuning methodology is disclosed."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No RL procedure is mentioned. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.0,
+      "reason": "No information on data sources, composition, or quantities is provided. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.0,
+      "reason": "No data disclosure for fine-tuning. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No RL data is discussed. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements about filtering or cleaning the training data are supplied. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The “Grok 2 Community License” permits use, modification, redistribution and commercial use, but imposes notable extra restrictions (e.g. no training of other foundation models, mandatory ‘Powered by xAI’ notice). Hence the license is partially but not fully open."
+    },
+    "1-4 Paper": {
+      "score": 0.0,
+      "reason": "No peer-reviewed paper or official tech report specifically about Grok 2 is cited; the quoted PDF text concerns separate small-scale grokking experiments."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 0.5,
+      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted information about the type or quantity of hardware used to train Grok 2."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only serving-time flags (`sglang.launch_server`, Triton, FP8, TP-8) are mentioned; there is no disclosure of the training software stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Quotes describe the use of regularization and learning-rate schedules to enhance grokking, but do not give full, reproducible details (data size, steps, hyper-parameters)."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.0,
+      "reason": "No information on data sources, composition, or quantities is provided. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements about filtering or cleaning the training data are supplied. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "final_score_10pt": 2.917,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "not_used",
+      "rl": "not_used"
+    },
+    "excluded": [
+      "3-2 Fine-tuning",
+      "3-3 Reinforcement Learning",
+      "4-2 Fine-tuning Data",
+      "4-3 Reinforcement Learning Data"
+    ],
+    "denominator": 12,
+    "raw_sum": 3.5,
+    "scale": "10/12",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

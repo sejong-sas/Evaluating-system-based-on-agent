@@ -1,0 +1,29 @@
+{
+  "2-3 (API)": "The available material gives a concrete, command-line level glimpse of how Grok 2 can be exposed through an API-style server. One quote explains that a user can point the software to “/local/grok-2” (or any other directory that contains the model) and explicitly notes: “You can replace `/local/grok-2` with any other folder name you prefer.”  A second quote provides the full launch command:  \n\npython3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton\n\nFrom this we learn several operational details.  • The server is started with the sglang.launch_server module, indicating that Grok 2 can be exposed in a hosted fashion similar to other GPT-like services.  • The model path and tokenizer path are passed explicitly, so the API stack loads the exact Grok 2 weights and its matching tokenizer.  • The flag “--tp 8” shows that tensor-parallel sharding across eight processes is directly supported, implying multi-GPU or distributed inference.  • “--quantization fp8” demonstrates that the runtime supports FP8 quantized weights for Grok 2, trading memory for speed.  • “--attention-backend triton” reveals that the server can switch attention implementations and that the Triton kernel is considered performant for Grok 2.  These command-level flags collectively illustrate how Grok 2 is expected to be offered as an on-prem or self-hosted API endpoint, although no public URL or hosted SaaS endpoint is disclosed in the provided text.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can replace `/local/grok-2` with any other folder name you prefer."
+    },
+    {
+      "source": "[readme]",
+      "quote": "python3 -m sglang.launch_server --model /local/grok-2 --tokenizer-path /local/grok-2/tokenizer.tok.json --tp 8 --quantization fp8 --attention-backend triton"
+    }
+  ],
+  "3-1 (Pre-training)": "The only direct statement about pre-training says: “This repository contains the weights of Grok 2, a model trained and used at xAI in 2024.”  From this, several facts are firmly established.  • Grok 2 underwent a full pre-training phase (implied by the existence of trained weights).  • The training was carried out by xAI itself and was completed in or before 2024.  • Those final weights are now packaged in a repository for distribution or downstream use.  No further numerical hyper-parameters, corpus descriptions, or training schedules are disclosed in the supplied excerpts, so the summary is necessarily limited to acknowledging the completion of pre-training, the ownership by xAI, the naming of the version (Grok 2), and the release year (2024).",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the weights of Grok 2, a model trained and used at xAI in 2024."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning policy is described in a licensing sentence that specifically references Grok 2: “You may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement.”  The quote clarifies two key points.  • Derivative training on other foundation models is expressly prohibited, establishing a strong restriction on data or weight reuse.  • Conversely, the agreement does allow users to perform modifications or fine-tuning directly on Grok 2 itself, provided those activities comply with the license.  This positions fine-tuning as the officially sanctioned path for adapting Grok 2 to downstream tasks while preventing leakage or bootstrapping of competing foundation models.  No technical recipe (e.g., learning rates, data sizes, or adapter formats) is revealed, but the licensing language clearly governs the permissible scope of fine-tuning work.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[license_file]",
+      "quote": "•\tYou may not use the Materials, derivatives, or outputs (including generated data) to train, create, or improve any foundational, large language, or general-purpose AI models, except for modifications or fine-tuning of Grok 2 permitted under and in accordance with the terms of this Agreement."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}
