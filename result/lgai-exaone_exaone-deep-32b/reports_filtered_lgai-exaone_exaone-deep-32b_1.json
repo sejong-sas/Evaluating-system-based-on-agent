@@ -1,0 +1,41 @@
+{
+  "1-1 (Weights)": "According to the project’s statement, “All EXAONE Deep models are openly available for research purposes and can be downloaded from this https URL.”  This indicates that the EXAONE Deep 32B checkpoint is public and freely downloadable.  The quote explicitly notes (1) public release status, (2) open availability, (3) the intended scope (“research purposes”), and (4) that a direct HTTPS link is provided for retrieval.  No additional constraints, authentication steps, or gated-access procedures are mentioned in the provided material.",
+  "1-2 (Code)": "No information about training code—whether for data preparation, pre-training, fine-tuning, or RLHF—is present in the supplied quotes.",
+  "1-3 (License)": "The only licensing detail stated is: “All EXAONE Deep models are openly available for research purposes and can be downloaded from this https URL.”  From this, one can infer that use is granted at least for research, but the quote does not specify whether modification, redistribution, or commercial exploitation are permitted or restricted.  No formal license name, version number, or additional terms such as “non-commercial,” “no derivatives,” or “evaluation only” appear in the excerpted text.",
+  "1-4 (Paper)": "The official technical reference is the paper titled “EXAONE Deep: Reasoning Enhanced Language Models.”  A supporting evaluation summary notes that “our smaller models, EXAONE Deep 2.4B and 7.8B, outperform other models of comparable size, while the largest model, EXAONE Deep 32B, demonstrates competitive performance against leading open-weight models.”  Additionally, LG AI Research announced the release in the news article “EXAONE Deep Released ━ Setting a New Standard for Reasoning AI.”  Together, these sources provide the formal description of the architecture and the public communication of its performance and availability.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2503.12524]",
+      "quote": "All EXAONE Deep models are openly available for research purposes and can be downloaded from this https URL"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2503.12524]",
+      "quote": "All EXAONE Deep models are openly available for research purposes and can be downloaded from this https URL"
+    },
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2503.12524]",
+      "quote": "Title: EXAONE Deep: Reasoning Enhanced Language Models"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2503.12524]",
+      "quote": "Evaluation results show that our smaller models, EXAONE Deep 2.4B and 7.8B, outperform other models of comparable size, while the largest model, EXAONE Deep 32B, demonstrates competitive performance against leading open-weight models."
+    },
+    {
+      "source": "[sections/https://www.lgresearch.ai/news/view?seq=543]",
+      "quote": "EXAONE Deep Released ━ Setting a New Standard for Reasoning AI - LG AI Research News"
+    }
+  ]
+}

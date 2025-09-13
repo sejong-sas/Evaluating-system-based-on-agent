@@ -1,0 +1,148 @@
+{
+  "model": "LGAI-EXAONE/EXAONE-Deep-32B",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The model is released under “EXAONE AI Model License Agreement 1.1 – NC”, which explicitly forbids commercial use. At least one core right is restricted, so the license is Semi-Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv tech report titled “EXAONE Deep: Reasoning Enhanced Language Models” is provided and is specifically about the target model family."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Quotes confirm training was done on NVIDIA H100 clusters on GCP, but give no quantities or FLOP counts."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack mentions NVIDIA NeMo plus SimPER for DPO and a GRPO variant for RL—some components beyond the base framework but not the full stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Authors note use of H100 clusters, NeMo framework, and that the Deep models are initialized from EXAONE-3.5 Instruct; however, objectives and schedules are not fully reproduced—partial disclosure."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "They state the model is fine-tuned from EXAONE-3.5-32B-Instruct using SFT and DPO with a templated format, giving some—but not fully reproducible—method details."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No concrete RL training procedure is described in the provided quotes. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "It is said that training used a ‘reasoning-specialized dataset with long streams of thought’. Source names, sizes, or proportions are not given—partial disclosure."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Authors mention employing SFT and DPO datasets but provide no specific corpus names or statistics—partial disclosure."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No details beyond the fact that Online RL was used; dataset composition is undisclosed."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "A generic statement says efforts were made to remove personal, harmful, and biased content, but no pipeline or thresholds are described—partial disclosure."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The model is released under “EXAONE AI Model License Agreement 1.1 – NC”, which explicitly forbids commercial use. At least one core right is restricted, so the license is Semi-Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv tech report titled “EXAONE Deep: Reasoning Enhanced Language Models” is provided and is specifically about the target model family."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Quotes confirm training was done on NVIDIA H100 clusters on GCP, but give no quantities or FLOP counts."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack mentions NVIDIA NeMo plus SimPER for DPO and a GRPO variant for RL—some components beyond the base framework but not the full stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Authors note use of H100 clusters, NeMo framework, and that the Deep models are initialized from EXAONE-3.5 Instruct; however, objectives and schedules are not fully reproduced—partial disclosure."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "They state the model is fine-tuned from EXAONE-3.5-32B-Instruct using SFT and DPO with a templated format, giving some—but not fully reproducible—method details."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No concrete RL training procedure is described in the provided quotes. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "It is said that training used a ‘reasoning-specialized dataset with long streams of thought’. Source names, sizes, or proportions are not given—partial disclosure."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Authors mention employing SFT and DPO datasets but provide no specific corpus names or statistics—partial disclosure."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No details beyond the fact that Online RL was used; dataset composition is undisclosed."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "A generic statement says efforts were made to remove personal, harmful, and biased content, but no pipeline or thresholds are described—partial disclosure."
+    }
+  },
+  "final_score_10pt": 5.0,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 8.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}
