@@ -1,0 +1,50 @@
+{
+  "4-1 (Pre-training Data)": "For the meta-llama/llama-3.3-70b-instruct model the pre-training stage relied exclusively on material that the project describes as “a new mix of publicly available online data.”  The corpus combines multilingual text with code and totals “~15 trillion tokens,” or “15T+” tokens, making it one of the largest openly described training sets for a Llama family model.  The documentation places strong emphasis on the public availability of every component in the mixture, implying that no proprietary or private corpora were incorporated.  A tabular overview explicitly links these details to “Llama 3.3 (text only)” and lists the model size as “70B,” the modality as “Multilingual Text” (with an additional column noting “Multilingual Text and code”), and the maximum sequence length used during training as “128k.”  All material is said to be current up to a “Data Freshness” or cut-off date of “December 2023,” establishing the temporal boundary of the corpus.  No further source-by-source breakdown or license enumeration is provided in the quoted material, but every sentence that does appear stresses both the public origin of the data and its massive, multilingual, multi-domain scale.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| Llama 3.3 (text only)  | A new mix of publicly available online data. | 70B | Multilingual Text | Multilingual Text and code  | 128k | Yes | 15T+ | December 2023 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Overview:** Llama 3.3 was pretrained on ~15 trillion tokens of data from publicly available sources."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Data Freshness: The pretraining data has a cutoff of December 2023."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The fine-tuning phase for Llama 3.3 70B draws on two principal streams: (1) publicly available instruction datasets and (2) a very large set of synthetic examples.  One sentence states that the fine-tuning pool “includes publicly available instruction datasets, as well as over 25 M synthetically generated examples,” giving a concrete size for the synthetic portion.  A separate passage headed “Llama 3.3 instruct” further clarifies that the team “employ[s] a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks.”  Together, these quotes show that the curation strategy mixes vendor-supplied human demonstrations with large-scale synthetic data, all of which is used to specialise the base 15-trillion-token model into an instruction-following variant.  The emphasis on safety-motivated data generation and selection is part of the stated rationale for blending real and synthetic sources, but no additional public release or licensing information beyond “publicly available” is given in the provided text.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 was pretrained on ~15 trillion tokens of data from publicly available sources. The fine-tuning data includes publicly available instruction datasets, as well as over 25M synthetically generated examples."
+    },
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\n**Fine-tuning data** We employ a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "For alignment, the “tuned versions” of Llama 3.3 70B “use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety.”  Although the quotations do not enumerate the exact datasets or the number of preference comparisons collected, they explicitly confirm that RLHF is employed and that the feedback comes from humans who judge model outputs on helpfulness and safety axes.  Therefore the reinforcement-learning data consists of human preference signals gathered specifically for those alignment goals, applied after the SFT stage to steer the model’s behaviour toward user-aligned responses.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 is an auto-regressive language model that uses an optimized transformer architecture. The tuned versions use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety."
+    }
+  ],
+  "4-4 (Data Filtering)": "The documentation for Llama 3.3 70B highlights a multi-layer filtering and evaluation pipeline built around model-based classifiers and safety tools.  In the context of fine-tuning data, the team “developed many large language model (LLM)-based classifiers that enable [them] to thoughtfully select high-quality prompts and responses,” indicating that automated classifiers vet both questions and answers before they are admitted into the training pool.  Beyond training data selection, the release describes a broader safety stack: they “built dedicated, adversarial evaluation datasets and evaluated systems composed of Llama models and Llama Guard 3 to filter input prompt and output response.”  As part of the overall responsible-release strategy, they offer “safeguards that developers should deploy with Llama models or other LLMs, including Llama Guard 3, Prompt Guard and Code Shield.”  Although the quotes do not supply numeric cut-offs (e.g., perplexity thresholds) or rejection rates, they show that data and interaction filtering is performed with purpose-built LLM classifiers, adversarial test suites, and publicly released guard models that operate at both the prompt and response stages.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\n**Fine-tuning data** We employ a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks. We’ve developed many large language model (LLM)-based classifiers that enable us to thoughtfully select high-quality prompts and responses, enhancing data quality control."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We built dedicated, adversarial evaluation datasets and evaluated systems composed of Llama models and Llama Guard 3 to filter input prompt and output response."
+    },
+    {
+      "source": "[readme]",
+      "quote": "As part of our responsible release approach, we provide the community with safeguards that developers should deploy with Llama models or other LLMs, including Llama Guard 3, Prompt Guard and Code Shield."
+    }
+  ]
+}

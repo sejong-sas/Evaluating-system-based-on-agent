@@ -1,0 +1,15 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The documentation explicitly notes: \"This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters.\" From this single statement we can infer that (1) the Llama 3 project distributes the raw pre-trained checkpoints, (2) it also ships accompanying starter code to load or work with those checkpoints, (3) both purely pre-trained and instruction-tuned variants are available in the same package, and (4) the model family spans a range of parameter scales, specifically 8 billion, 70 billion, and presumably the intermediate sizes implied by “8B to 70B.” No other pre-training methodological details—such as data composition, training duration, optimizer settings, or curriculum—are provided in the supplied material.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

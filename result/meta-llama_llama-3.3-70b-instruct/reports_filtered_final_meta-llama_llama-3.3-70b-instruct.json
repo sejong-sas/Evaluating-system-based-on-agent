@@ -1,0 +1,161 @@
+{
+  "1-1 (Weights)": "All quoted passages agree that the model weights for meta-llama/llama-3.3-70b-instruct are downloadable. The documentation repeatedly introduces the model under the exact name “Llama-3.3-70B-Instruct” and explicitly tells developers to install it in place of the older instruction-tuned Llama 3.1 70B. Several imperative sentences – “Download the new Llama 3.3 model.”, “Download the models”, and “install and use the new model” – all point to the same official download page hosted at llama.com. One sentence adds that the weights may also be obtained “directly from Meta or from one of our partners” and lists distribution channels: Hugging Face, Kaggle, and designated 1B/3B or 405B ecosystem-partner portals. A note highlights that Llama 3.3 70B is an instruction-tuned release that incorporates “the latest advancements in post-training techniques” and directs readers to its GitHub model card for performance details. In short, the supplied text confirms the public availability of the weights, enumerates multiple mirror sites, and positions Llama-3.3-70B-Instruct as the canonical replacement for the earlier 3.1 70B checkpoint.",
+  "1-2 (Code)": "The quotes mention two public code resources. The first, repeatedly called the “Llama Cookbook”, contains “Notebooks and demos for learning Llama” together with “Scripts for fine-tuning Llama3 with single/multi-node GPUs”, indicating that hands-on tutorials and operational fine-tuning scripts are available. The second resource, \"Llama Stack\", is described as defining and standardizing “the building blocks needed to bring generative AI applications to market”. No excerpt claims that the full pre-training pipeline is open-sourced; the only explicitly released parts are educational notebooks and fine-tuning scripts. There is also no mention of RLHF or inference-only code. Therefore the public code coverage, according to the quotes, is limited to fine-tuning and application scaffolding rather than end-to-end pre-training.",
+  "1-3 (License)": "No licensing text is present in the supplied quotations; they contain no references to license names, usage rights, redistribution restrictions, or commercial clauses.",
+  "1-4 (Paper)": "The only technical reference surfaced by the quotations is the model card: two notes direct readers to “see the [model card] … for detailed performance information” hosted at GitHub under models/llama3_3/MODEL_CARD.md. Another bullet links to a card for llama4. No academic paper or formal technical report is cited. Instead, several corporate blog posts are listed – collaborations with Oracle for Instituto PROA, Biofy Technologies’ fight against antibiotic resistance, and a joint AWS program for startups. Collectively these passages show that official documentation currently revolves around model cards and outreach blog articles rather than a peer-reviewed paper.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[url:https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "The new model name is `Llama-3.3-70B-Instruct`; developers should install and use the new model wherever they would otherwise have used instruction-tuned Llama 3.1 70B."
+    },
+    {
+      "source": "[url:https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "Download the new Llama 3.3 model."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "You can obtain the models directly from Meta or from one of our partners, [Hugging Face](https://huggingface.co/meta-llama), [Kaggle](https://www.kaggle.com/organizations/metaresearch/models) or from our [1B/3B](https://www.llama.com/docs/getting-the-models/1b3b-partners/) or [405B](https://www.llama.com/docs/getting-the-models/405b-partners/) ecosystem partners."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "[Download the models](https://www.llama.com/llama-downloads/?utm_source=llama-overview&utm_medium=llama-referral&utm_campaign=llama-utm&utm_offering=llama-download&utm_product=llama)"
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "**Note:** We have introduced Llama 3.3 70B, an instruction-turned model with the latest advancements in post-training techniques; see the [model card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md) for detailed performance information."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "The new model name is `Llama-3.3-70B-Instruct`; developers should [install](https://www.llama.com/llama-downloads) and use the new model wherever they would otherwise have used instruction-tuned Llama 3.1 70B."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "[Download](https://www.llama.com/llama-downloads) the new Llama 3.3 model."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[url:https://www.llama.com/docs/overview]",
+      "quote": "Notebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "Llama Cookbook\n\nNotebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.com/docs/overview]",
+      "quote": "Notebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/get-started/]",
+      "quote": "Llama Cookbook\nNotebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/get-started/]",
+      "quote": "Llama Stack\nDefines and standardizes the building blocks needed to bring generative AI applications to market."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[url:https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "Note: We have introduced Llama 3.3 70B, an instruction-turned model with the latest advancements in post-training techniques; see the model card for detailed performance information."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/llama-oracle-help-students-in-brazil/]",
+      "quote": "How Llama and Oracle are helping Instituto PROA kickstart careers for students in Brazil"
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/llama-helps-biofy-fight-antibiotic-resistance/]",
+      "quote": "How Llama helps Biofy Technologies in the fight against antibiotic resistance"
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/aws-program-startups-build-with-llama/]",
+      "quote": "Joining forces with AWS on a new program to help startups build with Llama"
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "[See Card on GitHub](https://github.com/meta-llama/llama-models/blob/main/models/llama4/MODEL_CARD.md)"
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "**Note:** We have introduced Llama 3.3 70B, an instruction-turned model with the latest advancements in post-training techniques; see the [model card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md) for detailed performance information."
+    }
+  ],
+  "1-5 (Architecture)": "",
+  "1-6 (Tokenizer)": "The documentation explicitly states: “There are 4 different roles that are supported by Llama text models:”, indicating that the tokenizer (or role-handling mechanism) for Llama models is designed to recognise and work with four distinct role tokens.",
+  "2-1 (Hardware)": "The reference line says: “Scripts for fine-tuning Llama3 with single/multi-node GPUs.”  From this we learn that the prescribed training setup for Llama3 is capable of running on both single-GPU machines and distributed multi-node GPU clusters, highlighting GPU-based hardware scalability for fine-tuning tasks.",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "There are 4 different roles that are supported by Llama text models:"
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/https://llama.meta.com/docs/get-started/]",
+      "quote": "Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    }
+  ],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The quotes repeatedly reference an officially branded \"Llama API\", linking directly to https://llama.developer.meta.com/join_waitlist. They indicate that an API endpoint exists (users can join a wait-list) and that Meta also supplies companion notebooks and other material showing “how to run Llama on your local hardware or in the cloud.” Taken together, the material confirms public documentation, a sign-up mechanism, and usage examples that accompany the Llama 3.3-70B family, demonstrating that an externally accessible service interface is offered in addition to local-run options.",
+  "3-1 (Pre-training)": "",
+  "3-2 (Fine-tuning)": "Multiple notes highlight the arrival of an \"instruction-tuned\" release called \"Llama 3.3 70B.\" The announcement states that this model leverages “the latest advancements in post-training techniques” and explicitly supersedes the earlier \"instruction-tuned Llama 3.1 70B\" version. Supporting resources are provided through the \"Llama Cookbook\" which offers \"Notebooks and demos for learning Llama\" as well as \"Scripts for fine-tuning Llama3 with single/multi-node GPUs.\" Collectively, the quotes show that fine-tuning is expected and facilitated, with official scripts, multi-GPU scalability guidance, and a model card that reports detailed performance information for the new 3.3 70B checkpoint.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[url:https://www.llama.com/docs/overview]",
+      "quote": "[Llama API](https://llama.developer.meta.com/join_waitlist)"
+    },
+    {
+      "source": "[url:https://llama.meta.com/docs/llama-everywhere/]",
+      "quote": "Notebooks and information on how to run Llama on your local hardware or in the cloud."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "Llama API"
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.com/docs/overview]",
+      "quote": "[Llama API](https://llama.developer.meta.com/join_waitlist)"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[url:https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "**Note:** We have introduced Llama 3.3 70B, an instruction-turned model with the latest advancements in post-training techniques; see the model card for detailed performance information."
+    },
+    {
+      "source": "[url:https://www.llama.com/docs/overview]",
+      "quote": "Llama Cookbook — Notebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://www.llama.com/docs/overview]",
+      "quote": "Llama Cookbook … Notebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/]",
+      "quote": "**Note:** We have introduced Llama 3.3 70B, an instruction-turned model with the latest advancements in post-training techniques; see the [model card](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/MODEL_CARD.md) for detailed performance information. This new model supersedes the instruction-tuned Llama 3.1 70B model."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://llama.meta.com/docs/get-started/]",
+      "quote": "Llama Cookbook\nNotebooks and demos for learning Llama. Scripts for fine-tuning Llama3 with single/multi-node GPUs."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "unknown"
+  }
+}
