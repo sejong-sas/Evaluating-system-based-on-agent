@@ -1,0 +1,49 @@
+{
+  "1-1 (Weights)": "The available quotes explicitly state that the weights for the gemma-2 models, including the 2-b parameter variant, are openly released. One sentence says, “In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. We release all our models to the community.”  A second, nearly identical sentence reinforces the point: “We hope that releasing these models to the community will unlock access to capabilities previously only seen in large-scale LLMs ….”  The phrase “Given the open nature of Gemma models, responsibility for upholding principles of model safety also relies on downstream developers” further signals that the model files are meant to be broadly obtainable, because downstream users are expected to handle them responsibly.  Finally, the terse repository line “gemma-2-2b-it” confirms the specific 2-b-parameter instruction-tuned checkpoint as part of what is being made available.  No URL, hosting platform, authentication mechanism, or gated-access policy is mentioned in these excerpts, but, taken together, the quotations unequivocally indicate that the gemma-2-2b-it weights are published and intended for public download.",
+  "1-2 (Code)": "None of the provided quotations mention any release, repository, or description of training code, data-processing pipelines, fine-tuning scripts, or evaluation harnesses for gemma-2-2b-it.  Consequently, based solely on the supplied material, there is no evidence that the full or partial training code (pre-training, fine-tuning, RL, or otherwise) has been made public.  The excerpts are therefore silent on whether only inference code or no code at all accompanies the weight release.",
+  "1-3 (License)": "The single licensing-related quotation reads: “© 2024 Google DeepMind. All rights reserved.”  Because “All rights reserved” appears without any additional modifiers (e.g., Apache-2.0, CC-BY-NC, or similar), the text implies that Google DeepMind retains full ownership and does not, in that line, grant explicit permissions for use, modification, redistribution, or commercial exploitation.  No other sentence references a different license name, version, or special grant clauses (such as “research-only” or “non-commercial”).  Therefore, the only licensing information presently documented for gemma-2-2b-it is this blanket “All rights reserved” statement.",
+  "1-4 (Paper)": "Two separate excerpts acknowledge an official written work: the title “Gemma 2: Improving Open Language Models at a Practical Size” and the statement, “In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code.”  From them we can conclude that a formal paper or technical report exists under the cited title and that it describes the gemma-2 series, including the 2-b-parameter variant.  No DOI, arXiv link, or conference venue is provided in the quotes, but the presence of both the title and self-referential wording (“In this work”) confirms the existence of an authored document that functions as the canonical reference for gemma-2-2b-it.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters. We release all our models to the community."
+    },
+    {
+      "source": "[sections/Discussion and Conclusion]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code. We hope that releasing these models to the community will unlock access to capabilities previously only seen in large-scale LLMs and fuel future waves of research and development."
+    },
+    {
+      "source": "[sections/Responsible open models]",
+      "quote": "Given the open nature of Gemma models, responsibility for upholding principles of model safety also relies on downstream developers."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters."
+    },
+    {
+      "source": "[sections/Discussion and Conclusion]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    },
+    {
+      "source": "[pdf_text/Table 14]",
+      "quote": "gemma-2-2b-it 1126 +10 / -10 +"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "1See Contributions and Acknowledgments section for full author list. Please send correspondence to gemma-2-report@google.com.\n© 2024 Google DeepMind. All rights reserved"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[title]",
+      "quote": "Gemma 2: Improving Open Language Models at a Practical Size"
+    },
+    {
+      "source": "[sections/Discussion and Conclusion]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    }
+  ]
+}
