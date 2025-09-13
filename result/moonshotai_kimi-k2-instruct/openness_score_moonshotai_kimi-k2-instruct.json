@@ -1,0 +1,148 @@
+{
+  "model": "moonshotai/Kimi-K2-Instruct",
+  "scores": {
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Released under a Modified MIT licence that keeps all four freedoms; the extra clause only requests attribution for very large-scale commercial deployments, which the rubric still counts as Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "A dedicated technical report (tech_report.pdf) specifically describing Kimi-K2 is linked and publicly available."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 0.5,
+      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
+    },
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Training hardware type (NVIDIA H800) and per-node GPU count (8) are disclosed, but the total number of nodes/GPUs is not, so only partial quantity information is available."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Key training components beyond the base framework are named (Muon/MuonClip optimizer, PP+EP+ZeRO parallelism, WSD LR schedule), but a full, versioned software stack is not provided."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 1.0,
+      "reason": "The report gives reproducible details: 15.5 T tokens, 4 096-token context, MuonClip optimizer (τ = 100), WSD LR schedule, weight-decay, RMS scaling, QK-Clip statistics, etc."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Describes a multi-stage post-training pipeline, use of Muon, data-synthesis strategy, and objectives, but stops short of a fully reproducible recipe."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "RL stage, policy-optimisation algorithm, reward design (verifiable + self-critic), and scaling strategy are outlined, but not in complete reproducible detail."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Provides overall size (15.5 T tokens) and four domain categories plus mention of synthetic augmentation, but not the full source list, proportions, or licences."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that a large-scale, diverse instruction dataset is built via agentic synthesis and filtered by LLM/human judges, but omits concrete dataset names, sizes, or public access."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions real- and synthetic-environment interactions, Gym-like framework, broad prompt coverage, and self-critic rewards, but gives no detailed dataset breakdown."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Describes ‘rigorous correctness and quality validation’, fidelity checks, decontamination procedures, and LLM/human filtering, yet lacks full pipeline specifics (algorithms, thresholds, removal ratios)."
+    }
+  },
+  "included_scores": {
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Released under a Modified MIT licence that keeps all four freedoms; the extra clause only requests attribution for very large-scale commercial deployments, which the rubric still counts as Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "A dedicated technical report (tech_report.pdf) specifically describing Kimi-K2 is linked and publicly available."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 0.5,
+      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
+    },
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "2-1 Hardware": {
+      "score": 0.5,
+      "reason": "Training hardware type (NVIDIA H800) and per-node GPU count (8) are disclosed, but the total number of nodes/GPUs is not, so only partial quantity information is available."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Key training components beyond the base framework are named (Muon/MuonClip optimizer, PP+EP+ZeRO parallelism, WSD LR schedule), but a full, versioned software stack is not provided."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 1.0,
+      "reason": "The report gives reproducible details: 15.5 T tokens, 4 096-token context, MuonClip optimizer (τ = 100), WSD LR schedule, weight-decay, RMS scaling, QK-Clip statistics, etc."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Describes a multi-stage post-training pipeline, use of Muon, data-synthesis strategy, and objectives, but stops short of a fully reproducible recipe."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "RL stage, policy-optimisation algorithm, reward design (verifiable + self-critic), and scaling strategy are outlined, but not in complete reproducible detail."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Provides overall size (15.5 T tokens) and four domain categories plus mention of synthetic augmentation, but not the full source list, proportions, or licences."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that a large-scale, diverse instruction dataset is built via agentic synthesis and filtered by LLM/human judges, but omits concrete dataset names, sizes, or public access."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions real- and synthetic-environment interactions, Gym-like framework, broad prompt coverage, and self-critic rewards, but gives no detailed dataset breakdown."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Describes ‘rigorous correctness and quality validation’, fidelity checks, decontamination procedures, and LLM/human filtering, yet lacks full pipeline specifics (algorithms, thresholds, removal ratios)."
+    }
+  },
+  "final_score_10pt": 5.938,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 9.5,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": true
+  }
+}
