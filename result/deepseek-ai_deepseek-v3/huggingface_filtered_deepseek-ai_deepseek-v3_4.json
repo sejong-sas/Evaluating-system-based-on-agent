@@ -1,0 +1,33 @@
+{
+  "4-1 (Pre-training Data)": "The available statements that explicitly reference deepseek or deepseek-v3 indicate that DeepSeek-V3’s pre-training relied on a very large, diverse corpus totaling 14.8 trillion high-quality tokens.  The project team emphasizes both scale and data variety by describing the tokens as “diverse and high-quality.”  They also note the practical aspect of the effort, reporting that pre-training consumed 2.664 million H800 GPU-hours, which they portray as economical relative to the outcome.  The authors claim that this large-scale run produced “the currently strongest open-source base model,” underscoring their view of the pre-training data volume and composition as a decisive factor in model quality.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The fine-tuning phase for DeepSeek-V3 is described as a two-part effort: (1) a generic Supervised Fine-Tuning (SFT) stage that follows pre-training, and (2) an innovative procedure that transfers reasoning abilities from a specialized long-Chain-of-Thought DeepSeek R1 series model into DeepSeek-V3.  The quoted material stresses that the reasoning knowledge is ‘distilled’ from a related DeepSeek model family, implying that curated exemplars or distilled outputs from the R1 model serve as the core fine-tuning data for V3.  The statements do not give explicit dataset sizes, licenses, or public-release information, but they make clear that the fine-tuning content is purpose-built to strengthen reasoning and that it is sourced internally from DeepSeek’s own lineage of models rather than from unrelated external corpora.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[readme]",
+      "quote": "-   We introduce an innovative methodology to distill reasoning capabilities from the long-Chain-of-Thought (CoT) model, specifically from one of the DeepSeek R1 series models, into standard LLMs, particularly DeepSeek-V3."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "After supervised fine-tuning, the DeepSeek-V3 training pipeline proceeds to a Reinforcement Learning (RL) stage.  The quotes reveal that RL is an integral part of the training recipe—‘followed by…Reinforcement Learning stages to fully harness its capabilities’—but do not disclose specific datasets, reward models, or collection methods.  The only concrete information provided is that RL follows SFT in the chronology and serves as an additional optimization pass to unlock more of DeepSeek-V3’s potential.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    }
+  ],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

@@ -1,0 +1,42 @@
+{
+  "2-3 (API)": "The official material makes it clear that DeepSeek-V3 is exposed to end-users in two complementary, publicly reachable ways. First, there is a web-based, chat-style interface hosted at “chat.deepseek.com,” explicitly advertised as a place where anyone can log in and “chat with DeepSeek-V3.” Second, the developers state that they “provide [an] OpenAI-Compatible API” through the DeepSeek Platform at “platform.deepseek.com.” The wording emphasises that this second option is a true HTTP API (rather than a client library) and that its interface intentionally mirrors the OpenAI schema, implying immediate drop-in usability for tools that already integrate with GPT-style endpoints. Together, these two statements confirm the existence of both an interactive web application and a formal, production-grade, programmatic API for DeepSeek-V3, each documented and made available to the public through DeepSeek’s own hosted services.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can chat with DeepSeek-V3 on DeepSeek's official website: [chat.deepseek.com](https://chat.deepseek.com/sign_in)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also provide OpenAI-Compatible API at DeepSeek Platform: [platform.deepseek.com](https://platform.deepseek.com/)"
+    }
+  ],
+  "3-1 (Pre-training)": "The project description spells out two core quantitative facts about DeepSeek-V3’s pre-training effort. First, the model is trained on “14.8 trillion diverse and high-quality tokens,” signalling an extremely large-scale data regime. Second, the training consumed “2.664 M H800 GPU hours,” providing a concrete measure of compute expenditure and situating the work in an economical-yet-massive bracket for open-source releases. The authors further note that this pre-training phase precedes both supervised fine-tuning and reinforcement learning steps, implying a classic three-stage pipeline where the pre-training stage focuses purely on next-token prediction across that 14.8 T-token corpus. They claim the result of this stage is “the currently strongest open-source base model,” underscoring their view that the pre-training alone already delivers top-tier capability before any downstream adaptation. No other hyper-parameters are revealed, but the explicit token count, GPU-hour cost, and the fact that it is cited as an open-source base checkpoint form the substantive backbone of the disclosed pre-training methodology.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[readme]",
+      "quote": "At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+    }
+  ],
+  "3-2 (Fine-tuning)": "The documentation states that after completing the 14.8-trillion-token pre-training run, the team subjects DeepSeek-V3 to a “Supervised Fine-Tuning” phase. One key technique highlighted is an “innovative methodology to distill reasoning capabilities from the long-Chain-of-Thought (CoT) model,” specifically drawing that signal from a DeepSeek R1-series model and injecting it into “standard LLMs, particularly DeepSeek-V3.” This indicates a supervised-distillation approach where high-quality, long-form rationales produced by a stronger or more specialised sibling model serve as teaching signals. The authors frame this step as crucial for elevating reasoning performance. Although exact hyper-parameters or dataset sizes for SFT are not supplied, the narrative firmly slots SFT as an intermediate stage between raw pre-training and a subsequent reinforcement-learning phase, giving DeepSeek-V3 both broadly learned linguistic knowledge and distilled, explicit reasoning chains.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We introduce an innovative methodology to distill reasoning capabilities from the long-Chain-of-Thought (CoT) model, specifically from one of the DeepSeek R1 series models, into standard LLMs, particularly DeepSeek-V3."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The workflow description explicitly lists “Reinforcement Learning” as the final stage following pre-training and supervised fine-tuning for DeepSeek-V3. While the text does not enumerate algorithms (e.g., PPO, DPO) or reward models, its placement signals a classic RLHF-style pipeline in which the model is further optimised with feedback beyond supervised targets. The simple statement that pre-training is “followed by … Reinforcement Learning stages to fully harness its capabilities” confirms the presence of an RL phase whose goal is to push performance to a higher plateau after SFT. This establishes a three-phase training strategy—pre-training, SFT, and RL—underscoring that DeepSeek-V3’s final released weights incorporate reinforcement-based optimisation on top of the preceding stages.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    }
+  ]
+}
