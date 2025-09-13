@@ -1,0 +1,31 @@
+{
+  "1-1 (Weights)": "None of the supplied quotations mention anything about the availability of the phi-4 model weights. There is no reference to whether checkpoints have been released, where they might be hosted, what access mechanisms (open download, gated request, etc.) would apply, or whether the weights are entirely private. Consequently, from the excerpts provided, no information can be extracted regarding public access, storage location, distribution portals, or any percentage of parameters that might be made available or withheld.",
+  "1-2 (Code)": "The excerpts contain no statements about the existence or release status of training code for phi-4. There is no description of data-preparation scripts, configuration files, scheduling logic, or end-to-end training pipelines, nor is there any mention of inference-only code repositories. Therefore, based strictly on the provided material, it is impossible to determine whether any part of the pre-training, fine-tuning, or post-training (e.g., RLHF) code has been open-sourced, partially shared, or kept proprietary.",
+  "1-3 (License)": "No licensing language appears in the quotations. They do not name a license (e.g., MIT, Apache-2.0, custom research-only license), nor do they specify permissions or restrictions on use, modification, redistribution, or commercial exploitation. As a result, the supplied text offers no insight into licensing terms, allowable scope of use, or any grant/limitation clauses governing phi-4.",
+  "1-4 (Paper)": "The quoted passages collectively outline the main points presented in the paper introducing phi-4. The authors state that they “present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality.” They frame the model as the latest member of the Phi family—citing earlier work ([GZA+23, LBE+23, JBA+23, AAA+24])—and emphasize that phi-4 “further advances performance of small language models by introducing innovative synthetic data generation methods for reasoning-focused tasks, by optimizing the training curriculum and data mixture, and by introducing new techniques in post-training.” The paper also notes that “all external models we tested were published before this date, as were the datasets for all stages of phi-4’s training,” underscoring that every reference corpus and baseline model predates phi-4’s development timeline. Finally, the authors comment on qualitative behavior, observing that “in agent tasks, phi-4 follows a characteristic chain-of-thought with explicit planning and reflections.” Taken together, the paper positions phi-4 as a 14-billion-parameter successor within the Phi series that achieves its gains through refined data curation, synthetic reasoning-oriented augmentation, carefully balanced training curricula, and novel post-training techniques, while demonstrating deliberate multi-step reasoning patterns in downstream agent settings.",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Building on the success of the Phi family [GZA+23, LBE+23, JBA+23, AAA+24], we introduce phi-4, a 14-billion parameter model that further advances performance of small language models by introducing innovative synthetic data generation methods for reasoning-focused tasks, by optimizing the training curriculum and data mixture, and by introducing new techniques in post-training."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality. Building on the success of the Phi family [GZA+23, LBE+23, JBA+23, AAA+24], we introduce phi-4, a 14-billion parameter model that further advances performance of small language models by introducing innovative synthetic data generation methods for reasoning-focused tasks, by optimizing the training curriculum and data mixture, and by introducing new techniques in post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In agent tasks, phi-4 follows a characteristic chain-of-thought with explicit planning and reflections."
+    }
+  ]
+}

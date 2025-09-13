@@ -1,0 +1,148 @@
+{
+  "model": "microsoft/phi-4",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "LICENSE file is MIT, granting unrestricted use / modification / redistribution / commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official Phi-4 technical report is on arXiv and specifically describes this model family."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote gives both type and quantity: “1920 × NVIDIA H100-80 GB” GPUs."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only the Transformers version is quoted; no further details on the distributed / optimisation stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Key hyper-parameters (tokens≈10 T, LR schedule, batch-size, weight-decay) are given, but not a full reproducible pipeline."
+    },
+    "3-2 Fine-tuning": {
+      "score": 1.0,
+      "reason": "SFT stage quotes include dataset size (1.4 M pairs / 8.3 B tokens), step count, batch size, LR, warm-up and weight-decay."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 1.0,
+      "reason": "GRPO RL stage lists dataset size (~6 K tasks), seed pool, full hyper-parameters (LR, β, γ, batch, steps, GPUs)."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources, proportions (e.g., 30 % web, 40 % synthetic, etc.) and total token counts are stated, but not enough to rebuild corpus exactly."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Datasets are described (1.4 M prompts, TriviaQA seeds, 100 M speech SFT, etc.) but not fully released or enumerated."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "RL data scope (6 K verified math problems, 300 K DPO pairs) is given, but the actual sets are not published."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Narrative explains use of quality classifiers, rejection sampling, WER filtering and benchmark de-contamination, but pipelines/thresholds are not fully disclosed."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "LICENSE file is MIT, granting unrestricted use / modification / redistribution / commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official Phi-4 technical report is on arXiv and specifically describes this model family."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote gives both type and quantity: “1920 × NVIDIA H100-80 GB” GPUs."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only the Transformers version is quoted; no further details on the distributed / optimisation stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Key hyper-parameters (tokens≈10 T, LR schedule, batch-size, weight-decay) are given, but not a full reproducible pipeline."
+    },
+    "3-2 Fine-tuning": {
+      "score": 1.0,
+      "reason": "SFT stage quotes include dataset size (1.4 M pairs / 8.3 B tokens), step count, batch size, LR, warm-up and weight-decay."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 1.0,
+      "reason": "GRPO RL stage lists dataset size (~6 K tasks), seed pool, full hyper-parameters (LR, β, γ, batch, steps, GPUs)."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources, proportions (e.g., 30 % web, 40 % synthetic, etc.) and total token counts are stated, but not enough to rebuild corpus exactly."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Datasets are described (1.4 M prompts, TriviaQA seeds, 100 M speech SFT, etc.) but not fully released or enumerated."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "RL data scope (6 K verified math problems, 300 K DPO pairs) is given, but the actual sets are not published."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Narrative explains use of quality classifiers, rejection sampling, WER filtering and benchmark de-contamination, but pipelines/thresholds are not fully disclosed."
+    }
+  },
+  "final_score_10pt": 6.562,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 10.5,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

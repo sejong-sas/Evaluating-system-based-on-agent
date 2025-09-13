@@ -1,0 +1,73 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The quotes describe a multi-stage, heavily synthetic pre-training pipeline for phi-4.  The model is a 14-billion-parameter decoder-only Transformer with an initial context window of 4,096 tokens that is explicitly “extended to a 16K context length during midtraining.”  Training proceeds for “approximately 10 T tokens,” driven by a standard schedule of “linear warm-up and decay” that reaches a peak learning rate of 3 × 10⁻⁴, applies a constant weight-decay of 0.1, and uses an unusually large “global batch size of 5 ,760.”  Data composition is dominated by synthetic corpora: “Synthetic data constitutes the bulk of the training data for phi-4 … accumulating to a total of about 400 B unweighted tokens.”  These 400 B tokens are produced through “multi-agent prompting, self-revision workflows, and instruction reversal,” organized into “50 broad types of synthetic datasets … spanning an array of topics, skills, and natures of interaction.”  Non-synthetic content is kept but tightly bounded: “The final data mixture used for phi-4 allocates 30 % of the training tokens to web and web rewrites data sources, divided equally between them.”  A chronological restriction is also stated: “All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training,” indicating a fixed data cut-off.  In aggregate, these details outline phi-4’s large-scale, synthetic-first pre-training regime, its architectural scale, learning-rate schedule, batch sizing, context-length expansion, and final mixture ratios.",
+  "3-2 (Fine-tuning)": "After base pre-training, phi-4 undergoes an extensive post-training phase that blends Supervised Fine-Tuning (SFT) and Direct Preference Optimization (DPO).  According to the quotes, the team “advance[s] the post-training recipe … by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search (PTS).”  The motivation is explicit: “Without any mitigation, phi-4 would almost never admit to ignorance,” so targeted datasets are built “to mitigate hallucinations in simple settings.”  The SFT curation policy is precise: they use “(question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions.”  An independent red-team—AIRT—reports that “the behavior of phi-4 was similar to that of the phi-3 family, but identified several risky behaviors that were addressed by further rounds of safety post-training,” confirming iterative safety-oriented fine-tuning.  Together these statements depict a deliberate, data-driven SFT/DPO pipeline focused on accuracy, refusal when appropriate, hallucination reduction, and safety refinement.",
+  "3-3 (Reinforcement Learning)": "Reinforcement-style preference training is incorporated into phi-4’s post-training, centering on Direct Preference Optimization (DPO) augmented by rejection sampling and the novel Pivotal Token Search methodology.  The system “employ[s] … rejection sampling and a novel approach to Direct Preference Optimization (DPO) to refine the model’s outputs.”  Data for the preference objective is programmatically generated: “For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly.”  The pivotal-token-based generation strategy is intended to focus the loss on moments where the model is strongest: “By generating DPO data targeting such choices, we believe PTS helps phi-4 work better in the modes it is especially stronger.”  These quotes collectively specify the presence of an RL-style phase (DPO), its sampling/generation mechanics, pair-construction heuristics, and its goal of sharpening preferred behaviors while suppressing incorrect or unsafe outputs.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[sections/Approach to Data]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[sections/Pretraining details]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. The model was pretrained for approximately 10T tokens using linear warm-up and decay schedules with peak learning rate of 0.0003, constant weight decay of 0.1, and global batch size of 5760."
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal. We created 50 broad types of synthetic datasets, each one relying on a different set of seeds and different multi-stage prompting procedure, spanning an array of topics, skills, and natures of interaction, accumulating to a total of about 400B unweighted tokens."
+    },
+    {
+      "source": "[sections/Pretraining details]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. This is later extended to a 16K context length during midtraining."
+    },
+    {
+      "source": "[sections/Data Mixture]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them."
+    },
+    {
+      "source": "[sections/Midtraining Details]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[sections/AMC Evaluation Details]",
+      "quote": "All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[appendix/A.1]",
+      "quote": "Without any mitigation, phi-4 would almost never admit to ignorance. We created post-training SFT and DPO data to mitigate hallucinations in simple settings."
+    },
+    {
+      "source": "[appendix/A.1]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Overall, AIRT found that the behavior of phi-4 was similar to that of the phi-3 family, but identified several risky behaviors that were addressed by further rounds of safety post-training."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[sections/2412.08905]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[appendix/A.1]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly."
+    },
+    {
+      "source": "[sections/Pivotal Token Search]",
+      "quote": "By generating DPO data targeting such choices, we believe PTS helps phi-4 work better in the modes it is especially stronger."
+    }
+  ]
+}

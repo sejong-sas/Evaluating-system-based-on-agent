@@ -1,0 +1,27 @@
+{
+  "1-1 (Weights)": "",
+  "1-2 (Code)": "",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "The documentation explicitly cites a “Phi-4 Technical Report.”  One excerpt states: “We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality.”  A second duplicated header line, “Phi-4 Technical Report,” confirms that this is the primary written source.  The report also describes its evaluation strategy: “All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training. Thus, these contests are our best attempt at conducting a completely contamination-proof evaluation of mathematical reasoning capabilities.”  Together, these quotes indicate (1) the existence of an official technical report for phi-4, (2) the model’s scale (14 B parameters), (3) the emphasis on data-quality–driven training methodology, and (4) a contamination-controlled evaluation protocol focused on mathematical reasoning.",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Phi-4 Technical Report"
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[title]",
+      "quote": "Phi-4 Technical Report"
+    },
+    {
+      "source": "[sections/AMC Evaluation Details]",
+      "quote": "All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training. Thus, these contests are our best attempt at conducting a completely contamination-proof evaluation of mathematical reasoning capabilities."
+    }
+  ]
+}

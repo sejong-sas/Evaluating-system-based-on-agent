@@ -1,0 +1,53 @@
+{
+  "1-1 (Weights)": "The available evidence indicates that the phi-4 weights are openly downloadable from the Hugging Face Hub.  One of the weight files is explicitly named “model-00001-of-00006.safetensors,” implying the full checkpoint is split across six *.safetensors shards.  A usage snippet shows that users can load the model directly with the transformers library:  \n```\npipeline = transformers.pipeline(\n    \"text-generation\",\n    model=\"microsoft/phi-4\",\n    model_kwargs={\"torch_dtype\": \"auto\"},\n    device_map=\"auto\",\n)\n```\nBecause the snippet references the public model identifier \"microsoft/phi-4\" and contains no authentication or special access instructions, the quotes collectively suggest that anyone with transformers and internet access can retrieve the weights from the Hub and run them locally with automatic device mapping and dtype selection.  No additional gating, request process, or usage restriction is mentioned in the provided text.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00006.safetensors"
+    },
+    {
+      "source": "[readme]",
+      "quote": "pipeline = transformers.pipeline(\n    \"text-generation\",\n    model=\"microsoft/phi-4\",\n    model_kwargs={\"torch_dtype\": \"auto\"},\n    device_map=\"auto\",\n)"
+    }
+  ],
+  "1-2 (Code)": "There are no quotes that mention any release of training, fine-tuning, or reinforcement-learning code for phi-4.  The only code fragment provided demonstrates **inference** usage (a transformers pipeline).  Accordingly, the source material gives no evidence that the pre-training, fine-tuning, or RLHF training scripts for phi-4 are public; it remains unspecified whether such code exists or is private.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Every licensing reference in the supplied text identifies phi-4 as being released under the MIT License.  Direct phrases include “license: mit,” “| **License** | MIT |,” “MIT License,” and “LICENSE file present: LICENSE.”  A permanent license file is accessible through the URL “https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE.”  The README also repeats the MIT tag alongside model descriptors such as “phi,” “nlp,” “math,” “code,” and “chat.”  A table entry further ties the license to the model’s public release timeline: “Release date | December 12, 2024 | License | MIT.”  No additional clauses, usage restrictions, or exceptions are provided in the quoted material, so the only explicit information is that phi-4 is distributed under the standard, permissive MIT terms and that a LICENSE file is present in the repository.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: mit"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **License**             | MIT                                                                         |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "MIT License"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: mit\nlicense_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE\nlanguage:\n- en\npipeline_tag: text-generation\ntags:\n- phi\n- nlp\n- math\n- code\n- chat\n-"
+    },
+    {
+      "source": "[readme]",
+      "quote": "|\n| **Release date** | December 12, 2024 |\n| **License** | MIT |\n\n## Intended Use \n\n| |"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The only publication reference is a link titled “Phi-4 Technical Report” that points to the arXiv PDF at https://arxiv.org/pdf/2412.08905.  This confirms that an official technical report specifically dedicated to phi-4 exists on arXiv; no other papers, blog posts, or supplementary documents are cited in the supplied quotes.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[Phi-4 Technical Report](https://arxiv.org/pdf/2412.08905)"
+    }
+  ]
+}

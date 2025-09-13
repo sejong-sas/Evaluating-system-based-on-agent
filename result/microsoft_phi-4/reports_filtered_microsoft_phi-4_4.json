@@ -1,0 +1,70 @@
+{
+  "4-1 (Pre-training Data)": "According to the supplied material, phi-4’s pre-training corpus is dominated by synthetic text. The team \"created 50 broad types of synthetic datasets, each one relying on a different set of seeds and different multi-stage prompting procedure, spanning an array of topics, skills, and natures of interaction, accumulating to a total of about 400 B un-weighted tokens.\" Synthetic data is therefore described as \"the bulk of the training data for phi-4\" and is produced with methods such as \"multi-agent prompting, self-revision workflows, and instruction reversal.\" A precise token-allocation for the final mixture is reported: \"30 % of the training tokens\" come from \"web and web rewrites\" (split 50/50), \"40 %\" from synthetic data, \"20 %\" from code (a mix of synthetic and raw), and the final \"10 %\" from \"targeted acquired sources like academic data and books.\" The authors emphasize that, \"unlike most language models, where pre-training is based primarily on organic data sources such as web content or code, phi-4 strategically incorporates synthetic data throughout the training process.\"",
+  "4-2 (Fine-tuning Data)": "The post-training phase for phi-4 relies on supervised fine-tuning (SFT) data that has been deliberately re-worked. The team \"further advance[s] the post-training recipe in phi-4 by creating new refined versions of SFT datasets.\" A concrete construction pipeline is outlined with trivia-style questions: \"We started with seed trivia problems, such as from TriviaQA [JCWZ17]. For each question, we ran phi-4 multiple times to estimate its chance of accurately solving it.\" Instance-level outcomes of those runs decide label selection: \"For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions.\"",
+  "4-3 (Reinforcement Learning Data)": "For reinforcement learning–style preference optimization, phi-4 employs Direct Preference Optimization (DPO). The reference text states: \"We further advance the post-training recipe in phi-4 by ... developing a new technique to create DPO pairs, based on pivotal token search.\" DPO pairs are built with explicit relational labels: \"For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly.\" These pairings constitute the preference dataset used in the RL-style stage.",
+  "4-4 (Data Filtering)": "Curation and filtering are treated as a foundational design element: \"The development of phi-4 is guided by three core pillars: 2. Curation and Filtering of High-Quality Organic Data.\" For organic inputs such as \"web content, licensed books, and code repositories,\" the team \"meticulously curate[s] and filter[s]\" them so that they can \"extract seeds for the synthetic data pipeline that encourage high-depth reasoning and prioritize educational value.\" The decontamination pipeline is upgraded relative to earlier Phi releases: \"We improved the data decontamination process for phi-4 compared to previous Phi models to ensure no unfair influence on evaluation results.\" A specific mid-training intervention is described: \"phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K. Inspired by this, we further filter our high-quality non-synthetic datasets (i.e., academic, books, and code data) to separate samples above 8K context.\" Benchmark leakage is addressed explicitly: \"We decontaminate against the ARC-Easy, MBPP, phibench, CommonsenseQA, WinoGrande, mcphi, MedQA, MATH, AGIEval, PIQA, OpenBookQA, HellaSwag, GPQA, mt-bench, MMLUPro, GSM8k, HumanEval, arena hard, ARC-Challenge, and MMLU benchmarks.\" The implementation relies on \"a hybrid n-gram algorithm for decontamination which uses 13-gram and 7-gram features for removing matches to the test set.\"",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them. The remaining tokens are largely sourced from synthetic data which accounts for 40% of the data mixture tokens. Finally we allocate 20% of tokens to code data (mixture of synthetic and raw code) and 10% to targeted acquired sources like academic data and books."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike most language models, where pre-training is based primarily on organic data sources such as web content or code, phi-4 strategically incorporates synthetic data throughout the training process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We created 50 broad types of synthetic datasets, each one relying on a different set of seeds and different multi-stage prompting procedure, spanning an array of topics, skills, and natures of interaction, accumulating to a total of about 400B unweighted tokens. Here, we highlight novel methodologies used in generating synthetic datasets for phi-4:"
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We started with seed trivia problems, such as from TriviaQA [JCWZ17]. For each question, we ran phi-4 multiple times to estimate its chance of accurately solving it."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The development of phi-4 is guided by three core pillars: 2. Curation and Filtering of High-Quality Organic Data: We meticulously curate and filter organic2 data sources, including web content, licensed books, and code repositories to extract seeds for the synthetic data pipeline that encourage high-depth reasoning and prioritize educational value (to the model)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We improved the data decontamination process for phi-4 compared to previous Phi models to ensure no unfair influence on evaluation results."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K. Inspired by this, we further filter our high-quality non-synthetic datasets (i.e., academic, books, and code data) to separate samples above 8K context."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We decontaminate against the ARC-Easy, MBPP, phibench, CommonsenseQA, WinoGrande, mcphi, MedQA, MATH, AGIEval, PIQA, OpenBookQA, HellaSwag, GPQA, mt-bench, MMLUPro, GSM8k, HumanEval, arena hard, ARC-Challenge, and MMLU benchmarks. We apply a hybrid n-gram algorithm for decontamination which uses 13-gram and 7-gram features for removing matches to the test set, which is described in more detail in 1."
+    }
+  ]
+}

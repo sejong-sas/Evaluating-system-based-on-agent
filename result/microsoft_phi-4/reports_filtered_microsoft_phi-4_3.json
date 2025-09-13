@@ -1,0 +1,89 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "Phi-4’s pre-training is centered on a 14-billion-parameter, decoder-only Transformer that initially operates with a 4 096-token context window and later, during a dedicated “mid-training” phase, is expanded to 16 K tokens.  The architecture largely mirrors phi-3-medium but switches to the tiktoken tokenizer, yielding a padded vocabulary of 100 352 tokens, and replaces phi-3’s 2 K sliding-window attention with full attention across the entire 4 K sequence.  The model is exposed to roughly 10 trillion training tokens under a schedule that linearly warms up then decays the learning rate, peaking at 0.0003; weight decay is held constant at 0.1 and the global batch size is 5 760.  \n\nData composition is heavily skewed toward synthetic sources.  The team “changes [the] training curriculum” so that synthetic text becomes the dominant component, supplementing it with only 30 % web-derived material—half raw web, half web rewrites.  Synthetic corpora are produced through multi-agent prompting, self-revision workflows, instruction reversal, and other automated techniques, all governed by a guideline of broad topical and skill “diversity.”  All external models and datasets referenced for any stage of phi-4’s training pre-date the project’s start, ensuring temporal consistency of sources.",
+  "3-2 (Fine-tuning)": "After pre-training, phi-4 undergoes a supervised fine-tuning (SFT) phase that expressly targets hallucination reduction.  The team assembles refined SFT datasets by inspecting base-model behaviour: (question, correct answer) pairs are kept where the raw model is usually correct; (question, refusal) pairs are substituted where it is usually wrong; and (bogus question, refusal) pairs cover nonsensical prompts.  In parallel, they devise a new method—pivotal-token search (PTS)—to create preference pairs that will later feed Direct Preference Optimization.  These combined SFT resources constitute the “post-training recipe” for upgrading phi-4’s factual reliability and refusal behaviour.",
+  "3-3 (Reinforcement Learning)": "Reinforcement-style post-training hinges on Direct Preference Optimization (DPO) augmented by rejection sampling and the pivotal-token-search (PTS) mechanism.  Using the refined SFT sets as a base, the team generates DPO preference pairs with explicit ranking criteria: for questions that the base phi-4 sometimes answers correctly, they craft (correct > refusal) pairs; for questions it sometimes answers incorrectly, they create (refusal > wrong) pairs.  The PTS technique selects critical tokens within candidate answers to construct these contrasting examples, thereby steering optimisation toward the model’s stronger reasoning modes.  The overall goal is to curb hallucinations—without these interventions, phi-4 “would almost never admit to ignorance”—and to polish answer quality through iterative preference-based feedback.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. This is later extended to a 16K context length during midtraining. The architecture closely follows phi-3-medium, except that we now use the tiktoken tokenizer (for better multilingual support) with a padded vocabulary size of 100,352 (including unused tokens) and we use full attention over the 4K context length, rather than a 2K sliding window used in phi-3-medium. The model was pretrained for approximately 10T tokens using linear warm-up and decay schedules with peak learning rate of 0.0003, constant weight decay of 0.1, and global batch size of 5760."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We change our training curriculum and create new pretraining and midtraining data mixtures to increase the allocation of synthetic tokens, compared to older generations of phi."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "Our approach to generating synthetic data for phi-4 is guided by the following principles: 1. Diversity: The data should comprehensively cover subtopics and skills within each domain."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. The model was pretrained for approximately 10T tokens using linear warm-up and decay schedules with peak learning rate of 0.0003, constant weight decay of 0.1, and global batch size of 5760."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "phi-4 includes a midtraining stage where the context length is increased from the original 4K to 16K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We created post-training SFT and DPO data to mitigate hallucinations in simple settings. Without any mitigation, phi-4 would almost never admit to ignorance."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.08905]",
+      "quote": "We created post-training SFT and DPO data to mitigate hallucinations in simple settings. Without any mitigation, phi-4 would almost never admit to ignorance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Now, consider how the solution from Figure 3 would be used in DPO as a full-length accepted response. By generating DPO data targeting such choices, we believe PTS helps phi-4 work better in the modes it is especially stronger."
+    }
+  ]
+}

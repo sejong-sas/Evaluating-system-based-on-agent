@@ -1,0 +1,58 @@
+{
+  "1-5 (Architecture)": "For microsoft/phi-4 the quoted metadata declares a \"14B parameters, dense decoder-only Transformer model\", establishing both parameter count and overall design. Additional configuration fields specify \"num_hidden_layers\": 40, \"hidden_size\": 5120, and \"num_attention_heads\": 40. Collectively these lines describe a dense, decoder-only Transformer containing 40 stacked layers; every layer operates over a model width of 5 120 hidden units and uses 40 parallel attention heads, yielding a 14-billion-parameter architecture.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| **Architecture**        | 14B parameters, dense decoder-only Transformer model                          |"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 40,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 5120,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 40,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information for microsoft/phi-4 lists the presence of a \"tokenizer.json\" artifact. The same block records \"vocab_size\": 100352, alongside the special-token assignments \"bos_token_id\": 100257, \"eos_token_id\": 100265, and \"pad_token_id\": 100349. These quotes show that the model’s tokenizer ships in standard JSON form, supports a 100 352-entry vocabulary, and reserves explicit IDs for the beginning-of-sequence, end-of-sequence, and padding symbols.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 100352"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 100257,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 100265,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"pad_token_id\": 100349"
+    }
+  ],
+  "2-1 (Hardware)": "The hardware quote notes \"1920 H100-80G\" GPUs. This indicates that training (or at least large-scale experimentation) for microsoft/phi-4 relied on a cluster of 1 920 NVIDIA H100 accelerators equipped with 80 GB of memory each, underscoring a substantial compute allocation.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| **GPUs**                | 1920 H100-80G                                                                 |"
+    }
+  ],
+  "2-2 (Software)": "Software details include the line \"transformers_version\": \"4.47.0\", confirming that microsoft/phi-4 was processed with Hugging Face Transformers version 4.47.0 as part of its training or export toolchain.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.47.0\""
+    }
+  ]
+}

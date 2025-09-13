@@ -1,0 +1,209 @@
+{
+  "1-1 (Weights)": "The available evidence indicates that the phi-4 weights are openly downloadable from the Hugging Face Hub.  One of the weight files is explicitly named “model-00001-of-00006.safetensors,” implying the full checkpoint is split across six *.safetensors shards.  A usage snippet shows that users can load the model directly with the transformers library:  \n```\npipeline = transformers.pipeline(\n    \"text-generation\",\n    model=\"microsoft/phi-4\",\n    model_kwargs={\"torch_dtype\": \"auto\"},\n    device_map=\"auto\",\n)\n```\nBecause the snippet references the public model identifier \"microsoft/phi-4\" and contains no authentication or special access instructions, the quotes collectively suggest that anyone with transformers and internet access can retrieve the weights from the Hub and run them locally with automatic device mapping and dtype selection.  No additional gating, request process, or usage restriction is mentioned in the provided text.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00006.safetensors"
+    },
+    {
+      "source": "[readme]",
+      "quote": "pipeline = transformers.pipeline(\n    \"text-generation\",\n    model=\"microsoft/phi-4\",\n    model_kwargs={\"torch_dtype\": \"auto\"},\n    device_map=\"auto\",\n)"
+    }
+  ],
+  "1-2 (Code)": "There are no quotes that mention any release of training, fine-tuning, or reinforcement-learning code for phi-4.  The only code fragment provided demonstrates **inference** usage (a transformers pipeline).  Accordingly, the source material gives no evidence that the pre-training, fine-tuning, or RLHF training scripts for phi-4 are public; it remains unspecified whether such code exists or is private.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Every licensing reference in the supplied text identifies phi-4 as being released under the MIT License.  Direct phrases include “license: mit,” “| **License** | MIT |,” “MIT License,” and “LICENSE file present: LICENSE.”  A permanent license file is accessible through the URL “https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE.”  The README also repeats the MIT tag alongside model descriptors such as “phi,” “nlp,” “math,” “code,” and “chat.”  A table entry further ties the license to the model’s public release timeline: “Release date | December 12, 2024 | License | MIT.”  No additional clauses, usage restrictions, or exceptions are provided in the quoted material, so the only explicit information is that phi-4 is distributed under the standard, permissive MIT terms and that a LICENSE file is present in the repository.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: mit"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **License**             | MIT                                                                         |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "MIT License"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: mit\nlicense_link: https://huggingface.co/microsoft/phi-4/resolve/main/LICENSE\nlanguage:\n- en\npipeline_tag: text-generation\ntags:\n- phi\n- nlp\n- math\n- code\n- chat\n-"
+    },
+    {
+      "source": "[readme]",
+      "quote": "|\n| **Release date** | December 12, 2024 |\n| **License** | MIT |\n\n## Intended Use \n\n| |"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The only publication reference is a link titled “Phi-4 Technical Report” that points to the arXiv PDF at https://arxiv.org/pdf/2412.08905.  This confirms that an official technical report specifically dedicated to phi-4 exists on arXiv; no other papers, blog posts, or supplementary documents are cited in the supplied quotes.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[Phi-4 Technical Report](https://arxiv.org/pdf/2412.08905)"
+    }
+  ],
+  "1-5 (Architecture)": "For microsoft/phi-4 the quoted metadata declares a \"14B parameters, dense decoder-only Transformer model\", establishing both parameter count and overall design. Additional configuration fields specify \"num_hidden_layers\": 40, \"hidden_size\": 5120, and \"num_attention_heads\": 40. Collectively these lines describe a dense, decoder-only Transformer containing 40 stacked layers; every layer operates over a model width of 5 120 hidden units and uses 40 parallel attention heads, yielding a 14-billion-parameter architecture.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| **Architecture**        | 14B parameters, dense decoder-only Transformer model                          |"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 40,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 5120,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 40,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information for microsoft/phi-4 lists the presence of a \"tokenizer.json\" artifact. The same block records \"vocab_size\": 100352, alongside the special-token assignments \"bos_token_id\": 100257, \"eos_token_id\": 100265, and \"pad_token_id\": 100349. These quotes show that the model’s tokenizer ships in standard JSON form, supports a 100 352-entry vocabulary, and reserves explicit IDs for the beginning-of-sequence, end-of-sequence, and padding symbols.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 100352"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 100257,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 100265,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"pad_token_id\": 100349"
+    }
+  ],
+  "2-1 (Hardware)": "The hardware quote notes \"1920 H100-80G\" GPUs. This indicates that training (or at least large-scale experimentation) for microsoft/phi-4 relied on a cluster of 1 920 NVIDIA H100 accelerators equipped with 80 GB of memory each, underscoring a substantial compute allocation.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| **GPUs**                | 1920 H100-80G                                                                 |"
+    }
+  ],
+  "2-2 (Software)": "Software details include the line \"transformers_version\": \"4.47.0\", confirming that microsoft/phi-4 was processed with Hugging Face Transformers version 4.47.0 as part of its training or export toolchain.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.47.0\""
+    }
+  ],
+  "2-3 (API)": "The only explicit statement concerning how users should interact with phi-4 explains that, \"Given the nature of the training data, `phi-4` is best suited for prompts using the chat format as follows:\"  From this we can infer that any public interface, SDK, or web service exposing the model is expected to accept messages in a multi-turn chat schema rather than a single-completion or purely instruction-based format.  Although no URLs, authentication schemes, or code snippets are provided, the language strongly implies an API experience similar to mainstream chat-centric LLM offerings: users deliver a series of role-tagged turns (e.g., system, user, assistant), and phi-4 returns a streamed or batched assistant response.  No other modalities, invocation styles, or tooling requirements are mentioned, so the guidance confines best-practice usage to this conversational template.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Given the nature of the training data, `phi-4` is best suited for prompts using the chat format as follows:"
+    }
+  ],
+  "3-1 (Pre-training)": "`phi-4` is described as \"a state-of-the-art open model\" whose corpus is \"built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets.\"  These three sources—synthetic, carefully selected public-domain web text, and professionally curated academic material—together define the data pipeline, indicating deliberate curation for breadth (public web), depth (academic books), and controllability (synthetic and Q&A pairs).  Scale figures in the accompanying table specify that pre-training consumed \"9.8T tokens,\" ran for \"21 days,\" and was executed on \"1920 H100-80G\" GPUs.  Taken together, the statements outline the essential methodology: assemble a multicomponent corpus emphasizing quality and diversity, stream ~9.8 trillion tokens through nearly two thousand high-end H100 GPUs, and carry out the entire training run in roughly three weeks, thereby producing the base weights that underlie subsequent alignment stages.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **GPUs**                | 1920 H100-80G                                                                 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **Training data**       | 9.8T tokens                                                                   |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **Training time**       | 21 days                                                                       |"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning for phi-4 follows a dual-stage alignment strategy explicitly comprising \"supervised fine-tuning\" (SFT) and \"direct preference optimization\" (DPO).  The quote notes that phi-4 \"underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures.\"  In practice, SFT provides direct teacher-forced demonstrations so the model learns canonical, policy-compliant responses, while iterative DPO refines those weights by comparing alternate generations against human or synthetic preference labels.  The data used in this phase come from \"publicly available datasets focusing on helpfulness and harmlessness\" as well as \"various questions and answers targeted to multiple safety categories,\" indicating that the curation explicitly balances utility with risk mitigation.  Although no epoch counts or learning-rate schedules are given, the description establishes that the SFT and DPO loops constitute the core fine-tuning pipeline responsible for instruction following and safety alignment after base pre-training.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "Reinforcement-style learning for phi-4 is delivered through the \"iterative DPO (Direct Preference Optimization)\" technique referenced in the alignment description.  The text states that the safety alignment \"is a combination of SFT (Supervised Fine-Tuning) and iterative DPO,\" making DPO the only reinforcement-driven component explicitly cited for phi-4.  DPO operates by presenting the model with pairs of candidate completions and optimizing the policy toward the option preferred by annotators or a proxy preference model, thereby serving a similar role to RLHF while avoiding full policy-gradient complexity.  The same quote links DPO to \"publicly available datasets focusing on helpfulness and harmlessness\" and to Q&A material across \"multiple safety categories,\" underscoring that the reward signal (i.e., preferences) is targeted at both utility and risk reduction.  No explicit hyperparameters—batch size, KL coefficients, or rollout count—are provided, but the mention of an \"iterative\" process implies multiple passes of preference-based updates, solidifying DPO as the reinforcement learning mechanism that polishes phi-4’s responses beyond supervised fine-tuning.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "4-1 (Pre-training Data)": "For phi-4, the developers explicitly state that the model “is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets.”  The team discloses an overall size of 9.8 trillion training tokens.  A more granular description lists four principal data groupings: (1) “Publicly available documents filtered rigorously for quality, selected high-quality educational data, and code,” (2) “newly created synthetic, ‘textbook-like’ data” aimed at teaching math, coding, common-sense reasoning, and broad world knowledge, (3) “acquired academic books and Q&A datasets,” and (4) “high-quality chat format supervised data” that reflects preferences for “instruct-following, truthfulness, honesty and helpfulness.”  Together, these sources extend the data already used for Phi-3 and are intended to supply diverse coverage—ranging from filtered public-domain web text through licensed academic material to purpose-built synthetic tutorials—while achieving the declared 9.8 T-token scale.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "phi-4 is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **Training data**       | 9.8T tokens                                                                   |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Our training data is an extension of the data used for Phi-3 and includes a wide variety of sources from:\n\n1. Publicly available documents filtered rigorously for quality, selected high-quality educational data, and code.\n\n2. Newly created synthetic, “textbook-like” data for the purpose of teaching math, coding, common sense reasoning, general knowledge of the world (science, daily activities, theory of mind, etc.).\n\n3. Acquired academic books and Q&A datasets.\n\n4. High quality chat format supervised data covering various topics to reflect human preferences on different aspects such as instruct-following, truthfulness, honesty and helpfulness."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The fine-tuning stage for phi-4 is described as a “rigorous enhancement and alignment process” that combines supervised fine-tuning (SFT) with direct preference optimization (DPO).  The documentation emphasizes that this phase incorporates “both open-source and in-house generated synthetic datasets,” underscoring a dual strategy of leveraging publicly available instruction data alongside proprietary, safety-oriented synthetic examples.  The objective is to secure “precise instruction adherence and robust safety measures,” demonstrating that the alignment corpus specifically targets safety, helpfulness, and general instruction following capacity.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures"
+    },
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` has adopted a robust safety post-training approach. This approach leverages a variety of both open-source and in-house generated synthetic datasets."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "For reinforcement-learning–style post-training, phi-4 relies on “a combination of SFT … and iterative DPO,” and draws on “publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories.”  This indicates that after the supervised phase, the model is repeatedly optimized against paired preference data—sourced from the public domain—covering broad safety themes, with the explicit intent of bolstering harmlessness and helpfulness.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` has adopted a robust safety post-training approach. The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "4-4 (Data Filtering)": "All public-domain material entering phi-4’s corpus is subjected to quality filtering.  The authors note that the model uses “data from filtered public domain websites,” and that “publicly available documents [are] filtered rigorously for quality” with a focus on “selected high-quality educational data, and code.”  They further explain that they “filter the publicly available documents to contain the correct level of knowledge,” indicating a curation stage specifically designed to accept only content deemed educationally valuable and factually accurate before any pre-training proceeds.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "phi-4 is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Publicly available documents filtered rigorously for quality, selected high-quality educational data, and code."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We are focusing on the quality of data that could potentially improve the reasoning ability for the model, and we filter the publicly available documents to contain the correct level of knowledge."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
