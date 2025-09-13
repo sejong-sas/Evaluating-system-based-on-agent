@@ -1,0 +1,49 @@
+{
+  "1-5 (Architecture)": "Relevant architecture-related excerpts:\n- \"class GemmaConfig:\"\n- \"```\"\"\"Inference-only Gemma model implementation.\"\"\"```\"\n- \"```if config.architecture == gemma_config.Architecture.GEMMA_1:```\"\n- \"model = gemma_model.GemmaForCausalLM(model_config)\"",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/gemma/config.py]",
+      "quote": "class GemmaConfig:"
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```\"\"\"Inference-only Gemma model implementation.\"\"\"```"
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```if config.architecture == gemma_config.Architecture.GEMMA_1:```"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "model = gemma_model.GemmaForCausalLM(model_config)"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer-specific passages:\n- \"\"\"\n        Converts a preprocessed batch of interleaved text and image inputs into\n        token IDs and an image batch suitable for gemma3 model.\n\"\"\"\n- \"from gemma.tokenizer import Tokenizer\"",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/gemma/gemma3_preprocessor.py]",
+      "quote": "\"\"\"\n        Converts a preprocessed batch of interleaved text and image inputs into\n        token IDs and an image batch suitable for gemma3 model.\n\"\"\""
+    },
+    {
+      "source": "[py_files/scripts/run_xla.py]",
+      "quote": "from gemma.tokenizer import Tokenizer"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Software stack references:\n- \"This is the official PyTorch implementation of Gemma models. We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU.\"\n- \"```from google3.third_party.open_models_release.gemma_pytorch.gemma.xla_model_parallel import (```\"\n- \"# python scripts/run.py --device=cpu --ckpt=/path/to/your/pytorch_checkpoint/model.ckpt --output_len=2 --prompt=\\\"The name of the capital of Italy is\\\"\"",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This is the official PyTorch implementation of Gemma models. We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU."
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```from google3.third_party.open_models_release.gemma_pytorch.gemma.xla_model_parallel import (```"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "# python scripts/run.py --device=cpu --ckpt=/path/to/your/pytorch_checkpoint/model.ckpt --output_len=2 --prompt=\"The name of the capital of Italy is\""
+    }
+  ]
+}

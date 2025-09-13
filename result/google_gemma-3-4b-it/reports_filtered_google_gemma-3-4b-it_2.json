@@ -1,0 +1,90 @@
+{
+  "1-5 (Architecture)": "The google/gemma-3-4b-it checkpoint is the 4 B-parameter member of the five-size Gemma 3 family, whose overall range is 270 M, 1 B, 4 B, 12 B and 27 B parameters. A table breaking the 4 B variant down lists roughly 417 M vision-encoder parameters, 675 M embedding parameters and 3 209 M non-embedding parameters, placing the total at the advertised 4 B scale. All Gemma 3 models—including the 4 B version—keep the same decoder-only Transformer backbone that earlier Gemma releases used. They alternate attention types in a fixed pattern: five local sliding-window self-attention layers (Beltagy et al., 2020) followed by one global self-attention layer (Luong et al., 2015), starting with a local layer at the very bottom of the stack. The context window has been aggressively enlarged; the 4 B, 12 B and 27 B variants accept sequences of up to 128 K tokens, a 16× increase over earlier Gemma editions, while only the 1 B size keeps a 32 K limit. The vocabulary size is 256 K tokens. In short, gemma-3-4b-it is a 4 billion-parameter, decoder-only Transformer with mixed local/global attention blocks, 128 K context support and a 256 K-item token inventory.",
+  "1-6 (Tokenizer)": "Tokenisation is uniform across the entire Gemma 3 line. The paper states that “all Gemma 3 models share the same tokenizer,” and that the pre-training recipe “uses the same tokenizer as Gemini 2.0.” The shared tokenizer therefore applies unchanged to google/gemma-3-4b-it. Special control tokens are reserved for instruction-tuning (IT) formatting, meaning the tokenizer already encodes the system/user/assistant style prompts used during fine-tuning. No separate download or custom vocabulary per size is required—gemma-3-4b-it consumes exactly the 256 K-entry vocabulary distributed with every other Gemma 3 release.",
+  "2-1 (Hardware)": "Training of the 4 B Gemma 3 model was carried out on Cloud TPU hardware: the table shows the 4 B row using “TPUv5e” and allocating 2 048 TPU chips. Parallelism is organised into 16 data shards, 16 sequence (model) shards and a replication factor of 8, indicating a large-scale distributed training setup purpose-built for the 4 B checkpoint.",
+  "2-2 (Software)": "The publication does not list individual framework versions, but it does reveal several elements of the software pipeline that were applied identically to every Gemma 3 size, including gemma-3-4b-it. The team relied on automated filtering techniques to scrub personal or sensitive information from the raw corpus before training. After pre-training, extensive instruction fine-tuning and reinforcement learning from human feedback (RLHF) were performed to align the model with responsible behaviour. In addition, “all Gemma 3 models are trained with knowledge distillation,” meaning the 4 B checkpoint learned not only from raw text but also by mimicking a larger teacher model during optimisation. Combined, these steps constitute the major software-level ingredients of the gemma-3-4b-it training workflow.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Parameter sizes and quantization Gemma 3 models are available in 5 parameter sizes: 270M, 1B, 4B, 12B, and 27B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "128K token context window Gemma 3 models (4B, 12B, and 27B) can handle prompt inputs up to 128K tokens, a 16x larger context window than previous Gemma models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Subsequently, a large volume of research emerged focusing on the approach of stitching a pretrained visual encoder (usually vision transformer) to a pretrained langauge model. PaLI (Chen et al., 2022 ) , BLIP (Li et al., 2023b ) , LLaVA (Liu et al., 2024 ) , OpenFlamingo (Awadalla et al., 2023 ) , PaLIGemma (Beyer* et al., 2024 ) all follow similar techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We included open models, namely the latest versions of Gemma,3 Mistral,4 Qwen5, and Olmo,6, all in sizes of between 7 and 9 billion parameters that underwent instruction tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 models follow the same general decoder-only transformer architecture as previous iterations (Vaswani et al., 2017), with most architecture elements similar to the first two Gemma versions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Long context. Gemma 3 models support context length of 128K tokens, with the exception of the 1B model that has 32K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1 | Parameter counts for the Gemma 3 models. Our vocabulary has 256k entries."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Gemma 3 models (4B, 12B, and 27B) can handle prompt inputs up to 128K tokens, a 16x larger context window than previous Gemma models."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Parameter sizes and quantization Gemma 3 models are available in 5 parameter sizes: 270M, 1B, 4B, 12B, and 27B."
+    },
+    {
+      "source": "[sections/https://arxiv.org/html/2406.09175v1]",
+      "quote": "PaLI (Chen et al., 2022 ), BLIP (Li et al., 2023b ), LLaVA (Liu et al., 2024 ), OpenFlamingo (Awadalla et al., 2023 ), PaLIGemma (Beyer* et al., 2024 ) all follow similar techniques."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Gemma 3 models follow the same general decoder-only transformer architecture as previous iterations (Vaswani et al., 2017), with most architecture elements similar to the first two Gemma versions. We alternate between a local sliding window self-attention (Beltagy et al., 2020) and global self-attention (Luong et al., 2015), with a pattern of 5 local layers for every global layer, starting with a local layer as the first layer of the model."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Model   Vision Encoder   Embedding Parameters   Non-embedding Parameters   4B   417M   675M   3,209M"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The pre-training optimization recipe is similar to Gemma 2, with some modifications in the architecture design. We use the same tokenizer as Gemini 2.0, and we also revisit our data mixture to improve the multilingual capabilities of the models, while introducing image understanding."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "All Gemma 3 models share the same tokenizer, with some control tokens dedicated to IT formatting."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Shards  Model  Type  #Chips  Data  Seq.  Replica  ... 4B  TPUv5e  2048  16  16  8"
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Shards  Model  Type  #Chips  Data  Seq.  Replica  …  4B  TPUv5e  2048  16  16  8"
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/Measure - Case study: Evaluating Gemma, a family of open models]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "All Gemma 3 models are trained with knowledge distillation (Hinton et al., 2015)."
+    }
+  ]
+}

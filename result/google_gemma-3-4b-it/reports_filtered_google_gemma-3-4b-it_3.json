@@ -1,0 +1,121 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The quotes indicate that Gemma 3-4B is part of a wider Gemma 3 family of lightweight, open models that inherit research and technology from the Gemini models. During pre-training, the developers invested heavily in data safety: automated techniques were applied to filter personal and other sensitive information, and considerable safety filtering of the pre-training corpus was performed to curb the likelihood of harmful outputs.   \nGemma 3 models—including the 4 B parameter size—are trained on substantially larger corpora than their Gemma 2 predecessors. Specifically, the team reports a token budget of 4 T tokens for the 4 B model (with 14 T, 12 T and 2 T for the 27 B, 12 B and 1 B sizes, respectively). All Gemma 3 checkpoints are distilled with knowledge-distillation techniques and optimized with a recipe that is largely inherited from Gemma 2 but incorporates architectural modifications.  \nFunctionally, Gemma 3 is designed to handle a wider range of languages and to tackle both visual and textual tasks. The project builds on the broader research trend of “stitching” a pretrained visual encoder to a pretrained language model, following lines of work such as PaLI, BLIP, LLaVA, OpenFlamingo and PaLIGemma. Although raw benchmark gains over Gemma 2 are modest (the authors note performance remains “in the same ballpark as Gemma 2”), the focus of this release is the expanded capability set and improved safety profile secured through the above data-filtering and optimization changes.",
+  "3-2 (Fine-tuning)": "Fine-tuning Gemma 3-4B-IT is resource intensive: memory needs rise well above inference-time requirements and depend on the chosen strategy (e.g., LoRA adapters vs. full-precision updates). The team employs a \"novel post-training recipe\" that substantially boosts mathematics, chat, instruction-following and multilingual performance, making Gemma3-4B-IT competitive with the much larger Gemma2-27B-IT. Post-training explicitly targets mathematics, reasoning and chat, while also adapting the model for long-context use and image inputs.  \nAfter fine-tuning, Gemma 3 instruction-tuned checkpoints outperform earlier Gemma generations by a wide margin. Multimodal fine-tuning follows the protocol of Steiner et al. (2024): the only swept hyper-parameter is learning rate, with all other transfer settings held constant. Vision capabilities are evaluated on standard benchmarks using the Gemini 1.5 evaluation protocol, showing strong performance of Gemma 3 IT models.  \nThroughout this stage the developers reinforce earlier data-safety measures; automated filtering of sensitive data is complemented by extensive supervised fine-tuning (SFT) and reinforcement learning from human feedback (RLHF) aimed at aligning behavior with Google safety policies.",
+  "3-3 (Reinforcement Learning)": "Reinforcement learning from human feedback (RLHF) plays a central role in aligning Gemma 3-4B-IT. Following the earlier automated data filtering, the team adds an RLHF phase—alongside supervised fine-tuning—to push the instruction-tuned checkpoints toward responsible behavior that complies with Google’s safety policies. The authors repeatedly emphasize “extensive” RLHF as part of a combined post-training strategy (SFT + RLHF) that steers the model away from undesirable or harmful content and solidifies the safety posture established during pre-training.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 is trained to support a large number of languages compared to previous Gemma versions, letting you take on more visual and text tasks in the languages your customers use."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Subsequently, a large volume of research emerged focusing on the approach of stitching a pretrained visual encoder (usually vision transformer) to a pretrained langauge model. PaLI (Chen et al., 2022 ), BLIP (Li et al., 2023b ), LLaVA (Liu et al., 2024 ), OpenFlamingo (Awadalla et al., 2023 ), PaLIGemma (Beyer* et al., 2024 ) all follow similar techniques."
+    },
+    {
+      "source": "[sections/Case study: Evaluating Gemma, a family of open models]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[sections/2.2 Pre-training – Gemma 3 Technical Report]",
+      "quote": "We pre-train our models on a slightly larger token budget than Gemma 2, i.e., we train on 14T tokens for Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B."
+    },
+    {
+      "source": "[sections/2.2 Pre-training – Gemma 3 Technical Report]",
+      "quote": "All Gemma 3 models are trained with knowledge distillation (Hinton et al., 2015)."
+    },
+    {
+      "source": "[sections/Introduction – Gemma 3 Technical Report]",
+      "quote": "The pre-training optimization recipe is similar to Gemma 2, with some modifications in the architecture design."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We report the performance of our new pre-trained benchmarks compared to previous versions. Overall, our models are in the same ballpark as Gemma 2, which is encouraging since these abilities are not the focus of the improvements brought in this version."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "Our Gemma models are a family of lightweight, state-of-the-art open models built from the same research and technology used to create the Gemini family of models. As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "We pre-train our models on a slightly larger token budget than Gemma 2, i.e., we train on 14T tokens for Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). We undertook considerable safety filtering of our pre-training data to reduce the likelihood of our pre-trained and fine-tuned checkpoints producing harmful content."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Note: Memory requirements for fine-tuning Gemma models are significantly higher than running inference. The requirements depend on the development framework and tuning technique you use, such as Low Rank Adapter (LoRA) versus full-precision tuning."
+    },
+    {
+      "source": "[sections/Case study: Evaluating Gemma, a family of open models]",
+      "quote": "Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[sections/Introduction – Gemma 3 Technical Report]",
+      "quote": "In particular, our novel post-training recipe significantly improves the math, chat, instruction-following and multilingual abilities, making Gemma3-4B-IT competitive with Gemma2-27B-IT and Gemma3-27B-IT comparable to Gemini-1.5-Pro across benchmarks."
+    },
+    {
+      "source": "[sections/Introduction – Gemma 3 Technical Report]",
+      "quote": "In post-training, we focus our efforts on improving mathematics, reasoning, and chat abilities, as well as integrating the new capabilities of Gemma 3, long-context, and image inputs."
+    },
+    {
+      "source": "[sections/3. Instruction-Tuning – Gemma 3 Technical Report]",
+      "quote": "The resulting Gemma 3 instruction-tuned models are both powerful and versatile, outperforming their predecessors by a wide margin."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comparison to PaliGemma 2. We fine-tune multimodal Gemma 3 pre-trained checkpoints following the protocol from Steiner et al. (2024) – only learning rate is swept, otherwise the same transfer settings are used."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 IT models were evaluated on common vision benchmarks following the evaluation protocol of Gemini 1.5 (Gemini Team, 2024)."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma-7B instruction tuned model performs better than LLaMA-13B as well as LLaMA-65B on most tasks."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "In particular, our novel post-training recipe significantly improves the math, chat, instruction-following and multilingual abilities, making Gemma3-4B-IT competitive with Gemma2-27B-IT and Gemma3-27B-IT comparable to Gemini-1.5-Pro across benchmarks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). For fine-tuned models, we also use both SFT and RLHF to steer the model away from undesirable behavior."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/Case study: Evaluating Gemma, a family of open models]",
+      "quote": "Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). For fine-tuned models, we also use both SFT and RLHF to steer the model away from undesirable behavior."
+    }
+  ]
+}

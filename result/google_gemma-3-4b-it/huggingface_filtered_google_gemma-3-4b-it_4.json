@@ -1,0 +1,20 @@
+{
+  "4-1 (Pre-training Data)": "The only explicit statement regarding pre-training data that mentions the target model is: “These models were trained on a dataset of text data that includes a wide variety of sources. The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  For the 4B variant of Gemma this sentence provides two concrete facts: (1) the data set is composed of “a wide variety of sources,” and (2) exactly “4 trillion tokens” were consumed during pre-training.  The same sentence contrasts this with the larger 27 B (14 T tokens), 12 B (12 T tokens), and 1 B (2 T tokens) checkpoints, implying proportional scaling across sizes.  No further breakdown of source domains, licenses, or geographic or linguistic composition is included in the quote.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "These models were trained on a dataset of text data that includes a wide variety of sources. The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "“Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets.”  This sentence supplies the sole detail about filtering for the Gemma family: automated methods were employed to exclude personal or otherwise sensitive content from the training corpus specifically for the pre-trained checkpoints, with the stated objectives of safety and reliability.  The quote does not list the concrete tools, numeric thresholds, or classifier criteria employed, nor does it quantify the amount of data removed.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets."
+    }
+  ]
+}

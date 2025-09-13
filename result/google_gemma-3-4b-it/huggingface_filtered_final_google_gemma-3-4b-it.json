@@ -1,0 +1,129 @@
+{
+  "1-1 (Weights)": "The quotes explicitly mention that the Gemma 3 family (which covers the google/gemma-3-4b-it variant) offers “open weights for both pre-trained variants and instruction-tuned variants,” indicating that all main checkpoints can be downloaded. Access is brokered through Hugging Face: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license… Requests are processed immediately.”  Users must be logged-in and must click through the gated prompt, but once they do so the weights are immediately available. No other download restrictions, mirrors, or tiered availability are described in the provided quotations.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "extra_gated_prompt: To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license. To do this, please ensure you’re logged in to Hugging Face and click below. Requests are processed immediately."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "1-2 (Code)": "Two facts are stated about code. First, “Below, there are some code snippets on how to get quickly started with running the model,” which confirms that example / inference-time snippets are publicly shown. Second, it is said that “Training was done using [JAX][jax] and [ML Pathways][ml-pathways],” which names the internal frameworks used during pre-training or fine-tuning. The quotations do not state that this training code is released; they only reveal the frameworks and that runnable snippets exist for end-users.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Below, there are some code snippets on how to get quickly started with running the model."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Training was done using [JAX][jax] and [ML Pathways][ml-pathways]."
+    }
+  ],
+  "1-3 (License)": "The model is governed by a dedicated “license: gemma” and linked “**Terms of Use**: [Terms][terms].” Access to the weights is explicitly gated by a click-through acceptance: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license.”  These quotes emphasize that usage is conditioned on accepting Google’s own license terms; no further clauses or permissions are provided in the excerpts.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: gemma"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Terms of Use**: [Terms][terms]"
+    },
+    {
+      "source": "[readme]",
+      "quote": "extra_gated_prompt: To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license."
+    }
+  ],
+  "1-4 (Paper)": "Official technical documentation is supplied: “**Resources and Technical Documentation**: *[Gemma 3 Technical Report][g3-tech-report]*.”  A formal citation is also provided: “@article{gemma_2025, title={Gemma 3}, url={https://goo.gle/Gemma3Report}, publisher={Kaggle}, author={Gemma Team}, year={2025}}.”  These references confirm the existence of an authoritative Gemma 3 technical report and furnish its bibliographic details and URL.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Resources and Technical Documentation**:\n\n* [Gemma 3 Technical Report][g3-tech-report]"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{gemma_2025,\n    title={Gemma 3},\n    url={https://goo.gle/Gemma3Report},\n    publisher={Kaggle},\n    author={Gemma Team},\n    year={2025}\n}"
+    }
+  ],
+  "1-5 (Architecture)": "For the target google/gemma-3-4b-it model, the available statements highlight several architectural characteristics. First, it is explicitly stated that “Gemma 3 has a large, 128K context window, multilingual support in over 140 languages, and is available in more sizes than previous versions.”  A follow-on sentence makes the 4 B variant’s context window explicit: “Total input context of 128K tokens for the 4B, 12B, and 27B sizes, and 32K tokens for the 1B size.”  Finally, training-corpus scale is broken down by size: “the 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  Taken together, these quotes tell us that the 4 B member of the Gemma 3 family (the focus of this summary) supports the same 128 K-token context window as the larger 12 B and 27 B siblings, provides multilingual capability across more than 140 languages, and was exposed to 4 T tokens during pre-training—numbers that situate it midway between the 1 B and 12 B models in both size and data volume. Although layer counts, parameter breakdowns, or other hyperparameters are not enumerated in the supplied text, the quoted material firmly establishes the key high-level design points (context size, multilingual reach, and training-data scale) for Gemma-3-4B-it.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 has a large, 128K context window, multilingual support in over\n140 languages, and is available in more sizes than previous versions."
+    },
+    {
+      "source": "[readme]",
+      "quote": "-  Total input context of 128K tokens for the 4B, 12B, and 27B sizes, and\n       32K tokens for the 1B size"
+    },
+    {
+      "source": "[readme]",
+      "quote": "the 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "The only hardware information supplied for the Gemma family, and therefore for the Gemma-3-4B-it model, is the single sentence: “Gemma was trained using Tensor Processing Unit (TPU) hardware (TPUv4p, TPUv5p and TPUv5e).”  This indicates that training relied on Google’s in-house TPU accelerators and involved at least three successive hardware generations—v4p, v5p, and v5e—demonstrating a TPU-centric compute strategy across the model’s development lifecycle. No additional details on exact pod sizes, node counts, or overall FLOP budgets appear in the provided material.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p,\nTPUv5p and TPUv5e)."
+    }
+  ],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The only direct piece of information about an API for the google/gemma-3-4b-it family is the instruction: “First, install the Transformers library. Gemma 3 is supported starting from transformers 4.50.0.”  From this we can infer that interaction with Gemma-3-4b through an external interface is expected to occur via the Hugging Face Transformers ecosystem, and that proper functionality begins with version 4.50.0.  No further details on endpoints, rate limits, authentication, hosted services, or public release schedules are given in the quoted material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "First, install the Transformers library. Gemma 3 is supported starting from transformers 4.50.0."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training information for Gemma-3-4b is contained in three sentences.  First, a breakdown of token counts for each size tier states: “The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  This explicitly identifies that the 4 billion-parameter Gemma variant used 4 trillion tokens during pre-training.  Second, the hardware context is provided: “Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p, TPUv5p and TPUv5e).”  Although it does not separate which size used which generation of TPU, it confirms that Gemma-3-4b employed Google’s TPUv4p, TPUv5p, or TPUv5e accelerators for large-scale training.  Third, data-sanitization measures are summarized: “Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets.”  Collectively, these facts outline the scale of the dataset (4 trillion tokens for the 4 B model), the hardware class used (TPU v4p/v5p/v5e), and a safety step (automated filtering for personal or sensitive content) employed during pre-training.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p, TPUv5p and TPUv5e)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Only one fine-tuning detail is supplied: “Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants.”  This indicates that Gemma-3-4b is offered not only as a raw pre-trained checkpoint but also as an instruction-tuned model; both weight sets are openly released.  The model’s fine-tuning objective emphasizes multimodality (text-and-image in, text out).  No additional pipeline specifics (data sources, hyperparameters, epochs, or adaptation methods) are provided in the quoted material.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The only explicit statement regarding pre-training data that mentions the target model is: “These models were trained on a dataset of text data that includes a wide variety of sources. The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  For the 4B variant of Gemma this sentence provides two concrete facts: (1) the data set is composed of “a wide variety of sources,” and (2) exactly “4 trillion tokens” were consumed during pre-training.  The same sentence contrasts this with the larger 27 B (14 T tokens), 12 B (12 T tokens), and 1 B (2 T tokens) checkpoints, implying proportional scaling across sizes.  No further breakdown of source domains, licenses, or geographic or linguistic composition is included in the quote.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "These models were trained on a dataset of text data that includes a wide variety of sources. The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "“Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets.”  This sentence supplies the sole detail about filtering for the Gemma family: automated methods were employed to exclude personal or otherwise sensitive content from the training corpus specifically for the pre-trained checkpoints, with the stated objectives of safety and reliability.  The quote does not list the concrete tools, numeric thresholds, or classifier criteria employed, nor does it quantify the amount of data removed.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "unknown"
+  }
+}

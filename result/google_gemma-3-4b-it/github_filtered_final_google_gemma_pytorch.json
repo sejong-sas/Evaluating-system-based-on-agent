@@ -1,0 +1,166 @@
+{
+  "1-1 (Weights)": "• Availability and hosting locations are explicitly stated: “* [March 12th, 2025 🔥] Support Gemma v3. You can find the checkpoints [on Kaggle](https://www.kaggle.com/models/google/gemma-3/pytorch) and [Hugging Face](https://huggingface.co/models?other=gemma_torch)”.  \n• A second line reiterates the Hugging Face option: “Alternatively, you can find the model checkpoints on the Hugging Face Hub [here](https://huggingface.co/models?other=gemma_torch).”  \n• The files are native PyTorch checkpoints, as shown by code snippets that load them with PyTorch classes: “model = gemma_model.GemmaForCausalLM(model_config)” and “model = GemmaForCausalLM(model_config, world_size, rank, device)”.  \nTaken together, these quotes confirm that the Gemma weights are (a) publicly downloadable, (b) mirrored on both Kaggle and the Hugging Face Hub, and (c) supplied in a format directly consumable by the PyTorch implementation.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* [March 12th, 2025 🔥] Support Gemma v3. You can find the checkpoints [on Kaggle](https://www.kaggle.com/models/google/gemma-3/pytorch) and [Hugging Face](https://huggingface.co/models?other=gemma_torch)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Alternatively, you can find the model checkpoints on the Hugging Face Hub [here](https://huggingface.co/models?other=gemma_torch)."
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "model = gemma_model.GemmaForCausalLM(model_config)"
+    },
+    {
+      "source": "[py_files/scripts/run_xla.py]",
+      "quote": "model = GemmaForCausalLM(model_config, world_size, rank, device)"
+    }
+  ],
+  "1-2 (Code)": "• The repository declares, “This is the official PyTorch implementation of Gemma models.”  \n• Scope of what is published: “We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU.”  \n• Multiple doc-strings highlight that the released source focuses on inference, not training: “\"\"\"Inference-only Gemma model implementation.\"\"\"”, “\"\"\"Inference-only Gemma 3 multimodal model implementation.\"\"\"”.  \nHence, the public codebase covers the full PyTorch inference pipeline (with CPU/GPU/TPU back-ends and a PyTorch/XLA variant) but does not expose training scripts, data-prep, schedules, or RL fine-tuning routines.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This is the official PyTorch implementation of Gemma models."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU."
+    },
+    {
+      "source": "[py_files/gemma/gemma3_model.py]",
+      "quote": "\"\"\"Inference-only Gemma 3 multimodal model implementation.\"\"\""
+    },
+    {
+      "source": "[py_files/gemma/model.py]",
+      "quote": "\"\"\"Inference-only Gemma model implementation.\"\"\""
+    },
+    {
+      "source": "py_files/gemma/model_xla.py",
+      "quote": "\"\"\"Inference-only Gemma model implementation.\"\"\""
+    }
+  ],
+  "1-3 (License)": "The project is released under the Apache License 2.0.  Direct excerpts include:  \n• “Apache License\\n                           Version 2.0, January 2004”  \n• The grant of rights is spelled out verbatim: “Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.”  \n• Source files reiterate the same terms: “# Licensed under the Apache License, Version 2.0 (the \\\"License\\\");”, “#     http://www.apache.org/licenses/LICENSE-2.0”, “# you may not use this file except in compliance with the License.”  \nTherefore, users are granted broad rights—including commercial use, modification, and redistribution—so long as they comply with Apache-2.0 conditions (e.g., including NOTICE files and disclaimers).",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Apache License\n                           Version 2.0, January 2004"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form."
+    },
+    {
+      "source": "py_files/gemma/model_xla.py",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "py_files/gemma/model_xla.py",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "1-4 (Paper)": "Reference material is aggregated through several official links:  \n• “* [Gemma on Google AI](https://ai.google.dev/gemma)”  \n• “* [Gemma on Kaggle](https://www.kaggle.com/models/google/gemma-3)”  \n• “* [Gemma on Vertex AI Model Garden](https://pantheon.corp.google.com/vertex-ai/publishers/google/model-garden/gemma3)”  \n• Blog-style technical overview: “# https://developers.googleblog.com/en/gemma-explained-paligemma-architecture/”.  \nThese citations indicate that the Gemma family is documented through an official Google AI page, a Kaggle model card, a Vertex AI Model Garden entry, and a Google Developers blog post explaining the Paligemma architecture; together they serve the role of papers or technical reports for the model.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* [Gemma on Google AI](https://ai.google.dev/gemma)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "* [Gemma on Kaggle](https://www.kaggle.com/models/google/gemma-3)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "* [Gemma on Vertex AI Model Garden](https://pantheon.corp.google.com/vertex-ai/publishers/google/model-garden/gemma3)"
+    },
+    {
+      "source": "py_files/gemma/siglip_vision/config.py",
+      "quote": "# https://developers.googleblog.com/en/gemma-explained-paligemma-architecture/"
+    }
+  ],
+  "1-5 (Architecture)": "Relevant architecture-related excerpts:\n- \"class GemmaConfig:\"\n- \"```\"\"\"Inference-only Gemma model implementation.\"\"\"```\"\n- \"```if config.architecture == gemma_config.Architecture.GEMMA_1:```\"\n- \"model = gemma_model.GemmaForCausalLM(model_config)\"",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/gemma/config.py]",
+      "quote": "class GemmaConfig:"
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```\"\"\"Inference-only Gemma model implementation.\"\"\"```"
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```if config.architecture == gemma_config.Architecture.GEMMA_1:```"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "model = gemma_model.GemmaForCausalLM(model_config)"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer-specific passages:\n- \"\"\"\n        Converts a preprocessed batch of interleaved text and image inputs into\n        token IDs and an image batch suitable for gemma3 model.\n\"\"\"\n- \"from gemma.tokenizer import Tokenizer\"",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/gemma/gemma3_preprocessor.py]",
+      "quote": "\"\"\"\n        Converts a preprocessed batch of interleaved text and image inputs into\n        token IDs and an image batch suitable for gemma3 model.\n\"\"\""
+    },
+    {
+      "source": "[py_files/scripts/run_xla.py]",
+      "quote": "from gemma.tokenizer import Tokenizer"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Software stack references:\n- \"This is the official PyTorch implementation of Gemma models. We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU.\"\n- \"```from google3.third_party.open_models_release.gemma_pytorch.gemma.xla_model_parallel import (```\"\n- \"# python scripts/run.py --device=cpu --ckpt=/path/to/your/pytorch_checkpoint/model.ckpt --output_len=2 --prompt=\\\"The name of the capital of Italy is\\\"\"",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This is the official PyTorch implementation of Gemma models. We provide model and inference implementations using both PyTorch and PyTorch/XLA, and support running inference on CPU, GPU and TPU."
+    },
+    {
+      "source": "[py_files/gemma/model_xla.py]",
+      "quote": "```from google3.third_party.open_models_release.gemma_pytorch.gemma.xla_model_parallel import (```"
+    },
+    {
+      "source": "[py_files/scripts/run.py]",
+      "quote": "# python scripts/run.py --device=cpu --ckpt=/path/to/your/pytorch_checkpoint/model.ckpt --output_len=2 --prompt=\"The name of the capital of Italy is\""
+    }
+  ],
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The documentation exposes a function that explicitly \"Returns the model config for the vision model of Gemma 3 andPaliGemma.\"  This quote confirms that, within the google/gemma_pytorch codebase, there is a dedicated routine for fetching the configuration parameters required by the vision-capable Gemma 3 model (and the related PaliGemma variant), indicating a configuration-retrieval step integral to the model’s pre-training or initialisation workflow.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/gemma/siglip_vision/config.py]",
+      "quote": "\"\"\"Returns the model config for the vision model of Gemma 3 andPaliGemma.\"\"\""
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

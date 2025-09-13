@@ -1,0 +1,73 @@
+{
+  "1-5 (Architecture)": "The Gemma 3 technical report describes a family of multimodal, decoder-only Transformer models that span 1 B–27 B parameters, with a dedicated 4 B checkpoint that is instruction-tuned (gemma-3-4b-it).  Gemma 3 keeps the same overall architecture as earlier Gemma releases but makes several explicit design choices:\n• Core backbone – “Gemma 3 models follow the same general decoder-only transformer architecture as previous iterations.”  The implementation uses Grouped-Query Attention (GQA) together with both post-norm and pre-norm variants of RMSNorm.\n• Parameter scale – Table 1 lists parameter counts for every size and uses a vocabulary of 256 k tokens.  The 4 B variant therefore inherits this 256 k-entry vocabulary.\n• Vision pathway – “For simplicity, we share the vision encoder across our 4B, 12B and 27B models, keeping it frozen during training.”  Because of an average-pooling stage in that encoder, the 4 B and 12 B checkpoints are “about 10× cheaper to transfer” than the older PaliGemma-2 9 B and 27 B models at 896×896 resolution.\n• Context length – “Gemma 3 models support context length of 128 K tokens,” with only the 1 B model as an exception.  Thus the 4 B instruction-tuned model can also handle 128 K-token inputs.\n• Comparative performance – While the table compares several open models, the report notes that a Gemma-7B instruction-tuned model outperforms LLaMA-13B and LLaMA-65B on most tasks, underscoring the efficiency of the same architectural foundations used in the 4 B model.\nIn summary, gemma-3-4b-it is a 4 B-parameter, decoder-only Transformer that employs GQA with RMSNorm, a frozen shared vision encoder, a 256 k-token vocabulary, and a 128 K token context window, achieving highly competitive quality-to-size efficiency within the Gemma family.",
+  "1-6 (Tokenizer)": "The report states, “We use the same tokenizer as Gemini 2.0,” meaning Gemma 3 (including the 4 B instruction-tuned checkpoint) does not introduce a new tokenizer but re-uses the one shipped with prior Gemma/Gemini releases.  Table 4, titled “Formatting for Gemma IT models,” instructs users to “explicitly add the [BOS] token after tokenization, or use the add_bos=True option in the tokenizer.”  Beyond this requirement to prepend a beginning-of-sequence symbol, no additional tokenizer modifications or alternate vocabularies are mentioned in the provided excerpts.",
+  "2-1 (Hardware)": "A resource table lists the training setup for the 4 B model as: “4B TPUv5e 2048 16 16 8.”  This explicitly confirms that gemma-3-4b-it was trained on TPUv5e hardware and that a total of 2 048 TPUv5e devices (or cores/chips) were allocated.  Three further numeric columns (16, 16, 8) are shown but not explained in the excerpt; they likely encode additional parallelism or batch-size settings, yet the provided text gives no interpretation.  No GPUs or other accelerator types are cited for the 4 B training run.",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/Experiments]",
+      "quote": "We included open models, namely the latest versions of Gemma,3 Mistral,4 Qwen5, and Olmo,6, all in sizes of between 7 and 9 billion parameters that underwent instruction tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma-7B instruction tuned model performs better than LLaMA-13B as well as LLaMA-65B on most tasks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2025-03-12 Gemma 3 Technical Report\nGemma Team, Google DeepMind1\nWe introduce Gemma 3, a multimodal addition to the Gemma family of lightweight open models, ranging in scale from 1 to 27 billion parameters."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "Gemma 3 models follow the same general decoder-only transformer architecture as previous iterations (Vaswani et al., 2017), with most architecture elements similar to the first two Gemma versions."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "For simplicity, we share the vision encoder across our 4B, 12B, and 27B models, keeping it frozen during training."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "Long context. Gemma 3 models support context length of 128K tokens, with the exception of the 1B model that has 32K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Note that due to average pooling in the vision en- coder the Gemma 3 4B and 12B models are about 10x cheaper to transfer compared with the PaliGemma 2 9B and 27B models at the same 896 x 896 resolution."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Gemma 3 models follow the same general decoder-only transformer architecture as previous iterations (Vaswani et al., 2017), with most architecture elements similar to the first two Gemma versions. We use a Grouped-Query Attention (GQA) (Ainslie et al., 2023) with post-norm and pre-norm with RMSNorm (Zhang and Sennrich, 2019)."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Long context. Gemma 3 models support context length of 128K tokens, with the exception of the 1B model that has 32K."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Table 1 | Parameter counts for the Gemma 3 models. Our vocabulary has 256k entries."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The results in Table 12 show that Gemma 3 excels at benchmarks involving document understanding, even outperforming the larger PaliGemma 2 variant. Note that due to average pooling in the vision encoder the Gemma 3 4B and 12B models are about 10x cheaper to transfer compared with the PaliGemma 2 9B and 27B models at the same 896 x 896 resolution."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "The pre-training optimization recipe is similar to Gemma 2, with some modifications in the architecture design. We use the same tokenizer as Gemini 2.0, and we also revisit our data mixture to improve the multilingual capabilities of the models, while introducing image understanding."
+    },
+    {
+      "source": "[sections/Formatting/Table 4]",
+      "quote": "Table 4 | Formatting for Gemma IT models. Explicitly add the [BOS] token after tokenization, or use the add_bos=True option in the tokenizer."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "The pre-training optimization recipe is similar to Gemma 2, with some modifications in the architecture design. We use the same tokenizer as Gemini 2.0, and we also revisit our data mixture to improve the multilingual capabilities of the models, while introducing image understanding."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/Compute Infrastructure/Table 2]",
+      "quote": "4B\tTPUv5e\t2048\t16\t16\t8"
+    }
+  ],
+  "2-2 (Software)__evidence": []
+}

@@ -1,0 +1,15 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The documentation exposes a function that explicitly \"Returns the model config for the vision model of Gemma 3 andPaliGemma.\"  This quote confirms that, within the google/gemma_pytorch codebase, there is a dedicated routine for fetching the configuration parameters required by the vision-capable Gemma 3 model (and the related PaliGemma variant), indicating a configuration-retrieval step integral to the model’s pre-training or initialisation workflow.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/gemma/siglip_vision/config.py]",
+      "quote": "\"\"\"Returns the model config for the vision model of Gemma 3 andPaliGemma.\"\"\""
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

@@ -1,0 +1,33 @@
+{
+  "2-3 (API)": "The only direct piece of information about an API for the google/gemma-3-4b-it family is the instruction: “First, install the Transformers library. Gemma 3 is supported starting from transformers 4.50.0.”  From this we can infer that interaction with Gemma-3-4b through an external interface is expected to occur via the Hugging Face Transformers ecosystem, and that proper functionality begins with version 4.50.0.  No further details on endpoints, rate limits, authentication, hosted services, or public release schedules are given in the quoted material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "First, install the Transformers library. Gemma 3 is supported starting from transformers 4.50.0."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training information for Gemma-3-4b is contained in three sentences.  First, a breakdown of token counts for each size tier states: “The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  This explicitly identifies that the 4 billion-parameter Gemma variant used 4 trillion tokens during pre-training.  Second, the hardware context is provided: “Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p, TPUv5p and TPUv5e).”  Although it does not separate which size used which generation of TPU, it confirms that Gemma-3-4b employed Google’s TPUv4p, TPUv5p, or TPUv5e accelerators for large-scale training.  Third, data-sanitization measures are summarized: “Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets.”  Collectively, these facts outline the scale of the dataset (4 trillion tokens for the 4 B model), the hardware class used (TPU v4p/v5p/v5e), and a safety step (automated filtering for personal or sensitive content) employed during pre-training.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p, TPUv5p and TPUv5e)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Sensitive Data Filtering: As part of making Gemma pre-trained models safe and reliable, automated techniques were used to filter out certain personal information and other sensitive data from training sets."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Only one fine-tuning detail is supplied: “Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants.”  This indicates that Gemma-3-4b is offered not only as a raw pre-trained checkpoint but also as an instruction-tuned model; both weight sets are openly released.  The model’s fine-tuning objective emphasizes multimodality (text-and-image in, text out).  No additional pipeline specifics (data sources, hyperparameters, epochs, or adaptation methods) are provided in the quoted material.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

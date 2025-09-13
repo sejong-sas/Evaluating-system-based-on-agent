@@ -1,0 +1,50 @@
+{
+  "1-1 (Weights)": "The quotes explicitly mention that the Gemma 3 family (which covers the google/gemma-3-4b-it variant) offers “open weights for both pre-trained variants and instruction-tuned variants,” indicating that all main checkpoints can be downloaded. Access is brokered through Hugging Face: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license… Requests are processed immediately.”  Users must be logged-in and must click through the gated prompt, but once they do so the weights are immediately available. No other download restrictions, mirrors, or tiered availability are described in the provided quotations.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "extra_gated_prompt: To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license. To do this, please ensure you’re logged in to Hugging Face and click below. Requests are processed immediately."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 models are multimodal, handling text and image input and generating text output, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "1-2 (Code)": "Two facts are stated about code. First, “Below, there are some code snippets on how to get quickly started with running the model,” which confirms that example / inference-time snippets are publicly shown. Second, it is said that “Training was done using [JAX][jax] and [ML Pathways][ml-pathways],” which names the internal frameworks used during pre-training or fine-tuning. The quotations do not state that this training code is released; they only reveal the frameworks and that runnable snippets exist for end-users.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Below, there are some code snippets on how to get quickly started with running the model."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Training was done using [JAX][jax] and [ML Pathways][ml-pathways]."
+    }
+  ],
+  "1-3 (License)": "The model is governed by a dedicated “license: gemma” and linked “**Terms of Use**: [Terms][terms].” Access to the weights is explicitly gated by a click-through acceptance: “To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license.”  These quotes emphasize that usage is conditioned on accepting Google’s own license terms; no further clauses or permissions are provided in the excerpts.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: gemma"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Terms of Use**: [Terms][terms]"
+    },
+    {
+      "source": "[readme]",
+      "quote": "extra_gated_prompt: To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license."
+    }
+  ],
+  "1-4 (Paper)": "Official technical documentation is supplied: “**Resources and Technical Documentation**: *[Gemma 3 Technical Report][g3-tech-report]*.”  A formal citation is also provided: “@article{gemma_2025, title={Gemma 3}, url={https://goo.gle/Gemma3Report}, publisher={Kaggle}, author={Gemma Team}, year={2025}}.”  These references confirm the existence of an authoritative Gemma 3 technical report and furnish its bibliographic details and URL.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Resources and Technical Documentation**:\n\n* [Gemma 3 Technical Report][g3-tech-report]"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{gemma_2025,\n    title={Gemma 3},\n    url={https://goo.gle/Gemma3Report},\n    publisher={Kaggle},\n    author={Gemma Team},\n    year={2025}\n}"
+    }
+  ]
+}

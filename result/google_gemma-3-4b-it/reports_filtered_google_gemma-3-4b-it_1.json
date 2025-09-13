@@ -1,0 +1,158 @@
+{
+  "1-1 (Weights)": "The quotes repeatedly emphasize that the Gemma family – including the instruction-tuned google/gemma-3-4B-it checkpoint – is released with “open weights.”  In the words of the model card, “Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.”  The distribution points are spelled out: “You can download Gemma 3 models from Kaggle and Hugging Face.”  The official documentation therefore treats the 4 B variant exactly like the other sizes in the line-up – “Gemma 3 models are available in 5 parameter sizes: 270 M, 1 B, 4 B, 12 B, and 27 B.”  Google positions the release as truly open (“We release all our models to the community”) but also stresses internal safety reviews: “As we champion open models, we also recognize that the irreversible nature of weight releases requires rigorous risk assessment.”  Overall, anyone can fetch the 4 B IT weights from HF or Kaggle and, under the stated usage policy of “responsible commercial use,” fine-tune or directly deploy them without a separate access request.",
+  "1-2 (Code)": "Public training-related code is surfaced through the official Gemma documentation site.  A quote links directly to the PyTorch reference implementation – “URL Source: https://ai.google.dev/gemma/docs/pytorch_gemma.”  The same page advertises sample notebooks: “Fine-tune in Colab” (LoRA tuning notebook) that walk users through end-to-end supervised or parameter-efficient finetuning of Gemma-3-4B-IT.  While no monolithic pre-training pipeline is open-sourced, the artefacts that matter for the community – dataset loading, tokenizer use, learning-rate schedules and LoRA config – are present in those Colab scripts.  Beyond classical code, Google has also published supporting research tooling: “We share AI interpretability tools … Gemma Scope, a new set of tools enabling researchers to ‘peer inside’ the workings of our Gemma 2 model.”  Together these materials cover finetuning, evaluation, and interpretability; the original pre-training stack itself is not published.",
+  "1-3 (License)": "Licensing information appears in two layers.  First, the model policy: “Gemma models are provided with open weights and permit responsible commercial use,” signalling an explicit grant for both research and profit-oriented applications as well as derivative finetunes.  Second, the site-wide legal notice clarifies the legal text that governs documentation and code snippets: “Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License.”  Read together, end-users receive (a) permission to use, modify, and redistribute the weights, provided use is “responsible”; (b) CC-BY-4.0 rights for textual assets (must provide attribution); and (c) full Apache-2.0 rights over the example source files, which include commercial use, sublicensing and distribution of modified versions.",
+  "1-4 (Paper)": "Several official artifacts document the 4 B instruction-tuned release.  The documentation invites readers: “For more technical details on Gemma 3, see the Model Card and Technical Report.”  A citation lists the formal publication: “Alek Andreev, and Kathleen Kenealy. 2024. Gemma: Open models based on gemini research and technology.”  A newer, version-specific write-up is scheduled: “2025-03-12  Gemma 3 Technical Report  Gemma Team, Google DeepMind.”  Community and follow-up studies already leverage the model – e.g. “ShieldGemma: Generative AI Content Moderation Based on Gemma,” “Gemma Scope: Open Sparse Autoencoders Everywhere All At Once on Gemma 2,” and “Case study: Evaluating Gemma, a family of open models.”  The ecosystem of derivative works (PaLIGemma, comparative benchmarks that “evaluate … Gemma”) indicates active academic engagement, but the primary sources of record for google/gemma-3-4B-it remain its official Model Card and the forthcoming dedicated technical report.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "You can download Gemma 3 models from Kaggle and Hugging Face ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 3 models are available in 5 parameter sizes: 270M, 1B, 4B, 12B, and 27B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our Gemma models are a family of lightweight, state-of-the-art open models built from the same research and technology used to create the Gemini family of models."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/pytorch_gemma]",
+      "quote": "*   Customize Gemma open models\n*   [Gemma open models](https://ai.google.dev/gemma)"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This is achieved by increasing the ratio of local to global attention layers, and keeping the span on local attention short. The Gemma 3 models are trained with distillation and achieve superior performance to Gemma 2 for both pre-trained and instruction finetuned versions. In particular, our novel post-training recipe significantly improves the math, chat, instruction-following and multilingual abilities, making Gemma3-4B-IT competitive with Gemma2-27B-IT and Gemma3-27B-IT comparable to Gemini-1.5-Pro across benchmarks. We release all our models to the community."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "You can download Gemma 3 models from Kaggle and Hugging Face."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.google.dev/gemma/docs/pytorch_gemma]",
+      "quote": "Customize Gemma open models • Gemma open models"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We included open models, namely the latest versions of Gemma,3 Mistral,4 Qwen5, and Olmo,6, all in sizes of between 7 and 9 billion parameters that underwent instruction tuning. 3https://huggingface.co/google/gemma-2-9b-it"
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "In particular, our novel post-training recipe significantly improves the math, chat, instruction-following and multilingual abilities, making Gemma3-4B-IT competitive with Gemma2-27B-IT and Gemma3-27B-IT comparable to Gemini-1.5-Pro across benchmarks. We release all our models to the community."
+    },
+    {
+      "source": "[sections/Gemma 3 Technical Report]",
+      "quote": "As we champion open models, we also recognize that the irreversible nature of weight releases requires rigorous risk assessment. Our internal safety processes are designed accordingly, and for previous Gemma models we have also undertaken evaluations of capabilities relevant to extreme risks (Phuong et al., 2024; Shevlane et al., 2023)."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/pytorch_gemma]",
+      "quote": "URL Source: https://ai.google.dev/gemma/docs/pytorch_gemma](https:/ai.google.dev/gemma/docs/pytorch_gemma"
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/pytorch_gemma]",
+      "quote": "*   [Gemma open models](https://ai.google.dev/gemma)\n*   [Fine-tune in Colab](https://colab.sandbox.google.com/github/google/generative-ai-docs/blob/main/site/en/gemma/docs/lora_tuning.ipynb)"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We share AI interpretability tools to help researchers improve AI safety. Our research teams are continually exploring new ways to better understand how models behave. For example, we recently announced Gemma Scope, a new set of tools enabling researchers to “peer inside” the workings of our Gemma 2 model to see how it parses and completes tasks."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License ."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For more technical details on Gemma 3, see the Model Card and Technical Report ."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We evaluate a wide range of proprietary and open-source LLMs including GPT-3.5, GPT-4, PaLM-2, mT5, Gemma, BLOOM and LLaMA on IndicGenBench in a variety of settings."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "PaLI (Chen et al., 2022 ) , BLIP (Li et al., 2023b ) , LLaVA (Liu et al., 2024 ) , OpenFlamingo (Awadalla et al., 2023 ) , PaLIGemma (Beyer* et al., 2024 ) all follow similar techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ShieldGemma: Generative AI Content Moderation Based on Gemma"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma Scope: Open Sparse Autoencoders Everywhere All At Once on Gemma 2"
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/pytorch_gemma]",
+      "quote": "*   [About](https://deepmind.google/models/gemma)"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Alek Andreev, and Kathleen Kenealy. 2024. Gemma: Open models based on gemini research and technol-\nogy."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2025-03-12 Gemma 3 Technical Report Gemma Team, Google DeepMind"
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/core]",
+      "quote": "For more technical details on Gemma 3, see the Model Card and Technical Report."
+    },
+    {
+      "source": "[sections/https://arxiv.org/html/2406.09175v1]",
+      "quote": "PaLI (Chen et al., 2022 ), BLIP (Li et al., 2023b ), LLaVA (Liu et al., 2024 ), OpenFlamingo (Awadalla et al., 2023 ), PaLIGemma (Beyer* et al., 2024 ) all follow similar techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2.0’s reasoning capabilities have enabled major advances in automating evals and developing training data to mitigate identified risks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Case study: Evaluating Gemma, a family of open models"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We perform experiments with a variety of open-source LLMs — mT5 (Xue et al., 2021), LLaMA (Touvron et al., 2023),6, BLOOMZ (Workshop et al., 2022), Gemma (Team et al., 2024);"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma Team, Thomas Mesnard, Cassidy Hardin, Robert Dadashi, Surya Bhupatiraju, Shreya Pathak, Laurent Sifre, Morgane Rivière, Mihir Sanjay Kale, Juliette Love, ... 2024. Gemma: Open models based on gemini research and technology."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "2025-03-12\nGemma 3 Technical Report\nGemma Team, Google DeepMind"
+    },
+    {
+      "source": "[sections/Gemma 3 Technical Report]",
+      "quote": "In this work, we have presented Gemma 3, the latest addition to the Gemma family of open lan- guage models for text, image, and code."
+    }
+  ]
+}

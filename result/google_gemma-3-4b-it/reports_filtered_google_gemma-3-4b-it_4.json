@@ -1,0 +1,86 @@
+{
+  "4-1 (Pre-training Data)": "For the google/gemma-3-4b-it model, pre-training relies on a 4 trillion-token corpus (\"4T for the 4B\") that mixes both images and text. This represents a \"slightly larger token budget\" than earlier Gemma generations and is part of a schedule that also lists 14 T for Gemma 3 27B, 12 T for 12B and 2 T for 1B, but the figure that matters for the 4-B variant is the 4 T-token allocation. Throughout this stage, the team applied \"automated techniques to filter out certain personal information and other sensitive data from training sets,\" signalling an early privacy- and safety-oriented pass over the raw data before model weights were learned.",
+  "4-2 (Fine-tuning Data)": "During post-training of google/gemma-3-4b-it, the authors performed \"extensive fine-tuning and reinforcement learning from human feedback\" to align the instruction-tuned model with responsible behaviour. They \"carefully optimize the data used in post-training to maximize model performance\" and explicitly \"filter examples that show certain personal information, unsafe or toxic model outputs, mistaken self-identification data, and duplicated examples.\" Thus, the fine-tuning phase combines curated human-labelled examples with multiple layers of safety-driven filtering before being presented to the model.",
+  "4-3 (Reinforcement Learning Data)": "For RLHF on google/gemma-3-4b-it, the project employs \"a variety of reward functions\" aimed at boosting helpfulness, math, coding, reasoning, instruction-following, and multilingual ability while \"minimizing model harmfulness.\" Reward signals come from \"weight-averaged reward models trained with human feedback data,\" supplemented by \"code-execution feedback\" and \"ground-truth rewards for solving math problems.\" These datasets are therefore a blend of annotated human preference data, programmatic correctness checks, and objective mathematical ground truths, all of which are curated to serve the alignment objectives.",
+  "4-4 (Data Filtering)": "Data cleaning for google/gemma-3-4b-it is multi-stage. In the pre-training phase, the team \"used automated techniques to filter out certain personal information and other sensitive data\" at scale. In post-training, a dedicated \"Data filtering\" pass further \"optimizes the data\" by excising \"examples that show certain personal information, unsafe or toxic model outputs, mistaken self-identification data, and duplicated examples.\" To support developers after release, Google also \"released ShieldGemma — a series of state-of-the-art safety classifiers\" that can be applied to detect and mitigate harmful content at inference time, providing an additional, deploy-time safeguard beyond the training-time filters.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[sections/Manage Case study: Evaluating Gemma]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train our models on a slightly larger token budget than Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Training data. We pre-train our models on a slightly larger token budget than Gemma 2, i.e., we train on 14T tokens for Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B. The increase in tokens accounts for the mix of images and text used during pre-training."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/Manage Case study: Evaluating Gemma]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The resulting Gemma 3 instruction-tuned models are both powerful and versatile, outperforming their predecessors by a wide margin. Data filtering. We carefully optimize the data used in post-training to maximize model performance; we filter examples that show certain personal information, unsafe or toxic model outputs, mistaken self-identification data, and duplicated examples."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/Manage Case study: Evaluating Gemma]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The resulting Gemma 3 instruction-tuned models are both powerful and versatile, outperforming their predecessors by a wide margin. Reinforcement learning objectives. We use a variety of reward functions to improve helpfulness, math, coding, reasoning, instruction-following, and multilingual abilities, while minimizing model harmfulness; this includes learning from weight-averaged reward models trained with human feedback data, code-execution feedback, and ground-truth rewards for solving math problems."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets. Additionally, we used extensive fine-tuning and reinforcement learning from human feedback to align our instruction-tuned models with responsible behaviors."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Manage Case study: Evaluating Gemma]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The resulting Gemma 3 instruction-tuned models are both powerful and versatile, outperforming their predecessors by a wide margin. Data filtering. We carefully optimize the data used in post-training to maximize model performance; we filter examples that show certain personal information, unsafe or toxic model outputs, mistaken self-identification data, and duplicated examples."
+    },
+    {
+      "source": "[sections/https://ai.google/static/documents/ai-responsibility-update-published-february-2025.pdf]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As part of making Gemma pre-trained models safe and reliable, we used automated techniques to filter out certain personal information and other sensitive data from training sets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We released ShieldGemma — a series of state-of-the-art safety classifiers that developers can apply to detect and mitigate harmful content in AI model input and outputs."
+    }
+  ]
+}

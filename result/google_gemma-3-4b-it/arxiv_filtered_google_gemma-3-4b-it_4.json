@@ -1,0 +1,33 @@
+{
+  "4-1 (Pre-training Data)": "Gemma 3 4B is pre-trained on 4 trillion tokens, a budget explicitly larger than that used for Gemma 2 and sized to accommodate a mixed corpus of images and text. The overall token counts for the series scale with model size—14 T tokens for Gemma 3 27B, 12 T for the 12B model, 4 T for the 4B, and 2 T for the 1B—showing that the 4B checkpoint is situated in the middle of this graduated schedule while still benefiting from the expanded multimodal dataset.",
+  "4-2 (Fine-tuning Data)": "During fine-tuning, Gemma 3 4B employs the shared Gemma vision encoder, which receives square images resized to 896 × 896 pixels. The encoder is kept frozen and is reused without modification across the 4B, 12B, and 27B models, while fine-tuning proceeds on data drawn from visual-assistant tasks.",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "For Gemma 3 4B, filtering is integral at multiple stages. In the pre-training phase the team performs considerable safety filtering of the data, following Google’s safety policies already applied to Gemini models, to lower the probability that the 4B model will emit harmful content. During and after knowledge-distillation training, additional filters remove unwanted or unsafe utterances as well as personal or other sensitive information, further reducing risk in the released checkpoints.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "Training data. We pre-train our models on a slightly larger token budget than Gemma 2, i.e., we train on 14T tokens for Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "Training data. We pre-train our models on a slightly larger token budget than Gemma 2, i.e., we train on 14T tokens for Gemma 3 27B, 12T for the 12B version, 4T for the 4B, and 2T tokens for the 1B. The increase in tokens accounts for the mix of images and text used during pre-training."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/Vision modality]",
+      "quote": "The Gemma vision encoder takes as input square images resized to 896 x 896, and is finetuned on data from visual assistant tasks. For simplicity, we share the vision encoder across our 4B, 12B, and 27B models, keeping it frozen during training."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "All Gemma 3 models are trained with knowledge distillation (Hinton et al., 2015). Filtering. We use filtering techniques that reduce the risk of unwanted or unsafe utterances and remove certain personal information and other sensitive data."
+    },
+    {
+      "source": "[sections/2503.19786]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). We undertook considerable safety filtering of our pre-training data to reduce the likelihood of our pre-trained and fine-tuned checkpoints producing harmful content."
+    }
+  ]
+}

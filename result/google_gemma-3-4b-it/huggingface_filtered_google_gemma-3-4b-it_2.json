@@ -1,0 +1,28 @@
+{
+  "1-5 (Architecture)": "For the target google/gemma-3-4b-it model, the available statements highlight several architectural characteristics. First, it is explicitly stated that “Gemma 3 has a large, 128K context window, multilingual support in over 140 languages, and is available in more sizes than previous versions.”  A follow-on sentence makes the 4 B variant’s context window explicit: “Total input context of 128K tokens for the 4B, 12B, and 27B sizes, and 32K tokens for the 1B size.”  Finally, training-corpus scale is broken down by size: “the 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens.”  Taken together, these quotes tell us that the 4 B member of the Gemma 3 family (the focus of this summary) supports the same 128 K-token context window as the larger 12 B and 27 B siblings, provides multilingual capability across more than 140 languages, and was exposed to 4 T tokens during pre-training—numbers that situate it midway between the 1 B and 12 B models in both size and data volume. Although layer counts, parameter breakdowns, or other hyperparameters are not enumerated in the supplied text, the quoted material firmly establishes the key high-level design points (context size, multilingual reach, and training-data scale) for Gemma-3-4B-it.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma 3 has a large, 128K context window, multilingual support in over\n140 languages, and is available in more sizes than previous versions."
+    },
+    {
+      "source": "[readme]",
+      "quote": "-  Total input context of 128K tokens for the 4B, 12B, and 27B sizes, and\n       32K tokens for the 1B size"
+    },
+    {
+      "source": "[readme]",
+      "quote": "the 27B model was trained with 14 trillion tokens, the 12B model was trained with 12 trillion tokens, 4B model was trained with 4 trillion tokens and 1B with 2 trillion tokens."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "The only hardware information supplied for the Gemma family, and therefore for the Gemma-3-4B-it model, is the single sentence: “Gemma was trained using Tensor Processing Unit (TPU) hardware (TPUv4p, TPUv5p and TPUv5e).”  This indicates that training relied on Google’s in-house TPU accelerators and involved at least three successive hardware generations—v4p, v5p, and v5e—demonstrating a TPU-centric compute strategy across the model’s development lifecycle. No additional details on exact pod sizes, node counts, or overall FLOP budgets appear in the provided material.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using [Tensor Processing Unit (TPU)][tpu] hardware (TPUv4p,\nTPUv5p and TPUv5e)."
+    }
+  ],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}
