@@ -1,0 +1,25 @@
+{
+  "4-1 (Pre-training Data)": "The only piece of information supplied about the QwQ 32B model’s pre-training data is contained in the sentence: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” From this, we can state—no more and no less—that QwQ 32B underwent a distinct pre-training phase as part of its overall development pipeline. The quote confirms the existence of a pre-training stage but does not disclose any further specifics regarding the data’s size, domain coverage, licensing, geographic or linguistic composition, or curation strategy. Consequently, beyond acknowledging that pre-training occurred, the excerpt gives no additional insight into types, sources, or quantities of the material employed.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The provided excerpt reads: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” For fine-tuning, this tells us only that after an initial pre-training phase, QwQ 32B received post-training in the form of Supervised Finetuning. No other attributes of that fine-tuning data—such as dataset names, licensing terms, public availability, or sampling methodology—are included in the supplied text. Therefore, the complete picture derived from the quote is that supervised fine-tuning definitely took place, yet every other possible detail about the composition or source of those supervised examples remains undisclosed in the material at hand.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "The sole statement furnished is: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” This affirms that, alongside supervised fine-tuning, the QwQ 32B workflow incorporated a Reinforcement Learning (RL) stage as a component of its post-training. The quote gives no visibility into what form that RL data took—whether human preference data, synthetic conversations, or another format—nor into its size, provenance, or accessibility. Thus, the only extractable fact is that an RL-based stage was included in post-training; all further particulars are absent.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-4 (Data Filtering)": "No sentences mentioning data filtering, cleaning criteria, automated screening tools, numeric thresholds, or any other pipeline-stage filtering procedures for QwQ 32B were provided in the quotes. Consequently, there is no information available to summarize on this topic.",
+  "4-4 (Data Filtering)__evidence": []
+}

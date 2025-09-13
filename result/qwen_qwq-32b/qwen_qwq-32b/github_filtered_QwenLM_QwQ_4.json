@@ -1,0 +1,15 @@
+{
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "\"return langdetect.detect(value) == self._language\" demonstrates the explicit language-based criterion applied during data filtering: each text sample is passed to a language-detection function, and only those for which the detected language equals the specified target (\"self._language\") are kept. This line of code shows that the pipeline includes an automated language check before further processing.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[py_files/eval/eval/ifeval_utils/instructions.py]",
+      "quote": "return langdetect.detect(value) == self._language"
+    }
+  ]
+}

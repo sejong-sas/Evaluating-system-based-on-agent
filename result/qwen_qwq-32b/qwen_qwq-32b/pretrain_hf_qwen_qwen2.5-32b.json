@@ -1,0 +1,10 @@
+{
+  "pretrain_method": "Training Stage: Pretraining",
+  "pretrain_data": "No information",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "Training Stage: Pretraining"
+    }
+  ]
+}

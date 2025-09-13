@@ -1,0 +1,243 @@
+{
+  "1-1 (Weights)": "The quotes repeatedly emphasize that “QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat,” confirming that anyone can obtain the full 32-billion-parameter checkpoint. Multiple concrete download locations are listed: the main repository at “https://huggingface.co/Qwen/QwQ-32B,” an Unsloth repository that supplies “dynamic 4-bit quants” at “https://huggingface.co/unsloth/QwQ-32B-unsloth-bnb-4bit,” and a GGUF collection—“All our GGUFs are at https://huggingface.co/unsloth/QwQ-32B-GGUF.” The maintainers add that “You can choose Q4_K_M, or other quantized versions (like BF16 full precision),” showing multiple precision/size options. They also note that the dynamic 4-bit files “increase accuracy vs naive 4bit quantizations” and provide “QwQ quantization error plot analysis for both activation and weight quantization errors.” A README excerpt for the main model repository is cited, illustrating configuration details (e.g., a ‘rope_scaling’ block). Broader context is supplied by two further sentences: “Basically, the Qwen2.5 series include dense models … 32B … parameters,” and “The open-weight offerings include base models and instruction-tuned models … 32B … parameters,” reinforcing that 32-billion-parameter weights are officially released and indexed alongside more than a hundred other checkpoints across Hugging Face, ModelScope, and Kaggle.",
+  "1-2 (Code)": "",
+  "1-3 (License)": "Licensing information is consistent across the quotes. Two separate statements explicitly say “QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license,” while the tabular snippets (“32B 64 40 / 8 … Apache 2.0” and “Table 1 … 32B … Apache 2.0”) repeat the same license reference. These sentences jointly establish that the model, its weights, and associated artifacts are distributed under the permissive Apache License 2.0, granting rights of use, modification, redistribution, and commercial exploitation without additional restrictions.",
+  "1-4 (Paper)": "Several references point to the project’s technical write-up and blog. The primary source is titled “QwQ-32B: Embracing the Power of Reinforcement Learning | Qwen Blog Publication,” and another identical title variant appears without the subtitle. A citation line gives the canonical blog URL: “Qwen Team. QwQ: Reflect deeply on the boundaries of the unknown, 2024d. URL https://qwenlm.github.io/blog/qwq-32b-preview/.” The blog claims that “QwQ-32B … achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters,” and another sentence frames it as “a reasoning model with performance comparable to DeepSeek-R1 on many benchmarks.” Finally, broader contextual quotes explain that QwQ is built on the “Qwen2.5” family and mention related specialized derivatives such as “Qwen2.5-Math” and “Qwen2.5-Coder,” situating the paper within a larger research program.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "🛠️ Dynamic 4-bit Quants We also uploaded dynamic 4bit quants which increase accuracy vs naive 4bit quantizations! We attach the QwQ quantization error plot analysis for both activation and weight quantization errors: We uploaded dynamic 4-bit quants to: https://huggingface.co/unsloth/QwQ-32B-unsloth-bnb-4bit"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "All our GGUFs are at https://huggingface.co/unsloth/QwQ-32B-GGUF !"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: Copy { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models.\n32B    64    40 / 8    No    128K / 8K    Apache 2.0"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "All our GGUFs are at https://huggingface.co/unsloth/QwQ-32B-GGUF !"
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "Download the model via (after installing pip install huggingface_hub hf_transfer ). You can choose Q4_K_M, or other quantized versions (like BF16 full precision). More versions at: https://huggingface.co/unsloth/QwQ-32B-GGUF"
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "We uploaded dynamic 4-bit quants to: https://huggingface.co/unsloth/QwQ-32B-unsloth-bnb-4bit"
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters. Over 100 models can be accessed from Hugging Face Hub, ModelScope, and Kaggle."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "32B 64 40 / 8 No 128K / 8K Apache 2.0"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models.\n32B    64    40 / 8    No    128K / 8K    Apache 2.0"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "32B\t64\t40 / 8\tNo\t128K / 8K\tApache 2.0"
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B: Embracing the Power of Reinforcement Learning | Qwen Blog Publication"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Additionally, as the foundation, Qwen2.5 models have been instrumental in training specialized models such as Qwen2.5-Math (Yang et al., 2024b), Qwen2.5-Coder (Hui et al., 2024), QwQ (Qwen Team, 2024d), and multimodal models."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B: Embracing the Power of Reinforcement Learning"
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "Qwen released QwQ-32B - a reasoning model with performance comparable to DeepSeek-R1 on many benchmarks ."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Additionally, as the foundation, Qwen2.5 models have been instrumental in training specialized models such as Qwen2.5-Math (Yang et al., 2024b), Qwen2.5-Coder (Hui et al., 2024), QwQ (Qwen Team, 2024d), and multimodal models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Qwen Team. QwQ: Reflect deeply on the boundaries of the unknown, 2024d. URL https://qwenlm.github.io/blog/qwq-32b-preview/."
+    }
+  ],
+  "1-5 (Architecture)": "According to the quotes, QwQ-32B is explicitly described as “a model with 32 billion parameters.”  It is positioned as achieving “performance comparable to DeepSeek-R1,” even though DeepSeek-R1 is said to have “671 billion parameters (with 37 billion activated).”  The context-length design is discussed as well: one quote notes that “QwQ's context length was not natively 128K, but rather 32K with YaRN extension,” and another reproduces the exact JSON block from the Hugging Face model card, showing the rotary-position-embedding scaling configuration:\n{ \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }.  Finally, a list of sizes in the broader Qwen2.5 family confirms that a 32B dense variant exists alongside others, placing QwQ-32B squarely in the 32-billion-parameter class.  These statements jointly spell out the headline architectural facts available in the supplied material: parameter count (32 B), YaRN-based RoPE scaling (factor 4.0 from an original 32 768-token limit), and an effective context-length extension strategy that moves the model from 32 K toward much longer sequences.",
+  "1-6 (Tokenizer)": "The tokenizer details come from two clusters of quotes.  First, code snippets show standard usage: “model_name = \"Qwen/QwQ-32B\" … tokenizer = AutoTokenizer.from_pretrained(model_name),” confirming that the official tokenizer can be downloaded from the same Hugging Face repository and is compatible with the Transformers API.  Second, the project reports specific bug fixes: “The EOS token is correct, but the PAD token should probably rather be ‘<|vision_pad|>’ … We updated it in …/tokenizer_config.json.”  The corrected configuration is spelled out:  \"eos_token\": \"<|im_end|>\", \"pad_token\": \"<|endoftext|>\".  Thus the available information tells us (1) how to obtain and instantiate the tokenizer, and (2) the concrete end-of-sequence and padding token mappings that were recently patched.",
+  "2-1 (Hardware)": "None of the provided quotes mention GPUs, TPUs, node counts, total FLOPs, or any other hardware-training details for QwQ-32B.  Therefore no hardware information is available from the supplied material.",
+  "2-2 (Software)": "The only direct software statement says: “Our model uploads with our bug fixes work great for fine-tuning, vLLM and Transformers.”  While brief, this confirms that the QwQ-32B checkpoints have been validated with the vLLM runtime and the Hugging Face Transformers library, and that the uploaded versions incorporate bug-fix modifications.  No other training-specific frameworks, libraries, or version numbers are referenced in the provided quotations.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "We first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension."
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: Copy { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus. Below, we provide details about the architecture of models."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: Copy { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Use QwQ-32B # Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API. from transformers import AutoModelForCausalLM , AutoTokenizer model_name = \"Qwen/QwQ-32B\" model = AutoModelForCausalLM . from_pretrained ( model_name , torch_dtype = \"auto\" , device_map = \"auto\" ) tokenizer = AutoTokenizer . from_pretrained ( model_name )"
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! The EOS token is correct, but the PAD token should probably rather be \"<|vision_pad|> \" We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "model_name = \"Qwen/QwQ-32B\" model = AutoModelForCausalLM . from_pretrained ( model_name , torch_dtype = \"auto\" , device_map = \"auto\" ) tokenizer = AutoTokenizer . from_pretrained ( model_name )"
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! The EOS token is correct, but the PAD token should probably rather be \"<|vision_pad|> \" We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json Copy \"eos_token\": \"<|im_end|>\", \"pad_token\": \"<|endoftext|>\","
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "Qwen released QwQ-32B - a reasoning model with performance comparable to DeepSeek-R1 on many benchmarks. Our model uploads with our bug fixes work great for fine-tuning, vLLM and Transformers."
+    }
+  ],
+  "2-3 (API)": "The documentation for QwQ-32B repeatedly states that there are “brief examples” showing how to invoke the model “via Hugging Face Transformers and Alibaba Cloud DashScope API.” These sentences make clear that users can employ a standard Transformers workflow or call a cloud-hosted REST-style endpoint exposed by DashScope. A further line notes that “QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat,” confirming that the weights can be freely downloaded on two popular model hubs under a permissive license and that an additional chat interface is available. Collectively, the quoted material establishes the existence of public, example-backed API access paths (Transformers and DashScope), clarifies licensing, and mentions an interactive front-end, thereby satisfying the criteria for information about a publicly accessible API.",
+  "3-1 (Pre-training)": "The README snippet for the Hugging Face repository “Qwen/QwQ-32B” discloses a configuration block: \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" }. This indicates that the model uses YaRN-style rotary-position-embedding scaling with an original maximum position of 32 768 tokens and a scaling factor of 4.0. A related comment adds that observers “first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension,” suggesting the effective long-context capability arises from the rope_scaling mechanism rather than native 128 K pre-training. Aside from this positional-encoding detail, no other pre-training hyperparameters or dataset descriptions appear in the quoted material.",
+  "3-2 (Fine-tuning)": "Under the heading “✏️ Tokenizer Bug Fixes” the maintainers report discovering “a few issues … specifically impacting finetuning.” To resolve these, they replaced the tokenizer configuration file, directing users to the updated tokenizer_config.json in the unsloth/QwQ-32B Hugging Face repository. The passage makes it clear that correcting tokenizer behavior was necessary for successful fine-tuning, although it does not enumerate further steps, datasets, or hyperparameters beyond this fix.",
+  "3-3 (Reinforcement Learning)": "A promotional passage introduces QwQ-32B as “a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated).” The same sentence asserts that this outcome “underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge.” While the excerpt does not describe the specific reinforcement-learning algorithm, reward signal, or training schedule, it explicitly credits reinforcement learning as the decisive post-pre-training step that lifts QwQ-32B’s performance to the reported level.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "Use QwQ-32B # Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[url:https://huggingface.co/Qwen/QwQ-32B]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    },
+    {
+      "source": "[url:https://huggingface.co/unsloth/QwQ-32B-blog]",
+      "quote": "We first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[url:https://huggingface.co/unsloth/QwQ-32B-blog]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! … We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json"
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The material that explicitly references the target model indicates that QwQ-32B is a 32-billion-parameter foundation model. Its designers emphasize that the model is \"pre-trained on extensive world knowledge,\" and that this large-scale, knowledge-rich corpus is critical for the strong downstream performance later achieved with reinforcement learning. Within the Qwen2.5 family, the 32 B variant is specifically called out as having been re-introduced because of its favorable size-to-quality trade-off for users with limited compute budgets. In the same paragraph, the authors add that both the pre-training and post-training data for this 32 B line have been \"improved significantly\" relative to earlier releases, although they do not disclose the exact breakdown or token counts in the sentences that meet the filtering criteria. Taken together, the quotes confirm three key points: (1) the model size (32 B parameters), (2) the reliance on a broad, world-knowledge corpus during pre-training, and (3) a round of substantial data-quality upgrades applied specifically to the 32 B member of the Qwen/QwQ family.",
+  "4-2 (Fine-tuning Data)": "For the fine-tuning (\"post-training\") phase, the Qwen2.5 paper states—again in a sentence that directly mentions the 32 B size—that all data used after pre-training \"have been improved significantly.\" While the authors do not enumerate the exact sources or provide example records in the allowable sentences, they do make it clear that the 32 B checkpoint sits alongside 0.5 B, 1.5 B, 3 B, 7 B, 14 B, and 72 B siblings, and is highlighted as a cost-effective option. This framing implies that the upgraded post-training corpus (used for supervised fine-tuning, preference learning, and related stages) was curated with the 32 B model’s constraints and target scenarios in mind. Consequently, the fine-tuning component for QwQ-32B can be summarized as a significantly refreshed data mixture whose details are not disclosed here but are positioned as materially better than the datasets employed in prior versions.",
+  "4-3 (Reinforcement Learning Data)": "The reinforcement-learning stage for the 32 B model is described in a two-sentence passage that first names the 32 B checkpoint and then, in the immediately following sentence, gives the only quantitative figure: the post-training data corpus comprises \"1 million examples.\" These examples span multiple preference-optimization techniques—supervised fine-tuning (SFT), direct preference optimization (DPO), and group relative policy optimization (GRPO). Although the quote does not separate the portion strictly used for RL from the larger post-training pool, the context implies that this million-sample set feeds into or overlaps with the RL preference data. The authors again stress that the 32 B variant is designed to be economical while still benefiting from this sizable, methodologically diverse preference dataset.",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: The pre-training and post-training data have been improved significantly. The pre-training data increased from 7 trillion tokens to 18 trillion tokens, with focus on knowledge, coding, and mathematics. The pre-training is staged to allow transitions among different mixtures."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: The pre-training and post-training data have been improved significantly. … The post-training data amounts to 1 million examples, across the stage of supervised finetuning (SFT, Ouyang et al., 2022), direct preference optimization (DPO, Rafailov et al., 2023), and group relative policy optimization (GRPO, Shao et al., 2024)."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: … The post-training data amounts to 1 million examples, across the stage of supervised finetuning (SFT, Ouyang et al., 2022), direct preference optimization (DPO, Rafailov et al., 2023), and group relative policy optimization (GRPO, Shao et al., 2024)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
