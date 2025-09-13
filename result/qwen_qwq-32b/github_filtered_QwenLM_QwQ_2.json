@@ -1,0 +1,15 @@
+{
+  "1-5 (Architecture)": "\"Our latest release, QwQ-32B, is a mid-sized model that competes effectively with top-tier reasoning models like DeepSeek-R1 and o1-mini, delivering robust and competitive results.\"  This sentence provides the sole architectural detail available: it names the variant (\"QwQ-32B\"), categorizes it as \"mid-sized,\" and highlights its competitive reasoning capability relative to other models.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our latest release, QwQ-32B, is a mid-sized model that competes effectively with top-tier reasoning models like DeepSeek-R1 and o1-mini, delivering robust and competitive results."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

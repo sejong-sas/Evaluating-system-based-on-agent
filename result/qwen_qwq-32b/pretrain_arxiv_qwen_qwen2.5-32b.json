@@ -1,0 +1,22 @@
+{
+  "pretrain_method": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction. For optimal training efficiency, Qwen2.5 employs a two-phase pre-training approach: an initial phase with a 4,096-token context length, followed by an extension phase for longer sequences.",
+  "pretrain_data": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens. In terms of pre-training, we have scaled the high-quality pre-training datasets from the previous 7 trillion tokens to 18 trillion tokens.",
+  "__evidence": [
+    {
+      "source": "arxiv:2407.10671",
+      "quote": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction."
+    },
+    {
+      "source": "arxiv:2412.15115",
+      "quote": "For optimal training efficiency, Qwen2.5 employs a two-phase pre-training approach: an initial phase with a 4,096-token context length, followed by an extension phase for longer sequences."
+    },
+    {
+      "source": "arxiv:2407.10671",
+      "quote": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens."
+    },
+    {
+      "source": "arxiv:2412.15115",
+      "quote": "In terms of pre-training, we have scaled the high-quality pre-training datasets from the previous 7 trillion tokens to 18 trillion tokens."
+    }
+  ]
+}

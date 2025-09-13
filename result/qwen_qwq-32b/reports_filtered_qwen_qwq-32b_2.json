@@ -1,0 +1,57 @@
+{
+  "1-5 (Architecture)": "According to the quotes, QwQ-32B is explicitly described as “a model with 32 billion parameters.”  It is positioned as achieving “performance comparable to DeepSeek-R1,” even though DeepSeek-R1 is said to have “671 billion parameters (with 37 billion activated).”  The context-length design is discussed as well: one quote notes that “QwQ's context length was not natively 128K, but rather 32K with YaRN extension,” and another reproduces the exact JSON block from the Hugging Face model card, showing the rotary-position-embedding scaling configuration:\n{ \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }.  Finally, a list of sizes in the broader Qwen2.5 family confirms that a 32B dense variant exists alongside others, placing QwQ-32B squarely in the 32-billion-parameter class.  These statements jointly spell out the headline architectural facts available in the supplied material: parameter count (32 B), YaRN-based RoPE scaling (factor 4.0 from an original 32 768-token limit), and an effective context-length extension strategy that moves the model from 32 K toward much longer sequences.",
+  "1-6 (Tokenizer)": "The tokenizer details come from two clusters of quotes.  First, code snippets show standard usage: “model_name = \"Qwen/QwQ-32B\" … tokenizer = AutoTokenizer.from_pretrained(model_name),” confirming that the official tokenizer can be downloaded from the same Hugging Face repository and is compatible with the Transformers API.  Second, the project reports specific bug fixes: “The EOS token is correct, but the PAD token should probably rather be ‘<|vision_pad|>’ … We updated it in …/tokenizer_config.json.”  The corrected configuration is spelled out:  \"eos_token\": \"<|im_end|>\", \"pad_token\": \"<|endoftext|>\".  Thus the available information tells us (1) how to obtain and instantiate the tokenizer, and (2) the concrete end-of-sequence and padding token mappings that were recently patched.",
+  "2-1 (Hardware)": "None of the provided quotes mention GPUs, TPUs, node counts, total FLOPs, or any other hardware-training details for QwQ-32B.  Therefore no hardware information is available from the supplied material.",
+  "2-2 (Software)": "The only direct software statement says: “Our model uploads with our bug fixes work great for fine-tuning, vLLM and Transformers.”  While brief, this confirms that the QwQ-32B checkpoints have been validated with the vLLM runtime and the Hugging Face Transformers library, and that the uploaded versions incorporate bug-fix modifications.  No other training-specific frameworks, libraries, or version numbers are referenced in the provided quotations.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "We first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension."
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: Copy { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus. Below, we provide details about the architecture of models."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: Copy { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Use QwQ-32B # Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API. from transformers import AutoModelForCausalLM , AutoTokenizer model_name = \"Qwen/QwQ-32B\" model = AutoModelForCausalLM . from_pretrained ( model_name , torch_dtype = \"auto\" , device_map = \"auto\" ) tokenizer = AutoTokenizer . from_pretrained ( model_name )"
+    },
+    {
+      "source": "[sections/Extra Notes]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! The EOS token is correct, but the PAD token should probably rather be \"<|vision_pad|> \" We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "model_name = \"Qwen/QwQ-32B\" model = AutoModelForCausalLM . from_pretrained ( model_name , torch_dtype = \"auto\" , device_map = \"auto\" ) tokenizer = AutoTokenizer . from_pretrained ( model_name )"
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! The EOS token is correct, but the PAD token should probably rather be \"<|vision_pad|> \" We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json Copy \"eos_token\": \"<|im_end|>\", \"pad_token\": \"<|endoftext|>\","
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "Qwen released QwQ-32B - a reasoning model with performance comparable to DeepSeek-R1 on many benchmarks. Our model uploads with our bug fixes work great for fine-tuning, vLLM and Transformers."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "1-5 (Architecture)": "The quotes reveal that the Qwen2.5 family explicitly offers a dense 32 B-parameter variant. The public release covers both base and instruction-tuned checkpoints, with the 32 B model listed alongside other sizes (0.5 B, 1.5 B, 3 B, 7 B, 14 B, 32 B, 72 B). One line of tabular information, “32B 64 40 / 8  No 128K / 8K Apache 2.0,” implies architectural or configuration details attached to the 32 B instance (e.g., a 64-layer depth, 40/8 head or expert split, and sequence-length figures of 128 K for pre-training versus 8 K for another setting). Within the product line, the 32 B dense model is contrasted with MoE offerings such as Qwen2.5-Turbo and Qwen2.5-Plus, underscoring that the 32 B release is a standard dense architecture. Evaluation commentary states that “Qwen2.5-32B… showcases exceptional capabilities, often surpassing larger models of similar model sizes,” and that its performance is compared directly with baselines of comparable scale (including Qwen2.5-14B, Qwen2.5-Turbo, and other 32 B models), reinforcing its competitive architecture-driven strengths.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "32B 64 40 / 8  No 128K / 8K Apache 2.0"
+    },
+    {
+      "source": "[sections/Evaluation]",
+      "quote": "Qwen2.5-32B, in particular, showcases exceptional capabilities, often surpassing larger models of similar model sizes."
+    },
+    {
+      "source": "[sections/Evaluation]",
+      "quote": "The evaluation of the Qwen2.5-Turbo, Qwen2.5-14B, and 32B models is compared against baselines of similar sizes."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Specifically, the open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

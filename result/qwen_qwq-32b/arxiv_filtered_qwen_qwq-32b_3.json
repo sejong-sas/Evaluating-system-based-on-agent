@@ -1,0 +1,19 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The project documentation explicitly states that a 32 B-parameter variant is part of the Qwen2.5 family released as open weights. The authors describe the series as offering “rich configurations,” listing the exact sizes—0.5 B, 1.5 B, 3 B, 7 B, 14 B, 32 B, and 72 B—for both base and instruction-tuned checkpoints. They further clarify that these checkpoints are provided as dense models for open-source use (e.g., “Qwen2.5-32B”), while separate MoE models (Qwen2.5-Turbo and Qwen2.5-Plus) are reserved for API service. Although no additional hyper-parameters or data-flow details are included in the quoted text, the passages confirm the existence and public release of a fully pre-trained, dense 32 B model within the Qwen2.5 lineup.",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To handle diverse and varied use cases effectively, we present Qwen2.5 LLM series in rich configurations. The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

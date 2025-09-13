@@ -1,0 +1,37 @@
+{
+  "1-1 (Weights)": "The available information states that the 32B model is part of the open-weight release: “The open-weight offerings include base models and instruction-tuned models in sizes of … 32B … parameters.”  Because the immediately following sentence is in the same paragraph, it is also retained: “Over 100 models can be accessed from Hugging Face Hub, ModelScope, and Kaggle.”  Together these lines show that both base and instruction-tuned 32B checkpoints are openly downloadable and hosted on the three listed platforms.  A second, duplicate sentence confirms the same size list (“… 32B … parameters”), reinforcing that the 32B weights are publicly available among the standard releases.",
+  "1-2 (Code)": "",
+  "1-3 (License)": "Two separate excerpts explicitly give the license for the 32B release.  A compact table row reads “32B … Apache 2.0,” and another sentence summarizing Table 1 likewise says “… 32B … Apache 2.0.”  From these quotes we know that the 32B checkpoint is distributed under the Apache License 2.0.",
+  "1-4 (Paper)": "The 32B size is highlighted in the Qwen2.5 technical descriptions.  One sentence notes that Qwen2.5 “brings back the … 32B models, which are more cost-effective for resource-limited scenarios.”  A separate two-sentence passage adds that Qwen2.5 publishes pre-trained and instruction-tuned models in seven sizes “including … 32B,” and that both bf16 and various quantized versions are supplied.  These statements collectively indicate that the official Qwen2.5 write-ups (blog, report or paper) emphasize the 32B variant as part of the formal release portfolio.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters. Over 100 models can be accessed from Hugging Face Hub, ModelScope, and Kaggle."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "32B 64 40 / 8 No 128K / 8K Apache 2.0"
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models. ... 32B ... Apache 2.0"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Recently, we release the details of our latest version of the Qwen series, Qwen2.5. In terms of the open-weight part, we release pre-trained and instruction-tuned models of 7 sizes, including 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B, and we provide not only the original models in bfloat16 precision but also the quantized models in different precisions."
+    }
+  ]
+}

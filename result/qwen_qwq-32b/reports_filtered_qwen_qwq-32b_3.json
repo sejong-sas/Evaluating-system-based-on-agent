@@ -1,0 +1,46 @@
+{
+  "2-3 (API)": "The documentation for QwQ-32B repeatedly states that there are “brief examples” showing how to invoke the model “via Hugging Face Transformers and Alibaba Cloud DashScope API.” These sentences make clear that users can employ a standard Transformers workflow or call a cloud-hosted REST-style endpoint exposed by DashScope. A further line notes that “QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat,” confirming that the weights can be freely downloaded on two popular model hubs under a permissive license and that an additional chat interface is available. Collectively, the quoted material establishes the existence of public, example-backed API access paths (Transformers and DashScope), clarifies licensing, and mentions an interactive front-end, thereby satisfying the criteria for information about a publicly accessible API.",
+  "3-1 (Pre-training)": "The README snippet for the Hugging Face repository “Qwen/QwQ-32B” discloses a configuration block: \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" }. This indicates that the model uses YaRN-style rotary-position-embedding scaling with an original maximum position of 32 768 tokens and a scaling factor of 4.0. A related comment adds that observers “first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension,” suggesting the effective long-context capability arises from the rope_scaling mechanism rather than native 128 K pre-training. Aside from this positional-encoding detail, no other pre-training hyperparameters or dataset descriptions appear in the quoted material.",
+  "3-2 (Fine-tuning)": "Under the heading “✏️ Tokenizer Bug Fixes” the maintainers report discovering “a few issues … specifically impacting finetuning.” To resolve these, they replaced the tokenizer configuration file, directing users to the updated tokenizer_config.json in the unsloth/QwQ-32B Hugging Face repository. The passage makes it clear that correcting tokenizer behavior was necessary for successful fine-tuning, although it does not enumerate further steps, datasets, or hyperparameters beyond this fix.",
+  "3-3 (Reinforcement Learning)": "A promotional passage introduces QwQ-32B as “a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated).” The same sentence asserts that this outcome “underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge.” While the excerpt does not describe the specific reinforcement-learning algorithm, reward signal, or training schedule, it explicitly credits reinforcement learning as the decisive post-pre-training step that lifts QwQ-32B’s performance to the reported level.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "Use QwQ-32B # Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[url:https://huggingface.co/Qwen/QwQ-32B]",
+      "quote": "For example in the readme file for https://huggingface.co/Qwen/QwQ-32B , we see: { ..., \"rope_scaling\": { \"factor\": 4.0, \"original_max_position_embeddings\": 32768, \"type\": \"yarn\" } }"
+    },
+    {
+      "source": "[url:https://huggingface.co/unsloth/QwQ-32B-blog]",
+      "quote": "We first thought maybe: QwQ's context length was not natively 128K, but rather 32K with YaRN extension."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[url:https://huggingface.co/unsloth/QwQ-32B-blog]",
+      "quote": "✏️ Tokenizer Bug Fixes We found a few issues as well specifically impacting finetuning! … We updated it in: https://huggingface.co/unsloth/QwQ-32B/blob/main/tokenizer_config.json"
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    }
+  ]
+}

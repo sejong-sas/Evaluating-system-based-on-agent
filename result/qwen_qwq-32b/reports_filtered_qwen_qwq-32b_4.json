@@ -1,0 +1,29 @@
+{
+  "4-1 (Pre-training Data)": "The material that explicitly references the target model indicates that QwQ-32B is a 32-billion-parameter foundation model. Its designers emphasize that the model is \"pre-trained on extensive world knowledge,\" and that this large-scale, knowledge-rich corpus is critical for the strong downstream performance later achieved with reinforcement learning. Within the Qwen2.5 family, the 32 B variant is specifically called out as having been re-introduced because of its favorable size-to-quality trade-off for users with limited compute budgets. In the same paragraph, the authors add that both the pre-training and post-training data for this 32 B line have been \"improved significantly\" relative to earlier releases, although they do not disclose the exact breakdown or token counts in the sentences that meet the filtering criteria. Taken together, the quotes confirm three key points: (1) the model size (32 B parameters), (2) the reliance on a broad, world-knowledge corpus during pre-training, and (3) a round of substantial data-quality upgrades applied specifically to the 32 B member of the Qwen/QwQ family.",
+  "4-2 (Fine-tuning Data)": "For the fine-tuning (\"post-training\") phase, the Qwen2.5 paper states—again in a sentence that directly mentions the 32 B size—that all data used after pre-training \"have been improved significantly.\" While the authors do not enumerate the exact sources or provide example records in the allowable sentences, they do make it clear that the 32 B checkpoint sits alongside 0.5 B, 1.5 B, 3 B, 7 B, 14 B, and 72 B siblings, and is highlighted as a cost-effective option. This framing implies that the upgraded post-training corpus (used for supervised fine-tuning, preference learning, and related stages) was curated with the 32 B model’s constraints and target scenarios in mind. Consequently, the fine-tuning component for QwQ-32B can be summarized as a significantly refreshed data mixture whose details are not disclosed here but are positioned as materially better than the datasets employed in prior versions.",
+  "4-3 (Reinforcement Learning Data)": "The reinforcement-learning stage for the 32 B model is described in a two-sentence passage that first names the 32 B checkpoint and then, in the immediately following sentence, gives the only quantitative figure: the post-training data corpus comprises \"1 million examples.\" These examples span multiple preference-optimization techniques—supervised fine-tuning (SFT), direct preference optimization (DPO), and group relative policy optimization (GRPO). Although the quote does not separate the portion strictly used for RL from the larger post-training pool, the context implies that this million-sample set feeds into or overlaps with the RL preference data. The authors again stress that the 32 B variant is designed to be economical while still benefiting from this sizable, methodologically diverse preference dataset.",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated). This remarkable outcome underscores the effectiveness of RL when applied to robust foundation models pretrained on extensive world knowledge."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: The pre-training and post-training data have been improved significantly. The pre-training data increased from 7 trillion tokens to 18 trillion tokens, with focus on knowledge, coding, and mathematics. The pre-training is staged to allow transitions among different mixtures."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: The pre-training and post-training data have been improved significantly. … The post-training data amounts to 1 million examples, across the stage of supervised finetuning (SFT, Ouyang et al., 2022), direct preference optimization (DPO, Rafailov et al., 2023), and group relative policy optimization (GRPO, Shao et al., 2024)."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Better in Size: Compared with Qwen2, in addition to 0.5B, 1.5B, 7B, and 72B models, Qwen2.5 brings back the 3B, 14B, and 32B models, which are more cost-effective for resource-limited scenarios and are under-represented in the current field of open foundation models. Better in Data: … The post-training data amounts to 1 million examples, across the stage of supervised finetuning (SFT, Ouyang et al., 2022), direct preference optimization (DPO, Rafailov et al., 2023), and group relative policy optimization (GRPO, Shao et al., 2024)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": []
+}

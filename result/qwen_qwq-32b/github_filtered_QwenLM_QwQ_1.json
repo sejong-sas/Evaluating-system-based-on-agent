@@ -1,0 +1,66 @@
+{
+  "1-1 (Weights)": "\"model_name = \\\"Qwen/QwQ-32B\\\"\"\n\"To run the Qwen/QwQ-32B-GGUF model with Ollama, use the following command.\"\n\"ollama run hf.co/Qwen/QwQ-32B-GGUF:Q4_K_M # select one from Q8_0; Q6_K; Q5_K_M; Q5_0; Q4_K_M; Q4_0; Q3_K_M; Q2_K.\"\n\"🤗 <a href=\\\"https://huggingface.co/Qwen/QwQ-32B\\\">Hugging Face</a>\"",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/QwQ-32B\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "To run the Qwen/QwQ-32B-GGUF model with Ollama, use the following command."
+    },
+    {
+      "source": "[readme]",
+      "quote": "ollama run hf.co/Qwen/QwQ-32B-GGUF:Q4_K_M # select one from Q8_0; Q6_K; Q5_K_M; Q5_0; Q4_K_M; Q4_0; Q3_K_M; Q2_K."
+    },
+    {
+      "source": "[readme]",
+      "quote": "🤗 <a href=\"https://huggingface.co/Qwen/QwQ-32B\">Hugging Face</a>"
+    }
+  ],
+  "1-2 (Code)": "\"parser.add_argument(\\\"--model_name\\\", type=str, default='Qwen/QwQ-32B', help=\\\"model name of vllm server\\\")\"",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[py_files/eval/generate_api_answers/infer_multithread.py]",
+      "quote": "parser.add_argument(\"--model_name\", type=str, default='Qwen/QwQ-32B', help=\"model name of vllm server\")"
+    }
+  ],
+  "1-3 (License)": "\"Licensed under the Apache License, Version 2.0 (the \\\"License\\\");\"\n\"# Licensed under the Apache License, Version 2.0 (the \\\"License\\\");\"\n\"# You may obtain a copy of the License at\"\n\"#     http://www.apache.org/licenses/LICENSE-2.0\"\n\"# distributed under the License is distributed on an \\\"AS IS\\\" BASIS,\"",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/eval/eval/ifeval_utils/instructions_util.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/eval/eval/ifeval_utils/instructions_util.py]",
+      "quote": "# You may obtain a copy of the License at"
+    },
+    {
+      "source": "[py_files/eval/eval/ifeval_utils/instructions_util.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/eval/eval/ifeval_utils/instructions_util.py]",
+      "quote": "# distributed under the License is distributed on an \"AS IS\" BASIS,"
+    }
+  ],
+  "1-4 (Paper)": "\"📑 <a href=\\\"https://qwenlm.github.io/blog/qwq-32b/\\\">Blog</a>\"\n\"title = {QwQ-32B: Embracing the Power of Reinforcement Learning},\"\n\"url = {https://qwenlm.github.io/blog/qwq-32b/},\"",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "📑 <a href=\"https://qwenlm.github.io/blog/qwq-32b/\">Blog</a>"
+    },
+    {
+      "source": "[readme]",
+      "quote": "title = {QwQ-32B: Embracing the Power of Reinforcement Learning},"
+    },
+    {
+      "source": "[readme]",
+      "quote": "url = {https://qwenlm.github.io/blog/qwq-32b/},"
+    }
+  ]
+}

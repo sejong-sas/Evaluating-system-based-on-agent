@@ -1,0 +1,132 @@
+{
+  "1-1 (Weights)": "The quotation “**This repo contains the QwQ 32B model**” confirms that the weight files for the 32-billion-parameter QwQ variant are stored directly in the current repository. A second sentence, “You can try our [demo](https://huggingface.co/spaces/Qwen/QwQ-32B-Demo) or access QwQ models via [QwenChat](https://chat.qwen.ai),” shows two additional public access paths: a Hugging Face Space demo and the QwenChat web interface. These statements together indicate that the QwQ-32B weights are publicly hosted in the repo and can also be reached through online inference endpoints; no further restrictions on download or usage are mentioned in the provided text.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can try our [demo](https://huggingface.co/spaces/Qwen/QwQ-32B-Demo) or access QwQ models via [QwenChat](https://chat.qwen.ai)."
+    }
+  ],
+  "1-2 (Code)": "The sentence “QwQ is based on Qwen2.5, whose code has been in the latest Hugging face `transformers`.” establishes that implementation support for QwQ-32B already exists in the public `transformers` library. The follow-up line, “For more details, please refer to our [blog] … [GitHub] … and [Documentation] …,” points to a public blog post, the Qwen2.5 GitHub repository, and Read-the-Docs pages as further sources. These quotes collectively show that open-source code relevant to QwQ-32B is available, although the excerpts do not specify whether the released code covers only inference or also pre-training, fine-tuning, or RL stages.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "QwQ is based on Qwen2.5, whose code has been in the latest Hugging face `transformers`."
+    },
+    {
+      "source": "[readme]",
+      "quote": "For more details, please refer to our [blog](https://qwenlm.github.io/blog/qwq-32b/), [GitHub](https://github.com/QwenLM/Qwen2.5), and [Documentation](https://qwen.readthedocs.io/en/latest/)."
+    }
+  ],
+  "1-3 (License)": "Licensing information is repeated several times: “license: apache-2.0,” “[readme] … license: apache-2.0 … license_link: https://huggingface.co/Qwen/QWQ-32B/blob/main/LICENSE,” and the explicit notice “Licensed under the Apache License, Version 2.0 (the \\\"License\\\"); you may not use this file except in compliance with the License.” A further confirmation line states “LICENSE file present: LICENSE.” These sentences together make clear that QwQ-32B is distributed under the Apache License, Version 2.0, and that users must follow that license’s terms, as emphasized by the quoted restriction clause.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: apache-2.0"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: apache-2.0\nlicense_link: https://huggingface.co/Qwen/QWQ-32B/blob/main/LICENSE\nlanguage:\n- en\npipeline_tag: text-generation\nbase_model: Qwen/Qwen2.5-32B\ntags:\n- chat\nlibr"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two quotations describe written resources for the model. First: “Detailed evaluation results are reported in this [📑 blog](https://qwenlm.github.io/blog/qwq-32b/).” Second is the full BibTeX entry:\n“@misc{qwq32b,\n    title = {QwQ-32B: Embracing the Power of Reinforcement Learning},\n    url = {https://qwenlm.github.io/blog/qwq-32b/},\n    author = {Qwen Team},\n    month = {March},\n    year = {2025}\n}”.\nThese excerpts indicate that the primary official write-up is a publicly available technical blog post, which includes evaluation details and is intended to be cited using the supplied BibTeX metadata (title, author, month, year, and URL).",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Detailed evaluation results are reported in this [📑 blog](https://qwenlm.github.io/blog/qwq-32b/)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{qwq32b,\n    title = {QwQ-32B: Embracing the Power of Reinforcement Learning},\n    url = {https://qwenlm.github.io/blog/qwq-32b/},\n    author = {Qwen Team},\n    month = {March},\n    year = {2025}\n}"
+    }
+  ],
+  "1-5 (Architecture)": "The provided material gives a concise yet information-rich snapshot of the architecture for the targeted model: “This repo contains the QwQ 32B model.”  Explicitly tied to the string “32B,” the quote enumerates every core structural element that defines the network.  It confirms the model is a transformer-based design equipped with rotary position embeddings (RoPE), the SwiGLU feed-forward activation, RMSNorm layer normalisation, and an Attention mechanism that carries a QKV bias.  Quantitative details are also spelled out: a total parameter count of 32.5 billion, of which 31 billion are non-embedding parameters; a depth of 64 transformer layers; and a grouped-query attention (GQA) head configuration of 40 query heads paired with 8 key/value heads.  Finally, the quote fixes the maximum context length at a remarkably large 131 ,072 tokens.  Together, these sentences provide the complete set of architectural facts offered in the source material, strictly and exclusively for the “QwQ 32B” model.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Architecture: transformers with RoPE, SwiGLU, RMSNorm, and Attention QKV bias\n- Number of Parameters: 32.5B\n- Number of Paramaters (Non-Embedding): 31.0B\n- Number of Layers: 64\n- Number of Attention Heads (GQA): 40 for Q and 8 for KV\n- Context Length: Full 131,072 tokens"
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer information is limited to a short code snippet, but even that snippet is explicit about the exact resource and the loading method.  The model-specific string is “model_name = \\\"Qwen/QwQ-32B\\\",” immediately followed by the standard Hugging Face call: “tokenizer = AutoTokenizer.from_pretrained(model_name).”  From these two lines we can state with certainty that the QwQ 32B model uses a Hugging Face–compatible tokenizer that is retrieved by the canonical AutoTokenizer interface and is publicly hosted under the same repository identifier, “Qwen/QwQ-32B.”  The presence of the `from_pretrained` call strongly implies that the tokenizer files are downloadable and version-controlled on the Hugging Face Hub, matching the model weights.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/QwQ-32B\"\n...\ntokenizer = AutoTokenizer.from_pretrained(model_name)"
+    }
+  ],
+  "2-1 (Hardware)": "The quotation set supplied for this task contains no sentences whatsoever that reference the compute devices, accelerator counts, or any other hardware details used in training or evaluation of the QwQ 32B model.  Consequently, no information about GPUs, TPUs, H100s, node counts, or overall FLOP budgets can be extracted or summarised from the provided text.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Software-stack details appear in a single sentence that is explicitly linked to the target model family by name: “QwQ is based on Qwen2.5, whose code has been in the latest Hugging face `transformers`. We advise you to use the latest version of `transformers`.”  From this we can summarise that the QwQ 32B implementation inherits code from the Qwen 2.5 project and has already been merged into the mainline Hugging Face `transformers` library.  The quote further provides a direct recommendation to work with the most recent release of that library, indicating that all required functionality, model classes, and configuration flags are officially supported upstream.  No other libraries, frameworks, or specific version numbers are mentioned in the supplied text.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "QwQ is based on Qwen2.5, whose code has been in the latest Hugging face `transformers`. We advise you to use the latest version of `transformers`."
+    }
+  ],
+  "2-3 (API)": "The only explicit information provided about an API for the QwQ 32B family is the statement: “You can try our demo … or access QwQ models via QwenChat.”  From this single sentence we can extract all presently available details.  First, it confirms that a public, hands-on interface exists in the form of a Hugging Face Space titled “QwQ-32B-Demo,” implying that the demo runs an instance of the QwQ 32B model and can be reached through a web browser.  Second, it tells us that the same model (and presumably other QwQ variants) can also be reached through the proprietary ‘QwenChat’ service at chat.qwen.ai.  Together, these two access points constitute the project’s publicly advertised API surface: a hosted conversational playground on Hugging Face and an official chat-oriented endpoint branded as QwenChat.  No additional information—such as authentication, rate limits, SDKs, or usage examples—is present in the quote, so our understanding is limited strictly to the existence of these two publicly facing routes for interacting with QwQ 32B.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can try our [demo](https://huggingface.co/spaces/Qwen/QwQ-32B-Demo) or access QwQ models via [QwenChat](https://chat.qwen.ai)."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training story for QwQ 32B is conveyed entirely through the declaration: “**This repo contains the QwQ 32B model**, which has the following features:  ‑ Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).”  From this we know, first and foremost, that the repository actually ships the 32-billion-parameter variant called QwQ 32B, and second, that its development lifecycle explicitly included a ‘Pretraining’ phase.  Although the snippet does not enumerate datasets, token counts, compute budgets, or optimization hyper-parameters, it unambiguously places pre-training at the foundation of the model’s overall training stack.  In other words, QwQ 32B was not trained solely through task-specific fine-tuning; rather, it underwent a large-scale, general-purpose pre-training step before any subsequent post-training procedures.  The same sentence also hints that this pre-training is tightly coupled with later stages—Supervised Finetuning and Reinforcement Learning—suggesting an integrated pipeline, but the quote provides no further technical breakdown of the pre-training methodology itself.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Supervised fine-tuning for QwQ 32B is referenced in the same core statement: “**This repo contains the QwQ 32B model**, which has the following features:  ‑ Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).”  Here, ‘post-training’ is explicitly divided into two parts, the first of which is Supervised Finetuning.  Consequently, we can assert that after the initial pre-training pass, the QwQ 32B weights were further refined with a supervised objective—most likely leveraging curated instruction or task data—before entering any reinforcement-learning phase.  The sentence confirms the existence of this step but omits specifics such as dataset composition, loss functions, hyper-parameters, or evaluation checkpoints.  Still, the inclusion of Supervised Finetuning in the official training stage list establishes that QwQ 32B’s final capability set is the product of a deliberate two-stage refinement: (1) generic pre-training and (2) task-guided supervised adjustment, executed prior to the RL stage described separately.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The same authoritative snippet—“**This repo contains the QwQ 32B model**, which has the following features:  ‑ Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)”—also explicitly cites Reinforcement Learning as part of the post-training regime.  This tells us that after Supervised Finetuning, QwQ 32B was further optimized through a reinforcement-learning procedure (the quote does not specify whether it was RLHF, PPO, DPO, or another variant, only that RL was used).  The listing positions reinforcement learning alongside supervised fine-tuning under the larger umbrella of ‘Post-training,’ indicating a sequential or complementary process that fine-tunes the model’s behavior based on feedback or preference signals.  Beyond confirming its existence, the excerpt does not expose reward models, policy-optimization algorithms, or hyper-parameters, but it makes clear that reinforcement learning forms an integral, officially documented stage in the creation of QwQ 32B.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-1 (Pre-training Data)": "The only piece of information supplied about the QwQ 32B model’s pre-training data is contained in the sentence: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” From this, we can state—no more and no less—that QwQ 32B underwent a distinct pre-training phase as part of its overall development pipeline. The quote confirms the existence of a pre-training stage but does not disclose any further specifics regarding the data’s size, domain coverage, licensing, geographic or linguistic composition, or curation strategy. Consequently, beyond acknowledging that pre-training occurred, the excerpt gives no additional insight into types, sources, or quantities of the material employed.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The provided excerpt reads: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” For fine-tuning, this tells us only that after an initial pre-training phase, QwQ 32B received post-training in the form of Supervised Finetuning. No other attributes of that fine-tuning data—such as dataset names, licensing terms, public availability, or sampling methodology—are included in the supplied text. Therefore, the complete picture derived from the quote is that supervised fine-tuning definitely took place, yet every other possible detail about the composition or source of those supervised examples remains undisclosed in the material at hand.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "The sole statement furnished is: “This repo contains the QwQ 32B model, which has the following features: – Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning).” This affirms that, alongside supervised fine-tuning, the QwQ 32B workflow incorporated a Reinforcement Learning (RL) stage as a component of its post-training. The quote gives no visibility into what form that RL data took—whether human preference data, synthetic conversations, or another format—nor into its size, provenance, or accessibility. Thus, the only extractable fact is that an RL-based stage was included in post-training; all further particulars are absent.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "4-4 (Data Filtering)": "No sentences mentioning data filtering, cleaning criteria, automated screening tools, numeric thresholds, or any other pipeline-stage filtering procedures for QwQ 32B were provided in the quotes. Consequently, there is no information available to summarize on this topic.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
