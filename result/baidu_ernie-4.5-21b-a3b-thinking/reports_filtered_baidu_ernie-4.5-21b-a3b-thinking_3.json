@@ -1,0 +1,134 @@
+{
+  "2-3 (API)": "The documentation explicitly states that ERNIE 4.5 is \"publicly available under the Apache 2.0 license\" and that the team has placed all ten model variants on both a public GitHub repository (https://github.com/PaddlePaddle/ERNIE) and the Hugging Face Hub (https://huggingface.co/baidu). Although the quote does not advertise a hosted chat-style endpoint, it confirms that the weights, code, and accompanying resources can be obtained freely and programmatically from these two well-known distribution channels, thereby enabling outside users to integrate the models into their own services or build custom inference endpoints.",
+  "3-1 (Pre-training)": "The authors highlight aggressive systems-level engineering and hardware utilization during ERNIE 4.5 pre-training. They report a 47 % Model FLOPs Utilization (MFU) on their largest language model while running on 2 016 NVIDIA H800 GPUs. Data come from a broad mixture of web pages, academic papers, documents, images, videos, and synthetic corpora. Stability for multimodal joint training is maintained with a multi-stage curriculum (illustrated in Table 3). \n\nTo scale training, the team deploys three-dimensional parallelism over a MoE backbone—expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism—while also adding tensor parallelism for the longer-sequence, vision-augmented runs. Hybrid, heterogeneous parallelism is further supported by a hierarchical load-balancing solution and intra-node expert parallelism. FP8 mixed-precision is employed throughout; in particular, an E4M3 FP8 numerical format with online, block-wise weight quantization and tile-wise activation quantization mirrors the strategy of DeepSeek-V3. The same FP8 policy is integrated into ERNIEKit, the accompanying industrial-grade toolkit that offers turnkey pre-training and compression workflows. \n\nThe report references architectural hyperparameters and scale-aware settings (summarized in Table 2) and notes that recomputation tricks are used to reduce memory overhead. The resulting ERNIE-4.5-Base checkpoints (Table 4) demonstrate strong performance. For the vision-language variant (ERNIE-4.5-VL), a dedicated vision encoder is extensively pre-trained on visual concepts before joint multimodal tuning, boosting performance on Chinese vision benchmarks such as CCBench.",
+  "3-2 (Fine-tuning)": "Supervised Fine-Tuning (SFT) is described as a multi-stage process applied after the core pre-training of ERNIE 4.5. A taxonomy is built to bucket SFT data into topical domains, and, for vision-language models, the full post-training pipeline (Figure 5) comprises three sequential SFT stages followed by a reasoning-oriented RL stage. Beyond classic SFT, the team leverages Direct Preference Optimization (DPO) and a proprietary Unified Preference Optimization (UPO) to align outputs further. \n\nResource efficiency is a major theme: a novel FP8 Quantization-Aware Training (FP8-QAT) procedure couples low-precision fine-tuning with optimizer off-loading, and FlashMask is introduced to shrink the memory footprint of diverse attention masks from O(N²) to O(N), benefiting long-context SFT, DPO, and RL runs. ERNIEKit exposes these capabilities—SFT, LoRA adapters, DPO, QAT, and PTQ—as turnkey utilities. \n\nThe infrastructure itself is \"scaling-efficient,\" employing heterogeneous hybrid parallelism and hierarchical load balancing. Modality-specific fine-tuning is performed so that individual variants can meet domain requirements (e.g., text-only vs. multimodal deployments). Empirically, the thinking-mode version of ERNIE-4.5-VL-424B-A47B, after undergoing the described SFT and RL stages, markedly improves performance on reasoning-heavy benchmarks such as MathVista, MMMU, and VisualPuzzle, sometimes even surpassing OpenAI-o1.",
+  "3-3 (Reinforcement Learning)": "ERNIE 4.5’s post-training stack pairs SFT and DPO with reinforcement-learning-based alignment. The reported RL training adopts Proximal Policy Optimization (PPO) and, in a broader \"PRL\" framework, progresses through three stages: an initial logic-corpus phase that builds a bedrock of analytical reasoning, followed by subsequent stages (details in Figure 4) that refine performance. A reward model is boot-strapped from the ERNIE-4.5-Base checkpoint to accommodate prompts that include images. \n\nUnified Preference Optimization (UPO) is offered as an alternative alignment recipe, and a \"unified rewarding system\" with customized reward mechanisms is credited for the family’s strong instruction-following abilities in both single-turn and multi-turn, multilingual scenarios. FlashMask, first introduced for memory-efficient attention during pre-training, is also applied during RL to support long-context updates while cutting memory from O(N²) to O(N). All of these RL, DPO, QAT, and SFT capabilities are packaged inside the ERNIEKit toolkit so practitioners can reproduce or extend the presented alignment pipeline. \n\nThe outcome of this reinforcement-learning regimen is exemplified by ERNIE-4.5-VL-424B-A47B’s superior reasoning performance in \"thinking\" mode and ERNIE-4.5-300B-A47B’s competitive instruction-following results across benchmark suites.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All models are publicly available under the Apache 2.0 license to support future research and development in the field. Github: https://github.com/PaddlePaddle/ERNIE  Huggingface: https://huggingface.co/baidu"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We achieve 47% Model FLOPs Utilization (MFU) during the pre-training of our largest ERNIE 4.5 language model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure stability in multimodal joint training, we design a multi-stage pre-training strategy for ERNIE 4.5, as shown in Table 3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training. As for its multimodal model pre-training, we incorporate tensor parallelism to accommodate the increased sequence length and extra vision expert parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Industrial-Grade High-Performance Pre-Training: The toolkit has provided a high-performance implementation of our largest ERNIE 4.5 language model pre-training, including the hybrid parallelism training strategy and FP8 mixed precision optimization."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We efficiently pre-train ERNIE 4.5 using a heterogeneous hybrid parallelism approach and a hierarchical load balancing solution tailored to multimodal large models. Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47 % Model FLOPs Utilization (MFU) during the pre-training of our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 2 summarizes the architectural hyperparameters and scale-aware training settings for the ERNIE 4.5 family."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 adopts a similar quantization strategy to DeepSeek-V3 (DeepSeek-AI et al., 2024b) in the MoE FFN modules, utilizing E4M3 FP8 numerical format with an online quantization strategy that employs block-wise quantization for weights and tile-wise quantization for activations. The FP8 mixed precision training strategy for ERNIE 4.5 is illustrated in Figure 12."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 4: Performance of ERNIE-4.5-Base pre-trained models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Beyond perceptual ability, ERNIE-4.5-VL also demonstrates a deep understanding of Chinese visual knowledge, as evidenced by its sound performance on CCBench. This capability can be attributed to the extensive pre-training of the vision encoder on visual concepts, further improved by multimodal joint training and the incorporation of high-quality Chinese textual and visual data."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The VLMs focus on vision-language understanding and support both thinking and non-thinking modes. Each model employs a combination of Supervised Fine-tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 5: Illustration of VLM Post-Training for ERNIE-4.5-VL. The entire VLM post-training procedure is shown in Figure 5, which consists of three SFT stages and one reasoning RL stage."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Low-Bit Quantization-Aware Fine-tuning: To significantly reduce fine-tuning and deployment resources for ERNIE 4.5, we introduce a novel FP8-QAT solution integrating low-precision training with optimizer offloading."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2. Scaling-Efficient Infrastructure: We propose a novel heterogeneous hybrid parallelism and hierarchical load balancing strategy for efficient training of ERNIE 4.5 models. 3. Modality-Specific Post-Training: To meet the diverse requirements of real-world applications, we fine-tune variants of the pre-trained model for specific modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. To maximize the efficacy of the model, we implement a systematic taxonomy to categorize supervised fine-tuning (SFT) data into distinct topical domains."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training, reducing memory complexity from O(N2) to O(N). We also apply FlashMask in Supervised Fine-Tuning (SFT), Direct Policy Optimization (DPO), and Reinforcement Learning training, particularly for long-context training, to reduce memory usage and improve the throughput."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to its non-thinking mode, ERNIE-4.5-VL-424B-A47B in the thinking mode exhibits a clear advantage in reasoning-focused tasks, narrowing the performance gap, and in some cases surpassing OpenAI-o1 on challenging benchmarks such as MathVista, MMMU, and VisualPuzzle. This performance results from its improved understanding of STEM-related images acquired during the SFT and RL stages."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The VLMs focus on vision-language understanding and support both thinking and non-thinking modes. Each model employs a combination of Supervised Fine-tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022). To enhance training stability and optimize the model’s ultimate performance, we introduce the key techniques of our RL training recipe:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is initialized from ERNIE-4.5-Base to effectively handle queries containing visual inputs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to its non-thinking mode, ERNIE-4.5-VL-424B-A47B in the thinking mode exhibits a clear advantage in reasoning-focused tasks, narrowing the performance gap, and in some cases surpassing OpenAI-o1 on challenging benchmarks such as MathVista, MMMU, and VisualPuzzle. This performance results from its improved understanding of STEM-related images acquired during the SFT and RL stages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2. Scaling-Efficient Infrastructure: We propose a novel heterogeneous hybrid parallelism and hierarchical load balancing strategy for efficient training of ERNIE 4.5 models. 3. Modality-Specific Post-Training: ... Each model employs a combination of Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022). PRL implements a three-stage Reinforcement Learning (RL) algorithm as shown in Figure 4, which employs a staged progression: (1) In the initial stage, the model is trained exclusively on logic corpora, which systematically build up the robust foundational ability for logical analysis and abstract reasoning, serving as the cornerstone for all subsequent stages of learning within the PRL framework."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training, reducing memory complexity from O(N2) to O(N). We also apply FlashMask in Supervised Fine-Tuning (SFT), Direct Policy Optimization (DPO), and Reinforcement Learning training, particularly for long-context training, to reduce memory usage and improve the throughput."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B. Table 5 reveals the comparative performance of ERNIE-4.5-300B-A47B against other models across various benchmarks. The model’s strong capabilities in instruction following and knowledge utilization in single-turn, multi-turn, and multilingual scenarios may be attributed to our unified rewarding system, which incorporates carefully designed reward mechanisms to guide the model in better interpreting and adhering to diverse user instructions and internal knowledge."
+    }
+  ]
+}

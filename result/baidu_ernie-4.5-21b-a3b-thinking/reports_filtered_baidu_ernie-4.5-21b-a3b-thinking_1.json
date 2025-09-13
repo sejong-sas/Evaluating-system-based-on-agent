@@ -1,0 +1,85 @@
+{
+  "1-1 (Weights)": "The official materials for ERNIE 4.5 explicitly state that the full set of checkpoints for the model family—including the 21 B-parameter “ERNIE-4.5-21B-A3B-Base” variant—have been released. The report says: “All of our models are publicly available under the Apache 2.0 license to support future research and development in the field.” Availability is advertised on both of Baidu’s hosting points, with links given for a dedicated GitHub organization (github.com/PaddlePaddle/ERNIE) and a Hugging Face organization page (huggingface.co/baidu). In addition to standard fp16 / bf16 weights, the team also ships a “built-in 2-bit weight-only quantized model” so that users with limited VRAM can still run ERNIE 4.5 locally. No gated-access or application process is mentioned in the quotes; the wording “publicly available” plus direct repository links implies that any user can download the weights immediately after accepting the Apache 2.0 terms. The quotes do not mention any separate private checkpoints, and there is no indication of a staggered or delayed release schedule. Therefore, based solely on the quoted text, ERNIE 4.5-21B-A3B-Base is fully downloadable, with both standard-precision and 2-bit quantized weight files hosted openly on GitHub/Hugging Face under Apache 2.0.",
+  "1-2 (Code)": "Multiple sentences confirm that Baidu has open-sourced the training-and-deployment toolchain around ERNIE 4.5, not merely inference scripts. A headline statement reads: “Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility.” The quoted GitHub URL (github.com/PaddlePaddle/ERNIE) is given as the central repository. Two named toolkits are provided: (1) ERNIEKit—described as an “industrial-grade development toolkit” that “provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques”; and (2) FastDeploy, which is positioned as the runtime/deployment side of the stack. The quotes also note that Baidu has open-sourced “technical innovations in distributed training and quantization techniques,” implying that the code base contains scripts or modules for multi-GPU / multi-node training. No paid license, API-only restrictions, or omitted pieces are mentioned in the provided text; the implication is that the full training pipeline—from raw pre-training to task-specific fine-tuning and compression—can be reproduced with the published code. Though precise directory names or example configs are not quoted, the presence of pre-training, SFT, LoRA, DPO, QAT, and PTQ in a single sentence strongly suggests that the open-source drop includes data-prep scripts, training loops, optimizer schedules, and model-export utilities.",
+  "1-3 (License)": "The only directly quoted license information appears in the weights section: “All of our models are publicly available under the Apache 2.0 license.” No further wording—such as clause excerpts, additional restrictions, or dual licensing—is given in the supplied excerpts. Therefore, the most specific data point we can report is that ERNIE 4.5 (including the 21 B variant) is distributed under the Apache License, Version 2.0, which in its standard form grants users the rights to (a) use, (b) modify, (c) redistribute, and (d) conduct commercial activities, provided that they comply with the notice and attribution requirements of Apache 2.0. The quotes do not mention any non-commercial or research-only caveats, nor do they reference a separate license for code versus weights, so, based exclusively on the evidence supplied, Apache 2.0 applies universally to both the model files and the accompanying toolkits.",
+  "1-4 (Paper)": "Multiple references confirm the existence of a formal technical report titled “ERNIE 4.5 Technical Report,” with a date of June 29 2025. Phrases such as “ERNIE 4.5 Technical Report June 29, 2025” and “In this paper, we present a new family of foundation models: ERNIE 4.5” demonstrate that the document serves as the primary scholarly disclosure of the architecture, training corpus, and benchmark performance—including a specific highlight that the “ERNIE-4.5-21B-A3B-Base” model “outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH.” There is also a blog-style announcement titled “Announcing the Open Source Release of the ERNIE 4.5 Model Family.” Collectively, these references indicate that Baidu has produced both a peer-style technical report and at least one accompanying blog post to detail the model family’s design and release status.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All of our models are publicly available under the Apache 2.0 license to support future research and development in the field."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Notably, we provide a built-in 2-bit weight-only quantized model to lower the deployment resource requirements for ERNIE 4.5."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "Github: https://github.com/PaddlePaddle/ERNIE Huggingface: https://huggingface.co/baidu"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Github: https://github.com/PaddlePaddle/ERNIE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit1 and FastDeploy2 based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To facilitate future research and practical deployment, we have released our technical innovations in distributed training and quantization techniques, and open-sourced our development toolkits ERNIEKit and FastDeploy."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Announcing the Open Source Release of the ERNIE 4.5 Model Family"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report\nJune 29, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report June 29, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-21B-A3B-Base. With a total parameter size of 21B (approximately 70% that of Qwen3-30B), ERNIE-4.5-21B-A3B-Base outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "ERNIE 4.5 Technical Report"
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "In this paper, we present a new family of foundation models: ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we present ERNIE 4.5, a family of large-scale foundation models."
+    }
+  ]
+}

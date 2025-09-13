@@ -1,0 +1,54 @@
+{
+  "4-1 (Pre-training Data)": "The ERNIE 4.5 family is pre-trained on a deliberately curated, multi-modal corpus. The material spans web pages, academic papers, general documents, images, videos, and purpose-built synthetic data. Training is performed in a unified fashion so that text, image, and video modalities are learned together. To make large-scale pre-training feasible, the team uses a three-dimensional parallel training scheme on a Mixture-of-Experts (MoE) backbone: expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism are combined specifically for the text portion of pre-training. The authors report that the ERNIE-4.5-300B-A47B-Base variant outperforms a larger competitor (DeepSeek-V3-671B-A37B-Base) on 22 of 28 benchmarks; they directly attribute this edge, especially on Chinese tasks, to iterative refinement of the above pre-training data mixture.",
+  "4-2 (Fine-tuning Data)": "For supervised fine-tuning (SFT), the ERNIE 4.5 team assembles a broad, task-oriented dataset that is explicitly organized into ten topical domains. These domains are: science & math, coding, logic, information processing, creative writing, multilingual content, knowledge question-answering, multi-turn & role-play dialogue, and safety. A systematic taxonomy is applied so that every SFT example is assigned to one of these categories, ensuring that coverage is balanced and that downstream evaluation can be traced back to a specific domain focus.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-learning data for ERNIE 4.5 are generated and consumed inside a Proximal Policy Optimization (PPO) loop. All RL training iterations, policy updates, and reward model evaluations are executed within this PPO framework, aligning the data collection, advantage estimation, and gradient steps with the canonical approach described by Schulman et al. (2017) and Ouyang et al. (2022).",
+  "4-4 (Data Filtering)": "Because the raw web, document, image, video, and audio sources feeding ERNIE 4.5 are inherently noisy, the developers run each modality through its own comprehensive filtering pipeline. For text, images, videos, and audio alike, the pipeline removes low-quality or irrelevant content before any model sees it. On the RL side, the team initializes the reward model from ERNIE-4.5-Base and fine-tunes it with a GRPO algorithm that incorporates two explicit data-quality safeguards: dynamic sampling to prioritize informative samples and an overlong-sequence filter that discards prompts or responses exceeding acceptable length. Together, these measures provide end-to-end data cleaning across both the pre-training and RL stages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As illustrated in Figure 1, ERNIE 4.5 supports unified training with mixed text, image, and video modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B-Base surpasses DeepSeek-V3-671B-A37B-Base on 22 out of 28 benchmarks, demonstrating leading performance across various tasks. This superior performance in Chinese can be attributed to the iterative refinement of pre-training data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. Specifically, we develop a comprehensive suite of ten distinct topical domains, encompassing areas including science & math, coding, logic, information processing, creative writing, multilingual, knowledge QA, multi-turn & role play, and safety."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. To maximize the efficacy of the model, we implement a systematic taxonomy to categorize supervised fine-tuning (SFT) data into distinct topical domains."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimiza-tion (PPO) (Schulman et al., 2017; Ouyang et al., 2022)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data. Given the diversity and noise inherent in the raw datasets (Awadalla et al., 2024; Kim et al., 2022), we implement comprehensive data filtering pipelines for text, images, videos, and audio."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is initialized from ERNIE-4.5-Base to effectively handle queries containing visual inputs. We adopt GRPO (Shao et al., 2024) as our reinforcement learning algorithm, incorporating improvements inspired by DAPO (Yu et al., 2025), including dynamic sampling and overlong filtering."
+    }
+  ]
+}

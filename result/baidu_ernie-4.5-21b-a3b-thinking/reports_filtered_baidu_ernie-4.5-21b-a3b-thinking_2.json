@@ -1,0 +1,161 @@
+{
+  "1-5 (Architecture)": "ERNIE 4.5 is a multimodal, Transformer-based family that contains 10 distinct variants built around a fine-grained Mixture-of-Experts (MoE) design. The core backbone is a Transformer that supports text, image and video inputs and produces text outputs. A unified ViT encoder of about 630 M parameters processes vision tokens and feeds them to the multimodal MoE backbone. The largest configuration, ERNIE-4.5-VL-424B-A47B-Base, has 424 B total parameters with 47 B parameters activated during any forward pass; a smaller ERNIE-4.5-A3B model has 28 B total parameters (21 B text parameters), and the smallest dense model is 0.3 B. Model depth and width scale with size: 54 / 28 / 18 layers and 64/8, 20/4, 16/2 (Q/KV heads) for A47B, A3B and 0.3 B respectively. All three listed variants keep a context length of 131 072 tokens. \n\nThe MoE system is heterogeneous: feed-forward experts are split into text experts, vision experts and shared experts, enabling cross-modal parameter sharing but also modality-specific specialization. ERNIE 4.5 further introduces multimodal positional embeddings to build unified hidden states. Parallelism inside the model is three-dimensional—8-way expert parallelism, 12-way pipeline parallelism and ZeRO-1 data parallelism for language pre-training, with extra tensor parallelism added during multimodal pre-training. A Multi-Token Prediction (MTP) module is built in, allowing the use of speculative decoding at inference time. Overall, the architecture is described as a novel multimodal heterogeneous MoE Transformer that balances parameter sharing and expert specialization while scaling to hundreds of billions of parameters.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "Training of the largest ERNIE 4.5 language model was carried out on 2 016 NVIDIA H800 GPUs connected via RoCE; with sequence length 4 096 and global batch size 15 120, the team achieved 47 % Model FLOPs Utilization (MFU). The same 47 % MFU is reported after applying intra-node expert parallelism, FP8 mixed-precision and fine-grained recomputation. Fault-tolerant support reduces recovery time to under eight minutes; extrapolated, a 10 000-GPU cluster would still keep more than 98 % effective training time. For deployment, even the biggest ERNIE-4.5-A47B model can fit on a single node equipped with either 4 × 80 GB A800/H800 GPUs (4-bit precision) or one 141 GB H20 card (2-bit precision). Inference throughput on an H800 node reaches 56 k input TPS and 18 k output TPS (input 2 k tokens, output 400 tokens) while maintaining ≤ 50 ms time per output token. Although optimized for NVIDIA hardware, the communication scheme can also run on clusters without NVIDIA GPUs or InfiniBand networks.",
+  "2-2 (Software)": "All variants of ERNIE 4.5 are trained with the PaddlePaddle deep-learning framework. The team uses a heterogeneous hybrid parallel strategy that combines expert parallelism, pipeline parallelism and ZeRO-1 data parallelism, plus tensor parallelism for long-sequence multimodal runs. Load balancing across experts is handled hierarchically. Communication inside MoE layers is implemented with NCCL-compatible collectives and confined to intra-node links, giving throughput comparable to DeepEP MoE baselines. Quantization during training follows an E4M3 FP8 numerical format with block-wise weight and tile-wise activation quantization, mirroring the approach in DeepSeek-V3. To handle modality-specific attention patterns, the project introduces the FlashMask method. \n\nThe ecosystem around the model is also released: ERNIEKit and FastDeploy (both built on PaddlePaddle) supply industrial-grade tooling for pre-training, supervised fine-tuning, LoRA, DPO, QAT, PTQ and general deployment. Collectively, these software optimizations and open-sourced components underpin the efficient large-scale training and high-performance inference of ERNIE 4.5.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1 illustrates the Transformer architecture adopted by ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Subsequently, ERNIE 4.5 employs a fine-grained Mixture-of-Experts (MoE) architecture with multimodal positional embeddings to model unified hidden states across modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. The model family consists of Mixture-of-Experts (MoE) models with 47B and 3B active parameters (the largest containing 424B total parameters), as well as a dense model with 0.3B parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 combines a ViT encoder with a multimodal MoE backbone."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For ERNIE-4.5-VL-424B-A47B-Base, the vision inputs (images and videos) are processed by a unified ViT encoder comprising 630 million parameters. This encoder is jointly trained with a backbone network that employs a large-scale MoE architecture, totaling 424 billion parameters with 47 billion parameters activated during computation."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest ERNIE 4.5 language model employs an 8-way expert parallelism (EP) (Lepikhin et al., 2021), 12-way pipeline parallelism (PP) (Huang et al., 2019), and ZeRO-1 data parallelism (DP) (Rajbhandari et al., 2020) configuration."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we present ERNIE 4.5, a family of large-scale foundation models. Our models employ a novel heterogeneous MoE structure, which supports parameter sharing and modality-specific expert specialization, allowing for more flexible and effective multimodal joint training and knowledge fusion."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 is equipped with a Multi-Token Prediction (MTP) module, so speculative decoding is used during the inference phase."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1 illustrates the Transformer architecture adopted by ERNIE 4.5. It supports image, video, and text modalities as input and generates text as output."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike traditional unimodal MoE models, ERNIE 4.5 adopts a novel multimodal heterogeneous structure. This structure supports parameter sharing across modalities, including self-attention parameter sharing and expert parameter sharing, while also allowing for separate parameters for each modality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, the FFN experts in ERNIE 4.5 are categorized into three types: text experts, vision experts, and shared experts."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 employs a fine-grained Mixture-of-Experts (MoE) architecture with multimodal positional embeddings to model unified hidden states across modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Models\nERNIE-4.5-A47B-Base ERNIE-4.5-A3B-Base ERNIE-4.5-0.3B-Base\nText Params\n300B\n21B\n0.36B\nTotal Params\n424B\n28B\n–\nLayers\n54\n28\n18\nHeads (Q/KV)\n64/8\n20/4\n16/2\n# Text Experts (Total/Activated)\n64/8\n64/6\n–\n# Vision Experts (Total/Activated)\n64/8\n64/6\n–\nContext Length\n131,072\n131,072\n131,072"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 3: The training stages of our ERNIE-4.5-VL-424B-A47B-Base and ERNIE-4.5-VL-28B-A3B-Base models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training. As for its multimodal model pre-training, we incorporate tensor parallelism to accommodate the increased sequence length and extra vision expert parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-21B-A3B-Base. With a total parameter size of 21B (approximately 70% that of Qwen3-30B), ERNIE-4.5-21B-A3B-Base outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47% Model FLOPs Utilization (MFU) when pre-training our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through these comprehensive optimizations above, we achieve 47% Model FLOPs Utilization (MFU) in our largest ERNIE 4.5 language model, on 2016 NVIDIA H800 GPUs and RoCE interconnection with 4096 sequence length and 15120 global batch size."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Even the largest model, ERNIE-4.5-A47B, can be deployed on a single node, such as 4×80 GB A800 or H800 with 4-bit precision and 1×141 G H20 with 2-bit precision as mentioned above."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B achieves an inference performance of 56 k input TPS and 18 k output TPS per H800 node without prompt caching for an input length of 2 K and an output length of 400, under the constraint of a 50 ms Time Per Output Token (TPOT) latency."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47 % Model FLOPs Utilization (MFU) when pre-training our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The largest ERNIE 4.5 language model achieves an inference throughput of 56 k input TPS (Tokens Per Second) and 18 k output TPS per H800 node."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This approach achieves end-to-end throughput comparable to DeepEP-based MoE implementations (Zhao et al., 2025) on ERNIE 4.5, and can easily be deployed on AI clusters without NVIDIA GPUs and InfiniBand (IB) networks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, we have reduced the end-to-end automatic recovery time, which is measured from the timestamp of the latest step before interruption to the timestamp of resuming exactly the same step, to less than 8 minutes for ERNIE 4.5. Furthermore, given the assumption that interruption frequency scales linearly with cluster size, training models on a 10,000-GPU cluster leveraging our fault-tolerant framework can sustain over 98% effective training time."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All of our models are trained using the PaddlePaddle framework. We efficiently pre-train ERNIE 4.5 using a heterogeneous hybrid parallelism approach and a hierarchical load balancing solution tailored to multimodal large models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Built on PaddlePaddle, ERNIE 4.5 delivers high-performance inference across a wide range of hardware platforms."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of ERNIE 4.5 is supported by PaddlePaddle (Ma et al., 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 adopts a similar quantization strategy to DeepSeek-V3 (DeepSeek-AI et al., 2024b) in the MoE FFN modules, utilizing E4M3 FP8 numerical format with an online quantization strategy that employs block-wise quantization for weights and tile-wise quantization for activations."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit and FastDeploy based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All of our models are trained with optimized efficiency using the PaddlePaddle deep learning framework, which enables high-performance inference and streamlined deployment."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest ERNIE 4.5 language model employs an 8-way expert parallelism (EP) (Lepikhin et al., 2021), 12-way pipeline parallelism (PP) (Huang et al., 2019), and ZeRO-1 data parallelism (DP) (Rajbhandari et al., 2020) configuration."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By confining expert parallelism communication to intra-node, we implement MoE all-to-all communication based on NCCL-compatible collective primitives. This approach achieves end-to-end throughput comparable to DeepEP-based MoE implementations (Zhao et al., 2025) on ERNIE 4.5, and can easily be deployed on AI clusters without NVIDIA GPUs and InfiniBand (IB) networks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit1 and FastDeploy2 based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The development of ERNIE 4.5 has benefited greatly from the collective wisdom of the research com- munity, drawing on best practices and recent advances in large-scale model training. To facilitate future research and practical deployment, we have released our technical innovations in distributed training and quantization techniques, and open-sourced our development toolkits ERNIEKit and FastDeploy."
+    }
+  ]
+}

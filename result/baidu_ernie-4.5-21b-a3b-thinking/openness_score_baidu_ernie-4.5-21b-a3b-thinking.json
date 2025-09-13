@@ -1,0 +1,148 @@
+{
+  "model": "baidu/ERNIE-4.5-21B-A3B-Thinking",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The model is covered by Apache-2.0 (README badge, LICENSE file and notice), which allows use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "The README requests citation of an “ERNIE 4.5 Technical Report,” indicating that an official tech report specifically about this model exists."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote: “we achieve … pre-training … on 2016 NVIDIA H800 GPUs,” disclosing both hardware type (NVIDIA H800) and quantity (2 016)."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes list several training-stack components: ‘ZeRO-1 data parallelism’, ‘expert/pipeline/tensor parallelism’, ‘FP8 mixed precision’, ‘FlashMask’, ‘ERNIEKit’.  Although many elements are named, exact versions/configs of the full stack are not given."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Methodology is sketched (multi-stage text/vision joint training, MoE, hybrid parallelism, FP8, 47 % MFU) but not fully reproducible (no objectives, schedules, step counts)."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "SFT pipeline and topical taxonomy are described, plus LoRA, QAT and FlashMask usage, yet concrete hyper-parameters or scripts are absent."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "RL procedure is partially detailed (PPO framework, reward model initialisation, Unified Preference Optimisation, three-stage logic-first schedule) but still lacks full, reproducible recipe."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources (web pages, papers, docs, images, videos, synthetic) are listed, but no sizes, splits, or licensing breakdown are supplied."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Ten topical domains for SFT are enumerated, yet dataset names, sizes and availability are not."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No concrete information about the composition or size of the RL preference/reward datasets is disclosed."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "The authors state they apply ‘comprehensive data filtering pipelines’ and mention ‘dynamic sampling and overlong filtering’, but give no specific pipeline steps, thresholds or removal ratios."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The model is covered by Apache-2.0 (README badge, LICENSE file and notice), which allows use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "The README requests citation of an “ERNIE 4.5 Technical Report,” indicating that an official tech report specifically about this model exists."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote: “we achieve … pre-training … on 2016 NVIDIA H800 GPUs,” disclosing both hardware type (NVIDIA H800) and quantity (2 016)."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes list several training-stack components: ‘ZeRO-1 data parallelism’, ‘expert/pipeline/tensor parallelism’, ‘FP8 mixed precision’, ‘FlashMask’, ‘ERNIEKit’.  Although many elements are named, exact versions/configs of the full stack are not given."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Methodology is sketched (multi-stage text/vision joint training, MoE, hybrid parallelism, FP8, 47 % MFU) but not fully reproducible (no objectives, schedules, step counts)."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "SFT pipeline and topical taxonomy are described, plus LoRA, QAT and FlashMask usage, yet concrete hyper-parameters or scripts are absent."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "RL procedure is partially detailed (PPO framework, reward model initialisation, Unified Preference Optimisation, three-stage logic-first schedule) but still lacks full, reproducible recipe."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources (web pages, papers, docs, images, videos, synthetic) are listed, but no sizes, splits, or licensing breakdown are supplied."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Ten topical domains for SFT are enumerated, yet dataset names, sizes and availability are not."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No concrete information about the composition or size of the RL preference/reward datasets is disclosed."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "The authors state they apply ‘comprehensive data filtering pipelines’ and mention ‘dynamic sampling and overlong filtering’, but give no specific pipeline steps, thresholds or removal ratios."
+    }
+  },
+  "final_score_10pt": 5.938,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 9.5,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

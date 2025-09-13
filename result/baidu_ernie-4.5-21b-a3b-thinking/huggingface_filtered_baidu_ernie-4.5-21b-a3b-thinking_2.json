@@ -1,0 +1,33 @@
+{
+  "1-5 (Architecture)": "The available description states that “ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token.”  This clearly identifies the model as a mixture-of-experts (MoE) system in which only a subset of the full parameter set—3 billion of the 21 billion—participates in the computation for an individual token, a classic sparse-activation design.  A supporting configuration line, “\"model_type\": \"ernie4_5_moe\",”, reiterates that the implementation is catalogued under an ‘ernie4_5_moe’ model type, anchoring the architecture within the ERNIE-4.5 family and confirming its MoE nature.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"ernie4_5_moe\","
+    }
+  ],
+  "1-6 (Tokenizer)": "The sole tokenizer-related reference is a code line that sets “model_name = \"baidu/ERNIE-4.5-21B-A3B-Thinking\"”.  This tells us that the tokenizer (and the model it belongs to) is retrieved or referenced via the HuggingFace-style repository path “baidu/ERNIE-4.5-21B-A3B-Thinking.”  No other tokenizer properties—such as vocabulary size, normalization scheme, or downloadable files—are mentioned in the provided material.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"baidu/ERNIE-4.5-21B-A3B-Thinking\""
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Two command-line examples document the software environment used with ERNIE-4.5-21B-A3B-Thinking.  The first calls FastDeploy’s OpenAI-compatible API server from Python: \npython -m fastdeploy.entrypoints.openai.api_server --model baidu/ERNIE-4.5-21B-A3B-Thinking.  The second invokes vLLM’s serving utility: \nvllm serve baidu/ERNIE-4.5-21B-A3B-Thinking.  These snippets show that both FastDeploy (via its entrypoints.openai.api_server module) and the vLLM framework are part of the software stack used to run the model, and that each tool loads the model directly from the same repository identifier.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "python -m fastdeploy.entrypoints.openai.api_server \\        --model baidu/ERNIE-4.5-21B-A3B-Thinking \\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve baidu/ERNIE-4.5-21B-A3B-Thinking"
+    }
+  ]
+}

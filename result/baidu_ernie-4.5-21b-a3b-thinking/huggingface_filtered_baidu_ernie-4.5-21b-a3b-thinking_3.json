@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "The only explicit piece of API-level information provided for ERNIE-4.5-21B-A3B-Thinking is the statement that “The ERNIE-4.5-21B-A3B-Thinking model supports function call.”  From this single sentence we can conclude that, when developers interact with the model through its public interface, they have access to a built-in capability labelled “function call.”  No other aspects of the API—such as authentication, endpoint paths, rate limits, request/response schemas, or publicly hosted documentation—are mentioned in the supplied material.  Therefore, the entire API summary for this model consists solely of the confirmation that function-calling is officially supported.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The ERNIE-4.5-21B-A3B-Thinking model supports function call."
+    }
+  ],
+  "3-1 (Pre-training)": "According to the source sentence, “ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token.”  This conveys several key pre-training characteristics.  First, the model is described as a Mixture-of-Experts (MoE) text model, meaning it is architected with multiple expert subnetworks and a gating mechanism that selects which experts participate in processing each token.  Second, the full parameter count is 21 billion, but only 3 billion parameters are actually activated on a per-token basis; this ratio highlights the sparse-activation property typical of MoE systems.  Third, it is identified as “post-trained,” indicating that the model has undergone an additional stage of training beyond its initial pre-training, although no further procedural details—such as data composition, training steps, or objective functions—are provided in the quoted material.  These three points constitute the totality of disclosed pre-training information.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token."
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

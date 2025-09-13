@@ -1,0 +1,122 @@
+{
+  "1-1 (Weights)": "The repository for \"baidu/ERNIE-4.5-21B-A3B-Thinking\" explicitly states that it “releases Transformer-style weights.”  A concrete file example, “model-00001-of-00009.safetensors,” shows that the weights are distributed in multiple SafeTensors shards.  The text also stresses cross-framework usability, noting that “Both PyTorch and PaddlePaddle ecosystem tools, such as vLLM, transformers, and FastDeploy, are expected to be able to load and run this model.”  Together, these quotes indicate that the full set of model parameters is publicly released in a format compatible with common open-source inference stacks.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To align with the wider community, this model releases Transformer-style weights. Both PyTorch and PaddlePaddle ecosystem tools, such as vLLM, transformers, and FastDeploy, are expected to be able to load and run this model."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"baidu/ERNIE-4.5-21B-A3B-Thinking\""
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00009.safetensors"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Several direct statements clarify that the model is covered by the Apache License 2.0:\n• “The ERNIE 4.5 models are provided under the Apache License 2.0. This license permits commercial use, subject to its terms and conditions.”\n• A short identifier appears as “license: apache-2.0,” and a badge reinforces the point with “License-Apache2.0.”\n• The standard notice is included verbatim: “Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License.”\n• An additional snippet records the copyright holder and year: “Copyright (c) 2025 Baidu, Inc. All Rights Reserved.”\n• A file named “LICENSE” is present in the distribution (“LICENSE file present: LICENSE”).\nCollectively, these passages establish that users may use, modify, redistribute, and employ the model commercially, as long as they comply with Apache-2.0 obligations (e.g., include the license text and attribution).",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The ERNIE 4.5 models are provided under the Apache License 2.0. This license permits commercial use, subject to its terms and conditions."
+    },
+    {
+      "source": "[readme]",
+      "quote": "license: apache-2.0"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: apache-2.0\nlanguage:\n- en\n- zh\npipeline_tag: text-generation\ntags:\n- ERNIE4.5\nlibrary_name: transformers\n---\n\n<div align=\"center\" style=\"line-height: 1;\">\n <a href=\"http"
+    },
+    {
+      "source": "[readme]",
+      "quote": "</a>\n</div>\n\n<div align=\"center\" style=\"line-height: 1;\">\n <a href=\"#license\" style=\"margin: 2px;\">\n <img alt=\"License\" src=\"https://img.shields.io/badge/License-Apache2.0-A5de54\" style=\"display: inline-block; vertical-align: middle;\"/>\n </a>\n</div>\n\n# ERNIE-4.5-21B-A3B-Thinking\n\n## Model Highlights\n\nOver the past three months,"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "put_ids, skip_special_tokens=True)\nprint(\"generate_text:\", generate_text)\n```\n\n## License\n\nThe ERNIE 4.5 models are provided under the Apache License 2.0. This license permits commercial use, subject to its terms and conditions. Copyright (c) 2025 Baidu, Inc. All Rights Reserved.\n\n## Citation\n\nIf you find ERNIE 4.5 useful or wish to"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two adjoining sentences provide the only publication information: “If you find ERNIE 4.5 useful or wish to use it in your projects, please kindly cite our technical report:” followed by the citation header “title={ERNIE 4.5 Technical Report}.”  This indicates that an official technical report exists under that title and that the authors request citation of this document when the model is used.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "If you find ERNIE 4.5 useful or wish to use it in your projects, please kindly cite our technical report:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "title={ERNIE 4.5 Technical Report}"
+    }
+  ],
+  "1-5 (Architecture)": "The available description states that “ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token.”  This clearly identifies the model as a mixture-of-experts (MoE) system in which only a subset of the full parameter set—3 billion of the 21 billion—participates in the computation for an individual token, a classic sparse-activation design.  A supporting configuration line, “\"model_type\": \"ernie4_5_moe\",”, reiterates that the implementation is catalogued under an ‘ernie4_5_moe’ model type, anchoring the architecture within the ERNIE-4.5 family and confirming its MoE nature.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"ernie4_5_moe\","
+    }
+  ],
+  "1-6 (Tokenizer)": "The sole tokenizer-related reference is a code line that sets “model_name = \"baidu/ERNIE-4.5-21B-A3B-Thinking\"”.  This tells us that the tokenizer (and the model it belongs to) is retrieved or referenced via the HuggingFace-style repository path “baidu/ERNIE-4.5-21B-A3B-Thinking.”  No other tokenizer properties—such as vocabulary size, normalization scheme, or downloadable files—are mentioned in the provided material.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"baidu/ERNIE-4.5-21B-A3B-Thinking\""
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Two command-line examples document the software environment used with ERNIE-4.5-21B-A3B-Thinking.  The first calls FastDeploy’s OpenAI-compatible API server from Python: \npython -m fastdeploy.entrypoints.openai.api_server --model baidu/ERNIE-4.5-21B-A3B-Thinking.  The second invokes vLLM’s serving utility: \nvllm serve baidu/ERNIE-4.5-21B-A3B-Thinking.  These snippets show that both FastDeploy (via its entrypoints.openai.api_server module) and the vLLM framework are part of the software stack used to run the model, and that each tool loads the model directly from the same repository identifier.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "python -m fastdeploy.entrypoints.openai.api_server \\        --model baidu/ERNIE-4.5-21B-A3B-Thinking \\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve baidu/ERNIE-4.5-21B-A3B-Thinking"
+    }
+  ],
+  "2-3 (API)": "The only explicit piece of API-level information provided for ERNIE-4.5-21B-A3B-Thinking is the statement that “The ERNIE-4.5-21B-A3B-Thinking model supports function call.”  From this single sentence we can conclude that, when developers interact with the model through its public interface, they have access to a built-in capability labelled “function call.”  No other aspects of the API—such as authentication, endpoint paths, rate limits, request/response schemas, or publicly hosted documentation—are mentioned in the supplied material.  Therefore, the entire API summary for this model consists solely of the confirmation that function-calling is officially supported.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The ERNIE-4.5-21B-A3B-Thinking model supports function call."
+    }
+  ],
+  "3-1 (Pre-training)": "According to the source sentence, “ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token.”  This conveys several key pre-training characteristics.  First, the model is described as a Mixture-of-Experts (MoE) text model, meaning it is architected with multiple expert subnetworks and a gating mechanism that selects which experts participate in processing each token.  Second, the full parameter count is 21 billion, but only 3 billion parameters are actually activated on a per-token basis; this ratio highlights the sparse-activation property typical of MoE systems.  Third, it is identified as “post-trained,” indicating that the model has undergone an additional stage of training beyond its initial pre-training, although no further procedural details—such as data composition, training steps, or objective functions—are provided in the quoted material.  These three points constitute the totality of disclosed pre-training information.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "ERNIE-4.5-21B-A3B-Thinking is a text MoE post-trained model, with 21B total parameters and 3B activated parameters for each token."
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

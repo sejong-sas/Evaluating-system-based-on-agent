@@ -1,0 +1,432 @@
+{
+  "1-1 (Weights)": "The official materials for ERNIE 4.5 explicitly state that the full set of checkpoints for the model family—including the 21 B-parameter “ERNIE-4.5-21B-A3B-Base” variant—have been released. The report says: “All of our models are publicly available under the Apache 2.0 license to support future research and development in the field.” Availability is advertised on both of Baidu’s hosting points, with links given for a dedicated GitHub organization (github.com/PaddlePaddle/ERNIE) and a Hugging Face organization page (huggingface.co/baidu). In addition to standard fp16 / bf16 weights, the team also ships a “built-in 2-bit weight-only quantized model” so that users with limited VRAM can still run ERNIE 4.5 locally. No gated-access or application process is mentioned in the quotes; the wording “publicly available” plus direct repository links implies that any user can download the weights immediately after accepting the Apache 2.0 terms. The quotes do not mention any separate private checkpoints, and there is no indication of a staggered or delayed release schedule. Therefore, based solely on the quoted text, ERNIE 4.5-21B-A3B-Base is fully downloadable, with both standard-precision and 2-bit quantized weight files hosted openly on GitHub/Hugging Face under Apache 2.0.",
+  "1-2 (Code)": "Multiple sentences confirm that Baidu has open-sourced the training-and-deployment toolchain around ERNIE 4.5, not merely inference scripts. A headline statement reads: “Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility.” The quoted GitHub URL (github.com/PaddlePaddle/ERNIE) is given as the central repository. Two named toolkits are provided: (1) ERNIEKit—described as an “industrial-grade development toolkit” that “provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques”; and (2) FastDeploy, which is positioned as the runtime/deployment side of the stack. The quotes also note that Baidu has open-sourced “technical innovations in distributed training and quantization techniques,” implying that the code base contains scripts or modules for multi-GPU / multi-node training. No paid license, API-only restrictions, or omitted pieces are mentioned in the provided text; the implication is that the full training pipeline—from raw pre-training to task-specific fine-tuning and compression—can be reproduced with the published code. Though precise directory names or example configs are not quoted, the presence of pre-training, SFT, LoRA, DPO, QAT, and PTQ in a single sentence strongly suggests that the open-source drop includes data-prep scripts, training loops, optimizer schedules, and model-export utilities.",
+  "1-3 (License)": "The only directly quoted license information appears in the weights section: “All of our models are publicly available under the Apache 2.0 license.” No further wording—such as clause excerpts, additional restrictions, or dual licensing—is given in the supplied excerpts. Therefore, the most specific data point we can report is that ERNIE 4.5 (including the 21 B variant) is distributed under the Apache License, Version 2.0, which in its standard form grants users the rights to (a) use, (b) modify, (c) redistribute, and (d) conduct commercial activities, provided that they comply with the notice and attribution requirements of Apache 2.0. The quotes do not mention any non-commercial or research-only caveats, nor do they reference a separate license for code versus weights, so, based exclusively on the evidence supplied, Apache 2.0 applies universally to both the model files and the accompanying toolkits.",
+  "1-4 (Paper)": "Multiple references confirm the existence of a formal technical report titled “ERNIE 4.5 Technical Report,” with a date of June 29 2025. Phrases such as “ERNIE 4.5 Technical Report June 29, 2025” and “In this paper, we present a new family of foundation models: ERNIE 4.5” demonstrate that the document serves as the primary scholarly disclosure of the architecture, training corpus, and benchmark performance—including a specific highlight that the “ERNIE-4.5-21B-A3B-Base” model “outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH.” There is also a blog-style announcement titled “Announcing the Open Source Release of the ERNIE 4.5 Model Family.” Collectively, these references indicate that Baidu has produced both a peer-style technical report and at least one accompanying blog post to detail the model family’s design and release status.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All of our models are publicly available under the Apache 2.0 license to support future research and development in the field."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Notably, we provide a built-in 2-bit weight-only quantized model to lower the deployment resource requirements for ERNIE 4.5."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "Github: https://github.com/PaddlePaddle/ERNIE Huggingface: https://huggingface.co/baidu"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Github: https://github.com/PaddlePaddle/ERNIE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit1 and FastDeploy2 based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "Additionally, we open-source the development toolkits for ERNIE 4.5, which feature industrial-grade capabilities, resource-efficient training and inference workflows, and multi-hardware compatibility."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To facilitate future research and practical deployment, we have released our technical innovations in distributed training and quantization techniques, and open-sourced our development toolkits ERNIEKit and FastDeploy."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Announcing the Open Source Release of the ERNIE 4.5 Model Family"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report\nJune 29, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 Technical Report June 29, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-21B-A3B-Base. With a total parameter size of 21B (approximately 70% that of Qwen3-30B), ERNIE-4.5-21B-A3B-Base outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH."
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "ERNIE 4.5 Technical Report"
+    },
+    {
+      "source": "[sections/https://ernie.baidu.com/blog/publication/ERNIE_Technical_Report.pdf]",
+      "quote": "In this paper, we present a new family of foundation models: ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we present ERNIE 4.5, a family of large-scale foundation models."
+    }
+  ],
+  "1-5 (Architecture)": "ERNIE 4.5 is a multimodal, Transformer-based family that contains 10 distinct variants built around a fine-grained Mixture-of-Experts (MoE) design. The core backbone is a Transformer that supports text, image and video inputs and produces text outputs. A unified ViT encoder of about 630 M parameters processes vision tokens and feeds them to the multimodal MoE backbone. The largest configuration, ERNIE-4.5-VL-424B-A47B-Base, has 424 B total parameters with 47 B parameters activated during any forward pass; a smaller ERNIE-4.5-A3B model has 28 B total parameters (21 B text parameters), and the smallest dense model is 0.3 B. Model depth and width scale with size: 54 / 28 / 18 layers and 64/8, 20/4, 16/2 (Q/KV heads) for A47B, A3B and 0.3 B respectively. All three listed variants keep a context length of 131 072 tokens. \n\nThe MoE system is heterogeneous: feed-forward experts are split into text experts, vision experts and shared experts, enabling cross-modal parameter sharing but also modality-specific specialization. ERNIE 4.5 further introduces multimodal positional embeddings to build unified hidden states. Parallelism inside the model is three-dimensional—8-way expert parallelism, 12-way pipeline parallelism and ZeRO-1 data parallelism for language pre-training, with extra tensor parallelism added during multimodal pre-training. A Multi-Token Prediction (MTP) module is built in, allowing the use of speculative decoding at inference time. Overall, the architecture is described as a novel multimodal heterogeneous MoE Transformer that balances parameter sharing and expert specialization while scaling to hundreds of billions of parameters.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "Training of the largest ERNIE 4.5 language model was carried out on 2 016 NVIDIA H800 GPUs connected via RoCE; with sequence length 4 096 and global batch size 15 120, the team achieved 47 % Model FLOPs Utilization (MFU). The same 47 % MFU is reported after applying intra-node expert parallelism, FP8 mixed-precision and fine-grained recomputation. Fault-tolerant support reduces recovery time to under eight minutes; extrapolated, a 10 000-GPU cluster would still keep more than 98 % effective training time. For deployment, even the biggest ERNIE-4.5-A47B model can fit on a single node equipped with either 4 × 80 GB A800/H800 GPUs (4-bit precision) or one 141 GB H20 card (2-bit precision). Inference throughput on an H800 node reaches 56 k input TPS and 18 k output TPS (input 2 k tokens, output 400 tokens) while maintaining ≤ 50 ms time per output token. Although optimized for NVIDIA hardware, the communication scheme can also run on clusters without NVIDIA GPUs or InfiniBand networks.",
+  "2-2 (Software)": "All variants of ERNIE 4.5 are trained with the PaddlePaddle deep-learning framework. The team uses a heterogeneous hybrid parallel strategy that combines expert parallelism, pipeline parallelism and ZeRO-1 data parallelism, plus tensor parallelism for long-sequence multimodal runs. Load balancing across experts is handled hierarchically. Communication inside MoE layers is implemented with NCCL-compatible collectives and confined to intra-node links, giving throughput comparable to DeepEP MoE baselines. Quantization during training follows an E4M3 FP8 numerical format with block-wise weight and tile-wise activation quantization, mirroring the approach in DeepSeek-V3. To handle modality-specific attention patterns, the project introduces the FlashMask method. \n\nThe ecosystem around the model is also released: ERNIEKit and FastDeploy (both built on PaddlePaddle) supply industrial-grade tooling for pre-training, supervised fine-tuning, LoRA, DPO, QAT, PTQ and general deployment. Collectively, these software optimizations and open-sourced components underpin the efficient large-scale training and high-performance inference of ERNIE 4.5.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1 illustrates the Transformer architecture adopted by ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Subsequently, ERNIE 4.5 employs a fine-grained Mixture-of-Experts (MoE) architecture with multimodal positional embeddings to model unified hidden states across modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. The model family consists of Mixture-of-Experts (MoE) models with 47B and 3B active parameters (the largest containing 424B total parameters), as well as a dense model with 0.3B parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 combines a ViT encoder with a multimodal MoE backbone."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For ERNIE-4.5-VL-424B-A47B-Base, the vision inputs (images and videos) are processed by a unified ViT encoder comprising 630 million parameters. This encoder is jointly trained with a backbone network that employs a large-scale MoE architecture, totaling 424 billion parameters with 47 billion parameters activated during computation."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest ERNIE 4.5 language model employs an 8-way expert parallelism (EP) (Lepikhin et al., 2021), 12-way pipeline parallelism (PP) (Huang et al., 2019), and ZeRO-1 data parallelism (DP) (Rajbhandari et al., 2020) configuration."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we present ERNIE 4.5, a family of large-scale foundation models. Our models employ a novel heterogeneous MoE structure, which supports parameter sharing and modality-specific expert specialization, allowing for more flexible and effective multimodal joint training and knowledge fusion."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 is equipped with a Multi-Token Prediction (MTP) module, so speculative decoding is used during the inference phase."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 1 illustrates the Transformer architecture adopted by ERNIE 4.5. It supports image, video, and text modalities as input and generates text as output."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike traditional unimodal MoE models, ERNIE 4.5 adopts a novel multimodal heterogeneous structure. This structure supports parameter sharing across modalities, including self-attention parameter sharing and expert parameter sharing, while also allowing for separate parameters for each modality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, the FFN experts in ERNIE 4.5 are categorized into three types: text experts, vision experts, and shared experts."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 employs a fine-grained Mixture-of-Experts (MoE) architecture with multimodal positional embeddings to model unified hidden states across modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Models\nERNIE-4.5-A47B-Base ERNIE-4.5-A3B-Base ERNIE-4.5-0.3B-Base\nText Params\n300B\n21B\n0.36B\nTotal Params\n424B\n28B\n–\nLayers\n54\n28\n18\nHeads (Q/KV)\n64/8\n20/4\n16/2\n# Text Experts (Total/Activated)\n64/8\n64/6\n–\n# Vision Experts (Total/Activated)\n64/8\n64/6\n–\nContext Length\n131,072\n131,072\n131,072"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 3: The training stages of our ERNIE-4.5-VL-424B-A47B-Base and ERNIE-4.5-VL-28B-A3B-Base models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training. As for its multimodal model pre-training, we incorporate tensor parallelism to accommodate the increased sequence length and extra vision expert parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-21B-A3B-Base. With a total parameter size of 21B (approximately 70% that of Qwen3-30B), ERNIE-4.5-21B-A3B-Base outperforms Qwen3-30B-A3B-Base on several math and reasoning benchmarks, including BBH and CMATH."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47% Model FLOPs Utilization (MFU) when pre-training our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through these comprehensive optimizations above, we achieve 47% Model FLOPs Utilization (MFU) in our largest ERNIE 4.5 language model, on 2016 NVIDIA H800 GPUs and RoCE interconnection with 4096 sequence length and 15120 global batch size."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Even the largest model, ERNIE-4.5-A47B, can be deployed on a single node, such as 4×80 GB A800 or H800 with 4-bit precision and 1×141 G H20 with 2-bit precision as mentioned above."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B achieves an inference performance of 56 k input TPS and 18 k output TPS per H800 node without prompt caching for an input length of 2 K and an output length of 400, under the constraint of a 50 ms Time Per Output Token (TPOT) latency."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47 % Model FLOPs Utilization (MFU) when pre-training our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The largest ERNIE 4.5 language model achieves an inference throughput of 56 k input TPS (Tokens Per Second) and 18 k output TPS per H800 node."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This approach achieves end-to-end throughput comparable to DeepEP-based MoE implementations (Zhao et al., 2025) on ERNIE 4.5, and can easily be deployed on AI clusters without NVIDIA GPUs and InfiniBand (IB) networks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, we have reduced the end-to-end automatic recovery time, which is measured from the timestamp of the latest step before interruption to the timestamp of resuming exactly the same step, to less than 8 minutes for ERNIE 4.5. Furthermore, given the assumption that interruption frequency scales linearly with cluster size, training models on a 10,000-GPU cluster leveraging our fault-tolerant framework can sustain over 98% effective training time."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All of our models are trained using the PaddlePaddle framework. We efficiently pre-train ERNIE 4.5 using a heterogeneous hybrid parallelism approach and a hierarchical load balancing solution tailored to multimodal large models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Built on PaddlePaddle, ERNIE 4.5 delivers high-performance inference across a wide range of hardware platforms."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of ERNIE 4.5 is supported by PaddlePaddle (Ma et al., 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 adopts a similar quantization strategy to DeepSeek-V3 (DeepSeek-AI et al., 2024b) in the MoE FFN modules, utilizing E4M3 FP8 numerical format with an online quantization strategy that employs block-wise quantization for weights and tile-wise quantization for activations."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit and FastDeploy based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All of our models are trained with optimized efficiency using the PaddlePaddle deep learning framework, which enables high-performance inference and streamlined deployment."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest ERNIE 4.5 language model employs an 8-way expert parallelism (EP) (Lepikhin et al., 2021), 12-way pipeline parallelism (PP) (Huang et al., 2019), and ZeRO-1 data parallelism (DP) (Rajbhandari et al., 2020) configuration."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By confining expert parallelism communication to intra-node, we implement MoE all-to-all communication based on NCCL-compatible collective primitives. This approach achieves end-to-end throughput comparable to DeepEP-based MoE implementations (Zhao et al., 2025) on ERNIE 4.5, and can easily be deployed on AI clusters without NVIDIA GPUs and InfiniBand (IB) networks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We open-source ERNIEKit1 and FastDeploy2 based on PaddlePaddle framework to streamline model training and deployment for ERNIE 4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The development of ERNIE 4.5 has benefited greatly from the collective wisdom of the research com- munity, drawing on best practices and recent advances in large-scale model training. To facilitate future research and practical deployment, we have released our technical innovations in distributed training and quantization techniques, and open-sourced our development toolkits ERNIEKit and FastDeploy."
+    }
+  ],
+  "2-3 (API)": "The documentation explicitly states that ERNIE 4.5 is \"publicly available under the Apache 2.0 license\" and that the team has placed all ten model variants on both a public GitHub repository (https://github.com/PaddlePaddle/ERNIE) and the Hugging Face Hub (https://huggingface.co/baidu). Although the quote does not advertise a hosted chat-style endpoint, it confirms that the weights, code, and accompanying resources can be obtained freely and programmatically from these two well-known distribution channels, thereby enabling outside users to integrate the models into their own services or build custom inference endpoints.",
+  "3-1 (Pre-training)": "The authors highlight aggressive systems-level engineering and hardware utilization during ERNIE 4.5 pre-training. They report a 47 % Model FLOPs Utilization (MFU) on their largest language model while running on 2 016 NVIDIA H800 GPUs. Data come from a broad mixture of web pages, academic papers, documents, images, videos, and synthetic corpora. Stability for multimodal joint training is maintained with a multi-stage curriculum (illustrated in Table 3). \n\nTo scale training, the team deploys three-dimensional parallelism over a MoE backbone—expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism—while also adding tensor parallelism for the longer-sequence, vision-augmented runs. Hybrid, heterogeneous parallelism is further supported by a hierarchical load-balancing solution and intra-node expert parallelism. FP8 mixed-precision is employed throughout; in particular, an E4M3 FP8 numerical format with online, block-wise weight quantization and tile-wise activation quantization mirrors the strategy of DeepSeek-V3. The same FP8 policy is integrated into ERNIEKit, the accompanying industrial-grade toolkit that offers turnkey pre-training and compression workflows. \n\nThe report references architectural hyperparameters and scale-aware settings (summarized in Table 2) and notes that recomputation tricks are used to reduce memory overhead. The resulting ERNIE-4.5-Base checkpoints (Table 4) demonstrate strong performance. For the vision-language variant (ERNIE-4.5-VL), a dedicated vision encoder is extensively pre-trained on visual concepts before joint multimodal tuning, boosting performance on Chinese vision benchmarks such as CCBench.",
+  "3-2 (Fine-tuning)": "Supervised Fine-Tuning (SFT) is described as a multi-stage process applied after the core pre-training of ERNIE 4.5. A taxonomy is built to bucket SFT data into topical domains, and, for vision-language models, the full post-training pipeline (Figure 5) comprises three sequential SFT stages followed by a reasoning-oriented RL stage. Beyond classic SFT, the team leverages Direct Preference Optimization (DPO) and a proprietary Unified Preference Optimization (UPO) to align outputs further. \n\nResource efficiency is a major theme: a novel FP8 Quantization-Aware Training (FP8-QAT) procedure couples low-precision fine-tuning with optimizer off-loading, and FlashMask is introduced to shrink the memory footprint of diverse attention masks from O(N²) to O(N), benefiting long-context SFT, DPO, and RL runs. ERNIEKit exposes these capabilities—SFT, LoRA adapters, DPO, QAT, and PTQ—as turnkey utilities. \n\nThe infrastructure itself is \"scaling-efficient,\" employing heterogeneous hybrid parallelism and hierarchical load balancing. Modality-specific fine-tuning is performed so that individual variants can meet domain requirements (e.g., text-only vs. multimodal deployments). Empirically, the thinking-mode version of ERNIE-4.5-VL-424B-A47B, after undergoing the described SFT and RL stages, markedly improves performance on reasoning-heavy benchmarks such as MathVista, MMMU, and VisualPuzzle, sometimes even surpassing OpenAI-o1.",
+  "3-3 (Reinforcement Learning)": "ERNIE 4.5’s post-training stack pairs SFT and DPO with reinforcement-learning-based alignment. The reported RL training adopts Proximal Policy Optimization (PPO) and, in a broader \"PRL\" framework, progresses through three stages: an initial logic-corpus phase that builds a bedrock of analytical reasoning, followed by subsequent stages (details in Figure 4) that refine performance. A reward model is boot-strapped from the ERNIE-4.5-Base checkpoint to accommodate prompts that include images. \n\nUnified Preference Optimization (UPO) is offered as an alternative alignment recipe, and a \"unified rewarding system\" with customized reward mechanisms is credited for the family’s strong instruction-following abilities in both single-turn and multi-turn, multilingual scenarios. FlashMask, first introduced for memory-efficient attention during pre-training, is also applied during RL to support long-context updates while cutting memory from O(N²) to O(N). All of these RL, DPO, QAT, and SFT capabilities are packaged inside the ERNIEKit toolkit so practitioners can reproduce or extend the presented alignment pipeline. \n\nThe outcome of this reinforcement-learning regimen is exemplified by ERNIE-4.5-VL-424B-A47B’s superior reasoning performance in \"thinking\" mode and ERNIE-4.5-300B-A47B’s competitive instruction-following results across benchmark suites.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this report, we introduce ERNIE 4.5, a new family of large-scale foundation models comprising 10 distinct variants. All models are publicly available under the Apache 2.0 license to support future research and development in the field. Github: https://github.com/PaddlePaddle/ERNIE  Huggingface: https://huggingface.co/baidu"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We achieve 47% Model FLOPs Utilization (MFU) during the pre-training of our largest ERNIE 4.5 language model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure stability in multimodal joint training, we design a multi-stage pre-training strategy for ERNIE 4.5, as shown in Table 3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training. As for its multimodal model pre-training, we incorporate tensor parallelism to accommodate the increased sequence length and extra vision expert parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Industrial-Grade High-Performance Pre-Training: The toolkit has provided a high-performance implementation of our largest ERNIE 4.5 language model pre-training, including the hybrid parallelism training strategy and FP8 mixed precision optimization."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We efficiently pre-train ERNIE 4.5 using a heterogeneous hybrid parallelism approach and a hierarchical load balancing solution tailored to multimodal large models. Through our extreme optimizations, including efficient intra-node expert parallelism, FP8 mixed-precision training, and fine-grained recomputation methods, we achieve 47 % Model FLOPs Utilization (MFU) during the pre-training of our largest ERNIE 4.5 language model on 2016 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 2 summarizes the architectural hyperparameters and scale-aware training settings for the ERNIE 4.5 family."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 adopts a similar quantization strategy to DeepSeek-V3 (DeepSeek-AI et al., 2024b) in the MoE FFN modules, utilizing E4M3 FP8 numerical format with an online quantization strategy that employs block-wise quantization for weights and tile-wise quantization for activations. The FP8 mixed precision training strategy for ERNIE 4.5 is illustrated in Figure 12."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 4: Performance of ERNIE-4.5-Base pre-trained models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Beyond perceptual ability, ERNIE-4.5-VL also demonstrates a deep understanding of Chinese visual knowledge, as evidenced by its sound performance on CCBench. This capability can be attributed to the extensive pre-training of the vision encoder on visual concepts, further improved by multimodal joint training and the incorporation of high-quality Chinese textual and visual data."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The VLMs focus on vision-language understanding and support both thinking and non-thinking modes. Each model employs a combination of Supervised Fine-tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 5: Illustration of VLM Post-Training for ERNIE-4.5-VL. The entire VLM post-training procedure is shown in Figure 5, which consists of three SFT stages and one reasoning RL stage."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Low-Bit Quantization-Aware Fine-tuning: To significantly reduce fine-tuning and deployment resources for ERNIE 4.5, we introduce a novel FP8-QAT solution integrating low-precision training with optimizer offloading."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2. Scaling-Efficient Infrastructure: We propose a novel heterogeneous hybrid parallelism and hierarchical load balancing strategy for efficient training of ERNIE 4.5 models. 3. Modality-Specific Post-Training: To meet the diverse requirements of real-world applications, we fine-tune variants of the pre-trained model for specific modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. To maximize the efficacy of the model, we implement a systematic taxonomy to categorize supervised fine-tuning (SFT) data into distinct topical domains."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training, reducing memory complexity from O(N2) to O(N). We also apply FlashMask in Supervised Fine-Tuning (SFT), Direct Policy Optimization (DPO), and Reinforcement Learning training, particularly for long-context training, to reduce memory usage and improve the throughput."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to its non-thinking mode, ERNIE-4.5-VL-424B-A47B in the thinking mode exhibits a clear advantage in reasoning-focused tasks, narrowing the performance gap, and in some cases surpassing OpenAI-o1 on challenging benchmarks such as MathVista, MMMU, and VisualPuzzle. This performance results from its improved understanding of STEM-related images acquired during the SFT and RL stages."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The VLMs focus on vision-language understanding and support both thinking and non-thinking modes. Each model employs a combination of Supervised Fine-tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022). To enhance training stability and optimize the model’s ultimate performance, we introduce the key techniques of our RL training recipe:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is initialized from ERNIE-4.5-Base to effectively handle queries containing visual inputs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIEKit is an industrial-grade development toolkit for ERNIE 4.5. It provides model training and compression capabilities, including pre-training, Supervised Fine-Tuning (SFT), Low-Rank Adaptation (LoRA), Direct Preference Optimization (DPO), Quantization-Aware Training (QAT) and Post-Training Quantization (PTQ) techniques."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to its non-thinking mode, ERNIE-4.5-VL-424B-A47B in the thinking mode exhibits a clear advantage in reasoning-focused tasks, narrowing the performance gap, and in some cases surpassing OpenAI-o1 on challenging benchmarks such as MathVista, MMMU, and VisualPuzzle. This performance results from its improved understanding of STEM-related images acquired during the SFT and RL stages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2. Scaling-Efficient Infrastructure: We propose a novel heterogeneous hybrid parallelism and hierarchical load balancing strategy for efficient training of ERNIE 4.5 models. 3. Modality-Specific Post-Training: ... Each model employs a combination of Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO) or a modified reinforcement learning method named Unified Preference Optimization (UPO) for post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022). PRL implements a three-stage Reinforcement Learning (RL) algorithm as shown in Figure 4, which employs a staged progression: (1) In the initial stage, the model is trained exclusively on logic corpora, which systematically build up the robust foundational ability for logical analysis and abstract reasoning, serving as the cornerstone for all subsequent stages of learning within the PRL framework."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We propose FlashMask (Wang et al., 2025) to accommodate the diverse attention masks required in ERNIE 4.5 multimodal pre-training, reducing memory complexity from O(N2) to O(N). We also apply FlashMask in Supervised Fine-Tuning (SFT), Direct Policy Optimization (DPO), and Reinforcement Learning training, particularly for long-context training, to reduce memory usage and improve the throughput."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B. Table 5 reveals the comparative performance of ERNIE-4.5-300B-A47B against other models across various benchmarks. The model’s strong capabilities in instruction following and knowledge utilization in single-turn, multi-turn, and multilingual scenarios may be attributed to our unified rewarding system, which incorporates carefully designed reward mechanisms to guide the model in better interpreting and adhering to diverse user instructions and internal knowledge."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The ERNIE 4.5 family is pre-trained on a deliberately curated, multi-modal corpus. The material spans web pages, academic papers, general documents, images, videos, and purpose-built synthetic data. Training is performed in a unified fashion so that text, image, and video modalities are learned together. To make large-scale pre-training feasible, the team uses a three-dimensional parallel training scheme on a Mixture-of-Experts (MoE) backbone: expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism are combined specifically for the text portion of pre-training. The authors report that the ERNIE-4.5-300B-A47B-Base variant outperforms a larger competitor (DeepSeek-V3-671B-A37B-Base) on 22 of 28 benchmarks; they directly attribute this edge, especially on Chinese tasks, to iterative refinement of the above pre-training data mixture.",
+  "4-2 (Fine-tuning Data)": "For supervised fine-tuning (SFT), the ERNIE 4.5 team assembles a broad, task-oriented dataset that is explicitly organized into ten topical domains. These domains are: science & math, coding, logic, information processing, creative writing, multilingual content, knowledge question-answering, multi-turn & role-play dialogue, and safety. A systematic taxonomy is applied so that every SFT example is assigned to one of these categories, ensuring that coverage is balanced and that downstream evaluation can be traced back to a specific domain focus.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-learning data for ERNIE 4.5 are generated and consumed inside a Proximal Policy Optimization (PPO) loop. All RL training iterations, policy updates, and reward model evaluations are executed within this PPO framework, aligning the data collection, advantage estimation, and gradient steps with the canonical approach described by Schulman et al. (2017) and Ouyang et al. (2022).",
+  "4-4 (Data Filtering)": "Because the raw web, document, image, video, and audio sources feeding ERNIE 4.5 are inherently noisy, the developers run each modality through its own comprehensive filtering pipeline. For text, images, videos, and audio alike, the pipeline removes low-quality or irrelevant content before any model sees it. On the RL side, the team initializes the reward model from ERNIE-4.5-Base and fine-tunes it with a GRPO algorithm that incorporates two explicit data-quality safeguards: dynamic sampling to prioritize informative samples and an overlong-sequence filter that discards prompts or responses exceeding acceptable length. Together, these measures provide end-to-end data cleaning across both the pre-training and RL stages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As illustrated in Figure 1, ERNIE 4.5 supports unified training with mixed text, image, and video modalities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To effectively scale the training of our largest ERNIE 4.5 language model, we employ three-dimensional parallelism on the MoE backbone, specifically, expert parallelism, pipeline parallelism, and ZeRO-1 data parallelism, for text pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE-4.5-300B-A47B-Base surpasses DeepSeek-V3-671B-A37B-Base on 22 out of 28 benchmarks, demonstrating leading performance across various tasks. This superior performance in Chinese can be attributed to the iterative refinement of pre-training data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. Specifically, we develop a comprehensive suite of ten distinct topical domains, encompassing areas including science & math, coding, logic, information processing, creative writing, multilingual, knowledge QA, multi-turn & role play, and safety."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section elaborates on the supervised fine-tuning (SFT) process implemented for ERNIE-4.5. To maximize the efficacy of the model, we implement a systematic taxonomy to categorize supervised fine-tuning (SFT) data into distinct topical domains."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimiza-tion (PPO) (Schulman et al., 2017; Ouyang et al., 2022)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conduct the RL training process of the ERNIE-4.5 within the framework of Proximal Policy Optimization (PPO) (Schulman et al., 2017; Ouyang et al., 2022)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "ERNIE 4.5 models are trained on data curated from web pages, academic papers, documents, images, videos, and synthetic data. Given the diversity and noise inherent in the raw datasets (Awadalla et al., 2024; Kim et al., 2022), we implement comprehensive data filtering pipelines for text, images, videos, and audio."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is initialized from ERNIE-4.5-Base to effectively handle queries containing visual inputs. We adopt GRPO (Shao et al., 2024) as our reinforcement learning algorithm, incorporating improvements inspired by DAPO (Yu et al., 2025), including dynamic sampling and overlong filtering."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
