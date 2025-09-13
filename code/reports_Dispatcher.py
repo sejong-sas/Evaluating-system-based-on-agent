@@ -1,9 +1,12 @@
 # reports_Dispatcher.py
 # Purpose:
-#   - Merge and deduplicate "report-ish" texts gathered by fetchers
-#     (HF: reports_fulltext_{hf}.json, GH: reports_fulltext_github_{owner_repo}.json)
-#     PLUS arXiv fetcher outputs (arxiv_fulltext_{hf}.json / arxiv_{hf}.json).
+#   - Merge & dedup report-ish texts that were ALREADY merged by upstream fetchers
+#     into a single file: reports_fulltext_{hf}.json  (HF+GH merged result).
 #   - Filter out irrelevant sources to the given model (doc-level + quote-level).
+#   - Strict model-guard with a "Version Proximity" exception:
+#       · Allow cross-version quotes ONLY if same series AND same major AND minor-delta ≤ δ.
+#       · δ is configurable by env REPORTS_VERSION_DELTA_LIMIT (default 0.4).
+#       · If TARGET has no version → the exception is disabled (target-only).
 #   - Run a 2-pass (evidence → summary) extraction for the 16 openness items.
 #   - Save group outputs and a final merged JSON:
 #       reports_filtered_{base}_{1..4}.json, reports_filtered_final_{base}.json
@@ -17,9 +20,15 @@
 #   REPORTS_URL_DENY_SUBSTR="blog.foo, old-version" (denylist substrings)
 #   REPORTS_DISPATCHER_SECTION_CHAR_CAP / REPORTS_DISPATCHER_MAX_SECTIONS (optional caps)
 #   REPORTS_LICENSE_CANONICAL_URLS="https://example.com/license1,https://example.com/license2" (optional, license-only refs)
+#   REPORTS_VERSION_DELTA_LIMIT="0.4"  (minor version proximity threshold)
+#
+# Notes:
+#   · Input candidates are simplified to ONE file: reports_fulltext_{hf}.json
+#     (because HF/GH have already been merged upstream).
+#   · arXiv / GH-raw reports are NOT referenced here anymore.
 
 import os, json, re, hashlib
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -31,6 +40,7 @@ if not _API_KEY:
     raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
 _client = OpenAI(api_key=_API_KEY)
 MODEL_NAME = os.getenv("OPENAI_MODEL_REPORTS_DISPATCHER", "o3")
+VERSION_DELTA_LIMIT = float(os.getenv("REPORTS_VERSION_DELTA_LIMIT", "0.4"))
 
 # ─────────────────────── 16 evaluation items ───────────────────────
 LABELS = {
@@ -62,7 +72,7 @@ EVAL_DESCRIPTIONS = {
     LABELS["4-1"]: "All information about types, quantities, sources, permitted use, and composition of pre-training data",
     LABELS["4-2"]: "All information about sources, composition, examples, and public availability of fine-tuning datasets",
     LABELS["4-3"]: "All information about composition, accessibility, sources, and generation of reinforcement learning datasets",
-    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact(or include llama guard)",
+    LABELS["4-4"]: "All information about data filtering/cleaning methods, criteria used, processes, and their impact",
 }
 
 ITEM_GROUPS = [
@@ -121,7 +131,7 @@ def _dedup_evs(evs: List[Dict[str,str]], limit:int):
         if len(out) >= limit: break
     return out
 
-# ────────────────── Target-model guard (강화) ──────────────────
+# ────────────────── Target-model guard (강화 + Version Proximity) ──────────────────
 _STOPWORDS = {
     "ai","llm","language","nlp","ml","model","models","base","chat","instruct","instruction",
     "sft","rl","rlhf","eval","evaluation","bench","benchmark","dev","test","demo","preview",
@@ -155,13 +165,76 @@ def _family_tokens_from_model_id(model_id: str) -> set[str]:
     if len(nodigit) >= 3: base.add(nodigit)
     return base
 
+# ───────────── Version Proximity helpers (generic, no hardcoding) ─────────────
+_SER_VER_PATS = [
+    # e.g., "llama3.1", "qwen2.5"
+    re.compile(r"\b([a-z][a-z0-9]{2,})\s*(\d+(?:\.\d+)?)\b", re.I),
+    # e.g., "llama 3.1", "qwen 2.5"
+    re.compile(r"\b([a-z][a-z0-9]{2,})\s*[-_/ ]\s*(\d+(?:\.\d+)?)\b", re.I),
+]
+
+def _parse_series_version(s: str) -> List[Tuple[str,int,float]]:
+    """
+    Parse series name (letters+) and version (major.minor) tuples from a string.
+    Filters out obvious size suffix matches (like '32b' since series would be 'b').
+    """
+    out: List[Tuple[str,int,float]] = []
+    if not s: return out
+    for pat in _SER_VER_PATS:
+        for m in pat.finditer(s):
+            series = (m.group(1) or "").lower()
+            ver_str = m.group(2) or ""
+            # Heuristics: reject too-short series and common suffix letters
+            if len(series) < 3: 
+                continue
+            try:
+                # version "3" -> 3.0 ; "3.1" -> 3.1
+                v = float(ver_str)
+            except:
+                continue
+            major = int(v)
+            minor = round(v - major, 6)
+            out.append((series, major, minor))
+    return out
+
+def _target_series_versions(model_id: str) -> List[Tuple[str,int,float]]:
+    last = (model_id or "").split("/",1)[-1]
+    return _parse_series_version(last)
+
+def _mentions_nearby_version(text: str,
+                             target_ser_vers: List[Tuple[str,int,float]],
+                             delta: float) -> bool:
+    """
+    Version proximity check:
+      Same series AND same major AND |minor delta| ≤ delta → True.
+      Disabled if target has no version parsed.
+    """
+    if not target_ser_vers:
+        return False  # target has no version → exception off
+    cand = _parse_series_version(text or "")
+    if not cand:
+        return False
+    for ts, tmaj, tmin in target_ser_vers:
+        for cs, cmaj, cmin in cand:
+            if cs == ts and cmaj == tmaj and abs(cmin - tmin) <= delta:
+                return True
+    return False
+
 def _model_guard_text(model_id: str) -> str:
     toks = sorted(_family_tokens_from_model_id(model_id))
+    tsv = _target_series_versions(model_id)
+    sv_desc = ", ".join([f"{s} {maj}+{min_:.2f}" for (s,maj,min_) in tsv]) if tsv else "N/A (no version in target)"
     return (
         "STRICT MODEL FILTER\n"
         f"- Target model: {model_id}\n"
-        f"- Prefer a quote ONLY if the sentence explicitly mentions one of: {toks}.\n"
-        "- If a section mixes multiple models or earlier/other versions, keep only sentences that also include TARGET tokens.\n"
+        f"- Target family tokens (for exact mentions): {toks}.\n"
+        "- Keep a quote ONLY if:\n"
+        "  (A) the sentence itself explicitly mentions a TARGET token (exact name/alias), OR\n"
+        "  (B) Version-Proximity EXCEPTION applies.\n"
+        f"- Version-Proximity EXCEPTION (series+version rule): same SERIES as target, same MAJOR (integer part),\n"
+        f"  and MINOR difference ≤ {VERSION_DELTA_LIMIT:.2f}. If the target has no version → this exception is disabled.\n"
+        f"  Parsed target series/version(s): {sv_desc}\n"
+        "- If a section mixes multiple models or earlier/other versions, keep only sentences that satisfy (A) or (B).\n"
         "- If the TARGET name is in the immediately previous sentence within the same paragraph and the current sentence contains the fact, include BOTH sentences together as one quote (previous + current).\n"
         "- If in doubt, DROP the quote."
     )
@@ -185,7 +258,6 @@ def _quote_mentions_target(q: str, model_id: str) -> bool:
 
 # ───────── Generalized filtering-signal detection (for weak-guard) ─────────
 _GENERIC_FILTER_KWS = (
-    # categories / signals
     "dedup", "duplicate", "near-duplicate", "minhash", "minhashlsh", "simhash", "lsh", "jaccard",
     "pii", "anonymiz", "de-identif", "redact",
     "langid", "language identification", "language-id", "language detection", "cld3", "fasttext", "langdetect",
@@ -193,7 +265,6 @@ _GENERIC_FILTER_KWS = (
     "quality filter", "quality score", "perplexity", "ppl", "classifier", "detector", "model-based filter", "llm-based filter",
     "contamination", "decontamination", "benchmark leakage",
     "advertisement", "ad spam", "spam",
-    # pipeline phrasing
     "cascaded filtering", "filtering pipeline", "multi-stage", "series of filtering", "stage 1", "stage 2", "step 1", "step 2",
 )
 _TOOL_NEAR_FILTER_PAT = re.compile(
@@ -231,7 +302,7 @@ def _quote_has_filtering_signal(q: str) -> bool:
 
 def _allow_weak_guard_labels() -> set[str]:
     """Labels where model-name is often omitted in methodology text (allow weak-guard)."""
-    return { LABELS["4-4"], LABELS["4-1"], LABELS["3-1"], LABELS["1-3"] }  # + License
+    return { LABELS["4-4"], LABELS["4-1"], LABELS["3-1"], LABELS["1-3"] }
 
 # ───────────── License detection (weak-guard + canonical URL injection) ─────────────
 _LICENSE_NAME_PAT = re.compile(
@@ -245,15 +316,12 @@ _LICENSE_NAME_PAT = re.compile(
 def _license_canonical_urls_from_text(text: str) -> List[str]:
     tl = (text or "").lower()
     urls: List[str] = []
-    # Family-level canonical pages (no model-specific branching)
     if "openrail" in tl or "bigcode" in tl:
         urls.append("https://www.bigcode-project.org/docs/pages/model-license/")
     if "llama 2" in tl and "license" in tl:
         urls.append("https://ai.meta.com/llama/license/")
     if "falcon" in tl and "license" in tl:
-        # Use TII Falcon license exemplar (generic reference)
         urls.append("https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE")
-    # User-provided extras
     extra = [u.strip() for u in re.split(r"[,\s]+", REPORTS_LICENSE_CANONICAL_URLS) if u.strip()]
     for u in extra:
         if u not in urls:
@@ -262,11 +330,6 @@ def _license_canonical_urls_from_text(text: str) -> List[str]:
 
 def _inject_license_backstop(ev: Dict[str, List[Dict[str,str]]],
                              payload_text: str) -> Dict[str, List[Dict[str,str]]]:
-    """
-    1) If '1-3 (License)' evidence is empty, scan payload for license phrases and inject quotes.
-    2) Regardless, if the text indicates a known license family, inject canonical URL references
-       as additional evidence with source=[web:<url>] (no HTTP fetch, just a canonical pointer).
-    """
     lbl = LABELS["1-3"]
     text = payload_text or ""
     existing = ev.get(lbl) or []
@@ -298,7 +361,6 @@ def _inject_license_backstop(ev: Dict[str, List[Dict[str,str]]],
 def _desc(ids): return {LABELS[i]: EVAL_DESCRIPTIONS[LABELS[i]] for i in ids}
 def _skeleton(g):  return {LABELS[i]: [] for i in g}
 
-# Hints for 4-4
 _FILTER_HINTS = (
     "dedup/near-duplicate/Minhash/SimHash/LSH/Jaccard",
     "PII anonymization/redaction; language-ID (CLD3, fastText, langdetect)",
@@ -337,7 +399,10 @@ def _recall_inst(g: List[str], model_id: str) -> str:
         _model_guard_text(model_id) +
         "\nItems in this group:\n" + _js(_desc(g)) +
         "\nReturn a JSON object with EXACTLY these keys (arrays of {source,quote}):\n" +
-        _js(_skeleton(g))
+        _js(_skeleton(g)) +
+        "\n\nADDITIONAL ENFORCEMENT:\n"
+        "- Apply the Version-Proximity EXCEPTION strictly: accept a sentence for NEAR-BY versions ONLY if it explicitly names the nearby model string; do not infer.\n"
+        "- Do NOT include sentences that merely describe a BASE or PARENT model (e.g., a different series or different major version)."
     )
     if "4-4" in g:
         hints = (
@@ -448,7 +513,7 @@ def _collect(g: List[str], text: str, model_id: str):
         i = end - CHUNK_OVERLAP if end - CHUNK_OVERLAP > i else end
         ans = _chat_json(_BASE_RECALL_SYS, _recall_inst(g, model_id)+"\n=== PAYLOAD ===\n"+ch)
         for k in g:
-            arr = ans.get(LABELS[k], [])
+            arr = ans.get(LABELS[k], [])  # type: ignore
             if isinstance(arr, list):
                 ev[LABELS[k]].extend(arr)
 
@@ -456,6 +521,7 @@ def _collect(g: List[str], text: str, model_id: str):
     raw_counts = {LABELS[k]: len(ev.get(LABELS[k]) or []) for k in g}
     weak_labels = _allow_weak_guard_labels()
     ev2 = {}
+    tsv = _target_series_versions(model_id)
     for k in g:
         lbl = LABELS[k]
         kept = []
@@ -465,7 +531,13 @@ def _collect(g: List[str], text: str, model_id: str):
             if not src or not qt: continue
             if not _valid_source(src): continue
 
-            ok = (_quote_mentions_target(qt, model_id) or _source_tag_mentions_target(src, model_id))
+            # Accept if explicit target mention OR source tag mention OR nearby-version exception.
+            ok = (
+                _quote_mentions_target(qt, model_id) or
+                _source_tag_mentions_target(src, model_id) or
+                _mentions_nearby_version(qt, tsv, VERSION_DELTA_LIMIT)
+            )
+
             if not ok and (lbl in weak_labels):
                 if lbl == LABELS["1-3"]:
                     ok = bool(_LICENSE_NAME_PAT.search(qt))
@@ -560,13 +632,13 @@ def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str
     lbl = "1-4 (Paper)"
     if ev.get(lbl):
         return ev
-    # 1) 섹션 title(URL) 사용
+    # try from sections title(URL)
     for s in (payload.get("sections") or []):
         title = (s.get("title") or "").strip()
         if title.startswith("http://") or title.startswith("https://"):
             ev[lbl] = [{"source": f"sections/{title}", "quote": title}]
             return ev
-    # 2) 본문에서 arxiv/doi 등의 링크 스캔
+    # scan body
     m = _PAPER_URL_RE.search(payload.get("pdf_text") or "")
     if m:
         url = m.group(1).strip()
@@ -577,40 +649,20 @@ def _inject_backstop_paper(ev: Dict[str, List[Dict[str,str]]], payload: Dict[str
 def filter_reports_features(model: str, save: bool = True, output_dir: str | Path = ".") -> Dict[str, Any]:
     """
     Input candidates:
-      - reports_fulltext_{hf}.json                (HF fetcher)
-      - reports_fulltext_github_{owner_repo}.json (GH fetcher, if same model repo is known)
-      - arxiv_fulltext_{hf}.json / arxiv_{hf}.json (arXiv fetcher)
+      - reports_fulltext_{base}.json  (HF+GH merged result, already deduped upstream)
     Merge → doc-level filter → dedup → quote-level filter → 2-pass extraction.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     base = model.replace("/", "_").lower()
 
-    # (A) HF-based reports
+    # (ONLY) merged reports file
     candidates: List[Path] = [output_dir / f"reports_fulltext_{base}.json"]
-
-    # (B) GH-based reports (if GH repo identified in outdir)
-    gh_meta = output_dir / f"github_{base}.json"
-    if gh_meta.exists():
-        try:
-            gh_j = json.load(open(gh_meta, encoding="utf-8"))
-            repo = (gh_j.get("repo") or gh_j.get("full_name") or "").replace("/", "_").lower()
-            if repo:
-                candidates.append(output_dir / f"reports_fulltext_github_{repo}.json")
-        except Exception:
-            pass
-
-    # (C) arXiv papers
-    candidates += [
-        output_dir / f"arxiv_fulltext_{base}.json",
-        output_dir / f"arxiv_{base}.json",
-    ]
 
     # Fallback to project root if not found in output_dir
     existing: List[Path] = [p for p in candidates if p.exists()]
     if not existing:
-        alt_names = [p.name for p in candidates]
-        for nm in alt_names:
+        for nm in [p.name for p in candidates]:
             if Path(nm).exists(): existing.append(Path(nm))
     if not existing:
         raise FileNotFoundError([str(c) for c in candidates])
@@ -704,7 +756,9 @@ def filter_reports_features(model: str, save: bool = True, output_dir: str | Pat
 # ───────────────────────── CLI ─────────────────────────
 if __name__ == "__main__":
     import sys
-    mid="bigscience/bloomz-560m"
-    if len(sys.argv)>1 and sys.argv[1]: mid=sys.argv[1]
+    mid = "Qwen/QwQ-32B"
+    if len(sys.argv) > 1 and sys.argv[1]:
+        mid = sys.argv[1]
     print("▶ Model to run:", mid)
-    filter_reports_features(mid)
+    # qwen_qwq-32b 파일이 현재 디렉토리에 있으므로, output_dir을 "./qwen_qwq-32b"로 지정
+    filter_reports_features(mid, output_dir="./qwen_qwq-32b")

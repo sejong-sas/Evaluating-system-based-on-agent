@@ -390,7 +390,11 @@ Output a JSON object only.
 
 _BASE_SUMMARY_SYS = """
 Using the provided quotes only, write long and detailed summaries for each item.
-Output a JSON object only.
+- For "4-4 (Data Filtering)", prefer quotes that include concrete criteria: tool/classifier mentions,
+  numeric thresholds/ratios (e.g., Jaccard 0.95, ppl < X, removed Y%), or pipeline-stage wording.
+You may also use quotes that refer to models in the same series with the same major version and a minor version difference of 0.4 or less (for example, v1.2 and v1.5).
+Do NOT use quotes that refer to any other models outside of this range.
+You must output a JSON object only.
 """.strip()
 
 _USAGE_SYS = """
