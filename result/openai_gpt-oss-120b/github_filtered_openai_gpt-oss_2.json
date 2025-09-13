@@ -1,0 +1,69 @@
+{
+  "1-5 (Architecture)": "The only architectural details that the source text makes explicit concern the two public checkpoints that carry the name of the target model series.  A flagship variant is identified in several ways – as “gpt-oss-120b” and again by the constant MODEL_IDENTIFIER = \"gpt-oss-120b\" in code – and is further pinned to a unique binary UUID (GPTOSS_MODEL_UUID = UUID('df52dc86-1789-4ed0-a295-66f10508145b').bytes).  The descriptive line “`gpt-oss-120b` — for production, general purpose, high reasoning use cases that fit into a single 80GB GPU (like NVIDIA H100 or AMD MI300X) (117B parameters with 5.1B active parameters)” gives several concrete architecture-level facts: (1) the nominal parameter count is 117 B, but only 5.1 B of those parameters are simultaneously active, clearly implying a Mixture-of-Experts (MoE) design in which a routing mechanism selects a small subset of expert weights per token; (2) the memory footprint is low enough that the model can reside entirely on a single 80 GB accelerator such as an NVIDIA H100 or AMD MI300X; and (3) the intended usage domain is “production, general purpose, high reasoning.”  A second line, “**MXFP4 quantization:** The models were post-trained with MXFP4 quantization of the MoE weights, making `gpt-oss-120b` run on a single 80GB GPU (like NVIDIA H100 or AMD MI300X) and the `gpt-oss-20b` model run within 16GB of memory,” adds that after pre-training the weights are further compressed with an MXFP4 4-bit quantization scheme applied to the MoE experts.  This post-training quantization is central to the stated single-GPU feasibility and also reveals the existence of a smaller sibling, “gpt-oss-20b,” that, after the same treatment, fits into only 16 GB of GPU RAM.  No layer counts, hidden sizes, attention head counts, transformer depth, positional-embedding type, or other structural hyperparameters are disclosed beyond these capacity and compression figures.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- `gpt-oss-120b` — for production, general purpose, high reasoning use cases that fit into a single 80GB GPU (like NVIDIA H100 or AMD MI300X) (117B parameters with 5.1B active parameters)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **MXFP4 quantization:** The models were post-trained with MXFP4 quantization of the MoE weights, making `gpt-oss-120b` run on a single 80GB GPU (like NVIDIA H100 or AMD MI300X) and the `gpt-oss-20b` model run within 16GB of memory."
+    },
+    {
+      "source": "[py_files/gpt_oss/metal/scripts/create-local-model.py]",
+      "quote": "GPTOSS_MODEL_UUID = UUID('df52dc86-1789-4ed0-a295-66f10508145b').bytes"
+    },
+    {
+      "source": "[py_files/gpt_oss/responses_api/types.py]",
+      "quote": "MODEL_IDENTIFIER = \"gpt-oss-120b\""
+    }
+  ],
+  "1-6 (Tokenizer)": "All tokenizer information is conveyed through repeated code-level references that load or instantiate an encoding named for the model series.  Specifically, multiple snippets invoke `load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)`, and one creates the object `o200k_gptoss = tiktoken.Encoding(`…`).  From this we learn (1) the tokenizer is a member of the Harmony family of encodings and its enumerated name is HARMONY_GPT_OSS; (2) it is implemented through the open-source `tiktoken` library; and (3) the alias `o200k_gptoss` suggests a vocabulary size on the order of 200 k tokens.  These calls demonstrate that the tokenizer can be programmatically downloaded or constructed by users who have access to the `tiktoken` package and the Harmony encoding registry, but the quotes do not expose the precise vocabulary file, BPE merges, or special-token inventory.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)"
+    },
+    {
+      "source": "[py_files/gpt_oss/metal/scripts/create-local-model.py]",
+      "quote": "o200k_gptoss = tiktoken.Encoding("
+    },
+    {
+      "source": "[py_files/gpt_oss/metal/scripts/create-local-model.py]",
+      "quote": "harmony_encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)"
+    },
+    {
+      "source": "[py_files/gpt_oss/responses_api/serve.py]",
+      "quote": "encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)"
+    },
+    {
+      "source": "[py_files/gpt_oss/responses_api/inference/ollama.py]",
+      "quote": "encoding = load_harmony_encoding(HarmonyEncodingName.HARMONY_GPT_OSS)"
+    }
+  ],
+  "2-1 (Hardware)": "The provided material does not disclose any concrete details about the hardware fleet used during *training* of gpt-oss.  While the architecture section notes that an 80 GB GPU (e.g., NVIDIA H100 or AMD MI300X) is sufficient for *inference* on the 120-billion-parameter checkpoint, no sentence specifies the number or type of accelerators, CPU hosts, interconnect topology, or total FLOP budget that were employed when actually fitting the model weights.  Therefore, no training-hardware information can be summarized from the supplied quotes.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "A handful of code references reveal pieces of the software tool-chain associated with the model.  The repository \"includes an inefficient reference PyTorch implementation\" located at `gpt_oss/torch/model.py`, immediately confirming that PyTorch is the primary framework used for model definition (and very likely for training as well).  The import line `from gpt_oss.torch.utils import init_distributed` shows that the project provides helper utilities for launching distributed jobs, indicating reliance on PyTorch’s distributed back-end (invoked by `torchrun`).  An example CLI comment, `# torchrun --nproc-per-node=4 -m gpt_oss.generate -p \"why did the chicken cross the road?\" model/`, further illustrates canonical multi-process execution and implies that configurations with at least four GPU processes are supported out of the box.  Beyond standard PyTorch, two alternative execution back ends are mentioned: `from gpt_oss.triton.model import TokenGenerator as TritonGenerator` and `from gpt_oss.vllm.token_generator import TokenGenerator as VLLMGenerator`.  These lines show optional integration with (a) custom Triton kernels for GPU-optimized inference/training and (b) the vLLM project, which provides a highly optimized serving engine built atop the same framework.  No explicit version numbers, optimizer choices, scheduler settings, or custom CUDA extensions are listed in the quotes, but the presence of distributed utilities, Triton kernels, and vLLM bindings establishes PyTorch as the core training framework augmented by optional high-performance execution paths.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We include an inefficient reference PyTorch implementation in [gpt_oss/torch/model.py](gpt_oss/torch/model.py)."
+    },
+    {
+      "source": "[py_files/gpt_oss/chat.py]",
+      "quote": "from gpt_oss.torch.utils import init_distributed"
+    },
+    {
+      "source": "[py_files/gpt_oss/chat.py]",
+      "quote": "from gpt_oss.triton.model import TokenGenerator as TritonGenerator"
+    },
+    {
+      "source": "[py_files/gpt_oss/chat.py]",
+      "quote": "from gpt_oss.vllm.token_generator import TokenGenerator as VLLMGenerator"
+    },
+    {
+      "source": "[py_files/gpt_oss/generate.py]",
+      "quote": "# torchrun --nproc-per-node=4 -m gpt_oss.generate -p \"why did the chicken cross the road?\" model/"
+    }
+  ]
+}

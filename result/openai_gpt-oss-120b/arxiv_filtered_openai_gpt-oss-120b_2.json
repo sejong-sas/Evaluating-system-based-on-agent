@@ -1,0 +1,70 @@
+{
+  "1-5 (Architecture)": "According to the release notes, the gpt-oss models—including the flagship gpt-oss-120b—are autoregressive Mixture-of-Experts (MoE) transformers that extend the basic GPT-2 / GPT-3 architectural blueprint. gpt-oss-120b is built from 36 transformer layers and contains 116.8 billion total parameters, of which only 5.1 billion are \"active\" (i.e., participate in a given forward pass) because of MoE routing. Each MoE block exposes 128 experts for gpt-oss-120b, and routing is handled by a linear projection that converts residual activations into expert-selection scores. The model uses a residual stream width of 2880 and applies root-mean-square (RMS) normalization immediately before every attention block and MoE block. In stress-test settings, the purely text-based architecture shows strong performance on biology-related questions and harm-scenario reasoning but remains below desired thresholds on highly technical protocol-debugging tasks and cannot address vision-dependent problems.",
+  "1-6 (Tokenizer)": "Throughout every stage of training, the models rely on the o200k_harmony tokenizer. This tokenizer is released as part of the TikToken library, is based on Byte-Pair Encoding (BPE), and extends the earlier o200k vocabulary used for models such as GPT-4o and OpenAI o4-mini. Extra tokens required for the system’s harmony chat formatting are included, bringing the total vocabulary size to 201,088 tokens. The tokenizer is fully open-sourced and can be downloaded directly from the TikToken repository.",
+  "2-1 (Hardware)": "Training runs for gpt-oss were executed on NVIDIA H100 GPUs. For the larger gpt-oss-120b model, the complete training job consumed approximately 2.1 million H100-GPU-hours. By contrast, the smaller gpt-oss-20b required almost an order of magnitude less compute. No other accelerator type is mentioned, underscoring that all large-scale compute came exclusively from H100 hardware.",
+  "2-2 (Software)": "The training software stack for the gpt-oss family centers on the PyTorch framework, augmented with expert-optimized Triton kernels and Flash Attention algorithms. PyTorch handled the core model definition and distributed execution, while Triton kernels provided hand-tuned GPU code paths for efficiency on H100s. Flash Attention was enabled to lower memory footprints and increase throughput during both forward and backward passes, facilitating tractable training at the 120-billion parameter scale.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The gpt-oss models are autoregressive Mixture-of-Experts (MoE) transformers [1, 2, 3, 4] that build upon the GPT-2 and GPT-3 architectures."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing two model sizes: gpt-oss-120b, which consists of 36 layers (116.8B total parameters and 5.1B “active” parameters per token per forward pass), and gpt-oss-20b with 24 layers (20.9B total and 3.6B active parameters)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Each MoE block consists of a fixed number of experts (128 for gpt-oss-120b and 32 for gpt-oss-20b), as well as a standard linear router projection which maps residual activations to scores for each expert."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "The gpt-oss models are autoregressive Mixture-of-Experts (MoE) transformers [1, 2, 3, 4] that build upon the GPT-2 and GPT-3 architectures."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "We are releasing two model sizes: gpt-oss-120b, which consists of 36 layers (116.8B total parameters and 5.1B “active” parameters per token per forward pass), and gpt-oss-20b with 24 layers (20.9B total and 3.6B active parameters). Both models have a residual stream dimension of 2880, applying root mean square normalization [6] on the activations before each attention and MoE block."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "Each MoE block consists of a fixed number of experts (128 for gpt-oss-120b and 32 for gpt-oss-20b), as well as a standard linear router projection which maps residual activations to scores for each expert."
+    },
+    {
+      "source": "[sections/Biological and Chemical - Adversarially Fine-tuned]",
+      "quote": "Under maximum elicitation conditions designed to test the upper-bound capabilities of the model, gpt-oss-120b shows notable strength in answering textual questions involving biological knowledge and harm scenarios. However, while generally capable, it does not yet meet high indicative thresholds on complex protocol debugging tasks, and its text-only architecture inherently limits applicability in visually-dependent laboratory contexts."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Across all training stages, we utilize our o200k_harmony tokenizer, which we open source in our TikToken library. This is a Byte Pair Encoding (BPE) which extends the o200k tokenizer used for other OpenAI models such as GPT-4o and OpenAI o4-mini with tokens explicitly used for our harmony chat format described in Table 18 and has a total of 201,088 tokens."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Training: The gpt-oss models trained on NVIDIA H100 GPUs using the PyTorch framework [19] with expert-optimized Triton [20] kernels2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training run for gpt-oss-120b required 2.1 million H100-hours to complete, with gpt-oss-20b needing almost 10x fewer."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "Training: The gpt-oss models trained on NVIDIA H100 GPUs using the PyTorch framework [19] with expert-optimized Triton [20] kernels2."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "The training run for gpt-oss-120b required 2.1 million H100-hours to complete, with gpt-oss-20b needing almost 10x fewer."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Training: The gpt-oss models trained on NVIDIA H100 GPUs using the PyTorch framework [19] with expert-optimized Triton [20] kernels2. Both models leverage the Flash Attention [21] algorithms to reduce the memory requirements and accelerate training."
+    },
+    {
+      "source": "[sections/2508.10925]",
+      "quote": "Training: The gpt-oss models trained on NVIDIA H100 GPUs using the PyTorch framework [19] with expert-optimized Triton [20] kernels2."
+    }
+  ]
+}

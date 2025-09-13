@@ -1,0 +1,148 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Distributed under the unmodified Apache-2.0 licence, which permits use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv-style technical report (sections/2508.10925) specific to gpt-oss-120b is quoted; this satisfies the “paper/tech-report” requirement."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes state training was on NVIDIA H100 GPUs and give the amount of compute (2.1 million H100-hours) – both type and quantity disclosed."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack components beyond PyTorch are named (Triton kernels, Flash-Attention) but no full, versioned stack; therefore only partial disclosure."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Mentions mixture-of-experts, distillation, quantisation, but lacks full objectives, schedules, or reproducible pipeline."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Quotes merely say the model *can* be fine-tuned and that an adversarial variant exists—no methodological details provided."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "RL is mentioned, but no algorithmic or data details are disclosed."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Only high-level description ('mostly English, STEM, coding') is given; sources, sizes, licences are undisclosed."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Identifies biorisk expert data and CTF cybersecurity data but gives no sizes, sources or licensing details."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No information at all about RL data."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "States that CBRN content was filtered, but provides no pipeline, tooling or quantitative details."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Distributed under the unmodified Apache-2.0 licence, which permits use, modification, redistribution and commercial use."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv-style technical report (sections/2508.10925) specific to gpt-oss-120b is quoted; this satisfies the “paper/tech-report” requirement."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quotes state training was on NVIDIA H100 GPUs and give the amount of compute (2.1 million H100-hours) – both type and quantity disclosed."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack components beyond PyTorch are named (Triton kernels, Flash-Attention) but no full, versioned stack; therefore only partial disclosure."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Mentions mixture-of-experts, distillation, quantisation, but lacks full objectives, schedules, or reproducible pipeline."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Quotes merely say the model *can* be fine-tuned and that an adversarial variant exists—no methodological details provided."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "RL is mentioned, but no algorithmic or data details are disclosed."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Only high-level description ('mostly English, STEM, coding') is given; sources, sizes, licences are undisclosed."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Identifies biorisk expert data and CTF cybersecurity data but gives no sizes, sources or licensing details."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No information at all about RL data."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "States that CBRN content was filtered, but provides no pipeline, tooling or quantitative details."
+    }
+  },
+  "final_score_10pt": 5.312,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 8.5,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "1-5 (Architecture)": "• gpt-oss-120b is implemented as a Mixture-of-Experts (MoE) Transformer. The design ‘reduces the number of active parameters needed to process input’ by activating only 5.1 B parameters per token even though the model contains 117 B total parameters (\"gpt-oss-120b activates 5.1B parameters per token … The models have 117b … total parameters\").\n• A specification line explicitly lists key size-related figures: “gpt-oss-120b 36 117B 5.1B 128 4 128k”, confirming the 117 B parameter count and the same 5.1 B active-parameter figure; the other numbers (36, 128, 4, 128k) appear to summarise additional architectural hyper-parameters left unspecified in the text.\n• Attention strategy: “The models use alternating dense and locally banded sparse attention patterns, similar to GPT-3[3].” To lower memory cost at inference, they “use grouped multi-query attention, with a group size of 8.”\n• Overall, the authors emphasise that the architecture is “an efficient mixture-of-expert transformer” intended to balance accuracy against compute cost.\n• The released weights are provided in MXFP4 quantised form (“Both models are MXFP4 quantized out of the box”), so the public checkpoints already include a memory-efficient quantisation format.",
+  "1-6 (Tokenizer)": "• Training data were tokenised with “o200k_harmony”, described as “a superset of our tokenizer used for OpenAI o4-mini and GPT-4o.”\n• The tokenizer is being fully open-sourced: “We release … tokenizers under an Apache 2.0 license.”\n• A code example shows that users can obtain it directly from the model repository:  \n  model_path = \"openai/gpt-oss-120b\"  \n  tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side=\"left\")\n  indicating that the tokenizer is downloadable through standard Hugging Face interfaces and that left-padding is the default setting.",
+  "2-1 (Hardware)": "• Memory footprint guidance: “openai/gpt-oss-120b Requires ≥60 GB VRAM or multi-GPU setup.”\n• The model is “Ideal for H100-class hardware” and can in fact “fit on a single H100 GPU when using MXFP4.”\n• An alternative deployment note states it “runs efficiently on a single 80 GB GPU,” again emphasising the single-device capability when sufficient memory (≈60–80 GB) is available.\n• Multiple quotes reiterate that, while single-GPU is possible, multi-GPU configurations are supported: “Can fit on a single H100 or multi-GPU setups.”",
+  "2-2 (Software)": "• Training methodology: “The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning.” A second statement adds that training leveraged “a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems.”\n• Distributed and parallelism options (relevant to both training and large-scale inference):  \n  – Users can “Use tp_plan=\"auto\" for automatic placement and tensor parallelism.”  \n  – They may “Launch with accelerate launch or torchrun for distributed setups.”  \n  – “Leverage Expert Parallelism” is explicitly called out, matching the MoE architecture.  \n  – Specialised Flash-attention kernels are recommended: “Use specialised Flash attention kernels for faster inference.”\n• A runnable snippet shows the library stack and configurable kernels:  \n  model = AutoModelForCausalLM.from_pretrained( \n      \"openai/gpt-oss-120b\", \n      torch_dtype=\"auto\", \n      attn_implementation=\"kernels-community/vllm-flash-attn3\", \n      **device_map)  \n  This makes clear that PyTorch-based Hugging Face tooling is used and that the project supports the vLLM Flash-Attention-3 kernel integration.\n• Together, the quotes indicate a software environment centred on PyTorch/Hugging Face with optional Accelerate or torchrun for distributed execution, Flash-Attention-3 kernels for high-speed attention, and explicit support for tensor and expert parallelism during scale-out.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "Each model is a Transformer which leverages mixture-of-experts (MoE[2]) to reduce the number of active parameters needed to process input. gpt-oss-120b activates 5.1B parameters per token, while gpt-oss-20b activates 3.6B."
+    },
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "gpt-oss-120b activates 5.1B parameters per token, while gpt-oss-20b activates 3.6B. The models have 117b and 21b total parameters respectively."
+    },
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The models use alternating dense and locally banded sparse attention patterns, similar to GPT-3[3]. For inference and memory efficiency, the models also use grouped multi-query attention, with a group size of 8."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "Each model is a Transformer which leverages mixture-of-experts (MoE[2]) to reduce the number of active parameters needed to process input. gpt-oss-120b activates 5.1B parameters per token, while gpt-oss-20b activates 3.6B."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "gpt-oss-120b activates 5.1B parameters per token, while gpt-oss-20b activates 3.6B. The models have 117b and 21b total parameters respectively."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "gpt-oss-120b 36 117B 5.1B 128 4 128k"
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/gpt-oss/run-vllm]",
+      "quote": "openai/gpt-oss-120b Our larger full-sized model Best with ≥60GB VRAM Can fit on a single H100 or multi-GPU setups Both models are MXFP4 quantized out of the box."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "We tokenized the data using a superset of our tokenizer used for OpenAI o4-mini and GPT-4o: o200k_harmony, which we are also open-sourcing today."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. We release the model weights, inference implementations, tool environments, and tokenizers under an Apache 2.0 license to enable broad use and further research."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "model_path = \"openai/gpt-oss-120b\" tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side = \"left\" )"
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/How to run gpt-oss with Transformers]",
+      "quote": "openai/gpt-oss-120b Requires ≥60GB VRAM or multi-GPU setup Ideal for H100-class hardware"
+    },
+    {
+      "source": "[sections/How to run gpt-oss with Transformers]",
+      "quote": "The large gpt-oss-120b fits on a single H100 GPU when using MXFP4."
+    },
+    {
+      "source": "[sections/How to run gpt-oss with vLLM]",
+      "quote": "openai/gpt-oss-120b Our larger full-sized model Best with ≥60GB VRAM Can fit on a single H100 or multi-GPU setups"
+    },
+    {
+      "source": "[sections/https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The gpt-oss-120b model achieves near-parity with OpenAI o4-mini on core reasoning benchmarks, while running efficiently on a single 80 GB GPU."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The large gpt-oss-120b fits on a single H100 GPU when using MXFP4."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/gpt-oss/run-vllm]",
+      "quote": "openai/gpt-oss-120b Our larger full-sized model Best with ≥60GB VRAM Can fit on a single H100 or multi-GPU setups"
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning."
+    },
+    {
+      "source": "[sections/https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "We’re releasing gpt-oss-120b and gpt-oss-20b—two state-of-the-art open-weight language models that deliver strong real-world performance at low cost. They were trained using a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The large gpt-oss-120b fits on a single H100 GPU when using MXFP4. If you want to run it on multiple GPUs, you can: Use tp_plan=\"auto\" for automatic placement and tensor parallelism Launch with accelerate launch or torchrun for distributed setups Leverage Expert Parallelism Use specialised Flash attention kernels for faster inference"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "model_path = \"openai/gpt-oss-120b\" ... model = AutoModelForCausalLM.from_pretrained( model_path, torch_dtype = \"auto\" , attn_implementation = \"kernels-community/vllm-flash-attn3\" , ** device_map, )"
+    }
+  ]
+}
