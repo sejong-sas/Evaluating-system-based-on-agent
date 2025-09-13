@@ -1,0 +1,58 @@
+{
+  "1-1 (Weights)": "The available quotations make it clear that the Falcon3-7B-Instruct checkpoints are openly distributed on Hugging Face. One line explicitly states that “Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection .”  A second, nearly identical sentence repeats this pointer, emphasizing that Hugging Face hosts not only the standard fp16 weights but also multiple ready-to-download quantized formats.  The authors also highlight the breadth of the release: “Other variants: All models in the Falcon3 family are available in variants such as Instruct, GGUF, GPTQ-Int4, GPTQ-Int8, AWQ, and 1.58-bit, offering flexibility for a wide range of applications.”  Collectively these quotes confirm (1) public hosting, (2) a single consolidated “Falcon3” collection page on Hugging Face, and (3) availability in several compression / quantization schemes (GGUF, GPTQ in 4- and 8-bit, AWQ, and an ultra-low 1.58-bit representation). No further information about authentication gates or usage restrictions appears in the supplied text, so the takeaway is that the model weights for the Falcon3 family, which includes the specific tiiuae/falcon3-7b-instruct variant, are downloadable by anyone who navigates to the referenced Hugging Face collection.",
+  "1-2 (Code)": "The only code-related statements focus on inference integrations rather than training scripts.  One sentence credits “Georgi Gerganov for his help in integrating an important fix to make Falcon3 series models work in llama.cpp .”  Another thanks the “BitNet.cpp team for helping us integrating 1.58bit variants of Falcon3 models into BitNet.”  These lines reveal that community members contributed patches so that Falcon3 models, including low-bit versions, run correctly in two open-source inference projects—llama.cpp and BitNet.cpp.  Because the quotations mention only these compatibility fixes, no public release of the full training pipeline (data preparation, pre-training, fine-tuning, or RLHF scripts) can be confirmed.  In short, the evidence shows public code contributions for inference support, but it does not document any open-sourcing of the end-to-end training stack.",
+  "1-3 (License)": "Licensing is explicitly addressed: “In line with our mission to foster AI accessibility and collaboration, all models in the Falcon3 family are released under the Falcon LLM license .”  Users are told to “Check out the Falcon-LLM License link for more details about the license,” and a concrete reference URL is provided—“https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE.”  Although the excerpt does not reprint the license text, it unambiguously states that every Falcon3 checkpoint, including tiiuae/falcon3-7b-instruct, falls under the proprietary but permissive Falcon-LLM License.  Readers are invited to consult the linked LICENSE file for the exact legal terms governing use, modification, redistribution, and commercial exploitation.",
+  "1-4 (Paper)": "The project’s scholarly and technical communication plans are captured in three quotations.  First, the authors announce the models: “We introduce Falcon3, a family of decoder-only large language models under 10 billion parameters, developed by Technology Innovation Institute (TII) in Abu Dhabi.”  They then emphasize that further documentation is coming: “Falcon3 is not a culmination but a continuation of our efforts … In January 2025, we will further release other models of the Falcon3 family … as well as a full technical report covering our methodologies.”  Finally, they provide a formal BibTeX-style citation suggestion: “@misc{Falcon3, title = {The Falcon 3 Family of Open Models}, url = {https://huggingface.co/blog/falcon3}, author = {Falcon-LLM Team}, month = {December}, year = {2024} }.”  Together these statements confirm (1) the existence of an introductory announcement/blog, (2) forthcoming multi-modal extensions and a comprehensive technical report scheduled for January 2025, and (3) an official citation entry that researchers can use today when referencing Falcon3-7B-Instruct or any sibling model.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Other variants: All models in the Falcon3 family are available in variants such as Instruct, GGUF, GPTQ-Int4, GPTQ-Int8, AWQ, and 1.58-bit, offering flexibility for a wide range of applications."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection ."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Georgi Gerganov for his help in integrating an important fix to make Falcon3 series models work in llama.cpp ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "BitNet.cpp team for helping us integrating 1.58bit variants of Falcon3 models into BitNet."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "In line with our mission to foster AI accessibility and collaboration, all models in the Falcon3 family are released under the Falcon LLM license ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Check out the Falcon-LLM License link for more details about the license."
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "We introduce Falcon3, a family of decoder-only large language models under 10 billion parameters, developed by Technology Innovation Institute (TII) in Abu Dhabi."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Falcon3 is not a culmination but a continuation of our efforts to create more capable, efficient, specialized foundation models. In January 2025, we will further release other models of the Falcon3 family featuring enhanced multi-modal capabilities including image, video, and audio support, as well as a full technical report covering our methodologies."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "If the Falcon3 family of models were helpful to your work, feel free to give us a cite. @misc{Falcon3, title = {The Falcon 3 Family of Open Models}, url = {https://huggingface.co/blog/falcon3}, author = {Falcon-LLM Team}, month = {December}, year = {2024} }"
+    }
+  ]
+}

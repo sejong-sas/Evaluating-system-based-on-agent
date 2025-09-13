@@ -1,0 +1,58 @@
+{
+  "1-5 (Architecture)": "The tiiuae/falcon3-7b-instruct model is described in the quotes as a \"Transformer based causal decoder only architecture\" that contains \"28 decoder blocks\" (also reported numerically as \"\\\"num_hidden_layers\\\": 28\").  To improve inference speed it employs \"Grouped query attention (GQA)\" with a split of \"12 query heads and 4 key value heads\".  Each attention head is noted to have a \"wider head dimension: 256\", giving the model relatively large per-head capacity compared with conventional designs.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Transformer based causal decoder only architecture"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- 28 decoder blocks"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Grouped query attention (GQA) for faster inference: 12 query heads and 4 key value heads"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Wider head dimension: 256"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 28,"
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer shipped with tiiuae/falcon3-7b-instruct has a very large symbol inventory: the quotes list a \"131K vocab size\" and specify the exact configuration field as \"\\\"vocab_size\\\": 131072\".  No additional structural information (such as BPE vs. unigram) is provided in the excerpt, but the numerical detail confirms that more than 130 k distinct token IDs are reserved and that this value is explicitly encoded in the tokenizer configuration file.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- 131K vocab size"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 131072"
+    }
+  ],
+  "2-1 (Hardware)": "According to the hardware quote, pre-training of tiiuae/falcon3-7b-instruct was carried out on massive clusters of Nvidia H100 accelerators: specifically, \"1024 H100 GPU chips\" were employed.  During this compute run the model was exposed to \"14 Teratokens of datasets\" drawn from a mixture of \"web, code, STEM, high quality and multilingual data\", implying very large-scale distributed training with substantial bandwidth and storage requirements commensurate with contemporary state-of-the-art language-model pre-training.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "2-2 (Software)": "The software stack for tiiuae/falcon3-7b-instruct leverages the Hugging Face ecosystem.  The model configuration cites \"library_name: transformers\" with an explicit \"\\\"transformers_version\\\": \\\"4.46.1\\\"\", indicating training (and likely inference) was conducted with that version of the Transformers library.  For benchmark evaluation the team states \"- We use [lm-evaluation harness]\", referring to the EleutherAI lm-evaluation-harness suite, a standard tool for automated downstream task assessment.  No other frameworks, flags, or custom patches are mentioned in the supplied quotes.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "library_name: transformers"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- We use [lm-evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness)."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.46.1\""
+    }
+  ]
+}

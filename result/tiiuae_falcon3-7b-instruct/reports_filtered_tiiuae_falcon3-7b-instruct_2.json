@@ -1,0 +1,29 @@
+{
+  "1-5 (Architecture)": "According to the released technical description, Falcon3-7B-Base follows a decoder-only design. Each transformer-based variant uses a head dimension of 256 – a choice selected because it attains particularly high throughput when paired with FlashAttention-3 kernels. The transformer family is offered in configurations ranging from 18 to 40 layers, while a separate Mamba-style configuration reaches 64 layers. Across all of these models the activation function is SwiGLU. The vocabulary is fixed at 131 K tokens for the transformer variants (65 K for the Mamba-7B variant). In addition, the documentation notes that “all the transformer-based Falcon3 models are compatible with Llama architecture,” making them drop-in replacements within that broader ecosystem.",
+  "1-6 (Tokenizer)": "Tokenizer-level information is sparse, but the same passage states that the vocabulary size used by Falcon3-7B-Base is 131 K tokens (with a reduced 65 K-token vocabulary for the Mamba-7B variant). No other tokenizer implementation details are provided in the quoted material.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "The only explicit software detail provided is that Falcon3-7B-Base is optimized to run with FlashAttention-3, and that the 256-dimension attention heads were chosen to maximize throughput with that kernel implementation. No additional libraries, frameworks or training-time configurations are mentioned in the supplied text.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension. These decoder-only models span 18 to 40 layers for the transformer-based ones, and 64 layers for the mamba one, all models share the SwiGLU activation function, with vocabulary size of 131K tokens (65Kfor Mamba-7B)."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "All the transformer-based Falcon3 models are compatible with Llama architecture allowing better integration in the AI ecosystem."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension. These decoder-only models span 18 to 40 layers for the transformer-based ones, and 64 layers for the mamba one, all models share the SwiGLU activation function, with vocabulary size of 131K tokens (65Kfor Mamba-7B)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension."
+    }
+  ]
+}

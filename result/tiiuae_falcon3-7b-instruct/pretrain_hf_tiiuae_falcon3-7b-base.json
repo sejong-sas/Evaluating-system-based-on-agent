@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips",
+  "pretrain_data": "Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    },
+    {
+      "source": "readme",
+      "quote": "Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ]
+}

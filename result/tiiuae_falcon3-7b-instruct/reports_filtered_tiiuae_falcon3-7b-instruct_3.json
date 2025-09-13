@@ -1,0 +1,23 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The quoted material describes a single, large-scale pre-training campaign that generated five separate Falcon3 base checkpoints: Falcon3-1B-Base, Falcon3-3B-Base, Falcon3-Mamba-7B-Base, Falcon3-7B-Base, and Falcon3-10B-Base. A “one pre-training for transformer-based models” philosophy was adopted, centring on a massive run for the 7 B parameter model that used 1,024 H100 GPUs and processed 14 trillion tokens spanning web, code, STEM, and other curated high-quality multilingual sources. Subsequent “depth up-scaling” duplicated redundant layers of the 7 B network, expanding it to 10 B parameters and continuing pre-training with an additional 2 trillion tokens of high-quality data to improve reasoning. In parallel, “knowledge distillation for better tiny models” combined pruning and distillation to create the 1 B and 3 B variants with less than 100 GT of curated, high-quality data, thereby aiming to redefine pre-training efficiency across the Falcon3 family.",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "This iteration includes five base models: Falcon3-1B-Base Falcon3-3B-Base Falcon3-Mamba-7B-Base Falcon3-7B-Base Falcon3-10B-Base In developing these models, we incorporated several key innovations aimed at improving the models' performances while reducing training costs: One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Depth up-scaling for improved reasoning: Building on recent studies on the effects of model depth, we upscaled the 7B model to a 10B parameters model by duplicating the redundant layers and continuing pre-training with 2 trillion tokens of high-quality data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Knowledge distillation for better tiny models: To provide compact and efficient alternatives, we developed Falcon3-1B-Base and Falcon3-3B-Base by leveraging pruning and knowledge distillation techniques, using less than 100GT of curated high-quality data, thereby redefining pre-training efficiency."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

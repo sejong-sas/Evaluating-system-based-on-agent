@@ -1,0 +1,150 @@
+{
+  "1-1 (Weights)": "The repository itself makes the model weights publicly visible: \"This repository contains the **Falcon3-7B-Instruct**.\"  The card also records the underlying checkpoint lineage by stating \"base_model: tiiuae/Falcon3-7B-Base,\" indicating that the Instruct weights are released on top of that base model.  No other information about mirrors, gated access, or download procedures is given in the available quotes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the **Falcon3-7B-Instruct**."
+    },
+    {
+      "source": "[readme]",
+      "quote": "base_model: tiiuae/Falcon3-7B-Base"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "All licensing statements consistently point to the same framework.  The model card lists “- License: TII Falcon-LLM License 2.0,” repeats the tag in machine-readable form as “license_name: falcon-llm-license,” and supplies the official legal URL: “license_link: https://falconllm.tii.ae/falcon-terms-and-conditions.html.”  These are the only quoted phrases related to usage rights or restrictions.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- License: TII Falcon-LLM License 2.0"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_name: falcon-llm-license"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_link: https://falconllm.tii.ae/falcon-terms-and-conditions.html"
+    },
+    {
+      "source": "[readme]",
+      "quote": "es of STEM, conversations, code, safety and function call data\n- Supports EN, FR, ES, PT\n- Developed by [Technology Innovation Institute](https://www.tii.ae)\n- License: TII Falcon-LLM License 2.0\n- Model Release Date: December 2024\n\n\n## Getting started\n\n<details>\n<summary> Click to expand </summary>\n\n```python\n\nfrom transformers import AutoModelForC"
+    }
+  ],
+  "1-4 (Paper)": "Two publication-oriented references are provided.  Users are directed to \"View our [release blogpost](https://huggingface.co/blog/falcon3).\"  The card also requests attribution: \"If Falcon3 family were helpful to your work, feel free to give us a cite.\"  No formal technical paper, arXiv preprint, or detailed report is cited in the supplied quotes.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- View our [release blogpost](https://huggingface.co/blog/falcon3)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "If Falcon3 family were helpful to your work, feel free to give us a cite."
+    }
+  ],
+  "1-5 (Architecture)": "The tiiuae/falcon3-7b-instruct model is described in the quotes as a \"Transformer based causal decoder only architecture\" that contains \"28 decoder blocks\" (also reported numerically as \"\\\"num_hidden_layers\\\": 28\").  To improve inference speed it employs \"Grouped query attention (GQA)\" with a split of \"12 query heads and 4 key value heads\".  Each attention head is noted to have a \"wider head dimension: 256\", giving the model relatively large per-head capacity compared with conventional designs.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Transformer based causal decoder only architecture"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- 28 decoder blocks"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Grouped query attention (GQA) for faster inference: 12 query heads and 4 key value heads"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Wider head dimension: 256"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 28,"
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer shipped with tiiuae/falcon3-7b-instruct has a very large symbol inventory: the quotes list a \"131K vocab size\" and specify the exact configuration field as \"\\\"vocab_size\\\": 131072\".  No additional structural information (such as BPE vs. unigram) is provided in the excerpt, but the numerical detail confirms that more than 130 k distinct token IDs are reserved and that this value is explicitly encoded in the tokenizer configuration file.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- 131K vocab size"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 131072"
+    }
+  ],
+  "2-1 (Hardware)": "According to the hardware quote, pre-training of tiiuae/falcon3-7b-instruct was carried out on massive clusters of Nvidia H100 accelerators: specifically, \"1024 H100 GPU chips\" were employed.  During this compute run the model was exposed to \"14 Teratokens of datasets\" drawn from a mixture of \"web, code, STEM, high quality and multilingual data\", implying very large-scale distributed training with substantial bandwidth and storage requirements commensurate with contemporary state-of-the-art language-model pre-training.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "2-2 (Software)": "The software stack for tiiuae/falcon3-7b-instruct leverages the Hugging Face ecosystem.  The model configuration cites \"library_name: transformers\" with an explicit \"\\\"transformers_version\\\": \\\"4.46.1\\\"\", indicating training (and likely inference) was conducted with that version of the Transformers library.  For benchmark evaluation the team states \"- We use [lm-evaluation harness]\", referring to the EleutherAI lm-evaluation-harness suite, a standard tool for automated downstream task assessment.  No other frameworks, flags, or custom patches are mentioned in the supplied quotes.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "library_name: transformers"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- We use [lm-evaluation harness](https://github.com/EleutherAI/lm-evaluation-harness)."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.46.1\""
+    }
+  ],
+  "2-3 (API)": "The only explicit API-related detail is the code snippet that sets the identifier model_name = \"tiiuae/Falcon3-7B-Instruct\". This reveals that calls to an external service (in a GPT-style workflow) should reference the exact string \"tiiuae/Falcon3-7B-Instruct\" when selecting the model.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tiiuae/Falcon3-7B-Instruct\""
+    }
+  ],
+  "3-1 (Pre-training)": "The Falcon3 family of Open Foundation Models—including the 7B Instruct variant—is described as a set of pretrained and instruct LLMs that span sizes from 1 B to 10 B parameters. Within this family, the model is said to be \"Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high-quality and multilingual data using 1024 H100 GPU chips,\" indicating extremely large-scale data ingestion across diverse domains and a hardware footprint of 1024 NVIDIA H100 GPUs.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Falcon3** family of Open Foundation Models is a set of pretrained and instruct LLMs ranging from 1B to 10B."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "3-2 (Fine-tuning)": "After the base pre-training, the model undergoes a post-training phase that uses \"1.2 million samples of STEM, conversations, code, safety and function call data,\" suggesting a broad mix of instructional, safety-oriented, and function-calling demonstrations meant to specialize the general Falcon3-7B weights.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Postrained on 1.2 million samples of STEM, conversations, code, safety and function call data"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The tiiuae/falcon3-7b-instruct model is reported as having been pretrained on a very large corpus—“14 Teratokens of datasets comprising of web, code, STEM, high quality and multilingual data.”  The single available quote also specifies the scale of the compute used: “using 1024 H100 GPU chips.”  From this we can summarize that the bulk pre-training stage leverages a diverse mix of internet text, programming code, science/engineering material, and multilingual resources, altogether amounting to 14 T tokens, and that the training run was executed with 1,024 NVIDIA H100 GPUs.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "For its post-training (supervised fine-tuning) phase, the model is said to have been “postrained on 1.2 million samples of STEM, conversations, code, safety and function call data.”  Thus, after the large-scale pre-training, an additional curated set of 1.2 M examples—spanning technical STEM content, dialogue data, software code snippets, safety-oriented prompts/answers, and structured function-call demonstrations—was used to adapt the model.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Postrained on 1.2 million samples of STEM, conversations, code, safety and function call data"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "unknown"
+  }
+}

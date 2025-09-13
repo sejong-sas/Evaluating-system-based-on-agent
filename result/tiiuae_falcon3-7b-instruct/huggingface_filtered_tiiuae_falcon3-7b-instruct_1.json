@@ -1,0 +1,45 @@
+{
+  "1-1 (Weights)": "The repository itself makes the model weights publicly visible: \"This repository contains the **Falcon3-7B-Instruct**.\"  The card also records the underlying checkpoint lineage by stating \"base_model: tiiuae/Falcon3-7B-Base,\" indicating that the Instruct weights are released on top of that base model.  No other information about mirrors, gated access, or download procedures is given in the available quotes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the **Falcon3-7B-Instruct**."
+    },
+    {
+      "source": "[readme]",
+      "quote": "base_model: tiiuae/Falcon3-7B-Base"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "All licensing statements consistently point to the same framework.  The model card lists “- License: TII Falcon-LLM License 2.0,” repeats the tag in machine-readable form as “license_name: falcon-llm-license,” and supplies the official legal URL: “license_link: https://falconllm.tii.ae/falcon-terms-and-conditions.html.”  These are the only quoted phrases related to usage rights or restrictions.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- License: TII Falcon-LLM License 2.0"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_name: falcon-llm-license"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_link: https://falconllm.tii.ae/falcon-terms-and-conditions.html"
+    },
+    {
+      "source": "[readme]",
+      "quote": "es of STEM, conversations, code, safety and function call data\n- Supports EN, FR, ES, PT\n- Developed by [Technology Innovation Institute](https://www.tii.ae)\n- License: TII Falcon-LLM License 2.0\n- Model Release Date: December 2024\n\n\n## Getting started\n\n<details>\n<summary> Click to expand </summary>\n\n```python\n\nfrom transformers import AutoModelForC"
+    }
+  ],
+  "1-4 (Paper)": "Two publication-oriented references are provided.  Users are directed to \"View our [release blogpost](https://huggingface.co/blog/falcon3).\"  The card also requests attribution: \"If Falcon3 family were helpful to your work, feel free to give us a cite.\"  No formal technical paper, arXiv preprint, or detailed report is cited in the supplied quotes.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- View our [release blogpost](https://huggingface.co/blog/falcon3)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "If Falcon3 family were helpful to your work, feel free to give us a cite."
+    }
+  ]
+}

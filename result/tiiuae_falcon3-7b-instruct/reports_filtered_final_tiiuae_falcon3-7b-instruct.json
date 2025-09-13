@@ -1,0 +1,127 @@
+{
+  "1-1 (Weights)": "The available quotations make it clear that the Falcon3-7B-Instruct checkpoints are openly distributed on Hugging Face. One line explicitly states that “Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection .”  A second, nearly identical sentence repeats this pointer, emphasizing that Hugging Face hosts not only the standard fp16 weights but also multiple ready-to-download quantized formats.  The authors also highlight the breadth of the release: “Other variants: All models in the Falcon3 family are available in variants such as Instruct, GGUF, GPTQ-Int4, GPTQ-Int8, AWQ, and 1.58-bit, offering flexibility for a wide range of applications.”  Collectively these quotes confirm (1) public hosting, (2) a single consolidated “Falcon3” collection page on Hugging Face, and (3) availability in several compression / quantization schemes (GGUF, GPTQ in 4- and 8-bit, AWQ, and an ultra-low 1.58-bit representation). No further information about authentication gates or usage restrictions appears in the supplied text, so the takeaway is that the model weights for the Falcon3 family, which includes the specific tiiuae/falcon3-7b-instruct variant, are downloadable by anyone who navigates to the referenced Hugging Face collection.",
+  "1-2 (Code)": "The only code-related statements focus on inference integrations rather than training scripts.  One sentence credits “Georgi Gerganov for his help in integrating an important fix to make Falcon3 series models work in llama.cpp .”  Another thanks the “BitNet.cpp team for helping us integrating 1.58bit variants of Falcon3 models into BitNet.”  These lines reveal that community members contributed patches so that Falcon3 models, including low-bit versions, run correctly in two open-source inference projects—llama.cpp and BitNet.cpp.  Because the quotations mention only these compatibility fixes, no public release of the full training pipeline (data preparation, pre-training, fine-tuning, or RLHF scripts) can be confirmed.  In short, the evidence shows public code contributions for inference support, but it does not document any open-sourcing of the end-to-end training stack.",
+  "1-3 (License)": "Licensing is explicitly addressed: “In line with our mission to foster AI accessibility and collaboration, all models in the Falcon3 family are released under the Falcon LLM license .”  Users are told to “Check out the Falcon-LLM License link for more details about the license,” and a concrete reference URL is provided—“https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE.”  Although the excerpt does not reprint the license text, it unambiguously states that every Falcon3 checkpoint, including tiiuae/falcon3-7b-instruct, falls under the proprietary but permissive Falcon-LLM License.  Readers are invited to consult the linked LICENSE file for the exact legal terms governing use, modification, redistribution, and commercial exploitation.",
+  "1-4 (Paper)": "The project’s scholarly and technical communication plans are captured in three quotations.  First, the authors announce the models: “We introduce Falcon3, a family of decoder-only large language models under 10 billion parameters, developed by Technology Innovation Institute (TII) in Abu Dhabi.”  They then emphasize that further documentation is coming: “Falcon3 is not a culmination but a continuation of our efforts … In January 2025, we will further release other models of the Falcon3 family … as well as a full technical report covering our methodologies.”  Finally, they provide a formal BibTeX-style citation suggestion: “@misc{Falcon3, title = {The Falcon 3 Family of Open Models}, url = {https://huggingface.co/blog/falcon3}, author = {Falcon-LLM Team}, month = {December}, year = {2024} }.”  Together these statements confirm (1) the existence of an introductory announcement/blog, (2) forthcoming multi-modal extensions and a comprehensive technical report scheduled for January 2025, and (3) an official citation entry that researchers can use today when referencing Falcon3-7B-Instruct or any sibling model.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Other variants: All models in the Falcon3 family are available in variants such as Instruct, GGUF, GPTQ-Int4, GPTQ-Int8, AWQ, and 1.58-bit, offering flexibility for a wide range of applications."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Useful links Access to our models (including GGUF and 1.58bit models) of this series through the Falcon3 HuggingFace collection ."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Georgi Gerganov for his help in integrating an important fix to make Falcon3 series models work in llama.cpp ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "BitNet.cpp team for helping us integrating 1.58bit variants of Falcon3 models into BitNet."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "In line with our mission to foster AI accessibility and collaboration, all models in the Falcon3 family are released under the Falcon LLM license ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Check out the Falcon-LLM License link for more details about the license."
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "We introduce Falcon3, a family of decoder-only large language models under 10 billion parameters, developed by Technology Innovation Institute (TII) in Abu Dhabi."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Falcon3 is not a culmination but a continuation of our efforts to create more capable, efficient, specialized foundation models. In January 2025, we will further release other models of the Falcon3 family featuring enhanced multi-modal capabilities including image, video, and audio support, as well as a full technical report covering our methodologies."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "If the Falcon3 family of models were helpful to your work, feel free to give us a cite. @misc{Falcon3, title = {The Falcon 3 Family of Open Models}, url = {https://huggingface.co/blog/falcon3}, author = {Falcon-LLM Team}, month = {December}, year = {2024} }"
+    }
+  ],
+  "1-5 (Architecture)": "According to the released technical description, Falcon3-7B-Base follows a decoder-only design. Each transformer-based variant uses a head dimension of 256 – a choice selected because it attains particularly high throughput when paired with FlashAttention-3 kernels. The transformer family is offered in configurations ranging from 18 to 40 layers, while a separate Mamba-style configuration reaches 64 layers. Across all of these models the activation function is SwiGLU. The vocabulary is fixed at 131 K tokens for the transformer variants (65 K for the Mamba-7B variant). In addition, the documentation notes that “all the transformer-based Falcon3 models are compatible with Llama architecture,” making them drop-in replacements within that broader ecosystem.",
+  "1-6 (Tokenizer)": "Tokenizer-level information is sparse, but the same passage states that the vocabulary size used by Falcon3-7B-Base is 131 K tokens (with a reduced 65 K-token vocabulary for the Mamba-7B variant). No other tokenizer implementation details are provided in the quoted material.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "The only explicit software detail provided is that Falcon3-7B-Base is optimized to run with FlashAttention-3, and that the 256-dimension attention heads were chosen to maximize throughput with that kernel implementation. No additional libraries, frameworks or training-time configurations are mentioned in the supplied text.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension. These decoder-only models span 18 to 40 layers for the transformer-based ones, and 64 layers for the mamba one, all models share the SwiGLU activation function, with vocabulary size of 131K tokens (65Kfor Mamba-7B)."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "All the transformer-based Falcon3 models are compatible with Llama architecture allowing better integration in the AI ecosystem."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension. These decoder-only models span 18 to 40 layers for the transformer-based ones, and 64 layers for the mamba one, all models share the SwiGLU activation function, with vocabulary size of 131K tokens (65Kfor Mamba-7B)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The architecture of Falcon3-7B-Base is characterized by a head dimension of 256 which yields high throughput when using FlashAttention-3 as it is optimized for this dimension."
+    }
+  ],
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The quoted material describes a single, large-scale pre-training campaign that generated five separate Falcon3 base checkpoints: Falcon3-1B-Base, Falcon3-3B-Base, Falcon3-Mamba-7B-Base, Falcon3-7B-Base, and Falcon3-10B-Base. A “one pre-training for transformer-based models” philosophy was adopted, centring on a massive run for the 7 B parameter model that used 1,024 H100 GPUs and processed 14 trillion tokens spanning web, code, STEM, and other curated high-quality multilingual sources. Subsequent “depth up-scaling” duplicated redundant layers of the 7 B network, expanding it to 10 B parameters and continuing pre-training with an additional 2 trillion tokens of high-quality data to improve reasoning. In parallel, “knowledge distillation for better tiny models” combined pruning and distillation to create the 1 B and 3 B variants with less than 100 GT of curated, high-quality data, thereby aiming to redefine pre-training efficiency across the Falcon3 family.",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "This iteration includes five base models: Falcon3-1B-Base Falcon3-3B-Base Falcon3-Mamba-7B-Base Falcon3-7B-Base Falcon3-10B-Base In developing these models, we incorporated several key innovations aimed at improving the models' performances while reducing training costs: One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Depth up-scaling for improved reasoning: Building on recent studies on the effects of model depth, we upscaled the 7B model to a 10B parameters model by duplicating the redundant layers and continuing pre-training with 2 trillion tokens of high-quality data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "Knowledge distillation for better tiny models: To provide compact and efficient alternatives, we developed Falcon3-1B-Base and Falcon3-3B-Base by leveraging pruning and knowledge distillation techniques, using less than 100GT of curated high-quality data, thereby redefining pre-training efficiency."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The material indicates that the Falcon3-7B-Base model underwent a single, very large-scale pre-training run. In that run the developers employed 1,024 H100 GPUs and processed a corpus of 14 trillion tokens. The token mix is explicitly described as encompassing web pages, code repositories, STEM literature, and other curated high-quality, multilingual data. The 7 B parameter variant is highlighted as being trained on the largest amount of data among the five listed base checkpoints (Falcon3-1B-Base, Falcon3-3B-Base, Falcon3-Mamba-7B-Base, Falcon3-7B-Base, Falcon3-10B-Base), with the explanation that this extensive data exposure is intended to give it the broadest conceptual and factual coverage, whereas the smaller variants \"require way less data.\"",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This iteration includes five base models: Falcon3-1B-Base Falcon3-3B-Base Falcon3-Mamba-7B-Base Falcon3-7B-Base Falcon3-10B-Base. One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The Falcon3-7B-Base is trained on the largest amount of data ensuring comprehensive coverage of concepts and knowledge, the other variants require way less data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

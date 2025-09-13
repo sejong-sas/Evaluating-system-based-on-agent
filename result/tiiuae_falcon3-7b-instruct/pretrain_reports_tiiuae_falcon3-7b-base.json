@@ -1,0 +1,19 @@
+{
+  "model_id": "tiiuae/Falcon3-7B-Base",
+  "pretrain_method": "The pre-training method was implemented as a single large-scale pretraining run on a transformer-based model (the 7B model). This process utilized 1024 H100 GPU chips and processed 14 trillion tokens. The tokens included a diverse range of data types such as web data, code, STEM-related content, as well as curated high-quality and multilingual data.",
+  "pretrain_data": "The pre-training data comprised 14 trillion tokens which were used in the single pre-training run of the transformer-based 7B model. The data set was diverse, including content from web sources, coding, STEM fields, and was further enhanced with curated high-quality and multilingual information, enabling a broad data representation.",
+  "__evidence": {
+    "3-1 (Pre-training)": [
+      {
+        "source": "art1",
+        "quote": "One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+      }
+    ],
+    "4-1 (Pre-training Data)": [
+      {
+        "source": "art1",
+        "quote": "One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "2-3 (API)": "The only explicit API-related detail is the code snippet that sets the identifier model_name = \"tiiuae/Falcon3-7B-Instruct\". This reveals that calls to an external service (in a GPT-style workflow) should reference the exact string \"tiiuae/Falcon3-7B-Instruct\" when selecting the model.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tiiuae/Falcon3-7B-Instruct\""
+    }
+  ],
+  "3-1 (Pre-training)": "The Falcon3 family of Open Foundation Models—including the 7B Instruct variant—is described as a set of pretrained and instruct LLMs that span sizes from 1 B to 10 B parameters. Within this family, the model is said to be \"Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high-quality and multilingual data using 1024 H100 GPU chips,\" indicating extremely large-scale data ingestion across diverse domains and a hardware footprint of 1024 NVIDIA H100 GPUs.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Falcon3** family of Open Foundation Models is a set of pretrained and instruct LLMs ranging from 1B to 10B."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "3-2 (Fine-tuning)": "After the base pre-training, the model undergoes a post-training phase that uses \"1.2 million samples of STEM, conversations, code, safety and function call data,\" suggesting a broad mix of instructional, safety-oriented, and function-calling demonstrations meant to specialize the general Falcon3-7B weights.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Postrained on 1.2 million samples of STEM, conversations, code, safety and function call data"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

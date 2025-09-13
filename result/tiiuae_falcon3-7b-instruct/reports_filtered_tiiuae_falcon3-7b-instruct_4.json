@@ -1,0 +1,19 @@
+{
+  "4-1 (Pre-training Data)": "The material indicates that the Falcon3-7B-Base model underwent a single, very large-scale pre-training run. In that run the developers employed 1,024 H100 GPUs and processed a corpus of 14 trillion tokens. The token mix is explicitly described as encompassing web pages, code repositories, STEM literature, and other curated high-quality, multilingual data. The 7 B parameter variant is highlighted as being trained on the largest amount of data among the five listed base checkpoints (Falcon3-1B-Base, Falcon3-3B-Base, Falcon3-Mamba-7B-Base, Falcon3-7B-Base, Falcon3-10B-Base), with the explanation that this extensive data exposure is intended to give it the broadest conceptual and factual coverage, whereas the smaller variants \"require way less data.\"",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This iteration includes five base models: Falcon3-1B-Base Falcon3-3B-Base Falcon3-Mamba-7B-Base Falcon3-7B-Base Falcon3-10B-Base. One pre-training for transformer-based models: We conducted a single large-scale pretraining run on the 7B model, using 1024 H100 GPU chips, leveraging 14 trillion tokens featuring web, code, STEM, and curated high-quality and multilingual data."
+    },
+    {
+      "source": "[sections/https://huggingface.co/blog/falcon3]",
+      "quote": "The Falcon3-7B-Base is trained on the largest amount of data ensuring comprehensive coverage of concepts and knowledge, the other variants require way less data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": []
+}

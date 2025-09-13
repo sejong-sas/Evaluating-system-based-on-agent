@@ -1,0 +1,20 @@
+{
+  "4-1 (Pre-training Data)": "The tiiuae/falcon3-7b-instruct model is reported as having been pretrained on a very large corpus—“14 Teratokens of datasets comprising of web, code, STEM, high quality and multilingual data.”  The single available quote also specifies the scale of the compute used: “using 1024 H100 GPU chips.”  From this we can summarize that the bulk pre-training stage leverages a diverse mix of internet text, programming code, science/engineering material, and multilingual resources, altogether amounting to 14 T tokens, and that the training run was executed with 1,024 NVIDIA H100 GPUs.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Pretrained on 14 Teratokens of datasets comprising of web, code, STEM, high quality and mutlilingual data using 1024 H100 GPU chips"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "For its post-training (supervised fine-tuning) phase, the model is said to have been “postrained on 1.2 million samples of STEM, conversations, code, safety and function call data.”  Thus, after the large-scale pre-training, an additional curated set of 1.2 M examples—spanning technical STEM content, dialogue data, software code snippets, safety-oriented prompts/answers, and structured function-call demonstrations—was used to adapt the model.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Postrained on 1.2 million samples of STEM, conversations, code, safety and function call data"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}
