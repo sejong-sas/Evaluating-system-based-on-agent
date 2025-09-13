@@ -1,0 +1,15 @@
+{
+  "1-5 (Architecture)": "The provided information indicates that the Kanana model family covers a broad range of parameter scales, starting at 2.1 billion parameters and extending up to 32.5 billion. Within this family, the 2.1 billion-parameter tier is explicitly noted to have three publicly released variants—“base,” “instruct,” and “embedding.” The release of these 2.1 B models is positioned as an effort to foster and support research specifically focused on Korean language models.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding) publicly released to promote research on Korean language models."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

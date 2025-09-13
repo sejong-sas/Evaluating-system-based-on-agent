@@ -1,0 +1,88 @@
+{
+  "1-1 (Weights)": "The only statement provided says: “The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding) publicly released to promote research on Korean language models.”  From this we can tell that (a) the 2.1-billion-parameter variants of the Kanana family—including the base, instruct, and embedding versions—have been placed in the public domain in the sense of being openly released; (b) larger checkpoints (anything above 2.1 B) are not described as publicly available in the quote, so their status is unclear; and (c) the explicit motivation cited for the release is to “promote research on Korean language models.”  No further specifics—such as hosting platform, download URL, authentication or request process, or any gating criteria—are mentioned in the material supplied.",
+  "1-2 (Code)": "No quoted material mentions any training-pipeline, data-processing, or fine-tuning code for the Kanana-Nano-2.1B-Base model. Consequently, there is no evidence in the provided excerpts that training code (or even inference/serving code) has been made public.",
+  "1-3 (License)": "The excerpts contain no sentences that refer to a license name, license text, or any usage restrictions. Therefore, based solely on the supplied quotes, no licensing information can be summarized.",
+  "1-4 (Paper)": "The single sentence offered reads: “We introduce Kanana, a series of bilingual language models that demonstrate exceeding performance in Korean and competitive performance in English.”  From this we learn that (a) there exists an official technical write-up or announcement introducing the Kanana series; (b) the series is explicitly characterized as bilingual, with emphasis on both Korean and English capabilities; and (c) it claims superior results in Korean while remaining competitive in English.  No citation, publication venue, author list, or link is provided in the quote, so further bibliographic details are unavailable.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding) publicly released to promote research on Korean language models."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "We introduce Kanana, a series of bilingual language models that demonstrate exceeding performance in Korean and competitive performance in English."
+    }
+  ],
+  "1-5 (Architecture)": "The provided information indicates that the Kanana model family covers a broad range of parameter scales, starting at 2.1 billion parameters and extending up to 32.5 billion. Within this family, the 2.1 billion-parameter tier is explicitly noted to have three publicly released variants—“base,” “instruct,” and “embedding.” The release of these 2.1 B models is positioned as an effort to foster and support research specifically focused on Korean language models.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding) publicly released to promote research on Korean language models."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The Kanana-series models, including kanana-nano-2.1b-base, underwent a pre-training process that emphasized compute efficiency while maintaining strong performance in both Korean and English. According to the report, the pre-training strategy combined several specific techniques: (1) high-quality data filtering to ensure that only suitable training data were retained, (2) a staged pre-training schedule rather than a single monolithic run, (3) depth up-scaling to increase model capacity in later stages, and (4) a combination of pruning and distillation to reduce computational cost without sacrificing accuracy. These elements together constitute the core methodology by which the model achieved its bilingual capabilities and competitive results.",
+  "3-2 (Fine-tuning)": "After the main pre-training, the authors performed a post-training phase that incorporated supervised fine-tuning. This step was designed to further align the kanana-nano-2.1b-base model with user-centric tasks, leveraging explicitly labeled examples to refine the model’s responses. Alongside this, they carried out preference optimization, indicating an additional layer where user or evaluator preferences were used to shape the model’s output behaviour for more seamless interaction.",
+  "3-3 (Reinforcement Learning)": "Within the same post-training suite described in the report, preference optimization is highlighted. Although the quote does not name a specific RL algorithm, the wording implies a reinforcement-style procedure—optimizing the model according to preference feedback so that it better satisfies user interaction criteria. This situates preference optimization as the reinforcement component complementing the supervised fine-tuning step, collectively enhancing the conversational quality of kanana-nano-2.1b-base.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "We introduce Kanana, a series of bilingual language models that demonstrate exceeding performance in Korean and competitive performance in English. The report details the techniques employed during pre-training to achieve compute-efficient yet competitive models, including high quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The only information given about the pre-training corpus for the Kanana family is that the developers pursued \"compute-efficient yet competitive\" training by applying several engineering techniques. The quote says that the report \"details the techniques employed during pre-training … including high quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation.\" From this we can infer that (a) some form of data quality triage preceded training, (b) the material may have been processed in successive stages rather than in one pass, and (c) later architectural or pruning steps were used to lower computational overhead. However, the citation supplies no concrete figures (e.g., number of tokens, percentage retained, domain mix), no explicit data sources, and no licensing or usage-rights discussion. Consequently, the public documentation reveals that sophisticated filtering and curriculum-style staging occurred but leaves the precise make-up, scale, and provenance of the pre-training data undisclosed.",
+  "4-2 (Fine-tuning Data)": "The documentation states that after pre-training, the Kanana models underwent \"post-training\" that \"encompass[es] supervised fine-tuning and preference optimization.\" This implies two distinct steps: (1) supervised fine-tuning on curated instruction–response or task-oriented datasets, and (2) a preference-based optimization stage (often RLHF or similar) intended to align model outputs with human judgments of quality or helpfulness. Beyond naming these methods, the quote provides no granular details—there is no disclosure of dataset titles, sizes, domain distributions, licensing status, or example contents. Therefore, the fine-tuning section confirms the existence of supervised and preference-based alignment phases but offers no specifics about the data itself.",
+  "4-3 (Reinforcement Learning Data)": "The same sentence covering post-training specifies that the Kanana team performed \"preference optimization\" after supervised fine-tuning. Although the wording does not explicitly use the term \"reinforcement learning,\" in contemporary LLM pipelines preference optimization is normally implemented through reinforcement learning from human feedback (RLHF) or a related algorithm. Thus, the quote indicates that a reinforcement-style stage exists and is focused on user interaction quality, but discloses nothing about how the preference data were collected, how many preference pairs or rankings were used, whether annotators were internal or external, or how the data are stored or licensed. All we know is that such data were leveraged to refine the model’s ability for \"seamless interaction with users.\"",
+  "4-4 (Data Filtering)": "The only direct mention of filtering practices appears in the pre-training discussion: the report \"details the techniques employed during pre-training … including high quality data filtering.\" No numeric thresholds, classifier names, duplicate-detection ratios, perplexity cut-offs, or percentage of data removed are supplied in the quote. However, the sentence places filtering as the first element in a pipeline that also lists \"staged pre-training, depth up-scaling, and pruning and distillation,\" implying that filtering was an early, possibly gating, step used to raise data quality before the workload-reduction and model-compression techniques took effect. In short, the developers highlight that rigorous filtering contributed to lower compute cost and competitive performance, but they withhold all concrete criteria or statistics about how the filtering was executed.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "The computational cost of Kanana is significantly lower than that of state-of-the-art models of similar size. The report details the techniques employed during pre-training to achieve compute-efficient yet competitive models, including high quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/abs/2502.18934]",
+      "quote": "The computational cost of Kanana is significantly lower than that of state-of-the-art models of similar size. The report details the techniques employed during pre-training to achieve compute-efficient yet competitive models, including high quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
