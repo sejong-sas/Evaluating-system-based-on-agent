@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "Users can interact with starcoder directly through an online interface: the StarCoder Playground hosted on Hugging Face Spaces at https://huggingface.co/spaces/bigcode/bigcode-playground. This playground acts as a public, web-accessible endpoint that lets anyone “play with the model,” offering immediate hands-on access without local installation or configuration.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Play with the model on the [StarCoder Playground](https://huggingface.co/spaces/bigcode/bigcode-playground)."
+    }
+  ],
+  "3-1 (Pre-training)": "Starcoder’s pre-training phase centres on a 15.5-billion-parameter model that was trained on 1 trillion tokens. The tokens were sourced from more than 80 programming languages included in The Stack (v1.2) after honoring all opt-out requests, ensuring that excluded repositories are not present in the corpus. The architecture relies on Multi-Query Attention and allows sequences as long as 8 192 tokens, giving starcoder a large working context. Training used the Fill-in-the-Middle objective, teaching the model to generate code segments that fit naturally into arbitrary positions within existing code rather than only predicting the next token.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded. The model uses Multi Query Attention, a context window of 8192 tokens,  and was trained using the Fill-in-the-Middle objective on 1 trillion tokens."
+    }
+  ],
+  "3-2 (Fine-tuning)": "After the core model was trained, an additional Python-specific fine-tuning step was carried out. The overall training effort spanned 24 days, of which 320 256 GPU-hours were devoted to the initial pre-training and 11 208 GPU-hours were spent on this Python fine-tuning stage, providing focused adaptation while building on starcoder’s general multi-language foundations.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Training time:** 24 days (320,256 GPU hours pretraining + 11,208 GPU hours Python fine-tuning)"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

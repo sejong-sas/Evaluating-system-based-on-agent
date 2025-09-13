@@ -1,0 +1,112 @@
+
+======== 2/2 ▶ bigcode/starcoder ========
+📁 Directory to create/use: bigcode_starcoder
+📁 Output path: bigcode_starcoder
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: bigcode-project/starcoder2 (score=-5, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 13, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: bigcode-project/starcoder (score=-5, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 13, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: arkraieski/starcoder-cli (score=-5, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 4, 'from_hf_link': 0, 'version_conflict': 0})
+⚠️ No GitHub repo passed the thresholds.
+✅ HF model: bigcode/starcoder (found at priority: 1)
+📄 Reports saved/merged (HF): bigcode_starcoder\reports_fulltext_huggingface_bigcode_starcoder.json
+✅ JSON file saved: bigcode_starcoder\huggingface_bigcode_starcoder.json
+📄 Reports merged to: bigcode_starcoder\reports_fulltext_bigcode_starcoder.json (HF sources)
+✅ Saved group 1 result: bigcode_starcoder\huggingface_filtered_bigcode_starcoder_1.json
+✅ Saved group 2 result: bigcode_starcoder\huggingface_filtered_bigcode_starcoder_2.json
+✅ Saved group 3 result: bigcode_starcoder\huggingface_filtered_bigcode_starcoder_3.json
+✅ Saved group 4 result: bigcode_starcoder\huggingface_filtered_bigcode_starcoder_4.json
+✅ Saved final merged result: bigcode_starcoder\huggingface_filtered_final_bigcode_starcoder.json
+⚠️ No GitHub info
+🔎 HF tags found arXiv IDs: ['1911.02150', '2205.14135', '2207.14255', '2305.06161']
+🔄 Simplified query: 'starcoder'
+🔎 Tavily search: starcoder paper
+  → arXiv link found: https://arxiv.org/abs/2305.06161
+🔎 Tavily search: starcoder technical report
+  → arXiv link found: https://arxiv.org/abs/2305.06161
+🛰️ Tavily candidates: ['2305.06161']
+📦 Final merged arXiv IDs: ['1911.02150', '2205.14135', '2207.14255', '2305.06161']
+📄 PDF saved: bigcode_starcoder\arxiv_1911.02150.pdf
+📄 PDF saved: bigcode_starcoder\arxiv_2205.14135.pdf
+📄 PDF saved: bigcode_starcoder\arxiv_2207.14255.pdf
+📄 PDF saved: bigcode_starcoder\arxiv_2305.06161.pdf
+✅ Full paper text saved: bigcode_starcoder\arxiv_fulltext_bigcode_starcoder.json
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 8, '1-2 (Code)': 2, '1-3 (License)': 7, '1-4 (Paper)': 6}, 'kept': {'1-1 (Weights)': 8, '1-2 (Code)': 1, '1-3 (License)': 7, '1-4 (Paper)': 4}}
+✅ Saved group 1 : bigcode_starcoder\arxiv_filtered_bigcode_starcoder_1.json
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 16, '1-6 (Tokenizer)': 1, '2-1 (Hardware)': 0, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 11, '1-6 (Tokenizer)': 1, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 : bigcode_starcoder\arxiv_filtered_bigcode_starcoder_2.json
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 1, '3-1 (Pre-training)': 14, '3-2 (Fine-tuning)': 11, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 1, '3-1 (Pre-training)': 8, '3-2 (Fine-tuning)': 8, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : bigcode_starcoder\arxiv_filtered_bigcode_starcoder_3.json
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 9, '4-2 (Fine-tuning Data)': 7, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 7}, 'kept': {'4-1 (Pre-training Data)': 7, '4-2 (Fine-tuning Data)': 5, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 5}}
+✅ Saved group 4 : bigcode_starcoder\arxiv_filtered_bigcode_starcoder_4.json
+✅ Saved final merged: bigcode_starcoder\arxiv_filtered_final_bigcode_starcoder.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 8, '1-2 (Code)': 2, '1-3 (License)': 9, '1-4 (Paper)': 13}, 'kept': {'1-1 (Weights)': 6, '1-2 (Code)': 1, '1-3 (License)': 7, '1-4 (Paper)': 12}}
+✅ Saved group 1 : bigcode_starcoder\reports_filtered_bigcode_starcoder_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 12, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 3}, 'kept': {'1-5 (Architecture)': 11, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 3}}
+✅ Saved group 2 : bigcode_starcoder\reports_filtered_bigcode_starcoder_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 0, '3-1 (Pre-training)': 9, '3-2 (Fine-tuning)': 7, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 8, '3-2 (Fine-tuning)': 5, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : bigcode_starcoder\reports_filtered_bigcode_starcoder_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 12, '4-2 (Fine-tuning Data)': 8, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 7}, 'kept': {'4-1 (Pre-training Data)': 10, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 6}}
+✅ Saved group 4 : bigcode_starcoder\reports_filtered_bigcode_starcoder_4.json
+✅ Saved final merged: bigcode_starcoder\reports_filtered_final_bigcode_starcoder.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: bigcode_starcoder\openness_score_bigcode_starcoder.json
+✅ Openness evaluation complete. Result file: bigcode_starcoder\openness_score_bigcode_starcoder.json
+✅ Saved model ID: bigcode_starcoder\identified_model.txt
+⏳ **Time taken for this model: 3077.35 seconds**
+🧾 Log saved to: bigcode_starcoder\run_20250913-163133_bigcode_starcoder.log

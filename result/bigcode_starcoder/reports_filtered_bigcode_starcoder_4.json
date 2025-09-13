@@ -1,0 +1,101 @@
+{
+  "4-1 (Pre-training Data)": "StarCoderBase and its derivative StarCoder are both 15.5-billion-parameter models whose pre-training corpus comes entirely from The Stack v1.2, a collection of permissively licensed GitHub repositories that offers inspection tools and an opt-out mechanism. The authors restricted the dataset to code from more than 80 programming languages as well as natural-language artefacts that appear in software projects. In total, one trillion tokens were used. Roughly 20 % of those tokens are natural-language content subdivided into about 7 % GitHub issues, 10 % Markdown, 2 % Jupyter notebooks and 4 % HTML. The training run for StarCoderBase lasted 250 000 iterations with a batch size of 4 million tokens, yielding the one-trillion-token target. Progress was monitored every 200 billion tokens. A cited Table 1 provides counts of files and data volumes after near-deduplication and subsequent filtering for the languages that were finally selected.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning converts StarCoderBase into StarCoder. The procedure consisted of training for two additional epochs on a Python-only slice of the original corpus, amounting to about 35 billion Python tokens. All quotes emphasize that this single-domain, two-epoch, 35 B-token run is the sole extra data step separating StarCoder from its base model, and no instruction-tuning or other specialised datasets were introduced.",
+  "4-3 (Reinforcement Learning Data)": "The supplied quotations do not contain any information about reinforcement-learning data; no RL datasets, sources, or procedures are mentioned.",
+  "4-4 (Data Filtering)": "Several layers of data cleaning were applied before and after assembling The Stack subset used for StarCoder. First, a license-detection filter ensured that only permissively licensed source-code files were retained. The team also combined heuristic filters with manual inspection to further clean the corpus. Near-deduplication was performed, and the resulting file and token counts after this step—as well as after additional filtering—are summarised in the referenced Table 1. To mitigate privacy risks, the release includes an improved personally identifiable information (PII) redaction pipeline. The authors trained an encoder-only classifier specifically to detect PII in both code and text; they caution that the detector can yield false positives or negatives. An attribution-tracing tool was added as another safety measure. Despite these efforts, the paper notes that StarCoder may still emit PII, and the licence explicitly forbids using the model to generate or disseminate such information with harmful intent.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase is trained on 1 trillion tokens sourced from The Stack, a large collection of permissively licensed GitHub repositories with inspection tools and an opt-out process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack. We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase is the first model trained on 1 trillion tokens sourced from the curated dataset described in Section 3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase\nThe model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder was trained on a subset of The Stack v1.2 dataset."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section describes how we processed the training data of StarCoderBase. We restrict the training set to The Stack v1.2 (Kocetkov et al., 2022), which exclusively contains data from permissively licensed GitHub repositories."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Overview of the training data for StarCoder. For the selected programming languages, we show the number of files and data volume after near-deduplication, as well as after filtering."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We evaluate the performance of StarCoderBase at several training checkpoints after every 200B tokens seen out of the total 1000B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Although the StarCoder models are principally developed to be Code LLMs, they have also been trained on a significant amount of natural language text. Roughly 20% of its training tokens are natural language data: 7% GitHub issues, 10% Markdown, 2% Jupyter notebooks, and 4% HTML."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tuned StarCoderBase on 35B Python tokens, resulting in the creation of StarCoder."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tuned StarCoderBase on another 35B Python tokens, leading to the StarCoder model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder is the fine-tuned version of StarCoderBase, trained on another 35B Python tokens (roughly 2 epochs)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder\nStarting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Section E.2, we demonstrate how to prompt StarCoder to act as a technical assistant without any instruction-tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Starting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder was trained on a subset of The Stack v1.2 dataset. This dataset has been filtered using a license detector to only include permissively licensed source code."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Despite our best efforts to remove PII (Section 4), StarCoder may still produce PII (however, note that the model license restricts use that aims to generate or disseminate PII with the purpose of harming others). As mentioned in Section 4.2, we trained an encoder-only model to detect PII for both code- and text-related tasks and noted that there is a possibility of false positives and negatives, which could lead to unintended consequences when processing sensitive data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section describes how we processed the training data of StarCoderBase. Below, we describe how we further cleaned the data by combining heuristic filtering and manual inspection."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Overview of the training data for StarCoder. For the selected programming languages, we show the number of files and data volume after near-deduplication, as well as after filtering."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Despite our best efforts to remove PII (Section 4), StarCoder may still produce PII (however, note that the model license restricts use that aims to generate or disseminate PII with the purpose of harming others)."
+    }
+  ]
+}

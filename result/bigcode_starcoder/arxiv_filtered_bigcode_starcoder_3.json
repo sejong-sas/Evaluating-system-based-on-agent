@@ -1,0 +1,81 @@
+{
+  "2-3 (API)": "The material explicitly states that the StarCoder family is being released as an “open-access model” and that the authors have “made the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license.” Although no dedicated hosted inference service or REST-style endpoint is described, the quote confirms public release, legal terms for commercial use, and the presence of supporting safety infrastructure (an improved PII-redaction pipeline plus a novel attribution-tracing tool) intended to accompany that release. Taken together, these points establish that StarCoder is accessible to external users in a manner consistent with an openly available model distribution, even though the excerpt does not detail a turnkey API comparable to GPT-style SaaS products.",
+  "3-1 (Pre-training)": "StarCoderBase and StarCoder share an identical core architecture with 15.5 billion parameters. The base model, StarCoderBase, was trained on a massive 1 trillion-token corpus drawn from The Stack—a permissively licensed collection of GitHub code that spans more than 80 programming languages and also includes GitHub issues, commits, and Jupyter notebooks. Training proceeded for 250 000 iterations with a very large effective batch size of 4 million tokens, yielding the full 1 trillion tokens of compute consumption. Checkpoints were evaluated every 200 billion tokens to monitor progress across the 1 000 billion-token schedule. The context window was set to 8 k tokens, enabling both conditioning on and generation of long code files. In addition to linguistic diversity, the data selection process included an opt-out mechanism and inspection tools designed to respect repository licensing constraints. Both StarCoderBase and the subsequently derived StarCoder model therefore inherit the same high-capacity transformer backbone, the permissively licensed data origin, and the extensive multi-language coverage established during this pre-training phase.",
+  "3-2 (Fine-tuning)": "StarCoder itself is produced by fine-tuning StarCoderBase on a focused Python subset. Specifically, the authors conduct an additional training stage on 35 billion Python-specific tokens, running for two full epochs. Hyperparameters are largely copied from the base pre-training setup, but the learning rate is explicitly set to 5 × 10⁻⁵ with a linear warm-up over the first 1 000 iterations, after which it decays to 5 × 10⁻⁶. Despite this language-targeted specialization, empirical results indicate that StarCoder retains strong multi-language competence and even surpasses StarCoderBase on some non-Python benchmarks. Preliminary experiments also revealed that, without any separate instruction-tuning, the 8 k context length allows the fine-tuned model to act as a “somewhat capable yet brittle” technical assistant when prompted with Anthropic’s HHH template. Thus, the fine-tuning pipeline both sharpens Python performance and preserves—or occasionally improves—broader code-generation abilities while maintaining full reproducibility through clearly stated data volume, epoch count, and learning-rate scheduling details.",
+  "3-3 (Reinforcement Learning)": "The supplied excerpts include no discussion of reinforcement-learning-based post-training methods such as RLHF, RLAIF, DPO, or related preference-optimization procedures for StarCoder. Consequently, no RL-specific objectives, reward models, hyperparameters, or training stages can be summarized from the provided material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "StarCoderBase is trained on 1 trillion tokens sourced from The Stack (Kocetkov et al., 2022), a large collection of permissively licensed GitHub repositories with inspection tools and an opt-out process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks."
+    },
+    {
+      "source": "[sections/Model training]",
+      "quote": "StarCoderBase The model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We evaluate the performance of StarCoderBase at several training checkpoints after every 200B tokens seen out of the total 1000B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase was trained with an 8K token window, allowing conditioning on and generating long code files."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We fine-tuned StarCoderBase on 35B Python tokens, resulting in the creation of StarCoder."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tuned StarCoderBase on another 35B Python tokens, leading to the StarCoder model."
+    },
+    {
+      "source": "[sections/Model training]",
+      "quote": "Starting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data. We used the same settings as StarCoderBase, except that we used a learning rate of 5 × 10−5 and decayed it to 5 × 10−6 after 1,000 iterations of linear warmup."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section also shows that StarCoder, despite being fine-tuned on Python, remains a very capable multi-language Code LLM and even outperforms StarCoderBase on some languages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "What is more surprising is that StarCoder slightly outperforms StarCoderBase on certain languages, despite being fine-tuned on Python."
+    },
+    {
+      "source": "[sections/E.2 Technical Assistant]",
+      "quote": "In preliminary explorations, we discovered that using Anthropic’s HHH prompt (Askell et al., 2021) turned the model into a somewhat capable yet brittle technical assistant. We were surprised that, without instruction- tuning, we were able to utilize the 8k context length of StarCoder and let the model answer questions, follow instructions, and help with solving technical problems."
+    },
+    {
+      "source": "[sections/Model training]",
+      "quote": "StarCoder Starting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data. We used the same settings as StarCoderBase, except that we used a learning rate of 5 × 10−5 and decayed it to 5 × 10−6 after 1,000 iterations of linear warmup."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Despite fine-tuning on Python, StarCoder remains competitive on most languages, and also outperforms other open models."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

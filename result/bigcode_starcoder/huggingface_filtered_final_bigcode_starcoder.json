@@ -1,0 +1,144 @@
+{
+  "1-1 (Weights)": "The only sentence that explicitly addresses weight availability is: \"checkpoint = \\\"bigcode/starcoder\\\"\". This indicates that the model weights are hosted on Hugging Face under the checkpoint name “bigcode/starcoder,” which implies that users who have access to the repository can download or load the weights directly from that location.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigcode/starcoder\""
+    }
+  ],
+  "1-2 (Code)": "StarCoder’s training implementation is public: “The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded.- **Repository:** [bigcode/Megatron-LM](https://github.com/bigcode-project/Megatron-LM).” Because the quote explicitly mentions StarCoder and links the `bigcode/Megatron-LM` GitHub repository, it confirms that the PRE-TRAINING code (and associated training pipeline) is openly available in that repository. No quote specifically discusses inference/serving code, RL, or fine-tuning code, so the evidence is limited to public pre-training code availability.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded.\n- **Repository:** [bigcode/Megatron-LM](https://github.com/bigcode-project/Megatron-LM)"
+    }
+  ],
+  "1-3 (License)": "Multiple StarCoder-specific sentences describe the license:\n• “The model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement).”\n• “license: bigcode-openrail-m” (appears twice in the README snippet).\n• The README also embeds a gated-access checkbox: “I accept the above license agreement, and will use the Model complying with the set of use restrictions and sharing requirements: checkbox.”\nTaken together, these quotes show that StarCoder is distributed under the “BigCode OpenRAIL-M v1” license, which is an OpenRAIL license that imposes a specific set of use-restrictions and sharing requirements. Access to the weights requires the user to affirm acceptance of those terms (via the checkbox).",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "license: bigcode-openrail-m"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\npipeline_tag: text-generation\ninference: true\nwidget:\n- text: 'def print_hello_world():'\n example_title: Hello world\n group: Python\nlicense: bigcode-openrail-m\ndatasets:\n- bigcode/the-stack-dedup\nmetrics:\n- code_eval\nlibrary_name: transformers\ntags:\n- code\nmodel-index:\n- name: StarCoder\n results:\n - task:\n type"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement)\n agreement before accepting it.\n \nextra_gated_fields:\n I accept the above license agreement, and will use the Model complying with the set of use restrictions and sharing requirements: checkbox\n---\n\n\n# StarCoder\n\n![banner](https://huggingface.co/datasets/bigcode/admin/resolve/main"
+    },
+    {
+      "source": "[readme]",
+      "quote": ")\n- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch)\n- **BP16 if applicable:** [apex](https://github.com/NVIDIA/apex)\n\n# License\nThe model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement).\n\n**Email contact@bigcode-p"
+    }
+  ],
+  "1-4 (Paper)": "One quote gives an official publication reference: “- **Paper:** [💫StarCoder: May the source be with you!](https://arxiv.org/abs/2305.06161).” This arXiv paper is the main technical report describing StarCoder.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Paper:** [💫StarCoder: May the source be with you!](https://arxiv.org/abs/2305.06161)"
+    }
+  ],
+  "1-5 (Architecture)": "According to the provided documentation for bigcode/starcoder, the StarCoder model is a 15.5-billion-parameter GPT-2–style network that incorporates Multi-Query Attention. It was trained on 1 trillion tokens drawn from 80+ programming languages contained in The Stack (v1.2) after removing all opt-out requests. The model supports a context window of 8,192 tokens and was optimized with a Fill-in-the-Middle (FIM) training objective. The quotes emphasize that the underlying backbone is explicitly described as “GPT-2 model with multi-query attention,” making that the central architectural choice.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded. The model uses [Multi Query Attention](https://arxiv.org/abs/1911.02150), [a context window of 8192 tokens](https://arxiv.org/abs/2205.14135),  and was trained using the [Fill-in-the-Middle objective](https://arxiv.org/abs/2207.14255) on 1 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Architecture:** GPT-2 model with multi-query attention and Fill-in-the-Middle objective"
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer for bigcode/starcoder is directly obtainable through the Hugging Face Transformers API: `AutoTokenizer.from_pretrained(\"bigcode/starcoder\")`. The example snippet shows that the same identifier string is used whether running on GPU (`device=\"cuda\"`) or CPU (`device=\"cpu\"`), indicating that the tokenizer is fully packaged and downloadable from the StarCoder model repository.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigcode/starcoder\"\n\ndevice = \"cuda\" # for GPU usage or \"cpu\" for CPU usage\n\ntokenizer = AutoTokenizer.from_pretrained(checkpoint)"
+    }
+  ],
+  "2-1 (Hardware)": "Training StarCoder required large-scale GPU resources: 512 NVIDIA Tesla A100 accelerators were employed. The reported wall-clock training duration is 24 days, broken down into 320,256 GPU-hours devoted to pre-training and an additional 11,208 GPU-hours for Python-specific fine-tuning, summing to 331,464 GPU-hours overall. Total training compute is quantified as 8.46 × 10²² FLOPs.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **GPUs:** 512 Tesla A100\n- **Training time:** 24 days (320,256 GPU hours pretraining + 11,208 GPU hours Python fine-tuning)\n- **Training FLOPS:** 8.46E+22"
+    }
+  ],
+  "2-2 (Software)": "The training software stack for bigcode/starcoder is anchored on PyTorch for neural-network execution, orchestrated by Megatron-LM for large-scale distributed training. Mixed-precision (BP16) operations, when used, rely on NVIDIA’s Apex library.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Orchestration:** [Megatron-LM](https://github.com/bigcode-project/Megatron-LM)\n- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch)\n- **BP16 if applicable:** [apex](https://github.com/NVIDIA/apex)"
+    }
+  ],
+  "2-3 (API)": "Users can interact with starcoder directly through an online interface: the StarCoder Playground hosted on Hugging Face Spaces at https://huggingface.co/spaces/bigcode/bigcode-playground. This playground acts as a public, web-accessible endpoint that lets anyone “play with the model,” offering immediate hands-on access without local installation or configuration.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Play with the model on the [StarCoder Playground](https://huggingface.co/spaces/bigcode/bigcode-playground)."
+    }
+  ],
+  "3-1 (Pre-training)": "Starcoder’s pre-training phase centres on a 15.5-billion-parameter model that was trained on 1 trillion tokens. The tokens were sourced from more than 80 programming languages included in The Stack (v1.2) after honoring all opt-out requests, ensuring that excluded repositories are not present in the corpus. The architecture relies on Multi-Query Attention and allows sequences as long as 8 192 tokens, giving starcoder a large working context. Training used the Fill-in-the-Middle objective, teaching the model to generate code segments that fit naturally into arbitrary positions within existing code rather than only predicting the next token.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded. The model uses Multi Query Attention, a context window of 8192 tokens,  and was trained using the Fill-in-the-Middle objective on 1 trillion tokens."
+    }
+  ],
+  "3-2 (Fine-tuning)": "After the core model was trained, an additional Python-specific fine-tuning step was carried out. The overall training effort spanned 24 days, of which 320 256 GPU-hours were devoted to the initial pre-training and 11 208 GPU-hours were spent on this Python fine-tuning stage, providing focused adaptation while building on starcoder’s general multi-language foundations.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Training time:** 24 days (320,256 GPU hours pretraining + 11,208 GPU hours Python fine-tuning)"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "“The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded.”  In the same contiguous description, it is further stated that “The model uses Multi Query Attention, a context window of 8192 tokens, and was trained using the Fill-in-the-Middle objective on 1 trillion tokens.”  Together, these quotes specify the full scale and composition of StarCoder’s pre-training corpus: one trillion tokens drawn from The Stack v1.2 (a multi-language, permissively licensed code collection) covering more than eighty programming languages, after the removal of any repositories whose owners filed opt-out requests.  The architectural and objective details (MQA, 8 192-token window, and FIM) are mentioned within the same passage that explicitly names “StarCoder,” so they qualify for inclusion under the strict model filter.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model uses [Multi Query Attention](https://arxiv.org/abs/1911.02150), [a context window of 8192 tokens](https://arxiv.org/abs/2205.14135),  and was trained using the [Fill-in-the-Middle objective](https://arxiv.org/abs/2207.14255) on 1 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigcode/the-stack-dedup"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Training time:** 24 days (320,256 GPU hours pretraining + 11,208 GPU hours Python fine-tuning)"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "For StarCoder, the data-cleaning pipeline is summarized in two qualifying statements.  First, “The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded,” indicating an explicit removal of any data whose owners opted out of inclusion.  Second, “The pretraining dataset of the model was filtered for permissive licenses only,” which gives the concrete criterion that only code under permissive open-source licenses was retained.  Together, these quotes describe a dual filtering approach—opting out and license‐based selection—applied before training the StarCoder model.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pretraining dataset of the model was filtered for permissive licenses only."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigcode/the-stack-dedup"
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "1-1 (Weights)": "The only sentence that explicitly addresses weight availability is: \"checkpoint = \\\"bigcode/starcoder\\\"\". This indicates that the model weights are hosted on Hugging Face under the checkpoint name “bigcode/starcoder,” which implies that users who have access to the repository can download or load the weights directly from that location.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "checkpoint = \"bigcode/starcoder\""
+    }
+  ],
+  "1-2 (Code)": "StarCoder’s training implementation is public: “The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded.- **Repository:** [bigcode/Megatron-LM](https://github.com/bigcode-project/Megatron-LM).” Because the quote explicitly mentions StarCoder and links the `bigcode/Megatron-LM` GitHub repository, it confirms that the PRE-TRAINING code (and associated training pipeline) is openly available in that repository. No quote specifically discusses inference/serving code, RL, or fine-tuning code, so the evidence is limited to public pre-training code availability.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded.\n- **Repository:** [bigcode/Megatron-LM](https://github.com/bigcode-project/Megatron-LM)"
+    }
+  ],
+  "1-3 (License)": "Multiple StarCoder-specific sentences describe the license:\n• “The model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement).”\n• “license: bigcode-openrail-m” (appears twice in the README snippet).\n• The README also embeds a gated-access checkbox: “I accept the above license agreement, and will use the Model complying with the set of use restrictions and sharing requirements: checkbox.”\nTaken together, these quotes show that StarCoder is distributed under the “BigCode OpenRAIL-M v1” license, which is an OpenRAIL license that imposes a specific set of use-restrictions and sharing requirements. Access to the weights requires the user to affirm acceptance of those terms (via the checkbox).",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "license: bigcode-openrail-m"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\npipeline_tag: text-generation\ninference: true\nwidget:\n- text: 'def print_hello_world():'\n example_title: Hello world\n group: Python\nlicense: bigcode-openrail-m\ndatasets:\n- bigcode/the-stack-dedup\nmetrics:\n- code_eval\nlibrary_name: transformers\ntags:\n- code\nmodel-index:\n- name: StarCoder\n results:\n - task:\n type"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement)\n agreement before accepting it.\n \nextra_gated_fields:\n I accept the above license agreement, and will use the Model complying with the set of use restrictions and sharing requirements: checkbox\n---\n\n\n# StarCoder\n\n![banner](https://huggingface.co/datasets/bigcode/admin/resolve/main"
+    },
+    {
+      "source": "[readme]",
+      "quote": ")\n- **Neural networks:** [PyTorch](https://github.com/pytorch/pytorch)\n- **BP16 if applicable:** [apex](https://github.com/NVIDIA/apex)\n\n# License\nThe model is licensed under the BigCode OpenRAIL-M v1 license agreement. You can find the full agreement [here](https://huggingface.co/spaces/bigcode/bigcode-model-license-agreement).\n\n**Email contact@bigcode-p"
+    }
+  ],
+  "1-4 (Paper)": "One quote gives an official publication reference: “- **Paper:** [💫StarCoder: May the source be with you!](https://arxiv.org/abs/2305.06161).” This arXiv paper is the main technical report describing StarCoder.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Paper:** [💫StarCoder: May the source be with you!](https://arxiv.org/abs/2305.06161)"
+    }
+  ]
+}

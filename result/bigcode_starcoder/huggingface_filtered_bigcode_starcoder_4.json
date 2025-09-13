@@ -1,0 +1,41 @@
+{
+  "4-1 (Pre-training Data)": "“The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded.”  In the same contiguous description, it is further stated that “The model uses Multi Query Attention, a context window of 8192 tokens, and was trained using the Fill-in-the-Middle objective on 1 trillion tokens.”  Together, these quotes specify the full scale and composition of StarCoder’s pre-training corpus: one trillion tokens drawn from The Stack v1.2 (a multi-language, permissively licensed code collection) covering more than eighty programming languages, after the removal of any repositories whose owners filed opt-out requests.  The architectural and objective details (MQA, 8 192-token window, and FIM) are mentioned within the same passage that explicitly names “StarCoder,” so they qualify for inclusion under the strict model filter.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model uses [Multi Query Attention](https://arxiv.org/abs/1911.02150), [a context window of 8192 tokens](https://arxiv.org/abs/2205.14135),  and was trained using the [Fill-in-the-Middle objective](https://arxiv.org/abs/2207.14255) on 1 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigcode/the-stack-dedup"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Training time:** 24 days (320,256 GPU hours pretraining + 11,208 GPU hours Python fine-tuning)"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "For StarCoder, the data-cleaning pipeline is summarized in two qualifying statements.  First, “The StarCoder models are 15.5B parameter models trained on 80+ programming languages from The Stack (v1.2), with opt-out requests excluded,” indicating an explicit removal of any data whose owners opted out of inclusion.  Second, “The pretraining dataset of the model was filtered for permissive licenses only,” which gives the concrete criterion that only code under permissive open-source licenses was retained.  Together, these quotes describe a dual filtering approach—opting out and license‐based selection—applied before training the StarCoder model.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The StarCoder models are 15.5B parameter models trained on 80+ programming languages from [The Stack (v1.2)](https://huggingface.co/datasets/bigcode/the-stack), with opt-out requests excluded."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pretraining dataset of the model was filtered for permissive licenses only."
+    },
+    {
+      "source": "[readme]",
+      "quote": "datasets:\n- bigcode/the-stack-dedup"
+    }
+  ]
+}

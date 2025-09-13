@@ -1,0 +1,94 @@
+{
+  "1-1 (Weights)": "The project explicitly states that both StarCoder and its companion model StarCoderBase are being released as “open-access Code LLMs.”  Multiple sentences confirm that the weight files themselves are publicly downloadable: “We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages …” and again, “We take several important steps towards a safe open-access model release … and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license.”  The technical report emphasizes that these are “15.5 B parameter large language models trained on code,” so the community gains access to the full 15.5-billion-parameter checkpoints rather than a pared-down or distilled variant.  The authors stress that the public weights come with additional safeguards: an “improved PII redaction pipeline” and “a novel attribution tracing tool” were used before publication.  A table labelled “D.1” shows evaluation results obtained from the released checkpoints, further indicating that the exact same weights were made available for third-party benchmarking.  In short, the full pretrained weights for StarCoder (and StarCoderBase) are downloadable by anyone, under the accompanying license, without gating through an API-only service.",
+  "1-2 (Code)": "One sentence makes the status of the training-related source code explicit: “By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities.”  The phrase “all code repositories for building the model” indicates that the authors have published the scripts, configuration files, data-processing utilities, and other components needed to reproduce the pre-training pipeline—not merely inference or serving snippets.  Therefore, both the data-preparation and model-training workflow are available to the public on GitHub alongside the inference code, facilitating full end-to-end reproducibility.",
+  "1-3 (License)": "Several quotes establish that StarCoder is distributed under a variant of the Responsible AI license family: “• We release StarCoder under an OpenRAIL-M license agreement, which enables royalty-free access, use, and distribution of the model while embedding a set of use restrictions in identified critical scenarios.”  Another line reiterates the same point: “The model is released with an OpenRAIL-M license that places enforceable use restrictions that apply to the model and its modifications, and to applications using the model.”  Earlier sentences add that the authors “make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license.”  Collectively, these passages describe a license that (a) allows use, modification, and redistribution—including commercial use—on a royalty-free basis, but (b) imposes specific, legally enforceable restrictions for sensitive or high-risk scenarios.  Those limits extend to derivative models and downstream applications, meaning redistributors and fine-tuners must also respect the same clauses.",
+  "1-4 (Paper)": "The primary manuscript is titled “StarCoder: may the source be with you!”  Supporting sentences confirm it is both a paper and a technical report: “In this paper, we describe StarCoder and StarCoderBase, open-access code LLMs developed and released by the BigCode community …” and “In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder …”  The report documents model design, training process, and ethical safeguards.  It also introduces an online demo and an “integrated attribution tool” released with the model, and it presents “an extensive evaluation of the StarCoder models,” including multi-language HumanEval scores shown in Table D.1.  Thus, comprehensive technical documentation, quantitative benchmarks, and usage guidance are publicly available in the accompanying paper/technical report.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we describe StarCoder and StarCoderBase, open-access code LLMs developed and released by the BigCode community, with a focus on respecting copyright, privacy, transparency, and community-driven"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages that support a novel combination of capabilities and architectural features unavailable in other open Code LLMs."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder, open-access 15.5B parameter large language models trained on code."
+    },
+    {
+      "source": "[sections/Published in Transactions on Machine Learning Research Appendix D]",
+      "quote": "Table D.1: Multi-language performance (pass@1) on MultiPL-E HumanEval of StarCoder and two closed-access models only available by API."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We take several important steps towards a safe open-access model release ... and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[sections/2305.06161]",
+      "quote": "We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages that support a novel combination of capabilities"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages that support a novel combination of capabilities and architectural features unavailable in other open Code LLMs."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• We release StarCoder under an OpenRAIL-M license agreement, which enables royalty-free access, use, and distribution of the model while embedding a set of use restrictions in identified critical scenarios."
+    },
+    {
+      "source": "[sections/Model limitations]",
+      "quote": "Deployments of StarCoder need to further challenge and adapt the model to prevent such behavior, e.g., through red-teaming (Perez et al., 2022), adversarial testing (Wan et al., 2023), and/or by adding a robust safety layer (OpenAI, 2023b). The model is released with an OpenRAIL-M license that places enforceable use restrictions that apply to the model and its modifications, and to applications using the model."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "… and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We release StarCoder under an OpenRAIL-M license agreement, which enables royalty-free access, use, and distribution of the model while embedding a set of use restrictions in identified critical scenarios."
+    },
+    {
+      "source": "[sections/Limitations]",
+      "quote": "StarCoder is subject to typical limitations of LLMs, including the potential to generate content that is inaccurate, offensive, misleading, discriminatory towards age or gender, or reinforces other stereotypes. The model is released with an OpenRAIL-M license that places enforceable use restrictions that apply to the model and its modifications, and to applications using the model."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[title]",
+      "quote": "StarCoder: may the source be with you!"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we describe StarCoder and StarCoderBase, open-access code LLMs developed and released by the BigCode community, with a focus on respecting copyright, privacy, transparency, and community-driven"
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder, open-access 15.5B parameter large language models trained on code."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We present an extensive evaluation of the StarCoder models and release a demo along with an integrated attribution tool that can help users locate model generations that may have been copied from the training set."
+    }
+  ]
+}

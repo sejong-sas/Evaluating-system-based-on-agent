@@ -1,0 +1,143 @@
+{
+  "model": "bigcode/starcoder",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report, “StarCoder: May the source be with you!” (arXiv:2305.06161), specifically documents this model."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote gives both type and count: “512 Tesla A100 … 24 days (320 256 GPU-h pre-training + 11 208 GPU-h fine-tuning).”"
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack lists PyTorch, Megatron-LM, Apex (mixed precision). Framework versions/configs are not specified, so disclosure is partial."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only third-party or generic API mentions; no official owner-hosted API.  Web search found no official API docs."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No quoted evidence of any RL stage. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 1.0,
+      "reason": "Source (The Stack v1.2), size (1 T tokens), language mix percentages, and permissive-license filtering are all provided; dataset itself is publicly accessible, allowing full reconstruction."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States 35 B Python tokens were used, but does not list exact dataset identifiers or release the corpus."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No RL; hence no data disclosure. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official technical report, “StarCoder: May the source be with you!” (arXiv:2305.06161), specifically documents this model."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote gives both type and count: “512 Tesla A100 … 24 days (320 256 GPU-h pre-training + 11 208 GPU-h fine-tuning).”"
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Training stack lists PyTorch, Megatron-LM, Apex (mixed precision). Framework versions/configs are not specified, so disclosure is partial."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only third-party or generic API mentions; no official owner-hosted API.  Web search found no official API docs."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "4-1 Pre-training Data": {
+      "score": 1.0,
+      "reason": "Source (The Stack v1.2), size (1 T tokens), language mix percentages, and permissive-license filtering are all provided; dataset itself is publicly accessible, allowing full reconstruction."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States 35 B Python tokens were used, but does not list exact dataset identifiers or release the corpus."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+    }
+  },
+  "final_score_10pt": 7.143,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "not_used"
+    },
+    "excluded": [
+      "3-3 Reinforcement Learning",
+      "4-3 Reinforcement Learning Data"
+    ],
+    "denominator": 14,
+    "raw_sum": 10.0,
+    "scale": "10/14",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

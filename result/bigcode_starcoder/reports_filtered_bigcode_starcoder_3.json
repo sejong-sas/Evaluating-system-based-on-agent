@@ -1,0 +1,64 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "StarCoder and StarCoderBase are open-access, 15.5 billion-parameter code-specialised LLMs produced by the BigCode community. The models support an 8 k token context window, infilling, and efficient large-batch inference through multi-query attention. Their pre-training corpus totals one trillion tokens drawn from The Stack—an openly released collection of permissively licensed GitHub repositories that comes with inspection tools and an author opt-out mechanism. The dataset covers 80 + programming languages as well as GitHub issues, commit messages, and Jupyter notebooks. Training of StarCoderBase lasted 250 000 iterations with a batch size of 4 million tokens, amounting to the full trillion-token budget. Both StarCoder and StarCoderBase therefore share the same 15.5 B architecture and are the first models trained on this curated trillion-token code dataset; StarCoder differs only by later fine-tuning but its original weights were obtained from the same subset of The Stack (v1.2).",
+  "3-2 (Fine-tuning)": "StarCoder was derived from StarCoderBase via a dedicated Python-centric fine-tuning stage. Specifically, the team continued training the base model on 35 billion additional Python tokens—roughly two epochs over the Python portion of the data—to create the final StarCoder checkpoint. The documentation repeats that \"another 35 B\" Python tokens were used, confirming the single-language focus and the data volume. One experiment also produced a Python variant by running the same two-epoch schedule on that subset. Although no separate instruction-tuning or RLHF was applied, Section E.2 of the report shows that prompting strategies alone can elicit helpful assistant behaviour from the resulting StarCoder model.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The BigCode community, an open-scientific collaboration working on the responsible development of Large Language Models for Code (Code LLMs), introduces StarCoder and StarCoderBase: 15.5B parameter models with 8K context length, infilling capabilities and fast large-batch inference enabled by multi-query attention. StarCoderBase is trained on 1 trillion tokens sourced from The Stack, a large collection of permissively licensed GitHub repositories with inspection tools and an opt-out process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase is the first model trained on 1 trillion tokens sourced from the curated dataset described in Section 3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase\nThe model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder, open-access 15.5B parameter large language models trained on code."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder was trained on a subset of The Stack v1.2 dataset."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack. We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase The model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tuned StarCoderBase on 35B Python tokens, resulting in the creation of StarCoder."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tuned StarCoderBase on another 35B Python tokens, leading to the StarCoder model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder is the fine-tuned version of StarCoderBase, trained on another 35B Python tokens (roughly 2 epochs)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Section E.2, we demonstrate how to prompt StarCoder to act as a technical assistant without any instruction-tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Starting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

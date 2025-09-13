@@ -1,0 +1,122 @@
+{
+  "1-1 (Weights)": "The quotes state repeatedly that both \"StarCoderBase and StarCoder\" are being released as \"open-access Code LLMs.\" The language \"we release\" and \"make the StarCoder models publicly available\" makes it explicit that the actual weight files are downloadable. The release is positioned as an effort to \"increase access, reproducibility, and transparency of Code LLMs in the research and developer communities.\" The authors highlight that StarCoderBase \"generally obtains substantially stronger performance than all other models with released weights,\" reinforcing that the weights themselves are indeed shared. They also emphasize complementary safety measures—\"an improved PII redaction pipeline and a novel attribution tracing tool\"—that accompany the public weight release. Finally, the weights are made available \"under a more commercially viable version of the Open Responsible AI Model license,\" confirming that anyone can obtain them provided they respect that license.",
+  "1-2 (Code)": "The single relevant quote states that, alongside releasing the model weights, the team is \"open-sourcing all code repositories for building the model on GitHub.\" This means the full training pipeline—not merely inference scripts—is public. The explicit motivation is to \"increase access, reproducibility, and transparency,\" implying that data-preparation scripts, configuration files, training schedules, and other components necessary to recreate StarCoder/StarCoderBase are included in those repositories.",
+  "1-3 (License)": "Multiple quotes specify that StarCoder is distributed under the \"OpenRAIL-M\" (Open Responsible AI License – Modified) agreement. The license grants \"royalty-free access, use, and distribution of the model\"—thereby affirming permissions for (a) use, (b) redistribution, and (d) commercial use—yet it simultaneously \"embedd[es] a set of use restrictions in identified critical scenarios.\" Those restrictions are enforceable and apply \"to the model and its modifications, and to applications using the model,\" thus covering (c) modification. Concrete prohibited use-cases are listed: the license \"includes a use restriction against generating and/or disseminating malware (including — but not limited to — ransomware) or any other content that can be used to harm electronic systems,\" and it also restricts generation or dissemination of PII \"with the purpose of harming others.\" The text underscores that the OpenRAIL-M version used here is described as \"a more commercially viable version of the Open Responsible AI Model license,\" signaling that commercial deployment is allowed subject to the stated safeguards. A URL—\"https://www.bigcode-project.org/docs/pages/model-license/\"—is provided for the full legal text.",
+  "1-4 (Paper)": "The official technical report is titled \"StarCoder: may the source be with you!\" and is noted twice in the quotes. It has been \"Published in Transactions on Machine Learning Research (12/2023),\" confirming peer-reviewed venue and date. The document covers both models—\"StarCoderBase and StarCoder\"—described as \"open-access 15.5B parameter large language models trained on code.\" Dedicated sections detail: (1) \"how we processed the training data\" (Section 5.1), (2) \"decontaminated the training data\" (Section 5.2), (3) tokenizer design (Section 5.3), (4) model architecture (Section 5.4), (5) training process (Section 5.5), (6) \"multi-node GPU setup\" (Section 5.6), and (7) CO2 emissions (Section 5.7). Additional parts include tables—e.g., \"Table 1\" showing near-deduplicated versus filtered data volumes for each programming language, and \"Table D.1\" comparing StarCoder’s pass@1 on MultiPL-E HumanEval to closed-access API models. The paper reports that StarCoderBase was trained on \"1 trillion tokens\" while StarCoder is a fine-tune on \"another 35B Python tokens (roughly 2 epochs).\" Qualitative observations—such as experiments with \"Anthropic’s HHH prompt\" enabling the 8k-context model to act as a \"somewhat capable yet brittle technical assistant\"—are also included. Overall, the paper serves as the comprehensive public record of data curation, architecture, training details, evaluation, and qualitative analysis for the StarCoder family.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "• We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages that support a novel combination of capabilities and architectural features unavailable in other open Code LLMs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase generally obtains substantially stronger performance than all other models with released weights and often performs comparably to or better than much larger models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We release StarCoderBase and StarCoder, open-access Code LLMs trained on 80+ programming languages that support a novel combination of capabilities and architectural features unavailable in other open Code LLMs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "…and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "– We release StarCoder under an OpenRAIL-M license agreement, which enables royalty-free access, use, and distribution of the model while embedding a set of use restrictions in identified critical scenarios."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We take several important steps towards a safe open-access model release, including an improved PII redaction pipeline and a novel attribution tracing tool, and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Deployments of StarCoder need to further challenge and adapt the model to prevent such behavior, e.g., through red-teaming (Perez et al., 2022), adversarial testing (Wan et al., 2023), and/or by adding a robust safety layer (OpenAI, 2023b). The model is released with an OpenRAIL-M license that places enforceable use restrictions that apply to the model and its modifications, and to applications using the model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The StarCoder OpenRAIL-M license, therefore, includes a use restriction against generating and/or disseminating malware (including — but not limited to — ransomware) or any other content that can be used to harm electronic systems."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder may still produce PII (however, note that the model license restricts use that aims to generate or disseminate PII with the purpose of harming others)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "…and make the StarCoder models publicly available under a more commercially viable version of the Open Responsible AI Model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By releasing the StarCoder models with an Open Responsible AI Model license, and by open-sourcing all code repositories for building the model on GitHub, we aim to increase access, reproducibility, and transparency of Code LLMs in the research and developer communities."
+    },
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: StarCoder: may the source be with you!"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Published in Transactions on Machine Learning Research (12/2023) StarCoder: may the source be with you!"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section presents information on the training process of the StarCoder models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder, open-access 15.5B parameter large language models trained on code."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2305.06161]",
+      "quote": "Title: StarCoder: may the source be with you!"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder: may the source be with you!"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section describes how we processed the training data of StarCoderBase."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Overview of the training data for StarCoder. For the selected programming languages, we show the number of files and data volume after near-deduplication, as well as after filtering."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase is the first model trained on 1 trillion tokens sourced from the curated dataset described in Section 3. StarCoder is the fine-tuned version of StarCoderBase, trained on another 35B Python tokens (roughly 2 epochs)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This section presents information on the training process of the StarCoder models. Throughout the following, we show how we formatted the training data (Section 5.1), decontaminated the training data (Section 5.2), and provide details regarding the tokenizer (Section 5.3), the model architecture (Section 5.4), the training process (Section 5.5), multi-node GPU setup (Section 5.6), and CO2 emissions (Section 5.7)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table D.1: Multi-language performance (pass@1) on MultiPL-E HumanEval of StarCoder and two closed-access models only available by API."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In preliminary explorations, we discovered that using Anthropic’s HHH prompt (Askell et al., 2021) turned the model into a somewhat capable yet brittle technical assistant. We were surprised that, without instruction-tuning, we were able to utilize the 8k context length of StarCoder and let the model answer questions, follow instructions, and help with solving technical problems."
+    }
+  ]
+}

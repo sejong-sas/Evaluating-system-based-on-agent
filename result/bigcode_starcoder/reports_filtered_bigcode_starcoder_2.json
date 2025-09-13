@@ -1,0 +1,77 @@
+{
+  "1-5 (Architecture)": "Across the supplied passages, the authors repeatedly emphasize that both StarCoder and StarCoderBase are large-language models specifically tailored for code. Every quote agrees on the headline architectural scale: each model contains 15.5 billion parameters.  Several sentences stress that the models were built with an extended 8 000-token context window, enabling them to condition on and generate very long code files, and that they successfully exploit this length in downstream usage (e.g., answering questions or following instructions without any separate instruction-tuning).  A distinctive architectural capability is “Fill-in-the-Middle” (FIM) infilling, letting the model generate code inside an insertion point defined by prefix + suffix; the text notes that this provides infilling functionality as well as ‘fast large-batch inference’ that is made possible through Multi-Query Attention (MQA).  The training corpus design is also mentioned as part of the architecture narrative: StarCoderBase was trained on one trillion tokens spanning 80+ programming languages, GitHub issues, commits, and Jupyter notebooks, while the final StarCoder model results from an additional fine-tuning pass on 35 billion Python-only tokens.  Although an explicit layer/heads breakdown is not given in the excerpts, a referenced “Table 11: Model architecture of StarCoder” indicates that detailed architectural specifications exist and that SantaCoder is included there for comparison.  Finally, a performance comparison (Table D.1) situates StarCoder’s multi-language pass@1 accuracy against other models, indirectly underscoring its parameter/compute efficiency relative to larger proprietary systems.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "The only hardware-related details provided concern the energy and compute footprint recorded during training.  Training StarCoderBase consumed 320 256 GPU-hours; assuming an average draw of 280 W per GPU, this corresponds to approximately 89 671.68 kWh of electricity.  These figures implicitly indicate large-scale GPU clusters were employed, but no specific accelerator model (e.g., A100, H100) or node count is named in the available passages.",
+  "2-2 (Software)": "Training hyper-parameters and optimizer choices are given for both the base pre-training and the subsequent Python-centric fine-tuning.  For StarCoderBase pre-training, the run lasted 250 000 iterations with a batch size of four million tokens, yielding precisely one trillion training tokens.  Optimization used Adam with β₁ = 0.9, β₂ = 0.95, ε = 1 × 10⁻⁸, and weight decay = 0.1.  Fine-tuning to obtain StarCoder preserved these settings except for the learning-rate schedule: it started at 5 × 10⁻⁵ and decayed to 5 × 10⁻⁶ after a linear warm-up of 1 000 iterations, and the fine-tuning was run for two full epochs over the Python subset.  No other software-stack specifics (framework, distributed-training library, or specialized kernels) are disclosed in the quoted material.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The BigCode community, an open-scientific collaboration working on the responsible development of Large Language Models for Code (Code LLMs), introduces StarCoder and StarCoderBase: 15.5B parameter models with 8K context length, infilling capabilities and fast large-batch inference enabled by multi-query attention."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack. We trained StarCoderBase on 1 trillion tokens sourced from 80+ programming languages, GitHub issues, Git commits, and Jupyter notebooks. We fine-tuned StarCoderBase on another 35B Python tokens, leading to the StarCoder model. Both StarCoder models come with a novel combination of architectural features, such as an 8K token context length (Dao et al., 2022), infilling capabilities through Fill-in-the-Middle (FIM; Bavarian et al., 2022), and fast large-batch inference through Multi-Query-Attention (MQA; Shazeer, 2019)."
+    },
+    {
+      "source": "[sections/5.4]",
+      "quote": "Table 11: Model architecture of StarCoder. We also include SantaCoder (prior work by the community)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we described the efforts of the BigCode community in creating StarCoderBase and StarCoder, open-access 15.5B parameter large language models trained on code."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoder and StarCoderBase are both 15.5B parameter models trained on permissively licensed data from The Stack."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Both StarCoder models come with a novel combination of architectural features, such as an 8K token context length (Dao et al., 2022), infilling capabilities through Fill-in-the-Middle (FIM; Bavarian et al., 2022), and fast large-batch inference through Multi-Query-Attention (MQA; Shazeer, 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 11: Model architecture of StarCoder. We also include SantaCoder (prior work by the community)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The StarCoder models support fill in the middle (FIM) or infilling, which allows the model to generate code conditioned on prefix and suffix code surrounding the insertion point."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase was trained with an 8K token window, allowing conditioning on and generating long code files."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We were surprised that, without instruction-tuning, we were able to utilize the 8k context length of StarCoder and let the model answer questions, follow instructions, and help with solving technical problems."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table D.1: Multi-language performance (pass@1) on MultiPL-E HumanEval of StarCoder and two closed-access models only available by API. Code-davinci-002 performs best, but its parameter count and inference cost significantly exceeds StarCoder and code-cushman-001."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/5.7]",
+      "quote": "StarCoderBase We report the carbon footprint (Lacoste et al., 2019) of training StarCoderBase. Based on the total number of GPU hours that training took (320,256) and an average power usage of 280W per GPU, this adds up to 89671.68 kWh of electricity consumed during the training process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase We report the carbon footprint (Lacoste et al., 2019) of training StarCoderBase. Based on the total number of GPU hours that training took (320,256) and an average power usage of 280W per GPU, this adds up to 89671.68 kWh of electricity consumed during the training process."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/5.5]",
+      "quote": "StarCoderBase The model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens. We used Adam (Kingma & Ba, 2015) with β1 = 0.9, β2 = 0.95, ϵ = 10−8 and a weight decay of 0.1."
+    },
+    {
+      "source": "[sections/5.5]",
+      "quote": "StarCoder Starting from StarCoderBase, we fine-tuned a Python variant of the model for 2 epochs on the Python subset of the training data. We used the same settings as StarCoderBase, except that we used a learning rate of 5 × 10−5 and decayed it to 5 × 10−6 after 1,000 iterations of linear warmup."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "StarCoderBase The model was trained for 250k iterations, with a batch size of 4M tokens, for a total of one trillion tokens. We used Adam (Kingma & Ba, 2015) with β1 = 0.9, β2 = 0.95, ϵ = 10−8 and a weight decay of 0.1."
+    }
+  ]
+}
