@@ -1,0 +1,33 @@
+{
+  "2-3 (API)": "Gemma can be obtained through the Hugging Face platform, but before any interaction developers must explicitly review and accept Google’s usage license that governs model use. Once this license step is completed, the model can be downloaded and incorporated into projects. For users who prefer a streamlined, script-friendly workflow, the open-source “local-gemma” repository provides a lightweight wrapper built on top of the Transformers library. This wrapper lets people launch and interact with Gemma 2 directly from a command-line interface, illustrating a simple, practical path to running the model locally without writing extensive custom code.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To access Gemma on Hugging Face, you’re required to review and agree to Google’s usage license."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The [local-gemma](https://github.com/huggingface/local-gemma) repository contains a lightweight wrapper around Transformers for running Gemma 2 through a command line interface, or CLI."
+    }
+  ],
+  "3-1 (Pre-training)": "Gemma’s pre-training effort spans multiple model sizes. Concretely, the 27 B parameter variant processed 13 trillion tokens, the 9 B variant saw 8 trillion tokens, and the compact 2 B model consumed 2 trillion tokens during training. All sizes were trained on the latest-generation TPUv5p hardware, leveraging Google’s TPU accelerators for large-scale compute. The software stack consisted of JAX for numerical computation together with ML Pathways, allowing the team to coordinate and scale the training jobs efficiently across that TPU infrastructure.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 13 trillion tokens, the 9B model was trained with 8 trillion tokens, and 2B model was trained with 2 trillion tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using the latest generation of [Tensor Processing Unit (TPU)][tpu] hardware (TPUv5p).\nTraining was done using [JAX][jax] and [ML Pathways][ml-pathways]."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Gemma is described as a family of lightweight, state-of-the-art, text-to-text, decoder-only large language models derived from the same research base that produced the Gemini models. Google releases both the raw pre-trained checkpoints and separate instruction-tuned checkpoints, so practitioners can either start from the generic language-modeling weights or adopt the instruction-tuned versions that were further optimized for following user prompts. All variants focus on English language output and carry fully open weights, making them straightforward to employ or further adapt.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma is a family of lightweight, state-of-the-art open models from Google, built from the same research and technology used to create the Gemini models. They are text-to-text, decoder-only large language models, available in English, with open weights for both pre-trained variants and instruction-tuned variants."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

@@ -1,0 +1,240 @@
+{
+  "1-1 (Weights)": "All available quotes consistently state that \"Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.\"  The duplicated wording underscores three distinct points: (1) the weights for Gemma—as well as the newer Gemma 2 models—are openly released rather than kept private; (2) anyone may download the weights and perform further tuning or direct deployment; and (3) such activity is allowed even in commercial, revenue-generating contexts so long as it is done \"responsibly.\"  One quote adds that \"You can work with previous generations of Gemma models, which are also available from Kaggle and Hugging Face,\" explicitly naming two hosting platforms where earlier Gemma checkpoints can already be pulled, implying that the newest Gemma 2 weights will likely follow the same distribution pattern.  Finally, the sentence \"In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code\" reinforces that Gemma 2 belongs to the same open-weight tradition.  No other logistical details—such as exact file names, model cards, or download URLs—appear in the quotes, but the repeated emphasis on \"open weights\" and \"responsible commercial use\" conveys a permissive stance toward weight availability and downstream usage.",
+  "1-2 (Code)": "No quote provided mentions the release status of Gemma 2’s training pipeline, data-preparation scripts, configuration files, or any other form of training or fine-tuning code.  Accordingly, on the basis of the supplied material alone, there is no evidence that the full training code or even inference-only code has been made public.  The quotes are therefore silent on whether pre-training, fine-tuning, or RLHF scripts are accessible, what repository (if any) hosts them, and what components (data processing, model configuration, evaluation harnesses, etc.) might be available.  In short, the excerpts contain no information about code availability.",
+  "1-3 (License)": "Each licensing-related quote is identical: \"Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.\"  From this single repeated statement we can extract the following licensed rights: (a) Use – explicitly granted for both research and commercial purposes, subject to the qualifier \"responsible\"; (b) Modification – implicitly allowed because users may \"tune\" the model, which necessitates changing the weights; (c) Redistribution – not directly addressed in any quote, so no conclusion can be drawn; (d) Commercial use – explicitly permitted.  No license file name, version, or additional restrictive phrases such as \"non-commercial,\" \"research only,\" \"no derivatives,\" or \"no redistribution\" appear in the provided text.  Consequently, the only definite licensing information we can summarize is that open weights are supplied under a policy that allows responsible commercial usage and user-performed tuning and deployment.",
+  "1-4 (Paper)": "Four separate references outline the written material for the model family.  The core publication is identified by its title: \"Gemma 2: Improving Open Language Models at a Practical Size.\"  Two explanatory sentences expand on the scope of that work: \"In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters,\" and \"In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code.\"  These lines clarify that the paper discusses model sizes spanning 2B–27B parameters and highlights the models’ dual focus on text and code tasks, positioning them as lightweight yet state-of-the-art.  A fourth quote, \"Gemma 3 model overview,\" signals that documentation for a subsequent generation (Gemma 3) also exists; however, no details are included in the excerpts.  Overall, the supplied citations confirm at least one formally titled technical report for Gemma 2 and hint at continued documentation efforts for future iterations.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "You can work with previous generations of Gemma models, which are also available from Kaggle and Hugging Face ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2: Improving Open Language Models at a Practical Size"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma 3 model overview"
+    }
+  ],
+  "1-5 (Architecture)": "The google/gemma-2-2b-it family continues the overall design choices introduced in the first Gemma release. Every quoted line stresses that Gemma 2—and therefore the 2 B parameter variant—follows a decoder-only Transformer layout as popularized by Vaswani et al. (2017). Multiple sentences explicitly repeat that the same core architecture applies across the Gemma 2 range, confirming that nothing fundamentally different was introduced for the 2 B model. In addition, several structural hyper-parameters are enumerated. The quoted material states a fixed context window of 8 192 tokens, indicating the maximum sequence length that the 2 B model can attend to in a single forward pass. Rotary Position Embeddings (RoPE) are retained for positional encoding, and the activation function remains the “approximated GeGLU” non-linearity. These details together characterize the main architectural blueprint: decoder-only Transformer blocks that use RoPE for position handling, GeGLU for activations, and accommodate long 8 k token contexts. Although no explicit layer counts or hidden sizes are given in the excerpts, the quotes make clear that the 2 B model sits within the standardized Gemma 2 framework and inherits these shared architectural elements without deviation.",
+  "1-6 (Tokenizer)": "All tokenizer information in the supplied text points out that Gemma 2—including the 2 B variant—re-uses the identical tokenizer introduced with Gemma 1 and later adopted by Gemini. This tokenizer is implemented with the SentencePiece library and is configured to (1) split digits, (2) preserve whitespace, and (3) operate with byte-level encodings. The quotes emphasize that this choice of tokenizer plays a central role in enabling Gemma models to serve multilingual applications. While no vocabulary size or download link is provided, the statements make it explicit that the very same, already-public Gemma tokenizer is employed, meaning users who have previously accessed Gemma 1 tooling can immediately reuse the same SentencePiece model for Gemma-2-2B-IT without modification.",
+  "2-1 (Hardware)": "Training of the Gemma-2-2B model was carried out entirely on Google TPUv5e hardware. The configuration reported is a 2 × 16 × 16 TPUv5e mesh, amounting to 512 distinct TPU chips in total. The training run employed 512-way data parallelism (data replication) alongside 1-way model sharding, implying that each complete model replica resided on a single chip slice while the training data were split across all 512 replicas for throughput. No alternative hardware (e.g., GPUs) is mentioned, so the TPUv5e cluster represents the sole compute substrate used for this model size according to the quotes.",
+  "2-2 (Software)": "Software-wise, the Gemma-2-2B training stack mirrors that of Gemma 1. The GSPMD partitioner is responsible for automatically generating per-device computation graphs and coordinating the SPMD execution plan across the TPU mesh. Compilation and low-level optimization of those graphs is handled by the MegaScale XLA compiler. The excerpts do not announce any other frameworks such as PyTorch or JAX explicitly, but the mention of XLA and GSPMD indicates the standard Google TensorFlow+XLA toolchain that underpins large-scale TPU training. No additional libraries (e.g., DeepSpeed, Megatron-LM, FlashAttention) appear in the quoted material, suggesting that GSPMD plus Megascale XLA sufficed for data-parallel and sharded execution of the 2 B parameter model.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to previous Gemma models (Gemma Team, 2024), the Gemma 2 models are based on a decoder-only transformer architecture (Vaswani et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A few architectural elements are similar to the first version of Gemma models; namely, a context length of 8192 tokens, the use of Rotary Position Embeddings (RoPE) (Su et al., 2021), and the approximated GeGLU non-linearity (Shazeer, 2020)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Gemma 2 models are based on a decoder-only transformer architecture (Vaswani et al., 2017)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "A few architectural elements are similar to the first version of Gemma models; namely, a context length of 8192 tokens, the use of Rotary Position Embeddings (RoPE) (Su et al., 2021), and the approximated GeGLU non-linearity (Shazeer, 2020)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The next-largest model, 2B, guesses aluminum for almost every question (with a notable exception when it is asked for element 13, for which aluminum would have been correct; in that case it said a noble gas)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Starting with the 57M model, the models pick up on the pattern, answering (mostly) with the name of an element; however, the 57M, 125M, 244M, 1B, and 2B models almost always repeat the same element from the prompt (i.e., the answer to the previous question)."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Since the launch of Gemma 1, we have seen our Gemma models drive a number of socially beneficial applications, relying on Gemma’s unique technologies like its tokenizer to facilitate the creation of multilingual models, such as for Navarasa 2.0, a Gemma tuned model for 15 Indian languages."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Gemma 1, we use the GSPMD partitioner (Xu et al., 2021) for training step computation and the MegaScale XLA compiler (XLA, 2019)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "As in Gemma 1, we use the GSPMD partitioner (Xu et al., 2021) for training step computation and the MegaScale XLA compiler (XLA, 2019)."
+    }
+  ],
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "According to the provided material, Gemma’s 2 B parameter variant is pre-trained alongside 9 B and 27 B models, but with several procedures that are called out explicitly. First, the 2 B and 9 B checkpoints are optimized with knowledge-distillation rather than pure next-token prediction (“We also train the 2B and 9B models with knowledge distillation … instead of next token prediction.”). Token budgets are large: the 27 B model ingests about 13 trillion tokens, the 9 B variant 8 trillion, and the 2 B model 2 trillion (“We train Gemma 2 27B on 13 trillion tokens … and the 2B on 2 trillion tokens.”).  \nHardware and parallelism details are reported for the smallest model: “For the 2B model, we train on a 2×16×16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding,” indicating data-parallel training with no model partitioning.  \nThe developers state that “We provide a brief overview of the parts of our pre-training that differs from Gemma 1,” signaling changes relative to the earlier generation. One recurring theme is a formal “three-pillar approach,” repeated twice, that emphasizes (1) safety mitigation at training time, (2) robust and transparent evaluations, and (3) continued tooling via the Responsible Generative AI Toolkit.  \nEmpirical behavior is also mentioned: “We find that Gemma 2 memorizes significantly less than prior models at a similar size, with memorization rates below 0.1 %.” Finally, scale-rationalized over-training is acknowledged: a teacher LLM distills knowledge into the 2 B and 9 B students on token counts “more than 50× the compute-optimal quantity.” Altogether, the pre-training regime couples large-scale data, knowledge-distillation, TPUv5e hardware, safety-oriented procedures, and memorization analysis for the 2 B Gemma checkpoint.",
+  "3-2 (Fine-tuning)": "The fine-tuning stage for Gemma 2 expressly reuses the control-token set from Gemma 1: “Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models … but a different formatting schema,” showing continuity in controllability while updating data layout. Safety alignment remains central: “A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies,” indicating that policy compliance is a guiding objective during this phase, parallel to practices used for Gemini systems. Distribution terms encourage community participation: “Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.” In sum, Gemma 2’s fine-tuning involves inherited control tokens, reformatted data, explicit safety-policy alignment, and an open-weight license that enables external supervised or instruction-tuning workflows.",
+  "3-3 (Reinforcement Learning)": "For post-training alignment, the authors employ Reinforcement Learning from Human Feedback (RLHF). They say twice that they “use a similar RLHF algorithm as Gemma 1.1 … but a different reward model, which is an order of magnitude larger than the policy.” Thus, the methodology mirrors the previous Gemma generation in algorithmic structure while scaling up the reward-model capacity substantially. No other hyperparameters are noted, but the key distinction is this enlarged reward model, intended to improve feedback fidelity while keeping the core RLHF loop unchanged.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We provide a brief overview of the parts of our pre-training that differs from Gemma 1."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to the inaugural Gemma release, we have followed a three pillar approach which focuses on safety mitigation at training time, robust and transparent model evaluations, and further development of the Responsible Generative AI Toolkit."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We find that Gemma 2 memorizes significantly less than prior models at a similar size, with memorization rates below 0.1% (note the log y-axis)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Concretely, we use a large language model as a teacher to train small models, namely 2B and 9B models, on a quantity of tokens that is more than 50× the compute-optimal quantity predicted by the theory (Hoffmann et al., 2022)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to the inaugural Gemma release, we have followed a three pillar approach which focuses on safety mitigation at training time, robust and transparent model evaluations, and further development of the Responsible Generative AI Toolkit, a series of models and tools to help developers implement responsibility and safety best practices for their applications."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models, as detailed in Table 4, but a different formatting schema."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023)."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF) We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The pre-training stage for Gemma 2 is characterized by very large-scale, primarily English corpora and model-specific token budgets.  According to the provided material, the Gemma 2 family is split into at least three parameter sizes, each of which receives its own portion of data: the 27 B parameter model is exposed to about 13 trillion tokens, the 9 B model receives roughly 8 trillion tokens, and the compact 2 B variant is trained on approximately 2 trillion tokens.  Although an exhaustive enumeration of all domain sources is not given, the authors do single out code, Wikipedia, and science-oriented material as identifiable components of the mix, and they note that Gemma 2 shows a measurable tendency to memorize more from those three categories than from other parts of the corpus.  Despite that domain-specific uptick, overall memorization is said to be “significantly less across the board” when plotted on the same logarithmic scale used for Gemma 1, implying improved generalization.  Tokenization for every Gemma 2 size continues the lineage of earlier Google models: a SentencePiece tokenizer (with split digits, preserved whitespace, and byte-level encodings) identical to the one used in Gemma 1 and Gemini is reused without modification.  No additional language, licensing, or geographic breakdowns are explicitly listed in the quotes, so the summary is confined to the stated emphasis on English, the quantitative token allocations, the specific tokenizer choice, and the observed memorization profile involving code, wiki, and science content.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning, called “post-training” in the quotes, leverages a data pool that intentionally extends what was used for Gemma 1.1.  The extension draws on both internal resources and publicly available external material, indicating a hybrid provenance but without enumerating concrete datasets or examples.  Control tokens—which govern stylistic or functional behaviors during generation—are kept consistent with those defined for Gemma 1; however, the formatting schema that specifies how those tokens are embedded in prompts or responses has been altered for Gemma 2.  Thus, continuity is preserved at the semantic level (the same control vocabulary), while structural changes in formatting signal an update meant to improve usability or alignment.  No explicit statement is made about the size, licensing conditions, or public release plans of the fine-tuning corpus; the only disclosed attributes are its mixed origin and the inherited yet reformatted control-token strategy.",
+  "4-3 (Reinforcement Learning Data)": "For the reinforcement-learning phase, Gemma 2 employs Reinforcement Learning from Human Feedback (RLHF).  The algorithmic framework deliberately mirrors the approach previously adopted for Gemma 1.1, ensuring methodological consistency, yet the reward model has been substantially enlarged.  The quote specifies that this new reward model is “an order of magnitude larger than the policy,” a design choice that suggests a high-capacity evaluator supervising a smaller generation network to capture nuanced human preference signals.  No granular description of the human feedback dataset—such as the number of preference pairs, domains covered, or demographics of raters—is supplied in the excerpts, nor is there any indication that the RLHF data will be publicly released.  Consequently, the identifiable characteristics are limited to (i) algorithmic similarity to Gemma 1.1, and (ii) the dramatically scaled-up reward model used to compute reinforcement signals for Gemma 2.",
+  "4-4 (Data Filtering)": "The data-filtering or cleaning strategy applied to Gemma 2 is declared to be the same as the technique that was previously used for Gemma 1.  The excerpts do not elaborate on the individual heuristics, models, or threshold criteria, nor do they quantify the amount of data removed or transformed, but the assertion of identical methodology implies that whatever pipeline—be it deduplication, profanity filtering, license checks, or quality scoring—was in place for Gemma 1 has been carried over to Gemma 2 without change.  As no evidence of new criteria, additional manual review, or differential impact is presented in the supplied text, the only verifiable point is the inheritance of the Gemma 1 filtering regime for all Gemma 2 data stages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to Gemma 1, we find that Gemma 2 memo-rizes more from code, wiki, and science sources, and also that it memorizes significantly less across the board (again, note the log y-axis)."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models, as detailed in Table 4, but a different formatting schema."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF) We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF)  We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Filtering We use the same data filtering techniques as Gemma 1."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Filtering. We use the same data filtering techniques as Gemma 1."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

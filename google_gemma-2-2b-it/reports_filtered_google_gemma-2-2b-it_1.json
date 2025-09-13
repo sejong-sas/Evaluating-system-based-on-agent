@@ -1,0 +1,61 @@
+{
+  "1-1 (Weights)": "All available quotes consistently state that \"Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.\"  The duplicated wording underscores three distinct points: (1) the weights for Gemma—as well as the newer Gemma 2 models—are openly released rather than kept private; (2) anyone may download the weights and perform further tuning or direct deployment; and (3) such activity is allowed even in commercial, revenue-generating contexts so long as it is done \"responsibly.\"  One quote adds that \"You can work with previous generations of Gemma models, which are also available from Kaggle and Hugging Face,\" explicitly naming two hosting platforms where earlier Gemma checkpoints can already be pulled, implying that the newest Gemma 2 weights will likely follow the same distribution pattern.  Finally, the sentence \"In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code\" reinforces that Gemma 2 belongs to the same open-weight tradition.  No other logistical details—such as exact file names, model cards, or download URLs—appear in the quotes, but the repeated emphasis on \"open weights\" and \"responsible commercial use\" conveys a permissive stance toward weight availability and downstream usage.",
+  "1-2 (Code)": "No quote provided mentions the release status of Gemma 2’s training pipeline, data-preparation scripts, configuration files, or any other form of training or fine-tuning code.  Accordingly, on the basis of the supplied material alone, there is no evidence that the full training code or even inference-only code has been made public.  The quotes are therefore silent on whether pre-training, fine-tuning, or RLHF scripts are accessible, what repository (if any) hosts them, and what components (data processing, model configuration, evaluation harnesses, etc.) might be available.  In short, the excerpts contain no information about code availability.",
+  "1-3 (License)": "Each licensing-related quote is identical: \"Gemma models are provided with open weights and permit responsible commercial use, allowing you to tune and deploy them in your own projects and applications.\"  From this single repeated statement we can extract the following licensed rights: (a) Use – explicitly granted for both research and commercial purposes, subject to the qualifier \"responsible\"; (b) Modification – implicitly allowed because users may \"tune\" the model, which necessitates changing the weights; (c) Redistribution – not directly addressed in any quote, so no conclusion can be drawn; (d) Commercial use – explicitly permitted.  No license file name, version, or additional restrictive phrases such as \"non-commercial,\" \"research only,\" \"no derivatives,\" or \"no redistribution\" appear in the provided text.  Consequently, the only definite licensing information we can summarize is that open weights are supplied under a policy that allows responsible commercial usage and user-performed tuning and deployment.",
+  "1-4 (Paper)": "Four separate references outline the written material for the model family.  The core publication is identified by its title: \"Gemma 2: Improving Open Language Models at a Practical Size.\"  Two explanatory sentences expand on the scope of that work: \"In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters,\" and \"In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code.\"  These lines clarify that the paper discusses model sizes spanning 2B–27B parameters and highlights the models’ dual focus on text and code tasks, positioning them as lightweight yet state-of-the-art.  A fourth quote, \"Gemma 3 model overview,\" signals that documentation for a subsequent generation (Gemma 3) also exists; however, no details are included in the excerpts.  Overall, the supplied citations confirm at least one formally titled technical report for Gemma 2 and hint at continued documentation efforts for future iterations.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "You can work with previous generations of Gemma models, which are also available from Kaggle and Hugging Face ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    },
+    {
+      "source": "[sections/https://developers.google.com/gemma/docs/overview]",
+      "quote": "Gemma models are provided with open weights and permit responsible commercial use , allowing you to tune and deploy them in your own projects and applications."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2: Improving Open Language Models at a Practical Size"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art open models, ranging in scale from 2 billion to 27 billion parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code."
+    },
+    {
+      "source": "[sections/https://ai.google.dev/gemma/docs/base]",
+      "quote": "Gemma 3 model overview"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "1-1 (Weights)": "",
+  "1-2 (Code)": "",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [],
+  "1-5 (Architecture)": "The available quotes supply only fragmentary architectural information, but they do allow the following picture to be pieced together strictly from the mentioned sentences.\n\n• Model-size line-up: A size hierarchy is explicitly enumerated through a series of chess-style notations paired with parameter counts. The sequence lists models at 128 B, 64 B, 27 B, 8 B, 4 B, 2 B, 1 B, 422 M, 244 M, 125 M, 53 M and 16 M parameters. Within this ladder, the 2 B variant is clearly identified as a distinct checkpoint that sits between the 1 B and 4 B configurations.\n\n• Position of the 2 B checkpoint: The 2 B model is called out more than once as “the next-largest model” relative to an implied baseline smaller than 2 B, reinforcing that it is neither the smallest nor the largest member of the family but occupies a lower-mid position in the parameter spectrum.\n\n• Behavioral evidence of capacity: Qualitative behavior is tied to model size. The 2 B version is described as “the smallest to venture a guess with an element name,” demonstrating that, at 2 B parameters, the network reaches a capability threshold that smaller checkpoints (≤1 B) do not. Conversely, it also “guesses aluminum for almost every question,” suggesting limitations that are overcome only at larger scales.\n\nApart from these quoted points, no other architectural facts—layer counts, hidden dimensions, attention heads, activation functions or other hyperparameters—are provided, so none can be included.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Specific model moves (and their sizes) in this position were Ba4 (128B), Bc4 (64B), Bg5 (27B), d4 (8B), Bc6 (4B), Bg5 (2B), Bc4 (1B), Bb5 (422M), Bb3 (244M), Nc3 (125M), Nc6 (53M), and Nf3 (16M)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The next-largest model, 2B, guesses aluminum for almost every question (with a notable exception when it is asked for element 13, for which aluminum would have been correct; in that case it said a noble gas)."
+    },
+    {
+      "source": "[sections/Periodic elements task]",
+      "quote": "The 2B model is the smallest to venture a guess with an element name, occasionally saying something like, The element with an atomic number of 1 is called a hydrogen atom."
+    },
+    {
+      "source": "[sections/Periodic elements task]",
+      "quote": "The next-largest model, 2B, guesses aluminum for almost every question (with a notable exception when it is asked for element 13, for which aluminum would have been correct; in that case it said a noble gas)."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

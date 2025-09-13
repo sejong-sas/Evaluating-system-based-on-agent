@@ -1,0 +1,66 @@
+{
+  "1-5 (Architecture)": "The google/gemma-2-2b-it family continues the overall design choices introduced in the first Gemma release. Every quoted line stresses that Gemma 2—and therefore the 2 B parameter variant—follows a decoder-only Transformer layout as popularized by Vaswani et al. (2017). Multiple sentences explicitly repeat that the same core architecture applies across the Gemma 2 range, confirming that nothing fundamentally different was introduced for the 2 B model. In addition, several structural hyper-parameters are enumerated. The quoted material states a fixed context window of 8 192 tokens, indicating the maximum sequence length that the 2 B model can attend to in a single forward pass. Rotary Position Embeddings (RoPE) are retained for positional encoding, and the activation function remains the “approximated GeGLU” non-linearity. These details together characterize the main architectural blueprint: decoder-only Transformer blocks that use RoPE for position handling, GeGLU for activations, and accommodate long 8 k token contexts. Although no explicit layer counts or hidden sizes are given in the excerpts, the quotes make clear that the 2 B model sits within the standardized Gemma 2 framework and inherits these shared architectural elements without deviation.",
+  "1-6 (Tokenizer)": "All tokenizer information in the supplied text points out that Gemma 2—including the 2 B variant—re-uses the identical tokenizer introduced with Gemma 1 and later adopted by Gemini. This tokenizer is implemented with the SentencePiece library and is configured to (1) split digits, (2) preserve whitespace, and (3) operate with byte-level encodings. The quotes emphasize that this choice of tokenizer plays a central role in enabling Gemma models to serve multilingual applications. While no vocabulary size or download link is provided, the statements make it explicit that the very same, already-public Gemma tokenizer is employed, meaning users who have previously accessed Gemma 1 tooling can immediately reuse the same SentencePiece model for Gemma-2-2B-IT without modification.",
+  "2-1 (Hardware)": "Training of the Gemma-2-2B model was carried out entirely on Google TPUv5e hardware. The configuration reported is a 2 × 16 × 16 TPUv5e mesh, amounting to 512 distinct TPU chips in total. The training run employed 512-way data parallelism (data replication) alongside 1-way model sharding, implying that each complete model replica resided on a single chip slice while the training data were split across all 512 replicas for throughput. No alternative hardware (e.g., GPUs) is mentioned, so the TPUv5e cluster represents the sole compute substrate used for this model size according to the quotes.",
+  "2-2 (Software)": "Software-wise, the Gemma-2-2B training stack mirrors that of Gemma 1. The GSPMD partitioner is responsible for automatically generating per-device computation graphs and coordinating the SPMD execution plan across the TPU mesh. Compilation and low-level optimization of those graphs is handled by the MegaScale XLA compiler. The excerpts do not announce any other frameworks such as PyTorch or JAX explicitly, but the mention of XLA and GSPMD indicates the standard Google TensorFlow+XLA toolchain that underpins large-scale TPU training. No additional libraries (e.g., DeepSpeed, Megatron-LM, FlashAttention) appear in the quoted material, suggesting that GSPMD plus Megascale XLA sufficed for data-parallel and sharded execution of the 2 B parameter model.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to previous Gemma models (Gemma Team, 2024), the Gemma 2 models are based on a decoder-only transformer architecture (Vaswani et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A few architectural elements are similar to the first version of Gemma models; namely, a context length of 8192 tokens, the use of Rotary Position Embeddings (RoPE) (Su et al., 2021), and the approximated GeGLU non-linearity (Shazeer, 2020)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Gemma 2 models are based on a decoder-only transformer architecture (Vaswani et al., 2017)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "A few architectural elements are similar to the first version of Gemma models; namely, a context length of 8192 tokens, the use of Rotary Position Embeddings (RoPE) (Su et al., 2021), and the approximated GeGLU non-linearity (Shazeer, 2020)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The next-largest model, 2B, guesses aluminum for almost every question (with a notable exception when it is asked for element 13, for which aluminum would have been correct; in that case it said a noble gas)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Starting with the 57M model, the models pick up on the pattern, answering (mostly) with the name of an element; however, the 57M, 125M, 244M, 1B, and 2B models almost always repeat the same element from the prompt (i.e., the answer to the previous question)."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Since the launch of Gemma 1, we have seen our Gemma models drive a number of socially beneficial applications, relying on Gemma’s unique technologies like its tokenizer to facilitate the creation of multilingual models, such as for Navarasa 2.0, a Gemma tuned model for 15 Indian languages."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Gemma 1, we use the GSPMD partitioner (Xu et al., 2021) for training step computation and the MegaScale XLA compiler (XLA, 2019)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "As in Gemma 1, we use the GSPMD partitioner (Xu et al., 2021) for training step computation and the MegaScale XLA compiler (XLA, 2019)."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "4-1 (Pre-training Data)": "The pre-training stage for Gemma 2 is characterized by very large-scale, primarily English corpora and model-specific token budgets.  According to the provided material, the Gemma 2 family is split into at least three parameter sizes, each of which receives its own portion of data: the 27 B parameter model is exposed to about 13 trillion tokens, the 9 B model receives roughly 8 trillion tokens, and the compact 2 B variant is trained on approximately 2 trillion tokens.  Although an exhaustive enumeration of all domain sources is not given, the authors do single out code, Wikipedia, and science-oriented material as identifiable components of the mix, and they note that Gemma 2 shows a measurable tendency to memorize more from those three categories than from other parts of the corpus.  Despite that domain-specific uptick, overall memorization is said to be “significantly less across the board” when plotted on the same logarithmic scale used for Gemma 1, implying improved generalization.  Tokenization for every Gemma 2 size continues the lineage of earlier Google models: a SentencePiece tokenizer (with split digits, preserved whitespace, and byte-level encodings) identical to the one used in Gemma 1 and Gemini is reused without modification.  No additional language, licensing, or geographic breakdowns are explicitly listed in the quotes, so the summary is confined to the stated emphasis on English, the quantitative token allocations, the specific tokenizer choice, and the observed memorization profile involving code, wiki, and science content.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning, called “post-training” in the quotes, leverages a data pool that intentionally extends what was used for Gemma 1.1.  The extension draws on both internal resources and publicly available external material, indicating a hybrid provenance but without enumerating concrete datasets or examples.  Control tokens—which govern stylistic or functional behaviors during generation—are kept consistent with those defined for Gemma 1; however, the formatting schema that specifies how those tokens are embedded in prompts or responses has been altered for Gemma 2.  Thus, continuity is preserved at the semantic level (the same control vocabulary), while structural changes in formatting signal an update meant to improve usability or alignment.  No explicit statement is made about the size, licensing conditions, or public release plans of the fine-tuning corpus; the only disclosed attributes are its mixed origin and the inherited yet reformatted control-token strategy.",
+  "4-3 (Reinforcement Learning Data)": "For the reinforcement-learning phase, Gemma 2 employs Reinforcement Learning from Human Feedback (RLHF).  The algorithmic framework deliberately mirrors the approach previously adopted for Gemma 1.1, ensuring methodological consistency, yet the reward model has been substantially enlarged.  The quote specifies that this new reward model is “an order of magnitude larger than the policy,” a design choice that suggests a high-capacity evaluator supervising a smaller generation network to capture nuanced human preference signals.  No granular description of the human feedback dataset—such as the number of preference pairs, domains covered, or demographics of raters—is supplied in the excerpts, nor is there any indication that the RLHF data will be publicly released.  Consequently, the identifiable characteristics are limited to (i) algorithmic similarity to Gemma 1.1, and (ii) the dramatically scaled-up reward model used to compute reinforcement signals for Gemma 2.",
+  "4-4 (Data Filtering)": "The data-filtering or cleaning strategy applied to Gemma 2 is declared to be the same as the technique that was previously used for Gemma 1.  The excerpts do not elaborate on the individual heuristics, models, or threshold criteria, nor do they quantify the amount of data removed or transformed, but the assertion of identical methodology implies that whatever pipeline—be it deduplication, profanity filtering, license checks, or quality scoring—was in place for Gemma 1 has been carried over to Gemma 2 without change.  As no evidence of new criteria, additional manual review, or differential impact is presented in the supplied text, the only verifiable point is the inheritance of the Gemma 1 filtering regime for all Gemma 2 data stages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Tokenizer. We use the same tokenizer as Gemma 1 and Gemini: a SentencePiece tokenizer with split digits, preserved whitespace, and byte-level encodings (Kudo and Richardson, 2018)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to Gemma 1, we find that Gemma 2 memo-rizes more from code, wiki, and science sources, and also that it memorizes significantly less across the board (again, note the log y-axis)."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models, as detailed in Table 4, but a different formatting schema."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF) We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF)  We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Filtering We use the same data filtering techniques as Gemma 1."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Filtering. We use the same data filtering techniques as Gemma 1."
+    }
+  ]
+}
