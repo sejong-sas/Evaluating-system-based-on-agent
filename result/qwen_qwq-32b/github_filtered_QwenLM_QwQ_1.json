@@ -1,0 +1,15 @@
+{
+  "1-1 (Weights)": "",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "",
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)": "Based exclusively on the provided quote, the official paper's title is given as \"title = {QwQ-32B: Embracing the Power of Reinforcement Learning},\". This quote explicitly includes 'qwq', fulfilling the target model requirement, and indicates that the paper is centered on the QwQ series, highlighting a significant emphasis on reinforcement learning as a key aspect of the model's design and capabilities. The title suggests that the paper could detail the integration of reinforcement learning techniques into the QwQ-32B model, offering insights into how this method is leveraged to enhance performance and overall functionality.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "readme",
+      "quote": "title = {QwQ-32B: Embracing the Power of Reinforcement Learning},"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "1-1 (Weights)": "The DeepSeek-R1 weights are detailed with explicit information regarding their configuration and availability. The quote specifies that the model offers multiple weight variants, including a 671B and a 37B parameter version, along with a context window of 128K tokens. These weights are available via a link provided to the HuggingFace repository, indicating a clear location and access method for users interested in obtaining them.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1   | 671B | 37B |  128K   | [🤗 HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-R1)"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "The provided quote about the model's license indicates that both the code repository and the model weights are governed by the MIT License. This license statement is clear in its support for commercial use, as well as permitting any modifications, derivative works, and even distillation for training other language models. The explicit mention of these permissions ensures that users and developers understand the broad and permissive usage rights granted under the license.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This code repository and the model weights are licensed under the [MIT License](https://github.com/deepseek-ai/DeepSeek-R1/blob/main/LICENSE). DeepSeek-R1 series support commercial use, allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs."
+    }
+  ],
+  "1-4 (Paper)": "The available citation represents an official paper relating to the DeepSeek-R1 model. The paper, titled 'DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning', is credited to DeepSeek-AI and is set to be published in the year 2025. Further bibliographic details include an arXiv identifier (2501.12948) and a direct URL to the paper, thereby providing both technical context and a resource for additional scholarly information on the model.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{deepseekai2025deepseekr1incentivizingreasoningcapability,       title={DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning},       author={DeepSeek-AI},       year={2025},       eprint={2501.12948},       archivePrefix={arXiv},       primaryClass={cs.CL},       url={https://arxiv.org/abs/2501.12948}, }"
+    }
+  ]
+}

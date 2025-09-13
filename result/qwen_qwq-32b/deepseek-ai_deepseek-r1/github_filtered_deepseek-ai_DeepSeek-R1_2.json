@@ -1,0 +1,15 @@
+{
+  "1-5 (Architecture)": "The provided quote states, 'DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base.' This indicates that the architectural foundation and training design for DeepSeek-R1, along with its variant DeepSeek-R1-Zero, directly derives from the DeepSeek-V3-Base model. In this context, the quote suggests that key architectural decisions and strategies, although not detailed further, are inherited from DeepSeek-V3-Base, implying that aspects such as layer configuration, structural design, and hyperparameters might be adapted or built upon the established framework of DeepSeek-V3-Base.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "readme",
+      "quote": "DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

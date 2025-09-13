@@ -1,0 +1,148 @@
+{
+  "model": "Qwen/QwQ-32B",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "LICENSE file states Apache-2.0, which allows use, modification, redistribution and commercial use without major restrictions."
+    },
+    "1-4 Paper": {
+      "score": 0.5,
+      "reason": "Only a project blog / model-card style write-up is cited; no dedicated technical report or peer-reviewed paper for QwQ-32B."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted information on training hardware type or quantity."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only the base framework (Transformers) is mentioned; no further details on the training software stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.0,
+      "reason": "Existence of pre-training is acknowledged, but no reproducible methodological details are provided."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Supervised fine-tuning is mentioned without any methodological specifics."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "RL stage is mentioned but no methodological details are disclosed."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Partial disclosure: total token count (18 T) and topical focus (knowledge, coding, mathematics) are given, but no source lists or licensing information."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that post-training data contains ~1 M examples across SFT, DPO and GRPO, but no dataset names or access details."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Same 1 M-example corpus noted for RL stages, but no further composition details are offered."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No information on any data-filtering or cleaning pipeline appears in the quotes. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "LICENSE file states Apache-2.0, which allows use, modification, redistribution and commercial use without major restrictions."
+    },
+    "1-4 Paper": {
+      "score": 0.5,
+      "reason": "Only a project blog / model-card style write-up is cited; no dedicated technical report or peer-reviewed paper for QwQ-32B."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted information on training hardware type or quantity."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Only the base framework (Transformers) is mentioned; no further details on the training software stack."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.0,
+      "reason": "Existence of pre-training is acknowledged, but no reproducible methodological details are provided."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Supervised fine-tuning is mentioned without any methodological specifics."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "RL stage is mentioned but no methodological details are disclosed."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Partial disclosure: total token count (18 T) and topical focus (knowledge, coding, mathematics) are given, but no source lists or licensing information."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States that post-training data contains ~1 M examples across SFT, DPO and GRPO, but no dataset names or access details."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Same 1 M-example corpus noted for RL stages, but no further composition details are offered."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No information on any data-filtering or cleaning pipeline appears in the quotes. No direct quote evidence; defaulting to Closed by strict rule."
+    }
+  },
+  "final_score_10pt": 3.75,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 6.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

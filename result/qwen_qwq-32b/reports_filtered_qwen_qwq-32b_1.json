@@ -1,0 +1,57 @@
+{
+  "1-1 (Weights)": "The provided quotes confirm that QwQ-32B offers open weights that are publicly available on platforms like Hugging Face and ModelScope. The model is distributed under the Apache 2.0 license and can be accessed via Qwen Chat. Additionally, there is a reference to multiple versions with varying parameter sizes (0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B) that include the QwQ-32B version, emphasizing its open-weight nature.",
+  "1-2 (Code)": "No information has been provided regarding the training code for QwQ-32B. There are no details or quotes relating to the sharing of the training pipeline, data preparation scripts, configuration files, or any parts of the training process.",
+  "1-3 (License)": "The license for QwQ-32B is explicitly stated as Apache 2.0. The quotes reiterate that the model's open weights are available under this license on both Hugging Face and ModelScope, ensuring that users can access it under the Apache 2.0 terms. The license details are presented in both full sentences and concise formats, each making clear reference to the Apache 2.0 license governing QwQ-32B.",
+  "1-4 (Paper)": "Official publications about QwQ-32B include a blog post on Qwen Blog that emphasizes its reinforcement learning approach and performance characteristics. One of the quotes introduces QwQ-32B as a 32 billion parameter model and compares its performance to larger models, thereby underlining its technical merit. Additionally, another quote lists the range of open‐weight models available, including the 32B variant, providing context about its standing among other parameterized models.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[sections/https://docs.unsloth.ai/basics/tutorial-how-to-run-qwq-32b-effectively]",
+      "quote": "More versions at: https://huggingface.co/unsloth/QwQ-32B-GGUF"
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Specifically, the open‐weight offerings include base models and instruction‐tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "32B 64 40 / 8 No 128K / 8K Apache 2.0"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[Table 1]",
+      "quote": "32B    64    40 / 8    No    128K / 8K    Apache 2.0"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B: Embracing the Power of Reinforcement Learning | Qwen Blog Publication About Try Qwen Chat"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "We are excited to introduce QwQ-32B, a model with 32 billion parameters that achieves performance comparable to DeepSeek-R1, which boasts 671 billion parameters (with 37 billion activated)."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Specifically, the open‐weight offerings include base models and instruction‐tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    }
+  ]
+}

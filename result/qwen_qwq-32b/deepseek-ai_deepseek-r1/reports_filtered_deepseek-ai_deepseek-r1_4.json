@@ -1,0 +1,25 @@
+{
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "The provided quote explains that for DeepSeek-R1, a small amount of long chain-of-thought (CoT) data is carefully constructed and collected to fine-tune the model as the initial reinforcement learning actor. This targeted fine-tuning strategy is introduced to avoid the early unstable cold start phase experienced by the base model and is positioned in contrast to methods like those used in DeepSeek-R1-Zero.",
+  "4-3 (Reinforcement Learning Data)": "The quote indicates that the current availability of reinforcement learning training data for DeepSeek-R1 is very limited. It also suggests an anticipation that with future iterations or the next version, the engineering performance of DeepSeek-R1 may improve as more RL training data becomes available, thereby positively impacting the model's capabilities.",
+  "4-4 (Data Filtering)": "The quote outlines a data filtering approach specific to the creation of cold-start data for DeepSeek-R1. A readable pattern is designed that incorporates a summary at the end of each response and actively filters out responses that are not reader-friendly. This method focuses on ensuring that the final outputs are both coherent and easily accessible for readers.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/https://raw.githubusercontent.com/deepseek-ai/DeepSeek-R1/main/DeepSeek_R1.pdf]",
+      "quote": "Unlike DeepSeek-R1-Zero, to prevent the early unstable cold start phase of RL training from the base model, for DeepSeek-R1 we construct and collect a small amount of long CoT data to fine-tune the model as the initial RL actor."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We believe the engineering performance of DeepSeek-R1 will improve in the next version, as the amount of related RL training data currently remains very limited."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/2501.12948]",
+      "quote": "In contrast, when creating cold-start data for DeepSeek-R1, we design a readable pattern that includes a summary at the end of each response and filters out responses that are not reader-friendly."
+    }
+  ]
+}

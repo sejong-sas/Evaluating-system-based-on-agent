@@ -1,0 +1,37 @@
+{
+  "2-3 (API)": "The available quotes confirm that QwQ-32B is fully accessible via an API and is integrated with prominent platforms. It is an open-weight model available on Hugging Face and ModelScope under the Apache 2.0 license. Users can engage with QwQ-32B through Qwen Chat, and additional examples demonstrate its use with Hugging Face Transformers and Alibaba Cloud DashScope API. This detailed coverage indicates that there is robust documentation and public availability, ensuring that the API ecosystem for QwQ-32B is well-supported and ready for integration.",
+  "3-1 (Pre-training)": "",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "The quotes highlight QwQ-32B's strategy in embracing reinforcement learning, as underscored by the recurrent mention of the phrase 'QwQ-32B: Embracing the Power of Reinforcement Learning.' This repetition suggests that reinforcement learning methodologies are a core component of QwQ-32B's design and enhancement process, although specific details regarding methods, procedures, or parameter settings are not elaborated upon in the provided quotes.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Use QwQ-32B # Below are brief examples demonstrating how to use QwQ-32B via Hugging Face Transformers and Alibaba Cloud DashScope API."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B is open-weight in Hugging Face and ModelScope under the Apache 2.0 license and is accessible via Qwen Chat."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "pdf_text",
+      "quote": "The Qwen2.5-32B-Instruct model exhibits superior performance across most tasks when compared to other models of similar size."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "QwQ-32B: Embracing the Power of Reinforcement Learning"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwq-32b/]",
+      "quote": "QwQ-32B: Embracing the Power of Reinforcement Learning"
+    }
+  ]
+}

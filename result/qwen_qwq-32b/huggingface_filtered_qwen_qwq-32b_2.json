@@ -1,0 +1,25 @@
+{
+  "1-5 (Architecture)": "The QwQ 32B model is detailed as a causal language model utilizing a transformer architecture enhanced with RoPE, SwiGLU, RMSNorm, and an Attention QKV bias. It has been developed for both pretraining and post-training phases, which include supervised fine-tuning and reinforcement learning. Key architectural specifications include a total of 32.5 billion parameters (with 31.0 billion non-embedding parameters), 64 layers, and specialized multi-head attention where heads are divided into 40 for query and 8 for key/value (in a grouped attention setup). Additionally, the model is capable of processing a context length of up to 131,072 tokens, making it highly scalable for tasks requiring extensive sequential input.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the QwQ 32B model**, which has the following features:\n- Type: Causal Language Models\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)\n- Architecture: transformers with RoPE, SwiGLU, RMSNorm, and Attention QKV bias\n- Number of Parameters: 32.5B\n- Number of Paramaters (Non-Embedding): 31.0B\n- Number of Layers: 64\n- Number of Attention Heads (GQA): 40 for Q and 8 for KV\n- Context Length: Full 131,072 tokens"
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer used for the QwQ 32B model is instantiated via the Hugging Face AutoTokenizer, with the model specifically referenced by the name 'Qwen/QwQ-32B'. This indicates that the tokenizer is tailored to the model's architecture and is likely available for download through the corresponding repository or platform.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/QwQ-32B\"\ntokenizer = AutoTokenizer.from_pretrained(model_name)"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The QwQ model is built upon the foundation of Qwen2.5 and leverages the latest code available in the Hugging Face transformers library. This connection to the Hugging Face framework underlines its alignment with modern deep learning software practices and software stack configurations.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "QwQ is based on Qwen2.5, whose code has been in the latest Hugging face `transformers`."
+    }
+  ]
+}

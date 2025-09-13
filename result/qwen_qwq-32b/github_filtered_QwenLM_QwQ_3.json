@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "The provided quote states: \"If you face issues in deploying QwQ, we encourage you to test our API service provided by [Alibaba Cloud Model Studio](https://www.alibabacloud.com/help/en/model-studio/developer-reference/what-is-qwen-llm).\" This sentence confirms that when deploying QwQ, users have access to an API service with supporting documentation and examples through Alibaba Cloud Model Studio, ensuring public availability and a practical testing environment for the QwQ API.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "readme",
+      "quote": "If you face issues in deploying QwQ, we encourage you to test our API service provided by [Alibaba Cloud Model Studio](https://www.alibabacloud.com/help/en/model-studio/developer-reference/what-is-qwen-llm)."
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "The provided quote is: \"title = {QwQ-32B: Embracing the Power of Reinforcement Learning},\" which indicates that the reinforcement learning process is integral to the model's development for QwQ. This title suggests that the reinforcement learning details—including methods, procedures, and possibly parameter settings—are a central aspect of the QwQ-32B variant.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "readme",
+      "quote": "title = {QwQ-32B: Embracing the Power of Reinforcement Learning},"
+    }
+  ]
+}

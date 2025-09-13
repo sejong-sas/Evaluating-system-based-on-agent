@@ -1,0 +1,19 @@
+{
+  "model_id": "Qwen/Qwen2.5-32B",
+  "pretrain_method": "The pre-training approach is characterized by the uniform application of a core strategy: all models are pretrained on our latest large-scale dataset. This method underscores a commitment to leveraging a contemporary, extensive collection of data as the foundational phase of model training, ensuring that every model benefits from a consistent and comprehensive initial training process.",
+  "pretrain_data": "The scope of the data used in the pre-training phase is notably vast, as it encompasses up to 18 trillion tokens. This quantification highlights the immense scale of the textual corpus involved, reflecting the extensive range of linguistic examples and patterns that are integrated into the models during their pre-training stage.",
+  "__evidence": {
+    "3-1 (Pre-training)": [
+      {
+        "source": "art1",
+        "quote": "all models are pretrained on our latest large-scale dataset"
+      }
+    ],
+    "4-1 (Pre-training Data)": [
+      {
+        "source": "art1",
+        "quote": "encompassing up to 18 trillion tokens"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "2-3 (API)": "The provided quote details the API accessibility for the QwQ 32B model, highlighting two primary methods to interact with it. Users are invited to try the interactive demo available on Hugging Face, and they can also access the QwQ model via QwenChat. This quote emphasizes the public availability and user-friendly access, showcasing an approach similar to GPT/Gemini-like APIs that allow developers and users to experiment with the model easily.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can try our [demo](https://huggingface.co/spaces/Qwen/QwQ-32B-Demo) or access QwQ models via [QwenChat](https://chat.qwen.ai)."
+    }
+  ],
+  "3-1 (Pre-training)": "The quote for pre-training offers insight into the foundational stage of the QwQ 32B model as described in the repository. It explicitly states that the model undergoes an initial phase of pretraining before any further specialized training takes place. This pre-training phase lays the groundwork for the model's capabilities by establishing core language representations and data flow processes that ultimately contribute to its performance.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repo contains the QwQ 32B model, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "3-2 (Fine-tuning)": "The quote concerning fine-tuning highlights that the QwQ 32B model follows a two-stage training process where, after pretraining, the model is subjected to post-training procedures which include supervised fine-tuning. This stage refines the model's performance by adjusting its parameters and aligns it with specific tasks. The method implies a reproducible pipeline where data usage and fine-tuning techniques are clearly leveraged to achieve a higher quality performance.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repo contains the QwQ 32B model, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The quote for reinforcement learning provides detailed information about the post-training stage in the QwQ 32B model’s development. It indicates that after the initial pretraining phase, the model undergoes further refinement via a post-training process that includes reinforcement learning methods alongside supervised fine-tuning. This dual approach suggests that techniques akin to RLHF, DPO, or PPO could be utilized to enhance the model’s performance, ensuring that the reinforcement learning aspects are tightly integrated into its overall training strategy.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repo contains the QwQ 32B model, which has the following features:\n- Training Stage: Pretraining & Post-training (Supervised Finetuning and Reinforcement Learning)"
+    }
+  ]
+}

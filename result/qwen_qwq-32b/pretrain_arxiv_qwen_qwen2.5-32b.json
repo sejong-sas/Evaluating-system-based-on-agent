@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction.",
+  "pretrain_data": "All models were pre-trained on a high-quality, large-scale dataset comprising over 7 trillion tokens, covering a wide range of domains and languages.",
+  "__evidence": [
+    {
+      "source": "arxiv:2407.10671",
+      "quote": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction."
+    },
+    {
+      "source": "arxiv:2407.10671",
+      "quote": "All models were pre-trained on a high-quality, large-scale dataset comprising over 7 trillion tokens, covering a wide range of domains and languages."
+    }
+  ]
+}
