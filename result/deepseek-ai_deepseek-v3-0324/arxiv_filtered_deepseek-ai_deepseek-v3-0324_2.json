@@ -1,0 +1,102 @@
+{
+  "1-5 (Architecture)": "DeepSeek-V3 is presented as a Mixture-of-Experts (MoE) language model that contains 671 billion total parameters, of which only 37 billion are activated for any given token. The model is built around two core structural ideas that were first validated in DeepSeek-V2—Multi-head Latent Attention (MLA) and the DeepSeekMoE routing scheme—and both are retained to deliver efficient inference and cost-effective training. To stabilize and scale the network, DeepSeek-V3 adds RMSNorm layers immediately after its compressed latent vectors and applies extra scaling factors at width bottlenecks. Communication overhead during training is controlled by a “device-limited” or restricted-routing policy that constrains expert traffic to local devices. In contrast to many earlier MoE designs, DeepSeek-V3 introduces an auxiliary-loss-free method for expert-load balancing, and its training objective is expanded from single-token to multi-token prediction to strengthen performance. Collectively, these design decisions yield a 671 B/37 B-active MoE that was trained on 14.8 trillion tokens and is positioned as both highly efficient and state-of-the-art among open-source models.",
+  "1-6 (Tokenizer)": "DeepSeek-V3 uses a Byte-level BPE tokenizer and extends its vocabulary to 128 K tokens, providing a unified sub-word representation that is fully compatible with the model’s large-scale multilingual training data.",
+  "2-1 (Hardware)": "All pre-training and post-training phases of DeepSeek-V3 were run on a cluster of 2,048 NVIDIA H800 GPUs. Each cluster node houses 8 H800 cards interconnected by NVLink and NVSwitch, giving high intra-node bandwidth. Measured efficiency shows that every trillion tokens of pre-training consumes about 180,000 H800-GPU hours—roughly 3.7 days on the full 2,048-GPU system. End-to-end training (pre-training, context-length extension, and post-training) required a total of 2.788 million H800-GPU hours, a figure highlighted as markedly cheaper than training comparably capable dense models (e.g., 72 B or 405 B parameter baselines).",
+  "2-2 (Software)": "Training is orchestrated with the in-house HAI-LLM framework, described as an efficient, lightweight system built specifically for DeepSeek-V3. Parallelism is hierarchically arranged: 16-way Pipeline Parallelism, 64-way Expert Parallelism spread across 8 nodes, and ZeRO-1 Data Parallelism, together enabling scalability to the full 2,048-GPU cluster. Computation is further accelerated with FP8 training kernels. Optimization relies on AdamW (β1 = 0.9, β2 = 0.95, weight_decay = 0.1). Pre-training runs at a 4 K context window over 14.8 T tokens, after which YaRN is employed in two 1,000-step phases to grow the context size from 4 K to 32 K and finally to 128 K. For downstream alignment, the team adopts Group Relative Policy Optimization (GRPO), eliminating the need for a separate critic model by estimating baselines from grouped scores. Overall, the software stack combines custom framework engineering, multi-level parallelism, FP8 precision, YaRN-based context extension, and GRPO-based alignment to maximize throughput while controlling memory and communication costs.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architectures, which were thoroughly validated in DeepSeek-V2."
+    },
+    {
+      "source": "[sections/Hyper-Parameters]",
+      "quote": "As DeepSeek-V2, DeepSeek-V3 also employs additional RMSNorm layers after the compressed latent vectors, and multiplies additional scaling factors at the width bottlenecks. Under this configuration, DeepSeek-V3 comprises 671B total parameters, of which 37B are activated for each token."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Furthermore, DeepSeek-V3 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance."
+    },
+    {
+      "source": "[sections/Hyper-Parameters]",
+      "quote": "Under this configuration, DeepSeek-V3 comprises 671B total parameters, of which 37B are activated for each token."
+    },
+    {
+      "source": "[sections/Node-Limited Routing]",
+      "quote": "Like the device-limited routing used by DeepSeek-V2, DeepSeek-V3 also uses a restricted routing mechanism to limit communication costs during training."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens. In addition to the MLA and DeepSeekMoE architectures, it also pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/Data Construction]",
+      "quote": "The tokenizer for DeepSeek-V3 employs Byte-level BPE (Shibata et al., 1999) with an extended vocabulary of 128K tokens."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/3.1 Compute Clusters]",
+      "quote": "DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "During the pre-training stage, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, i.e., 3.7 days on our cluster with 2048 H800 GPUs."
+    },
+    {
+      "source": "[sections/Evaluation Results]",
+      "quote": "Due to our efficient architectures and comprehensive engineering optimizations, DeepSeek-V3 achieves extremely high training efficiency. Under our training framework and infrastructures, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, which is much cheaper than training 72B or 405B dense models."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Despite its excellent performance, DeepSeek-V3 requires only 2.788M H800 GPU hours for its full training."
+    },
+    {
+      "source": "[sections/Compute Clusters]",
+      "quote": "DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs. Each node in the H800 cluster contains 8 GPUs connected by NVLink and NVSwitch within nodes."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available, and achieves performance comparable to leading closed-source models like GPT-4o and Claude-3.5-Sonnet. It requires only 2.788M H800 GPU hours for its full training, including pre-training, context length extension, and post-training."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/3.2 Training Framework]",
+      "quote": "The training of DeepSeek-V3 is supported by the HAI-LLM framework, an efficient and lightweight training framework crafted by our engineers from the ground up."
+    },
+    {
+      "source": "[sections/3.2 Training Framework]",
+      "quote": "On the whole, DeepSeek-V3 applies 16-way Pipeline Parallelism (PP) (Qi et al., 2023a), 64-way Expert Parallelism (EP) spanning 8 nodes, and ZeRO-1 Data Parallelism (DP) (Rajbhandari et al., 2020)."
+    },
+    {
+      "source": "[sections/Hyper-Parameters]",
+      "quote": "We employ the AdamW optimizer (Loshchilov and Hutter, 2017) with hyper-parameters set to 𝛽1 = 0.9, 𝛽2 = 0.95, and weight_decay = 0.1. We set the maximum sequence length to 4K during pre-training, and pre-train DeepSeek-V3 on 14.8T tokens."
+    },
+    {
+      "source": "[sections/Long Context Extension]",
+      "quote": "We adopt a similar approach to DeepSeek-V2 (DeepSeek-AI, 2024c) to enable long context capabilities in DeepSeek-V3. After the pre-training stage, we apply YaRN (Peng et al., 2023a) for context extension and perform two additional training phases, each comprising 1000 steps, to progressively expand the context window from 4K to 32K and then to 128K."
+    },
+    {
+      "source": "[sections/Training Framework]",
+      "quote": "The training of DeepSeek-V3 is supported by the HAI-LLM framework, an efficient and lightweight training framework crafted by our engineers from the ground up."
+    },
+    {
+      "source": "[sections/Training Framework]",
+      "quote": "On the whole, DeepSeek-V3 applies 16-way Pipeline Parallelism (PP) (Qi et al., 2023a), 64-way Expert Parallelism (EP) (Lepikhin et al., 2021) spanning 8 nodes, and ZeRO-1 Data Parallelism (DP) (Rajbhandari et al., 2020)."
+    },
+    {
+      "source": "[sections/Reinforcement Learning]",
+      "quote": "Similar to DeepSeek-V2 (DeepSeek-AI, 2024c), we adopt Group Relative Policy Optimization (GRPO) (Shao et al., 2024), which foregoes the critic model that is typically with the same size as the policy model, and estimates the baseline from group scores instead."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "The training of DeepSeek-V3 is cost-effective due to the support of FP8 training and meticulous engineering optimizations."
+    }
+  ]
+}

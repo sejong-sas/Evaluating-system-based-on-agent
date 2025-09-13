@@ -1,0 +1,49 @@
+{
+  "2-3 (API)": "The available information about the deepseek-v3-0324 API is limited to its temperature-handling logic. Two quoted statements specify that many users tend to supply a temperature of 1.0 when they invoke the model programmatically. To ensure that the model behaves with an empirically optimal randomness level, the deepseek-v3 implementation introduces a dedicated “API temperature mapping mechanism.” Concretely, whenever the external call includes a temperature value of 1.0, the system internally remaps that figure to an actual model temperature of 0.3. Therefore, \"if you call V3 via API, temperature 1.0 equals to the model temperature 0.3.\" This is the only documented API-side adjustment, and no further endpoints, authentication details, or example payloads are provided in the cited material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Because many users use the default temperature 1.0 in API call, we have implemented an API temperature $T_{api}$ mapping mechanism that adjusts the input API temperature value of 1.0 to the most suitable model temperature setting of 0.3."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Thus, if you call V3 via API, temperature 1.0 equals to the model temperature 0.3."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training configuration explicitly identifies the model as \"model_type\": \"deepseek_v3\" and lists several core architectural hyper-parameters. The hidden representation dimensionality is given as \"hidden_size\": 7168, indicating that every token is projected into a 7,168-element vector during forward and backward passes. Model depth is substantial, with \"num_hidden_layers\": 61 transformer blocks. Each layer employs a multi-head attention mechanism that is highly parallelized, featuring \"num_attention_heads\": 128 distinct attention heads per layer. Positional capacity is also emphasized by the very large \"max_position_embeddings\": 163,840, meaning the model can natively encode extremely long context windows without resorting to external chunking schemes. Collectively, these values outline the backbone of the deepseek-v3-0324 pre-training run, but the quotes do not mention data sources, token counts, training duration, optimizer choices, or learning-rate schedules.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"deepseek_v3\","
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 7168,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 61,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 128,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 163840,"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning for deepseek-v3-0324 is described solely through two low-rank adaptation hyper-parameters. The configuration specifies a key-value LoRA rank of \"kv_lora_rank\": 512 and a query LoRA rank of \"q_lora_rank\": 1,536. This indicates that the fine-tuning pipeline replaces or augments full-rank parameter updates with efficient low-rank matrices of rank 512 for key–value projections and 1,536 for query projections, respectively. These figures suggest a strategy that balances parameter-efficiency with expressive capacity, but no further information—such as datasets, objectives, learning rates, or training steps—is provided in the extracted quotes.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"kv_lora_rank\": 512,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"q_lora_rank\": 1536,"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

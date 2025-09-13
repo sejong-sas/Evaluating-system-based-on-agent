@@ -1,0 +1,37 @@
+{
+  "1-5 (Architecture)": "The available material states that “The model structure of DeepSeek-V3-0324 is exactly the same as DeepSeek-V3.”  In other words, no architectural modifications were introduced for the 0324 checkpoint; it inherits the complete network design of the earlier DeepSeek-V3 release.  The configuration metadata further labels the system with the identifier \"model_type\": \"deepseek_v3\", and lists its registered architecture under \"architectures\": [\"DeepseekV3ForCausalLM\"].  A dedicated configuration class—described as \"the configuration class to store the configuration of a [`DeepseekV3Model`]\"—is provided to instantiate the model and formally define its architecture.  Collectively, these statements confirm that DeepSeek-V3-0324 uses the DeepSeek-V3 family architecture, carries the explicit model type tag deepseek_v3, exposes a causal-language-model head titled DeepseekV3ForCausalLM, and relies on a standard configuration object to capture all architectural hyper-parameters.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model structure of DeepSeek-V3-0324 is exactly the same as DeepSeek-V3."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"DeepseekV3ForCausalLM\"\n  ],"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"deepseek_v3\","
+    },
+    {
+      "source": "[py_files/configuration_deepseek.py]",
+      "quote": "This is the configuration class to store the configuration of a [`DeepseekV3Model`]. It is used to instantiate an DeepSeek model according to the specified arguments, defining the model architecture."
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information is sparse but explicit: the documentation specifies that the argument vocab_size (an integer that defaults to 129 280) “defines the number of different tokens that can be represented by the `inputs_ids` passed when calling [`DeepseekV3Model`].”  Therefore, the DeepSeek-V3-0324 tokenizer operates with a 129 280-entry vocabulary, enabling that many unique token identifiers to be processed by the model.  No additional details (such as tokenizer type, special tokens, or download location) are provided in the current excerpts.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/configuration_deepseek.py]",
+      "quote": "vocab_size (`int`, *optional*, defaults to 129280): Vocabulary size of the Deep model. Defines the number of different tokens that can be represented by the `inputs_ids` passed when calling [`DeepseekV3Model`]"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The project credits read: “Copyright 2023 DeepSeek-AI and The HuggingFace Inc. team. All rights reserved.  This code is based on EleutherAI's GPT-NeoX library and the GPT-NeoX and OPT implementations in this library.”  From this we learn that the DeepSeek-V3-0324 training/implementation codebase is built on top of the HuggingFace ecosystem and leverages substantial portions of EleutherAI’s GPT-NeoX framework as well as the OPT and GPT-NeoX reference implementations already hosted by HuggingFace.  Thus, the primary software stack comprises HuggingFace infrastructure together with code lineage traced directly to GPT-NeoX and OPT.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[py_files/modeling_deepseek.py]",
+      "quote": "# Copyright 2023 DeepSeek-AI and The HuggingFace Inc. team. All rights reserved.\n# This code is based on EleutherAI's GPT-NeoX library and the GPT-NeoX and OPT implementations in this library."
+    }
+  ]
+}

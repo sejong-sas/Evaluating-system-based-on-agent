@@ -1,0 +1,58 @@
+{
+  "1-1 (Weights)": "\"The total size of DeepSeek-V3 models on Hugging Face is 685B, which includes 671B of the Main Model weights and 14B of the Multi-Token Prediction (MTP) Module weights.\"  \n\"Download the model weights from Hugging Face, and put them into `/path/to/DeepSeek-V3` folder.\"",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The total size of DeepSeek-V3 models on Hugging Face is 685B, which includes 671B of the Main Model weights and 14B of the Multi-Token Prediction (MTP) Module weights."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Download the model weights from Hugging Face, and put them into `/path/to/DeepSeek-V3` folder."
+    }
+  ],
+  "1-2 (Code)": "\"1. **DeepSeek-Infer Demo**: We provide a simple and lightweight demo for FP8 and BF16 inference.\"",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "1. **DeepSeek-Infer Demo**: We provide a simple and lightweight demo for FP8 and BF16 inference."
+    }
+  ],
+  "1-3 (License)": "\"This code repository is licensed under [the MIT License](LICENSE-CODE).\"  \n\"The use of DeepSeek-V3 Base/Chat models is subject to [the Model License](LICENSE-MODEL).\"  \n\"DeepSeek-V3 series (including Base and Chat) supports commercial use.\"  \n\"MIT License\"  \n\"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\"  \n\"DeepSeek hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare, publicly display, publicly perform, sublicense, and distribute the Complementary Material, the Model, and Derivatives of the Model.\"",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This code repository is licensed under [the MIT License](LICENSE-CODE)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The use of DeepSeek-V3 Base/Chat models is subject to [the Model License](LICENSE-MODEL)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-V3 series (including Base and Chat) supports commercial use."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "MIT License"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "DeepSeek hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare, publicly display, publicly perform, sublicense, and distribute the Complementary Material, the Model, and Derivatives of the Model."
+    }
+  ],
+  "1-4 (Paper)": "\"@misc{deepseekai2024deepseekv3technicalreport,\"  \n\"title={DeepSeek-V3 Technical Report},\"",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{deepseekai2024deepseekv3technicalreport,"
+    },
+    {
+      "source": "[readme]",
+      "quote": "title={DeepSeek-V3 Technical Report},"
+    }
+  ]
+}
