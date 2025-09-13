@@ -1,0 +1,24 @@
+{
+  "1-5 (Architecture)": "A benchmarking table explicitly labels the DeepSeek-R1 entry as a Mixture-of-Experts (MoE) model. For this variant the table lists “# Activated Params = 37 B” and “# Total Params = 671 B,” showing that only 37 billion of the 671 billion parameters are active on any given forward pass—i.e., DeepSeek-R1 is a sparse-activation MoE with a very large overall parameter pool. In a separate statement the authors add that they \"open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5 B, 7 B, 8 B, 14 B, 32 B, 70 B) distilled from DeepSeek-R1.\" This confirms that, besides the flagship MoE model, the release also includes a distilled family of fully-dense descendants spanning 1.5 billion to 70 billion parameters, with DeepSeek-R1 acting as the teacher model for those smaller checkpoints.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "For the reinforcement-learning stage the team \"use DeepSeek-V3-Base as the base model and employ GRPO (Shao et al., 2024) as the RL framework to improve model performance in reasoning.\" Thus, GRPO is identified as the specific RL algorithm used, and DeepSeek-V3-Base is cited as the initialization checkpoint for that stage of training.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Benchmark (Metric)\nClaude-3.5- GPT-4o DeepSeek OpenAI OpenAI DeepSeek\nSonnet-1022\n0513\nV3\no1-mini o1-1217\nR1\nArchitecture\n-\n-\nMoE\n-\n-\nMoE\n# Activated Params\n-\n-\n37B\n-\n-\n37B\n# Total Params\n-\n-\n671B\n-\n-\n671B"
+    },
+    {
+      "source": "[abstract]",
+      "quote": "To support the research community, we open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1 based on Qwen and Llama."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, we use DeepSeek-V3-Base as the base model and employ GRPO (Shao et al., 2024) as the RL framework to improve model performance in reasoning."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "1-5 (Architecture)": "The authors report that they \"open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1 based on Qwen and Llama,\" establishing that the main release family centres on DeepSeek-R1 and that, besides the full model, a set of size-reduced, fully-dense variants are derived from it. In the same release material they note that \"DeepSeek-R1 outputs are capped at a maximum of 32,768 tokens for each benchmark,\" which fixes the maximum sequence length the architecture can generate in evaluation scenarios. A comparative architecture table lists \"DeepSeek R1\" as an \"MoE\" model with \"# Activated Params … 37 B\" and \"# Total Params … 671 B,\" making clear that DeepSeek-R1 is implemented as a Mixture-of-Experts system in which 37 billion parameters are active per token while the complete parameter pool sums to roughly 671 billion.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To support the research community, we open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1 based on Qwen and Llama."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-R1 outputs are capped at a maximum of 32,768 tokens for each benchmark."
+    },
+    {
+      "source": "[sections/Experiment]",
+      "quote": "Claude-3.5- GPT-4o DeepSeek V3 OpenAI o1-mini OpenAI o1-1217 DeepSeek R1\nArchitecture                     -      -      MoE      -      -      MoE\n# Activated Params               -      -       37B     -      -      37B\n# Total Params                   -      -      671B     -      -     671B"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

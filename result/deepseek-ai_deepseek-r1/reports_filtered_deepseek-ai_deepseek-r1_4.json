@@ -1,0 +1,65 @@
+{
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "Fine-tuning for the DeepSeek-R1 line is carried out in several clearly described stages. First, the team \"collect thousands of cold-start data\" and apply them to \"fine-tune the DeepSeek-V3-Base as the starting point for RL.\"  After this small cold-start pass, they run a more substantial supervised fine-tune in which \"We fine-tune DeepSeek-V3-Base for two epochs using the above curated dataset of about 800k samples.\"  The supervised corpus is heterogeneous.  For purely “non-reasoning data” – e.g., \"writing, factual QA, self-cognition, and translation\" – they \"adopt the DeepSeek-V3 pipeline and reuse portions of the SFT dataset of DeepSeek-V3.\"  In contrast, to stabilise the model before reinforcement learning, the R1 variant explicitly augments the supervised set with reasoning traces: \"for DeepSeek-R1 we construct and collect a small amount of long CoT data to fine-tune the model as the initial RL actor.\"  Together these statements reveal (1) at least two epochs of SFT, (2) a supervised set whose scale is on the order of 8 × 10^5 examples plus several thousand cold-start items, (3) domain composition that mixes reasoning-oriented chains-of-thought with non-reasoning text genres, and (4) partial reuse of earlier DeepSeek-V3 SFT material.",
+  "4-3 (Reinforcement Learning Data)": "Once supervised fine-tuning is finished, the project moves to a “large-scale reinforcement learning training process” explicitly described as \"the same … as employed in DeepSeek-R1-Zero.\"  The RL phase \"focuses on enhancing … reasoning capabilities\" and is trained on tasks in \"coding, mathematics, science, and logic reasoning\" – domains that provide \"well-defined problems with clear solutions.\"  The authors \"adhere to the methodology outlined in DeepSeek-R1-Zero, which utilizes rule-based rewards\".  Concretely, \"a rule-based reward system … mainly consists of two types of rewards: • Accuracy rewards …\" where correctness can be checked automatically (e.g., boxed final answers for math, or running LeetCode test cases through a compiler).  A published derivative, \"Deepseek-prover-v1.5,\" further underscores that some RL data include proof-assistant feedback and Monte-Carlo tree-search, although the citation is the only detail provided.  Overall, the RL data are automatically scored, domain-specific reasoning problems whose correctness can be verified by rules or external tools.",
+  "4-4 (Data Filtering)": "Several filtering and data-cleaning mechanics are documented.  During expansion of the supervised/RL corpora the team \"incorporat[es] additional data, some of which use a generative reward model by feeding the ground-truth and model predictions into DeepSeek-V3 for judgment.\"  Any resulting outputs that are hard to parse are removed: \"we have filtered out chain-of-thought with mixed languages, long paragraphs, and code blocks.\"  A specific antidote for language mixing is applied in RL: \"we introduce a language consistency reward … calculated as the proportion of target language words in the CoT.\"  The same idea is repeated, emphasising that language-mixing problems arise \"particularly when RL prompts involve multiple languages.\"  Near the end of RL, additional supervised data are produced by \"rejection sampling on the RL checkpoint\"; only high-quality samples survive and are then \"combined with supervised data from DeepSeek-V3\" before a final retraining pass.  Altogether, the filtering criteria comprise: (1) generative-reward judgment filtering, (2) explicit removal of CoTs exhibiting mixed languages, excessive length, or embedded code, (3) a quantitative language-consistency reward (ratio of desired-language tokens), and (4) quality-based rejection sampling at convergence.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this work, we collect thousands of cold-start data to fine-tune the DeepSeek-V3-Base as the starting point for RL."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tune DeepSeek-V3-Base for two epochs using the above curated dataset of about 800k samples."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Non-Reasoning data   For non-reasoning data, such as writing, factual QA, self-cognition, and translation, we adopt the DeepSeek-V3 pipeline and reuse portions of the SFT dataset of DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike DeepSeek-R1-Zero, to prevent the early unstable cold start phase of RL training from the base model, for DeepSeek-R1 we construct and collect a small amount of long CoT data to fine-tune the model as the initial RL actor."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "After fine-tuning DeepSeek-V3-Base on the cold start data, we apply the same large-scale reinforcement learning training process as employed in DeepSeek-R1-Zero. This phase focuses on enhancing the model’s reasoning capabilities, particularly in reasoning-intensive tasks such as coding, mathematics, science, and logic reasoning, which involve well-defined problems with clear solutions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For reasoning data, we adhere to the methodology outlined in DeepSeek-R1-Zero, which utilizes rule-based rewards to guide the learning process in math, code, and logical reasoning domains."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To train DeepSeek-R1-Zero, we adopt a rule-based reward system that mainly consists of two types of rewards: • Accuracy rewards: The accuracy reward model evaluates whether the response is correct. For example, in the case of math problems with deterministic results, the model is required to provide the final answer in a specified format (e.g., within a box), enabling reliable rule-based verification of correctness. Similarly, for LeetCode problems, a compiler can be used to generate feedback based on predefined test cases."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "H. Xin, Z. Z. Ren, J. Song, Z. Shao, W. Zhao, H. Wang, B. Liu, L. Zhang, X. Lu, Q. Du, W. Gao, Q. Zhu, D. Yang, Z. Gou, Z. F. Wu, F. Luo, and C. Ruan. Deepseek-prover-v1.5: Harnessing proof assistant feedback for reinforcement learning and monte-carlo tree search, 2024."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "However, in this stage, we expand the dataset by incorporating additional data, some of which use a generative reward model by feeding the ground-truth and model predictions into DeepSeek-V3 for judgment. Additionally, because the model output is sometimes chaotic and difficult to read, we have filtered out chain-of-thought with mixed languages, long parapraphs, and code blocks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "After fine-tuning DeepSeek-V3-Base on the cold start data, we apply the same large-scale reinforcement learning training process as employed in DeepSeek-R1-Zero. ... To mitigate the issue of language mixing, we introduce a language consistency reward during RL training, which is calculated as the proportion of target language words in the CoT."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "…some of which use a generative reward model by feeding the ground-truth and model predictions into DeepSeek-V3 for judgment. Additionally, because the model output is sometimes chaotic and difficult to read, we have filtered out chain-of-thought with mixed languages, long parapraphs, and code blocks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "After fine-tuning DeepSeek-V3-Base on the cold start data, we apply the same large-scale reinforcement learning training process as employed in DeepSeek-R1-Zero. During the training process, we observe that CoT often exhibits language mixing, particularly when RL prompts involve multiple languages. To mitigate the issue of language mixing, we introduce a language consistency reward during RL training, which is calculated as the proportion of target language words in the CoT."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon nearing convergence in the RL process, we create new SFT data through rejection sampling on the RL checkpoint, combined with supervised data from DeepSeek-V3 in domains such as writing, factual QA, and self-cognition, and then retrain the DeepSeek-V3-Base model."
+    }
+  ]
+}

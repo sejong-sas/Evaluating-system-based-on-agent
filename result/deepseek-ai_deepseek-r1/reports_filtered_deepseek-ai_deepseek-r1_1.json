@@ -1,0 +1,33 @@
+{
+  "1-1 (Weights)": "The quotes explicitly state that the weights for DeepSeek-R1 are being made publicly available. One sentence declares: “To support the research community, we open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1…”. This indicates that the core DeepSeek-R1 checkpoint, its zero-shot variant, and multiple size-specific distilled derivatives are all released. A second sentence reinforces the open release by noting that “The open source DeepSeek-R1, as well as its API, will benefit the research community…”. Together, these quotes confirm that the pretrained weights are freely downloadable (i.e., “open-source”) and that an accompanying API endpoint is also exposed; however, no additional details about the precise download location, authentication method, or hosting platform are given in the provided text.",
+  "1-2 (Code)": "Availability of training-related code is signalled by the line “deepseek-ai / DeepSeek-R1 Public”. The phrase strongly suggests that a public repository—titled exactly “DeepSeek-R1” under the “deepseek-ai” organization—is accessible. Because the repository is marked “Public,” the quote substantiates that at least some portion of code relevant to DeepSeek-R1 (potentially training, configuration, or utilities) is openly released. No further granularity (e.g., which stages of the training pipeline are included) is stated in the quoted material.",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "The quotation set references an official write-up twice. First, it states: “We introduce our first-generation reasoning models, DeepSeek-R1-Zero and DeepSeek-R1,” signaling that these models are formally presented in written form. Second, the explicit title of the work is provided: “DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning.” These lines collectively document the existence of a paper or technical report dedicated to explaining the design and training of DeepSeek-R1 (and its “-Zero” counterpart), with a focus on reinforcement-learning-based methods for reasoning performance.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To support the research community, we open-source DeepSeek-R1-Zero, DeepSeek-R1, and six dense models (1.5B, 7B, 8B, 14B, 32B, 70B) distilled from DeepSeek-R1 based on Qwen and Llama."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The open source DeepSeek-R1, as well as its API, will benefit the research community to distill better smaller models in the future."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "deepseek-ai / DeepSeek-R1 Public"
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We introduce our first-generation reasoning models, DeepSeek-R1-Zero and DeepSeek-R1."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+    }
+  ]
+}
