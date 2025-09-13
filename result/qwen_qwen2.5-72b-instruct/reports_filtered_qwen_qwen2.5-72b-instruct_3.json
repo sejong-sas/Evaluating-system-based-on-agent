@@ -1,0 +1,134 @@
+{
+  "2-3 (API)": "The documentation describes several ready-made ways to expose Qwen2.5 models—including the 72 B Instruct variant—as fully OpenAI-compatible HTTP endpoints.  One option is to launch a vLLM server:\n  python -m vllm.entrypoints.openai.api_server --model Qwen/Qwen2.5-7B-Instruct  (or use vllm ≥ 0.5.3 with the shorthand vllm serve).  After the service is running, a standard OpenAI Chat completion request can be sent with curl, e.g.\n  curl http://localhost:8000/v1/chat/completions … -d '{\"model\":\"Qwen/Qwen2.5-7B-Instruct\", …}'.\nFor developers who prefer OpenLLM, a single command ‘openllm serve qwen2.5:7b’ (or ‘openllm serve qwen2.5:72b’) spins up the server, and ‘openllm model list --tag qwen2.5’ shows the officially supported sizes (the list explicitly displays qwen2.5:72b with a recommended 80 GB×2 GPU configuration on Linux).  OpenLLM therefore lets users run any of the published Qwen2.5 checkpoints as drop-in OpenAI APIs.\nIn addition to self-hosted deployment, the vendor notes that first-party hosted APIs for related production models such as Qwen-Plus and Qwen-Turbo are available through “Model Studio,” encouraging users to experiment with those endpoints as well.  Taken together, these instructions confirm that Qwen2.5—including the 72 B Instruct checkpoint—can be accessed programmatically through standard REST calls without modification of existing OpenAI-client tooling.",
+  "3-1 (Pre-training)": "All Qwen2.5 language models were pretrained from scratch on a new massive corpus containing up to 18 trillion tokens.  For domain-specialised variants, dedicated datasets were added—for example, Qwen2.5-Coder alone ingested 5.5 trillion code-related tokens so that even smaller coding checkpoints can compete with much larger general-purpose models on coding benchmarks.  Core architectural tweaks followed “Qwen2.5 (Yang et al., 2024b)”: the Rotary Positional Embedding base frequency was raised from 10 000 to 1 000 000 via the ABF method, extending context length without loss of precision.\nFive base checkpoints are mentioned—Qwen2-0.5 B, 1.5 B, 7 B, 57 B-A14 B and 72 B—each released in both pretrained and instruction-tuned form and originally trained over data spanning 27 (later stated as 29) languages in addition to English and Chinese.  Subsequent work compares this 18 T-token recipe to Qwen3, which doubles the corpus to ~36 T tokens across 119 languages, underscoring the scale of Qwen2.5’s training run.\nData augmentation techniques also rely on Qwen2.5 derivative models.  Qwen2.5-VL is used to OCR large collections of PDF-style documents, thereby expanding the raw text pool.  Further synthetic data are created with Qwen2.5-Math for maths content and Qwen2.5-Coder for programming text.  Altogether, these steps broaden domain coverage while keeping the main 18 T-token pretraining budget.",
+  "3-2 (Fine-tuning)": "The flagship checkpoint, Qwen2.5-72B, is a 72-billion-parameter dense decoder-only model.  It is instruction-tuned and benchmarked against peer leaders such as Llama-3.1-70B and Mistral-Large-V2, with results reported on a wide suite of capability and human-preference tests.  Training employs a multi-stage regime: first supervised fine-tuning (SFT), then reward-model training, followed by online DPO (Direct Preference Optimization).  A specialised “Online Merging Optimizer” is applied to reduce alignment tax during these stages.  The resulting Qwen2-72B-Instruct system is evaluated on 16 different benchmarks spanning numerous domains.\nDuring data curation, Qwen2.5-72B-Instruct itself is used to filter out queries deemed difficult to verify and to label each remaining query’s domain so the fine-tuning set stays balanced.  To enlarge the pool of post-training data, the team fine-tunes Qwen2.5-VL to extract text from vast PDF collections, adding long-form and multi-modal textual material.  Public releases include both the base and instruction-tuned checkpoints across the earlier five sizes (0.5 B → 72 B), enabling users to reproduce or extend the fine-tuning pipeline on hardware budgets that match their needs.",
+  "3-3 (Reinforcement Learning)": "Alignment for Qwen2.x models integrates reinforcement-style components.  After supervised fine-tuning, the team trains a separate reward model and then performs online DPO training, with an “Online Merging Optimizer” further mitigating alignment tax.  Although most details centre on Qwen2-72B-Instruct, the same workflow informs Qwen2.5-72B-Instruct’s deployment: during query filtering the instruct model itself is used to reject unverifiable prompts, and in a reward-shaping variant the model is prompted to assign a score to generated answers when a reference answer is provided (Model-based Reward with Reference Answer).  These steps evidence a practical RLHF-style loop where the model both produces and critiques outputs, serving as an integral part of the reinforcement learning and alignment pipeline.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To use Qwen2.5 with vLLM, running the following command can deploy an OpenAI API compatible service: python - m vllm . entrypoints . openai . api_server \\ -- model Qwen / Qwen2 .5 - 7 B - Instruct or use vllm serve if you use vllm>=0.5.3 ."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Then you can communicate with Qwen2.5 via curl : curl http://localhost:8000/v1/chat/completions -H \"Content-Type: application/json\" -d '{ \"model\": \"Qwen/Qwen2.5-7B-Instruct\", \"messages\": [ {\"role\": \"user\", \"content\": \"Tell me something about large language models.\"} ], \"temperature\": 0.7, \"top_p\": 0.8, \"repetition_penalty\": 1.05, \"max_tokens\": 512 }'"
+    },
+    {
+      "source": "[sections/OpenLLM]",
+      "quote": "OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command."
+    },
+    {
+      "source": "[sections/OpenLLM]",
+      "quote": "List the supported Qwen2.5 models: ... qwen2.5:72b   default   80Gx2   linux"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "To use Qwen2.5 with vLLM, running the following command can deploy an OpenAI API compatible service: python - m vllm . entrypoints . openai . api_server \\ -- model Qwen / Qwen2 .5 - 7 B - Instruct"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "In addition to these models, we offer APIs for our flagship language models: Qwen-Plus and Qwen-Turbo through Model Studio, and we encourage you to explore them!"
+    },
+    {
+      "source": "[sections/https://qwen.readthedocs.io/en/latest/deployment/openllm.html]",
+      "quote": "OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command."
+    },
+    {
+      "source": "[sections/https://qwen.readthedocs.io/en/latest/deployment/openllm.html]",
+      "quote": "List the supported Qwen2.5 models: openllm model list --tag qwen2.5"
+    },
+    {
+      "source": "[sections/https://qwen.readthedocs.io/en/latest/deployment/openllm.html]",
+      "quote": "To start a server with one of the models, use openllm serve like this: openllm serve qwen2.5:7b"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In terms of Qwen2.5 , the language models, all models are pretrained on our latest large-scale dataset, encompassing up to 18 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, Qwen2.5-Coder has been trained on 5.5 trillion tokens of code-related data, enabling even smaller coding-specific models to deliver competitive performance against larger language models on coding evaluation benchmarks."
+    },
+    {
+      "source": "[sections/Hello Qwen2 blog]",
+      "quote": "Pretrained and instruction-tuned models of 5 sizes, including Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B ; Having been trained on data in 27 additional languages besides English and Chinese;"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Following Qwen2.5 (Yang et al., 2024b), we increase the base frequency of RoPE from 10,000 to 1,000,000 using the ABF technique (Xiong et al., 2023)."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "In terms of Qwen2.5 , the language models, all models are pretrained on our latest large-scale dataset, encompassing up to 18 trillion tokens."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen3/]",
+      "quote": "Pre-training # In terms of pretraining, the dataset for Qwen3 has been significantly expanded compared to Qwen2.5. While Qwen2.5 was pre-trained on 18 trillion tokens, Qwen3 uses nearly twice that amount, with approximately 36 trillion tokens covering 119 languages and dialects."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2/]",
+      "quote": "Pretrained and instruction-tuned models of 5 sizes, including Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B ;"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To further expand the pre-training data corpus, we first employ the Qwen2.5-VL model (Bai et al., 2025) to perform text recognition on a large volume of PDF-like documents."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We also generate synthetic data using domain-specific models: Qwen2.5-Math (Yang et al., 2024c) for mathematical content and Qwen2.5-Coder (Hui et al., 2024) for code-related data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to the pre-training data used in Qwen2.5, the number of supported languages has been significantly increased from 29 to 119, enhancing the model’s linguistic coverage and cross-lingual capabilities."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To showcase Qwen2.5’s capabilities, we benchmark our largest open-source model, Qwen2.5-72B - a 72B-parameter dense decoder-only language model - against leading open-source models like Llama-3.1-70B and Mistral-Large-V2. We present comprehensive results from instruction-tuned versions across various benchmarks, evaluating both model capabilities and human preferences."
+    },
+    {
+      "source": "[sections/Hello Qwen2 blog]",
+      "quote": "As for training, we apply a combination of supervised fine-tuning, reward model training and online DPO training. We also employ a novel Online Merging Optimizer to minimize the alignment tax. We comprehensively evaluate Qwen2-72B-Instruct on 16 benchmarks across various domains."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the query filtering phase, we use Qwen2.5-72B-Instruct to identify and remove queries that are not easily verifiable."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Additionally, we annotate each query’s domain using Qwen2.5-72B-Instruct to maintain balanced domain representation across the dataset."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "In addition to the notable enhancements in benchmark evaluations, we have refined our post-training methodologies. Our four key updates include support for long text generation of up to 8K tokens, significantly improved comprehension of structured data, more reliable generation of structured outputs, particularly in JSON format, and enhanced performance across diverse system prompts, which facilitates effective role-playing."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "We present comprehensive results from instruction-tuned versions across various benchmarks, evaluating both model capabilities and human preferences."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2/]",
+      "quote": "Pretrained and instruction-tuned models of 5 sizes, including Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B ;"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To efficiently expand the training data, we employ a multi-modal approach: Qwen2.5-VL (Bai et al., 2025) is finetuned to extract text from extensive PDF documents."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/Hello Qwen2 blog]",
+      "quote": "As for training, we apply a combination of supervised fine-tuning, reward model training and online DPO training. We also employ a novel Online Merging Optimizer to minimize the alignment tax. We comprehensively evaluate Qwen2-72B-Instruct on 16 benchmarks across various domains."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the query filtering phase, we use Qwen2.5-72B-Instruct to identify and remove queries that are not easily verifiable."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "(2) Model-based Reward with Reference Answer: In this approach, we provide a reference answer for each query and prompt Qwen2.5-72B-Instruct to score the model’s response based on this reference."
+    }
+  ]
+}

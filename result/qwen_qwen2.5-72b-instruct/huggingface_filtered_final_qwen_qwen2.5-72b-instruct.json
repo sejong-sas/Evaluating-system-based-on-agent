@@ -1,0 +1,176 @@
+{
+  "1-1 (Weights)": "The quotes explicitly state that “**This repo contains the instruction-tuned 72B Qwen2.5 model**” and that the canonical model identifier is “model_name = \"Qwen/Qwen2.5-72B-Instruct\".”  Together, these lines confirm that the full parameter weights for the target system (the 72-billion-parameter Qwen/Qwen2.5-72B-Instruct checkpoint) are hosted in the associated repository and can be referenced or downloaded directly under that exact model name.  Because the statement says the repo itself “contains” the model, the weights are not merely described but are actually present where the code lives, implying immediate availability to anyone with access to the repo.  No additional paywalls, gated requests, or separate distribution portals are mentioned in the provided sentences, so the only documented requirement for access is knowledge of the Hugging Face model path shown above.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/Qwen2.5-72B-Instruct\""
+    }
+  ],
+  "1-2 (Code)": "Two separate sentences describe the code situation.  First, “The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`.”  This means that implementation support for Qwen 2.5—including model classes, configuration files, and inference utilities—has been merged upstream into the open-source `transformers` library rather than being limited to a private or proprietary repository.  Second, the team points readers to multiple public resources: “For more details, please refer to our [blog](https://qwenlm.github.io/blog/qwen2.5/), [GitHub](https://github.com/QwenLM/Qwen2.5), and [Documentation](https://qwen.readthedocs.io/en/latest/).”  These links indicate that a dedicated GitHub organization (“QwenLM/Qwen2.5”) holds additional code artifacts or examples, and that formal documentation is available.  The quotes do not explicitly separate pre-training, supervised fine-tuning, or RLHF scripts; they only confirm that the overall model code (at least for loading and inference) is open-sourced through `transformers` and further described in the affiliated GitHub repository and docs.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`."
+    },
+    {
+      "source": "[readme]",
+      "quote": "For more details, please refer to our [blog](https://qwenlm.github.io/blog/qwen2.5/), [GitHub](https://github.com/QwenLM/Qwen2.5), and [Documentation](https://qwen.readthedocs.io/en/latest/)."
+    }
+  ],
+  "1-3 (License)": "The distribution is governed by a custom “license_name: qwen,” formalized in the “Qwen LICENSE AGREEMENT” with a release date of “September 19, 2024.”  The grant is broad: “You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Materials.”  However, the license introduces a commercialization threshold: “If you are commercially using the Materials, and your product or service has more than 100 million monthly active users, you shall request a license from us. You cannot exercise your rights under this Agreement without our express authorization.”  A “LICENSE file present: LICENSE” line confirms that the detailed legal text ships with the repository so downstream users can inspect the full terms.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license_name: qwen"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Qwen LICENSE AGREEMENT Release Date: September 19, 2024"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Alibaba Cloud's intellectual property or other rights owned by us embodied in the Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Materials."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If you are commercially using the Materials, and your product or service has more than 100 million monthly active users, you shall request a license from us. You cannot exercise your rights under this Agreement without our express authorization."
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two bibliographic entries document the official write-ups.  The first is an in-house citation—“@misc{qwen2.5, title = {Qwen2.5: A Party of Foundation Models}, url = {https://qwenlm.github.io/blog/qwen2.5/}, author = {Qwen Team}, month = {September}, year = {2024} }”—which points to a September 2024 blog-style publication specifically named after Qwen 2.5.  The second reference gives a broader technical report: “@article{qwen2, title={Qwen2 Technical Report}, journal={arXiv preprint arXiv:2407.10671}, year={2024} }.”  Although the second citation is labeled “Qwen2” rather than “Qwen2.5,” its 2024 arXiv preprint shares the same author lineage and serves as a formal technical complement to the blog announcement.  Collectively, these quotes show that public write-ups exist both in blog form (detailing the 2.5 release) and as an arXiv technical report documenting the larger Qwen 2 family.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{qwen2.5,    title = {Qwen2.5: A Party of Foundation Models},    url = {https://qwenlm.github.io/blog/qwen2.5/},    author = {Qwen Team},    month = {September},    year = {2024} }"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{qwen2,      title={Qwen2 Technical Report},       journal={arXiv preprint arXiv:2407.10671},      year={2024} }"
+    }
+  ],
+  "1-5 (Architecture)": "The quotes describe the qwen/qwen2.5-72b-instruct model as “the instruction-tuned 72B Qwen2.5 model”.  They say it is a transformer architecture that incorporates RoPE positional encoding, SwiGLU activation, RMSNorm, and an Attention module that includes QKV bias.  Parameter counts given in the quotes state “Number of Parameters: 72.7 B”.  Depth is specified twice: once in prose (“Number of Layers: 80”) and again in the configuration snippet '\"num_hidden_layers\": 80,'.  Width-related hyper-parameters also appear in the config fragment: '\"hidden_size\": 8192,' and attention structure is clarified with '\"num_attention_heads\": 64,' together with a separate line that narrows the key/value sharing to '\"num_key_value_heads\": 8,'.  Collectively, the quotes establish a model with 80 transformer blocks, a hidden size of 8 192, 64 attention heads (8 of which are key-value heads when using grouped-query attention), and approximately 72.7 billion trainable parameters, built with RoPE positional encodings, SwiGLU feed-forward gating, RMSNorm layer normalisation, and QKV bias in the attention mechanism.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Architecture: transformers with RoPE, SwiGLU, RMSNorm, and Attention QKV bias"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Number of Parameters: 72.7B"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Number of Layers: 80"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 8192,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 80,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 64,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_key_value_heads\": 8,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information is shown in Python usage instructions that load 'Qwen/Qwen2.5-72B-Instruct' via AutoTokenizer.from_pretrained, signalling that the tokenizer is released and downloadable from the same Hugging Face repository.  The configuration excerpt supplies concrete token IDs: '\"bos_token_id\": 151643,' and '\"eos_token_id\": 151645,'.  Vocabulary size is explicitly listed as '\"vocab_size\": 152064'.  A file named 'tokenizer.json' is enumerated, confirming the presence of a standard Hugging Face tokenizer JSON artefact within the model card or repository.  Altogether, the tokenizer is directly downloadable, has a 152 064-entry vocabulary, begins sequences with token ID 151 643, ends with token ID 151 645, and is fully compatible with the Hugging Face AutoTokenizer interface.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/Qwen2.5-72B-Instruct\"\n...\ntokenizer = AutoTokenizer.from_pretrained(model_name)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 151643,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 151645,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 152064"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The software stack is tied to the Hugging Face ecosystem.  The quotes say, “The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`.”  They warn that running with versions earlier than 4.37.0 will raise an error: “With `transformers<4.37.0`, you will encounter the following error.”  Specific versions appear in configuration examples, including '\"transformers_version\": \"4.43.1\"' and '\"transformers_version\": \"4.37.0\"'.  In short, Qwen2.5-72B-Instruct should be trained or fine-tuned with a recent Transformers release (≥ 4.37.0, ideally 4.43.1 or later) to avoid compatibility issues.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`."
+    },
+    {
+      "source": "[readme]",
+      "quote": "With `transformers<4.37.0`, you will encounter the following error:"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.43.1\","
+    },
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.37.0\""
+    }
+  ],
+  "2-3 (API)": "The documentation for qwen/qwen2.5-72b-instruct explicitly includes an example that demonstrates programmatic access to the model. One sentence notes: “Here provides a code snippet with `apply_chat_template` to show you how to load the tokenizer and model and how to generate contents.” Immediately alongside, the code line `model_name = \"Qwen/Qwen2.5-72B-Instruct\"` is shown. From these two references we learn that (1) an illustrative snippet is supplied, (2) the helper utility `apply_chat_template` is employed for chat-style formatting, (3) the example walks the user through loading both tokenizer and model objects, and (4) generation can be triggered once those objects are instantiated. The explicit assignment of `model_name` to the exact string “Qwen/Qwen2.5-72B-Instruct” confirms that the snippet targets the 72-billion-parameter instruction-tuned Qwen2.5 checkpoint, demonstrating a concrete, ready-to-run API usage pattern.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Here provides a code snippet with `apply_chat_template` to show you how to load the tokenizer and model and how to generate contents."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/Qwen2.5-72B-Instruct\""
+    }
+  ],
+  "3-1 (Pre-training)": "Pre-training information is summarized in a single but informative statement: “**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features: – Type: Causal Language Models – Training Stage: Pretraining & Post-training.” These sentences establish that (1) the 72-B Qwen2.5 weights were originally obtained through a causal language-model pre-training regimen, and (2) the model underwent both a large-scale pre-training phase and a subsequent post-training phase before being released. Although the excerpt does not list individual hyper-parameters or data specifics, it clearly places the model in the causal-LM family and confirms completion of the core pre-training workflow.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Type: Causal Language Models\n- Training Stage: Pretraining & Post-training"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Two separate remarks outline the fine-tuning landscape for Qwen2.5. First, we are told: “For Qwen2.5, we release a number of base language models and instruction-tuned language models ranging from 0.5 to 72 billion parameters.” Second, it is reiterated that “**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features.” Collectively, these lines convey that (a) an instruction-tuning step was applied after base model training, (b) multiple parameter scales—spanning 0.5 B through 72 B—were produced via that process, and (c) the repository at hand specifically hosts the fully instruction-tuned 72-B checkpoint. Thus, the quotes confirm the existence of a systematic fine-tuning pipeline that generated and publicly released instruction-ready models across the entire Qwen2.5 size spectrum, culminating in the flagship 72-B variant.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For Qwen2.5, we release a number of base language models and instruction-tuned language models ranging from 0.5 to 72 billion parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}

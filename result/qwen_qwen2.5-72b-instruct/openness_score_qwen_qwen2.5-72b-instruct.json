@@ -1,0 +1,148 @@
+{
+  "model": "Qwen/Qwen2.5-72B-Instruct",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The custom “Qwen” licence grants use, modification, redistribution and commercial use; the only restriction targets products with > 100 M MAU, which the rubric treats as still ‘Open’.  Licence text is shipped in the repo."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv technical report titled “Qwen2.5 Technical Report” (2025) and a Qwen2.5 blog/tech report are quoted, both specifically about the target model series."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted lines reveal the type or quantity of training hardware."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Quotes only mention using recent `transformers` versions; no details of the TRAINING software stack beyond the base framework are provided."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic/irrelevant mentions; no qualifying API docs.  Web search found API docs: https://qwen.readthedocs.io/en/stable/deployment/vllm.html"
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Size (18 T tokens) and high-level composition (multilingual, math, code, synthetic) are given, but concrete source lists or proportions are absent."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States ‘millions of high-quality’ SFT samples, self-evolution, human ranking, math/coder subsets, but no complete datasets or dumps published."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions demonstration/preference data sourcing strategy and benchmarks used for reward-model evaluation, without releasing the actual RLHF datasets."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Provides explicit filtering pipeline: model-based quality scoring, domain balancing, and a concrete LCS dedup rule (≥13 tokens & ≥60 % overlap), plus domain-specific filters—satisfies ‘Open’ rubric."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1,
+      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The custom “Qwen” licence grants use, modification, redistribution and commercial use; the only restriction targets products with > 100 M MAU, which the rubric treats as still ‘Open’.  Licence text is shipped in the repo."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An arXiv technical report titled “Qwen2.5 Technical Report” (2025) and a Qwen2.5 blog/tech report are quoted, both specifically about the target model series."
+    },
+    "1-5 Architecture": {
+      "score": 1,
+      "reason": "Architecture evidence present in extracted quotes."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Tokenizer files downloadable in repository."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quoted lines reveal the type or quantity of training hardware."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Quotes only mention using recent `transformers` versions; no details of the TRAINING software stack beyond the base framework are provided."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic/irrelevant mentions; no qualifying API docs.  Web search found API docs: https://qwen.readthedocs.io/en/stable/deployment/vllm.html"
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Size (18 T tokens) and high-level composition (multilingual, math, code, synthetic) are given, but concrete source lists or proportions are absent."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "States ‘millions of high-quality’ SFT samples, self-evolution, human ranking, math/coder subsets, but no complete datasets or dumps published."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Mentions demonstration/preference data sourcing strategy and benchmarks used for reward-model evaluation, without releasing the actual RLHF datasets."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Provides explicit filtering pipeline: model-based quality scoring, domain balancing, and a concrete LCS dedup rule (≥13 tokens & ≥60 % overlap), plus domain-specific filters—satisfies ‘Open’ rubric."
+    }
+  },
+  "final_score_10pt": 6.25,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 10.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

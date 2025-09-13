@@ -1,0 +1,174 @@
+{
+  "2-3 (API)": "The quotes explicitly state that Qwen2.5-72B belongs to the open-source “dense” branch of the Qwen2.5 series, whose weights are released on both Hugging Face and ModelScope, with supplementary example code hosted on GitHub. Within the same paragraph the authors note that, alongside these open-source checkpoints (0.5 B → 72 B), the team also exposes separate MoE variants for API use: Qwen2.5-Turbo (surfaced in the API as the model-name “qwen-turbo-2024-11-01”) and a forthcoming Qwen2.5-Plus (placeholder “qwen-plus-2024-xx-xx”). Thus, an external caller can either download qwen2.5-72B directly, or invoke the hosted Turbo / Plus endpoints through the official API. No rate limits, pricing, or endpoint URLs are given in these quotes, but the public availability of downloadable checkpoints and documented API identifiers is explicitly confirmed.",
+  "3-1 (Pre-training)": "Qwen2.5-72B is part of the Qwen2.5 family that advances upon Qwen2 in three major ways. (1) Data scale and quality: the high-quality pre-training corpus is expanded from ≈7 T tokens (Qwen2) to 18 T tokens for Qwen2.5, and additional filtering/refinement improves overall quality. (2) Two-phase curriculum: training starts with a 4,096-token context window and then enters an extension phase where the maximum context length is raised to 32,768 tokens; a large volume of long-form data is injected during the latter phase. (3) Long-context adaptation tricks: the RoPE base frequency is changed from 10,000 to 1,000,000 to stabilise >32 k-token inference. The model family continues to use next-token prediction on a Transformer backbone and still mixes in high-quality multi-task instruction data during pre-training. Scaling-law–based hyper-parameter schedules (after Hoffmann/Kaplan) are derived on this 18 T-token dataset to choose learning-rate, batch-size, and related knobs. All dense checkpoints except the smallest 0.5 B variant—therefore including the 72 B model—are trained on this full regimen.",
+  "3-2 (Fine-tuning)": "The instruction-tuned variant qwen2.5-72B-instruct is produced in a dedicated post-training stage. Supervised fine-tuning (SFT) leverages a curated corpus of >1 M high-quality single- and multi-turn examples that cover coding, maths, reasoning, multilingual tasks, etc. The 72 B model is run for two SFT epochs with a sequence length of 32,768 tokens, enabling long-form generation; the resulting chat model can emit responses up to 8,192 tokens—several times longer than typical 2 k-token chat limits. Extra coding skill is injected via the specialised Qwen2.5-Coder instruction-tuning subset. Overall, the post-training pipeline converts the base language model into an “aligned” chat/agent model by combining massive SFT data, long-sequence training, and domain-specific augmentation.",
+  "3-3 (Reinforcement Learning)": "After SFT, Qwen2.5-72B-instruct undergoes a two-stage reinforcement-learning refinement. Stage 1 (Offline RL) and Stage 2 (Online RL) form a sequential curriculum. The process is driven by a dedicated reward model, Qwen2.5-RM-72B, which tops the PPE and Human-Preference-Chinese benchmarks and ranks second on RMB, performing on par with larger systems like Nemotron-4-340B-Reward. Direct Preference Optimization (DPO) is explicitly cited as part of the post-training stack for all Qwen models, meaning that the 72 B instruct checkpoint is aligned to human preferences via DPO in addition to the multi-stage RL. Consequently, the model benefits from supervised learning plus offline RL fine-grained reward shaping, followed by online RL to polish real-time behaviour, resulting in a chat system tuned to human feedback.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To foster community innovation and accessibility, we have made the Qwen2 model weights openly available on Hugging Face1 and ModelScope2, and the supplementary materials including example code on GitHub3."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Qwen2.5-Turbo is identified as qwen-turbo-2024-11-01 and Qwen2.5-Plus is identified as qwen-plus-2024-xx-xx (to be released) in the API."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "1Qwen2.5-Turbo is identified as qwen-turbo-2024-11-01 and Qwen2.5-Plus is identified as qwen-plus-2024-xx-xx (to be released) in the API."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction."
+    },
+    {
+      "source": "[sections/3 PRE-TRAINING]",
+      "quote": "In the pre-training of Qwen2, our efforts were focused on refining the dataset and investigating methods to handle extended context lengths effectively."
+    },
+    {
+      "source": "[sections/3 PRE-TRAINING]",
+      "quote": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens."
+    },
+    {
+      "source": "[sections/3 PRE-TRAINING]",
+      "quote": "To enhance the long-context capability of Qwen2, we augmented the context length from 4,096 tokens to 32,768 tokens during the concluding phase of pre-training. This expansion was complemented by the introduction of a significantly increased volume of high-quality, lengthy data. In conjunction with these enhancements, we modified the base frequency of RoPE from 10,000 to 1,000,000 to optimize performance in long-context scenarios (Xiong et al., 2023)."
+    },
+    {
+      "source": "[sections/3 PRE-TRAINING]",
+      "quote": "Similar to previous Qwen models, high-quality multi-task instruction data is integrated into the Qwen2 pre-training process to enhance in-context learning and instruction-following abilities."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Compared to previous iterations, Qwen 2.5 has been significantly improved during both the pre-training and post-training stages. In terms of pre-training, we have scaled the high-quality pre-training datasets from the previous 7 trillion tokens to 18 trillion tokens."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "Qwen2.5 demonstrates significant enhancements in pre-training data quality compared to its predecessor Qwen2."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "For optimal training efficiency, Qwen2.5 employs a two-phase pre-training approach: an initial phase with a 4,096-token context length, followed by an extension phase for longer sequences."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "We develop scaling laws for hyper-parameter based on the pre-training data of Qwen2.5 (Hoffmann et al., 2022; Kaplan et al., 2020)."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning."
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "In this work, we introduce the newest addition to the Qwen family of large language models and large multimodal modles: Qwen2. All models were pre-trained on a high-quality, large-scale dataset comprising over 7 trillion tokens, covering a wide range of domains and languages."
+    },
+    {
+      "source": "[sections/PRE-TRAINING]",
+      "quote": "In the pre-training of Qwen2, our efforts were focused on refining the dataset and investigating methods to handle extended context lengths effectively."
+    },
+    {
+      "source": "[sections/PRE-TRAINING]",
+      "quote": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens."
+    },
+    {
+      "source": "[sections/PRE-TRAINING]",
+      "quote": "Based on these enhancements, the pre-training data was expanded from 3 trillion tokens in Qwen1.5 (Qwen Team, 2024a) to 7 trillion tokens."
+    },
+    {
+      "source": "[sections/PRE-TRAINING]",
+      "quote": "To enhance the long-context capability of Qwen2, we augmented the context length from 4,096 tokens to 32,768 tokens during the concluding phase of pre-training."
+    },
+    {
+      "source": "[sections/PRE-TRAINING]",
+      "quote": "Similar to previous Qwen models, high-quality multi-task instruction data is integrated into the Qwen2 pre-training process to enhance in-context learning and instruction-following abilities."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Qwen2.5 demonstrates significant enhancements in pre-training data quality compared to its predecessor Qwen2. Building on these techniques, we have developed a larger and higher-quality pre-training dataset, expanding from the 7 trillion tokens used in Qwen2 (Yang et al., 2024a) to 18 trillion tokens."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "We develop scaling laws for hyper-parameter based on the pre-training data of Qwen2.5 (Hoffmann et al., 2022; Kaplan et al., 2020)."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "For optimal training efficiency, Qwen2.5 employs a two-phase pre-training approach: an initial phase with a 4,096-token context length, followed by an extension phase for longer sequences."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Qwen2 is a series of LLMs, grounded in the Transformer architecture (Vaswani et al., 2017), trained using next-token prediction. The model series encompasses foundational, i.e., base language models, pre-trained but unaligned to human preferences, and instruction-tuned models, fine-tuned with single-turn and multi-turn instruction-following datasets suitable for chat and agent purposes."
+    },
+    {
+      "source": "[sections/Post-training]",
+      "quote": "Qwen 2.5 introduces two significant advancements in its post-training design compared to Qwen 2: (1) Expanded Supervised Fine-tuning Data Coverage: The supervised fine-tuning process leverages a massive dataset comprising millions of high-quality examples."
+    },
+    {
+      "source": "[sections/Post-training]",
+      "quote": "In this section, we detail the key enhancements made during the SFT phase of Qwen2.5, focusing on several critical areas: Ultimately, we construct a dataset of over 1 million SFT examples. The model is fine-tuned for two epochs with a sequence length of 32,768 tokens."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning."
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "In this work, we introduce the newest addition to the Qwen family of large language models and large multimodal modles: Qwen2. Regarding post-training, all models underwent supervised fine-tuning and direct preference optimization (DPO, Rafailov et al., 2023), aligning them with human preferences through learning from human feedback."
+    },
+    {
+      "source": "[sections/POST-TRAINING]",
+      "quote": "Following extensive large-scale pre-training, we engage in a post-training phase for Qwen2. This process is pivotal in enhancing its proficiency across a broad spectrum of domains, including coding, mathematics, logical reasoning, instruction following, and multilingual comprehension."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Qwen 2.5 introduces two significant advancements in its post-training design compared to Qwen 2: (1) Expanded Supervised Fine-tuning Data Coverage: The supervised fine-tuning process leverages a massive dataset comprising millions of high-quality examples."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Long-sequence Generation: Qwen2.5 is capable of generating high-quality content with an output context length of up to 8,192 tokens, a significant advancement over the typical post-training response length, which often remains under 2,000 tokens."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "To enhance coding capabilities, we incorporate the instruction tuning data of Qwen2.5-Coder (Hui et al., 2024)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[sections/Post-training]",
+      "quote": "The reinforcement learning (RL) process in Qwen 2.5 is divided into two distinct stages: Offline RL and Online RL."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning."
+    },
+    {
+      "source": "[sections/Reward Model]",
+      "quote": "The reward model serves as the cornerstone for guiding RL processes, and thus we conduct a separate evaluation of the reward model used in the Qwen2.5 series."
+    },
+    {
+      "source": "[sections/Reward Model]",
+      "quote": "The Qwen2.5-RM-72B, leads in both the PPE and Human-Preference-Chinese evaluations, ranking second only to Athene-RM-70B on the RMB and achieving a performance level comparable to Nemotron-4-340B-Reward on the Reward Bench, albeit slightly behind Llama-3.1-Nemotron-70B-Reward."
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "In this work, we introduce the newest addition to the Qwen family of large language models and large multimodal modles: Qwen2. Regarding post-training, all models underwent supervised fine-tuning and direct preference optimization (DPO, Rafailov et al., 2023), aligning them with human preferences through learning from human feedback."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "(2) Two-stage Reinforcement Learning: The reinforcement learning (RL) process in Qwen 2.5 is divided into two distinct stages: Offline RL and Online RL."
+    },
+    {
+      "source": "[sections/5.2.3 Reward Model]",
+      "quote": "The reward model serves as the cornerstone for guiding RL processes, and thus we conduct a separate evaluation of the reward model used in the Qwen2.5 series."
+    }
+  ]
+}

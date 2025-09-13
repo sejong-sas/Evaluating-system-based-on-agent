@@ -1,0 +1,194 @@
+{
+  "4-1 (Pre-training Data)": "The pre-training pipeline for qwen2.5-72B-instruct is built on successive expansions of the core Qwen corpora.  Earlier Qwen1.5 models used 3 T tokens, Qwen2 models moved to more than 7 T tokens, and the new Qwen 2.5 generation scales this to 18 T tokens.  Across every stage the data are described as “high-quality, large-scale” and “multilingual”, with explicit emphasis on raising the proportion and quality of code and mathematics material.  All dense Qwen2 models—except the 0.5 B variant—were trained on the 7 T token mix; Qwen2-0.5 B was the only model trained on an even larger 12 T token set.  For qwen2.5-72B-instruct the 18 T-token corpus is further enriched by incorporating specialized slices from Qwen2.5-Math and Qwen2.5-Coder.  Synthetic augmentation is also mentioned: mathematics, code and knowledge examples are generated with Qwen2-72B-Instruct and Qwen2-Math-72B-Instruct before being inserted back into the pool.  Collectively, these steps produce what the team calls “a new, large-scale, high-quality multilingual dataset” whose scale and domain balance are repeatedly highlighted as the key driver of qwen2.5-72B-instruct’s improved capabilities.",
+  "4-2 (Fine-tuning Data)": "For post-training, qwen2.5-72B-instruct relies on a multi-part supervised fine-tuning (SFT) stack.  All quoted material stresses that every Qwen2 and Qwen 2.5 model is first aligned with human preferences through SFT plus Direct Preference Optimization (DPO).  Instruction data are expanded using a “self-evolution” procedure: existing instructions are fed back through Qwen models, which automatically add new constraints or requirements, thereby boosting difficulty and diversity.  Data quality is reinforced by a human-in-the-loop stage in which multiple answers—generated with Qwen models of different sizes and decoding setups—are ranked by annotators to create both demonstration data and preference pairs.  Qwen 2.5 specifically “introduces two significant advancements”: (1) the SFT coverage now spans “millions of high-quality examples”, and (2) domain-focused additions are folded in.  Those domain additions include chain-of-thought corpora from Qwen2.5-Math (sourced from public math sets, K-12 collections and synthetic problems) and specialized instruction-tuning data from Qwen2.5-Coder to sharpen coding skills.  Altogether, the fine-tuning mixture is portrayed as broad (many domains), deep (millions of samples) and meticulously preference-ranked to keep qwen2.5-72B-instruct helpful, honest and harmless.",
+  "4-3 (Reinforcement Learning Data)": "After SFT, reinforcement learning from human feedback is applied.  The quoted material states that the team “investigate methods to acquire high-quality demonstration and preference data for … RLHF, aiming to minimize the need for human labeling while maximizing quality”.  For qwen2.5-72B-instruct the RL phase is explicitly “two-stage”: an Offline RL pass followed by an Online RL pass.  Training focuses “solely on short instructions”, mirroring the strategy used for the rest of the Qwen2.5 family.  Reward modeling is critical: the reward model used in the Qwen2.5 series is benchmarked on Reward Bench, RMB, PPE and an internal Chinese preference set, establishing an empirical signal for policy optimization.  During training, responses are continuously sampled from checkpoints that have undergone SFT, DPO and earlier RL rounds; these responses are scored by the reward model to produce preference data for subsequent updates.  These mechanisms collectively supply the demonstration, preference and reward feedback that drive qwen2.5-72B-instruct toward better alignment with human values across coding, math, logical reasoning, instruction following and multilingual tasks.",
+  "4-4 (Data Filtering)": "Data quality control is treated as a dedicated, multi-layer pipeline.  First, the developers describe “Better data filtering” in which Qwen2-Instruct models act as automatic quality filters, performing “comprehensive, multi-dimensional analysis” to score every training sample.  The same models are also used to “classify and balance content across different domains”, ensuring a controlled distribution in the final pre-training mix.  Concrete de-duplication rules are given: a candidate training sequence sₜ is dropped if there exists a test sequence sₑ such that |LCS(sₜ, sₑ)| ≥ 13 tokens AND the common subsequence covers at least 60 % of the shorter sequence (|LCS| ≥ 0.6 × min(|sₜ|,|sₑ|)).  Beyond generic filtering, domain-specific stages exist: synthesized math data pass through “rigorous filtering” by a proprietary reward model and the specialized Qwen2-Math-RM-72B; long-response datasets are built via back-translation and then pruned using Qwen2 scoring.  Overall, the workflow combines heuristic rules, explicit numeric thresholds, back-translation checks and multiple Qwen-based classifiers to strip low-quality, duplicated or off-distribution content before any text reaches the model, reinforcing the final performance of qwen2.5-72B-instruct.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All models were pre-trained on a high-quality, large-scale dataset comprising over 7 trillion tokens, covering a wide range of domains and languages. Compared to previous editions of Qwen, Qwen2 includes a broader spectrum of linguistic data, enhancing the quantity and quality of code and mathematics content."
+    },
+    {
+      "source": "[sections/Pre-training Data]",
+      "quote": "The pre-training of the Qwen2 models involves the development of a new, large-scale, high-quality multilingual dataset. This dataset represents an improvement over the corpora used in previous Qwen and Qwen1.5 models (Bai et al., 2023a; Qwen Team, 2024a), enhancing the scale, quality, and diversity of the pre-training data in several key areas:"
+    },
+    {
+      "source": "[sections/Pre-training Data]",
+      "quote": "Based on these enhancements, the pre-training data was expanded from 3 trillion tokens in Qwen1.5 (Qwen Team, 2024a) to 7 trillion tokens."
+    },
+    {
+      "source": "[sections/Pre-training Data]",
+      "quote": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens. Qwen2-0.5B were pre-trained using the 12 trillion token dataset."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Compared to previous iterations, Qwen 2.5 has been significantly improved during both the pre-training and post-training stages. In terms of pre-training, we have scaled the high-quality pre-training datasets from the previous 7 trillion tokens to 18 trillion tokens."
+    },
+    {
+      "source": "[sections/3.1 Pre-training Data]",
+      "quote": "During the pre-training phase of Qwen2.5, we incorporate training data from Qwen2.5-Math (Yang et al., 2024b) and Qwen2.5-Coder (Hui et al., 2024)."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Compared to previous editions of Qwen, Qwen2 includes a broader spectrum of linguistic data, enhancing the quantity and quality of code and mathematics content."
+    },
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "The pre-training of the Qwen2 models involves the development of a new, large-scale, high-quality multilingual dataset."
+    },
+    {
+      "source": "[sections/3.1 PRE-TRAINING DATA]",
+      "quote": "The pre-training of the Qwen2 models involves the development of a new, large-scale, high-quality multilingual dataset."
+    },
+    {
+      "source": "[sections/3.1 PRE-TRAINING DATA]",
+      "quote": "Based on these enhancements, the pre-training data was expanded from 3 trillion tokens in Qwen1.5 (Qwen Team, 2024a) to 7 trillion tokens."
+    },
+    {
+      "source": "[sections/3.1 PRE-TRAINING DATA]",
+      "quote": "All Qwen2 dense models, excluding Qwen2-0.5B, were pre-trained on this large-scale dataset of over 7 trillion tokens."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Qwen2.5 demonstrates significant enhancements in pre-training data quality compared to its predecessor Qwen2."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Qwen2.5, which leverages 18 trillion tokens for pre-training, has demonstrated the most advanced capabilities within the Qwen series, especially in terms of domain expertise, underscoring the importance of scale together with mixture in enhancing the model’s capabilities."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Building on these techniques, we have developed a larger and higher-quality pre-training dataset, expanding from the 7 trillion tokens used in Qwen2 (Yang et al., 2024a) to 18 trillion tokens."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "During the pre-training phase of Qwen2.5, we incorporate training data from Qwen2.5-Math (Yang et al., 2024b) and Qwen2.5-Coder (Hui et al., 2024)."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "To generate high-quality synthetic data, particularly in mathematics, code, and knowledge domains, we leverage both Qwen2-72B-Instruct (Yang et al., 2024a) and Qwen2-Math-72B-Instruct (Qwen Team, 2024c)."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to previous editions of Qwen, Qwen2 includes a broader spectrum of linguistic data, enhancing the quantity and quality of code and mathematics content. Regarding post-training, all models underwent supervised fine-tuning and direct preference optimization (DPO, Rafailov et al., 2023), aligning them with human preferences through learning from human feedback."
+    },
+    {
+      "source": "[sections/Collaborative Data Annotation]",
+      "quote": "Instruction Evolution To enrich the instruction dataset, a self-evolution strategy (Zhao et al., 2024) is employed, prompting the Qwen models to add constraints or requirements to existing instructions, thereby increasing their complexity and ensuring a diverse range of difficulty levels within the dataset."
+    },
+    {
+      "source": "[sections/Collaborative Data Annotation]",
+      "quote": "Multiple responses to an instruction are obtained using diverse generation strategies and Qwen models of different scales. Annotators rank these responses based on their preferences, ensuring the best response meets established criteria, yielding both demonstration and preference data."
+    },
+    {
+      "source": "[sections/4 Post-training]",
+      "quote": "Qwen 2.5 introduces two significant advancements in its post-training design compared to Qwen 2: (1) Expanded Supervised Fine-tuning Data Coverage: The supervised fine-tuning process leverages a massive dataset comprising millions of high-quality examples."
+    },
+    {
+      "source": "[sections/4.1 Supervised Fine-tuning]",
+      "quote": "We introduce the chain-of-thought data of Qwen2.5-Math (Yang et al., 2024b), which encompasses a diverse range of query sources, including public datasets, K-12 problem collections, and synthetic problems."
+    },
+    {
+      "source": "[sections/4.1 Supervised Fine-tuning]",
+      "quote": "To enhance coding capabilities, we incorporate the instruction tuning data of Qwen2.5-Coder (Hui et al., 2024)."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Qwen2.5 represents a significant advancement in large language models (LLMs), with enhanced pre-training on 18 trillion tokens and sophisticated post-training techniques, including supervised fine-tuning and multi-stage reinforcement learning."
+    },
+    {
+      "source": "[sections/4.1.1 COLLABORATIVE DATA ANNOTATION]",
+      "quote": "To enrich the instruction dataset, a self-evolution strategy (Zhao et al., 2024) is employed, prompting the Qwen models to add constraints or requirements to existing instructions, thereby increasing their complexity and ensuring a diverse range of difficulty levels within the dataset."
+    },
+    {
+      "source": "[sections/4.1.1 COLLABORATIVE DATA ANNOTATION]",
+      "quote": "Human Annotation Multiple responses to an instruction are obtained using diverse generation strategies and Qwen models of different scales. Annotators rank these responses based on their preferences, ensuring the best response meets established criteria, yielding both demonstration and preference data."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Qwen 2.5 introduces two significant advancements in its post-training design compared to Qwen 2: (1) Expanded Supervised Fine-tuning Data Coverage: The supervised fine-tuning process leverages a massive dataset comprising millions of high-quality examples."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "We introduce the chain-of-thought data of Qwen2.5-Math (Yang et al., 2024b), which encompasses a diverse range of query sources, including public datasets, K-12 problem collections, and synthetic problems."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "To enhance coding capabilities, we incorporate the instruction tuning data of Qwen2.5-Coder (Hui et al., 2024)."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to previous editions of Qwen, Qwen2 includes a broader spectrum of linguistic data, enhancing the quantity and quality of code and mathematics content. Regarding post-training, all models underwent supervised fine-tuning and direct preference optimization (DPO, Rafailov et al., 2023), aligning them with human preferences through learning from human feedback."
+    },
+    {
+      "source": "[sections/Post-Training]",
+      "quote": "Following extensive large-scale pre-training, we engage in a post-training phase for Qwen2. Specifically, we investigate methods to acquire high-quality demonstration and preference data for Supervised Fine-Tuning (SFT) and Reinforcement Learning from Human Feedback (RLHF), aiming to minimize the need for human labeling while maximizing the quality and reliability of the data."
+    },
+    {
+      "source": "[sections/4 Post-training]",
+      "quote": "Two-stage Reinforcement Learning: The reinforcement learning (RL) process in Qwen 2.5 is divided into two distinct stages: Offline RL and Online RL."
+    },
+    {
+      "source": "[sections/4.4 Long Context Fine-tuning]",
+      "quote": "During the RL stage, we use a training strategy similar to that used for the other Qwen2.5 models, focusing solely on short instructions."
+    },
+    {
+      "source": "[sections/5.2.3 Reward Model]",
+      "quote": "The reward model serves as the cornerstone for guiding RL processes, and thus we conduct a separate evaluation of the reward model used in the Qwen2.5 series. Our assessment benchmarks encompass Reward Bench (Lambert et al., 2024), RMB (Zhou et al., 2024), PPE (Frick et al., 2024b), and an internally collected out-of-domain Chinese human preference benchmark (Human-Preference-Chinese) to provide a comprehensive analysis."
+    },
+    {
+      "source": "[sections/4 POST-TRAINING]",
+      "quote": "Following extensive large-scale pre-training, we engage in a post-training phase for Qwen2. This process is pivotal in enhancing its proficiency across a broad spectrum of domains, including coding, mathematics, logical reasoning, instruction following, and multilingual comprehension. Moreover, it ensures that the generation from the models is in harmony with human values, making it helpful, honest, and harmless. Specifically, we investigate methods to acquire high-quality demonstration and preference data for Supervised Fine-Tuning (SFT) and Reinforcement Learning from Human Feedback (RLHF), aiming to minimize the need for human labeling while maximizing the quality and reliability of the data."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "The reinforcement learning (RL) process in Qwen 2.5 is divided into two distinct stages: Offline RL and Online RL."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Responses are generated from checkpoints of the Qwen models, which have been fine-tuned using different methods—SFT, DPO, and RL—at various stages of training."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Pre-training Data]",
+      "quote": "Quality Enhancement The filtering algorithm has been refined with additional heuristic and model-based methods, including the use of the Qwen models to filter out low-quality data."
+    },
+    {
+      "source": "[sections/3.1 Pre-training Data]",
+      "quote": "Better data filtering. High-quality pre-training data is crucial for model performance, making data quality assessment and filtering a critical component of our pipeline. We leverage Qwen2-Instruct models as data quality filters that perform comprehensive, multi-dimensional analysis to evaluate and score training samples."
+    },
+    {
+      "source": "[sections/3.1 Pre-training Data]",
+      "quote": "To optimize the pre-training data distribution, we employ Qwen2-Instruct models to classify and balance content across different domains."
+    },
+    {
+      "source": "[sections/5 Evaluation]",
+      "quote": "Following the criteria used in Qwen2, a training sequence sₜ is removed from the training data if there exists a test sequence sₑ such that the length of the longest common subsequence (LCS) between tokenized sₜ and sₑ satisfies both |LCS(sₜ, sₑ)| ≥ 13 and |LCS(sₜ, sₑ)| ≥ 0.6 × min(|sₜ|, |sₑ|)."
+    },
+    {
+      "source": "[sections/3.1 PRE-TRAINING DATA]",
+      "quote": "Quality Enhancement The filtering algorithm has been refined with additional heuristic and model-based methods, including the use of the Qwen models to filter out low-quality data."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "We leverage Qwen2-Instruct models as data quality filters that perform comprehensive, multi-dimensional analysis to evaluate and score training samples."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "The quality of this synthesized data is further enhanced through rigorous filtering using our proprietary general reward model and the specialized Qwen2-Math-RM-72B (Qwen Team, 2024c) model."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "we develop long-response datasets (Quan et al., 2024). We employ back-translation techniques to generate queries for long-text data from pre-training corpora, impose output length constraints, and use Qwen2 to filter out low-quality paired data."
+    }
+  ]
+}

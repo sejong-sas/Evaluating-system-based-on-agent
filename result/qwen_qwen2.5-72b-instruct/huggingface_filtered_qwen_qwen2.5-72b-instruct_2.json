@@ -1,0 +1,77 @@
+{
+  "1-5 (Architecture)": "The quotes describe the qwen/qwen2.5-72b-instruct model as “the instruction-tuned 72B Qwen2.5 model”.  They say it is a transformer architecture that incorporates RoPE positional encoding, SwiGLU activation, RMSNorm, and an Attention module that includes QKV bias.  Parameter counts given in the quotes state “Number of Parameters: 72.7 B”.  Depth is specified twice: once in prose (“Number of Layers: 80”) and again in the configuration snippet '\"num_hidden_layers\": 80,'.  Width-related hyper-parameters also appear in the config fragment: '\"hidden_size\": 8192,' and attention structure is clarified with '\"num_attention_heads\": 64,' together with a separate line that narrows the key/value sharing to '\"num_key_value_heads\": 8,'.  Collectively, the quotes establish a model with 80 transformer blocks, a hidden size of 8 192, 64 attention heads (8 of which are key-value heads when using grouped-query attention), and approximately 72.7 billion trainable parameters, built with RoPE positional encodings, SwiGLU feed-forward gating, RMSNorm layer normalisation, and QKV bias in the attention mechanism.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Architecture: transformers with RoPE, SwiGLU, RMSNorm, and Attention QKV bias"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Number of Parameters: 72.7B"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:\n- Number of Layers: 80"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 8192,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 80,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 64,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_key_value_heads\": 8,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer information is shown in Python usage instructions that load 'Qwen/Qwen2.5-72B-Instruct' via AutoTokenizer.from_pretrained, signalling that the tokenizer is released and downloadable from the same Hugging Face repository.  The configuration excerpt supplies concrete token IDs: '\"bos_token_id\": 151643,' and '\"eos_token_id\": 151645,'.  Vocabulary size is explicitly listed as '\"vocab_size\": 152064'.  A file named 'tokenizer.json' is enumerated, confirming the presence of a standard Hugging Face tokenizer JSON artefact within the model card or repository.  Altogether, the tokenizer is directly downloadable, has a 152 064-entry vocabulary, begins sequences with token ID 151 643, ends with token ID 151 645, and is fully compatible with the Hugging Face AutoTokenizer interface.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/Qwen2.5-72B-Instruct\"\n...\ntokenizer = AutoTokenizer.from_pretrained(model_name)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 151643,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 151645,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 152064"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The software stack is tied to the Hugging Face ecosystem.  The quotes say, “The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`.”  They warn that running with versions earlier than 4.37.0 will raise an error: “With `transformers<4.37.0`, you will encounter the following error.”  Specific versions appear in configuration examples, including '\"transformers_version\": \"4.43.1\"' and '\"transformers_version\": \"4.37.0\"'.  In short, Qwen2.5-72B-Instruct should be trained or fine-tuned with a recent Transformers release (≥ 4.37.0, ideally 4.43.1 or later) to avoid compatibility issues.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`."
+    },
+    {
+      "source": "[readme]",
+      "quote": "With `transformers<4.37.0`, you will encounter the following error:"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.43.1\","
+    },
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.37.0\""
+    }
+  ]
+}

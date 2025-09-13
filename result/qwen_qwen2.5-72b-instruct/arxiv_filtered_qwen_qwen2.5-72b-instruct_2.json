@@ -1,0 +1,112 @@
+{
+  "1-5 (Architecture)": "The public material that explicitly mentions Qwen, Qwen2 or Qwen2.5 paints the following picture of the architecture that also applies to the 72-billion-parameter instruction-tuned checkpoint (qwen/qwen2.5-72b-instruct).\n• Family and size.  Qwen2.5 is released as a set of open-weight dense models ranging from 0.5 B to 72 B parameters; the 72 B variant is the largest open model.  A table entry that reads “72B 80 64 / 8 No 128K / 8K” indicates that the 72 B model is built from roughly 80 stacked blocks (Transformer layers).  Because the series keeps a single-token-per-step dense design, all 72 B parameters are simultaneously active during inference.\n• Core backbone.  As with earlier Qwen generations, Qwen2.5 maintains a decoder-only, Transformer-based architecture that follows Vaswani et al. (2017) and the GPT lineage (Radford et al., 2018).  Every layer contains causal self-attention followed by a feed-forward network (FFN).\n• Attention implementation.  Several optimisations are added on top of the vanilla Transformer:  – Grouped Query Attention (GQA) is adopted to lower the size of the per-token key–value cache and improve memory efficiency; – Dual Chunk Attention (DCA) segments long sequences into manageable chunks so that the same model can be trained and served with greatly extended context windows; – The project also introduces a sparse attention kernel based on Minference to accelerate inference when very long contexts are supplied.  In addition, conventional Rotary Position Embeddings (RoPE) are kept, and the attention projections retain an explicit QKV bias.\n• Feed-forward block and normalisation.  The FFN uses a SwiGLU activation, and the entire stack is pre-normalised with RMSNorm, a lighter alternative to LayerNorm that keeps training stable at scale.\n• Context length and extrapolation.  Long-context ability is a major engineering focus.  Training context was gradually increased from 4 096 tokens to 32 768 tokens in the final stage of pre-training, and the combination of DCA and YARN length-extrapolation techniques lets the released checkpoints cope with contexts as large as 128 K tokens while retaining an 8 K sliding-window of fully attended content.\n• Memory footprint.  Owing to GQA and other refinements, Qwen2.* models—including the 72 B checkpoint—significantly reduce key–value (KV) cache size per token versus the older Qwen1.5 generation.\nCollectively, these design choices give qwen/qwen2.5-72b-instruct a modern, highly optimised Transformer layout that emphasises efficient long-context processing without sacrificing standard autoregressive performance.",
+  "1-6 (Tokenizer)": "All publicly available sentences that mention Qwen make it clear that the entire Qwen2.5 range—including the 72 B instruction model—shares exactly one tokenizer.  The tokenizer is inherited from the original Qwen release and is based on byte-level Byte-Pair Encoding (BBPE).  It ships with a fixed vocabulary of 151 643 regular tokens.  Earlier generations exposed only three special/control tokens, but Qwen2.5 enlarges this set to 22 control tokens so that new functionality (for tools or future capabilities) can be uniformly expressed across every Qwen2.5 model.  Because every size from 0.5 B up to 72 B uses the same vocabulary, downstream users can swap between checkpoints without needing to retokenise data, which reduces incompatibility risk and simplifies deployment.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "The architecture of the Qwen2 dense models comprises multiple Transformer layers, each equipped with causal attention mechanisms and feed-forward neural networks (FFNs)."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "To expand the context window of Qwen2, we implement Dual Chunk Attention (DCA, An et al., 2024), which segments long sequences into chunks of manageable lengths."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "The architecture of Qwen2 MoE models closely mirrors that of Qwen1.5-MoE-A2.7B (Qwen Team, 2024c)."
+    },
+    {
+      "source": "[sections/2.2.2 QWEN2 MIXTURE-OF-EXPERTS MODEL]",
+      "quote": "The architecture of Qwen2 MoE models closely mirrors that of Qwen1.5-MoE-A2.7B (Qwen Team, 2024c)."
+    },
+    {
+      "source": "[sections/2.2.3 MODEL CONFIGURATION]",
+      "quote": "In the following, we provide the key configuration and information for the Qwen2 series. The Qwen2 series consists of models of 5 sizes, which are Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B."
+    },
+    {
+      "source": "[table]",
+      "quote": "Table 1: Architecture of Qwen2 dense and MoE models. For MoE models, 57B-A14B denotes that the model has 57B parameters in total and for each token 14B parameters are active, the Intermediate size denotes that of each expert, and # Activated Experts excludes the shared experts."
+    },
+    {
+      "source": "[sections/2.2.3 MODEL CONFIGURATION]",
+      "quote": "Notably, Qwen2 models demonstrate a substantially lower Key-Value (KV) size per token relative to Qwen1.5 models."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Basically, the Qwen2.5 series include dense models for opensource, namely Qwen2.5-0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B, and MoE models for API service, namely Qwen2.5-Turbo and Qwen2.5-Plus. Below, we provide details about the architecture of models. For dense models, we maintain the Transformer-based decoder architecture (Vaswani et al., 2017; Radford et al., 2018) as Qwen2 (Yang et al., 2024a). The architecture incorporates several key components: Grouped Query Attention (GQA, Ainslie et al., 2023) for efficient KV cache utilization, SwiGLU activation function (Dauphin et al., 2017) for non-linear activation, Rotary Positional Embeddings (RoPE, Su et al., 2024) for encoding position information, QKV bias (Su, 2023) in the attention mechanism and RMSNorm (Jiang et al., 2023b) with pre-normalization to ensure stable training."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Available in various configurations, Qwen2.5 offers both open-weight from 0.5B to 72B parameters and proprietary models including cost-effective MoE variants like Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[sections/Long Context Capabilities]",
+      "quote": "We can observe that the Qwen2.5 models, after equipping length extrapolation techniques (i.e., DCA + YARN), have demonstrated strong long context processing capabilities on the three datasets."
+    },
+    {
+      "source": "[sections/Long Context Capabilities]",
+      "quote": "Furthermore, as shown in Figure 2, Qwen2.5-Turbo achieves 100% accuracy in the 1M-token passkey retrieval task, demonstrating its exceptional ability to capture detailed information from ultra-long contexts. We develop a sparse attention mechanism based on Minference (Jiang et al., 2024b) to significantly enhance inference speed, which is critical for user experience when processing long contexts."
+    },
+    {
+      "source": "[sections/Tokenizer & Model]",
+      "quote": "The architecture of the Qwen2 dense models comprises multiple Transformer layers, each equipped with causal attention mechanisms and feed-forward neural networks (FFNs)."
+    },
+    {
+      "source": "[sections/Tokenizer & Model]",
+      "quote": "The architecture of Qwen2 MoE models closely mirrors that of Qwen1.5-MoE-A2.7B (Qwen Team, 2024c)."
+    },
+    {
+      "source": "[sections/Tokenizer & Model]",
+      "quote": "The Qwen2 series consists of models of 5 sizes, which are Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B."
+    },
+    {
+      "source": "[sections/Tokenizer & Model]",
+      "quote": "Notably, Qwen2 models demonstrate a substantially lower Key-Value (KV) size per token relative to Qwen1.5 models."
+    },
+    {
+      "source": "[sections/MODEL CONFIGURATION]",
+      "quote": "The Qwen2 series consists of models of 5 sizes, which are Qwen2-0.5B, Qwen2-1.5B, Qwen2-7B, Qwen2-57B-A14B, and Qwen2-72B. Table 1 lists the hyper-parameters and important information, e.g., the number of pre-trained tokens."
+    },
+    {
+      "source": "[sections/MODEL CONFIGURATION]",
+      "quote": "Notably, Qwen2 models demonstrate a substantially lower Key-Value (KV) size per token relative to Qwen1.5 models."
+    },
+    {
+      "source": "[sections/LONG-CONTEXT TRAINING]",
+      "quote": "To enhance the long-context capability of Qwen2, we augmented the context length from 4,096 tokens to 32,768 tokens during the concluding phase of pre-training."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "For dense models, we maintain the Transformer-based decoder architecture (Vaswani et al., 2017; Radford et al., 2018) as Qwen2 (Yang et al., 2024a). The architecture incorporates several key components: Grouped Query Attention (GQA, Ainslie et al., 2023) for efficient KV cache utilization, SwiGLU activation function (Dauphin et al., 2017) for non-linear activation, Rotary Positional Embeddings (RoPE, Su et al., 2024) for encoding position information, QKV bias (Su, 2023) in the attention mechanism and RMSNorm (Jiang et al., 2023b) with pre-normalization to ensure stable training."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models. … 72B 80 64 / 8 No 128K / 8K Qwen"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/Tokenizer]",
+      "quote": "Following Qwen (Bai et al., 2023a), we employ the identical tokenizer based on byte-level byte-pair encoding. Models of all sizes employ a common vocabulary consisting of 151,643 regular tokens and 3 control tokens."
+    },
+    {
+      "source": "[sections/Architecture & Tokenizer]",
+      "quote": "For tokenization, we utilize Qwen’s tokenizer (Bai et al., 2023), which implements byte-level byte-pair encoding (BBPE, Brown et al., 2020; Wang et al., 2020; Sennrich et al., 2016) with a vocabulary of 151,643 regular tokens. We have expanded the set of control tokens from 3 to 22 compared to previous Qwen versions, adding two new tokens for tool functionality and allocating the remainder for other model capabilities. This expansion establishes a unified vocabulary across all Qwen2.5 models, enhancing consistency and reducing potential compatibility issues."
+    },
+    {
+      "source": "[sections/Tokenizer & Model]",
+      "quote": "Following Qwen (Bai et al., 2023a), we employ the identical tokenizer based on byte-level byte-pair encoding."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "For tokenization, we utilize Qwen’s tokenizer (Bai et al., 2023), which implements byte-level byte-pair encoding (BBPE, Brown et al., 2020; Wang et al., 2020; Sennrich et al., 2016) with a vocabulary of 151,643 regular tokens. We have expanded the set of control tokens from 3 to 22 compared to previous Qwen versions, adding two new tokens for tool functionality and allocating the remainder for other model capabilities."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

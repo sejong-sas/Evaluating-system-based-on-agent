@@ -1,0 +1,106 @@
+{
+  "1-1 (Weights)": "The quotes indicate that the model family explicitly releases “open-weight” checkpoints for Qwen2.5.  The weights are described as “dense, decoder-only language models” and are provided in a full size tier ranging from 0.5 B, 1.5 B, 3 B, 7 B, 14 B, 32 B up to the flagship 72 B parameters.  More than one quote repeats that the 72 B variant is the largest public model: “Qwen2.5-72B – a 72B-parameter dense decoder-only language model.”  Practical distribution details are also supplied: using OpenLLM a user can type `openllm model list --tag qwen2.5` and obtain lines such as “qwen2.5:72b   default   80Gx2   linux” or “qwen2.5:72b-ggml-q4   default   macos,” which simultaneously advertises that multiple quantised formats (e.g., ggml-q4) are hosted and indicates the minimum GPU memory (two 80 GB cards) for the full-precision 72 B checkpoint.  A separate quote emphasises that “OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command,” signalling that after download the weights can be served locally with a turnkey interface.  In sum, the weights for every listed size of Qwen2.5—including the 72 B Instruct variant—are publicly downloadable, and the ecosystem already documents hardware requirements and inference wrappers.",
+  "1-2 (Code)": "Only inference or serving code is mentioned.  A single quote states: “OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command.”  This implies that code for hosting / serving the pretrained checkpoints (i.e., an OpenLLM backend that exposes an OpenAI style API endpoint) is available.  The quotes do not mention any release of end-to-end training pipelines, data-processing scripts, or fine-tuning / RLHF recipes; therefore, there is no explicit evidence that training code has been open-sourced—only the serving layer is confirmed public.",
+  "1-3 (License)": "Licensing information is explicit but differentiated by model size.  The documentation twice repeats verbatim: “All our open-source models, except for the 3B and 72B variants, are licensed under Apache 2.0.  You can find the license files in the respective Hugging Face repositories.”  Consequently, every Qwen2.5 checkpoint smaller than 3 B and between 3 B–14 B as well as the 32 B model are Apache-2.0, granting broad rights for use, modification, redistribution, and commercial deployment.  By contrast, the 3 B and 72 B variants are explicitly excluded from the Apache-2.0 grant, implying they carry either a more restrictive license or custom terms not disclosed in the supplied excerpts.  Users therefore enjoy full open-source freedoms for most Qwen2.5 sizes but must consult separate terms for the 3 B and 72 B editions.",
+  "1-4 (Paper)": "Multiple citations and narrative fragments confirm a substantial technical-report ecosystem around Qwen2.5.  A blog-post citation placeholder announces an imminent overarching report: “We are going to release the technical report for Qwen2.5 very soon … @misc{qwen2.5, title = {Qwen2.5: A Party of Foundation Models} … year = {2024} }.”  Several specialised derivatives are already on arXiv/CoRR:  • Qwen2.5-Coder (CoRR abs/2409.12186, 2024).  • Qwen2.5-VL (vision-language) (arXiv:2502.13923, 2025).  • Qwen2.5-Math (CoRR abs/2409.12122, 2024c).  Two independent references repeat the general-purpose “Qwen2.5 technical report” (arXiv preprint arXiv:2412.15115, 2024b).  The quotes discuss relative performance (“exceeds our previous flagship model Qwen2.5-72B-Instruct”) and context (“Compared to its predecessor Qwen2.5, Qwen3 expands multilingual support…”), further evidencing that Qwen2.5 acts as a baseline in newer studies.  Architectural commentary also connects Qwen3 back to the “similar to Qwen2.5” design that employs GQA, SwiGLU, RoPE, and RMSNorm.  Collectively, the citations and descriptive sentences show that: (1) a central Qwen2.5 technical report is officially planned or already on arXiv; (2) domain-specific spin-offs (Coder, VL, Math) each have standalone papers; and (3) Qwen2.5-72B-Instruct is treated as a benchmark baseline in later research, underlining the model’s documented impact.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All open-weight models are dense, decoder-only language models, available in various sizes, including: Qwen2.5: 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To showcase Qwen2.5’s capabilities, we benchmark our largest open-source model, Qwen2.5-72B - a 72B-parameter dense decoder-only language model - against leading open-source models like Llama-3.1-70B and Mistral-Large-V2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "List the supported Qwen2.5 models: openllm model list --tag qwen2.5 The results also display the required GPU resources and supported platforms: … qwen2.5:72b default 80Gx2 linux qwen2.5:72b-ggml-q4 default macos"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "All open-weight models are dense, decoder-only language models, available in various sizes, including: Qwen2.5: 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B"
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "To showcase Qwen2.5’s capabilities, we benchmark our largest open-source model, Qwen2.5-72B - a 72B-parameter dense decoder-only language model - against leading open-source models like Llama-3.1-70B and Mistral-Large-V2."
+    },
+    {
+      "source": "[sections/https://qwen.readthedocs.io/en/latest/deployment/openllm.html]",
+      "quote": "OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command."
+    },
+    {
+      "source": "[sections/https://qwen.readthedocs.io/en/latest/deployment/openllm.html]",
+      "quote": "List the supported Qwen2.5 models: openllm model list --tag qwen2.5 ... qwen2.5:72b default 80Gx2 linux   qwen2.5:72b-ggml-q4 default macos"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "OpenLLM allows developers to run Qwen2.5 models of different sizes as OpenAI-compatible APIs with a single command."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All our open-source models, except for the 3B and 72B variants, are licensed under Apache 2.0. You can find the license files in the respective Hugging Face repositories."
+    },
+    {
+      "source": "[sections/https://qwenlm.github.io/blog/qwen2.5/]",
+      "quote": "All our open-source models, except for the 3B and 72B variants, are licensed under Apache 2.0. You can find the license files in the respective Hugging Face repositories."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are going to release the technical report for Qwen2.5 very soon. Before the release, feel free to cite our Qwen2 paper as well as this blog @misc{qwen2.5, title = {Qwen2.5: A Party of Foundation Models}, url = {https://qwenlm.github.io/blog/qwen2.5/}, author = {Qwen Team}, month = {September}, year = {2024} }"
+    },
+    {
+      "source": "[sections/Qwen3 blog]",
+      "quote": "显著增强的推理能力 ，在数学、代码生成和常识逻辑推理方面超越了之前的 QwQ（在思考模式下）和 Qwen2.5 指令模型（在非思考模式下）。"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to its predecessor Qwen2.5, Qwen3 expands multilingual support from 29 to 119 languages and dialects, enhancing global accessibility through improved cross-lingual understanding and generation capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The architecture of the Qwen3 dense models is similar to Qwen2.5 (Yang et al., 2024b), including using Grouped Query Attention (GQA, Ainslie et al., 2023), SwiGLU (Dauphin et al., 2017), Rotary Positional Embeddings (RoPE, Su et al., 2024), and RMSNorm (Jiang et al., 2023) with pre-normalization."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang, Dayiheng Liu, Lei Zhang, Tianyu Liu, Jiajun Zhang, Bowen Yu, Keming Lu, et al. Qwen2.5-Coder technical report. CoRR, abs/2409.12186, 2024."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai Dang, Peng Wang, Shijie Wang, Jun Tang, et al. Qwen2.5-VL technical report. arXiv preprint arXiv:2502.13923, 2025."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the non-thinking mode, we take GPT-4o-2024-11-20 (OpenAI, 2024), DeepSeek-V3 (Liu et al., 2024a), Qwen2.5-72B-Instruct (Yang et al., 2024b), and LLaMA-4-Maverick (Meta-AI, 2025) as the non-reasoning baselines."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, et al. Qwen2.5 technical report. arXiv preprint arXiv:2412.15115, 2024b."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Recent advancements in large foundation models, e.g., GPT-4o (OpenAI, 2024), Claude 3.7 (Anthropic, 2025), Gemini 2.5 (DeepMind, 2025), DeepSeek-V3 (Liu et al., 2024a), Llama-4 (Meta-AI, 2025), and Qwen2.5 (Yang et al., 2024b), have demonstrated significant progress toward this objective."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "From Table 12, Qwen3-235B-A22B (Non-thinking) exceeds the other leading open-source models, including DeepSeek-V3, LLaMA-4-Maverick, and our previous flagship model Qwen2.5-72B-Instruct."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bofei Gao, Bowen Yu, Chengpeng Li, Dayiheng Liu, Jianhong Tu, Jingren Zhou, Junyang Lin, et al. Qwen2.5 technical report. arXiv preprint arXiv:2412.15115, 2024b."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "An Yang, Beichen Zhang, Binyuan Hui, Bofei Gao, Bowen Yu, Chengpeng Li, Dayiheng Liu, Jianhong Tu, Jingren Zhou, Junyang Lin, et al. Qwen2.5-Math technical report: Toward mathematical expert model via self-improvement. CoRR, abs/2409.12122, 2024c."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "An Yang, Baosong Yang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Zhou, Chengpeng Li, Chengyuan Li, Dayiheng Liu, Fei Huang, Guanting Dong, Haoran Wei, Huan Lin, Jialong Tang, Jialin Wang, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Ma, Jianxin Yang, Jin Xu, Jingren Zhou, Jinze Bai, Jinzheng He, Junyang Lin, Kai Dang, Keming Lu, Keqin Chen, Kexin Yang, Mei Li, Mingfeng Xue, Na Ni, Pei Zhang, Peng Wang, Ru Peng, Rui Men, Ruize Gao, Runji Lin, Shijie Wang, Shuai Bai, Sinan Tan, Tianhang Zhu, Tianhao Li, Tianyu Liu, Wenbin Ge, Xiaodong Deng, Xiaohuan Zhou, Xingzhang Ren, Xinyu Zhang, Xipin Wei, Xuancheng Ren, Xuejing Liu, Yang Fan, Yang Yao, Yichang Zhang, Yu Wan, Yunfei Chu, Yuqiong Liu, Zeyu Cui, Zhenru Zhang, Zhifang Guo, and Zhihao Fan. Qwen2 technical report. CoRR, abs/2407.10671, 2024a."
+    }
+  ]
+}

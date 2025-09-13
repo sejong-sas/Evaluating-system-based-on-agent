@@ -1,0 +1,94 @@
+{
+  "1-1 (Weights)": "The quotes state that the weights for the Qwen2.5 series – including the 72 B-parameter instruction-tuned checkpoint that corresponds to “qwen/qwen2.5-72b-instruct” – are openly released.  Availability is explicitly said to be on Hugging Face and ModelScope, and the material is also mirrored on Kaggle.  The open-weight catalogue covers seven discrete model sizes (0.5 B, 1.5 B, 3 B, 7 B, 14 B, 32 B and 72 B) and is offered both as base pre-trained models and as instruction-tuned variants.  The team further notes that “over 100 models” are reachable through the hubs, because each size is distributed in multiple formats: original bfloat16 precision as well as several quantised versions.  These public releases are positioned as a way to “foster community innovation and accessibility,” and they sit alongside “supplementary materials including example code on GitHub.”  One quote also clarifies that, in addition to the fully open models, there exist proprietary MoE versions such as “Qwen2.5-Turbo” and “Qwen2.5-Plus,” but the open part explicitly spans the full 0.5 B-to-72 B range.",
+  "1-2 (Code)": "All code information comes from two distinct statements.  First, the authors say that, together with the model uploads, they provide “supplementary materials including example code on GitHub,” and that these GitHub resources cover “quantization, fine-tuning, and deployment,” thereby making it clear that users can obtain scripts for additional training and for serving.  Second, the January 6 2025 entry (“Qwen2.5 Technical Report … https://github.com/QwenLM/Qwen2.5”) supplies the concrete repository location, indicating that the public GitHub project named QwenLM/Qwen2.5 is the canonical place to fetch those materials.  The quotes do not explicitly separate pre-training code from fine-tuning or inference code, but they do confirm that at least the latter two categories (quantisation/fine-tuning + deployment) are included, and that everything is published under the same Qwen2.5 GitHub namespace.",
+  "1-3 (License)": "The only licensing lines provided come from “Table 1: Model architecture and license of Qwen2.5 open-weight models. …  Apache 2.0.”  This indicates that every open-weight release in the Qwen2.5 family, including the 72 B instruction-tuned checkpoint, is distributed under the Apache License 2.0.  No other restrictions, special clauses or alternative licences are mentioned in the quoted material.",
+  "1-4 (Paper)": "Multiple citations point to official documentation.  A primary reference is the “Qwen2.5 Technical Report,” which appears on arXiv as “arXiv:2412.15115v2 [cs.CL] 3 Jan 2025.”  The quotes further mention companion technical reports that specialise the family: “Qwen2.5-Coder technical report. CoRR, abs/2409.12186, 2024” and “Qwen2.5-Math technical report: Toward mathematical expert model via self-improvement. CoRR, abs/2409.12122, 2024b.”  Earlier background is supplied by generic Qwen2 or QWEN2 technical reports that “introduce the Qwen2 series,” and one sentence explicitly states, “In this report, we introduce Qwen2.5, a comprehensive series of large language models (LLMs) designed to meet diverse needs.”  Collectively, these references form the official written record for the architecture and training details of the Qwen2.5 models, including the 72 B instruction-tuned variant.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To foster community innovation and accessibility, we have made the Qwen2 model weights openly available on Hugging Face1 and ModelScope2, and the supplementary materials including example code on GitHub3."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "To handle diverse and varied use cases effectively, we present Qwen2.5 LLM series in rich configurations. The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters. Quantized versions of the instruction-tuned models are also provided. Over 100 models can be accessed from Hugging Face Hub, ModelScope, and Kaggle."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Recently, we release the details of our latest version of the Qwen series, Qwen2.5. In terms of the open-weight part, we release pre-trained and instruction-tuned models of 7 sizes, including 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B, and we provide not only the original models in bfloat16 precision but also the quantized models in different precisions."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Available in various configurations, Qwen2.5 offers both open-weight from 0.5B to 72B parameters and proprietary models including cost-effective MoE variants like Qwen2.5-Turbo and Qwen2.5-Plus."
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "To foster community innovation and accessibility, we have made the Qwen2 model weights openly available on Hugging Face1 and ModelScope2, and the supplementary materials including example code on GitHub3."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "To handle diverse and varied use cases effectively, we present Qwen2.5 LLM series in rich configurations. The open-weight offerings include base models and instruction-tuned models in sizes of 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B parameters."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Recently, we release the details of our latest version of the Qwen series, Qwen2.5. In terms of the open-weight part, we release pre-trained and instruction-tuned models of 7 sizes, including 0.5B, 1.5B, 3B, 7B, 14B, 32B, and 72B, and we provide not only the original models in bfloat16 precision but also the quantized models in different precisions."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To foster community innovation and accessibility, we have made the Qwen2 model weights openly available on Hugging Face1 and ModelScope2, and the supplementary materials including example code on GitHub3. These platforms also include resources for quantization, fine-tuning, and deployment, facilitating a wide range of applications and research endeavors."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "2025-01-06 Qwen2.5 Technical Report Qwen Team https://huggingface.co/Qwen https://modelscope.cn/organization/qwen https://github.com/QwenLM/Qwen2.5"
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "To foster community innovation and accessibility, we have made the Qwen2 model weights openly available on Hugging Face1 and ModelScope2, and the supplementary materials including example code on GitHub3. These platforms also include resources for quantization, fine-tuning, and deployment, facilitating a wide range of applications and research endeavors."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models. 0.5B ... Apache 2.0"
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "Table 1: Model architecture and license of Qwen2.5 open-weight models."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This report introduces the Qwen2 series, the latest addition to our large language models and large multimodal models."
+    },
+    {
+      "source": "[title]",
+      "quote": "Qwen2.5 Technical Report"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "arXiv:2412.15115v2  [cs.CL]  3 Jan 2025"
+    },
+    {
+      "source": "[sections/References]",
+      "quote": "Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang, Dayiheng Liu, Lei Zhang, Tianyu Liu, Jiajun Zhang, Bowen Yu, Keming Lu, et al. Qwen2.5-Coder technical report. CoRR, abs/2409.12186, 2024."
+    },
+    {
+      "source": "[sections/References]",
+      "quote": "An Yang, Beichen Zhang, Binyuan Hui, Bofei Gao, Bowen Yu, Chengpeng Li, Dayiheng Liu, Jianhong Tu, Jingren Zhou, Junyang Lin, et al. Qwen2.5-Math technical report: Toward mathematical expert model via self-improvement. CoRR, abs/2409.12122, 2024b."
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "QWEN2 TECHNICAL REPORT"
+    },
+    {
+      "source": "[sections/2407.10671]",
+      "quote": "This report introduces the Qwen2 series, the latest addition to our large language models and large multimodal models."
+    },
+    {
+      "source": "[sections/2412.15115]",
+      "quote": "In this report, we introduce Qwen2.5, a comprehensive series of large language models (LLMs) designed to meet diverse needs."
+    }
+  ]
+}

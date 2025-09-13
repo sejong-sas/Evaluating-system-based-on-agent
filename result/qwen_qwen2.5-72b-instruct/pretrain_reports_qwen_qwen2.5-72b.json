@@ -1,0 +1,19 @@
+{
+  "model_id": "Qwen/Qwen2.5-72B",
+  "pretrain_method": "According to the provided information, Qwen2.5’s language models have been built by pretraining all designated models using a large-scale dataset. The pretraining methodology involves utilizing the most current dataset available, ensuring that the models benefit from exposure to a vast amount of language tokens.",
+  "pretrain_data": "The pretraining data for Qwen2.5 consists of a very large-scale dataset, which is noted to encompass up to 18 trillion tokens. This substantial volume of data underpins the comprehensive training approach applied to all language models within the Qwen2.5 series.",
+  "__evidence": {
+    "3-1 (Pre-training)": [
+      {
+        "source": "art1",
+        "quote": "In terms of Qwen2.5 , the language models, all models are pretrained on our latest large-scale dataset, encompassing up to 18 trillion tokens."
+      }
+    ],
+    "4-1 (Pre-training Data)": [
+      {
+        "source": "art1",
+        "quote": "In terms of Qwen2.5 , the language models, all models are pretrained on our latest large-scale dataset, encompassing up to 18 trillion tokens."
+      }
+    ]
+  }
+}

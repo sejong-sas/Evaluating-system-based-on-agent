@@ -1,0 +1,15 @@
+{
+  "2-3 (API)": "The sole piece of information we have about an API for Qwen2.5 is the statement: \"[OpenLLM](https://github.com/bentoml/OpenLLM) allows you to easily run Qwen2.5 as OpenAI-compatible APIs.\"  From this quote we can infer the following details:\n• OpenLLM is a GitHub-hosted project that serves as the enabler for exposing Qwen2.5 through an API layer.\n• The API is described as \"OpenAI-compatible.\"  This means the endpoints, request/response formats, authentication signals, and overall developer workflow are intended to mirror the official OpenAI API specification.  As a result, existing client libraries or scripts designed for the OpenAI API should work with minimal or no modification when pointed at a Qwen2.5 server deployed via OpenLLM.\n• The phrase \"allows you to easily run\" implies a streamlined launch process: developers clone or install OpenLLM, supply the Qwen2.5 model weights, and immediately obtain an HTTP service that accepts Chat/Completion-style calls.\n• Although the quote does not explicitly list public URL examples, rate limits, or pricing, it confirms the existence of a documented path for turning Qwen2.5 into an accessible remote service rather than merely a local library.\n• No other API products or hosting providers are mentioned.  The only confirmed means of obtaining an API surface from the provided material is through OpenLLM.\n\nBeyond these observations, the quote supplies no details on deployment hardware, scaling guidelines, or authentication schemes, so none can be asserted here.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[OpenLLM](https://github.com/bentoml/OpenLLM) allows you to easily run Qwen2.5 as OpenAI-compatible APIs."
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

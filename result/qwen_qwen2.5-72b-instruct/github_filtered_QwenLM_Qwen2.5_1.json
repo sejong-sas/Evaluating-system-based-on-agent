@@ -1,0 +1,70 @@
+{
+  "1-1 (Weights)": "The quotes show that the QwenLM/Qwen2.5 checkpoints are openly published and can be fetched directly by path. Several snippets explicitly hard-code the download locations, e.g. “DEFAULT_CKPT_PATH = \"Qwen/Qwen2.5-7B-Instruct\"” and “model_name = \"Qwen/Qwen2.5-7B-Instruct\"”, demonstrating that anyone who passes this Hugging Face-style identifier to a loader can pull the model weights. Example command-lines confirm public availability for multiple sizes: “--model_id_or_path Qwen/Qwen2.5-0.5B-Instruct” and “--model_id_or_path Qwen/Qwen2.5-7B-Instruct”, implying that at least 0.5 B and 7 B parameter editions are served from the same namespace. The presence of benchmarking scripts (“Qwen2.5 Speed Benchmark for transformers(pt) inference.”) and arguments such as “--use_modelscope” and “--gpus 0” further suggest the weights can be obtained automatically by the scripts without any manual authentication barrier. A dated changelog line – “2024.09.19: We released the Qwen2.5 series.” – confirms an official public release event. Altogether, the evidence indicates that the model weights for Qwen2.5 are openly downloadable from the designated repository paths and are intended for general community use, with no mention of gated access or registration requirements.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[py_files/examples/demo/cli_demo.py]",
+      "quote": "DEFAULT_CKPT_PATH = \"Qwen/Qwen2.5-7B-Instruct\""
+    },
+    {
+      "source": "[py_files/examples/demo/web_demo.py]",
+      "quote": "DEFAULT_CKPT_PATH = \"Qwen/Qwen2.5-7B-Instruct\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "- 2024.09.19: We released the Qwen2.5 series."
+    },
+    {
+      "source": "py_files/examples/gcu-support/gcu_demo.py",
+      "quote": "model_name = \"Qwen/Qwen2.5-7B-Instruct\""
+    },
+    {
+      "source": "py_files/examples/speed-benchmark/speed_benchmark_transformers.py",
+      "quote": "\"\"\"\nQwen2.5 Speed Benchmark for transformers(pt) inference.\n\"\"\""
+    },
+    {
+      "source": "py_files/examples/speed-benchmark/speed_benchmark_transformers.py",
+      "quote": "# Usage: python speed_benchmark_transformers.py --model_id_or_path Qwen/Qwen2.5-0.5B-Instruct --context_length 1 --gpus 0 --use_modelscope --outputs_dir outputs/transformers"
+    },
+    {
+      "source": "py_files/examples/speed-benchmark/speed_benchmark_vllm.py",
+      "quote": "# Usage: python speed_benchmark_vllm.py --model_id_or_path Qwen/Qwen2.5-0.5B-Instruct --context_length 1 --max_model_len 32768 --gpus 0 --use_modelscope --gpu_memory_utilization 0.9 --outputs_dir outputs/vllm"
+    }
+  ],
+  "1-2 (Code)": "Only inference-time support code is referenced in the provided material. A multi-line docstring — “\"\"\"\\nQwen2.5 Speed Benchmark for transformers(pt) inference.\\n\"\"\"” — frames the script as a performance benchmark rather than a training pipeline. The accompanying command examples use the script to test FP16 decoding speed with different context lengths, GPUs, and back-ends (Transformers or vLLM). There are no quotes that expose training recipes, data-preparation scripts, optimizer schedules, or fine-tuning notebooks; therefore, we must conclude that, based on the supplied evidence, only inference/serving benchmarking code has been publicly released, while the full end-to-end training code (pre-training, supervised fine-tuning, RL, etc.) is not disclosed in these excerpts.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[py_files/examples/speed-benchmark/speed_benchmark_transformers.py]",
+      "quote": "\"\"\"\nQwen2.5 Speed Benchmark for transformers(pt) inference.\n\"\"\""
+    }
+  ],
+  "1-3 (License)": "Multiple lines clarify the legal status of the open weights and code. The overarching statement, “All our open-weight models are licensed under Apache 2.0,” spells out that the canonical permissive license (Apache License, Version 2.0) governs redistribution. Two identical reminders inside the demo, “Note: This demo is governed by the original license of Qwen2.5,” reinforce that any hosted interface or sample notebook inherits those same terms. Finally, the header comment “# Copyright (c) Alibaba Cloud.\\n# This source code is licensed under the license found in the\\n# LICENSE file in the root directory of this source tree.” gives standard provenance and points readers to the on-repo LICENSE document. Under Apache-2.0 the community receives broad grants for use, modification, redistribution, and commercial exploitation, provided they satisfy notice and attribution clauses and refrain from trademark misuse or patent litigation triggers. No additional restrictions such as ‘non-commercial’ or ‘research-only’ appear in the quoted text, so users retain full commercial and derivative rights consistent with Apache-2.0.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "All our open-weight models are licensed under Apache 2.0."
+    },
+    {
+      "source": "[py_files/examples/demo/cli_demo.py]",
+      "quote": "Note: This demo is governed by the original license of Qwen2.5."
+    },
+    {
+      "source": "[py_files/examples/demo/web_demo.py]",
+      "quote": "Note: This demo is governed by the original license of Qwen2.5."
+    },
+    {
+      "source": "py_files/examples/speed-benchmark/speed_benchmark_transformers.py",
+      "quote": "# Copyright (c) Alibaba Cloud.\n# This source code is licensed under the license found in the\n# LICENSE file in the root directory of this source tree."
+    }
+  ],
+  "1-4 (Paper)": "An archival reference is provided: “@article{qwen2.5,” followed by “title   = {Qwen2.5 Technical Report}.” These BibTeX snippets indicate that an official technical report exists and is citable under the key “qwen2.5.” Although the quotes do not show a DOI, arXiv link, or publication venue, the presence of the BibTeX entry implies the authors released a formal document detailing architecture, training recipe, evaluation and usage guidance for the Qwen2.5 series.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@article{qwen2.5,"
+    },
+    {
+      "source": "[readme]",
+      "quote": "title   = {Qwen2.5 Technical Report},"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "1-1 (Weights)": "The quotes explicitly state that “**This repo contains the instruction-tuned 72B Qwen2.5 model**” and that the canonical model identifier is “model_name = \"Qwen/Qwen2.5-72B-Instruct\".”  Together, these lines confirm that the full parameter weights for the target system (the 72-billion-parameter Qwen/Qwen2.5-72B-Instruct checkpoint) are hosted in the associated repository and can be referenced or downloaded directly under that exact model name.  Because the statement says the repo itself “contains” the model, the weights are not merely described but are actually present where the code lives, implying immediate availability to anyone with access to the repo.  No additional paywalls, gated requests, or separate distribution portals are mentioned in the provided sentences, so the only documented requirement for access is knowledge of the Hugging Face model path shown above.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**This repo contains the instruction-tuned 72B Qwen2.5 model**, which has the following features:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"Qwen/Qwen2.5-72B-Instruct\""
+    }
+  ],
+  "1-2 (Code)": "Two separate sentences describe the code situation.  First, “The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`.”  This means that implementation support for Qwen 2.5—including model classes, configuration files, and inference utilities—has been merged upstream into the open-source `transformers` library rather than being limited to a private or proprietary repository.  Second, the team points readers to multiple public resources: “For more details, please refer to our [blog](https://qwenlm.github.io/blog/qwen2.5/), [GitHub](https://github.com/QwenLM/Qwen2.5), and [Documentation](https://qwen.readthedocs.io/en/latest/).”  These links indicate that a dedicated GitHub organization (“QwenLM/Qwen2.5”) holds additional code artifacts or examples, and that formal documentation is available.  The quotes do not explicitly separate pre-training, supervised fine-tuning, or RLHF scripts; they only confirm that the overall model code (at least for loading and inference) is open-sourced through `transformers` and further described in the affiliated GitHub repository and docs.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The code of Qwen2.5 has been in the latest Hugging face `transformers` and we advise you to use the latest version of `transformers`."
+    },
+    {
+      "source": "[readme]",
+      "quote": "For more details, please refer to our [blog](https://qwenlm.github.io/blog/qwen2.5/), [GitHub](https://github.com/QwenLM/Qwen2.5), and [Documentation](https://qwen.readthedocs.io/en/latest/)."
+    }
+  ],
+  "1-3 (License)": "The distribution is governed by a custom “license_name: qwen,” formalized in the “Qwen LICENSE AGREEMENT” with a release date of “September 19, 2024.”  The grant is broad: “You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Materials.”  However, the license introduces a commercialization threshold: “If you are commercially using the Materials, and your product or service has more than 100 million monthly active users, you shall request a license from us. You cannot exercise your rights under this Agreement without our express authorization.”  A “LICENSE file present: LICENSE” line confirms that the detailed legal text ships with the repository so downstream users can inspect the full terms.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license_name: qwen"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Qwen LICENSE AGREEMENT Release Date: September 19, 2024"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Alibaba Cloud's intellectual property or other rights owned by us embodied in the Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Materials."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If you are commercially using the Materials, and your product or service has more than 100 million monthly active users, you shall request a license from us. You cannot exercise your rights under this Agreement without our express authorization."
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "Two bibliographic entries document the official write-ups.  The first is an in-house citation—“@misc{qwen2.5, title = {Qwen2.5: A Party of Foundation Models}, url = {https://qwenlm.github.io/blog/qwen2.5/}, author = {Qwen Team}, month = {September}, year = {2024} }”—which points to a September 2024 blog-style publication specifically named after Qwen 2.5.  The second reference gives a broader technical report: “@article{qwen2, title={Qwen2 Technical Report}, journal={arXiv preprint arXiv:2407.10671}, year={2024} }.”  Although the second citation is labeled “Qwen2” rather than “Qwen2.5,” its 2024 arXiv preprint shares the same author lineage and serves as a formal technical complement to the blog announcement.  Collectively, these quotes show that public write-ups exist both in blog form (detailing the 2.5 release) and as an arXiv technical report documenting the larger Qwen 2 family.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{qwen2.5,    title = {Qwen2.5: A Party of Foundation Models},    url = {https://qwenlm.github.io/blog/qwen2.5/},    author = {Qwen Team},    month = {September},    year = {2024} }"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{qwen2,      title={Qwen2 Technical Report},       journal={arXiv preprint arXiv:2407.10671},      year={2024} }"
+    }
+  ]
+}
