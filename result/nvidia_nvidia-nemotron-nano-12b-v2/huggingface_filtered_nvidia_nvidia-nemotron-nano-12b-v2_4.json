@@ -1,0 +1,46 @@
+{
+  "4-1 (Pre-training Data)": "According to the statements that explicitly mention NVIDIA-Nemotron-Nano-12B-v2, the model’s pre-training corpus is described as “high-quality curated and synthetically-generated data.” The same sentence specifies the linguistic and programming-language coverage: it contains English, 15 additional multilingual languages, and 43 different programming languages. In the immediately following sentence, whose factual content is therefore tied to the preceding model reference, it is said that “The model was pre-trained for approximately twenty trillion tokens.” Taken together, these quotes indicate that NVIDIA-Nemotron-Nano-12B-v2 was exposed to an exceptionally large (≈20T-token) mixture of carefully selected real-world and synthetic text that spans a wide spectrum of natural and programming languages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The pre-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of high-quality curated and synthetically-generated data. It is trained in the English language, as well as 15 multilingual languages and 43 programming languages."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model was pre-trained for approximately twenty trillion tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The post-training (instruction-tuning / fine-tuning) data for NVIDIA-Nemotron-Nano-12B-v2 is explicitly described as a multilingual mix: “English and multilingual text (German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English).” The same sentence notes that the material comes from “a variety of document types such as: webpages, dialogue, articles, and other written materials,” emphasising heterogeneity of source genres. A second sentence, adjacent to the first and therefore tied to the same model reference, adds that the developers “include a small portion of question-answering, and alignment style data to improve model accuracies.” Overall, the fine-tuning stage draws on diverse, publicly recognisable text domains in ten named languages, supplemented with specialised QA and alignment-oriented examples that refine the model’s instructional behaviour.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The post-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of English and multilingual text (German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English). Our sources cover a variety of document types such as: webpages, dialogue, articles, and other written materials."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also include a small portion of question-answering, and alignment style data to improve model accuracies."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "For reinforcement-learning (RL) style optimisation, the documentation states that “NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks. The model was trained using Megatron-LM and NeMo-RL.” This explicitly ties the target model to a training pipeline that incorporates NVIDIA’s Megatron and NeMo RL frameworks. Another quoted table line beginning with “Nemotron-PrismMath” (which includes the keyword ‘nemotron’) lists the concrete RL corpus entry: “Nemotron-PrismMath | Text | 4.6B | Big-Math-RL-Verified | [Qwen2.5-0.5B-Instruct] … [Qwen2.5-72B-Instruct]; [DeepSeek-R1-Distill-Qwen-32B].” From this we can summarise that a 4.6-billion-token text dataset named Nemotron-PrismMath—sourced from a Big-Math-RL-Verified collection and distilled or aligned with several Qwen and DeepSeek instruction models—was part of the RL fine-tuning recipe deployed through NeMo-RL.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks. The model was trained using Megatron-LM and NeMo-RL."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| Nemotron-PrismMath | Text | 4.6B | Big-Math-RL-Verified | [Qwen2.5-0.5B-instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct); [DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) |"
+    }
+  ],
+  "4-4 (Data Filtering)": "The data cleaning strategy for NVIDIA-Nemotron-Nano-12B-v2 is described in two sentences that contain the keyword “Nemotron.” First, “The data was subsequently deduplicated and filtered in various ways described in the Nemotron-CC paper,” indicating that a comprehensive deduplication pass plus multiple filter stages—defined in the Nemotron-CC preprocessing pipeline—were applied to remove redundancy and low-quality segments. Second, the authors explain their multilingual approach: “As we did not have reliable multilingual model-based quality classifiers available, we applied just heuristic filtering instead—similar to what we did for lower quality English data in the Nemotron-CC pipeline, but selectively removing some filters for some languages that did not work well.” This clarifies that, lacking robust cross-lingual classifiers, they relied on heuristic (rule-based) filters, re-using the Nemotron-CC English heuristics but disabling particular filters that proved ineffective for certain languages. No numeric thresholds are given in the quotes, but the passage makes clear that deduplication, heuristic quality checks, and language-specific filter adjustments constituted the principal data-filtering pipeline.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The data was subsequently deduplicated and filtered in various ways described in the Nemotron-CC paper."
+    },
+    {
+      "source": "[readme]",
+      "quote": "As we did not have reliable multilingual model-based quality classifiers available, we applied just heuristic filtering instead—similar to what we did for lower quality English data in the Nemotron-CC pipeline, but selectively removing some filters for some languages that did not work well."
+    }
+  ]
+}

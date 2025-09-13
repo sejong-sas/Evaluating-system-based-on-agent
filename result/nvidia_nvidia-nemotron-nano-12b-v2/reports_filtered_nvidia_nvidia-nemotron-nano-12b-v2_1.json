@@ -1,0 +1,162 @@
+{
+  "1-1 (Weights)": "Multiple statements explicitly confirm that the Nemotron-Nano-12B-v2 family weights are publicly available. The authors repeatedly state that they are “releasing Nemotron-Nano-9B-v2, Nemotron-Nano-9B-v2-Base, and Nemotron-Nano-12B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face.” A similar sentence reiterates that the same three checkpoints are open-sourced and hosted on Hugging Face together with most of the training data. One sentence clarifies the storage requirements: “storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB,” highlighting the raw size of a single checkpoint. A separate line notes that these checkpoints, datasets and model variants (“the aligned and pruned reasoning model,” “a pruned base model,” and “the base model before alignment or pruning”) are directly downloadable from Hugging Face, indicating that anyone with a Hugging Face account can retrieve them. Although other NVIDIA models such as Mamba-2 are also mentioned, the quotes that explicitly list Nemotron-Nano-12B-v2-Base demonstrate that the target 12 B-parameter weights (at least the Base variant) have been released without restriction on the hosting platform.",
+  "1-2 (Code)": "The project discloses training code and recipes that cover every stage of the pipeline. A pair of identical sentences state that “Nemotron Nano 2 builds on the architecture of Nemotron-H … but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets,” implying that practical training scripts are provided, not just inference utilities. Several quotes reference the open-source Megatron ecosystem: “NVIDIA Megatron-Core … packages everything essential for training large-scale transformer,” and “Megatron-Core is available as open source in the NVIDIA/Megatron-LM repository on GitHub.” Developer documentation, API references and advanced GPU optimization guides are also called out, showing that the released code is production-ready and thoroughly documented. One quote adds that Megatron-Core can be integrated with “NVIDIA NeMo,” and another confirms that Megatron-Core “allows full flexibility for developers and model researchers to train custom transformers at-scale.” Finally, an adoption-oriented line says the team “release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library,” further emphasizing that full training pipelines—not just fine-tuning scripts—are open sourced under the NVIDIA GitHub organization.",
+  "1-3 (License)": "The licensing picture contains two layers. First, the general source-code repository is permissively licensed: “NeMo GitHub repo is licensed under the Apache 2.0 license,” a text repeated twice in the supplied material. Second, the binary framework and its associated containers are governed by a proprietary agreement: “NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT. By pulling and using the container, you accept the terms and conditions of this license.” A copyright line — “© 2025 NVIDIA. All rights reserved.” — stresses NVIDIA’s ownership. Two external hyperlinks appear (BigCode and Meta’s LLaMA license pages) without explanatory text, suggesting that additional license references may be provided in the original document, but the quotes do not expand on them. No sentence expressly restricts commercial use for the weights; however, the proprietary NVIDIA AI PRODUCT AGREEMENT likely introduces separate terms compared with the Apache-2.0-licensed GitHub code. No quote mentions redistribution prohibitions for the released checkpoints, but acceptance of the product agreement is a prerequisite for container usage.",
+  "1-4 (Paper)": "The official technical disclosure is titled “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model.” Multiple quotes repeat this exact title and confirm PDF availability, e.g., “View a PDF of the paper titled NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model.” The author list is large: one citation credits “Aarti Basant and 214 other authors,” underscoring a substantial NVIDIA research collaboration. Additional Nemotron-related literature is referenced, including “Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset,” an “An Empirical Study of Mamba-based Language Models” by NVIDIA, and technical reports for “Nemotron-4 15B” and “Nemotron-4 340B.” These citations place Nemotron-Nano-12B-v2 within a broader family of NVIDIA publications that cover data processing (Nemotron-CC), larger model variants (Nemotron-4 15B and 340B), and architecture analysis (Mamba-based study). No URLs are quoted, but repeated indications of PDFs and arXiv identifiers imply public accessibility of the documents.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-9B-v2-Base, and Nemotron-Nano-12B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing the following models on Hugging Face: • NVIDIA-Nemotron-Nano-9B-v2: the aligned and pruned reasoning model, • NVIDIA-Nemotron-Nano-9B-v2-Base: a pruned base model, • NVIDIA-Nemotron-Nano-12B-v2-Base: the base model before alignment or pruning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We have open-sourced Nemotron-Nano-9B-v2 along with its corresponding sibling Nemotron-Nano-9B-v2-Base and parent Nemotron-Nano-12B-v2-Base models, plus the majority of its pre- and post-training data on HuggingFace (links at the bottom of Section 1)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Note that storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB, which is more than the 22 GiB memory capacity of an A10G GPU; this clearly indicates the need for compression."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2508.14444]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pre-trained model checkpoints."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H (NVIDIA, 2025), but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "14https://github.com/NVIDIA/NeMo-Skills"
+    },
+    {
+      "source": "[title: NVIDIA Megatron-Core - NVIDIA Docs]",
+      "quote": "NVIDIA Megatron-Core Megatron-Core is a self contained, light weight PyTorch library that packages everything essential for training large scale transformer."
+    },
+    {
+      "source": "[title: NVIDIA Megatron-Core - NVIDIA Docs]",
+      "quote": "Developer documentation for Megatron Core covers API documentation, quickstart guide as well as deep dives into advanced GPU techniques needed to optimize LLM performance at scale."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H (NVIDIA, 2025), but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "This resulted in NVIDIA Megatron-Core , an open-source PyTorch-based library with a collection of GPU-optimized techniques, cutting-edge system-level innovations, and modular APIs for training models at large scale."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "Megatron-Core is available as open source in the NVIDIA/Megatron-LM repository on GitHub and can be used with Megatron-LM or NVIDIA NeMo ."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/Megatron-Core/]",
+      "quote": "Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "© 2025 NVIDIA. All rights reserved."
+    },
+    {
+      "source": "[sections/NVIDIA NeMo Framework User Guide]",
+      "quote": "NeMo Github repo is licensed under the Apache 2.0 license"
+    },
+    {
+      "source": "[sections/NVIDIA NeMo Framework User Guide]",
+      "quote": "NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT . By pulling and using the container, you accept the terms and conditions of this license."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NeMo Github repo is licensed under the Apache 2.0 license NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT . By pulling and using the container, you accept the terms and conditions of this license."
+    },
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "View a PDF of the paper titled NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model, by NVIDIA: Aarti Basant and 214 other authors"
+    },
+    {
+      "source": "[title]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[url:https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[38] Jupinder Parmar, Shrimai Prabhumoye, Joseph Jennings, Mostofa Patwary, Sandeep Subrama- nian, Dan Su, Chen Zhu, Deepak Narayanan, Aastha Jhunjhunwala, Ayush Dattagupta, et al. “Nemotron-4 15B Technical Report”. In: arXiv preprint arXiv:2402.16819 (2024)."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2508.14444]",
+      "quote": "Title: NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "View a PDF of the paper titled Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset, by Dan Su and 8 other authors"
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "For more details, see the Nemotron-4 340B Technical Report."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "Recently, we had an opportunity to run a large-scale training of Nemotron-4 340B ."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "An Empirical Study of Mamba-based Language Models\n...\n1NVIDIA"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[38] Jupinder Parmar, Shrimai Prabhumoye, Joseph Jennings, Mostofa Patwary, Sandeep Subramanian, Dan Su, Chen Zhu, Deepak Narayanan, Aastha Jhunjhunwala, Ayush Dattagupta, et al. “Nemotron-4 15B Technical Report”. In: arXiv preprint arXiv:2402.16819 (2024)."
+    }
+  ]
+}

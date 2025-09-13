@@ -1,0 +1,226 @@
+{
+  "1-1 (Weights)": "The NVIDIA-Nemotron-Nano-12B-v2 weights are publicly hosted on Hugging Face. The repository URL is explicitly given — “https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-12B-v2” — and a date stamp (“Huggingface 08/29/2025”) shows when the files were made available. Multiple loading examples confirm open, direct download access: a standard Hugging Face call,  \n\n    model = AutoModelForCausalLM.from_pretrained(\"nvidia/NVIDIA-Nemotron-Nano-12B-v2\", torch_dtype=torch.bfloat16, trust_remote_code=True, device_map=\"auto\")\n\nand a vLLM server command,  \n\n    vllm serve nvidia/NVIDIA-Nemotron-Nano-12B-v2 \\\n\nBoth snippets demonstrate that anyone with the repository name can pull the checkpoints and run them locally, optionally trusting remote code and automatically placing shards on available GPUs.  The physical checkpoint layout is listed: “model-00001-of-00006.safetensors” through “…-00006”, with an accompanying “model.safetensors.index.json” manifest, indicating a six-way sharded, safetensors-formatted release suitable for efficient streaming loads.  All of these quotes jointly show that the full parameter weights are downloadable without additional gating beyond accepting the repository’s license terms.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Huggingface 08/29/2025 via https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-12B-v2"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\n    \"nvidia/NVIDIA-Nemotron-Nano-12B-v2\",\n    torch_dtype=torch.bfloat16,\n    trust_remote_code=True,\n    device_map=\"auto\"\n)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve nvidia/NVIDIA-Nemotron-Nano-12B-v2 \\"
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00006.safetensors"
+    },
+    {
+      "source": "[files]",
+      "quote": "model.safetensors.index.json"
+    }
+  ],
+  "1-2 (Code)": "Public code exists for both training and inference, but at different granularity levels.  An overview sentence states, “NVIDIA-Nemotron-Nano-12B-v2 … was trained using [Megatron-LM] and [NeMo-RL]”, explicitly naming two open-source training frameworks that host the end-to-end pre-training and RLHF pipelines.  Although the exact configuration files are not quoted, the mention of these repositories indicates that the authors relied on community-available training code bases.  For inference/serving, the repository contains model-specific implementation files such as “modeling_nemotron_h.py” marked with the header \"\"\"PyTorch NemotronH model.\"\"\", showing that a custom Hugging Face Transformers compatible model class is shipped.  Because the snippet is inside the model repo that also holds the weights, users automatically receive the inference code when they call from_pretrained with trust_remote_code=True.  The quotes do not mention any private or withheld components; therefore, the evidence points to public availability of the inference adapter as well as the generic training frameworks, while leaving open whether bespoke training hyper-parameters were released.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks. The model was trained using [Megatron-LM](https://github.com/NVIDIA/Megatron-LM) and [NeMo-RL](https://github.com/NVIDIA-NeMo/RL)."
+    },
+    {
+      "source": "[files]",
+      "quote": "modeling_nemotron_h.py"
+    },
+    {
+      "source": "[py_files/modeling_nemotron_h.py]",
+      "quote": "\"\"\"PyTorch NemotronH model.\"\"\""
+    }
+  ],
+  "1-3 (License)": "The model files are distributed under NVIDIA’s own terms:  \n• “license_name: nvidia-open-model-license”  \n• “GOVERNING TERMS: Use of this model is governed by the [NVIDIA Open Model License Agreement]”.  These statements make clear that the model weights are not under a standard permissive license like Apache-2.0; instead they fall under NVIDIA’s proprietary Open Model License, which imposes its own use, distribution, and commercialisation conditions.  Separately, a code comment states, “# Licensed under the Apache License, Version 2.0 … you may not use this file except in compliance with the License.”  This shows a dual-licensing situation: the surrounding helper or example code is Apache-2.0, whereas the core checkpoints remain under the NVIDIA Open Model License.  No further restrictions or grants are quoted, so all enforceable terms must be derived from the linked agreement.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license_name: nvidia-open-model-license"
+    },
+    {
+      "source": "[readme]",
+      "quote": "GOVERNING TERMS: Use of this model is governed by the [NVIDIA Open Model License Agreement](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/)."
+    },
+    {
+      "source": "[py_files/modeling_nemotron_h.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\"); # you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "reason\": response.choices[0].finish_reason,\n }\n return response_data\n```\n\nCalling the server with a budget (Restricted to 32 tokens here as an example)\n\n```py\ntokenizer_name_or_path = \"nvidia/NVIDIA-Nemotron-Nano-12B-v2\"\nclient = Thinking"
+    }
+  ],
+  "1-4 (Paper)": "A formal technical report accompanies the release:  \n• Title: “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model”  \n• Available on arXiv: https://arxiv.org/abs/2508.14444  \n• BibTeX entry begins “@misc{nvidia2025nvidianemotronnano2, title={NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model}”.  These quotes confirm that a peer-review-ready manuscript describing the architecture, training procedure and evaluation results for NVIDIA-Nemotron-Nano-12B-v2 (branded “Nano 2”) is publicly accessible.  The arXiv identifier and year (2025) provide a citable reference point for users who need methodological details beyond the repository README.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- [NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model](https://arxiv.org/abs/2508.14444)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{nvidia2025nvidianemotronnano2,\n      title={NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model},"
+    }
+  ],
+  "1-5 (Architecture)": "NVIDIA/Nemotron-Nano-12B-v2 is described as a hybrid “Nemotron-Hybrid / Mamba2-Transformer” network.  The checkpoint tagged “NVIDIA-Nemotron-Nano-12B-v2-Base” was first fine-tuned and later compressed down to a 9-billion-parameter sibling, but the 12 B-parameter variant itself keeps a mixed-layer design: most blocks are made up of Mamba-2 and MLP components, and only six layers employ classical Attention.  In configuration files it declares \"model_type\": \"nemotron_h\", and the reference implementation is the \"PyTorch NemotronH\" model class.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model was fine-tuned from [NVIDIA-Nemotron-Nano-12B-v2-Base](https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-12B-v2-Base) was further compressed into [NVIDIA-Nemotron-Nano-9B-v2](https://huggingface.co/nvidia/NVIDIA-Nemotron-Nano-9B-v2). The model uses a hybrid architecture consisting primarily of Mamba-2 and MLP layers combined with just six Attention layers."
+    },
+    {
+      "source": "[readme]",
+      "quote": "## Model Architecture\n\n- Architecture Type: Mamba2-Transformer Hybrid\n- Network Architecture: Nemotron-Hybrid"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"nemotron_h\","
+    },
+    {
+      "source": "[py_files/modeling_nemotron_h.py]",
+      "quote": "\"\"\"PyTorch NemotronH model.\"\"\""
+    },
+    {
+      "source": "[py_files/modeling_nemotron_h.py]",
+      "quote": "_CHECKPOINT_FOR_DOC = \"nvidia/Nemotron-H-56B-Base-8K\""
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer can be obtained directly with\n   tokenizer = AutoTokenizer.from_pretrained(\"nvidia/NVIDIA-Nemotron-Nano-12B-v2\")\nso it is hosted and downloadable from the Hugging Face repository under the exact model name.  After loading, the same object supports higher-level helpers such as tokenizer.apply_chat_template(...), showing that a ready-made chat template is included.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"nvidia/NVIDIA-Nemotron-Nano-12B-v2\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenized_chat = tokenizer.apply_chat_template("
+    }
+  ],
+  "2-1 (Hardware)": "Documentation lists official GPU support for NVIDIA A10G, NVIDIA H100-80GB, and NVIDIA A100 devices.  Example test runs were carried out on an A10G (24 GB) and an H100 (80 GB).  No additional compute-scale metrics are published in the excerpt, but these statements confirm that Nemotron-Nano-12B-v2 targets modern NVIDIA data-center GPUs across both Ampere and Hopper generations.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Supported Hardware Microarchitecture Compatibility: NVIDIA A10G, NVIDIA H100-80GB, NVIDIA A100"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- ## Test Hardware NVIDIA A10G 24GB, H100 80GB"
+    }
+  ],
+  "2-2 (Software)": "Training was carried out with the NVIDIA Megatron-LM framework in combination with NeMo-RL.  At inference or deployment time the documented runtime engine is “NeMo 25.07.nemotron-nano-v2”.  The model is fully compatible with the Hugging Face Transformers library—examples were verified on version 4.48.3, and a config key records \"transformers_version\": \"4.51.3\".  Code snippets and the underlying class identify it as a \"PyTorch NemotronH\" implementation.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model was trained using [Megatron-LM](https://github.com/NVIDIA/Megatron-LM) and [NeMo-RL](https://github.com/NVIDIA-NeMo/RL)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Runtime Engine(s): NeMo 25.07.nemotron-nano-v2"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The snippet below shows how to use this model with Huggingface Transformers (tested on version 4.48.3)."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.51.3\""
+    },
+    {
+      "source": "[py_files/modeling_nemotron_h.py]",
+      "quote": "\"\"\"PyTorch NemotronH model.\"\"\""
+    }
+  ],
+  "2-3 (API)": "The available material for the nvidia/NVIDIA-Nemotron-Nano-12B-v2 model explicitly demonstrates that an out-of-the-box, server-style API can be stood up with a single command and that all of the Hugging Face ecosystem utilities work without modification.  One quotation shows the exact invocation\n\n    vllm serve nvidia/NVIDIA-Nemotron-Nano-12B-v2 \\\n\nwhich implies that the model repository is publicly hosted, that the weights can be downloaded automatically, and that the vLLM framework will expose standard HTTP endpoints (completion / chat-completion style) once the server starts.  A second quotation—\n\n    tokenizer = AutoTokenizer.from_pretrained(\"nvidia/NVIDIA-Nemotron-Nano-12B-v2\")\n\nconfirms that the official tokenizer is equally accessible through the normal Transformers API.  Together, these sentences indicate (1) public availability on Hugging Face Hub, (2) zero-config integration with vLLM for high-performance inference, and (3) full compatibility with the widely used AutoModel*/AutoTokenizer loading pattern, enabling users to embed the model in any Python application or to stand up their own GPT-like endpoint with a single CLI call.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "vllm serve nvidia/NVIDIA-Nemotron-Nano-12B-v2 \\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"nvidia/NVIDIA-Nemotron-Nano-12B-v2\")"
+    }
+  ],
+  "3-1 (Pre-training)": "According to the supplied statements, NVIDIA-Nemotron-Nano-12B-v2 was \"trained from scratch by NVIDIA\" rather than being adapted from an earlier checkpoint.  It is deliberately positioned as a \"unified model for both reasoning and non-reasoning tasks,\" meaning that the pre-training objective was broad enough to cover chain-of-thought or multi-step reasoning prompts as well as more conventional language-modeling use-cases.  The only direct data description provided is that \"the pre-training corpus … consists of high-quality curated and synthetically-generated data.\"  From these two sentences we learn (a) the training run started with randomly-initialized weights, (b) NVIDIA chose to interleave human-curated text with synthetic text that it generated for itself, and (c) the design goal was generality across task types rather than specialization in a narrow domain.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pre-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of high-quality curated and synthetically-generated data."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning and post-training for this series are outlined in two short but informative sentences.  First, we are told that \"The model was fine-tuned from NVIDIA-Nemotron-Nano-12B-v2-Base [and] was further compressed into NVIDIA-Nemotron-Nano-9B-v2.\"  This reveals a multi-stage pipeline: an initial 12-billion-parameter base checkpoint is subjected to an additional training phase (fine-tuning) that both adapts the behavior and reduces the parameter count, eventually yielding a 9-billion-parameter derivative.  Second, the \"post-training corpus\"—the data specifically used in this fine-tuning stage—\"consists of English and multilingual text\" spanning German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English itself.  In effect, the post-training step broadens the linguistic coverage while simultaneously distilling the model, producing a lighter multilingual checkpoint suitable for downstream tasks.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model was fine-tuned from NVIDIA-Nemotron-Nano-12B-v2-Base was further compressed into NVIDIA-Nemotron-Nano-9B-v2."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The post-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of English and multilingual text (German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "Reinforcement-learning–style optimization details are sparse but still explicit.  The documentation directs readers to the Nemotron-H technical report for architectural background and states unambiguously that \"The model was trained using Megatron-LM and NeMo-RL.\"  From this we can infer that any RLHF/DPO or other policy-optimization phase leveraged the NeMo-RL toolkit on top of the large-scale distributed training infrastructure provided by Megatron-LM.  Thus, every reinforcement-learning experiment for NVIDIA-Nemotron-Nano-12B-v2 was carried out within an NVIDIA-maintained software stack that combines Megatron’s parallelization schemes with NeMo-RL’s reinforcement-learning algorithms.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For the architecture, please refer to the [Nemotron-H tech report](https://arxiv.org/abs/2504.03624). The model was trained using [Megatron-LM](https://github.com/NVIDIA/Megatron-LM) and [NeMo-RL](https://github.com/NVIDIA-NeMo/RL)."
+    }
+  ],
+  "4-1 (Pre-training Data)": "According to the statements that explicitly mention NVIDIA-Nemotron-Nano-12B-v2, the model’s pre-training corpus is described as “high-quality curated and synthetically-generated data.” The same sentence specifies the linguistic and programming-language coverage: it contains English, 15 additional multilingual languages, and 43 different programming languages. In the immediately following sentence, whose factual content is therefore tied to the preceding model reference, it is said that “The model was pre-trained for approximately twenty trillion tokens.” Taken together, these quotes indicate that NVIDIA-Nemotron-Nano-12B-v2 was exposed to an exceptionally large (≈20T-token) mixture of carefully selected real-world and synthetic text that spans a wide spectrum of natural and programming languages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The pre-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of high-quality curated and synthetically-generated data. It is trained in the English language, as well as 15 multilingual languages and 43 programming languages."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The model was pre-trained for approximately twenty trillion tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The post-training (instruction-tuning / fine-tuning) data for NVIDIA-Nemotron-Nano-12B-v2 is explicitly described as a multilingual mix: “English and multilingual text (German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English).” The same sentence notes that the material comes from “a variety of document types such as: webpages, dialogue, articles, and other written materials,” emphasising heterogeneity of source genres. A second sentence, adjacent to the first and therefore tied to the same model reference, adds that the developers “include a small portion of question-answering, and alignment style data to improve model accuracies.” Overall, the fine-tuning stage draws on diverse, publicly recognisable text domains in ten named languages, supplemented with specialised QA and alignment-oriented examples that refine the model’s instructional behaviour.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The post-training corpus for NVIDIA-Nemotron-Nano-12B-v2 consists of English and multilingual text (German, Spanish, French, Italian, Korean, Portuguese, Russian, Japanese, Chinese and English). Our sources cover a variety of document types such as: webpages, dialogue, articles, and other written materials."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also include a small portion of question-answering, and alignment style data to improve model accuracies."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "For reinforcement-learning (RL) style optimisation, the documentation states that “NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks. The model was trained using Megatron-LM and NeMo-RL.” This explicitly ties the target model to a training pipeline that incorporates NVIDIA’s Megatron and NeMo RL frameworks. Another quoted table line beginning with “Nemotron-PrismMath” (which includes the keyword ‘nemotron’) lists the concrete RL corpus entry: “Nemotron-PrismMath | Text | 4.6B | Big-Math-RL-Verified | [Qwen2.5-0.5B-Instruct] … [Qwen2.5-72B-Instruct]; [DeepSeek-R1-Distill-Qwen-32B].” From this we can summarise that a 4.6-billion-token text dataset named Nemotron-PrismMath—sourced from a Big-Math-RL-Verified collection and distilled or aligned with several Qwen and DeepSeek instruction models—was part of the RL fine-tuning recipe deployed through NeMo-RL.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "NVIDIA-Nemotron-Nano-12B-v2 is a large language model (LLM) trained from scratch by NVIDIA, and designed as a unified model for both reasoning and non-reasoning tasks. The model was trained using Megatron-LM and NeMo-RL."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| Nemotron-PrismMath | Text | 4.6B | Big-Math-RL-Verified | [Qwen2.5-0.5B-instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct); [DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) |"
+    }
+  ],
+  "4-4 (Data Filtering)": "The data cleaning strategy for NVIDIA-Nemotron-Nano-12B-v2 is described in two sentences that contain the keyword “Nemotron.” First, “The data was subsequently deduplicated and filtered in various ways described in the Nemotron-CC paper,” indicating that a comprehensive deduplication pass plus multiple filter stages—defined in the Nemotron-CC preprocessing pipeline—were applied to remove redundancy and low-quality segments. Second, the authors explain their multilingual approach: “As we did not have reliable multilingual model-based quality classifiers available, we applied just heuristic filtering instead—similar to what we did for lower quality English data in the Nemotron-CC pipeline, but selectively removing some filters for some languages that did not work well.” This clarifies that, lacking robust cross-lingual classifiers, they relied on heuristic (rule-based) filters, re-using the Nemotron-CC English heuristics but disabling particular filters that proved ineffective for certain languages. No numeric thresholds are given in the quotes, but the passage makes clear that deduplication, heuristic quality checks, and language-specific filter adjustments constituted the principal data-filtering pipeline.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The data was subsequently deduplicated and filtered in various ways described in the Nemotron-CC paper."
+    },
+    {
+      "source": "[readme]",
+      "quote": "As we did not have reliable multilingual model-based quality classifiers available, we applied just heuristic filtering instead—similar to what we did for lower quality English data in the Nemotron-CC pipeline, but selectively removing some filters for some languages that did not work well."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

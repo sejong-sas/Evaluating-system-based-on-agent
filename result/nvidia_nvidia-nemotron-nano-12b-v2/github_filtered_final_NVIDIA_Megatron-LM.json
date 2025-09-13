@@ -1,0 +1,274 @@
+{
+  "1-1 (Weights)": "The weight-distribution story for Megatron-LM is surfaced through several GitHub resources and inline API references:\n\n• \"🔄 NEW! **[Megatron Bridge](https://github.com/NVIDIA-NeMo/Megatron-Bridge)** - Bidirectional converter for interoperability between Hugging Face and Megatron checkpoints, featuring production-ready recipes for popular models.\"  — This line names a public repository that explicitly “converts” checkpoints in both directions, implying that once a user has the files (either downloaded from Hugging Face or produced by Megatron-LM), the tool will make them usable across ecosystems.\n\n• \"**[2025/06]** **[Megatron MoE Model Zoo](https://github.com/yanring/Megatron-MoE-ModelZoo)** - Best practices and optimized configurations for training DeepSeek-V3, Mixtral, and Qwen3 MoE models with performance benchmarking and checkpoint conversion tools.\"  — The phrase “Model Zoo” plus “checkpoint conversion tools” signals that this companion repo hosts or links to ready-made Megatron-formatted weight files together with scripts for conversion and evaluation.\n\n• In-code hooks show how weights are consumed programmatically: `from megatron.training.checkpointing import load_checkpoint` and the accompanying docstring `\"\"\"Load a MIMO model from a Megatron distributed checkpoint directory\"\"\"`.  These snippets prove that the public training code already ships with a helper called `load_checkpoint` capable of restoring a model from a directory that contains sharded Megatron checkpoints.\n\nTaken together, the quotes establish that (1) GitHub-hosted tools such as “Megatron Bridge” and the “Megatron MoE Model Zoo” provide concrete URLs and conversion recipes, (2) the user can download or convert checkpoints without mention of gated access, and (3) the core library exposes a first-class API for re-loading those weights into a running training or inference session.  No quote introduces restrictions or closed download portals, so the default reading is that Megatron-LM checkpoints (or the tooling to obtain them) are openly accessible to anyone who follows the linked repositories.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- 🔄 NEW! **[Megatron Bridge](https://github.com/NVIDIA-NeMo/Megatron-Bridge)** - Bidirectional converter for interoperability between Hugging Face and Megatron checkpoints, featuring production-ready recipes for popular models."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **[2025/06]** **[Megatron MoE Model Zoo](https://github.com/yanring/Megatron-MoE-ModelZoo)** - Best practices and optimized configurations for training DeepSeek-V3, Mixtral, and Qwen3 MoE models with performance benchmarking and checkpoint conversion tools."
+    },
+    {
+      "source": "[py_files/examples/inference/gpt/gpt_dynamic_inference.py]",
+      "quote": "from megatron.training.checkpointing import load_checkpoint"
+    },
+    {
+      "source": "[py_files/examples/mimo/avlm_inference.py]",
+      "quote": "\"\"\"Load a MIMO model from a Megatron distributed checkpoint directory\"\"\""
+    }
+  ],
+  "1-2 (Code)": "Multiple excerpts confirm that the full training pipeline for Megatron-LM is open source and publicly importable:\n\n• \"**Reference implementation** that includes Megatron Core plus everything needed to train models.\"  — The phrase “everything needed” explicitly covers data preparation, configuration, scheduling, and optimizer logic, not merely inference.\n\n• `# Megatron core distributed training initialization` followed by `initialize_megatron( extra_args_provider=add_dynamic_inference_args, args_defaults={'no_load_rng': True, 'no_load_optim': True}, )` — demonstrates that low-level multi-GPU/-node initialization comes as source code.\n\n• The public API surface is wide: `from megatron.training import get_args, get_model, get_tokenizer`, `from megatron.training import get_args, pretrain`, and `from megatron.core.parallel_state import ( get_tensor_model_parallel_group, get_tensor_model_parallel_rank, get_tensor_model_parallel_src_rank, )` all show that argument parsing, tokenizer construction, model instantiation, the `pretrain` entry-point, and tensor-parallel utilities are part of the released code base.\n\n• Model definitions are included: `from megatron.core.models.mimo import MimoModel, MimoModelConfig` and `from megatron.core.models.gpt.gpt_model import GPTModel` reveal that both generic GPT stacks and more specialized MIMO architectures are shipped in plain Python.\n\n• Domain-specific data helpers are public too: `from megatron.energon import ( DefaultTaskEncoder, VQASample, WorkerConfig, get_loader, get_train_dataset, )`.\n\n• The comment \"# Use Megatron utility if available – covers both distributed and non-distributed cases.\" indicates that the same code path can be run on a laptop or on a cluster, underscoring the breadth of the open implementation.\n\nNo quote suggests any part of the training code is private or behind a license gate; therefore, the training, fine-tuning, and data-pipeline scripts for Megatron-LM are fully available under the repository’s public license.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Reference implementation** that includes Megatron Core plus everything needed to train models."
+    },
+    {
+      "source": "[py_files/examples/export/trtllm_export/distributed_export/gpt_distributed_gpu_export.py]",
+      "quote": "# Megatron core distributed training initialization"
+    },
+    {
+      "source": "[py_files/examples/inference/gpt/gpt_dynamic_inference.py]",
+      "quote": "initialize_megatron( extra_args_provider=add_dynamic_inference_args, args_defaults={'no_load_rng': True, 'no_load_optim': True}, )"
+    },
+    {
+      "source": "[py_files/examples/inference/t5/simple_t5_batch_inference.py]",
+      "quote": "from megatron.training import get_args, get_model, get_tokenizer"
+    },
+    {
+      "source": "[py_files/examples/inference/t5/simple_t5_batch_inference.py]",
+      "quote": "from megatron.training.initialize import initialize_megatron"
+    },
+    {
+      "source": "[py_files/examples/mimo/train.py]",
+      "quote": "from megatron.training import get_args, pretrain"
+    },
+    {
+      "source": "[py_files/examples/mimo/train.py]",
+      "quote": "from megatron.core.parallel_state import ( get_tensor_model_parallel_group, get_tensor_model_parallel_rank, get_tensor_model_parallel_src_rank, )"
+    },
+    {
+      "source": "[py_files/examples/mimo/model_providers/llava_vlm.py]",
+      "quote": "from megatron.core.models.mimo import MimoModel, MimoModelConfig"
+    },
+    {
+      "source": "[py_files/examples/mimo/model_providers/llava_avlm.py]",
+      "quote": "from megatron.core.models.gpt.gpt_model import GPTModel"
+    },
+    {
+      "source": "[py_files/examples/mimo/data/energon_vlm_task_encoder.py]",
+      "quote": "from megatron.energon import ( DefaultTaskEncoder, VQASample, WorkerConfig, get_loader, get_train_dataset, )"
+    },
+    {
+      "source": "py_files/examples/mimo/utils/logging.py",
+      "quote": "# Use Megatron utility if available – covers both distributed and non-distributed cases."
+    },
+    {
+      "source": "py_files/examples/mimo/utils/model_helpers.py",
+      "quote": "Load *ckpt_dir* into *module* using Megatron distributed-checkpointing."
+    },
+    {
+      "source": "py_files/examples/multimodal/combine_state_dicts.py",
+      "quote": "# Add megatron to the path."
+    }
+  ],
+  "1-3 (License)": "The repository is clearly marked as Apache-2.0:\n\n• A badge in the README explicitly shows \"[![license](https://img.shields.io/badge/license-Apache-blue)](./LICENSE)\".\n• The LICENSE file begins with the canonical header: \"Licensed under the Apache License, Version 2.0 (the \\\"License\\\");\".\n\nUnder Apache 2.0 the community receives broad, irrevocable rights to (a) use the software for any purpose, (b) modify it, (c) redistribute original or modified versions, and (d) carry out commercial activities, provided that they preserve copyright notices and comply with the license’s notice/indemnity clauses.  The provided quotes contain no qualifiers such as “research-only,” “non-commercial,” or “no redistribution,” so the standard, permissive Apache-2.0 terms apply without additional restriction.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[![license](https://img.shields.io/badge/license-Apache-blue)](./LICENSE)"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\");"
+    }
+  ],
+  "1-4 (Paper)": "The codebase cites a dedicated technical report in BibTeX form:\n\n```\n@article{megatron-lm,\n  title={Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism},\n```\n\nThese lines identify the official Megatron-LM paper, titled “Training Multi-Billion Parameter Language Models Using Model Parallelism.”  The presence of a BibTeX entry signals that the work has been formally published (or at least archived) and is intended to be cited by researchers who build upon the Megatron-LM framework.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@article{megatron-lm,"
+    },
+    {
+      "source": "[readme]",
+      "quote": "title={Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism},"
+    }
+  ],
+  "1-5 (Architecture)": "The excerpts indicate that Megatron-LM’s architecture is exposed through the Megatron Core library, which “expands upon Megatron-LM's GPU-optimized techniques with more cutting-edge innovations on system-level optimizations, featuring composable and modular APIs.”  Concrete code references show that the core architectural objects reside in the transformer and GPT sub-modules: \n• “from megatron.core.transformer.transformer_config import TransformerConfig” highlights an explicit TransformerConfig class that captures all model hyper-parameters. \n• Multiple identical lines — “from megatron.core.models.gpt.gpt_model import GPTModel” — confirm that the primary network instantiation used for Megatron-LM is the GPTModel living under megatron.core.models.gpt.  Together, these statements portray a modular Transformer/GPT stack whose configuration object (TransformerConfig) and top-level model class (GPTModel) can be imported directly, reflecting the API-driven, componentized architectural design that Megatron-LM exposes through Megatron Core.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Megatron Core expands upon Megatron-LM's GPU-optimized techniques with more cutting-edge innovations on system-level optimizations, featuring composable and modular APIs."
+    },
+    {
+      "source": "[py_files/examples/export/trtllm_export/distributed_export/gpt_distributed_gpu_export.py]",
+      "quote": "from megatron.core.transformer.transformer_config import TransformerConfig"
+    },
+    {
+      "source": "[py_files/examples/export/trtllm_export/distributed_export/gpt_distributed_gpu_export.py]",
+      "quote": "from megatron.core.models.gpt.gpt_model import GPTModel"
+    },
+    {
+      "source": "[py_files/examples/mimo/model_providers/llava_vlm.py]",
+      "quote": "from megatron.core.models.gpt.gpt_model import GPTModel"
+    },
+    {
+      "source": "[py_files/examples/mimo/model_providers/llava_avlm.py]",
+      "quote": "from megatron.core.models.gpt.gpt_model import GPTModel"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer handling is performed programmatically through Megatron’s training utilities.  Repeated imports such as “from megatron.training import get_tokenizer” and the wider composite import “from megatron.training import get_args, get_model as _get_model, get_tokenizer, initialize_megatron” show that the official training entry-points bundle tokenizer retrieval together with argument parsing and model assembly.  In addition, a more specialized line — “from megatron.training.tokenizer.multimodal_tokenizer import mistral_custom_template” — reveals that Megatron-LM can load a dedicated multimodal tokenizer whose behaviour is governed by a Mistral-style custom template.  Altogether the quotes imply that tokenization is tightly integrated into Megatron’s training pipeline, accessible via get_tokenizer, and extensible to multimodal scenarios through the multimodal_tokenizer module.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "from megatron.training import get_tokenizer"
+    },
+    {
+      "source": "[py_files/examples/inference/gpt/gpt_dynamic_inference.py]",
+      "quote": "from megatron.training import get_args, get_model as _get_model, get_tokenizer, initialize_megatron"
+    },
+    {
+      "source": "[py_files/examples/mimo/data/energon_vlm_task_encoder.py]",
+      "quote": "from megatron.training.tokenizer.multimodal_tokenizer import mistral_custom_template"
+    }
+  ],
+  "2-1 (Hardware)": "The supplied excerpts contain no direct mention of GPU types, accelerator counts, or any other hardware specifications used to train Megatron-LM, so no hardware information can be summarized from the provided material.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The software stack revolves around Megatron Core and a carefully matched PyTorch environment:  “We strongly recommend using the previous releases of PyTorch NGC Container rather than the latest one for optimal compatibility with Megatron Core release and testing.”  Installation is straightforward via pip — “pip install megatron-core[dev]”.  Runtime initialisation is handled with repeated calls to initialize_megatron, e.g.\n  initialize_megatron(extra_args_provider=add_dynamic_inference_args, args_defaults={'no_load_rng': True, 'no_load_optim': True},)\nwhich shows how the framework injects dynamic inference arguments while explicitly skipping RNG and optimizer state loading.  Similar snippets confirm reusable initialisation blocks and emphasise the same defaults.  Training orchestration relies on helpers such as “from megatron.training import get_args, pretrain” and low-level distributed utilities: “from megatron.core.parallel_state import ( … )”.  Checkpointing support is present through documented helpers: “\"\"\"Load a MIMO model from a Megatron distributed checkpoint directory\"\"\"” and “\"\"\"Load *ckpt_dir* into *module* using Megatron distributed-checkpointing.\"\"\"”, and comments show path manipulation — “# Add megatron to the path.” — and a universal loader utility that works in both distributed and non-distributed contexts.  Taken together, the quotes depict a training software stack comprising Megatron Core, a vetted PyTorch NGC container, Python-level package installation, programmatic initialisation with adjustable flags, and built-in distributed checkpoint management.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We strongly recommend using the previous releases of PyTorch NGC Container rather than the latest one for optimal compatibility with Megatron Core release and testing."
+    },
+    {
+      "source": "[readme]",
+      "quote": "pip install megatron-core[dev]"
+    },
+    {
+      "source": "[py_files/examples/inference/gpt/gpt_dynamic_inference.py]",
+      "quote": "initialize_megatron(extra_args_provider=add_dynamic_inference_args, args_defaults={'no_load_rng': True, 'no_load_optim': True},)"
+    },
+    {
+      "source": "[py_files/examples/inference/gpt/gpt_dynamic_inference_with_coordinator.py]",
+      "quote": "initialize_megatron(\n            #parsed_args=args\n            extra_args_provider=add_dynamic_inference_args,\n            args_defaults={'no_load_rng': True, 'no_load_optim': True},\n        )"
+    },
+    {
+      "source": "[py_files/examples/mimo/avlm_inference.py]",
+      "quote": "\"\"\"Load a MIMO model from a Megatron distributed checkpoint directory\"\"\""
+    },
+    {
+      "source": "[py_files/examples/mimo/train.py]",
+      "quote": "from megatron.training import get_args, pretrain"
+    },
+    {
+      "source": "[py_files/examples/mimo/train.py]",
+      "quote": "from megatron.core.parallel_state import ("
+    },
+    {
+      "source": "[py_files/examples/mimo/utils/model_helpers.py]",
+      "quote": "\"\"\"Load *ckpt_dir* into *module* using Megatron distributed-checkpointing.\"\"\""
+    },
+    {
+      "source": "[py_files/examples/mimo/utils/logging.py]",
+      "quote": "# Use Megatron utility if available – covers both distributed and non-distributed cases."
+    },
+    {
+      "source": "[py_files/examples/multimodal/combine_state_dicts.py]",
+      "quote": "# Add megatron to the path."
+    }
+  ],
+  "2-3 (API)": "Two separate snippets demonstrate that the NVIDIA Megatron-LM codebase deliberately exposes a public, code-level interface that users can call. The first sentence states that \"Megatron Core expands upon Megatron-LM's GPU-optimized techniques with more cutting-edge innovations on system-level optimizations, featuring composable and modular APIs.\"  The explicit promise of \"composable and modular APIs\" confirms that the project is packaged so external callers can interact with it in a structured, officially supported way.  The second excerpt shows a concrete usage example: \"from megatron.core.inference.inference_client import InferenceClient\".  This import line reveals the existence of an InferenceClient object located under the namespace megatron.core.inference, indicating that a ready-made client class is supplied for performing inference through a function-call–style API.  Although no web endpoint or SaaS gateway is mentioned in the supplied text, these two lines together prove that Megatron-LM provides an accessible programmatic interface for inference, designed to be incorporated directly into user code and benefiting from the underlying GPU-optimized and system-level innovations of Megatron Core.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Megatron Core expands upon Megatron-LM's GPU-optimized techniques with more cutting-edge innovations on system-level optimizations, featuring composable and modular APIs."
+    },
+    {
+      "source": "py_files/examples/inference/gpt/gpt_dynamic_inference_with_coordinator.py",
+      "quote": "from megatron.core.inference.inference_client import InferenceClient"
+    }
+  ],
+  "3-1 (Pre-training)": "The quoted material outlines a full reference pipeline for training Megatron-LM models.  A comment labels the repository as a \"**Reference implementation** that includes Megatron Core plus everything needed to train models,\" establishing that all required components are packaged together.  Users kick off the workflow by importing the dedicated entry point: \"from megatron.training import pretrain\".  Prior to launching training, the environment is prepared with a call to \"initialize_megatron(\", signaling a centralized initializer that sets up distributed infrastructure and any global configuration.  Additional helper routines—\"get_args\", \"get_model\", and \"get_tokenizer\"—are pulled from the same package via \"from megatron.training import get_args, get_model, get_tokenizer\", clarifying that argument parsing, model construction, and tokenizer configuration are all handled within the framework.  Checkpoint handling is addressed explicitly: \"Load *ckpt_dir* into *module* using Megatron distributed-checkpointing,\" pointing to a built-in loader capable of reading sharded checkpoints across multiple GPUs or nodes.  A follow-up comment notes that users should \"# Use Megatron utility if available – covers both distributed and non-distributed cases,\" highlighting that the same utility functions transparently support single-GPU and multi-GPU regimes.  Collectively, these snippets describe a canonical pre-training flow that initializes the Megatron runtime, parses arguments, constructs the model and tokenizer, and restores weights through an optimized distributed checkpoint loader before executing the main pretrain loop.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "from megatron.training import pretrain"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Reference implementation** that includes Megatron Core plus everything needed to train models."
+    },
+    {
+      "source": "[py_files/examples/inference/t5/simple_t5_batch_inference.py]",
+      "quote": "initialize_megatron("
+    },
+    {
+      "source": "[py_files/examples/inference/t5/simple_t5_batch_inference.py]",
+      "quote": "from megatron.training import get_args, get_model, get_tokenizer"
+    },
+    {
+      "source": "[py_files/examples/mimo/utils/model_helpers.py]",
+      "quote": "Load *ckpt_dir* into *module* using Megatron distributed-checkpointing."
+    },
+    {
+      "source": "[py_files/examples/mimo/utils/logging.py]",
+      "quote": "# Use Megatron utility if available – covers both distributed and non-distributed cases."
+    }
+  ],
+  "3-2 (Fine-tuning)": "The provided quotations contain no sentences that reference fine-tuning, adaptation, or task-specific training for Megatron-LM.  As a result, the current evidence offers no details about fine-tuning objectives, data selection, hyper-parameters, or scripts that would replicate such a procedure.",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "None of the supplied quotes mention RLHF, DPO, or any other reinforcement-learning-based post-training strategy for Megatron-LM, and thus no methodological or implementation information can be extracted for this category.",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The NVIDIA/Megatron-LM pre-training stage is orchestrated through the import path \"from megatron.core.datasets.blended_megatron_dataset_builder import BlendedMegatronDatasetBuilder\", explicitly tying the data pipeline to the Megatron code-base. The use of the class name \"BlendedMegatronDatasetBuilder\" signals that multiple corpora can be automatically combined (“blended”) into a single large-scale training mixture that the Megatron-LM framework consumes. At least one concrete corpus fed into this builder is identified directly in code as  dataset_name = \"lmms-lab/LLaVA-Video-178K\", indicating that the 178-thousand–item LLaVA-Video collection is one of the permitted sources. Apart from the explicit builder reference and dataset name, no further numeric counts, size breakdowns, or licensing constraints are exposed in the excerpt, but the presence of a Megatron-specific ‘blended’ builder strongly implies that heterogeneous modalities or domains can be merged under Megatron-LM’s data-loading logic before pre-training commences.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "from megatron.core.datasets.blended_megatron_dataset_builder import BlendedMegatronDatasetBuilder"
+    },
+    {
+      "source": "[py_files/examples/mimo/data/prepare_video_llava_data.py]",
+      "quote": "dataset_name = \"lmms-lab/LLaVA-Video-178K\""
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "Fine-tuning also reuses Megatron’s dedicated data builder, as shown in the line  train_ds, _, test_ds = BlendedMegatronDatasetBuilder(. By invoking BlendedMegatronDatasetBuilder again, NVIDIA/Megatron-LM constructs both a fine-tuning train_ds and a held-out test_ds split in a single call, thereby preserving identical preprocessing, sharding, and formatting conventions to those employed at pre-training time. Although the excerpt does not enumerate the underlying corpora, the fact that the same builder is used implies that any chosen fine-tuning datasets are passed through Megatron’s standardized dataset-mixing, batching, and tokenizer pipelines before the model parameters are updated on the new data.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "train_ds, _, test_ds = BlendedMegatronDatasetBuilder("
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "No reinforcement-learning (RLHF/RL) datasets, sources, or composition details are disclosed in the provided material; consequently there is no publicly available information about any RL data used with NVIDIA/Megatron-LM.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The provided snippets outline a multi-step filtering and cleaning workflow that is applied to candidate corpora before they are committed to NVIDIA/Megatron-LM training. One comment describes the process as a “Comprehensive guide covering advanced preprocessing, dataset collection, deduplication, and optimization strategies,” indicating that the pipeline extends beyond simple heuristics to include systematic corpus assembly and removal of duplicates. The actual code fragments focus on safety/quality filtering: DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack'] enumerates six content-moderation dimensions that are scored for every sample. For each document the pipeline appends individual toxicity values via scores.append(score['toxicity']) and later converts them to a NumPy array with  toxicity_scores = np.array([s['score']['toxicity'] if s['score'] else -1 for s in scores]). A decision rule is then triggered by the explicit numeric threshold  if score and score > 0.5:, meaning any item whose toxicity score exceeds 0.5 is flagged (typically for exclusion or down-weighting). Although the excerpts do not reveal the exact classifier or confidence calibration, they clearly show automated attribute scoring, threshold-based rejection, and an earlier deduplication step; together these ensure that highly toxic, sexual, threatening, or identity-attacking content is aggressively filtered before entering the Megatron-LM training corpus.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Comprehensive guide covering advanced preprocessing, dataset collection, deduplication, and optimization strategies"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/annotations/filter-selfgeneration.py]",
+      "quote": "scores.append(score['toxicity'])"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/annotations/perspective_api_annotate.py]",
+      "quote": "DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack']"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack']"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "toxicity_scores = np.array([s['score']['toxicity'] if s['score'] else -1 for s in scores])"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "if score and score > 0.5:"
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

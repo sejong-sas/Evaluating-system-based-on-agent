@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe.",
+  "pretrain_data": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data.",
+  "__evidence": [
+    {
+      "source": "arxiv:2508.14444",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "arxiv:2508.14444",
+      "quote": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    }
+  ]
+}

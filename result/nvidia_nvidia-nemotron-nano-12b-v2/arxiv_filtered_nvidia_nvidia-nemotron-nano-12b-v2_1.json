@@ -1,0 +1,122 @@
+{
+  "1-1 (Weights)": "The quotes show that NVIDIA has made the full-precision checkpoints for the target series publicly downloadable.  The authors state: “We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face.”  In a second, more explicit list they add: “We are releasing the following models on Hugging Face: • NVIDIA-Nemotron-Nano-9B-v2: the aligned and pruned reasoning model, • NVIDIA-Nemotron-Nano-9B-v2-Base: a pruned base model, • NVIDIA-Nemotron-Nano-12B-v2-Base: the base model before alignment or pruning.”  A follow-up line confirms that these downloads are truly open: “We have open-sourced Nemotron-Nano-9B-v2 along with its corresponding sibling Nemotron-Nano-9B-v2-Base and parent Nemotron-Nano-12B-v2-Base models, plus the majority of its pre- and post-training data on HuggingFace.”  The same document reports that all Nemotron-H models (56 B, 47 B, 8 B) are also hosted on Hugging Face and NGC and are compatible with the NeMo framework, e.g. “We are releasing Nemotron-H base model checkpoints with support in Hugging Face and NeMo.”  Therefore, anyone who has a Hugging Face account (or access to NVIDIA NGC) can fetch the raw base weights, the pruned weights, and an alignment-tuned variant without additional gating or approval steps.  No quote mentions any geographic or usage restriction on download beyond the standard license (see 1-3), nor do the authors require registration for academic use.  In short, the target 12 B Nano v2 base weights, together with related 9 B variants and the larger Nemotron-H family, are freely hosted on Hugging Face (and NGC for H-series) in standard checkpoint formats that are directly compatible with NeMo-Megatron fine-tuning or inference pipelines.",
+  "1-2 (Code)": "The document does not link to a dedicated training repository for Nemotron-Nano-12B-v2, but it repeatedly explains which open-source components were used and what has been shared.  For pre-training the authors relied on Megatron-LM: “We pre-train Nemotron-H using Megatron-LM; we rely on Transformer Engine6 for FP8 support.”  A second wording is identical: “We pre-train Nemotron-H using Megatron-LM; we rely on Transformer Engine for FP8 support.”  A more granular methodological note appears later: “As mentioned in Section 3.1, we use the open source Megatron-LM library19 … to train 8 B parameter transformer LLMs for 1 T tokens.”  Although the sentence gives an 8 B example, it still highlights that the Nano/H series leverage the publicly available Megatron-LM codebase rather than a private internal fork.  Regarding higher-level recipes, multiple quotes say: “Nemotron Nano 2 builds on the architecture of Nemotron-H … but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets.”  The wording “we share these recipes” indicates that configuration files, hyper-parameters, pruning masks, and alignment instructions are released, even if no explicit GitHub URL is printed in the excerpt.  What is NOT stated anywhere is the publication of a complete, end-to-end, turn-key training script created by NVIDIA; instead the team points users to the already-public Megatron-LM framework and to Transformer Engine for FP8 kernels.  No quote mentions RLHF code, inference servers, or evaluation harnesses.  Therefore, the available code resources for the target model consist of: (1) external open-source libraries used in training (Megatron-LM and Transformer Engine), and (2) openly shared “recipes” and configuration artifacts for pre-training, alignment, pruning, and distillation.  There is no evidence in the provided text that a bespoke NVIDIA training pipeline has been released beyond those recipes.",
+  "1-3 (License)": "The licensing section is short but explicit.  Two identical copyright notices appear: “© 2025 NVIDIA. All rights reserved.”  A separate bullet lists three specific license identifiers: “NVIDIA 2002 License [nvidia-2002], NVIDIA License [nvidia], NVIDIA License with Government Qualifications [nvidia-gov].”  None of these lines says “Apache,” “MIT,” or any other permissive FOSS term, implying that redistribution or modification is governed by NVIDIA’s proprietary license family.  The only permissive carve-out is for the crawl-based dataset: “For the benefit of the community, we have publicly released the dataset (as Nemotron-CC1) under the Common Crawl terms of use.”  Thus, for the model weights, the operative license is an NVIDIA-proprietary one; all usage rights (running, fine-tuning, redistribution, commercial deployment) are subject to the terms of that NVIDIA license and are not elaborated in the provided quotes.  In contrast, the separate Nemotron-CC1 dataset follows the Common Crawl Terms of Use, which allow broad research and commercial exploitation but carry the usual disclaimers.  No sentence grants an explicit “non-commercial” or “research-only” restriction on the model itself, but the “All rights reserved” notice, together with the proprietary license names, signals that users must refer to NVIDIA’s license text to understand what is allowed.",
+  "1-4 (Paper)": "Two official publications cover the target series.  First, the broader framework is described in “Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models.”  Second, the direct paper for the Nano family is: “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model,” which is archived as “arXiv:2508.14444v4 [cs.CL] 2 Sep 2025.”  Multiple duplicate headers reaffirm that this is the authoritative technical report.  An internal sentence from the same source gives a concrete training detail for our target model lineage: “To create Nemotron-Nano-9B-v2, we started by pre-training Nemotron-Nano-12B-v2-Base on 20T tokens, using a carefully constructed mix of curated and synthetically generated data.”  This shows that the 12 B base model is the foundation for the 9 B aligned/pruned sibling and that the paper provides at least high-level corpus and token-count information.  No other blog posts or white papers are quoted, implying that the arXiv manuscript and the Nemotron-H paper form the entire public technical documentation package for the model family.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing Nemotron-H base model checkpoints with support in Hugging Face and NeMo."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To enable further research, we have released the following base model checkpoints in Hugging Face and NeMo formats on the Hugging Face and NGC model repositories: • Nemotron-H-56B-Base. Hugging Face and NGC. • Nemotron-H-47B-Base. Hugging Face and NGC. • Nemotron-H-8B-Base. Hugging Face and NGC."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing the following models on Hugging Face:\n• NVIDIA-Nemotron-Nano-9B-v2: the aligned and pruned reasoning model,\n• NVIDIA-Nemotron-Nano-9B-v2-Base: a pruned base model,\n• NVIDIA-Nemotron-Nano-12B-v2-Base: the base model before alignment or pruning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To enable further research, we have released the following base model checkpoints in Hugging Face and NGC formats on the Hugging Face and NGC model repositories: • Nemotron-H-56B-Base. • Nemotron-H-47B-Base. • Nemotron-H-8B-Base."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "We have released the Nemotron-H base checkpoints described in this paper with support in Hugging Face and NeMo to facilitate further research: • Nemotron-H-56B-Base. Hugging Face and NGC. • Nemotron-H-47B-Base. Hugging Face and NGC. • Nemotron-H-8B-Base. Hugging Face and NGC."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "Nemotron-H Reasoning checkpoints described are also available in Hugging Face:"
+    },
+    {
+      "source": "[sections/2508.14444]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[sections/2508.14444]",
+      "quote": "We are releasing the following models on Hugging Face:\n• NVIDIA-Nemotron-Nano-9B-v2: the aligned and pruned reasoning model,\n• NVIDIA-Nemotron-Nano-9B-v2-Base: a pruned base model,\n• NVIDIA-Nemotron-Nano-12B-v2-Base: the base model before alignment or pruning."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "We have open-sourced Nemotron-Nano-9B-v2 along with its corresponding sibling Nemotron-Nano-9B-v2-Base and parent Nemotron-Nano-12B-v2-Base models, plus the majority of its pre- and post-training data on HuggingFace (links at the bottom of Section 1)."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train Nemotron-H using Megatron-LM5; we rely on Transformer Engine6 for FP8 support."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H, but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    },
+    {
+      "source": "[sections/D  Training Details: Ablations]",
+      "quote": "As mentioned in Section 3.1, we use the open source Megatron-LM library19 (Shoeybi et al., 2019) to train 8B parameter transformer LLMs for 1T tokens. 19https://github.com/NVIDIA/Megatron-LM"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train Nemotron-H using Megatron-LM; we rely on Transformer Engine for FP8 support."
+    },
+    {
+      "source": "[sections/2508.14444]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H (NVIDIA, 2025), but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the benefit of the community, we have publicly released the dataset (as Nemotron-CC1) under the Common Crawl terms of use."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "© 2025 NVIDIA. All rights reserved."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA 2002 License [nvidia-2002], NVIDIA License [nvidia], NVIDIA License with Government Qualifications [nvidia-gov]"
+    },
+    {
+      "source": "[sections/2508.14444]",
+      "quote": "© 2025 NVIDIA. All rights reserved."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models"
+    },
+    {
+      "source": "[title]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model\narXiv:2508.14444v4  [cs.CL]  2 Sep 2025"
+    },
+    {
+      "source": "[title]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[title]",
+      "quote": "Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models"
+    },
+    {
+      "source": "[sections/2504.03624]",
+      "quote": "Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models NVIDIA"
+    },
+    {
+      "source": "[sections/2508.14444]",
+      "quote": "arXiv:2508.14444v4  [cs.CL]  2 Sep 2025\nNVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "To create Nemotron-Nano-9B-v2, we started by pre-training Nemotron-Nano-12B-v2-Base on 20T tokens, using a carefully constructed mix of curated and synthetically generated data."
+    }
+  ]
+}
