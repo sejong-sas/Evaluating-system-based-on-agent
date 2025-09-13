@@ -1,0 +1,58 @@
+{
+  "1-5 (Architecture)": "The metaseq codebase defines architectural parameters through explicit constants imported from its launcher utilities. A representative snippet shows the training or launch scripts pulling in \u00171 from metaseq.launcher.opt_job_constants import Size, M\u0017. The presence of the Size enumeration and the M constant inside the opt_job_constants module indicates that metaseq centralises high-level model-size descriptors (e.g., specific OPT-style size classes) and makes them available to the launcher logic so that architectural hyper-parameters can be set programmatically when jobs are spawned.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.launcher.opt_job_constants import Size, M"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer construction and usage are handled by helper functions located under metaseq.hub_utils. In particular, the code imports \u00171 from metaseq.hub_utils import tensorize_input, get_next_token, setup_vocab_and_merges\u0017. The call to setup_vocab_and_merges shows that vocabulary files and BPE/merge rules are gathered within metaseq itself; tensorize_input converts user strings to token IDs, while get_next_token queries the model for successive predictions. All tokenisation steps therefore rely on the metaseq-native utilities rather than an external tokenizer library.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "py_files/gpu_tests/test_hf_compatibility.py",
+      "quote": "from metaseq.hub_utils import tensorize_input, get_next_token, setup_vocab_and_merges"
+    }
+  ],
+  "2-1 (Hardware)": "Hardware details are specified via metaseq\u0019s dataclass configuration system. Training launches import the structure \u00171 from metaseq.dataclass.configs import DistributedTrainingConfig\u0017. The Dedicated DistributedTrainingConfig object encapsulates the hardware-related parameters (such as world-size, device counts and other distributed settings) so that the metaseq training scripts can materialise the correct accelerator topology at runtime.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.dataclass.configs import DistributedTrainingConfig"
+    }
+  ],
+  "2-2 (Software)": "The training software stack is built entirely around metaseq\u0019s internal CLI tools and distributed extensions. Launchers rely on \u00171 from metaseq.cli.train import cli_main as train_cli_main\u0017 for single runs and \u00171 from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main\u0017 for hyper-parameter sweeps. Memory-saving features include \u00171 from metaseq.modules.checkpoint_activations import checkpoint_wrapper\u0017 for activation checkpointing and the optimisers \u00171 from metaseq.optim.fp16_optimizer import FP16Optimizer, MemoryEfficientFP16Optimizer\u0017 for FP16 training. Distributed execution is orchestrated through \u00171 from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap, utils as distributed_utils\u0017, indicating reliance on metaseq\u0019s wrappers around Full-Sharded Data Parallel (FSDP). Collectively these modules form a self-contained PyTorch-based training pipeline that provides CLI entry points, mixed-precision optimisers, activation recomputation, and FSDP-style sharding utilities, all surfaced through the metaseq package.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_activation_checkpointing.py]",
+      "quote": "from metaseq.modules.checkpoint_activations import checkpoint_wrapper"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_fp16_optimizer.py]",
+      "quote": "from metaseq.optim.fp16_optimizer import FP16Optimizer, MemoryEfficientFP16Optimizer"
+    },
+    {
+      "source": "py_files/gpu_tests/test_hf_compatibility.py",
+      "quote": "from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap"
+    },
+    {
+      "source": "py_files/gpu_tests/test_model_parallel_mp1_mp2.py",
+      "quote": "from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main"
+    },
+    {
+      "source": "py_files/gpu_tests/test_model_parallel_mp1_mp2.py",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/metaseq/cli/train.py]",
+      "quote": "from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap, utils as distributed_utils"
+    }
+  ]
+}

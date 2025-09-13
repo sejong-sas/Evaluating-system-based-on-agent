@@ -1,0 +1,28 @@
+{
+  "2-3 (API)": "The only API-style interface that is explicitly documented in the supplied material is an interactive, locally hosted command-line service. The documentation directs the user to start it with the exact command: `python -m metaseq.cli.interactive_hosted`. This invocation calls the `interactive_hosted` module that resides inside the `metaseq.cli` package and brings up a local, interactive session through which a user can query the model. The quote is repeated twice, and no other statements reference any external, network-based, or cloud-hosted endpoints, SDKs, or REST/GraphQL offerings. There is likewise no mention of authentication keys, usage dashboards, or rate limits—elements normally found in public web APIs. Consequently, the provided evidence suggests that the project’s only officially documented access path is this self-hosted, on-premise interactive CLI rather than a remotely managed, publicly accessible API.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[py_files/metaseq/cli/interactive_cli.py]",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training workflow is referenced solely through the invocation of a dedicated launcher script: `python3 metaseq/launcher/opt_baselines.py`. This script is located under the `metaseq/launcher/` directory and, by its name, targets baseline runs for the OPT model family. The double appearance of exactly the same command implies that running this script is the canonical entry point for initiating the pre-training pipeline within the metaseq framework. While no explicit hyperparameters, data paths, or optimization settings are provided in the quotes, the script reference indicates that such configurations are likely encapsulated or specified internally within `opt_baselines.py` (for example, through argument parsing or embedded default dictionaries). In short, the evidence confirms that metaseq handles its pre-training through a Python launcher script dedicated to OPT baseline experiments, but no further procedural or numerical details are furnished in the supplied text.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "\"python3 metaseq/launcher/opt_baselines.py   \""
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_saving.py]",
+      "quote": "\"python3 metaseq/launcher/opt_baselines.py   \""
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

@@ -1,0 +1,73 @@
+{
+  "1-1 (Weights)": "The only directly relevant statement is the brief mention of \"using metaseq and generating predictions based on the prompt\".  This indicates that runnable checkpoints exist somewhere because the software can be invoked to produce model predictions, but the quote does not disclose where those weights are hosted, how to download them, or whether they are openly released.  No URL, access portal, request procedure, or size/version information is provided in the supplied excerpts.  Therefore, on the basis of the available quotes, one can only say that weights are evidently loadable for inference, but the public availability, licensing terms, or distribution mechanism of those weights remains unspecified.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "using metaseq and generating predictions based on the prompt"
+    }
+  ],
+  "1-2 (Code)": "Multiple snippets explicitly show that TRAINING functionality is exposed within the public repository.  The quotes include:\n  • \"## Getting Started in Metaseq\" – an introductory heading that implies user-facing documentation is present.\n  • \"from metaseq.cli.train import cli_main as train_cli_main\" (appears twice) – demonstrates that a dedicated command-line entry point for training exists and can be imported from the Metaseq package, confirming that pre-training or fine-tuning scripts are distributed in source form.\n  • \"Launch with `python -m metaseq.cli.interactive_hosted` to run locally.\" (appears twice) – shows that an interactive inference/serving wrapper is also shipped.\nTaken together, the quotes confirm that the repository contains: (1) end-to-end training code (data preparation and training loop accessible via metaseq.cli.train), and (2) code for interactive inference.  Because these snippets are plain Python import/launch commands, the code is evidently open-sourced and directly usable without hidden binaries.  There is, however, no granular detail in the excerpts about configuration files, scheduler scripts, or exact training recipes—only that the CLI entry points are present.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "## Getting Started in Metaseq"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/metaseq/cli/interactive_cli.py]",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    },
+    {
+      "source": "[py_files/gpu_tests/test_model_parallel_mp1_mp2.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    }
+  ],
+  "1-3 (License)": "Several lines spell out the licensing framework:\n  • \"The majority of metaseq is licensed under the MIT license, however portions of the project are available under separate license terms:\" – establishes that the default license is MIT while carve-outs exist.\n  • \"* Megatron-LM is licensed under the [Megatron-LM license](https://github.com/NVIDIA/Megatron-LM/blob/main/LICENSE)\" – clarifies the principal third-party component and its distinct license.\n  • Repeated headers such as \"# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.\" and the full MIT boilerplate text beginning with \"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\")...\" explicitly enumerate the standard MIT rights—use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies—subject only to the usual notice-retention condition.\n  Altogether, these quotes confirm: (a) use, modification, redistribution, and commercial exploitation are broadly permitted for the majority of the code under MIT; (b) specific sub-directories that incorporate Megatron-LM inherit that project’s separate (non-MIT) license, so users must review and comply with its terms for those portions.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The majority of metaseq is licensed under the MIT license, however portions of the project are available under separate license terms:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "* Megatron-LM is licensed under the [Megatron-LM license](https://github.com/NVIDIA/Megatron-LM/blob/main/LICENSE)"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "MIT License"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[py_files/cpu_tests/test_streaming_shuffle_dataset.py]",
+      "quote": "# This source code is licensed under the MIT license found in the\n# LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "# This source code is licensed under the MIT license found in the"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "# LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "py_files/metaseq/cli/train.py",
+      "quote": "# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree."
+    }
+  ],
+  "1-4 (Paper)": "",
+  "1-4 (Paper)__evidence": []
+}

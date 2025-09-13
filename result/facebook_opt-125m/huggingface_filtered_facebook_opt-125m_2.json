@@ -1,0 +1,66 @@
+{
+  "1-5 (Architecture)": "facebook/opt-125m belongs to the Open Pretrained Transformers (OPT) family, a \"suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\" For the 125 M variant, the configuration explicitly records \"model_type\": \"opt\" together with core architectural hyper-parameters: \"hidden_size\": 768, \"num_hidden_layers\": 12, \"num_attention_heads\": 12, and \"ffn_dim\": 3072. Sequence length support is indicated by \"max_position_embeddings\": 2048. Taken together, these quotes describe a 12-layer, 768-dimension, decoder-only Transformer with 12-head self-attention and a 3 072-dimension feed-forward network, designed within Meta’s OPT family and scaled to 125 million parameters.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"opt\","
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 768,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"ffn_dim\": 3072,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 2048,"
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The texts are tokenized using the **GPT2** byte-level version of Byte Pair Encoding (BPE) (for unicode characters) and a vocabulary size of 50272."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 50272,"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The 175B model was trained on 992 *80GB A100 GPUs*."
+    }
+  ],
+  "2-2 (Software)": "The software context for facebook/opt-125m is rooted in the original release of the OPT project: \"OPT was first introduced in [Open Pre-trained Transformer Language Models] and first released in [metaseq's repository] on May 3rd 2022 by Meta AI.\" This indicates that training and release were managed in Meta’s metaseq codebase, aligning the 125 M model with the broader OPT software stack.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.21.0.dev0\","
+    },
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.27.0.dev0\""
+    }
+  ]
+}

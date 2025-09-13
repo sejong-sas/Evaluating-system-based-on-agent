@@ -1,0 +1,167 @@
+{
+  "1-1 (Weights)": "The only directly relevant statement is the brief mention of \"using metaseq and generating predictions based on the prompt\".  This indicates that runnable checkpoints exist somewhere because the software can be invoked to produce model predictions, but the quote does not disclose where those weights are hosted, how to download them, or whether they are openly released.  No URL, access portal, request procedure, or size/version information is provided in the supplied excerpts.  Therefore, on the basis of the available quotes, one can only say that weights are evidently loadable for inference, but the public availability, licensing terms, or distribution mechanism of those weights remains unspecified.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "using metaseq and generating predictions based on the prompt"
+    }
+  ],
+  "1-2 (Code)": "Multiple snippets explicitly show that TRAINING functionality is exposed within the public repository.  The quotes include:\n  • \"## Getting Started in Metaseq\" – an introductory heading that implies user-facing documentation is present.\n  • \"from metaseq.cli.train import cli_main as train_cli_main\" (appears twice) – demonstrates that a dedicated command-line entry point for training exists and can be imported from the Metaseq package, confirming that pre-training or fine-tuning scripts are distributed in source form.\n  • \"Launch with `python -m metaseq.cli.interactive_hosted` to run locally.\" (appears twice) – shows that an interactive inference/serving wrapper is also shipped.\nTaken together, the quotes confirm that the repository contains: (1) end-to-end training code (data preparation and training loop accessible via metaseq.cli.train), and (2) code for interactive inference.  Because these snippets are plain Python import/launch commands, the code is evidently open-sourced and directly usable without hidden binaries.  There is, however, no granular detail in the excerpts about configuration files, scheduler scripts, or exact training recipes—only that the CLI entry points are present.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "## Getting Started in Metaseq"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/metaseq/cli/interactive_cli.py]",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    },
+    {
+      "source": "[py_files/gpu_tests/test_model_parallel_mp1_mp2.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    }
+  ],
+  "1-3 (License)": "Several lines spell out the licensing framework:\n  • \"The majority of metaseq is licensed under the MIT license, however portions of the project are available under separate license terms:\" – establishes that the default license is MIT while carve-outs exist.\n  • \"* Megatron-LM is licensed under the [Megatron-LM license](https://github.com/NVIDIA/Megatron-LM/blob/main/LICENSE)\" – clarifies the principal third-party component and its distinct license.\n  • Repeated headers such as \"# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree.\" and the full MIT boilerplate text beginning with \"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\")...\" explicitly enumerate the standard MIT rights—use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies—subject only to the usual notice-retention condition.\n  Altogether, these quotes confirm: (a) use, modification, redistribution, and commercial exploitation are broadly permitted for the majority of the code under MIT; (b) specific sub-directories that incorporate Megatron-LM inherit that project’s separate (non-MIT) license, so users must review and comply with its terms for those portions.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The majority of metaseq is licensed under the MIT license, however portions of the project are available under separate license terms:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "* Megatron-LM is licensed under the [Megatron-LM license](https://github.com/NVIDIA/Megatron-LM/blob/main/LICENSE)"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "MIT License"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[py_files/cpu_tests/test_streaming_shuffle_dataset.py]",
+      "quote": "# This source code is licensed under the MIT license found in the\n# LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "# This source code is licensed under the MIT license found in the"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_hf_compatibility.py]",
+      "quote": "# LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "py_files/metaseq/cli/train.py",
+      "quote": "# This source code is licensed under the MIT license found in the LICENSE file in the root directory of this source tree."
+    }
+  ],
+  "1-4 (Paper)": "",
+  "1-4 (Paper)__evidence": [],
+  "1-5 (Architecture)": "The metaseq codebase defines architectural parameters through explicit constants imported from its launcher utilities. A representative snippet shows the training or launch scripts pulling in \u00171 from metaseq.launcher.opt_job_constants import Size, M\u0017. The presence of the Size enumeration and the M constant inside the opt_job_constants module indicates that metaseq centralises high-level model-size descriptors (e.g., specific OPT-style size classes) and makes them available to the launcher logic so that architectural hyper-parameters can be set programmatically when jobs are spawned.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.launcher.opt_job_constants import Size, M"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer construction and usage are handled by helper functions located under metaseq.hub_utils. In particular, the code imports \u00171 from metaseq.hub_utils import tensorize_input, get_next_token, setup_vocab_and_merges\u0017. The call to setup_vocab_and_merges shows that vocabulary files and BPE/merge rules are gathered within metaseq itself; tensorize_input converts user strings to token IDs, while get_next_token queries the model for successive predictions. All tokenisation steps therefore rely on the metaseq-native utilities rather than an external tokenizer library.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "py_files/gpu_tests/test_hf_compatibility.py",
+      "quote": "from metaseq.hub_utils import tensorize_input, get_next_token, setup_vocab_and_merges"
+    }
+  ],
+  "2-1 (Hardware)": "Hardware details are specified via metaseq\u0019s dataclass configuration system. Training launches import the structure \u00171 from metaseq.dataclass.configs import DistributedTrainingConfig\u0017. The Dedicated DistributedTrainingConfig object encapsulates the hardware-related parameters (such as world-size, device counts and other distributed settings) so that the metaseq training scripts can materialise the correct accelerator topology at runtime.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.dataclass.configs import DistributedTrainingConfig"
+    }
+  ],
+  "2-2 (Software)": "The training software stack is built entirely around metaseq\u0019s internal CLI tools and distributed extensions. Launchers rely on \u00171 from metaseq.cli.train import cli_main as train_cli_main\u0017 for single runs and \u00171 from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main\u0017 for hyper-parameter sweeps. Memory-saving features include \u00171 from metaseq.modules.checkpoint_activations import checkpoint_wrapper\u0017 for activation checkpointing and the optimisers \u00171 from metaseq.optim.fp16_optimizer import FP16Optimizer, MemoryEfficientFP16Optimizer\u0017 for FP16 training. Distributed execution is orchestrated through \u00171 from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap, utils as distributed_utils\u0017, indicating reliance on metaseq\u0019s wrappers around Full-Sharded Data Parallel (FSDP). Collectively these modules form a self-contained PyTorch-based training pipeline that provides CLI entry points, mixed-precision optimisers, activation recomputation, and FSDP-style sharding utilities, all surfaced through the metaseq package.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_activation_checkpointing.py]",
+      "quote": "from metaseq.modules.checkpoint_activations import checkpoint_wrapper"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main"
+    },
+    {
+      "source": "[py_files/gpu_tests/test_fp16_optimizer.py]",
+      "quote": "from metaseq.optim.fp16_optimizer import FP16Optimizer, MemoryEfficientFP16Optimizer"
+    },
+    {
+      "source": "py_files/gpu_tests/test_hf_compatibility.py",
+      "quote": "from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap"
+    },
+    {
+      "source": "py_files/gpu_tests/test_model_parallel_mp1_mp2.py",
+      "quote": "from metaseq.launcher.opt_baselines import cli_main as sweep_cli_main"
+    },
+    {
+      "source": "py_files/gpu_tests/test_model_parallel_mp1_mp2.py",
+      "quote": "from metaseq.cli.train import cli_main as train_cli_main"
+    },
+    {
+      "source": "[py_files/metaseq/cli/train.py]",
+      "quote": "from metaseq.distributed import fsdp_enable_wrap, fsdp_wrap, utils as distributed_utils"
+    }
+  ],
+  "2-3 (API)": "The only API-style interface that is explicitly documented in the supplied material is an interactive, locally hosted command-line service. The documentation directs the user to start it with the exact command: `python -m metaseq.cli.interactive_hosted`. This invocation calls the `interactive_hosted` module that resides inside the `metaseq.cli` package and brings up a local, interactive session through which a user can query the model. The quote is repeated twice, and no other statements reference any external, network-based, or cloud-hosted endpoints, SDKs, or REST/GraphQL offerings. There is likewise no mention of authentication keys, usage dashboards, or rate limits—elements normally found in public web APIs. Consequently, the provided evidence suggests that the project’s only officially documented access path is this self-hosted, on-premise interactive CLI rather than a remotely managed, publicly accessible API.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[py_files/metaseq/cli/interactive_cli.py]",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    },
+    {
+      "source": "py_files/metaseq/cli/interactive_hosted.py",
+      "quote": "Launch with `python -m metaseq.cli.interactive_hosted` to run locally."
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training workflow is referenced solely through the invocation of a dedicated launcher script: `python3 metaseq/launcher/opt_baselines.py`. This script is located under the `metaseq/launcher/` directory and, by its name, targets baseline runs for the OPT model family. The double appearance of exactly the same command implies that running this script is the canonical entry point for initiating the pre-training pipeline within the metaseq framework. While no explicit hyperparameters, data paths, or optimization settings are provided in the quotes, the script reference indicates that such configurations are likely encapsulated or specified internally within `opt_baselines.py` (for example, through argument parsing or embedded default dictionaries). In short, the evidence confirms that metaseq handles its pre-training through a Python launcher script dedicated to OPT baseline experiments, but no further procedural or numerical details are furnished in the supplied text.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_loading_on_more_gpus.py]",
+      "quote": "\"python3 metaseq/launcher/opt_baselines.py   \""
+    },
+    {
+      "source": "[py_files/gpu_tests/test_checkpoint_saving.py]",
+      "quote": "\"python3 metaseq/launcher/opt_baselines.py   \""
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "No quoted information about pre-training data for facebookresearch/metaseq is available in the provided materials.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "No quoted information about fine-tuning data for facebookresearch/metaseq is available in the provided materials.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "No quoted information about reinforcement-learning data for facebookresearch/metaseq is available in the provided materials.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "No quoted information describing data-filtering or cleaning procedures for facebookresearch/metaseq is available in the provided materials.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

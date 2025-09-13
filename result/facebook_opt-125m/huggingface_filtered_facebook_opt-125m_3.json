@@ -1,0 +1,29 @@
+{
+  "2-3 (API)": "The only explicit information about an API for facebook/opt-125m is a usage snippet: “>>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")”. From this quote we learn that an end-user can access the model through the Hugging Face transformers “pipeline” function, specifying the task type (text-generation) and the exact checkpoint name (facebook/opt-125m). This demonstrates that an out-of-the-box, programmatic API call is publicly available and that the model can be invoked in a single line of code, returning a ready-to-use generator object.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": ">>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")"
+    }
+  ],
+  "3-1 (Pre-training)": "Two statements describe the pre-training set-up for the OPT family, which includes the 125 M-parameter variant. First, “OPT was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl. The model was pretrained using a causal language modeling (CLM) objective.”  This tells us that english-language content makes up the majority of the corpus, with some multilingual CommonCrawl data mixed in, and that the optimization target is the standard left-to-right causal language-model loss. Second, the project overview notes: “We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.”  This positions facebook/opt-125m as the smallest member of a public suite, confirms that it is a decoder-only architecture, and underscores the goal of open, responsible distribution.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "OPT was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl. The model was pretrained using a causal language modeling (CLM) objective."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning guidance is given in a single instruction: “In addition, the model can be fine-tuned on a downstream task using the [CLM example]. For all other OPT checkpoints, please have a look at the [model hub].”  From this we infer that facebook/opt-125m supports supervised continuation of pre-training (or task-specific training) via the causal-language-modeling script provided in the official Hugging Face examples, and that further checkpoint-specific resources are catalogued on the Hugging Face model hub. The quote implies a reproducible pipeline (the standard CLM example) is already available and can be repurposed for downstream objectives.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "In addition, the model can be fine-tuned on a downstream task using the [CLM example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling). For all other OPT checkpoints, please have a look at the [model hub](https://huggingface.co/models?filter=opt)."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

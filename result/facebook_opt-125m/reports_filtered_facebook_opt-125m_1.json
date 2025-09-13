@@ -1,0 +1,118 @@
+{
+  "1-1 (Weights)": "The release notice repeatedly states that Open Pre-trained Transformers (\"OPT\") span “ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.”  Within that range the team says they are “releasing all of our models between 125M and 66B parameters,” explicitly including the 125 M baseline, while “provid[ing] full research access to OPT-175B upon request.”  Access to any checkpoint is described as open to “academic researchers; those affiliated with organizations in government, civil society, and academia; and those in industry research laboratories.”  For the very largest checkpoint they add that they are “providing researchers with direct access to the parameters of OPT-175B” so that work at the 175 B scale is still possible.  The weights are distributed under the same non-commercial licence as the rest of the suite: “OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.”  A console example illustrates that full checkpoints can be restored locally ( “python -m fb_sweep.opt.sweep_opt_en_lm_175b … --restore-file $RESTORE_FILE” ), confirming that complete parameter files are downloadable and usable in standard training / evaluation pipelines.",
+  "1-2 (Code)": "Several passages emphasise that the full training-time code has been open-sourced.  The authors announce that they are “releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models.”  Concretely, “our codebase, metaseq … enabled training OPT-175B on 992 80 GB A100 GPUs, reaching 147 TFLOP/s utilisation per GPU.”  The metaseq repository is described as an “open-source repository,” and readers are told that “information on how to use the model can be found at metaseq.”  Thus the public release covers (1) the complete logbook of the OPT build process, (2) training and evaluation scripts for every checkpoint from 125 M upward, and (3) large-scale distributed training utilities proven to work on nearly a thousand GPUs; a routed command-line example is provided in the quotes.  These statements make it clear that not just inference but the full pre-training / fine-tuning pipeline is included.",
+  "1-3 (License)": "All checkpoints, including the 125 M model, are governed by a “non-commercial use license agreement.”  The text stresses that “by limiting access … to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs.”  The same wording is repeated to underline intent: such a licence is meant “to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests.”  In short, the licence grants research use but prohibits commercial exploitation, redistribution outside the research context, or use in commercial products until a later date or a separate agreement.",
+  "1-4 (Paper)": "The official technical report is titled “OPT: Open Pre-trained Transformer Language Models.”  It is introduced as “a collection of auto-regressive language models ranging in size from 125M to 175B parameters.”  The paper is complemented by “the corresponding post on the Meta AI Research Blog” and an “OPT Baselines Logbook.”  The authors further note that they provide a data card in line with Gebru et al. (2021) and that “across most tasks, GPT-3 models and OPT models perform similarly.”  Together, the report, blog post, and logbook constitute the primary documentation for the 125 M checkpoint and the rest of the suite.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. Access will be granted to academic researchers; those affiliated with organizations in government, civil society, and academia; and those in industry research laboratories."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To enable experimentation at 175B scale, we are providing researchers with direct access to the parameters of OPT-175B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/Run12.06]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b -n 124 -g 8 -t 1 -p $RUN_ID --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ --restore-file $RESTORE_FILE"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We show that OPT-175B is comparable to GPT-3,1 while requiring only 1/7th the carbon footprint to develop. We are also releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI. Information on how to use the model can be found at metaseq, our open-source repository."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[sections/Run12.06]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b -n 124 -g 8 -t 1 -p $RUN_ID --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ --restore-file $RESTORE_FILE"
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "OPT-175B can also have quality issues in terms of generation diversity and hallucination. By releasing with a non-commercial license, we also hope to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs ﬁrst, before broader commercial deployment occurs."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: OPT: Open Pre-trained Transformer Language Models"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2205.01068]",
+      "quote": "Title: OPT: Open Pre-trained Transformer Language Models"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We follow the recommendations of Gebru et al. (2021) and provide a data card for the dataset used to train the OPT models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We find that across most tasks, GPT-3 models and OPT models perform similarly."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/facebookresearch/metaseq/main/projects/OPT/chronicles/OPT_Baselines_Logbook.pdf]",
+      "quote": "OPT Baselines Logbook"
+    }
+  ]
+}

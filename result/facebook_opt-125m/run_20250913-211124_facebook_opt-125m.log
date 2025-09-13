@@ -1,0 +1,6 @@
+
+======== 1/2 ▶ facebook/opt-125m ========
+📁 Directory to create/use: facebook_opt-125m
+📁 Output path: facebook_opt-125m
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: nod-ai/SHARK-TestSuite (score=-6, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 0, 'path_hits': 1, 'bad_keywords': 1, 'from_hf_link': 0, 'version_conflict': 0})

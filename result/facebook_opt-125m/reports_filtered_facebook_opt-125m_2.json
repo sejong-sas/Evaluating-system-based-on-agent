@@ -1,0 +1,105 @@
+{
+  "1-5 (Architecture)": "The supplied material characterises the OPT family, which spans parameter scales from 125 M up to 175 B, as a suite of decoder-only Transformer language models. The architectural choice is therefore a pure, left-to-right autoregressive stack with no encoder or cross-attention blocks. A concise hyper-parameter table is provided for the 125 M variant that explicitly states: 12 Transformer layers, 12 self-attention heads, and a hidden (d_model) size of 768. The same row shows a nominal peak learning-rate of 6.0 × 10⁻⁴ and a training batch size of 0.5 M tokens, indicating the optimisation regime that accompanies this configuration. Repeated narrative sentences emphasise that even the largest 175 B member shares this “large decoder-only transformer language model” design, implying that the 125 M checkpoint differs only in scale rather than in architectural motifs. Command-line snippets further reveal options such as “--model-parallel-size 8” and “--distribute-checkpointed-activations,” confirming that tensor-parallel sharding, rather than architectural changes, is used to reach larger model sizes.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "Training was carried out on a large GPU cluster built around 992 NVIDIA A100 accelerators with 80 GB of HBM each. Launch scripts list host ranges such as “node-[1-38,40-89,91-119,121-128]” and pass the flag “-g 8,” implying eight GPUs per node and well over one hundred machines overall. During full-scale runs the team reports achieving up to 147 TFLOP/s of sustained utilisation on every A100, highlighting both the raw compute budget and the efficiency reached. Every quoted hardware line consistently references the same 992×A100 configuration, indicating that the identical cluster was used for all parameter scales, including the 125 M model, even though the larger 175 B run is the focus of many examples.",
+  "2-2 (Software)": "The training software stack combines multiple parallelism and optimisation components. Fully Sharded Data Parallel (FSDP) is employed for data-parallel sharding, while Megatron-LM Tensor Parallelism provides intra-model slicing; these two libraries jointly orchestrate scaling across the 992 GPUs. All launch commands invoke “python -m fb_sweep.opt.sweep_opt_en_lm_175b” (or its size-agnostic variant), executed from the open-sourced metaseq code-base that the authors are releasing alongside the checkpoints. Optimisation is performed with AdamW, a point explicitly made for every model size from 125 M to 175 B. Representative command-line flags include “--weight-decay 0.1,” “--gradient-predivide-factor 11.1,” “--model-parallel-size 8,” “--distribute-checkpointed-activations,” and “--batch-size 16,” giving concrete evidence of training hyper-parameters as well as memory-saving strategies. Together these elements describe an entirely Python-based, distributed training pipeline that leverages FSDP for memory efficiency, Megatron-LM for compute parallelism, AdamW for optimisation, and a custom sweep launcher for orchestration.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "Model type: OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Model #L #H dmodel LR Batch 125M 12 12 768 6.0e−4 0.5M"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• Model type: OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[sections/Run 10]",
+      "quote": "INCLUDED_HOSTS=node-[1-7,9-88,90-108,110-127] python -m fb_sweep.opt.sweep_opt_en_lm \\ -n 124 -g 8 -t 1 \\ --weight-decay 0.1 --gradient-predivide-factor 11.1 \\ --model-parallel-size 8 --distribute-checkpointed-activations --batch-size 16 \\ -p 175B_run10 --model-size 175B_opt_h2_2021 \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "INCLUDED_HOSTS=node-[1,3-70,72-87,89-112,114-128] \\\npython -m fb_sweep.opt.sweep_opt_en_lm_175b \\\n-n 124 -g 8 -t 1 \\"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "INCLUDED_HOSTS=node-[2-38,40-89,91-119,121-128] \\ python -m fb_sweep.opt.sweep_opt_en_lm_175b \\ -n 124 -g 8 -t 1 \\ -p $RUN_ID \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ \\ --restore-file $RESTORE_FILE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "INCLUDED_HOSTS=node-[1-38,40-89,91-94,96-119,121-128] \\ python -m fb_sweep.opt.sweep_opt_en_lm_175b \\ -n 124 -g 8 -t 1 \\ -p $RUN_ID \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ \\ --restore-file $RESTORE_FILE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "…metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019). We achieve utilization of up to 147 TFLOP/s per GPU."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "INCLUDED_HOSTS=node-[1-6,8-32,34-54,56-68,70-73,78-79,81-84,88-90,100,102-114,116-123,125-134,136-146,148-150] \\\npython -m fb_sweep.opt.sweep_opt_en_lm_175b \\\n-n 124 -g 8 -t 1 \\"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b \\\n-n 124 -g 8 -t 1 \\"
+    },
+    {
+      "source": "[sections/2021-11-12 Run 12.06]",
+      "quote": "INCLUDED_HOSTS=node-[1-38,41-94,96-119,121-128] \\ python -m fb_sweep.opt.sweep_opt_en_lm_175b \\ -n 124 -g 8 -t 1 \\ -p $RUN_ID \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ \\ --restore-file $RESTORE_FILE"
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b \\ -n 124 -g 8 -t 1 \\ -p $RUN_ID \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ \\ --restore-file $RESTORE_FILE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "INCLUDED_HOSTS=node-[1-60,62-87,89-96,98-119,121-128] python -m fb_sweep.opt.sweep_opt_en_lm_175b -n 124 -g 8 -t 1 -p $RUN_ID --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/ --restore-file $RESTORE_FILE"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our code-base, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b \\\n-n 124 -g 8 -t 1 \\"
+    },
+    {
+      "source": "[sections/2021-11-05 Run 11.0]",
+      "quote": "python -m fb_sweep.opt.sweep_opt_en_lm_175b \\ -n 124 -g 8 -t 1 \\ -p 175B_run11 \\ --checkpoints-dir /shared/home/namangoyal/checkpoints/175B/"
+    }
+  ]
+}

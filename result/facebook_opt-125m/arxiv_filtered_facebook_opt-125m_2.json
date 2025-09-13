@@ -1,0 +1,81 @@
+{
+  "1-5 (Architecture)": "The facebook/opt-125m checkpoint belongs to the OPT family, \"a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\"  A row of model hyper-parameters explicitly labeled \"125M\" states: \"#L 12, #H 12, dmodel 768, LR 6.0e−4, Batch 0.5M.\"  Taken together, these lines indicate that the 125 M-parameter variant is a 12-layer, 12-attention-head, decoder-only Transformer with a 768-dimensional hidden size; it was trained with a peak learning-rate of 6 × 10⁻⁴ and a batch size of roughly 0.5 million tokens.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "The public logbook for OPT reports that the flagship \"OPT-175B\" model was trained \"on 992 80 GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU.\"  Although the quote names the 175 B variant, it is the only hardware description provided for any OPT checkpoints and therefore also serves as the sole published insight into the infrastructure available when the 125 M model was produced.  The same passage attributes an overall carbon footprint of about \"75 t CO2-eq\" for the training run, contrasting it with higher figures for GPT-3 and Gopher.",
+  "2-2 (Software)": "The report states that \"We trained OPT-175B on 992 80 GB A100 GPUs, by utilizing Fully Sharded Data Parallel (FSDP) with Megatron-LM Tensor Parallelism\" and that \"OPT-175B was trained with AdamW for parameter sizes from 125M to 175B.\"  These sentences reveal the core software stack used across the entire OPT range—including facebook/opt-125m: (1) distributed training implemented with FSDP plus Megatron-LM tensor parallelism, and (2) the AdamW optimizer.  Additional references direct readers to the open-source \"metaseq\" repository for exact training code and configuration files.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Model #L #H dmodel LR Batch 125M 12 12 768 6.0e−4 0.5M"
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[sections/Human Quality Assessment of Synthetic News Articles]",
+      "quote": "We used the article titles and subtitles to produce outputs from the 125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13.0B, and 200B (GPT-3) parameter language models."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters."
+    },
+    {
+      "source": "[sections/Model Card - D.1 Model Details]",
+      "quote": "OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[sections/News Article Generation]",
+      "quote": "We then generated completions of these titles and subtitles from four language models ranging in size from 125M to 175B (GPT-3) parameters (mean length: 200 words)."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[sections/Considerations for Release]",
+      "quote": "While OPT-175B was developed with an estimated carbon emissions footprint (CO2eq) of 75 tons, GPT-3 was estimated to use 500 tons (Patterson et al., 2021), while Gopher required 380 tons (Rae et al., 2021)."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "• Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI. Information on how to use the model can be found at metaseq, our open-source repository."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/Model Card - D.1 Model Details]",
+      "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    },
+    {
+      "source": "[sections/Model Card - D.1 Model Details]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
+    }
+  ]
+}
