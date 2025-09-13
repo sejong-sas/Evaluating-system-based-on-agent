@@ -1,0 +1,10 @@
+{
+  "pretrain_method": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.",
+  "pretrain_data": "No information",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts."
+    }
+  ]
+}

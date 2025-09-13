@@ -1,0 +1,70 @@
+{
+  "1-1 (Weights)": "The only two captured lines that explicitly mention the target model’s weights both read: “Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30” (the second line is identical but appends “mistral-small-latest”). From these fragments we can state that (a) the weights for the model identified as “Mixtral 8×7B” and the repository label “open-mixtral-8x7b v0.1” are published, because the line contains the check-mark symbol and the word “open”; (b) the weights are distributed under the Apache 2 licence (the tag “Apache2” appears inline with the model name); (c) the specific version is “v0.1”, meaning the summary refers exactly to “mistralai/mixtral-8x7b-instruct-v0.1”; and (d) the dates “2024/11/30” and “2025/03/30” are shown, which likely record a release window or availability period for those weights. No further information about the storage location (e.g. a Hugging Face URL, S3 bucket, or torrent) or procedural access requirements is contained in the quoted text, nor is there mention of gated or restricted download. The presence of the string “open-mixtral-8x7b” strongly suggests that the weights are hosted in a public repository that can be freely downloaded, but the quote itself does not supply an explicit link or download instruction.",
+  "1-2 (Code)": "No sentence in the collected quotes mentions training code, data-preparation scripts, configuration files, or any other portion of the end-to-end training pipeline. Consequently there is no evidence—positive or negative—about the public availability of Mixtral-8×7B’s pre-training, fine-tuning, or RLHF code. All that can be said from the present material is that the dataset contains no information on code release or location.",
+  "1-3 (License)": "Both licensing lines are identical to the weight-release lines: “Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30” (the second repeats with the suffix “mistral-small-latest”). The presence of the label “Apache2” indicates that the model distribution is governed by the Apache License, Version 2.0. The quote itself does not reprint the licence text or carve-outs, but Apache-2.0 is a well-known permissive licence that ordinarily grants—without fee—rights to use, modify, redistribute, and exploit the software and associated works for commercial or non-commercial purposes, provided that notices and disclaimers remain intact. The quote contains no additional restrictions such as “non-commercial”, “research-only”, or “no redistribution”. Therefore, based solely on the captured text, the model is released under a standard permissive licence with no extra field-of-use limits stated.",
+  "1-4 (Paper)": "The only reference to documentation or papers in the provided material is a single link: “https://huggingface.co/docs/transformers/main/en/chat_templating”. This URL points to Hugging Face’s Transformers documentation page that explains chat templating; it is not a peer-reviewed paper, formal technical report, or dedicated Mixtral white paper. No DOI, arXiv identifier, blog post, or project webpage specific to Mixtral-8×7B is cited. Therefore, based solely on the available quote, there is no official academic paper yet released for Mixtral-8×7B; the only public technical resource mentioned is generic usage documentation hosted on Hugging Face.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://docs.mistral.ai/getting-started/open_weight_models/#downloading]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30"
+    },
+    {
+      "source": "[sections/https://docs.mistral.ai/quickstart]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://docs.mistral.ai/getting-started/open_weight_models/#downloading]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30"
+    },
+    {
+      "source": "[sections/https://docs.mistral.ai/quickstart]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "sections/https://huggingface.co/docs/transformers/main/en/chat_templating",
+      "quote": "https://huggingface.co/docs/transformers/main/en/chat_templating"
+    }
+  ],
+  "1-5 (Architecture)": "",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The quotes present Mixtral 8x7B v0.1 in a “Legacy models” table that explicitly lists API support. Both entries show a check-mark under “API Endpoints,” identifying the public endpoint name as “open-mixtral-8x7b.” The same row confirms that the model weights are downloadable under the Apache-2.0 license (check-mark in “Model Weight availability”). Versioning information is precise—v0.1—and the lifecycle is spelled out: a deprecation date of 2024-11-30 followed by a retirement date of 2025-03-30. The table also recommends an alternative endpoint (“mistral-small-latest”) once the legacy model is phased out. In short, Mixtral 8x7B v0.1 is exposed through official, documented API endpoints, with clear versioning, licensing, availability of weights, and published sunset timelines.",
+  "3-1 (Pre-training)": "",
+  "3-2 (Fine-tuning)": "",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[sections/https://docs.mistral.ai/getting-started/open_weight_models/#downloading]",
+      "quote": "Legacy models ​ Model Weight availability API Endpoints Version Deprecation date Retirement date Alternative model ... Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    },
+    {
+      "source": "[sections/https://docs.mistral.ai/quickstart]",
+      "quote": "Legacy models ​ Model Weight availability API Endpoints Version Deprecation date Retirement date Alternative model Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

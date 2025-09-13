@@ -1,0 +1,28 @@
+{
+  "1-5 (Architecture)": "The cited passages state that Mixtral 8×7B Instruct v0.1 keeps “the same architecture as Mistral 7B” but changes the internal composition of every transformer layer so that “each layer is composed of 8 feed-forward blocks (i.e. experts).” The model still follows the standard transformer design and “uses the same modifications” previously described for the Mistral family, yet introduces two main differences: (1) it “supports a fully dense context length of 32 k tokens,” and (2) its conventional feed-forward blocks are “replaced by Mixture-of-Expert layers.” Each expert adopts “the same SwiGLU architecture” and the routing chooses “K = 2” experts per token, indicating two experts are active at every layer for each token.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "The only available software-stack information is that “Mixtral – Instruct” v0.1 was trained with a two-step procedure: first “supervised fine-tuning (SFT) on an instruction dataset,” followed by “Direct Preference Optimization (DPO) on a paired feedback dataset.” No further details on frameworks, libraries, or versions are given in the supplied text.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Mixtral has the same architecture as Mistral 7B, with the difference that each layer is composed of 8 feedforward blocks (i.e. experts)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Mixtral is based on a transformer architecture [31] and uses the same modifications as described in [18], with the notable exceptions that Mixtral supports a fully dense context length of 32k tokens, and the feed-forward blocks are replaced by Mixture-of-Expert layers (Section 2.1)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For Mixtral we use the same SwiGLU architecture as the expert function Ei(x) and set K = 2."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by Direct Preference Optimization (DPO) [25] on a paired feedback dataset."
+    }
+  ]
+}

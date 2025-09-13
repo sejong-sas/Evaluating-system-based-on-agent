@@ -1,0 +1,15 @@
+{
+  "4-1 (Pre-training Data)": "No information regarding the sources, quantities, types, or composition of pre-training data is disclosed in the provided quotes.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "The supplied quote set contains no statements about the origin, makeup, or public availability of any fine-tuning datasets.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "There are no quotes describing the composition, sourcing, or generation of reinforcement-learning datasets.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The only available quote is a single reference to Mistral’s guardrailing documentation: “Guardrailing: https://docs.mistral.ai/usage/guardrailing.”  This citation indicates that the model’s data-filtering or safety pipeline is addressed under a dedicated “guardrailing” section of Mistral’s official usage guide.  However, the quote itself provides no concrete filtering criteria, numeric thresholds, classifier names, or stage-by-stage descriptions.  It merely signals that such information—presumably covering the mechanisms used to detect and mitigate unsafe or low-quality content—exists in the linked documentation, but those details are not included in the excerpt supplied here.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Guardrailing: [https://docs.mistral.ai/usage/guardrailing](https://docs.mistral.ai/usage/guardrailing)"
+    }
+  ]
+}
