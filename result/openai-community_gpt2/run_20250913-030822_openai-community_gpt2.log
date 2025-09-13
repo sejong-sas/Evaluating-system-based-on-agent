@@ -1,0 +1,71 @@
+
+======== 1/1 ▶ openai-community/gpt2 ========
+📁 Directory to create/use: openai-community_gpt2
+📁 Output path: openai-community_gpt2
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: graykode/gpt-2-Pytorch (score=2, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 2, 'path_hits': 2, 'bad_keywords': 5, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: ftramer/LM_Memorization (score=-9, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 3, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: karpathy/nanoGPT (score=2, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 2, 'path_hits': 2, 'bad_keywords': 12, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: minimaxir/gpt-2-simple (score=0, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 2, 'path_hits': 1, 'bad_keywords': 11, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: affjljoo3581/GPT2 (score=2, detail={'org_affinity': -6, 'name_hits': 2, 'readme_hits': 2, 'path_hits': 2, 'bad_keywords': 10, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: chrisliu298/gpt2-arxiv (score=-3, detail={'org_affinity': -6, 'name_hits': 2, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 3, 'from_hf_link': 0, 'version_conflict': 0})
+✅ Resolved GH repo: openai/gpt-2 (score=15, detail={'org_affinity': 9, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 4, 'from_hf_link': 1, 'version_conflict': 0})
+✅ HF model: openai-community/gpt2 (found at priority: 1)
+⚠️ report fetch failed: https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf HTTPSConnectionPool(host='d4mucfpksywv.cloudfront.net', port=443): Max retries exceeded with url: /better-language-models/language_models_are_unsupervised_multitask_learners.pdf (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000270D3124D90>: Failed to resolve 'd4mucfpksywv.cloudfront.net' ([Errno 11001] getaddrinfo failed)"))
+⚠️ report fetch failed: https://openai.com/blog/better-language-models/ 403 Client Error: Forbidden for url: https://openai.com/blog/better-language-models/
+📄 Reports saved/merged (HF): openai-community_gpt2\reports_fulltext_huggingface_openai-community_gpt2.json
+✅ JSON file saved: openai-community_gpt2\huggingface_openai-community_gpt2.json
+📄 Reports merged to: openai-community_gpt2\reports_fulltext_openai-community_gpt2.json (HF sources)
+✅ Saved group 1 result: openai-community_gpt2\huggingface_filtered_openai-community_gpt2_1.json
+✅ Saved group 2 result: openai-community_gpt2\huggingface_filtered_openai-community_gpt2_2.json
+✅ Saved group 3 result: openai-community_gpt2\huggingface_filtered_openai-community_gpt2_3.json
+✅ Saved group 4 result: openai-community_gpt2\huggingface_filtered_openai-community_gpt2_4.json
+✅ Saved final merged result: openai-community_gpt2\huggingface_filtered_final_openai-community_gpt2.json
+✅ GH repo: openai/gpt-2
+⚠️ Failed to access 'main' branch; retrying with 'master'...
+⚠️ report fetch failed: https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf HTTPSConnectionPool(host='d4mucfpksywv.cloudfront.net', port=443): Max retries exceeded with url: /better-language-models/language-models.pdf (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000270D3AEAE10>: Failed to resolve 'd4mucfpksywv.cloudfront.net' ([Errno 11001] getaddrinfo failed)"))
+⚠️ report fetch failed: https://openai.com/research/better-language-models/ 403 Client Error: Forbidden for url: https://openai.com/research/better-language-models/
+⚠️ report fetch failed: https://openai.com/blog/gpt-2-6-month-follow-up/ 403 Client Error: Forbidden for url: https://openai.com/blog/gpt-2-6-month-follow-up/
+⚠️ report fetch failed: https://www.openai.com/blog/gpt-2-1-5b-release/ 403 Client Error: Forbidden for url: https://www.openai.com/blog/gpt-2-1-5b-release/
+✅ GitHub JSON file saved: openai-community_gpt2\github_openai_gpt-2.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 1, '1-2 (Code)': 1, '1-3 (License)': 3, '1-4 (Paper)': 2}, 'kept': {'1-1 (Weights)': 1, '1-2 (Code)': 1, '1-3 (License)': 3, '1-4 (Paper)': 1}}
+✅ Saved group 1 result: openai-community_gpt2\github_filtered_openai_gpt-2_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 3, '1-6 (Tokenizer)': 3, '2-1 (Hardware)': 0, '2-2 (Software)': 3}, 'kept': {'1-5 (Architecture)': 0, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 result: openai-community_gpt2\github_filtered_openai_gpt-2_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 0, '3-1 (Pre-training)': 6, '3-2 (Fine-tuning)': 1, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 1, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 result: openai-community_gpt2\github_filtered_openai_gpt-2_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 result: openai-community_gpt2\github_filtered_openai_gpt-2_4.json
+✅ Saved final merged result: openai-community_gpt2\github_filtered_final_openai_gpt-2.json
+🔎 HF tags found arXiv IDs: []
+🔄 Simplified query: 'gpt2'
+🔎 Tavily search: gpt2 paper
+  → arXiv link found: https://arxiv.org/abs/1907.05774
+🔎 Tavily search: gpt2 technical report
+  → arXiv link found: https://arxiv.org/pdf/2006.15720
+🛰️ Tavily candidates: ['1907.05774', '2006.15720']
+🔬 Verifying 2 Tavily candidate(s) with GPT…
+  • Candidate: 1907.05774
+    - GPT verdict: ❌ no match (This paper is not the official or primary technical report for GPT-2. It leverages and adapts a preexisting GPT-2 model for task-oriented dialogue systems rather than introducing or formally documenti)
+  • Candidate: 2006.15720
+    - GPT verdict: ❌ no match (The candidate paper is not the official or primary technical report for GPT-2. It describes a new method for progressive generation and uses GPT-2 as one of several baselines rather than detailing the)
+✅ GPT-verified IDs: []
+📦 Final merged arXiv IDs: []
+❌ No arXiv ID found/verified for 'openai-community/gpt2'.
+📄 Reports merged to: openai-community_gpt2\reports_fulltext_openai-community_gpt2.json
+⚠️ No arXiv/report inputs found for dispatcher; skipping
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 13, '1-2 (Code)': 9, '1-3 (License)': 4, '1-4 (Paper)': 11}, 'kept': {'1-1 (Weights)': 12, '1-2 (Code)': 7, '1-3 (License)': 4, '1-4 (Paper)': 8}}
+✅ Saved group 1 : openai-community_gpt2\reports_filtered_openai-community_gpt2_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 17, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 17, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 : openai-community_gpt2\reports_filtered_openai-community_gpt2_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 1, '3-1 (Pre-training)': 17, '3-2 (Fine-tuning)': 11, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 1, '3-1 (Pre-training)': 15, '3-2 (Fine-tuning)': 9, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : openai-community_gpt2\reports_filtered_openai-community_gpt2_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 14, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 4}, 'kept': {'4-1 (Pre-training Data)': 14, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 4}}
+✅ Saved group 4 : openai-community_gpt2\reports_filtered_openai-community_gpt2_4.json
+✅ Saved final merged: openai-community_gpt2\reports_filtered_final_openai-community_gpt2.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: openai-community_gpt2\openness_score_openai-community_gpt2.json
+✅ Openness evaluation complete. Result file: openai-community_gpt2\openness_score_openai-community_gpt2.json
+✅ Saved model ID: openai-community_gpt2\identified_model.txt
+⏳ **Time taken for this model: 2453.64 seconds**
+🧾 Log saved to: openai-community_gpt2\run_20250913-030822_openai-community_gpt2.log

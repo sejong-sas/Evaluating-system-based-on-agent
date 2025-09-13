@@ -1,0 +1,32 @@
+{
+  "4-1 (Pre-training Data)": "According to the provided material, GPT-2 was pretrained in a self-supervised manner on an extremely large English-language corpus that the OpenAI team assembled with the explicit goal of making the training set “as large as possible.”  To create this corpus, they automatically scraped every web page that could be reached through outbound links posted on Reddit, but only kept those links whose originating Reddit post had earned a minimum of three karma points.  The curated crawl produced a 40 GB text collection that the authors later referred to as “WebText.”  Although this WebText corpus is the sole, central pre-training source for GPT-2, it has never been publicly released, so only the high-level description of its scale (≈40 GB) and its Reddit-based selection criterion (≥3 karma) are publicly known.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The OpenAI team wanted to train this model on a corpus as large as possible."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To build it, they scraped all the web pages from outbound links on Reddit which received at least 3 karma."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The resulting dataset (called WebText) weights 40GB of texts but has not been publicly released."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "No quotations were supplied that mention any fine-tuning data for GPT-2, its sources, composition, or public availability, so no information can be summarized for this item.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "The supplied quotes do not contain any references to reinforcement-learning (RL) data, datasets, or generation procedures for GPT-2; consequently, there is no information to summarize for this category.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The only explicit filtering detail given for GPT-2’s pre-training corpus is that “all Wikipedia pages were removed from this dataset,” which ensured that the resulting WebText collection—and therefore GPT-2’s training data—contained no Wikipedia content at all.  This indicates that, beyond the Reddit-karma selection rule, a deliberate post-collection filter eliminated every document whose source matched Wikipedia.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Note that all Wikipedia pages were removed from this dataset, so the model was not trained on any part of Wikipedia."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "4-1 (Pre-training Data)": "The only explicit information given about the GPT-2 pre-training corpus states that the dataset “contains many texts with biases and factual inaccuracies,” which in turn makes it likely that “GPT-2 models are … biased and inaccurate as well.” This underscores that the textual material used to train GPT-2 is not a carefully sanitized or fully fact-checked resource but rather a broad scrape that inevitably embeds real-world prejudices and errors. To facilitate deeper, independent examination of these issues, OpenAI also “released a dataset … for researchers to study their behaviors,” providing the community with direct access to model outputs that can be analyzed for the kinds of bias and misinformation implied by the makeup of the underlying corpus.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The dataset our GPT-2 models were trained on contains many texts with [biases](https://twitter.com/TomerUllman/status/1101485289720242177) and factual inaccuracies, and thus GPT-2 models are likely to be biased and inaccurate as well."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We have also [released a dataset](https://github.com/openai/gpt-2-output-dataset) for researchers to study their behaviors."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

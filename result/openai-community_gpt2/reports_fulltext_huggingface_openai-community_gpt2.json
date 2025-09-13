@@ -1,0 +1,9 @@
+{
+  "model_id": "openai-community/gpt2",
+  "full_texts": [
+    {
+      "arxiv_id": "hf://license/mit",
+      "full_text": "[HF License] mit"
+    }
+  ]
+}

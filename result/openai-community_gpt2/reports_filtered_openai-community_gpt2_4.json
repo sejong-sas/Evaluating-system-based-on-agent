@@ -1,0 +1,109 @@
+{
+  "4-1 (Pre-training Data)": "The quotes describe GPT-2’s pre-training corpus as a large, purpose-built scrape of public Internet text referred to as “WebText.” Multiple passages repeat that GPT-2 was “trained simply to predict the next word in 40 GB of Internet text,” which is further quantified as “a dataset of 8 million web pages.” The model family contains four sizes, the largest of which is the 1.5 billion-parameter version highlighted in the excerpts. This 1.5 B model attains “state-of-the-art results on 7 out of 8 tested language-modeling datasets in a zero-shot setting,” yet the authors note that both training and test performance curves imply the model still “underfits WebText.” A subset of the WebText corpus—as well as a companion release of GPT-2’s generated outputs from all four model sizes, with and without top-k truncation—has been open-sourced. Concerns about training/test contamination were examined: for instance, when overlap was discovered between the Children’s Book Test (CBT) set and WebText (e.g., The Jungle Book), the researchers switched to the CBT validation split “which has no significant overlap.” A RoBERTa-based sequence classifier was later fine-tuned to discriminate 1.5 B GPT-2 outputs from WebText itself, further illustrating how the original WebText corpus is treated as ground truth data during analysis. Collectively, the quotes depict WebText as an English-dominant, web-page crawl of roughly 40 GB/8 M documents, used for next-token prediction across four GPT-2 parameter scales, with partial public release of both the corpus and model generations.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning of GPT-2 is portrayed as versatile and domain-specific. In one research setting, greedy decoding from a GPT-2 model conditioned on a source document, conversation history, and a final answer token achieved 55 F1 on a development set—matching or surpassing three of four baselines that depended on “127,000+ manually collected question-answer pairs,” data that GPT-2 itself never saw. The Center on Terrorism, Extremism, and Counterterrorism (CTEC) demonstrated possible misuse by “fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism.” Separately, the University of Texas at Austin explored “statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets,” and studied how well detectors trained on one domain transfer to another. Fine-tuning is also shown to enable controlled text generation: by adapting GPT-2 to the Amazon Reviews dataset, researchers can elicit reviews conditioned on variables such as star rating or product category. Across these examples, the fine-tuning data are always external, domain-focused corpora (ideological writings, Amazon reviews, Q-A pairs), used to steer GPT-2 toward specialized styles or topics while simultaneously raising questions about detection, performance, and potential misuse.",
+  "4-3 (Reinforcement Learning Data)": "No quotes mention reinforcement-learning–style data collection or reward models for GPT-2, so the provided material contains no information about reinforcement learning datasets, their sources, or composition.",
+  "4-4 (Data Filtering)": "Several concrete filtering and cleaning procedures for GPT-2 data are cited. First, during model evaluation on LAMBADA, researchers noticed that GPT-2 often produced plausible sentence continuations that were not valid *final* words; introducing “a stop-word filter” to block such endings boosted accuracy to 63.24%, a 4-point improvement over the previous state of the art. Second, the creators explicitly “removed non-English webpages from WebText as a filtering step.” They note that, despite this language filter, GPT-2 still scored 5 BLEU on WMT-14 English→French and 11.5 BLEU on French→English translation benchmarks—performance they found surprising given the deliberate exclusion of foreign-language pages. Third, overlap analysis was performed on LAMBADA: “the average overlap is 1.2%,” but the model obtains “about 2 perplexity” gains on instances with “greater than 15% overlap,” indicating that overlap thresholds were computed and correlated with performance. Together, the quotes reveal numeric criteria (63.24 % accuracy after stop-word removal, 1.2 % average overlap, >15 % overlap bucket), language-based corpus pruning (non-English page removal), and task-specific filters (stop-word exclusion) as key components of GPT-2’s data-filtering pipeline.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to[GPT⁠](https://openai.com/index/language-unsupervised/)), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large[transformer⁠(opens in a new window)](https://arxiv.org/abs/1706.03762)-based language model with 1.5 billion parameters, trained on a dataset[A](https://openai.com/blog/better-language-models/#citation-bottom-A) of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re[releasing⁠(opens in a new window)](https://github.com/openai/gpt-2-output-dataset)a dataset of GPT-2 outputs from all 4 model sizes, with and without top-k truncation, as well as a subset of the WebText corpus used to train GPT-2."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "…with 1.5 billion parameters, trained on a dataset of 8 million web pages. GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE (125 million parameters) and RoBERTaLARGE (355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As shown in Figure 4, performance on both the training and test sets of WebText are similar and improve together as model size is increased. This suggests even GPT-2 is still underfitting on WebText in many ways."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Data overlap analysis showed one of the CBT test set books, The Jungle Book by Rudyard Kipling, is in WebText, so we report results on the validation set which has no significant overlap. GPT-2 achieves new state of the art results of 93.3% on common nouns and 89.1% on named entities."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "We’re releasing a dataset of GPT-2 outputs from all 4 model sizes, with and without top-k truncation, as well as a subset of the WebText corpus used to train GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/#citation-bottom-A]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE(125 million parameters) and RoBERTaLARGE(355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Greedy decoding from GPT-2 when conditioned on a document, the history of the associated conversation, and a ﬁnal token A: achieves 55 F1 on the development set. This matches or exceeds the performance of 3 out of 4 baseline systems without using the 127,000+ manually collected question answer pairs those baselines were trained on."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "The University of Texas at Austin is studying the statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets, as well as the extent of detection transfer across different language models."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "CTEC found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Investigating GPT-2’s errors showed most predictions are valid continuations of the sentence, but are not valid final words. Adding a stop-word filter as an approximation to this further increases accuracy to 63.24%, improving the overall state of the art on this task by 4%."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the WMT-14 English-French test set, GPT-2 gets 5 BLEU, which is slightly worse than a word-by-word substitution with a bilingual lexicon inferred in previous work on unsupervised word translation (Conneau et al., 2017b). Performance on this task was surprising to us, since we deliberately removed non-English webpages from WebText as a filtering step."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the WMT-14 French-English test set, GPT-2 is able to leverage its very strong English language model to perform significantly better, achieving 11.5 BLEU. Performance on this task was surprising to us, since we deliberately removed non-English webpages from WebText as a filtering step."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On LAMBADA, the average overlap is 1.2%. GPT-2 performs about 2 perplexity better on examples with greater than 15% overlap."
+    }
+  ]
+}

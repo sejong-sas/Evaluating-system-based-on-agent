@@ -1,0 +1,79 @@
+{
+  "1-5 (Architecture)": "GPT-2 is presented as a direct scale-up of the original OpenAI GPT Transformer. The model family follows the same Transformer architecture (Vaswani et al., 2017) used in GPT, but with two cited modifications: layer normalization is moved to the input of every sub-block and an additional layer norm is placed after the final self-attention block. Parameter counts are the core architectural headline: staged checkpoints were made public at 124 M parameters (\"small\"), ~345/355 M parameters (\"medium\"), 774 M parameters, and a final 1.5 B-parameter release. The largest 1.5 B version is emphasized repeatedly: it holds “over an order of magnitude” (\"more than 10×\") the parameters of GPT, is trained on a corpus of 8 million web pages, achieves state-of-the-art performance on 7 of 8 zero-shot language-modeling benchmarks, yet still underfits WebText. OpenAI ultimately released the weights and code for this 1.5 B model to support output-detection research.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, which we call GPT-2, has over an order of magnitude more parameters than GPT."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We use a Transformer (Vaswani et al., 2017) based architecture for our LMs. The model largely follows the details of the OpenAI GPT model (Radford et al., 2018) with a few modiﬁcations."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large[transformer⁠(opens in a new window)](https://arxiv.org/abs/1706.03762)-based language model with 1.5 billion parameters, trained on a dataset[A](https://openai.com/research/better-language-models/#citation-bottom-A) of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10× the parameters and trained on more than 10× the amount of data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The model largely follows the details of the OpenAI GPT model (Radford et al., 2018) with a few modifications. Layer normalization was moved to the input of each sub-block, and an additional layer normalization was added after the final self-attention block."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained on more than 10X the amount of data."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "As the next step in our staged release, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release⁠, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights⁠ to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

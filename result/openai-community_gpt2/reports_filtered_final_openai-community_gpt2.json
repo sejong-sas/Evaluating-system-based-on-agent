@@ -1,0 +1,437 @@
+{
+  "1-1 (Weights)": "The quotes describe a staged and highly-controlled release of GPT-2 model checkpoints. Initially, OpenAI “are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights.”  Early access therefore consisted only of a small 124 M-parameter snapshot that could be obtained via “Preliminary code for downloading and using the small model … https://github.com/openai/gpt-2.”\n\nOver time the company moved through successively larger checkpoints.  Quotes list public releases of a “medium 355M model,” a 345 M model, and later the “774 million parameter GPT-2 language model.”  During that middle period, some even larger variants were restricted to vetted partners: “we’re releasing a larger 345M version … and are sharing the 762M and 1.5B versions with partners in the AI and security communities.”\n\nThe staged rollout culminated in full public release: “As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models.”  Thus, by the end of the process, weights for 124 M, 355 M, 345 M, 774 M, and the full 1.5 B-parameter model all became available (with the heaviest checkpoint tied to a misuse-detection objective), whereas the original training dataset and full-scale training checkpoints were never placed online.",
+  "1-2 (Code)": "Only inference-level artifacts were made public.  A GitHub repository (“Preliminary code for downloading and using the small model … https://github.com/openai/gpt-2”) was supplied for the 124 M checkpoint.  Multiple quotes stress that “we are only releasing a much smaller version of GPT-2 along with sampling code” and explicitly that “We are not releasing the dataset, training code, or GPT-2 model weights.”  Even at the final 1.5 B release, the code bundle is oriented toward safety tooling rather than reproduction of training: “we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models.”  Throughout, therefore, complete end-to-end training scripts, data-preparation pipelines, hyper-parameter schedules, or RL fine-tuning code were withheld; only downloader utilities, sampling/inference scripts, and detection utilities accompanied the released checkpoints.",
+  "1-3 (License)": "Instead of a standard permissive or copyleft license, OpenAI issued bespoke legal terms.  The 774 M model announcement says: “We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships,” and a parallel quote adds that OpenAI “developed a non-commercial legal agreement to facilitate the sharing of models between organizations.”  These statements indicate (a) the presence of a custom, open-source–style document but (b) with a expressly “non-commercial” flavor.  No sentence mentions redistribution, modification, or commercial rights beyond that non-commercial qualifier, so the governing text appears to limit usage to research or partnership scenarios and to require organizations to sign the accompanying agreement before obtaining restricted checkpoints.",
+  "1-4 (Paper)": "Multiple references confirm an official technical report and associated blog post.  A quote notes: “OpenAI publishes a blog post and paper on GPT-2,” while another specifies that the organization “was trained simply to predict the next word in 40GB of Internet text … we are instead releasing a much smaller model … as well as a technical paper.”  Performance highlights are stated directly in the paper excerpts: the 1.5 B-parameter Transformer “achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting.”  Two different sentences re-emphasize that GPT-2 “zero-shots to state of the art performance on 7 out of 8 tested language modeling datasets.”  Finally, a reference link (“Read paper … GPT-2 model … Detector model”) shows that the paper is publicly accessible, accompanied by separate model and detector downloads.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are not releasing the trained model."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[sections/https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "…we’re releasing a larger 345M version of GPT-2 as a next step in staged release, and are sharing the 762M and 1.5B versions with partners in the AI and security communities who are working to improve societal preparedness for large language models."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit. We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships with each other, and are publishing a technical report about our experience in coordinating with the wider AI research community on publication norms."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/#partnerships]",
+      "quote": "We’ve partnered with four leading research organizations to analyze both the newly-released 774M parameter GPT-2 model and the unreleased full-size GPT-2 model. We’ve also developed a non-commercial legal agreement to facilitate the sharing of models between organizations and are publishing it here to help others initiate such sharing schemes."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit. We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships with each other, and are publishing a technical report about our experience in coordinating with the wider AI research community on publication norms."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’ve partnered with four leading research organizations to analyze both the newly-released 774M parameter GPT-2 model and the unreleased full-size GPT-2 model. We’ve also developed a non-commercial legal agreement to facilitate the sharing of models between organizations and are publishing it here to help others initiate such sharing schemes."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are not releasing the trained model. As an experiment in responsible disclosure, we are instead releasing a much smaller model for researchers to experiment with, as well as a technical paper."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "OpenAI publishes a blog post and paper on GPT-2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufﬁciently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language model- ing datasets."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are instead releasing a much smaller model for researchers to experiment with, as well as a technical paper."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufficiently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language modeling datasets."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "OpenAI publishes a blog post and paper on GPT-2."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Read paper(opens in a new window) GPT-2 model(opens in a new window) Detector model(opens in a new window)"
+    }
+  ],
+  "1-5 (Architecture)": "GPT-2 is presented as a direct scale-up of the original OpenAI GPT Transformer. The model family follows the same Transformer architecture (Vaswani et al., 2017) used in GPT, but with two cited modifications: layer normalization is moved to the input of every sub-block and an additional layer norm is placed after the final self-attention block. Parameter counts are the core architectural headline: staged checkpoints were made public at 124 M parameters (\"small\"), ~345/355 M parameters (\"medium\"), 774 M parameters, and a final 1.5 B-parameter release. The largest 1.5 B version is emphasized repeatedly: it holds “over an order of magnitude” (\"more than 10×\") the parameters of GPT, is trained on a corpus of 8 million web pages, achieves state-of-the-art performance on 7 of 8 zero-shot language-modeling benchmarks, yet still underfits WebText. OpenAI ultimately released the weights and code for this 1.5 B model to support output-detection research.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, which we call GPT-2, has over an order of magnitude more parameters than GPT."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We use a Transformer (Vaswani et al., 2017) based architecture for our LMs. The model largely follows the details of the OpenAI GPT model (Radford et al., 2018) with a few modiﬁcations."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large[transformer⁠(opens in a new window)](https://arxiv.org/abs/1706.03762)-based language model with 1.5 billion parameters, trained on a dataset[A](https://openai.com/research/better-language-models/#citation-bottom-A) of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10× the parameters and trained on more than 10× the amount of data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The model largely follows the details of the OpenAI GPT model (Radford et al., 2018) with a few modifications. Layer normalization was moved to the input of each sub-block, and an additional layer normalization was added after the final self-attention block."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained on more than 10X the amount of data."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "As the next step in our staged release, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release⁠, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights⁠ to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "Preliminary public access is offered through code hosted at https://github.com/openai/gpt-2. The repository allows users to download and run the small GPT-2 model and contains example scripts that demonstrate how to obtain the weights and invoke the system programmatically. No fully featured, production-grade web API is mentioned; the available resource is an early, open-source code path for local use.",
+  "3-1 (Pre-training)": "GPT-2 is presented as the largest member of a quartet of language models whose sizes were spaced roughly log-uniformly. The top-tier model is a 1.5-billion-parameter Transformer—more than an order of magnitude larger than the original GPT—that was trained to predict the next word in a sequence. Training data consisted of roughly 40 GB of Internet text, amounting to about 8 million web pages collected into the WebText corpus. The same single, left-to-right objective was used throughout: maximize the likelihood of the next token given all previous tokens. Scaling analyses showed that as model size increased, performance on both the WebText training and test splits improved in lock-step, implying that even the 1.5 B-parameter model still underfits the corpus. Despite this underfitting, GPT-2 achieved state-of-the-art zero-shot results on 7 of 8 language-modeling benchmarks. A separate experiment fine-tuned RoBERTa-BASE (125 M parameters) and RoBERTa-LARGE (355 M parameters) classifiers to distinguish GPT-2 generations from genuine WebText, further confirming WebText as the pre-training dataset and highlighting evaluation tooling built around the model.",
+  "3-2 (Fine-tuning)": "Fine-tuning is positioned as a key means of extending GPT-2’s capabilities beyond its strong zero-shot baseline. The authors explicitly plan follow-up work on benchmark suites such as decaNLP and GLUE to test whether the model’s scale compensates for its uni-directional architecture. Demonstrations show that domain-specific control is attainable; for instance, fine-tuning on the Amazon Reviews dataset enables generation of reviews conditioned on star rating and product category. External stakeholders explore both beneficial and risky applications: researchers at the University of Texas at Austin study how statistically detectable GPT-2 outputs remain after domain-specific fine-tuning and whether that detectability transfers across language models, while the Middlebury Institute’s CTEC illustrates a misuse scenario in which GPT-2 is fine-tuned on four extremist ideologies—white supremacy, Marxism, jihadist Islamism, and anarchism—to produce tailored propaganda. The overall ceiling of performance achievable through fine-tuning remains uncertain, with the authors noting that zero-shot results serve only as a lower-bound indicator.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "5Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained and benchmarked four LMs with approximately log-uniformly spaced sizes. Our largest model, which we call GPT-2, has over an order of magnitude more parameters than GPT."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained on more than 10X the amount of data."
+    },
+    {
+      "source": "[sections/https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufficiently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language model-ing datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As shown in Figure 4, performance on both the training and test sets of WebText are similar and improve together as model size is increased. This suggests even GPT-2 is still underfitting on WebText in many ways."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE(125 million parameters) and RoBERTaLARGE(355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Given the prior success of fine-tuning GPT, we plan to investigate fine-tuning on benchmarks such as decaNLP and GLUE, especially since it is unclear whether the additional training data and capacity of GPT-2 is sufficient to overcome the inefficiencies of uni-directional representations demonstrated by BERT (Devlin et al., 2018)."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "GPT-2 can be fine-tuned for misuse. Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While zero-shot performance establishes a baseline of the potential performance of GPT-2 on many tasks, it is not clear where the ceiling is with ﬁnetuning."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While zero-shot performance establishes a baseline of the potential performance of GPT-2 on many tasks, it is not clear where the ceiling is with finetuning."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "The University of Texas at Austin is studying the statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets, as well as the extent of detection transfer across different language models."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "**2. GPT-2 can be fine-tuned for misuse**. Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The quotes describe GPT-2’s pre-training corpus as a large, purpose-built scrape of public Internet text referred to as “WebText.” Multiple passages repeat that GPT-2 was “trained simply to predict the next word in 40 GB of Internet text,” which is further quantified as “a dataset of 8 million web pages.” The model family contains four sizes, the largest of which is the 1.5 billion-parameter version highlighted in the excerpts. This 1.5 B model attains “state-of-the-art results on 7 out of 8 tested language-modeling datasets in a zero-shot setting,” yet the authors note that both training and test performance curves imply the model still “underfits WebText.” A subset of the WebText corpus—as well as a companion release of GPT-2’s generated outputs from all four model sizes, with and without top-k truncation—has been open-sourced. Concerns about training/test contamination were examined: for instance, when overlap was discovered between the Children’s Book Test (CBT) set and WebText (e.g., The Jungle Book), the researchers switched to the CBT validation split “which has no significant overlap.” A RoBERTa-based sequence classifier was later fine-tuned to discriminate 1.5 B GPT-2 outputs from WebText itself, further illustrating how the original WebText corpus is treated as ground truth data during analysis. Collectively, the quotes depict WebText as an English-dominant, web-page crawl of roughly 40 GB/8 M documents, used for next-token prediction across four GPT-2 parameter scales, with partial public release of both the corpus and model generations.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning of GPT-2 is portrayed as versatile and domain-specific. In one research setting, greedy decoding from a GPT-2 model conditioned on a source document, conversation history, and a final answer token achieved 55 F1 on a development set—matching or surpassing three of four baselines that depended on “127,000+ manually collected question-answer pairs,” data that GPT-2 itself never saw. The Center on Terrorism, Extremism, and Counterterrorism (CTEC) demonstrated possible misuse by “fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism.” Separately, the University of Texas at Austin explored “statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets,” and studied how well detectors trained on one domain transfer to another. Fine-tuning is also shown to enable controlled text generation: by adapting GPT-2 to the Amazon Reviews dataset, researchers can elicit reviews conditioned on variables such as star rating or product category. Across these examples, the fine-tuning data are always external, domain-focused corpora (ideological writings, Amazon reviews, Q-A pairs), used to steer GPT-2 toward specialized styles or topics while simultaneously raising questions about detection, performance, and potential misuse.",
+  "4-3 (Reinforcement Learning Data)": "No quotes mention reinforcement-learning–style data collection or reward models for GPT-2, so the provided material contains no information about reinforcement learning datasets, their sources, or composition.",
+  "4-4 (Data Filtering)": "Several concrete filtering and cleaning procedures for GPT-2 data are cited. First, during model evaluation on LAMBADA, researchers noticed that GPT-2 often produced plausible sentence continuations that were not valid *final* words; introducing “a stop-word filter” to block such endings boosted accuracy to 63.24%, a 4-point improvement over the previous state of the art. Second, the creators explicitly “removed non-English webpages from WebText as a filtering step.” They note that, despite this language filter, GPT-2 still scored 5 BLEU on WMT-14 English→French and 11.5 BLEU on French→English translation benchmarks—performance they found surprising given the deliberate exclusion of foreign-language pages. Third, overlap analysis was performed on LAMBADA: “the average overlap is 1.2%,” but the model obtains “about 2 perplexity” gains on instances with “greater than 15% overlap,” indicating that overlap thresholds were computed and correlated with performance. Together, the quotes reveal numeric criteria (63.24 % accuracy after stop-word removal, 1.2 % average overlap, >15 % overlap bucket), language-based corpus pruning (non-English page removal), and task-specific filters (stop-word exclusion) as key components of GPT-2’s data-filtering pipeline.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to[GPT⁠](https://openai.com/index/language-unsupervised/)), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large[transformer⁠(opens in a new window)](https://arxiv.org/abs/1706.03762)-based language model with 1.5 billion parameters, trained on a dataset[A](https://openai.com/blog/better-language-models/#citation-bottom-A) of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re[releasing⁠(opens in a new window)](https://github.com/openai/gpt-2-output-dataset)a dataset of GPT-2 outputs from all 4 model sizes, with and without top-k truncation, as well as a subset of the WebText corpus used to train GPT-2."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "…with 1.5 billion parameters, trained on a dataset of 8 million web pages. GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE (125 million parameters) and RoBERTaLARGE (355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As shown in Figure 4, performance on both the training and test sets of WebText are similar and improve together as model size is increased. This suggests even GPT-2 is still underfitting on WebText in many ways."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Data overlap analysis showed one of the CBT test set books, The Jungle Book by Rudyard Kipling, is in WebText, so we report results on the validation set which has no significant overlap. GPT-2 achieves new state of the art results of 93.3% on common nouns and 89.1% on named entities."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "We’re releasing a dataset of GPT-2 outputs from all 4 model sizes, with and without top-k truncation, as well as a subset of the WebText corpus used to train GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/#citation-bottom-A]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE(125 million parameters) and RoBERTaLARGE(355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Greedy decoding from GPT-2 when conditioned on a document, the history of the associated conversation, and a ﬁnal token A: achieves 55 F1 on the development set. This matches or exceeds the performance of 3 out of 4 baseline systems without using the 127,000+ manually collected question answer pairs those baselines were trained on."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    },
+    {
+      "source": "[url:https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "The University of Texas at Austin is studying the statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets, as well as the extent of detection transfer across different language models."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "CTEC found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Investigating GPT-2’s errors showed most predictions are valid continuations of the sentence, but are not valid final words. Adding a stop-word filter as an approximation to this further increases accuracy to 63.24%, improving the overall state of the art on this task by 4%."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the WMT-14 English-French test set, GPT-2 gets 5 BLEU, which is slightly worse than a word-by-word substitution with a bilingual lexicon inferred in previous work on unsupervised word translation (Conneau et al., 2017b). Performance on this task was surprising to us, since we deliberately removed non-English webpages from WebText as a filtering step."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the WMT-14 French-English test set, GPT-2 is able to leverage its very strong English language model to perform significantly better, achieving 11.5 BLEU. Performance on this task was surprising to us, since we deliberately removed non-English webpages from WebText as a filtering step."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On LAMBADA, the average overlap is 1.2%. GPT-2 performs about 2 perplexity better on examples with greater than 15% overlap."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "not_used"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "1-5 (Architecture)": "The architecture information that is made explicit for the openai-community/gpt2 checkpoint shows that it is described as “the smallest version of GPT-2, with 124M parameters,” so the total parameter count is 124 million.  In the configuration block the model declares \"architectures\": [\"GPT2LMHeadModel\"], signalling that it follows the standard GPT-2 language-model-with-LM-head design implemented in the Transformers library.  The depth of the network is given by \"n_layer\": 12, meaning there are twelve stacked transformer decoder blocks.  Each block is equipped with multi-head self-attention that uses exactly \"n_head\": 12 distinct attention heads.  The representation size flowing through the model is fixed to \"n_embd\": 768 hidden units, and the maximum context window that the model was configured to attend over is \"n_ctx\": 1024 tokens.  Collectively, these numbers (12 layers × 12 heads × 768 hidden size with a 1 024-token context length) summarise the core architectural footprint of this 124 M-parameter GPT-2 variant.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This is the **smallest** version of GPT-2, with 124M parameters."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"GPT2LMHeadModel\"\n  ],"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_layer\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_head\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_embd\": 768,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_ctx\": 1024,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenisation for gpt2 is performed with “a byte-level version of Byte Pair Encoding (BPE) (for Unicode characters),” and the resulting vocabulary contains exactly 50 257 entries.  Usage examples show that a user can instantiate it directly via the Hugging Face API with the call `tokenizer = GPT2Tokenizer.from_pretrained('gpt2')`, confirming that a ready-made, downloadable tokenizer accompanies the model.  The standard GPT-2 tokenizer assets are explicitly listed as the files “merges.txt” (which stores the learned merge rules) and “vocab.json” (which maps byte-pair tokens to integer IDs).  Together, these details establish that openai-community/gpt2 relies on the canonical GPT-2 byte-level BPE scheme, has a 50 257-token vocabulary, and ships with the two usual artefacts that make the tokenizer fully reproducible.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The texts are tokenized using a byte-level version of Byte Pair Encoding (BPE) (for unicode characters) and a vocabulary size of 50,257."
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = GPT2Tokenizer.from_pretrained('gpt2')"
+    },
+    {
+      "source": "[files]",
+      "quote": "merges.txt"
+    },
+    {
+      "source": "[files]",
+      "quote": "vocab.json"
+    }
+  ],
+  "2-1 (Hardware)": "For hardware, a single concrete statement is provided: “The larger model was trained on 256 cloud TPU v3 cores.”  Although it references the larger member of the GPT-2 family, the sentence still situates GPT-2 training within a high-performance computing context that employed a cluster of 256 third-generation Cloud TPU chips.  This implies that large-scale distributed training on specialised tensor-processing hardware (TPU v3) was part of the development process for scaling GPT-2 models, and that on the order of a few hundred TPU cores were marshalled simultaneously to complete the training run.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The larger model was trained on 256 cloud TPU v3 cores."
+    }
+  ],
+  "2-2 (Software)": "The software stack reveals that the model checkpoint was produced with a development build of the Hugging Face Transformers library, as indicated by the line \"transformers_version\": \"4.26.0.dev0\".  This tells us the training and/or conversion code relied on features present in the pre-release 4.26-series of Transformers, providing a rough timestamp and confirming that the model conforms to the APIs and configuration formats introduced in that version.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.26.0.dev0\","
+    }
+  ]
+}

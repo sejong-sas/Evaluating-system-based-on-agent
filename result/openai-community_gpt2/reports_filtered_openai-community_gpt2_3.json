@@ -1,0 +1,113 @@
+{
+  "2-3 (API)": "Preliminary public access is offered through code hosted at https://github.com/openai/gpt-2. The repository allows users to download and run the small GPT-2 model and contains example scripts that demonstrate how to obtain the weights and invoke the system programmatically. No fully featured, production-grade web API is mentioned; the available resource is an early, open-source code path for local use.",
+  "3-1 (Pre-training)": "GPT-2 is presented as the largest member of a quartet of language models whose sizes were spaced roughly log-uniformly. The top-tier model is a 1.5-billion-parameter Transformer—more than an order of magnitude larger than the original GPT—that was trained to predict the next word in a sequence. Training data consisted of roughly 40 GB of Internet text, amounting to about 8 million web pages collected into the WebText corpus. The same single, left-to-right objective was used throughout: maximize the likelihood of the next token given all previous tokens. Scaling analyses showed that as model size increased, performance on both the WebText training and test splits improved in lock-step, implying that even the 1.5 B-parameter model still underfits the corpus. Despite this underfitting, GPT-2 achieved state-of-the-art zero-shot results on 7 of 8 language-modeling benchmarks. A separate experiment fine-tuned RoBERTa-BASE (125 M parameters) and RoBERTa-LARGE (355 M parameters) classifiers to distinguish GPT-2 generations from genuine WebText, further confirming WebText as the pre-training dataset and highlighting evaluation tooling built around the model.",
+  "3-2 (Fine-tuning)": "Fine-tuning is positioned as a key means of extending GPT-2’s capabilities beyond its strong zero-shot baseline. The authors explicitly plan follow-up work on benchmark suites such as decaNLP and GLUE to test whether the model’s scale compensates for its uni-directional architecture. Demonstrations show that domain-specific control is attainable; for instance, fine-tuning on the Amazon Reviews dataset enables generation of reviews conditioned on star rating and product category. External stakeholders explore both beneficial and risky applications: researchers at the University of Texas at Austin study how statistically detectable GPT-2 outputs remain after domain-specific fine-tuning and whether that detectability transfers across language models, while the Middlebury Institute’s CTEC illustrates a misuse scenario in which GPT-2 is fine-tuned on four extremist ideologies—white supremacy, Marxism, jihadist Islamism, and anarchism—to produce tailored propaganda. The overall ceiling of performance achievable through fine-tuning remains uncertain, with the authors noting that zero-shot results serve only as a lower-bound indicator.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "5Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained and benchmarked four LMs with approximately log-uniformly spaced sizes. Our largest model, which we call GPT-2, has over an order of magnitude more parameters than GPT."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a direct scale-up of GPT, with more than 10X the parameters and trained on more than 10X the amount of data."
+    },
+    {
+      "source": "[sections/https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underfits WebText."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufficiently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language model-ing datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As shown in Figure 4, performance on both the training and test sets of WebText are similar and improve together as model size is increased. This suggests even GPT-2 is still underfitting on WebText in many ways."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "GPT-2 is trained with a simple objective: predict the next word, given all of the previous words within some text."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Specifically, we based a sequence classifier on RoBERTaBASE(125 million parameters) and RoBERTaLARGE(355 million parameters) and fine-tuned it to classify the outputs from the 1.5B GPT-2 model versus WebText, the dataset we used to train the GPT-2 model."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Given the prior success of fine-tuning GPT, we plan to investigate fine-tuning on benchmarks such as decaNLP and GLUE, especially since it is unclear whether the additional training data and capacity of GPT-2 is sufficient to overcome the inefficiencies of uni-directional representations demonstrated by BERT (Devlin et al., 2018)."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "GPT-2 can be fine-tuned for misuse. Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While zero-shot performance establishes a baseline of the potential performance of GPT-2 on many tasks, it is not clear where the ceiling is with ﬁnetuning."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While zero-shot performance establishes a baseline of the potential performance of GPT-2 on many tasks, it is not clear where the ceiling is with finetuning."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Fine-tuning offers the potential for even more detailed control over generated samples—for example, we can fine-tune GPT-2 on the Amazon Reviews dataset and use this to let us write reviews conditioned on things like star rating and category."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "The University of Texas at Austin is studying the statistical detectability of GPT-2 outputs after fine-tuning the model on domain-specific datasets, as well as the extent of detection transfer across different language models."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "**2. GPT-2 can be fine-tuned for misuse**. Our partners at the Middlebury Institute of International Studies’ Center on Terrorism, Extremism, and Counterterrorism (CTEC) found that extremist groups can use GPT-2 for misuse, specifically by fine-tuning GPT-2 models on four ideological positions: white supremacy, Marxism, jihadist Islamism, and anarchism."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

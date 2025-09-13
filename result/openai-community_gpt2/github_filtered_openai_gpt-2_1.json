@@ -1,0 +1,38 @@
+{
+  "1-1 (Weights)": "The only explicit weight-related line provided is the code snippet\n  \"r = requests.get(\\\"https://openaipublic.blob.core.windows.net/gpt-2/\\\" + subdir + \\\"/\\\" + filename, stream=True)\".\nFrom this single line we learn every publicly stated fact about GPT-2 weight access:\n• Location: they are hosted at the base URL \"https://openaipublic.blob.core.windows.net/gpt-2/\".\n• Access method: a plain HTTP(S) GET request performed with the Python Requests library; the call is shown with the \"stream=True\" flag, which is typically used for downloading large binary files such as model checkpoints.\n• Openness / permissions: the snippet passes no authentication headers or tokens, implying that anyone who knows (or programmatically enumerates) the \"subdir/filename\" part of the path can retrieve the files directly. No other restrictions, rate limits or gated-access mechanisms are mentioned in the supplied material.\nThus, the single quote establishes that GPT-2’s pretrained weights are publicly downloadable via an unauthenticated URL hosted by OpenAI.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[py_files/download_model.py]",
+      "quote": "r = requests.get(\"https://openaipublic.blob.core.windows.net/gpt-2/\" + subdir + \"/\" + filename, stream=True)"
+    }
+  ],
+  "1-2 (Code)": "All publicly disclosed information about the availability and intent of the code base is captured by the sentence:\n  \"This repository is meant to be a starting point for researchers and engineers to experiment with GPT-2.\"\nTaken at face value, this statement conveys that: (1) there exists a repository, (2) it is openly presented to the community, and (3) its purpose is to enable experimentation with the GPT-2 model. The quote does not distinguish between pre-training, fine-tuning, or inference scripts, but the words \"starting point\" and \"experiment\" strongly suggest that the repository contains at least some training-pipeline or model-handling code rather than being limited to an inference-only demo. No additional qualifiers, access restrictions, or component lists are provided in the given material.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository is meant to be a starting point for researchers and engineers to experiment with GPT-2."
+    }
+  ],
+  "1-3 (License)": "The licensing information is supplied verbatim in three separate quotations:\n• \"Modified MIT License\"\n• \"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\"\n• \"We don’t claim ownership of the content you create with GPT-2, so it is yours to do with as you please.\"\nTaken together, these lines establish that:\n1. The project is released under a \"Modified MIT License\" (an MIT-style license with possible custom clauses not reproduced here).\n2. The canonical MIT grant paragraph is preserved, explicitly allowing use, copy, modification, merging, publication, distribution, sublicensing, and sale of the software, meaning that (a) use, (b) modification, (c) redistribution, and (d) commercial use are all formally permitted.\n3. An additional statement clarifies intellectual-property rights over model outputs: OpenAI \"doesn’t claim ownership of the content you create\", so users retain full ownership of their generated text. No counter-indications such as \"non-commercial\" or \"research-only\" appear in the supplied excerpts.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Modified MIT License"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "We don’t claim ownership of the content you create with GPT-2, so it is yours to do with as you please."
+    }
+  ],
+  "1-4 (Paper)": "The project’s written technical coverage is summarized in a single multi-link sentence:\n  \"You can read about GPT-2 and its staged release in our [original blog post](https://openai.com/research/better-language-models/), [6 month follow-up post](https://openai.com/blog/gpt-2-6-month-follow-up/), and [final post](https://www.openai.com/blog/gpt-2-1-5b-release/).\"\nThis establishes three official publications hosted on openai.com: the original GPT-2 announcement blog post, a six-month follow-up report, and the final release note. No separate academic paper or conference proceedings are mentioned in the provided material.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can read about GPT-2 and its staged release in our [original blog post](https://openai.com/research/better-language-models/), [6 month follow-up post](https://openai.com/blog/gpt-2-6-month-follow-up/), and [final post](https://www.openai.com/blog/gpt-2-1-5b-release/)."
+    }
+  ]
+}

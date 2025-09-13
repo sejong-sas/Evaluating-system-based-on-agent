@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The only explicit detail given about GPT-2’s pre-training process focuses on the nature of the corpus that was used. According to the quote, “the dataset our GPT-2 models were trained on contains many texts with biases and factual inaccuracies.” This single observation, while brief, carries several implications for the pre-training stage:\n• Composition of the data: The statement confirms that the model was exposed to a broad collection of real-world texts that, by the authors’ own admission, include both biased viewpoints and incorrect factual assertions.\n• Direct consequence for model behavior: Because the model learns statistical patterns from this data in an unsupervised manner, the quote explicitly warns that “GPT-2 models are likely to be biased and inaccurate as well.” In other words, flaws in the data propagate into the pretrained parameters.\n• Emphasis on dataset quality as a key variable: The warning underscores the strong coupling between data quality and model quality during pre-training, highlighting that even if the architecture and optimization are sound, the resulting model will inherit any systemic issues present in the data.\nOverall, while the quote does not provide numeric hyperparameters, data volume, or tokenization details, it clearly frames the pre-training stage as one in which dataset bias and factual error are known risk factors that will inevitably influence the baseline GPT-2 behavior.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- The dataset our GPT-2 models were trained on contains many texts with [biases](https://twitter.com/TomerUllman/status/1101485289720242177) and factual inaccuracies, and thus GPT-2 models are likely to be biased and inaccurate as well."
+    }
+  ],
+  "3-2 (Fine-tuning)": "For fine-tuning, the provided quote stresses uncertainty about the model’s safety and reliability in its unmodified form: “GPT-2 models’ robustness and worst case behaviors are not well-understood. As with any machine-learned model, carefully evaluate GPT-2 for your use case, especially if used without fine-tuning or in safety-critical applications where reliability is important.” From this we can extract several detailed points:\n• Unknown robustness: The authors admit that edge-case or adversarial performance of the base GPT-2 model has not been fully characterized.\n• Role of fine-tuning: The phrase “especially if used without fine-tuning” implies that adapting GPT-2 on domain-specific or curated data could improve reliability, but such mitigation is optional and must be evaluated.\n• Safety-critical contexts: The recommendation to be “careful” in high-stakes settings suggests that fine-tuning, rigorous validation, or additional safeguards are prudent steps before deployment.\n• Evaluation requirement: Regardless of whether fine-tuning is applied, users are urged to run their own task-specific assessments to verify that the adapted or unadapted model meets necessary robustness standards.\nThus, although no concrete fine-tuning recipe or hyperparameters are provided, the quote frames fine-tuning primarily as a risk-reduction measure, needed because the unmodified GPT-2 may behave unpredictably or unreliably.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- GPT-2 models' robustness and worst case behaviors are not well-understood.  As with any machine-learned model, carefully evaluate GPT-2 for your use case, especially if used without fine-tuning or in safety-critical applications where reliability is important."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

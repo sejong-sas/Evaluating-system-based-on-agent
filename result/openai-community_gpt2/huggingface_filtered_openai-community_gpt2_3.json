@@ -1,0 +1,33 @@
+{
+  "2-3 (API)": "The provided material identifies two concrete access routes for interacting with the openai-community/gpt2 model through an API-like interface. First, a web-based playground is given: “Test the whole generation capabilities here: https://transformer.huggingface.co/doc/gpt2-large”. This URL explicitly hosts documentation and a live interface for the GPT-2-Large variant, indicating public, browser-accessible generation endpoints that let users experiment with text completion. Second, a short, executable code snippet illustrates programmatic access via the Hugging Face inference pipeline: “>>> generator = pipeline('text-generation', model='gpt2')”. This example shows that developers can instantiate a text-generation pipeline, specify \"gpt2\" as the model name, and immediately obtain a callable generator object, confirming an easy-to-use API for inference with GPT-2.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Test the whole generation capabilities here: https://transformer.huggingface.co/doc/gpt2-large"
+    },
+    {
+      "source": "[readme]",
+      "quote": ">>> generator = pipeline('text-generation', model='gpt2')"
+    }
+  ],
+  "3-1 (Pre-training)": "The quoted description summarizes GPT-2’s original training regimen: “GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion.”  Self-supervised here means the model consumed “raw texts only, with no humans labelling them in any way,” and relied on “an automatic process to generate inputs and labels from those texts.”  Thus, the corpus was extensive, purely English, and unlabeled, and the learning objective derived automatically from the text itself.  The size of the specific checkpoint under discussion is also stated: “This is the smallest version of GPT-2, with 124M parameters.”  Hence, the 124-million-parameter GPT-2 small model was trained via large-scale, self-supervised language modeling on a massive English corpus, with inputs and labels produced automatically from the raw data.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion. This\nmeans it was pretrained on the raw texts only, with no humans labelling them in any way (which is why it can use lots\nof publicly available data) with an automatic process to generate inputs and labels from those texts."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This is the **smallest** version of GPT-2, with 124M parameters."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuned derivatives of GPT-2 are available and catalogued on the Hugging Face Model Hub: “See the [model hub](https://huggingface.co/models?filter=gpt2) to look for fine-tuned versions on a task that interests you.”  This statement indicates that numerous GPT-2 checkpoints have been adapted to downstream tasks and can be browsed or downloaded directly through the linked hub page.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "See the\n[model hub](https://huggingface.co/models?filter=gpt2) to look for fine-tuned versions on a task that interests you."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

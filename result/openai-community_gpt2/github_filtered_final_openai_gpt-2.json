@@ -1,0 +1,85 @@
+{
+  "1-1 (Weights)": "The only explicit weight-related line provided is the code snippet\n  \"r = requests.get(\\\"https://openaipublic.blob.core.windows.net/gpt-2/\\\" + subdir + \\\"/\\\" + filename, stream=True)\".\nFrom this single line we learn every publicly stated fact about GPT-2 weight access:\n• Location: they are hosted at the base URL \"https://openaipublic.blob.core.windows.net/gpt-2/\".\n• Access method: a plain HTTP(S) GET request performed with the Python Requests library; the call is shown with the \"stream=True\" flag, which is typically used for downloading large binary files such as model checkpoints.\n• Openness / permissions: the snippet passes no authentication headers or tokens, implying that anyone who knows (or programmatically enumerates) the \"subdir/filename\" part of the path can retrieve the files directly. No other restrictions, rate limits or gated-access mechanisms are mentioned in the supplied material.\nThus, the single quote establishes that GPT-2’s pretrained weights are publicly downloadable via an unauthenticated URL hosted by OpenAI.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[py_files/download_model.py]",
+      "quote": "r = requests.get(\"https://openaipublic.blob.core.windows.net/gpt-2/\" + subdir + \"/\" + filename, stream=True)"
+    }
+  ],
+  "1-2 (Code)": "All publicly disclosed information about the availability and intent of the code base is captured by the sentence:\n  \"This repository is meant to be a starting point for researchers and engineers to experiment with GPT-2.\"\nTaken at face value, this statement conveys that: (1) there exists a repository, (2) it is openly presented to the community, and (3) its purpose is to enable experimentation with the GPT-2 model. The quote does not distinguish between pre-training, fine-tuning, or inference scripts, but the words \"starting point\" and \"experiment\" strongly suggest that the repository contains at least some training-pipeline or model-handling code rather than being limited to an inference-only demo. No additional qualifiers, access restrictions, or component lists are provided in the given material.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository is meant to be a starting point for researchers and engineers to experiment with GPT-2."
+    }
+  ],
+  "1-3 (License)": "The licensing information is supplied verbatim in three separate quotations:\n• \"Modified MIT License\"\n• \"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \\\"Software\\\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\"\n• \"We don’t claim ownership of the content you create with GPT-2, so it is yours to do with as you please.\"\nTaken together, these lines establish that:\n1. The project is released under a \"Modified MIT License\" (an MIT-style license with possible custom clauses not reproduced here).\n2. The canonical MIT grant paragraph is preserved, explicitly allowing use, copy, modification, merging, publication, distribution, sublicensing, and sale of the software, meaning that (a) use, (b) modification, (c) redistribution, and (d) commercial use are all formally permitted.\n3. An additional statement clarifies intellectual-property rights over model outputs: OpenAI \"doesn’t claim ownership of the content you create\", so users retain full ownership of their generated text. No counter-indications such as \"non-commercial\" or \"research-only\" appear in the supplied excerpts.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Modified MIT License"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "We don’t claim ownership of the content you create with GPT-2, so it is yours to do with as you please."
+    }
+  ],
+  "1-4 (Paper)": "The project’s written technical coverage is summarized in a single multi-link sentence:\n  \"You can read about GPT-2 and its staged release in our [original blog post](https://openai.com/research/better-language-models/), [6 month follow-up post](https://openai.com/blog/gpt-2-6-month-follow-up/), and [final post](https://www.openai.com/blog/gpt-2-1-5b-release/).\"\nThis establishes three official publications hosted on openai.com: the original GPT-2 announcement blog post, a six-month follow-up report, and the final release note. No separate academic paper or conference proceedings are mentioned in the provided material.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can read about GPT-2 and its staged release in our [original blog post](https://openai.com/research/better-language-models/), [6 month follow-up post](https://openai.com/blog/gpt-2-6-month-follow-up/), and [final post](https://www.openai.com/blog/gpt-2-1-5b-release/)."
+    }
+  ],
+  "1-5 (Architecture)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The only explicit detail given about GPT-2’s pre-training process focuses on the nature of the corpus that was used. According to the quote, “the dataset our GPT-2 models were trained on contains many texts with biases and factual inaccuracies.” This single observation, while brief, carries several implications for the pre-training stage:\n• Composition of the data: The statement confirms that the model was exposed to a broad collection of real-world texts that, by the authors’ own admission, include both biased viewpoints and incorrect factual assertions.\n• Direct consequence for model behavior: Because the model learns statistical patterns from this data in an unsupervised manner, the quote explicitly warns that “GPT-2 models are likely to be biased and inaccurate as well.” In other words, flaws in the data propagate into the pretrained parameters.\n• Emphasis on dataset quality as a key variable: The warning underscores the strong coupling between data quality and model quality during pre-training, highlighting that even if the architecture and optimization are sound, the resulting model will inherit any systemic issues present in the data.\nOverall, while the quote does not provide numeric hyperparameters, data volume, or tokenization details, it clearly frames the pre-training stage as one in which dataset bias and factual error are known risk factors that will inevitably influence the baseline GPT-2 behavior.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- The dataset our GPT-2 models were trained on contains many texts with [biases](https://twitter.com/TomerUllman/status/1101485289720242177) and factual inaccuracies, and thus GPT-2 models are likely to be biased and inaccurate as well."
+    }
+  ],
+  "3-2 (Fine-tuning)": "For fine-tuning, the provided quote stresses uncertainty about the model’s safety and reliability in its unmodified form: “GPT-2 models’ robustness and worst case behaviors are not well-understood. As with any machine-learned model, carefully evaluate GPT-2 for your use case, especially if used without fine-tuning or in safety-critical applications where reliability is important.” From this we can extract several detailed points:\n• Unknown robustness: The authors admit that edge-case or adversarial performance of the base GPT-2 model has not been fully characterized.\n• Role of fine-tuning: The phrase “especially if used without fine-tuning” implies that adapting GPT-2 on domain-specific or curated data could improve reliability, but such mitigation is optional and must be evaluated.\n• Safety-critical contexts: The recommendation to be “careful” in high-stakes settings suggests that fine-tuning, rigorous validation, or additional safeguards are prudent steps before deployment.\n• Evaluation requirement: Regardless of whether fine-tuning is applied, users are urged to run their own task-specific assessments to verify that the adapted or unadapted model meets necessary robustness standards.\nThus, although no concrete fine-tuning recipe or hyperparameters are provided, the quote frames fine-tuning primarily as a risk-reduction measure, needed because the unmodified GPT-2 may behave unpredictably or unreliably.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- GPT-2 models' robustness and worst case behaviors are not well-understood.  As with any machine-learned model, carefully evaluate GPT-2 for your use case, especially if used without fine-tuning or in safety-critical applications where reliability is important."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "The only explicit information given about the GPT-2 pre-training corpus states that the dataset “contains many texts with biases and factual inaccuracies,” which in turn makes it likely that “GPT-2 models are … biased and inaccurate as well.” This underscores that the textual material used to train GPT-2 is not a carefully sanitized or fully fact-checked resource but rather a broad scrape that inevitably embeds real-world prejudices and errors. To facilitate deeper, independent examination of these issues, OpenAI also “released a dataset … for researchers to study their behaviors,” providing the community with direct access to model outputs that can be analyzed for the kinds of bias and misinformation implied by the makeup of the underlying corpus.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The dataset our GPT-2 models were trained on contains many texts with [biases](https://twitter.com/TomerUllman/status/1101485289720242177) and factual inaccuracies, and thus GPT-2 models are likely to be biased and inaccurate as well."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We have also [released a dataset](https://github.com/openai/gpt-2-output-dataset) for researchers to study their behaviors."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "not_used"
+  }
+}

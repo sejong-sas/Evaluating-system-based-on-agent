@@ -1,0 +1,166 @@
+{
+  "1-1 (Weights)": ">>> generator = pipeline('text-generation', model='gpt2')\n\ntokenizer = GPT2Tokenizer.from_pretrained('gpt2')\nmodel = GPT2Model.from_pretrained('gpt2')\n\npytorch_model.bin",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": ">>> generator = pipeline('text-generation', model='gpt2')"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = GPT2Tokenizer.from_pretrained('gpt2')\nmodel = GPT2Model.from_pretrained('gpt2')"
+    },
+    {
+      "source": "[files]",
+      "quote": "pytorch_model.bin"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "license: mit\n\n[readme]\n---\nlanguage: en\ntags:\n- exbert\n\nlicense: mit\n---",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: mit"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlanguage: en\ntags:\n- exbert\n\nlicense: mit\n---\n\n\n# GPT-2\n\nTest the whole generation capabilities here: https://transformer.huggingface.co/doc/gpt2-large\n\nPretrained model on English language using a cau"
+    }
+  ],
+  "1-4 (Paper)": "It was introduced in [this paper](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) and first released at [this page](https://openai.com/blog/better-language-models/).\n\n@article{radford2019language,\n  title={Language Models are Unsupervised Multitask Learners},\n  author={Radford, Alec and Wu, Jeff and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},\n  year={2019}\n}",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "It was introduced in [this paper](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) and first released at [this page](https://openai.com/blog/better-language-models/)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "@article{radford2019language,\n  title={Language Models are Unsupervised Multitask Learners},\n  author={Radford, Alec and Wu, Jeff and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},\n  year={2019}\n}"
+    }
+  ],
+  "1-5 (Architecture)": "The architecture information that is made explicit for the openai-community/gpt2 checkpoint shows that it is described as “the smallest version of GPT-2, with 124M parameters,” so the total parameter count is 124 million.  In the configuration block the model declares \"architectures\": [\"GPT2LMHeadModel\"], signalling that it follows the standard GPT-2 language-model-with-LM-head design implemented in the Transformers library.  The depth of the network is given by \"n_layer\": 12, meaning there are twelve stacked transformer decoder blocks.  Each block is equipped with multi-head self-attention that uses exactly \"n_head\": 12 distinct attention heads.  The representation size flowing through the model is fixed to \"n_embd\": 768 hidden units, and the maximum context window that the model was configured to attend over is \"n_ctx\": 1024 tokens.  Collectively, these numbers (12 layers × 12 heads × 768 hidden size with a 1 024-token context length) summarise the core architectural footprint of this 124 M-parameter GPT-2 variant.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This is the **smallest** version of GPT-2, with 124M parameters."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"GPT2LMHeadModel\"\n  ],"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_layer\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_head\": 12,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_embd\": 768,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"n_ctx\": 1024,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenisation for gpt2 is performed with “a byte-level version of Byte Pair Encoding (BPE) (for Unicode characters),” and the resulting vocabulary contains exactly 50 257 entries.  Usage examples show that a user can instantiate it directly via the Hugging Face API with the call `tokenizer = GPT2Tokenizer.from_pretrained('gpt2')`, confirming that a ready-made, downloadable tokenizer accompanies the model.  The standard GPT-2 tokenizer assets are explicitly listed as the files “merges.txt” (which stores the learned merge rules) and “vocab.json” (which maps byte-pair tokens to integer IDs).  Together, these details establish that openai-community/gpt2 relies on the canonical GPT-2 byte-level BPE scheme, has a 50 257-token vocabulary, and ships with the two usual artefacts that make the tokenizer fully reproducible.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The texts are tokenized using a byte-level version of Byte Pair Encoding (BPE) (for unicode characters) and a vocabulary size of 50,257."
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = GPT2Tokenizer.from_pretrained('gpt2')"
+    },
+    {
+      "source": "[files]",
+      "quote": "merges.txt"
+    },
+    {
+      "source": "[files]",
+      "quote": "vocab.json"
+    }
+  ],
+  "2-1 (Hardware)": "For hardware, a single concrete statement is provided: “The larger model was trained on 256 cloud TPU v3 cores.”  Although it references the larger member of the GPT-2 family, the sentence still situates GPT-2 training within a high-performance computing context that employed a cluster of 256 third-generation Cloud TPU chips.  This implies that large-scale distributed training on specialised tensor-processing hardware (TPU v3) was part of the development process for scaling GPT-2 models, and that on the order of a few hundred TPU cores were marshalled simultaneously to complete the training run.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The larger model was trained on 256 cloud TPU v3 cores."
+    }
+  ],
+  "2-2 (Software)": "The software stack reveals that the model checkpoint was produced with a development build of the Hugging Face Transformers library, as indicated by the line \"transformers_version\": \"4.26.0.dev0\".  This tells us the training and/or conversion code relied on features present in the pre-release 4.26-series of Transformers, providing a rough timestamp and confirming that the model conforms to the APIs and configuration formats introduced in that version.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.26.0.dev0\","
+    }
+  ],
+  "2-3 (API)": "The provided material identifies two concrete access routes for interacting with the openai-community/gpt2 model through an API-like interface. First, a web-based playground is given: “Test the whole generation capabilities here: https://transformer.huggingface.co/doc/gpt2-large”. This URL explicitly hosts documentation and a live interface for the GPT-2-Large variant, indicating public, browser-accessible generation endpoints that let users experiment with text completion. Second, a short, executable code snippet illustrates programmatic access via the Hugging Face inference pipeline: “>>> generator = pipeline('text-generation', model='gpt2')”. This example shows that developers can instantiate a text-generation pipeline, specify \"gpt2\" as the model name, and immediately obtain a callable generator object, confirming an easy-to-use API for inference with GPT-2.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Test the whole generation capabilities here: https://transformer.huggingface.co/doc/gpt2-large"
+    },
+    {
+      "source": "[readme]",
+      "quote": ">>> generator = pipeline('text-generation', model='gpt2')"
+    }
+  ],
+  "3-1 (Pre-training)": "The quoted description summarizes GPT-2’s original training regimen: “GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion.”  Self-supervised here means the model consumed “raw texts only, with no humans labelling them in any way,” and relied on “an automatic process to generate inputs and labels from those texts.”  Thus, the corpus was extensive, purely English, and unlabeled, and the learning objective derived automatically from the text itself.  The size of the specific checkpoint under discussion is also stated: “This is the smallest version of GPT-2, with 124M parameters.”  Hence, the 124-million-parameter GPT-2 small model was trained via large-scale, self-supervised language modeling on a massive English corpus, with inputs and labels produced automatically from the raw data.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion. This\nmeans it was pretrained on the raw texts only, with no humans labelling them in any way (which is why it can use lots\nof publicly available data) with an automatic process to generate inputs and labels from those texts."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This is the **smallest** version of GPT-2, with 124M parameters."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuned derivatives of GPT-2 are available and catalogued on the Hugging Face Model Hub: “See the [model hub](https://huggingface.co/models?filter=gpt2) to look for fine-tuned versions on a task that interests you.”  This statement indicates that numerous GPT-2 checkpoints have been adapted to downstream tasks and can be browsed or downloaded directly through the linked hub page.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "See the\n[model hub](https://huggingface.co/models?filter=gpt2) to look for fine-tuned versions on a task that interests you."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "According to the provided material, GPT-2 was pretrained in a self-supervised manner on an extremely large English-language corpus that the OpenAI team assembled with the explicit goal of making the training set “as large as possible.”  To create this corpus, they automatically scraped every web page that could be reached through outbound links posted on Reddit, but only kept those links whose originating Reddit post had earned a minimum of three karma points.  The curated crawl produced a 40 GB text collection that the authors later referred to as “WebText.”  Although this WebText corpus is the sole, central pre-training source for GPT-2, it has never been publicly released, so only the high-level description of its scale (≈40 GB) and its Reddit-based selection criterion (≥3 karma) are publicly known.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The OpenAI team wanted to train this model on a corpus as large as possible."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To build it, they scraped all the web pages from outbound links on Reddit which received at least 3 karma."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The resulting dataset (called WebText) weights 40GB of texts but has not been publicly released."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "No quotations were supplied that mention any fine-tuning data for GPT-2, its sources, composition, or public availability, so no information can be summarized for this item.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "The supplied quotes do not contain any references to reinforcement-learning (RL) data, datasets, or generation procedures for GPT-2; consequently, there is no information to summarize for this category.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The only explicit filtering detail given for GPT-2’s pre-training corpus is that “all Wikipedia pages were removed from this dataset,” which ensured that the resulting WebText collection—and therefore GPT-2’s training data—contained no Wikipedia content at all.  This indicates that, beyond the Reddit-karma selection rule, a deliberate post-collection filter eliminated every document whose source matched Wikipedia.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Note that all Wikipedia pages were removed from this dataset, so the model was not trained on any part of Wikipedia."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

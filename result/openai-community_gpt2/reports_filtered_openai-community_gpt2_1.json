@@ -1,0 +1,138 @@
+{
+  "1-1 (Weights)": "The quotes describe a staged and highly-controlled release of GPT-2 model checkpoints. Initially, OpenAI “are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights.”  Early access therefore consisted only of a small 124 M-parameter snapshot that could be obtained via “Preliminary code for downloading and using the small model … https://github.com/openai/gpt-2.”\n\nOver time the company moved through successively larger checkpoints.  Quotes list public releases of a “medium 355M model,” a 345 M model, and later the “774 million parameter GPT-2 language model.”  During that middle period, some even larger variants were restricted to vetted partners: “we’re releasing a larger 345M version … and are sharing the 762M and 1.5B versions with partners in the AI and security communities.”\n\nThe staged rollout culminated in full public release: “As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models.”  Thus, by the end of the process, weights for 124 M, 355 M, 345 M, 774 M, and the full 1.5 B-parameter model all became available (with the heaviest checkpoint tied to a misuse-detection objective), whereas the original training dataset and full-scale training checkpoints were never placed online.",
+  "1-2 (Code)": "Only inference-level artifacts were made public.  A GitHub repository (“Preliminary code for downloading and using the small model … https://github.com/openai/gpt-2”) was supplied for the 124 M checkpoint.  Multiple quotes stress that “we are only releasing a much smaller version of GPT-2 along with sampling code” and explicitly that “We are not releasing the dataset, training code, or GPT-2 model weights.”  Even at the final 1.5 B release, the code bundle is oriented toward safety tooling rather than reproduction of training: “we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models.”  Throughout, therefore, complete end-to-end training scripts, data-preparation pipelines, hyper-parameter schedules, or RL fine-tuning code were withheld; only downloader utilities, sampling/inference scripts, and detection utilities accompanied the released checkpoints.",
+  "1-3 (License)": "Instead of a standard permissive or copyleft license, OpenAI issued bespoke legal terms.  The 774 M model announcement says: “We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships,” and a parallel quote adds that OpenAI “developed a non-commercial legal agreement to facilitate the sharing of models between organizations.”  These statements indicate (a) the presence of a custom, open-source–style document but (b) with a expressly “non-commercial” flavor.  No sentence mentions redistribution, modification, or commercial rights beyond that non-commercial qualifier, so the governing text appears to limit usage to research or partnership scenarios and to require organizations to sign the accompanying agreement before obtaining restricted checkpoints.",
+  "1-4 (Paper)": "Multiple references confirm an official technical report and associated blog post.  A quote notes: “OpenAI publishes a blog post and paper on GPT-2,” while another specifies that the organization “was trained simply to predict the next word in 40GB of Internet text … we are instead releasing a much smaller model … as well as a technical paper.”  Performance highlights are stated directly in the paper excerpts: the 1.5 B-parameter Transformer “achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting.”  Two different sentences re-emphasize that GPT-2 “zero-shots to state of the art performance on 7 out of 8 tested language modeling datasets.”  Finally, a reference link (“Read paper … GPT-2 model … Detector model”) shows that the paper is publicly accessible, accompanied by separate model and detector downloads.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are not releasing the trained model."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[sections/https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "…we’re releasing a larger 345M version of GPT-2 as a next step in staged release, and are sharing the 762M and 1.5B versions with partners in the AI and security communities who are working to improve societal preparedness for large language models."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "As the next step in our staged release strategy, we are releasing the 345M parameter version of GPT-2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Preliminary code for downloading and using the small model is available at https://github.com/openai/gpt-2"
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code⁠. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/research/better-language-models/]",
+      "quote": "Due to concerns about large language models being used to generate deceptive, biased, or abusive language at scale, we are only releasing a much smaller version of GPT-2 along with sampling code. We are not releasing the dataset, training code, or GPT-2 model weights."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "As the final model release of GPT-2’s staged release, we’re releasing the largest version (1.5B parameters) of GPT-2 along with code and model weights to facilitate detection of outputs of GPT-2 models."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit. We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships with each other, and are publishing a technical report about our experience in coordinating with the wider AI research community on publication norms."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/#partnerships]",
+      "quote": "We’ve partnered with four leading research organizations to analyze both the newly-released 774M parameter GPT-2 model and the unreleased full-size GPT-2 model. We’ve also developed a non-commercial legal agreement to facilitate the sharing of models between organizations and are publishing it here to help others initiate such sharing schemes."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’re releasing the 774 million parameter GPT-2 language model after the release of our small 124M model in February, staged release of our medium 355M model in May, and subsequent research with partners and the AI community into the model’s potential for misuse and societal benefit. We’re also releasing an open-source legal agreement to make it easier for organizations to initiate model-sharing partnerships with each other, and are publishing a technical report about our experience in coordinating with the wider AI research community on publication norms."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "We’ve partnered with four leading research organizations to analyze both the newly-released 774M parameter GPT-2 model and the unreleased full-size GPT-2 model. We’ve also developed a non-commercial legal agreement to facilitate the sharing of models between organizations and are publishing it here to help others initiate such sharing schemes."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our largest model, GPT-2, is a 1.5B parameter Transformer that achieves state of the art results on 7 out of 8 tested language modeling datasets in a zero-shot setting but still underﬁts WebText."
+    },
+    {
+      "source": "[url:https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT⁠), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are not releasing the trained model. As an experiment in responsible disclosure, we are instead releasing a much smaller model for researchers to experiment with, as well as a technical paper."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "OpenAI publishes a blog post and paper on GPT-2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufﬁciently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language model- ing datasets."
+    },
+    {
+      "source": "[sections/https://openai.com/blog/better-language-models/]",
+      "quote": "Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text. Due to our concerns about malicious applications of the technology, we are instead releasing a much smaller model for researchers to experiment with, as well as a technical paper."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When a large language model is trained on a sufficiently large and diverse dataset it is able to perform well across many domains and datasets. GPT-2 zero-shots to state of the art performance on 7 out of 8 tested language modeling datasets."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://openai.com/blog/gpt-2-6-month-follow-up/]",
+      "quote": "OpenAI publishes a blog post and paper on GPT-2."
+    },
+    {
+      "source": "[url:https://www.openai.com/blog/gpt-2-1-5b-release/]",
+      "quote": "Read paper(opens in a new window) GPT-2 model(opens in a new window) Detector model(opens in a new window)"
+    }
+  ]
+}
