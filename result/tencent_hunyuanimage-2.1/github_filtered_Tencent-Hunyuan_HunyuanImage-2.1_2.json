@@ -1,0 +1,29 @@
+{
+  "1-5 (Architecture)": "Two configuration statements explicitly tie the Tencent-Hunyuan/HunyuanImage-2.1 model to a single architectural class. The lines\n  • \"hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)(\"\n  • \"hunyuanimage_v2_1_distilled_cfg = L(HYImageDiffusionTransformer)(\"\nshow that both the main and a distilled variant of version 2.1 are created by wrapping the HYImageDiffusionTransformer class with the helper function L(...). Although the snippet does not expose the arguments that follow the opening parenthesis, it unambiguously identifies HYImageDiffusionTransformer as the backbone that drives the 2.1 release. The parallel definitions further imply that the project maintains at least two parameter sets—full and distilled—built on the same diffusion-transformer core, differing only in hidden hyper-parameters not included in the quote. No layer counts or attention details are stated, but the repeated use of the same class name confirms that a diffusion-based vision transformer architecture remains the foundation across all 2.1 configurations.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)("
+    },
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_v2_1_distilled_cfg = L(HYImageDiffusionTransformer)("
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer details are limited to a single function definition: \"def HUNYUANIMAGE_V2_1_TEXT_ENCODER(**kwargs):\". The all-caps naming convention and explicit reference to version 2.1 indicate that a purpose-built text encoder is bundled with HunyuanImage-2.1. The **kwargs signature suggests that the encoder accepts configurable parameters at instantiation, allowing users to plug it into the broader image-generation pipeline. While the quote does not reveal whether the encoder relies on BPE vocabularies, SentencePiece, or any other scheme, it does confirm that the project exposes an official callable for text processing tailored to the 2.1 series of the model.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/hyimage/models/model_zoo.py]",
+      "quote": "def HUNYUANIMAGE_V2_1_TEXT_ENCODER(**kwargs):"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "A configuration fragment provides the only concrete insight into the training software stack: \"gradient_checkpointing=True,\\n        load_from=f\\\"{HUNYUANIMAGE_V2_1_MODEL_ROOT}/dit/hunyuanimage2.1.safetensors\\\",\". From this we can infer that gradient checkpointing is enabled, meaning the training code relies on a framework capable of activation recomputation to save GPU memory. In addition, model weights are loaded from a SafeTensors file named \"hunyuanimage2.1.safetensors\" nested under a path that includes the directory \"dit\". The use of SafeTensors points to an ecosystem that favors secure, zero-copy tensor serialization compatible with common deep-learning libraries. Apart from these two flags—activation checkpointing and SafeTensors weight loading—no further information about the specific ML framework, optimizer, or distributed-training tools is disclosed in the available quotes.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[py_files/hyimage/models/model_zoo.py]",
+      "quote": "gradient_checkpointing=True,\n        load_from=f\"{HUNYUANIMAGE_V2_1_MODEL_ROOT}/dit/hunyuanimage2.1.safetensors\","
+    }
+  ]
+}

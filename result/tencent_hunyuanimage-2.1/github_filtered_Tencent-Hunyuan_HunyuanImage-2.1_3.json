@@ -1,0 +1,23 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "The only explicit information given about the pre-training stage for Tencent-Hunyuan/HunyuanImage-2.1 appears as three separate configuration declarations, each of which directly embeds the model’s name and the 2.1 version tag:\n\n• “hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)(”\n• “hunyuanimage_v2_1_distilled_cfg = L(HYImageDiffusionTransformer)(”\n• “hunyuanimage_refiner_cfg = L(HYImageDiffusionTransformer)(”\n\nFrom these three lines we can glean several details that are relevant to pre-training:\n1. All configurations instantiate the same underlying class, “HYImageDiffusionTransformer,” indicating that the core pre-training backbone is a diffusion-transformer architecture.\n2. There are at least three distinct configuration tracks: the main “hunyuanimage_v2_1_cfg,” a “hunyuanimage_v2_1_distilled_cfg,” and a “hunyuanimage_refiner_cfg.” The naming implies that, during pre-training, the team created (a) a full v2.1 model, (b) a distilled version of that v2.1 model, and (c) an additional refiner stage or checkpoint, all built on the same HYImageDiffusionTransformer foundation.\n3. Every configuration explicitly embeds both the project identifier “hunyuanimage” and the version string “2_1,” unambiguously linking these artifacts to the Tencent-Hunyuan/HunyuanImage-2.1 release.\n\nBeyond these code-level declarations, no further hyper-parameters, data flow descriptions, or procedural details are provided in the supplied quotations. Nevertheless, the presence of three distinct HYImageDiffusionTransformer configurations underlines a multi-variant, multi-stage pre-training setup that differentiates between the standard, distilled, and refiner forms of the 2.1 model.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)("
+    },
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_v2_1_distilled_cfg = L(HYImageDiffusionTransformer)("
+    },
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_refiner_cfg = L(HYImageDiffusionTransformer)("
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

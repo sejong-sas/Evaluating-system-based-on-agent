@@ -1,0 +1,98 @@
+{
+  "1-1 (Weights)": "The project explicitly states that the GitHub / Hugging Face repository “contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1.”  On 8 September 2025 the maintainers announced: “🚀 Released inference code and model weights for HunyuanImage-2.1.”  Public download is offered through the Hugging Face URL https://huggingface.co/tencent/HunyuanImage-2.1/ and the code shows that local paths are resolved through an environment variable `HUNYUANIMAGE_V2_1_MODEL_ROOT` which defaults to “./ckpts”.  Specific checkpoint files are enumerated, e.g. `dit/hunyuanimage2.1.safetensors`, `dit/hunyuanimage2.1-distilled.safetensors`, and an 8-bit-floating-point variant `dit/hunyuanimage2.1_fp8.safetensors`.  Taken together, the quotes establish that the full set of pretrained weights (standard, distilled, and FP8) are publicly downloadable for anyone who clones the repository or visits the Hugging Face page; no gating or application process is mentioned, implying open, self-service access for inference purposes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- September 8, 2025: 🚀 Released inference code and model weights for HunyuanImage-2.1."
+    },
+    {
+      "source": "[py_files/hyimage/diffusion/pipelines/hunyuanimage_pipeline.py]",
+      "quote": "Please download from https://huggingface.co/tencent/HunyuanImage-2.1/"
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "HUNYUANIMAGE_V2_1_MODEL_ROOT = os.environ.get(\"HUNYUANIMAGE_V2_1_MODEL_ROOT\", \"./ckpts\")"
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "load_from=f\"{HUNYUANIMAGE_V2_1_MODEL_ROOT}/dit/hunyuanimage2.1.safetensors\","
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "load_from=f\"{HUNYUANIMAGE_V2_1_MODEL_ROOT}/dit/hunyuanimage2.1-distilled.safetensors\","
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "fp8_load_from=f\"{HUNYUANIMAGE_V2_1_MODEL_ROOT}/dit/hunyuanimage2.1_fp8.safetensors\","
+    }
+  ],
+  "1-2 (Code)": "The repository release focuses on inference and sampling.  The maintainers declare: “This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1,” and the same 8 September 2025 update highlights that only “inference code and model weights” were released.  The codebase provides configuration objects and helper factories rather than end-to-end training scripts: e.g. `Configuration class for HunyuanImage refiner pipeline`, `hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)(...)`, and factory wrappers such as `def HUNYUANIMAGE_V2_1_DIT(**kwargs):`.  Component files are imported from module paths like `hyimage.models.hunyuan.configs.*` and the VAE backbone is referenced through `from .hunyuanimage_vae import HunyuanVAE2D`.  No quote advertises data-processing scripts, optimizer schedules, or full training pipelines, so there is no public coverage of pre-training, fine-tuning, or RL steps.  In short, the publicly released code enables model loading, configuration, and image sampling/refinement but does not expose the original training workflow.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- September 8, 2025: 🚀 Released inference code and model weights for HunyuanImage-2.1."
+    },
+    {
+      "source": "[py_files/hyimage/diffusion/pipelines/hunyuanimage_refiner_pipeline.py]",
+      "quote": "Configuration class for HunyuanImage refiner pipeline."
+    },
+    {
+      "source": "[py_files/hyimage/models/hunyuan/configs/hunyuanimage_config.py]",
+      "quote": "hunyuanimage_v2_1_cfg = L(HYImageDiffusionTransformer)("
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "from hyimage.models.hunyuan.configs.hunyuanimage_config import (hunyuanimage_v2_1_cfg, hunyuanimage_v2_1_distilled_cfg, hunyuanimage_refiner_cfg,)"
+    },
+    {
+      "source": "py_files/hyimage/models/model_zoo.py",
+      "quote": "def HUNYUANIMAGE_V2_1_DIT(**kwargs):"
+    },
+    {
+      "source": "[py_files/hyimage/models/vae/__init__.py]",
+      "quote": "from .hunyuanimage_vae import HunyuanVAE2D"
+    }
+  ],
+  "1-3 (License)": "The distribution is governed by the “TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT” whose header explicitly ties it to “Tencent HunyuanImage 2.1” and the release date of 8 September 2025.  The agreement grants a “non-exclusive, non-transferable and royalty-free limited license” to “use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials,” but conditions all exercise of those rights on compliance with the overall Agreement and its defined Acceptable Use Policy.  A scale-related clause adds that if the licensee’s products exceed “100 million monthly active users in the preceding calendar month” at the time of the model release, the user “must request a license from Tencent,” introducing an additional permission step for very large-scale deployments.  No textual limitations such as ‘research-only’, ‘non-commercial’, or ‘no redistribution’ appear in the provided excerpt; the central restrictions derive from agreement compliance and the special high-MAU trigger.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Tencent HunyuanImage 2.1 Release Date: September 8, 2025"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license under Tencent’s intellectual property or other rights owned by Us embodied in or utilized by the Materials to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "If, on the Tencent Hunyuan version release date, the monthly active users of all products or services made available by or for Licensee is greater than 100 million monthly active users in the preceding calendar month, You must request a license from Tencent"
+    }
+  ],
+  "1-4 (Paper)": "An official technical report is advertised with the heading “# HunyuanImage-2.1: An Efficient Diffusion Model for High-Resolution (2K) Text-to-Image Generation​.”  The abstract-style sentence highlights that the model “is capable of generating 2K (2048 × 2048) resolution images,” underscoring the primary contribution: efficient generation at 2 K resolution.  The reference entry `@misc{HunyuanImage-2.1,` signals that a citable preprint or technical note exists, although full bibliographic details are not included in the snippet.  Thus, users are directed to an accompanying paper that documents the architecture, performance, and design motivations for HunyuanImage-2.1.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "# HunyuanImage-2.1: An Efficient Diffusion Model for High-Resolution (2K) Text-to-Image Generation​"
+    },
+    {
+      "source": "[readme]",
+      "quote": "We present HunyuanImage-2.1, a highly efficient text-to-image model that is capable of generating 2K (2048 × 2048) resolution images."
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{HunyuanImage-2.1,"
+    }
+  ]
+}

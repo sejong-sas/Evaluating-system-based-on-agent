@@ -1,0 +1,15 @@
+{
+  "1-5 (Architecture)": "",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "According to the authors, every experiment that leverages the HunyuanImage 2.1 text-to-image model is both trained and executed on exactly eight NVIDIA H800 GPUs. No other accelerator types or GPU counts are mentioned for either training or inference, indicating that the entire computational workload—model fitting, fine-tuning, and subsequent evaluations—relies exclusively on this single 8-GPU H800 setup.",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All experiments are conducted using the HunyuanImage 2.1 as the base Text-to-Image model. All training and inference are performed on 8 NVIDIA H800 GPUs."
+    }
+  ],
+  "2-2 (Software)__evidence": []
+}

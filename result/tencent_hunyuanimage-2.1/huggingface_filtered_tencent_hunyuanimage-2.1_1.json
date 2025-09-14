@@ -1,0 +1,86 @@
+{
+  "1-1 (Weights)": "The project page states that on “September 8, 2025” Tencent “🚀 Released inference code and model weights for HunyuanImage-2.1.”  The same release note appears again in the repository description, emphasizing that “This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1.”  A separate sentence directs users to installation instructions: “The details of download pretrained models are shown [here](checkpoints-download.md).”  The concrete filename “dit/hunyuanimage2.1.safetensors” is listed, showing that at least one ready-to-use weight file is provided.  Finally, the metadata string “extra_gated_eu_disallowed: true” indicates that access is explicitly gated for users in the European Union (and possibly other regions), confirming that although the weights are downloadable, geographic restrictions apply.  Taken together, the quotes confirm that official, pretrained weights for HunyuanImage-2.1 are available through the repository, can be downloaded via the linked checkpoint page, and are distributed in PyTorch-compatible *.safetensors format, but that the download portal enforces a gate that refuses requests originating from the EU (and presumably the UK and South Korea per the license, see Section 1-3).",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- September 8, 2025: 🚀 Released inference code and model weights for HunyuanImage-2.1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The details of download pretrained models are shown [here](checkpoints-download.md)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "extra_gated_eu_disallowed: true"
+    },
+    {
+      "source": "[files]",
+      "quote": "dit/hunyuanimage2.1.safetensors"
+    }
+  ],
+  "1-2 (Code)": "Public code exists, but it is limited to inference.  The exact wording in two separate places is identical: “September 8, 2025: 🚀 Released inference code and model weights for HunyuanImage-2.1,” and “This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1.”  No quote mentions pre-training, fine-tuning, or RL training scripts; all quoted text refers only to model definitions and “inference/sampling code.”  Therefore, only the serving / sampling pipeline is published, while the full training pipeline remains proprietary.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- September 8, 2025: 🚀 Released inference code and model weights for HunyuanImage-2.1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This repo contains PyTorch model definitions, pretrained weights and inference/sampling code for our HunyuanImage-2.1."
+    }
+  ],
+  "1-3 (License)": "All quoted license information points to the proprietary “TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT.”  The repository metadata lines read “license_name: tencent-hunyuan-community” and furnish the canonical link “https://github.com/Tencent-Hunyuan/HunyuanImage-2.1/blob/master/LICENSE.”  A block of the license itself is quoted: “We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license … to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy… You must not use, reproduce, modify, distribute, or display the Tencent Hunyuan Works, Output or results of the Tencent Hunyuan Works outside the Territory.”  Further quoted text clarifies territorial scope and exclusions: “THIS LICENSE AGREEMENT DOES NOT APPLY IN THE EUROPEAN UNION, UNITED KINGDOM AND SOUTH KOREA AND IS EXPRESSLY LIMITED TO THE TERRITORY.”  The document also grants a limited trademark right: “Tencent hereby grants You a license to use ‘Tencent Hunyuan’ (the ‘Mark’) in the Territory solely as required … provided that You comply with any applicable laws related to trademark protection.”  In summary, the model is distributed under a Tencent-specific community license that (i) is free and non-exclusive, (ii) permits modification, redistribution and derivative works, but (iii) applies only in a defined ‘Territory’ excluding the EU, UK, and South Korea, and (iv) prohibits any use or display of the model or its outputs outside that territory.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license_name: tencent-hunyuan-community"
+    },
+    {
+      "source": "[readme]",
+      "quote": "license_link: https://github.com/Tencent-Hunyuan/HunyuanImage-2.1/blob/master/LICENSE"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license under Tencent’s intellectual property or other rights embodied in or utilized by the Materials to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy, and You must not violate (or encourage or permit anyone else to violate) any term of this Agreement or the Acceptable Use Policy."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You must not use, reproduce, modify, distribute, or display the Tencent Hunyuan Works, Output or results of the Tencent Hunyuan Works outside the Territory."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "1&type=Date1\" />\n </picture>\n</a>\n\n\n\n[license_file]\nTENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT\r\nTencent HunyuanImage 2.1 Release Date: September 8, 2025\r\nTHIS LICENSE AGREEMENT DOES NOT APPLY IN THE EUROPEAN UNION, UNITED KINGDOM AND SOUTH KOREA AND IS EXPRESSLY LIMITED TO THE TERRITORY, AS DEFINED BELOW.\r\nBy clicking to agree or by using, reproducing, modifying, distributing, performing or displaying any portion or element"
+    },
+    {
+      "source": "[readme]",
+      "quote": "ny of its affiliates, except as required for reasonable and customary use in describing and distributing the Tencent Hunyuan Works. Tencent hereby grants You a license to use “Tencent Hunyuan” (the “Mark”) in the Territory solely as required to comply with the provisions of Section 3(c), provided that You comply with any applicable laws related to trademark protection. All goodwill arising out of Your use o"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The official technical document is titled “HunyuanImage-2.1: An Efficient Diffusion Model for High-Resolution (2K) Text-to-Image Generation.”  The abstract line announces, “We present HunyuanImage-2.1, a highly efficient text-to-image model that is capable of generating 2K (2048 × 2048) resolution images.”  The BibTeX header is shown as “@misc{HunyuanImage-2.1, …},” signaling that the paper is released as a pre-print or technical report rather than a peer-reviewed conference proceeding.  No DOI or conference venue is supplied in the provided quotes, so the current public artifact appears to be a self-hosted technical report or arXiv-style preprint.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "# HunyuanImage-2.1: An Efficient Diffusion Model for High-Resolution (2K) Text-to-Image Generation​"
+    },
+    {
+      "source": "[readme]",
+      "quote": "We present HunyuanImage-2.1, a highly efficient text-to-image model that is capable of generating 2K (2048 × 2048) resolution images."
+    },
+    {
+      "source": "[readme]",
+      "quote": "@misc{HunyuanImage-2.1,"
+    }
+  ]
+}

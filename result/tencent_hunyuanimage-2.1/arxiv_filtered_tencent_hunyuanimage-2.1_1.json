@@ -1,0 +1,28 @@
+{
+  "1-1 (Weights)": "The only explicit information given about the tencent/hunyuanimage-2.1 weights is that they are used in an entirely \"frozen\" state during downstream experimentation: “All experiments are conducted using the HunyuanImage 2.1 as the base Text-to-Image model. Its weights remain frozen throughout our training process to demonstrate the plug-and-play capability of PromptEnhancer.”  This conveys that (a) the authors had access to the pretrained 2.1 parameters, (b) the parameters were not modified or fine-tuned, and (c) the research setup relies on this immutability to highlight the add-on nature of their method.  No sentences indicate that the weights are publicly downloadable, where they are hosted, what authentication or agreements are required, or whether redistribution is allowed; likewise, there is no mention of checkpoints, versioning identifiers, model cards, or hosting platforms.",
+  "1-2 (Code)": "The provided quotes contain no sentences that refer to any form of training, fine-tuning, or inference code for tencent/hunyuanimage-2.1.  Consequently, no details are available about the release (or non-release) of data-processing scripts, model configurations, training schedules, evaluation harnesses, or serving pipelines.  In short, the quotes offer zero information on code availability or openness.",
+  "1-3 (License)": "There are no sentences in the supplied material that mention a software license, terms of use, redistribution clauses, research-only restrictions, or any other legal framing for the tencent/hunyuanimage-2.1 model.  As such, no licensing information can be summarized from the current quotes.",
+  "1-4 (Paper)": "Two sentences serve as the sole evidence of publication-related material.  The first states: “Extensive experiments on the HunyuanImage 2.1 model demonstrate that PromptEnhancer significantly improves image-text alignment across a wide range of semantic and compositional challenges.”  The second elaborates on the scope: “Using HunyuanImage 2.1 as the base T2I model, our method demonstrates its versatility across various domains, including photorealism, digital art, abstract geometry, and multilingual text-in-image generation.”  Together, these lines confirm that a technical work—presumably a paper describing PromptEnhancer—includes a systematic experimental section built upon tencent/hunyuanimage-2.1.  They highlight the model’s role as the fixed baseline, the breadth of evaluation domains, and the claimed empirical gains in image-text alignment.  No bibliographic details (title, authors, venue, DOI, arXiv link, or publication date) are included in the quotes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "All experiments are conducted using the HunyuanImage 2.1 as the base Text-to-Image model. Its weights remain frozen throughout our training process to demonstrate the plug-and-play capability of PromptEnhancer."
+    },
+    {
+      "source": "[sections/Experiments]",
+      "quote": "All experiments are conducted using the HunyuanImage 2.1 as the base Text-to-Image model. Its weights remain frozen throughout our training process to demonstrate the plug-and-play capability of PromptEnhancer."
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "Extensive experiments on the HunyuanImage 2.1 model demonstrate that PromptEnhancer significantly improves image-text alignment across a wide range of semantic and compositional challenges."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Using HunyuanImage 2.1 as the base T2I model, our method demonstrates its versatility across various domains, including photorealism, digital art, abstract geometry, and multilingual text-in-image generation."
+    }
+  ]
+}
