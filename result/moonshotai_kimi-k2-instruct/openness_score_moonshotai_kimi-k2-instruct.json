@@ -1,135 +1,135 @@
 {
   "model": "moonshotai/Kimi-K2-Instruct",
   "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Released under a Modified MIT licence that keeps all four freedoms; the extra clause only requests attribution for very large-scale commercial deployments, which the rubric still counts as Open."
+      "reason": "Released under a Modified-MIT licence that keeps all four freedoms; only a large-scale attribution clause is added, which the rubric still counts as Open."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report (tech_report.pdf) specifically describing Kimi-K2 is linked and publicly available."
+      "reason": "An official technical report (tech_report.pdf) authored by MoonshotAI and linked from the project page fully describes Kimi-K2."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
-      "score": 0.5,
-      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
-    },
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 0.5,
-      "reason": "Training hardware type (NVIDIA H800) and per-node GPU count (8) are disclosed, but the total number of nodes/GPUs is not, so only partial quantity information is available."
+      "reason": "Quotes specify NVIDIA H800 GPUs and 8 GPUs per node, but no total GPU/node count is given; therefore only partial quantity information."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Key training components beyond the base framework are named (Muon/MuonClip optimizer, PP+EP+ZeRO parallelism, WSD LR schedule), but a full, versioned software stack is not provided."
+      "reason": "Training stack details beyond the base framework are given (Muon/MuonClip optimizer, RMS-scaling, 16-way PP, 16-way EP, ZeRO-1), but not the full reproducible software stack with exact versions."
     },
     "2-3 API": {
       "score": 0.0,
       "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
     },
     "3-1 Pre-training": {
-      "score": 1.0,
-      "reason": "The report gives reproducible details: 15.5 T tokens, 4 096-token context, MuonClip optimizer (τ = 100), WSD LR schedule, weight-decay, RMS scaling, QK-Clip statistics, etc."
+      "score": 0.5,
+      "reason": "Methodology (MuonClip, τ = 100, WSD schedule, 4096-token ctx, 15.5 T tokens, QK-Clip details) is partially but not fully sufficient for exact reproduction."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "Describes a multi-stage post-training pipeline, use of Muon, data-synthesis strategy, and objectives, but stops short of a fully reproducible recipe."
+      "reason": "Multi-stage post-training and use of Muon are described, yet concrete hyper-parameters, schedules, and datasets are not fully disclosed."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "RL stage, policy-optimisation algorithm, reward design (verifiable + self-critic), and scaling strategy are outlined, but not in complete reproducible detail."
+      "reason": "RL stage, policy-optimisation algorithm, reward sources and scaling strategy are outlined, but not in enough detail for full replication."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Provides overall size (15.5 T tokens) and four domain categories plus mention of synthetic augmentation, but not the full source list, proportions, or licences."
+      "reason": "Discloses 15.5 T tokens and four high-level domains plus mention of synthetic augmentation, but no corpus lists, proportions, or licensing details."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "States that a large-scale, diverse instruction dataset is built via agentic synthesis and filtered by LLM/human judges, but omits concrete dataset names, sizes, or public access."
+      "reason": "States that a large, diverse instruction-tuning set is built with agentic synthesis and filtering, but size, exact sources, and release are not provided."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "Mentions real- and synthetic-environment interactions, Gym-like framework, broad prompt coverage, and self-critic rewards, but gives no detailed dataset breakdown."
+      "reason": "Describes real- and synthetic-environment interactions and Gym-like framework, but lacks concrete dataset composition or availability."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Describes ‘rigorous correctness and quality validation’, fidelity checks, decontamination procedures, and LLM/human filtering, yet lacks full pipeline specifics (algorithms, thresholds, removal ratios)."
+      "reason": "Mentions rigorous validation, fidelity checks, decontamination and human/LLM filtering, but does not provide complete pipelines or thresholds."
     }
   },
   "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Released under a Modified MIT licence that keeps all four freedoms; the extra clause only requests attribution for very large-scale commercial deployments, which the rubric still counts as Open."
+      "reason": "Released under a Modified-MIT licence that keeps all four freedoms; only a large-scale attribution clause is added, which the rubric still counts as Open."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report (tech_report.pdf) specifically describing Kimi-K2 is linked and publicly available."
+      "reason": "An official technical report (tech_report.pdf) authored by MoonshotAI and linked from the project page fully describes Kimi-K2."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
-      "score": 0.5,
-      "reason": "Tokenizer details disclosed in documentation, but no tokenizer files detected."
-    },
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 0.5,
-      "reason": "Training hardware type (NVIDIA H800) and per-node GPU count (8) are disclosed, but the total number of nodes/GPUs is not, so only partial quantity information is available."
+      "reason": "Quotes specify NVIDIA H800 GPUs and 8 GPUs per node, but no total GPU/node count is given; therefore only partial quantity information."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Key training components beyond the base framework are named (Muon/MuonClip optimizer, PP+EP+ZeRO parallelism, WSD LR schedule), but a full, versioned software stack is not provided."
+      "reason": "Training stack details beyond the base framework are given (Muon/MuonClip optimizer, RMS-scaling, 16-way PP, 16-way EP, ZeRO-1), but not the full reproducible software stack with exact versions."
     },
     "2-3 API": {
       "score": 0.0,
       "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
     },
     "3-1 Pre-training": {
-      "score": 1.0,
-      "reason": "The report gives reproducible details: 15.5 T tokens, 4 096-token context, MuonClip optimizer (τ = 100), WSD LR schedule, weight-decay, RMS scaling, QK-Clip statistics, etc."
+      "score": 0.5,
+      "reason": "Methodology (MuonClip, τ = 100, WSD schedule, 4096-token ctx, 15.5 T tokens, QK-Clip details) is partially but not fully sufficient for exact reproduction."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "Describes a multi-stage post-training pipeline, use of Muon, data-synthesis strategy, and objectives, but stops short of a fully reproducible recipe."
+      "reason": "Multi-stage post-training and use of Muon are described, yet concrete hyper-parameters, schedules, and datasets are not fully disclosed."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "RL stage, policy-optimisation algorithm, reward design (verifiable + self-critic), and scaling strategy are outlined, but not in complete reproducible detail."
+      "reason": "RL stage, policy-optimisation algorithm, reward sources and scaling strategy are outlined, but not in enough detail for full replication."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Provides overall size (15.5 T tokens) and four domain categories plus mention of synthetic augmentation, but not the full source list, proportions, or licences."
+      "reason": "Discloses 15.5 T tokens and four high-level domains plus mention of synthetic augmentation, but no corpus lists, proportions, or licensing details."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "States that a large-scale, diverse instruction dataset is built via agentic synthesis and filtered by LLM/human judges, but omits concrete dataset names, sizes, or public access."
+      "reason": "States that a large, diverse instruction-tuning set is built with agentic synthesis and filtering, but size, exact sources, and release are not provided."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "Mentions real- and synthetic-environment interactions, Gym-like framework, broad prompt coverage, and self-critic rewards, but gives no detailed dataset breakdown."
+      "reason": "Describes real- and synthetic-environment interactions and Gym-like framework, but lacks concrete dataset composition or availability."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Describes ‘rigorous correctness and quality validation’, fidelity checks, decontamination procedures, and LLM/human filtering, yet lacks full pipeline specifics (algorithms, thresholds, removal ratios)."
+      "reason": "Mentions rigorous validation, fidelity checks, decontamination and human/LLM filtering, but does not provide complete pipelines or thresholds."
     }
   },
   "final_score_10pt": 5.938,
@@ -143,6 +143,6 @@
     "raw_sum": 9.5,
     "scale": "10/16",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
-    "pretrain_sources_used": true
+    "pretrain_sources_used": false
   }
 }
