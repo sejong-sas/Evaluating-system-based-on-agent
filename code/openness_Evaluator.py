@@ -1,7 +1,12 @@
-# openness_Evaluator.py — STRICT + Code-as-Training transparency + Pretrain sources merge + API web-search boost
+# openness_Evaluator.py — STRICT + GPT-only methodology + Pretrain sources merge + API web-search (official-only)
 # (Update)
 # - License (1-3) and Data Filtering (4-4): GPT-only scoring (no rule-based overrides)
-# - API (2-3): Owner official domain OR reputable third-party aggregators count as Open
+# - API (2-3): **Only** model owner’s official domain that issues API keys → Open.
+#              “Coming soon / waitlist” on owner site → Semi-Open.
+#              Any router/aggregator or non-official site → Closed.
+# - Methodology (3-1/3-2/3-3): remove all hint/category heuristics — GPT-only on quotes
+# - Auto-exclude: if fine_tuning/rl is "unknown" and both method+data are 0 with no quotes → mark N/A and exclude
+
 import os, json, re
 from typing import Dict, Any, List, Tuple
 from dotenv import load_dotenv
@@ -22,6 +27,8 @@ CHAT_SEARCH_MODEL     = os.getenv("CHAT_SEARCH_MODEL", "gpt-4o-mini-search-previ
 WEB_SEARCH_PROVIDER   = os.getenv("WEB_SEARCH_PROVIDER", "auto").lower()              # auto|responses|chat
 API_WEBSEARCH_MAX_URLS = int(os.getenv("API_WEBSEARCH_MAX_URLS", "6"))
 
+
+FORCE_HF_CORE_OPEN = os.getenv("FORCE_HF_CORE_OPEN", "1") == "1"
 # URL regex (shared)
 _URL_RE = re.compile(r"https?://[^\s)>\]\"'}]+", re.I)
 
@@ -41,14 +48,7 @@ def _is_apiish_url(u: str) -> bool:
         return True
     return False
 
-# ─────────── Official-or-3rd-party heuristics (generic; no per-model hardcoding) ───────────
-# Reputable third-party aggregators that we accept as "Open" when they expose real HTTP endpoints/doc refs
-_REPUTABLE_THIRDPARTY_HOSTS = (
-    "openrouter.ai", "openrouter", "together.ai", "togethercomputer",
-    "replicate.com", "replicate.dev", "perplexity.ai", "fireworks.ai",
-    "huggingface.co", "api-inference.huggingface.co", "hf.space"
-)
-
+# ─────────── Official-domain heuristics (no routers) ───────────
 _GENERIC_HOST_STOP = {"www", "api", "apis", "docs", "developer", "developers", "dev", "ref", "reference"}
 
 def _extract_host(u: str) -> str:
@@ -79,9 +79,26 @@ def _org_tokens_from_model_name(model_name: str) -> List[str]:
     if len(comp) >= 5: toks.add(comp)
     return sorted(toks)
 
-def _host_is_reputable_third_party(host: str) -> bool:
-    h = (host or "").lower()
-    return any(tp in h for tp in _REPUTABLE_THIRDPARTY_HOSTS)
+def _model_tokens_from_model_name(model_name: str) -> List[str]:
+    """Extract owner+model tokens for stricter path matching. "openai-community/gpt2" → ["openai","community","gpt2","gpt"]"""
+    try:
+        parts = re.split(r"[^a-z0-9]+", (model_name or "").lower())
+        toks: List[str] = []
+        for p in parts:
+            if p and p not in {"ai","ml","research","labs","lab","team","inc","llc","org","foundation","company"}:
+                if len(p) >= 3:
+                    toks.append(p)
+        more = []
+        for t in toks:
+            m = re.match(r"([a-z]+)", t)
+            if m and len(m.group(1)) >= 3:
+                more.append(m.group(1))
+        out = sorted(set(toks + more))
+        if any(t.startswith("gpt") for t in out):
+            out.append("gpt")
+        return sorted(set(out))
+    except Exception:
+        return []
 
 def _host_contains_any_token(host: str, tokens: List[str]) -> bool:
     if not host or not tokens: return False
@@ -89,29 +106,39 @@ def _host_contains_any_token(host: str, tokens: List[str]) -> bool:
     hflat = ".".join(parts)
     return any(t for t in tokens if t in hflat)
 
-def _is_official_or_thirdparty_api_url(u: str, org_tokens: List[str]) -> bool:
+def _is_official_api_url(u: str, owner_tokens: List[str], model_tokens: List[str]) -> bool:
     """
     URL counts if:
       - It looks API-ish, AND
-      - (host contains one of the org tokens) OR (host is a reputable third-party aggregator).
+      - host contains one of the owner tokens (official domain), AND
+      - for auto web-search acceptance we additionally require the PATH to contain at least one model token
+        (to avoid generic API docs like '/docs/api' that are not about the target model).
     """
     if not _is_apiish_url(u):
         return False
-    host = _extract_host(u)
+    try:
+        p = urlparse(u)
+        host = (p.hostname or "").lower()
+        path = (p.path or "").lower()
+    except Exception:
+        return False
     if not host:
         return False
-    if _host_is_reputable_third_party(host):
-        return True
-    return _host_contains_any_token(host, org_tokens)
+    if not _host_contains_any_token(host, owner_tokens):
+        return False
+    # Require model token in path only for web-search auto acceptance; for quote-based acceptance we’ll check separately.
+    return any(t in path for t in model_tokens)
 
-# ─────────── Web search helpers ───────────
-def _websearch_api_urls_via_responses(model_name: str, org_tokens: List[str], limit: int) -> List[str]:
+# ─────────── Web search helpers (official-only, path must include model tokens) ───────────
+def _websearch_api_urls_via_responses(model_name: str, owner_tokens: List[str], model_tokens: List[str], limit: int) -> List[str]:
     """Responses API + web_search tool."""
-    token_hint = ", ".join(org_tokens[:3]) if org_tokens else ""
+    token_hint = ", ".join(owner_tokens[:3]) if owner_tokens else ""
+    model_hint = ", ".join(model_tokens[:3]) if model_tokens else ""
     prompt = (
         f'Return up to {limit} API documentation URLs for "{model_name}".\n'
-        f'- Prefer URLs hosted on the model owner’s **official domain** (domain contains one of: {token_hint}); list these first.\n'
-        f'- **Also include reputable third-party aggregators** (Hugging Face Inference, OpenRouter, Together, Replicate, Fireworks, Perplexity) when they expose HTTP endpoints/OpenAPI/Swagger or developer API reference for this model.\n'
+        f'- **Only include the model owner’s official domain** (domain contains: {token_hint}).\n'
+        f'- The URL **path must include** one of: {model_hint}.\n'
+        f'- Exclude routers/aggregators and community uploads.\n'
         f'- Exclude SDK-only pages and community posts.\n'
         f'- Output raw URLs, one per line.'
     ).strip()
@@ -125,7 +152,7 @@ def _websearch_api_urls_via_responses(model_name: str, org_tokens: List[str], li
         )
         text = getattr(rsp, "output_text", "") or str(rsp)
         urls = [u.strip() for u in _URL_RE.findall(text)]
-        urls = [u for u in urls if _is_official_or_thirdparty_api_url(u, org_tokens)]
+        urls = [u for u in urls if _is_official_api_url(u, owner_tokens, model_tokens)]
         seen, out = set(), []
         for u in urls:
             if u not in seen:
@@ -136,17 +163,19 @@ def _websearch_api_urls_via_responses(model_name: str, org_tokens: List[str], li
     except Exception:
         return []
 
-def _websearch_api_urls_via_chat(model_name: str, org_tokens: List[str], limit: int) -> List[str]:
+def _websearch_api_urls_via_chat(model_name: str, owner_tokens: List[str], model_tokens: List[str], limit: int) -> List[str]:
     """Chat Completions + search-preview model."""
-    token_hint = ", ".join(org_tokens[:3]) if org_tokens else ""
+    token_hint = ", ".join(owner_tokens[:3]) if owner_tokens else ""
+    model_hint = ", ".join(model_tokens[:3]) if model_tokens else ""
     try:
         res = client.chat.completions.create(
             model=CHAT_SEARCH_MODEL,
             messages=[{"role": "user",
                        "content": (
                             f'Return up to {limit} API documentation URLs for "{model_name}".\n'
-                            f'- Prefer owner’s official domain (contains: {token_hint}); list first.\n'
-                            f'- **Also include reputable third-party aggregators** exposing real endpoints/docs.\n'
+                            f'- **Only include the owner’s official domain** (contains: {token_hint}).\n'
+                            f'- The URL **path must include** one of: {model_hint}.\n'
+                            f'- Exclude routers/aggregators and community uploads.\n'
                             f'- Exclude SDK-only pages and community posts.\n'
                             f'- Output raw URLs, one per line.'
                        )}],
@@ -154,7 +183,7 @@ def _websearch_api_urls_via_chat(model_name: str, org_tokens: List[str], limit: 
         )
         text = (res.choices[0].message.content or "")
         urls = [u.strip() for u in _URL_RE.findall(text)]
-        urls = [u for u in urls if _is_official_or_thirdparty_api_url(u, org_tokens)]
+        urls = [u for u in urls if _is_official_api_url(u, owner_tokens, model_tokens)]
         seen, out = set(), []
         for u in urls:
             if u not in seen:
@@ -165,14 +194,14 @@ def _websearch_api_urls_via_chat(model_name: str, org_tokens: List[str], limit: 
     except Exception:
         return []
 
-def _websearch_api_urls(model_name: str, org_tokens: List[str], limit: int = API_WEBSEARCH_MAX_URLS) -> List[str]:
+def _websearch_api_urls(model_name: str, owner_tokens: List[str], model_tokens: List[str], limit: int = API_WEBSEARCH_MAX_URLS) -> List[str]:
     """Pick a provider (auto/responses/chat) to fetch API-ish URLs."""
     if not USE_OPENAI_WEB_SEARCH:
         return []
     providers = (["responses", "chat"] if WEB_SEARCH_PROVIDER == "auto" else [WEB_SEARCH_PROVIDER])
     for p in providers:
-        urls = _websearch_api_urls_via_responses(model_name, org_tokens, limit) if p == "responses" \
-               else _websearch_api_urls_via_chat(model_name, org_tokens, limit)
+        urls = _websearch_api_urls_via_responses(model_name, owner_tokens, model_tokens, limit) if p == "responses" \
+               else _websearch_api_urls_via_chat(model_name, owner_tokens, model_tokens, limit)
         if urls:
             return urls
     return []
@@ -198,11 +227,11 @@ ALL_SCORE_KEYS = [
     "4-3 Reinforcement Learning Data", "4-4 Data Filtering",
 ]
 
-# ─────────── Evaluation rubric text (STRICT) ───────────
+# ─────────── Evaluation rubric text (STRICT; GPT-only for methods) ───────────
 CRITERIA_TEXT = """
 ## 1. Model Basic Openness – 6 items
-### 1-1. Weights
-- Open (1): Model weights are publicly available without permission
+### 1-1. Weights 
+- Open (1): Model weights are publicly available without permission. If there is a model on the Hugging Face site, it is 'Open',
 - Semi-Open (0.5): Model weights are available after approval
 - Closed (0): Model weights are not available for use
 
@@ -212,55 +241,57 @@ CRITERIA_TEXT = """
 - Closed (0): Only inference/serving/eval code or none.
 
 ### 1-3. License
-- Open (1): License explicitly allows **all four** rights — use, modification, redistribution, and commercial use — with no major restrictions (MIT/Apache-2.0/BSD/MPL/Qwen ).
+- Open (1): License explicitly allows **all four** rights — use, modification, redistribution, and commercial use — with no major restrictions (MIT/Apache-2.0/BSD/MPL/Qwen/TII Falcon-LLM License 2.0/BigScience-BLOOM RAIL 1.0 license/gemma/gemma/NVIDIA Open Model License/  ,  Please research any others yourself to determine if they are open.). 
+            Open to use with minor restrictions: no illegal medical use and no competition with the manufacturer, which are allowed as 'Open'.
 - Semi-Open (0.5): **One or two** rights restricted (non-commercial / no-redistribution / no-derivatives / research-only, OpenRAIL family, CC-BY-NC).
     **If the license has restrictions but they are so lenient that they don’t apply to ordinary users (e.g., only targeting large corporate competitors), then it should still be considered “Open” (like in the case of Qwen).
 - Closed (0): **Three or more** rights restricted, or no license / undefined restrictive terms.
 
 ### 1-4. Paper
-- Open (1): Peer-reviewed or official tech report **specifically about the TARGET model** (exact version/variant).
-- Semi-Open (0.5): Model blog/announcement/model card with results but not a full tech report.
-- Closed (0): No doc for this model, or about other model/version.
+- Open (1): **Official provider-authored** paper or technical report **specifically about the TARGET model** (same version/variant), Evidence must indicate that authors are from the model **owner/provider** (e.g., author list or affiliations include the provider) **or** the PDF/docs are hosted on the provider’s official domain.
+- Semi-Open (0.5): **Provider-authored** official blog/model card/announcement about the TARGET model, but **no full paper/tech report**.
+- Closed (0): Third-party papers (not authored by the provider), papers about other models/versions, or no doc.
 
 ### 1-5. Architecture
-- Open (1): Structure and hyperparameters fully disclosed
+- Open (1): Structure and hyperparameters fully disclosed. If there is a model on the Hugging Face site, it is 'Open',
 - Semi-Open (0.5): Partial disclosure
 - Closed (0): Not disclosed
 
 ### 1-6. Tokenizer
-- Open (1): Tokenizer details disclosed and/or downloadable
+- Open (1): Tokenizer details disclosed and/or downloadable. If there is a model on the Hugging Face site, it is 'Open',
 - Semi-Open (0.5): Partial disclosure
 - Closed (0): Not disclosed
 
 ## 2. Accessibility and Reproducibility – 3 items
-### 2-1. Hardware  (QUOTES REQUIRED)
+### 2-1. Hardware  (QUOTES REQUIRED) TRAINING stack only)
 - Open (1): Quotes disclose **both** training hardware type(s) **and** quantities.
 - Semi-Open (0.5): Only one side (type or quantity/compute) or partial quantities.
 - Closed (0): No quoted info about training hardware.
 
 ### 2-2. Software  (QUOTES REQUIRED; TRAINING stack only)
-- Open (1): Quotes disclose the **full training software stack** used to train the model, typically including: base framework (with version), distributed/orchestration (e.g., DeepSpeed, Megatron, FSDP, NeMo, XLA/TPU), precision/optimizer libs (Apex, bitsandbytes, FlashAttention, etc.), data pipeline tools, and **versions/configs** sufficient to reconstruct the stack.
+- Open (1): Quotes disclose the **full and all training software stack** used to train the model, typically including: base framework (with version , not transformer), distributed/orchestration (e.g., DeepSpeed, Megatron, FSDP, NeMo, XLA/TPU), precision/optimizer libs (Apex, bitsandbytes, FlashAttention, etc.), data pipeline tools, and **versions/configs** sufficient to reconstruct the stack.
 - Semi-Open (0.5): Quotes disclose **some training components beyond the base framework**. 
 - Closed (0): a framework that is not available to general users or is not open code. Only generic framework name, or inference/serving stack only, or no quoted info (ex HAI-LLM,torch/jax/transfomer/python)
 
-### 2-3. API — **Official OR reputable third-party**
-- Open (1): Public API provided by the model owner **or** a reputable third-party aggregator (OpenRouter, Together, Replicate, Fireworks, Perplexity, Hugging Face Inference), with developer/docs URLs.
-- Semi-Open (0.5): The owner has officially announced a “coming soon” public API, or only a waitlist/approval application is available (developers cannot obtain a key yet). Alternatively, documentation exists but the credential issuance path is unclear (e.g., “Contact us only,” partners-only).
-- Closed (0): No public API, or no way to obtain credentials is provided at all (internal-only, partners by private contract, UI embed only with no developer endpoints/keys, etc.).
-## 3. Training Methodology – STRICT (quotes required)
+### 2-3. API — **Official domain only**
+- Open (1): Public API is hosted on the **model owner’s official domain** (host contains owner tokens) with developer/docs URLs that indicate **API key issuance** for developers.
+- Semi-Open (0.5): The owner has an official “coming soon / waitlist / contact-us-only” announcement (developers cannot obtain a key yet) on the **official domain**.
+- Closed (0): No public API on the official domain, **or** only third-party routing/hosting (OpenRouter/Together/HF Inference/etc.), **or** endpoints for other/different models.
+
+## 3. Training Methodology – STRICT (quotes required; GPT-only)
 ### 3-1. Pre-training
-- Open (1): Fully reproducible method (pipeline, objectives, schedules, all hyperparameters)
+- Open (1): Fully reproducible methods (pipeline, objectives, schedules, pretraing methods details)
 - Semi-Open (0.5): Partial method disclosure
 - Closed (0): No method disclosed (default if no quotes)
 
 ### 3-2. Fine-tuning
-- Open (1): Fully reproducible fine-tuning details
+- Open (1): Fully reproducible fine-tuning methods details 
 - Semi-Open (0.5): Partial details
-- Closed (0): Not disclosed/N/A (default if no quotes, )
+- Closed (0): Not disclosed/N/A (default if no quotes)
 
 ### 3-3. Reinforcement Learning
 - Open (1): RL methods detailed for reproduction
-- Semi-Open (0.5): Partial disclosure
+- Semi-Open (0.5): Partial method disclosure
 - Closed (0): Not disclosed/N/A (default if no quotes)
 
 ## 4. Data Openness – STRICT (quotes required)
@@ -290,15 +321,17 @@ EVALUATION_PROMPT = (
     + "\n\nHARD RULES:\n"
     + "1) For items **2-1 Hardware, 2-2 Software, 3-1~3-3, and 4-1~4-4**, base decisions **ONLY on provided quotes**.\n"
     + "   · If there is NO quote evidence for these items, the item is **CLOSED (0)**.\n"
-    + "   · For 2-2 Software, ignore bare mentions of base frameworks only (e.g., just “PyTorch/JAX”) but the framework that is not available to general users or is not open code case is closed  — Closed unless training components beyond the base framework are quoted.\n"
+    + "   · For 2-2 Software, ignore bare mentions of base frameworks only (e.g., just “PyTorch/JAX”); count only training stack components beyond the base framework and with enough specificity (libs/versions/configs) to be reconstructable.\n"
     + "   · Only statements about the **TRAINING** stack count for 2-2; inference/serving environments do **not** count.\n"
     + "2) SEMI-OPEN (0.5) requires some direct evidence; OPEN (1) requires fully reproducible methods/stack or fully disclosed datasets/pipelines per the rubric.\n"
     + "3) You may use auxiliary JSON for context, but NEVER override rule (1). Do **not** fill in facts from memory or general knowledge.\n"
     + "4) Do NOT treat data scale/types/hardware alone as methodology disclosure. Without concrete method details, score **Closed (0)** for 3-1/3-2/3-3.\n"
     + "5) For **1-4 Paper**, apply the rubric only to documents about the TARGET model (payload.model). Blogs/model cards are Semi-Open; papers/tech reports about other models or older versions are Closed.\n"
-    + "6) For **2-3 API**, treat as **Open** if the owner hosts a public API **or** a reputable third-party aggregator exposes real endpoints/docs for this model; **Semi-Open** if only an official 'coming soon' announcement exists; otherwise **Closed**.\n\n"
-    + "7) For **1-2 Code**, Open requires actual training pipeline files (e.g., train.py, training/, scripts/train, pretrain*.py, run_*.py). Partial code (e.g., SFT/LoRA/QLoRA scripts) is Semi-Open.\n\n"
-    + "8) if fine_tuning: unknown case ,Old models like GPT-2 only have a pre-training. so fineReinforcement = N/A."
+    + "6) For **2-3 API**, treat as **Open** ONLY if the **owner hosts public API on its own domain and issues API keys**; “coming soon/waitlist/contact-us-only” on the official domain is **Semi-Open**; **all routing/aggregator sites are Closed**.\n"
+    + "7) For **1-2 Code**, Open requires actual training pipeline files (e.g., train.py, training/, scripts/train, pretrain*.py, run_*.py). Partial code (e.g., SFT/LoRA/QLoRA scripts) is Semi-Open.\n"
+    + "8) If a quote says “you *can* fine-tune X on Y dataset”, this is **not** evidence that the **authors** fine-tuned the target model; it is a generic capability claim and should not be scored as author-run fine-tuning.\n"
+    + "9) if fine_tuning: unknown case ,Old models like GPT-2 only have a pre-training. so fineReinforcement = N/A."
+    + "10) For **1-4 Paper**, score **Open (1)** only if the document is **provider-authored** (authors/affiliations include the model owner) or hosted on the provider’s official domain; provider blog/card = **Semi-Open (0.5)**; third-party papers = **Closed (0)**.\n"
     + "Return JSON:\n"
     + "{\n"
     + '  "scores": {\n'
@@ -310,75 +343,6 @@ EVALUATION_PROMPT = (
     + '  "total_score": <number>\n'
     + "}\n"
 ).strip()
-
-# ---- Methodology hint dictionaries (more permissive for Semi-Open) ----
-METHOD_HINTS = {
-    "3-1 Pre-training": (
-        "causal lm","next-token","masked lm","span corruption","autoregressive",
-        "optimizer","adam","adamw","sgd","learning rate","lr ","warmup",
-        "scheduler","cosine","polynomial","decay",
-        "batch size","global batch","micro batch","grad accumulate",
-        "steps","epochs","update steps",
-        "context length","sequence length","seq len","max length",
-        "deepspeed","fsdp","megatron","tensor parallel","pipeline parallel",
-        "mixed precision","fp16","bf16"
-    ),
-    "3-2 Fine-tuning": (
-        "supervised fine-tuning","sft","instruction tuning","lora","qlora",
-        "peft","adapter","prefix-tuning","prompt tuning","orpo",
-        "learning rate","optimizer","adam","adamw","warmup","scheduler",
-        "epochs","steps","batch size","grad accumulate",
-        "cross-entropy","label smoothing","loss function"
-    ),
-    "3-3 Reinforcement Learning": (
-        "rlhf","rlaif","ppo","trpo","a2c","actor-critic","policy gradient",
-        "reward model","preference model","kl penalty","beta","reference model",
-        "dpo","ipo","kto"
-    ),
-}
-
-def _has_method_hints(quotes: List[str], key: str) -> bool:
-    hints = METHOD_HINTS.get(key, ())
-    if not quotes or not hints:
-        return False
-    text = " \n".join(q.lower() for q in quotes)
-    return any(h in text for h in hints)
-
-# --- Method categories (for detecting truly reproducible OPEN cases) ---
-_METHOD_CATS = {
-    "objective": ("causal lm","next-token","masked lm","span corruption","autoregressive"),
-    "optimizer": ("adam","adamw","sgd","adafactor"),
-    "schedule":  ("warmup","scheduler","cosine","polynomial","linear decay","decay"),
-    "batching":  ("batch size","global batch","micro batch","grad accumulate"),
-    "duration":  ("steps","epochs","update steps"),
-    "context":   ("context length","sequence length","seq len","max length"),
-    "dist":      ("deepspeed","fsdp","megatron","tensor parallel","pipeline parallel"),
-    "precision": ("mixed precision","fp16","bf16")
-}
-
-def _method_category_hits(quotes: List[str]) -> set:
-    txt = " \n".join(q.lower() for q in quotes)
-    hits = set()
-    for cat, kws in _METHOD_CATS.items():
-        if any(k in txt for k in kws):
-            hits.add(cat)
-    return hits
-
-def _lenient_method_score_from_quotes(quotes: List[str], key: str) -> float:
-    """
-    Permissive rules:
-      - Open (1.0): Reproducible — objective + (optimizer or schedule) + (batching or duration), and ≥4 categories in total.
-      - Semi-Open (0.5): Any concrete method hints for that family (pretrain / finetune / RL).
-      - Closed (0.0): No method info in quotes.
-    """
-    if not quotes:
-        return 0.0
-    cats = _method_category_hits(quotes)
-    if len(cats) >= 4 and ("objective" in cats) and (("optimizer" in cats) or ("schedule" in cats)) and (("batching" in cats) or ("duration" in cats)):
-        return 1.0
-    if _has_method_hints(quotes, key) or len(cats) >= 1:
-        return 0.5
-    return 0.0
 
 # ─────────── Shared quote collectors ───────────
 def _collect_quotes_from(src: Dict[str, Any], keys: List[str]) -> List[str]:
@@ -593,18 +557,21 @@ def _gpt_evaluate(model: str,
             out[k] = {"score": float(v), "reason": ""}
     return out
 
-# ─────────── API scorer with web-search boost (official OR reputable third-party) ───────────
-_PLANNED_API_PAT = re.compile(r"(?i)\b(api)\b[^.\n]{0,60}\b(coming soon|will be (?:made )?public|planned|under development|launching soon)\b")
+# ─────────── API scorer (official domain only; routers never count) ───────────
+_PLANNED_API_PAT = re.compile(r"(?i)\b(api)\b[^.\n]{0,80}\b(coming soon|will be (?:made )?public|planned|under development|launching soon|waitlist|contact\s*us)\b")
+_API_KEY_PAT = re.compile(r"(?i)\b(api key|get a key|obtain.*key|create.*key|bearer token|authentication)\b")
 
-def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict, model_name: str) -> Tuple[float, str]:
+def _score_api_official_only(hf: Dict, gh: Dict, ax: Dict, rp: Dict, model_name: str) -> Tuple[float, str]:
     """
-    Open (1.0): evidence of owner-hosted API or reputable third-party aggregator (quotes with URLs, or web search).
-    Semi-Open (0.5): owner announces 'coming soon' in quotes.
-    Closed (0.0): otherwise.
+    Open (1.0): Owner-hosted API (official domain) with developer/docs URLs that plausibly indicate API key issuance.
+               Evidence can be via quotes containing such URLs, or via web search (official domain + path includes model tokens).
+    Semi-Open (0.5): Owner announces 'coming soon/waitlist/contact us' on official domain.
+    Closed (0.0): Otherwise, including any router/aggregator or non-official site.
     """
-    org_tokens = _org_tokens_from_model_name(model_name)
+    owner_tokens = _org_tokens_from_model_name(model_name)
+    model_tokens = _model_tokens_from_model_name(model_name)
 
-    # 1) Quotes
+    # 1) Quotes-based evidence
     quotes: List[str] = []
     for src in (hf or {}, gh or {}, ax or {}, rp or {}):
         quotes.extend(_collect_quotes_from(src, ["2-3 (API)__evidence", "2-3 API__evidence"]))
@@ -614,29 +581,38 @@ def _score_api_lenient(hf: Dict, gh: Dict, ax: Dict, rp: Dict, model_name: str) 
         urls_in_quotes = []
         for q in quotes:
             urls_in_quotes.extend(_URL_RE.findall(q or ""))
-        ok_in_quotes = [u for u in urls_in_quotes if _is_official_or_thirdparty_api_url(u, org_tokens)]
+        # Accept only official-domain URLs; path may or may not include model tokens in quotes,
+        # but prefer ones that include tokens or mention keys in text.
+        ok_official_urls = []
+        for u in urls_in_quotes:
+            host = _extract_host(u)
+            if _host_contains_any_token(host, owner_tokens) and _is_apiish_url(u):
+                ok_official_urls.append(u)
 
-        if ok_in_quotes:
+        joined = " \n".join(quotes)
+        if ok_official_urls and not _PLANNED_API_PAT.search(joined):
+            # If quotes also mention key issuance terms, stronger reason.
+            key_note = " (keys mentioned)" if _API_KEY_PAT.search(joined) else ""
             base_score = 1.0
-            base_reason = f"API docs in quotes: {', '.join(ok_in_quotes[:3])}"
+            base_reason = f"Official API docs in quotes: {', '.join(ok_official_urls[:3])}{key_note}"
         else:
-            joined = " \n".join(quotes)
             if _PLANNED_API_PAT.search(joined):
                 base_score = 0.5
-                base_reason = "Owner announced API 'coming soon'."
+                base_reason = "Owner announced API 'coming soon/waitlist/contact-us-only' on official domain."
             else:
                 base_score = 0.0
-                base_reason = "Only generic/irrelevant mentions; no qualifying API docs."
+                base_reason = "Only generic or non-official mentions; no qualifying official API docs."
 
-    # 2) Web search boost
-    urls = _websearch_api_urls(model_name, org_tokens, API_WEBSEARCH_MAX_URLS)
+    # 2) Web search (strict): official domain + path includes model tokens
+    urls = _websearch_api_urls(model_name, owner_tokens, model_tokens, API_WEBSEARCH_MAX_URLS)
     if urls:
-        reason_ws = f"Web search found API docs: {', '.join(urls[:3])}"
+        # The web-search filter already enforces official host + model tokens in path
+        reason_ws = f"Official API docs via web: {', '.join(urls[:3])}"
         final_score = max(base_score, 1.0)
         final_reason = (base_reason + "  " + reason_ws).strip()
         return final_score, final_reason
     else:
-        reason_ws = "No API docs found via web search."
+        reason_ws = "No qualifying official API docs via web search."
         final_reason = (base_reason + "  " + reason_ws).strip()
         return base_score, final_reason
 
@@ -653,7 +629,7 @@ def evaluate_openness(model_name: str,
     # 1) Strict evidence map for 3-x / 4-x (+inject pretrain bundle where applicable)
     evmap = _collect_evidence_maps(ax, hf, gh, rp, pretrain_bundle=pre_bundle)
 
-    # 2) Baseline GPT scoring (we will overwrite some items with deterministic rules)
+    # 2) Baseline GPT scoring (no heuristic override for 3-1/3-2/3-3)
     scores = _gpt_evaluate(model_name, hf, gh, ax, evmap)
 
     # 3) Auto-open (1-1 / 1-5 / 1-6)
@@ -665,34 +641,8 @@ def evaluate_openness(model_name: str,
 
     # 4.1) License (1-3) — GPT-only. No rule-based override.
 
-    # 5) Usage aggregation → exclusion base
+    # 5) Usage aggregation (initial)
     usage = _aggregate_usage(ax, hf, gh, rp)
-
-    # Heuristic: fine-tuning 'generic claim only' → not_used
-    def _has_phrase(src_dict: Dict[str, Any], *phrases: str) -> bool:
-        if not isinstance(src_dict, dict):
-            return False
-        txt = ""
-        for v in src_dict.values():
-            if isinstance(v, str):
-                txt += " " + v.lower()
-        return any(p in txt for p in phrases)
-
-    if usage.get("fine_tuning","unknown") == "unknown":
-        has_generic = any(_has_phrase(s,
-                           "you can fine-tune", "you may fine-tune", "to fine-tune the model",
-                           "fine-tune this model") for s in (hf, gh, ax, rp))
-        has_auth_run = any(_has_phrase(s, "we fine-tuned", "we finetuned", "we instruction-tuned",
-                                       "we performed sft", "we applied lora", "we applied qlora")
-                           for s in (hf, gh, ax, rp))
-        if has_generic and not has_auth_run:
-            usage["fine_tuning"] = "not_used"
-
-    exclude_prefix = []
-    if usage["fine_tuning"] == "not_used":
-        exclude_prefix += ["3-2", "4-2"]
-    if usage["rl"] == "not_used":
-        exclude_prefix += ["3-3", "4-3"]
 
     # 6) STRICT guardrail: if no quotes for strict keys → force CLOSED
     for strict_key in STRICT_KEYS:
@@ -713,42 +663,54 @@ def evaluate_openness(model_name: str,
                 "reason": (scores.get(key_41, {}).get("reason","") + " Adjusted to Semi-Open: quotes indicate partial disclosure.").strip()
             }
 
-    # 6.2) New lenient methodology scoring (Open/Semi-Open/Closed) for 3-1/3-2/3-3
-    for meth_key in ("3-1 Pre-training", "3-2 Fine-tuning", "3-3 Reinforcement Learning"):
-        used_flag = {
-            "3-1 Pre-training": "used",
-            "3-2 Fine-tuning": usage.get("fine_tuning", "unknown"),
-            "3-3 Reinforcement Learning": usage.get("rl", "unknown"),
-        }
-        if used_flag[meth_key] == "not_used":
-            continue
-        qts = evmap.get(meth_key, {}).get("quotes", [])
-        score_val = _lenient_method_score_from_quotes(qts, meth_key)
-        if score_val == 1.0:
-            reason = "Methodology is sufficiently detailed to reproduce training (objective/optimizer/schedule + batching/duration)."
-        elif score_val == 0.5:
-            reason = "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
-        else:
-            reason = "No concrete method details in quotes."
-        scores[meth_key] = {"score": score_val, "reason": reason}
+    # 6.2) Auto-exclude rule for unknown fine-tuning / RL (per-axis, quotes 무관)
+    def _both_zero(scores_dict: Dict[str, Dict], *keys: str) -> bool:
+        return all(float(scores_dict.get(k, {}).get("score", 0.0)) == 0.0 for k in keys)
 
-    # 6.3) Data Filtering (4-4): GPT-only. No rule-based override.
+    # FT: unknown 이면서 3-2, 4-2가 모두 0점이면 not_used
+    if usage.get("fine_tuning", "unknown") == "unknown":
+        if _both_zero(scores, "3-2 Fine-tuning", "4-2 Fine-tuning Data"):
+            usage["fine_tuning"] = "not_used"
 
-    # 6.4) 2-3 API: official OR reputable third-party
-    api_score, api_reason = _score_api_lenient(hf, gh, ax, rp, model_name)
+    # RL: unknown 이면서 3-3, 4-3이 모두 0점이면 not_used
+    if usage.get("rl", "unknown") == "unknown":
+        if _both_zero(scores, "3-3 Reinforcement Learning", "4-3 Reinforcement Learning Data"):
+            usage["rl"] = "not_used"
+    # 6.3) 2-3 API (official-only)
+    api_score, api_reason = _score_api_official_only(hf, gh, ax, rp, model_name)
     scores["2-3 API"] = {"score": api_score, "reason": api_reason}
 
-    # 6.5) Ensure all 16 keys exist (avoid missing items in output)
+    # 6.4) Ensure all 16 keys exist (avoid missing items in output)
     for k in ALL_SCORE_KEYS:
         if k not in scores:
             if k in STRICT_KEYS and not evmap.get(k, {}).get("quotes"):
                 scores[k] = {"score": 0.0, "reason": "No direct quote evidence; Closed by strict rule."}
             else:
                 scores[k] = {"score": 0.0, "reason": "No evidence."}
+    
+    # 6.5) HF 존재 시 핵심 3항목 강제 Open 오버라이드
+    forced_hf_core = False
+    if FORCE_HF_CORE_OPEN:
+        # HF 존재 판단: 필터된(HF dispatcher) 결과가 있거나, 원시 HF fetch 결과가 있으면 True
+        hf_present = bool(hf) or bool(hf_raw_json)
+        if hf_present:
+            for _k, _msg in {
+                "1-1 Weights":     "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN.",
+                "1-5 Architecture":"Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN.",
+                "1-6 Tokenizer":   "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN.",
+            }.items():
+                scores[_k] = {"score": 1.0, "reason": _msg}
+            forced_hf_core = True
 
-    # 7) Build included set after exclusion
-    included = {k:v for k,v in scores.items()
-                if not any(k.startswith(p) for p in exclude_prefix)}
+
+    # 7) Build included set after exclusion (based on final usage)
+    exclude_prefix = []
+    if usage.get("fine_tuning") == "not_used":
+        exclude_prefix += ["3-2", "4-2"]
+    if usage.get("rl") == "not_used":
+        exclude_prefix += ["3-3", "4-3"]
+
+    included = {k:v for k,v in scores.items() if not any(k.startswith(p) for p in exclude_prefix)}
 
     # 8) Aggregate to 10-point scale
     raw_sum = sum(float(v.get("score",0)) for v in included.values())
@@ -821,6 +783,8 @@ def evaluate_openness_from_files(model_name: str,
 
 
 if __name__ == "__main__":
-    evaluate_openness_from_files("facebook/opt-125m", base_dir="facebook_opt-125m")
+    # Example
+    evaluate_openness_from_files("nvidia/NVIDIA-Nemotron-Nano-12B-v2", base_dir="nvidia_nvidia-nemotron-nano-12b-v2")
 
-## 데이터필터링 ,라이센스 코드 제거
+### api 강화, 인용(quote) 기반 + GPT 채점만, N/A 자동 처리
+#API 판정 = 제작사 공식 사이트만 
