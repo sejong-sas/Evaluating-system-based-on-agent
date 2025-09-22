@@ -1,0 +1,32 @@
+{
+  "4-1 (Pre-training Data)": "For tokyotech-llm/llama-3-swallow-8b-instruct-v0.1, the only explicit detail given is that “Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data.”  This means the model inherits the entire pre-training corpus of Meta-Llama-3 and then extends it with extra Japanese-language material.  No additional numerical breakdown, specific corpus titles, licences, or token counts are provided in the quoted material.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The instruction-tuned release of tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 relies on supervised fine-tuning (SFT) plus Chat Vector.  The quoted text lists the concrete sources that were fed into this SFT stage:\n• “OpenAssistant Conversations Dataset EN top-1 thread” – an English conversational set.\n• “OpenAssistant Conversations Dataset (llm-jp/oasst1-21k-ja)” – a Japanese split where only the human utterances are kept; the assistant replies are discarded.\n• To fill the discarded replies, new responses were generated with the “Mixtral-8x7B-Instruct-v0.1” model before feeding the pairs into SFT.\nThe quotes give no further statistics (number of examples, tokens, or licensing terms) beyond these dataset names and the note that both SFT and Chat Vector techniques are applied.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The following datasets were used for the instruction tuning."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [OpenAssistant Conversations Dataset EN top-1 thread](https://huggingface.co/datasets/OpenAssistant/oasst2)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [OpenAssistant Conversations Dataset](https://huggingface.co/datasets/llm-jp/oasst1-21k-ja) was used, where human utterances are included but the responses are not used. Instead, the responses were generated using the [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) model."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "No quotation supplied describes any reinforcement-learning or preference-optimization data for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1, so the public materials contain no disclosed information for this item.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The provided quotations include no sentences that mention filtering tools, classifiers, numeric thresholds, or other cleaning criteria for the tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 pipeline.  Consequently, no details on data-quality filtering have been disclosed.",
+  "4-4 (Data Filtering)__evidence": []
+}

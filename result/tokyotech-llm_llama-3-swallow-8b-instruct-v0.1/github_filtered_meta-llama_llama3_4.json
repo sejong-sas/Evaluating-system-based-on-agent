@@ -1,0 +1,19 @@
+{
+  "4-1 (Pre-training Data)": "No information about pre-training data types, quantities, sources, or composition is disclosed in the provided quotes.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "No information about fine-tuning data sources, composition, public availability, or examples is disclosed in the provided quotes.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "No information about reinforcement-learning data composition, accessibility, generation, or sources is disclosed in the provided quotes.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The only filtering details present concern safety-oriented post-processing. The quotes state that additional classifiers can be deployed to screen both model inputs and outputs \"that are deemed unsafe,\" indicating a modular safety filter placed around the model. They also highlight PurpleLlama—described as a \"key component of Llama Stack\"—whose role is to address \"safety risks and inference-time mitigations.\" Together, these remarks show that the Llama 3 stack incorporates runtime safety filters, relying on dedicated classifiers (potentially including PurpleLlama) to block or sanitize content flagged as unsafe during inference.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can also deploy additional classifiers to filter out inputs and outputs that are deemed unsafe."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [PurpleLlama](https://github.com/meta-llama/PurpleLlama) - Key component of Llama Stack focusing on safety risks and inference time mitigations"
+    }
+  ]
+}

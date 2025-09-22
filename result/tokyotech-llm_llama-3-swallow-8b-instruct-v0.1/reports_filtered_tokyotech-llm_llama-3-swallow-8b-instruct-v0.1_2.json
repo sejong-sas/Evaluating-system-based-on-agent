@@ -1,0 +1,66 @@
+{
+  "1-5 (Architecture)": "According to the provided statements, Llama 3 keeps to “a relatively standard decoder-only transformer architecture,” indicating that its overall structure follows the common single-headed, decoder-only design seen in many contemporary large language models. To raise inference throughput, the project “adopted grouped query attention (GQA) across both the 8B and 70B sizes,” a mechanism that reduces the number of key–value heads each query must attend to. Training was carried out on “sequences of 8,192 tokens,” and the team applied “a mask to ensure self-attention does not cross document boundaries,” so each context window remains document-isolated. In short, Llama 3’s architecture is a decoder-only transformer enhanced with GQA for faster inference, trained at an 8,192-token context length with attention masking to avoid inter-document bleed-through.",
+  "1-6 (Tokenizer)": "The tokenizer for Llama 3 contains “a vocabulary of 128 K tokens.” This larger, more efficient vocabulary “encodes language much more efficiently,” leading to “substantially improved model performance.” Internal benchmarks cited in the material report that the new tokenizer yields “up to 15 % fewer tokens compared to Llama 2,” highlighting a measurable gain in token efficiency that should reduce sequence length and therefore compute cost for comparable inputs.",
+  "2-1 (Hardware)": "Training the largest Llama 3 checkpoints relied on massive multi-GPU clusters and layered parallelism. The team “combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization.” With this configuration they achieved “compute utilization of over 400 TFLOPS per GPU when trained on 16 K GPUs simultaneously.” The scale of the infrastructure is emphasized further: “We performed training runs on two custom-built 24 K GPU clusters.” Although the quotes do not disclose the exact GPU model, they establish the presence of tens of thousands of GPUs organized to reach multi-hundred-TFLOP utilization per device via an advanced mixed parallel training strategy.",
+  "2-2 (Software)": "The training software stack for Llama 3 incorporates several custom and open-source components. An “advanced new training stack” was built to “automate error detection, handling, and maintenance,” explicitly targeting maximal GPU uptime. In parallel, Llama 3 was “co-developed … with torchtune,” described as “the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs.” torchtune itself “provides memory efficient and hackable training recipes written entirely in PyTorch,” supplying turnkey recipes that integrate directly with PyTorch while emphasizing flexibility and memory efficiency.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In line with our design philosophy, we opted for a relatively standard decoder-only transformer architecture in Llama 3."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To improve the inference efficiency of Llama 3 models, we’ve adopted grouped query attention (GQA) across both the 8B and 70B sizes. We trained the models on sequences of 8,192 tokens, using a mask to ensure self-attention does not cross document boundaries."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In line with our design philosophy, we opted for a relatively standard decoder-only transformer architecture in Llama 3."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To improve the inference efficiency of Llama 3 models, we’ve adopted grouped query attention (GQA) across both the 8B and 70B sizes."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens that encodes language much more efficiently, which leads to substantially improved model performance."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Our benchmarks show the tokenizer offers improved token efficiency, yielding up to 15% fewer tokens compared to Llama 2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens that encodes language much more efficiently, which leads to substantially improved model performance."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To train our largest Llama 3 models, we combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization. Our most efficient implementation achieves a compute utilization of over 400 TFLOPS per GPU when trained on 16K GPUs simultaneously. We performed training runs on two custom-built 24K GPU clusters."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To train our largest Llama 3 models, we combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization. Our most efficient implementation achieves a compute utilization of over 400 TFLOPS per GPU when trained on 16K GPUs simultaneously."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To maximize GPU uptime, we developed an advanced new training stack that automates error detection, handling, and maintenance."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "torchtune provides memory efficient and hackable training recipes written entirely in PyTorch."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs."
+    }
+  ]
+}

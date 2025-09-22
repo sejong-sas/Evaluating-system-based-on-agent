@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data.",
+  "pretrain_data": "The following datasets were used for continual pre-training.",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data."
+    },
+    {
+      "source": "readme",
+      "quote": "The following datasets were used for continual pre-training."
+    }
+  ]
+}

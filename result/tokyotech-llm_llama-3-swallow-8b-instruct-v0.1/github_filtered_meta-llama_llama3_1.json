@@ -1,0 +1,57 @@
+{
+  "1-1 (Weights)": "According to the release notes, “This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters.”  Users can obtain these weights from two officially stated locations.  First, “To download the model weights and tokenizer, please visit the Meta Llama website … and accept our License,” indicating that public access is provided once the META LLAMA 3 Community License has been accepted.  Second, the maintainers add that “We also provide downloads on Hugging Face … in both transformers and native `llama3` formats,” confirming an additional mirrored distribution channel.  Together, the quotes show that anyone who agrees to the license terms can freely download multiple parameter-scale checkpoints in standard (Transformers) or native formats from either Meta’s own portal or Hugging Face.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To download the model weights and tokenizer, please visit the [Meta Llama website](https://llama.meta.com/llama-downloads/) and accept our License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also provide downloads on [Hugging Face](https://huggingface.co/meta-llama), in both transformers and native `llama3` formats."
+    }
+  ],
+  "1-2 (Code)": "The available code is aimed primarily at inference and downstream usage rather than full pre-training.  One quotation states, “This repository is a minimal example of loading Llama 3 models and running inference,” highlighting quick-start, serve-time scripts.  The release bundle also “includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models,” confirming that example scripts accompany every checkpoint.  For more advanced workflows, an official toolkit is referenced: “– [llama-toolchain] … – Model development (inference/fine-tuning/safety shields/synthetic data generation) interfaces and canonical implementations.”  While these materials cover inference, fine-tuning, safety tooling, and synthetic-data generation, no quote advertises full end-to-end pre-training code.  Therefore, based solely on the provided statements, Meta exposes (a) minimal inference examples and (b) the broader ‘llama-toolchain’ for fine-tuning and safety, but does not publish the complete pre-training pipeline.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository is a minimal example of loading Llama 3 models and running inference."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [llama-toolchain](https://github.com/meta-llama/llama-toolchain) - Model development (inference/fine-tuning/safety shields/synthetic data generation) interfaces and canonical implementations"
+    }
+  ],
+  "1-3 (License)": "The package is governed by the “META LLAMA 3 COMMUNITY LICENSE AGREEMENT.”  Under “a. Grant of Rights,” the licensee receives “a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials.”  However, several restrictions are explicitly quoted:\n• “v. You will not use the Llama Materials or any output or results of the Llama Materials to improve any other large language model (excluding Meta Llama 3 or derivative works thereof).”\n• A commercial-scale threshold applies: “If … the monthly active users … is greater than 700 million monthly active users … you must request a license from Meta … and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights.”\nAdditionally, source files reiterate that “# This software may be used and distributed in accordance with the terms of the Llama 3 Community License Agreement.”  In summary, the license is permissive for research, redistribution, modification, and derivative creation provided (1) it is not used to train or enhance any non-Llama large language model, and (2) entities exceeding the stated 700 M MAU ceiling must secure a separate commercial license from Meta.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "META LLAMA 3 COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "a. Grant of Rights. You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Meta’s intellectual property or other rights owned by Meta embodied in the Llama Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "v. You will not use the Llama Materials or any output or results of the Llama Materials to improve any other large language model (excluding Meta Llama 3 or derivative works thereof)."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "2. Additional Commercial Terms. If, on the Meta Llama 3 version release date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s affiliates, is greater than 700 million monthly active users in the preceding calendar month, you must request a license from Meta, which Meta may grant to you in its sole discretion, and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights."
+    },
+    {
+      "source": "[py_files/setup.py]",
+      "quote": "# This software may be used and distributed in accordance with the terms of the Llama 3 Community License Agreement."
+    }
+  ],
+  "1-4 (Paper)": "",
+  "1-4 (Paper)__evidence": []
+}

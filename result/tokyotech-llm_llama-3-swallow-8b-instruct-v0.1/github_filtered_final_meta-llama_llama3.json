@@ -1,0 +1,130 @@
+{
+  "1-1 (Weights)": "According to the release notes, “This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters.”  Users can obtain these weights from two officially stated locations.  First, “To download the model weights and tokenizer, please visit the Meta Llama website … and accept our License,” indicating that public access is provided once the META LLAMA 3 Community License has been accepted.  Second, the maintainers add that “We also provide downloads on Hugging Face … in both transformers and native `llama3` formats,” confirming an additional mirrored distribution channel.  Together, the quotes show that anyone who agrees to the license terms can freely download multiple parameter-scale checkpoints in standard (Transformers) or native formats from either Meta’s own portal or Hugging Face.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To download the model weights and tokenizer, please visit the [Meta Llama website](https://llama.meta.com/llama-downloads/) and accept our License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also provide downloads on [Hugging Face](https://huggingface.co/meta-llama), in both transformers and native `llama3` formats."
+    }
+  ],
+  "1-2 (Code)": "The available code is aimed primarily at inference and downstream usage rather than full pre-training.  One quotation states, “This repository is a minimal example of loading Llama 3 models and running inference,” highlighting quick-start, serve-time scripts.  The release bundle also “includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models,” confirming that example scripts accompany every checkpoint.  For more advanced workflows, an official toolkit is referenced: “– [llama-toolchain] … – Model development (inference/fine-tuning/safety shields/synthetic data generation) interfaces and canonical implementations.”  While these materials cover inference, fine-tuning, safety tooling, and synthetic-data generation, no quote advertises full end-to-end pre-training code.  Therefore, based solely on the provided statements, Meta exposes (a) minimal inference examples and (b) the broader ‘llama-toolchain’ for fine-tuning and safety, but does not publish the complete pre-training pipeline.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository is a minimal example of loading Llama 3 models and running inference."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [llama-toolchain](https://github.com/meta-llama/llama-toolchain) - Model development (inference/fine-tuning/safety shields/synthetic data generation) interfaces and canonical implementations"
+    }
+  ],
+  "1-3 (License)": "The package is governed by the “META LLAMA 3 COMMUNITY LICENSE AGREEMENT.”  Under “a. Grant of Rights,” the licensee receives “a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials.”  However, several restrictions are explicitly quoted:\n• “v. You will not use the Llama Materials or any output or results of the Llama Materials to improve any other large language model (excluding Meta Llama 3 or derivative works thereof).”\n• A commercial-scale threshold applies: “If … the monthly active users … is greater than 700 million monthly active users … you must request a license from Meta … and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights.”\nAdditionally, source files reiterate that “# This software may be used and distributed in accordance with the terms of the Llama 3 Community License Agreement.”  In summary, the license is permissive for research, redistribution, modification, and derivative creation provided (1) it is not used to train or enhance any non-Llama large language model, and (2) entities exceeding the stated 700 M MAU ceiling must secure a separate commercial license from Meta.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "META LLAMA 3 COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "a. Grant of Rights. You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Meta’s intellectual property or other rights owned by Meta embodied in the Llama Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "v. You will not use the Llama Materials or any output or results of the Llama Materials to improve any other large language model (excluding Meta Llama 3 or derivative works thereof)."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "2. Additional Commercial Terms. If, on the Meta Llama 3 version release date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s affiliates, is greater than 700 million monthly active users in the preceding calendar month, you must request a license from Meta, which Meta may grant to you in its sole discretion, and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights."
+    },
+    {
+      "source": "[py_files/setup.py]",
+      "quote": "# This software may be used and distributed in accordance with the terms of the Llama 3 Community License Agreement."
+    }
+  ],
+  "1-4 (Paper)": "",
+  "1-4 (Paper)__evidence": [],
+  "1-5 (Architecture)": "The documentation for the meta-llama/llama3 family offers several concrete architectural facts. First, the release bundles “model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8 B to 70 B parameters,” explicitly stating that multiple parameter scales (8 billion, …, 70 billion) are supported for both vanilla and instruction-tuned checkpoints. Second, it fixes the usable context length: “The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192,” giving a hard upper bound that downstream configurations must respect. Finally, one hyper-parameter is spelled out directly: “`n_layers: int = 32`,” revealing the Transformer depth for at least one published variant. Taken together, these quotes specify the available model sizes (8 B–70 B), the maximum sequence length (8192 tokens), and one internal structural setting (32 layers), which are the only architecture-level details released for Llama 3 in the provided material.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[py_files/example_chat_completion.py]",
+      "quote": "The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192."
+    },
+    {
+      "source": "[py_files/llama/model.py]",
+      "quote": "n_layers: int = 32"
+    }
+  ],
+  "1-6 (Tokenizer)": "Two statements describe the tokenizer for meta-llama/llama3. Users are told, “To download the model weights and tokenizer, please visit the Meta Llama website,” confirming that the tokenizer is publicly downloadable alongside the checkpoints. A usage example further clarifies the artifact’s location: “`--tokenizer_path Meta-Llama-3-8B-Instruct/tokenizer.model \\`,” identifying a specific file (`tokenizer.model`) housed under the `Meta-Llama-3-8B-Instruct` directory. These quotes jointly indicate that an official tokenizer model file exists, is hosted by Meta, and can be referenced by path for inference or fine-tuning workflows.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To download the model weights and tokenizer, please visit the Meta Llama website"
+    },
+    {
+      "source": "[readme]",
+      "quote": "--tokenizer_path Meta-Llama-3-8B-Instruct/tokenizer.model \\"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The provided material contains no sentences that mention an accessible, callable API, no references to REST, HTTP, WebSocket, or similar endpoints, and no pointers to public documentation, example code, or dashboards that would enable external users to interact with llama3 models as a service. Consequently, there is no evidence—within the supplied quotes—of any officially announced or publicly available API for meta-llama/llama3. All relevant information about API availability, onboarding instructions, or usage quotas is therefore absent.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "Two details are explicitly disclosed. First, the release package \"includes model weights and starting code for pre-trained ... Llama 3 language models — including sizes of 8B to 70B parameters.\" This confirms that multiple pre-trained checkpoints (at least the 8-billion, 70-billion, and unspecified intermediate scales) are distributed, and that helper code is bundled so users can load or continue training them. Second, we learn that \"The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192,\" establishing the sequence-length boundary baked into the architecture or tokenizer configuration. Beyond those points, no further methodological specifics (data composition, curriculum, optimization hyperparameters, number of training tokens, hardware setup, etc.) appear in the supplied excerpts, so the pre-training description is effectively limited to model sizes, weight availability, and the 8-k token window requirement.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[py_files/example_chat_completion.py]",
+      "quote": "The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning is acknowledged by the statement that the release \"includes model weights and starting code for ... instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters.\" This indicates that alongside the raw pre-trained checkpoints, a set of instruction-tuned derivatives is provided at the same parameter scales, and that users receive boilerplate code to load or further adapt those checkpoints. However, the quotes do not supply concrete information about the fine-tuning corpus, objective, number of steps, hyperparameters, or evaluation metrics. Thus the only firmly documented facts are (a) the existence of officially released instruction-tuned llama3 models, and (b) their size range (8-70 B) matching the pre-trained counterparts.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "No sentences in the provided material discuss RLHF, DPO, RLAIF, PPO, policy-safety tuning, or any other reinforcement-learning-based post-training approach for llama3. Consequently, the supplied quotes offer no insight into whether such techniques were applied, how they might have been configured, or what data and reward models were used.",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "No information about pre-training data types, quantities, sources, or composition is disclosed in the provided quotes.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "No information about fine-tuning data sources, composition, public availability, or examples is disclosed in the provided quotes.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "No information about reinforcement-learning data composition, accessibility, generation, or sources is disclosed in the provided quotes.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The only filtering details present concern safety-oriented post-processing. The quotes state that additional classifiers can be deployed to screen both model inputs and outputs \"that are deemed unsafe,\" indicating a modular safety filter placed around the model. They also highlight PurpleLlama—described as a \"key component of Llama Stack\"—whose role is to address \"safety risks and inference-time mitigations.\" Together, these remarks show that the Llama 3 stack incorporates runtime safety filters, relying on dedicated classifiers (potentially including PurpleLlama) to block or sanitize content flagged as unsafe during inference.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can also deploy additional classifiers to filter out inputs and outputs that are deemed unsafe."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [PurpleLlama](https://github.com/meta-llama/PurpleLlama) - Key component of Llama Stack focusing on safety risks and inference time mitigations"
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "1-5 (Architecture)": "The documentation for the meta-llama/llama3 family offers several concrete architectural facts. First, the release bundles “model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8 B to 70 B parameters,” explicitly stating that multiple parameter scales (8 billion, …, 70 billion) are supported for both vanilla and instruction-tuned checkpoints. Second, it fixes the usable context length: “The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192,” giving a hard upper bound that downstream configurations must respect. Finally, one hyper-parameter is spelled out directly: “`n_layers: int = 32`,” revealing the Transformer depth for at least one published variant. Taken together, these quotes specify the available model sizes (8 B–70 B), the maximum sequence length (8192 tokens), and one internal structural setting (32 layers), which are the only architecture-level details released for Llama 3 in the provided material.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[py_files/example_chat_completion.py]",
+      "quote": "The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192."
+    },
+    {
+      "source": "[py_files/llama/model.py]",
+      "quote": "n_layers: int = 32"
+    }
+  ],
+  "1-6 (Tokenizer)": "Two statements describe the tokenizer for meta-llama/llama3. Users are told, “To download the model weights and tokenizer, please visit the Meta Llama website,” confirming that the tokenizer is publicly downloadable alongside the checkpoints. A usage example further clarifies the artifact’s location: “`--tokenizer_path Meta-Llama-3-8B-Instruct/tokenizer.model \\`,” identifying a specific file (`tokenizer.model`) housed under the `Meta-Llama-3-8B-Instruct` directory. These quotes jointly indicate that an official tokenizer model file exists, is hosted by Meta, and can be referenced by path for inference or fine-tuning workflows.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To download the model weights and tokenizer, please visit the Meta Llama website"
+    },
+    {
+      "source": "[readme]",
+      "quote": "--tokenizer_path Meta-Llama-3-8B-Instruct/tokenizer.model \\"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

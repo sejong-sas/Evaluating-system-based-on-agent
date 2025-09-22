@@ -1,0 +1,176 @@
+{
+  "1-1 (Weights)": "The documentation repeatedly states that the Llama 3 parameters are downloadable and will be broadly mirrored across many hosting providers.  It announces that “Today, we’re excited to share the first two models of the next generation of Llama, Meta Llama 3, available for broad use,” underscoring immediate public availability.  Users are told to “Visit the Llama 3 website to download the models and reference the Getting Started Guide for the latest list of all available platforms,” and a second, identical sentence gives the direct URL (https://llama.meta.com/llama3).  Looking forward, Meta further promises that “Llama 3 models will soon be available on AWS, Databricks, Google Cloud, Hugging Face, Kaggle, IBM WatsonX, Microsoft Azure, NVIDIA NIM, and Snowflake,” describing a very wide distribution footprint that spans cloud vendors, model hubs, and enterprise AI services.  Together, these statements convey that the weights can already be fetched from the official Llama 3 website and are in the process of being replicated to numerous commercial and research platforms for friction-free access.",
+  "1-2 (Code)": "Several sentences explicitly confirm that training-related source code is being released.  Meta explains that it “co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs,” emphasizing that torchtune includes “memory-efficient and hackable training recipes written entirely in PyTorch.”  In addition, practitioners are directed to “check out Llama Recipes which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation.”  A nearby sentence reiterates that the same repository holds examples covering “everything from fine-tuning to deployment to model evaluation.”  Although the quotes do not enumerate every script, they jointly make clear that Meta is open-sourcing code for training (fine-tuning), evaluation, and large-scale deployment, and that torchtune provides end-to-end, PyTorch-based recipes for reproducing or adapting the Llama 3 training workflow.",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "The only information supplied about publications is prospective.  Meta twice commits that it will release a formal write-up: “We will also publish a detailed research paper once we are done training Llama 3,” and, in parallel, “In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper.”  Therefore, no paper is available yet, but an official research paper dedicated to Llama 3 has been announced and is expected after training completes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 models will soon be available on AWS, Databricks, Google Cloud, Hugging Face, Kaggle, IBM WatsonX, Microsoft Azure, NVIDIA NIM, and Snowflake."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Visit the Llama 3 website to download the models and reference the Getting Started Guide for the latest list of all available platforms."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Today, we’re excited to share the first two models of the next generation of Llama, Meta Llama 3, available for broad use."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Visit the[Llama 3 website](https://llama.meta.com/llama3) to download the models and reference the[Getting Started Guide](https://llama.meta.com/get-started/) for the latest list of all available platforms."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs. torchtune provides memory-efficient and hackable training recipes written entirely in PyTorch."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Deploying Llama 3 at scale Llama 3 will soon be available on all major platforms including cloud providers, model API providers, and much more. For examples of how to leverage all of these capabilities, check out Llama Recipes which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "For examples of how to leverage all of these capabilities, check out [Llama Recipes](https://github.com/meta-llama/llama-recipes) which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We will also publish a detailed research paper once we are done training Llama 3."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We will also publish a detailed research paper once we are done training Llama 3."
+    }
+  ],
+  "1-5 (Architecture)": "According to the provided statements, Llama 3 keeps to “a relatively standard decoder-only transformer architecture,” indicating that its overall structure follows the common single-headed, decoder-only design seen in many contemporary large language models. To raise inference throughput, the project “adopted grouped query attention (GQA) across both the 8B and 70B sizes,” a mechanism that reduces the number of key–value heads each query must attend to. Training was carried out on “sequences of 8,192 tokens,” and the team applied “a mask to ensure self-attention does not cross document boundaries,” so each context window remains document-isolated. In short, Llama 3’s architecture is a decoder-only transformer enhanced with GQA for faster inference, trained at an 8,192-token context length with attention masking to avoid inter-document bleed-through.",
+  "1-6 (Tokenizer)": "The tokenizer for Llama 3 contains “a vocabulary of 128 K tokens.” This larger, more efficient vocabulary “encodes language much more efficiently,” leading to “substantially improved model performance.” Internal benchmarks cited in the material report that the new tokenizer yields “up to 15 % fewer tokens compared to Llama 2,” highlighting a measurable gain in token efficiency that should reduce sequence length and therefore compute cost for comparable inputs.",
+  "2-1 (Hardware)": "Training the largest Llama 3 checkpoints relied on massive multi-GPU clusters and layered parallelism. The team “combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization.” With this configuration they achieved “compute utilization of over 400 TFLOPS per GPU when trained on 16 K GPUs simultaneously.” The scale of the infrastructure is emphasized further: “We performed training runs on two custom-built 24 K GPU clusters.” Although the quotes do not disclose the exact GPU model, they establish the presence of tens of thousands of GPUs organized to reach multi-hundred-TFLOP utilization per device via an advanced mixed parallel training strategy.",
+  "2-2 (Software)": "The training software stack for Llama 3 incorporates several custom and open-source components. An “advanced new training stack” was built to “automate error detection, handling, and maintenance,” explicitly targeting maximal GPU uptime. In parallel, Llama 3 was “co-developed … with torchtune,” described as “the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs.” torchtune itself “provides memory efficient and hackable training recipes written entirely in PyTorch,” supplying turnkey recipes that integrate directly with PyTorch while emphasizing flexibility and memory efficiency.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In line with our design philosophy, we opted for a relatively standard decoder-only transformer architecture in Llama 3."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To improve the inference efficiency of Llama 3 models, we’ve adopted grouped query attention (GQA) across both the 8B and 70B sizes. We trained the models on sequences of 8,192 tokens, using a mask to ensure self-attention does not cross document boundaries."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In line with our design philosophy, we opted for a relatively standard decoder-only transformer architecture in Llama 3."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To improve the inference efficiency of Llama 3 models, we’ve adopted grouped query attention (GQA) across both the 8B and 70B sizes."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens that encodes language much more efficiently, which leads to substantially improved model performance."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Our benchmarks show the tokenizer offers improved token efficiency, yielding up to 15% fewer tokens compared to Llama 2."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 uses a tokenizer with a vocabulary of 128K tokens that encodes language much more efficiently, which leads to substantially improved model performance."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To train our largest Llama 3 models, we combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization. Our most efficient implementation achieves a compute utilization of over 400 TFLOPS per GPU when trained on 16K GPUs simultaneously. We performed training runs on two custom-built 24K GPU clusters."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To train our largest Llama 3 models, we combined three types of parallelization: data parallelization, model parallelization, and pipeline parallelization. Our most efficient implementation achieves a compute utilization of over 400 TFLOPS per GPU when trained on 16K GPUs simultaneously."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To maximize GPU uptime, we developed an advanced new training stack that automates error detection, handling, and maintenance."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "torchtune provides memory efficient and hackable training recipes written entirely in PyTorch."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The model is reported to have been pretrained on a corpus exceeding 15 trillion tokens, all of which were gathered from publicly available sources. Relative to its immediate predecessor, the overall pre-training dataset is said to be seven times larger and to contain four times more code. To prepare for future multilingual use cases, more than 5 % of this corpus consists of high-quality non-English text that spans over thirty different languages.",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "For the reinforcement-learning phase, the developers state that they learned from human preference rankings using both Proximal Policy Optimization (PPO) and Direct Preference Optimization (DPO). This preference-based RL setup is credited with greatly improving the model’s performance on reasoning and coding benchmarks.",
+  "4-4 (Data Filtering)": "Before pre-training, the authors describe a multi-stage data-filtering pipeline designed to maximize quality. The pipeline relies on a combination of heuristic filters, NSFW filters, semantic deduplication techniques, and text-quality classifiers. To build those classifiers, they leveraged outputs generated by Llama 2, which they found to be particularly effective at identifying high-quality data. Collectively, these steps constitute the filtering process that determines what data is finally admitted into the Llama 3 training set.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Llama 3 is pretrained on over 15T tokens that were all collected from publicly available sources."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our training dataset is seven times larger than that used for Llama 2, and it includes four times more code."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To prepare for upcoming multilingual use cases, over 5% of the Llama 3 pretraining dataset consists of high-quality non-English data that covers over 30 languages."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 is pretrained on over 15T tokens that were all collected from publicly available sources. Our training dataset is seven times larger than that used for Llama 2, and it includes four times more code."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To prepare for upcoming multilingual use cases, over 5% of the Llama 3 pretraining dataset consists of high-quality non-English data that covers over 30 languages."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Learning from preference rankings via PPO and DPO also greatly improved the performance of Llama 3 on reasoning and coding tasks."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Learning from preference rankings via PPO and DPO also greatly improved the performance of Llama 3 on reasoning and coding tasks."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Llama 3 is trained on data of the highest quality, we developed a series of data-filtering pipelines. These pipelines include using heuristic filters, NSFW filters, semantic deduplication approaches, and text classifiers to predict data quality."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We found that previous generations of Llama are surprisingly good at identifying high-quality data, hence we used Llama 2 to generate the training data for the text-quality classifiers that are powering Llama 3."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "To ensure Llama 3 is trained on data of the highest quality, we developed a series of data-filtering pipelines. These pipelines include using heuristic filters, NSFW filters, semantic deduplication approaches, and text classifiers to predict data quality."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}

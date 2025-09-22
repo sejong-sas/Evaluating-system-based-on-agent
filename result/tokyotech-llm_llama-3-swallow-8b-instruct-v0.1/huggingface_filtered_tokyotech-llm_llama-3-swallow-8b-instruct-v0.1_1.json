@@ -1,0 +1,46 @@
+{
+  "1-1 (Weights)": "The release information for the tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 weights is given very explicitly. One quote states: \"- **July 1, 2024**: Released the [Llama-3-Swallow-8B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-v0.1), [Llama-3-Swallow-8B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1), [Llama-3-Swallow-70B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-v0.1), and [Llama-3-Swallow-70B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-Instruct-v0.1).\"  This sentence confirms that the 8-B Instruct checkpoint (the target model) was placed online on 1 July 2024 together with the base 8-B, the 70-B, and the 70-B-Instruct variants, and that all of them are hosted on Hugging Face under the tokyotech-llm organization.  A second line gives the exact identifier users must pass to a loader: \"model_name = \\\"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\\\"\".  Taken together, these two quotes show (a) the model is already publicly downloadable, (b) the precise URL on Hugging Face, (c) the concrete release date, and (d) the canonical string a script should use when pulling the weights with an API call such as `AutoModel.from_pretrained()`.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **July 1, 2024**: Released the [Llama-3-Swallow-8B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-v0.1), [Llama-3-Swallow-8B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1), [Llama-3-Swallow-70B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-v0.1), and [Llama-3-Swallow-70B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-Instruct-v0.1)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\""
+    }
+  ],
+  "1-2 (Code)": "Only limited but concrete information about code is provided.  The quote says: \"* **Model type**: Please refer to [Llama 3 MODEL_CARD](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) for details on the model architecture.\" and immediately after, \"* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)\".  From these sentences we learn (1) the authors point readers to the upstream “Llama 3” open-source model card hosted on GitHub for architectural specifics, and (2) they name Megatron-LM as the library actually used.  No explicit sentence states that their own training pipeline or fine-tuning scripts are open-sourced; the wording merely directs users to external, already-public resources.  Therefore, while the underlying framework (Megatron-LM) is open source and the Llama 3 model card is publicly viewable, the quotes do not commit to releasing the *project-specific* pre-training, instruction-tuning, or RLHF code for Llama-3-Swallow-8B-Instruct-v0.1 itself.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Model type**: Please refer to [Llama 3 MODEL_CARD](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) for details on the model architecture.\n* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)"
+    }
+  ],
+  "1-3 (License)": "The repository declares the same licence as Meta’s original Llama 3.  Multiple independent lines confirm this: (1) the YAML/meta field \"license: llama3\"; (2) a section header \"## License\" followed by a direct link \"[META LLAMA 3 COMMUNITY LICENSE](https://llama.meta.com/llama3/license/)\"; (3) an explicit statement inside quotation marks: “Meta Llama 3 is licensed under the Meta Llama 3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”; and (4) a note that a \"LICENSE file\" is present and named \"LICENSE\".  Because no additional rider or exception appears in the provided text, the governing terms are exactly those of the Meta Llama 3 Community License, which imposes restrictions such as prohibitions on using the model to train competing models and requirements to keep the licence with any redistribution.  All usage, modification, or redistribution of Llama-3-Swallow-8B-Instruct-v0.1 is therefore subject to the same non-open-source but source-available licence drafted by Meta.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: llama3"
+    },
+    {
+      "source": "[readme]",
+      "quote": "## License\n\n[META LLAMA 3 COMMUNITY LICENSE](https://llama.meta.com/llama3/license/)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "“Meta Llama 3 is licensed under the Meta Llama 3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The documentation of background material is brief but clear.  The quote states: \"This repository provides large language models developed by [Swallow-LLM](https://swallow-llm.github.io/).\\nRead our [blog post](https://zenn.dev/tokyotech_lm/articles/f65989d76baf2c).\"  There is no formal conference or arXiv paper referenced, but the sentence identifies that the models come from the Swallow-LLM project and offers an official blog post hosted on *zenn.dev* that presumably explains the training recipe and design choices for Llama-3-Swallow-8B-Instruct-v0.1.  Users interested in technical details must therefore consult the Swallow-LLM web site and the linked blog entry for further reading.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository provides large language models developed by [Swallow-LLM](https://swallow-llm.github.io/).\nRead our [blog post](https://zenn.dev/tokyotech_lm/articles/f65989d76baf2c)."
+    }
+  ]
+}

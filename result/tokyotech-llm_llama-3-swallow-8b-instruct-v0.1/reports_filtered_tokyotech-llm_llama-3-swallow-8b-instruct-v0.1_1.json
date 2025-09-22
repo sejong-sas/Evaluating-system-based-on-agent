@@ -1,0 +1,57 @@
+{
+  "1-1 (Weights)": "The documentation repeatedly states that the Llama 3 parameters are downloadable and will be broadly mirrored across many hosting providers.  It announces that “Today, we’re excited to share the first two models of the next generation of Llama, Meta Llama 3, available for broad use,” underscoring immediate public availability.  Users are told to “Visit the Llama 3 website to download the models and reference the Getting Started Guide for the latest list of all available platforms,” and a second, identical sentence gives the direct URL (https://llama.meta.com/llama3).  Looking forward, Meta further promises that “Llama 3 models will soon be available on AWS, Databricks, Google Cloud, Hugging Face, Kaggle, IBM WatsonX, Microsoft Azure, NVIDIA NIM, and Snowflake,” describing a very wide distribution footprint that spans cloud vendors, model hubs, and enterprise AI services.  Together, these statements convey that the weights can already be fetched from the official Llama 3 website and are in the process of being replicated to numerous commercial and research platforms for friction-free access.",
+  "1-2 (Code)": "Several sentences explicitly confirm that training-related source code is being released.  Meta explains that it “co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs,” emphasizing that torchtune includes “memory-efficient and hackable training recipes written entirely in PyTorch.”  In addition, practitioners are directed to “check out Llama Recipes which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation.”  A nearby sentence reiterates that the same repository holds examples covering “everything from fine-tuning to deployment to model evaluation.”  Although the quotes do not enumerate every script, they jointly make clear that Meta is open-sourcing code for training (fine-tuning), evaluation, and large-scale deployment, and that torchtune provides end-to-end, PyTorch-based recipes for reproducing or adapting the Llama 3 training workflow.",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "The only information supplied about publications is prospective.  Meta twice commits that it will release a formal write-up: “We will also publish a detailed research paper once we are done training Llama 3,” and, in parallel, “In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper.”  Therefore, no paper is available yet, but an official research paper dedicated to Llama 3 has been announced and is expected after training completes.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Llama 3 models will soon be available on AWS, Databricks, Google Cloud, Hugging Face, Kaggle, IBM WatsonX, Microsoft Azure, NVIDIA NIM, and Snowflake."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Visit the Llama 3 website to download the models and reference the Getting Started Guide for the latest list of all available platforms."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Today, we’re excited to share the first two models of the next generation of Llama, Meta Llama 3, available for broad use."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Visit the[Llama 3 website](https://llama.meta.com/llama3) to download the models and reference the[Getting Started Guide](https://llama.meta.com/get-started/) for the latest list of all available platforms."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We’ve also co-developed Llama 3 with torchtune, the new PyTorch-native library for easily authoring, fine-tuning, and experimenting with LLMs. torchtune provides memory-efficient and hackable training recipes written entirely in PyTorch."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "Deploying Llama 3 at scale Llama 3 will soon be available on all major platforms including cloud providers, model API providers, and much more. For examples of how to leverage all of these capabilities, check out Llama Recipes which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "For examples of how to leverage all of these capabilities, check out [Llama Recipes](https://github.com/meta-llama/llama-recipes) which contains all of our open source code that can be leveraged for everything from fine-tuning to deployment to model evaluation."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper."
+    },
+    {
+      "source": "[url:https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We will also publish a detailed research paper once we are done training Llama 3."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "In the coming months, we expect to introduce new capabilities, longer context windows, additional model sizes, and enhanced performance, and we’ll share the Llama 3 research paper."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://ai.meta.com/blog/meta-llama-3/]",
+      "quote": "We will also publish a detailed research paper once we are done training Llama 3."
+    }
+  ]
+}

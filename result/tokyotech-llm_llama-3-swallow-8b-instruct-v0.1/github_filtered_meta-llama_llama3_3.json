@@ -1,0 +1,24 @@
+{
+  "2-3 (API)": "The provided material contains no sentences that mention an accessible, callable API, no references to REST, HTTP, WebSocket, or similar endpoints, and no pointers to public documentation, example code, or dashboards that would enable external users to interact with llama3 models as a service. Consequently, there is no evidence—within the supplied quotes—of any officially announced or publicly available API for meta-llama/llama3. All relevant information about API availability, onboarding instructions, or usage quotas is therefore absent.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "Two details are explicitly disclosed. First, the release package \"includes model weights and starting code for pre-trained ... Llama 3 language models — including sizes of 8B to 70B parameters.\" This confirms that multiple pre-trained checkpoints (at least the 8-billion, 70-billion, and unspecified intermediate scales) are distributed, and that helper code is bundled so users can load or continue training them. Second, we learn that \"The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192,\" establishing the sequence-length boundary baked into the architecture or tokenizer configuration. Beyond those points, no further methodological specifics (data composition, curriculum, optimization hyperparameters, number of training tokens, hardware setup, etc.) appear in the supplied excerpts, so the pre-training description is effectively limited to model sizes, weight availability, and the 8-k token window requirement.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    },
+    {
+      "source": "[py_files/example_chat_completion.py]",
+      "quote": "The context window of llama3 models is 8192 tokens, so `max_seq_len` needs to be <= 8192."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning is acknowledged by the statement that the release \"includes model weights and starting code for ... instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters.\" This indicates that alongside the raw pre-trained checkpoints, a set of instruction-tuned derivatives is provided at the same parameter scales, and that users receive boilerplate code to load or further adapt those checkpoints. However, the quotes do not supply concrete information about the fine-tuning corpus, objective, number of steps, hyperparameters, or evaluation metrics. Thus the only firmly documented facts are (a) the existence of officially released instruction-tuned llama3 models, and (b) their size range (8-70 B) matching the pre-trained counterparts.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This release includes model weights and starting code for pre-trained and instruction-tuned Llama 3 language models — including sizes of 8B to 70B parameters."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "No sentences in the provided material discuss RLHF, DPO, RLAIF, PPO, policy-safety tuning, or any other reinforcement-learning-based post-training approach for llama3. Consequently, the supplied quotes offer no insight into whether such techniques were applied, how they might have been configured, or what data and reward models were used.",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

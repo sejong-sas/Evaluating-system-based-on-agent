@@ -1,0 +1,134 @@
+{
+  "1-1 (Weights)": "The release information for the tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 weights is given very explicitly. One quote states: \"- **July 1, 2024**: Released the [Llama-3-Swallow-8B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-v0.1), [Llama-3-Swallow-8B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1), [Llama-3-Swallow-70B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-v0.1), and [Llama-3-Swallow-70B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-Instruct-v0.1).\"  This sentence confirms that the 8-B Instruct checkpoint (the target model) was placed online on 1 July 2024 together with the base 8-B, the 70-B, and the 70-B-Instruct variants, and that all of them are hosted on Hugging Face under the tokyotech-llm organization.  A second line gives the exact identifier users must pass to a loader: \"model_name = \\\"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\\\"\".  Taken together, these two quotes show (a) the model is already publicly downloadable, (b) the precise URL on Hugging Face, (c) the concrete release date, and (d) the canonical string a script should use when pulling the weights with an API call such as `AutoModel.from_pretrained()`.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **July 1, 2024**: Released the [Llama-3-Swallow-8B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-v0.1), [Llama-3-Swallow-8B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1), [Llama-3-Swallow-70B-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-v0.1), and [Llama-3-Swallow-70B-Instruct-v0.1](https://huggingface.co/tokyotech-llm/Llama-3-Swallow-70B-Instruct-v0.1)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\""
+    }
+  ],
+  "1-2 (Code)": "Only limited but concrete information about code is provided.  The quote says: \"* **Model type**: Please refer to [Llama 3 MODEL_CARD](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) for details on the model architecture.\" and immediately after, \"* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)\".  From these sentences we learn (1) the authors point readers to the upstream “Llama 3” open-source model card hosted on GitHub for architectural specifics, and (2) they name Megatron-LM as the library actually used.  No explicit sentence states that their own training pipeline or fine-tuning scripts are open-sourced; the wording merely directs users to external, already-public resources.  Therefore, while the underlying framework (Megatron-LM) is open source and the Llama 3 model card is publicly viewable, the quotes do not commit to releasing the *project-specific* pre-training, instruction-tuning, or RLHF code for Llama-3-Swallow-8B-Instruct-v0.1 itself.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Model type**: Please refer to [Llama 3 MODEL_CARD](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) for details on the model architecture.\n* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)"
+    }
+  ],
+  "1-3 (License)": "The repository declares the same licence as Meta’s original Llama 3.  Multiple independent lines confirm this: (1) the YAML/meta field \"license: llama3\"; (2) a section header \"## License\" followed by a direct link \"[META LLAMA 3 COMMUNITY LICENSE](https://llama.meta.com/llama3/license/)\"; (3) an explicit statement inside quotation marks: “Meta Llama 3 is licensed under the Meta Llama 3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”; and (4) a note that a \"LICENSE file\" is present and named \"LICENSE\".  Because no additional rider or exception appears in the provided text, the governing terms are exactly those of the Meta Llama 3 Community License, which imposes restrictions such as prohibitions on using the model to train competing models and requirements to keep the licence with any redistribution.  All usage, modification, or redistribution of Llama-3-Swallow-8B-Instruct-v0.1 is therefore subject to the same non-open-source but source-available licence drafted by Meta.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: llama3"
+    },
+    {
+      "source": "[readme]",
+      "quote": "## License\n\n[META LLAMA 3 COMMUNITY LICENSE](https://llama.meta.com/llama3/license/)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "“Meta Llama 3 is licensed under the Meta Llama 3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The documentation of background material is brief but clear.  The quote states: \"This repository provides large language models developed by [Swallow-LLM](https://swallow-llm.github.io/).\\nRead our [blog post](https://zenn.dev/tokyotech_lm/articles/f65989d76baf2c).\"  There is no formal conference or arXiv paper referenced, but the sentence identifies that the models come from the Swallow-LLM project and offers an official blog post hosted on *zenn.dev* that presumably explains the training recipe and design choices for Llama-3-Swallow-8B-Instruct-v0.1.  Users interested in technical details must therefore consult the Swallow-LLM web site and the linked blog entry for further reading.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository provides large language models developed by [Swallow-LLM](https://swallow-llm.github.io/).\nRead our [blog post](https://zenn.dev/tokyotech_lm/articles/f65989d76baf2c)."
+    }
+  ],
+  "1-5 (Architecture)": "The available configuration snippets for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 explicitly list the architecture as \"LlamaForCausalLM\" and set \"model_type\" to \"llama\". Within the same block, the model is configured with exactly 32 hidden layers (\"num_hidden_layers\": 32) and 32 attention heads (\"num_attention_heads\": 32). Taken together, these lines confirm that the v0.1, 8-billion-parameter Swallow variant follows the standard Llama causal-language-model design while specifying a 32-layer, 32-head transformer backbone.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"LlamaForCausalLM\"\n  ]"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"llama\",\n  \"num_attention_heads\": 32,\n  \"num_hidden_layers\": 32,"
+    }
+  ],
+  "1-6 (Tokenizer)": "The sole tokenizer-related sentence directs users to “refer to the Llama 3 blog for details on the tokenizer,” indicating that tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 adopts the same tokenizer described in Meta’s official Llama 3 release. No further tokenizer vocabulary size or special-token configuration is provided in the quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Tokenizer**: Please refer to [Llama 3 blog](https://ai.meta.com/blog/meta-llama-3/) for details on the tokenizer."
+    }
+  ],
+  "2-1 (Hardware)": "No statements about the training or inference hardware (e.g., GPU/TPU type, count, or total FLOPs) are present in the supplied quotes for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Two software-related snippets appear. One lists “Megatron-LM” as a key library, implying that the v0.1 Swallow model was trained or at least configured with this large-scale distributed-training framework. The second snippet embeds software metadata in the config itself: it labels the model as type “llama” and records the Hugging Face Transformers version as \"4.40.1\". Together these quotes identify Megatron-LM and Transformers 4.40.1 as core components of the software stack used for the model.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"llama\",\n  \"transformers_version\": \"4.40.1\","
+    }
+  ],
+  "2-3 (API)": "The sole sentence that addresses anything resembling an API interface is the explicit code-style declaration\n\n    model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\"\n\nThis line provides the exact string identifier required to reference the model tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 from an external program. By embedding the full repository path and version tag (\"Llama-3-Swallow-8B-Instruct-v0.1\"), the quotation implicitly confirms that the model is exposed through a programmatic loading mechanism: a user (or script) can set the variable model_name to that value and pass it to the relevant loader or client. Consequently, the only documented API-level detail is the canonical name needed to request or instantiate the model, making it clear that public access hinges on specifying this exact identifier.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\""
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training narrative is captured in the sentence: \"Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data.\"  From this one statement we learn four key points:\n1) The model lineage is firmly rooted in the Llama 3 family, meaning the initial weights started from an existing Llama 3 checkpoint. 2) The process was not a \"from-scratch\" run but a \"continual pre-training\" phase—additional optimization steps layered on top of the baseline. 3) The chief modification to the training corpus was the targeted inclusion of Japanese text, signalling an intentional linguistic expansion to improve Japanese understanding and generation. 4) No further hyper-parameters are divulged, so aspects such as total tokens, learning rate, batch size, or training duration remain unspecified, leaving the continual-training description at a conceptual—rather than numeric—level.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning information is supplied by the combined quotation: \"Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector.\"  The first sentence repeats the pre-training lineage, establishing context, while the second introduces the post-pre-training refinement steps specific to the Instruct release.  The details we can extract are: (a) the approach is explicitly labelled \"supervised fine-tuning (SFT),\" meaning ground-truth pairs were used to guide the model toward instruction-following behaviour; (b) a technique or data source named \"Chat Vector\" accompanies SFT, implying an additional structured representation or augmentation strategy was applied during fine-tuning; (c) only the Instruct variants—the ones bearing \"Instruct\" in the model name (e.g., Llama-3-Swallow-8B-Instruct-v0.1)—undergo this extra SFT+Chat Vector stage.  Beyond that, the quotation gives no concrete numbers (epochs, learning rates, dataset size), so the fine-tuning procedure is characterized qualitatively rather than quantitatively.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "No quotation provided mentions reinforcement learning, RLHF, DPO, PPO, or any related reward-based optimisation. Consequently, there is no available information about reinforcement-learning procedures, hyper-parameters, or objectives for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1.",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "For tokyotech-llm/llama-3-swallow-8b-instruct-v0.1, the only explicit detail given is that “Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data.”  This means the model inherits the entire pre-training corpus of Meta-Llama-3 and then extends it with extra Japanese-language material.  No additional numerical breakdown, specific corpus titles, licences, or token counts are provided in the quoted material.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The instruction-tuned release of tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 relies on supervised fine-tuning (SFT) plus Chat Vector.  The quoted text lists the concrete sources that were fed into this SFT stage:\n• “OpenAssistant Conversations Dataset EN top-1 thread” – an English conversational set.\n• “OpenAssistant Conversations Dataset (llm-jp/oasst1-21k-ja)” – a Japanese split where only the human utterances are kept; the assistant replies are discarded.\n• To fill the discarded replies, new responses were generated with the “Mixtral-8x7B-Instruct-v0.1” model before feeding the pairs into SFT.\nThe quotes give no further statistics (number of examples, tokens, or licensing terms) beyond these dataset names and the note that both SFT and Chat Vector techniques are applied.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the [Llama 3 family](https://huggingface.co/collections/meta-llama/meta-llama-3-66214712577ca38149ebb2b6), primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The following datasets were used for the instruction tuning."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [OpenAssistant Conversations Dataset EN top-1 thread](https://huggingface.co/datasets/OpenAssistant/oasst2)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- [OpenAssistant Conversations Dataset](https://huggingface.co/datasets/llm-jp/oasst1-21k-ja) was used, where human utterances are included but the responses are not used. Instead, the responses were generated using the [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) model."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "No quotation supplied describes any reinforcement-learning or preference-optimization data for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1, so the public materials contain no disclosed information for this item.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The provided quotations include no sentences that mention filtering tools, classifiers, numeric thresholds, or other cleaning criteria for the tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 pipeline.  Consequently, no details on data-quality filtering have been disclosed.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}

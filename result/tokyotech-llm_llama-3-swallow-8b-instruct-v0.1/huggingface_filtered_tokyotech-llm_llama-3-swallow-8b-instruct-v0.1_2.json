@@ -1,0 +1,33 @@
+{
+  "1-5 (Architecture)": "The available configuration snippets for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 explicitly list the architecture as \"LlamaForCausalLM\" and set \"model_type\" to \"llama\". Within the same block, the model is configured with exactly 32 hidden layers (\"num_hidden_layers\": 32) and 32 attention heads (\"num_attention_heads\": 32). Taken together, these lines confirm that the v0.1, 8-billion-parameter Swallow variant follows the standard Llama causal-language-model design while specifying a 32-layer, 32-head transformer backbone.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"LlamaForCausalLM\"\n  ]"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"llama\",\n  \"num_attention_heads\": 32,\n  \"num_hidden_layers\": 32,"
+    }
+  ],
+  "1-6 (Tokenizer)": "The sole tokenizer-related sentence directs users to “refer to the Llama 3 blog for details on the tokenizer,” indicating that tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 adopts the same tokenizer described in Meta’s official Llama 3 release. No further tokenizer vocabulary size or special-token configuration is provided in the quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Tokenizer**: Please refer to [Llama 3 blog](https://ai.meta.com/blog/meta-llama-3/) for details on the tokenizer."
+    }
+  ],
+  "2-1 (Hardware)": "No statements about the training or inference hardware (e.g., GPU/TPU type, count, or total FLOPs) are present in the supplied quotes for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Two software-related snippets appear. One lists “Megatron-LM” as a key library, implying that the v0.1 Swallow model was trained or at least configured with this large-scale distributed-training framework. The second snippet embeds software metadata in the config itself: it labels the model as type “llama” and records the Hugging Face Transformers version as \"4.40.1\". Together these quotes identify Megatron-LM and Transformers 4.40.1 as core components of the software stack used for the model.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Library**: [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"llama\",\n  \"transformers_version\": \"4.40.1\","
+    }
+  ]
+}

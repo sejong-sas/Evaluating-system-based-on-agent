@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "The sole sentence that addresses anything resembling an API interface is the explicit code-style declaration\n\n    model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\"\n\nThis line provides the exact string identifier required to reference the model tokyotech-llm/llama-3-swallow-8b-instruct-v0.1 from an external program. By embedding the full repository path and version tag (\"Llama-3-Swallow-8B-Instruct-v0.1\"), the quotation implicitly confirms that the model is exposed through a programmatic loading mechanism: a user (or script) can set the variable model_name to that value and pass it to the relevant loader or client. Consequently, the only documented API-level detail is the canonical name needed to request or instantiate the model, making it clear that public access hinges on specifying this exact identifier.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model_name = \"tokyotech-llm/Llama-3-Swallow-8B-Instruct-v0.1\""
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training narrative is captured in the sentence: \"Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data.\"  From this one statement we learn four key points:\n1) The model lineage is firmly rooted in the Llama 3 family, meaning the initial weights started from an existing Llama 3 checkpoint. 2) The process was not a \"from-scratch\" run but a \"continual pre-training\" phase—additional optimization steps layered on top of the baseline. 3) The chief modification to the training corpus was the targeted inclusion of Japanese text, signalling an intentional linguistic expansion to improve Japanese understanding and generation. 4) No further hyper-parameters are divulged, so aspects such as total tokens, learning rate, batch size, or training duration remain unspecified, leaving the continual-training description at a conceptual—rather than numeric—level.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning information is supplied by the combined quotation: \"Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector.\"  The first sentence repeats the pre-training lineage, establishing context, while the second introduces the post-pre-training refinement steps specific to the Instruct release.  The details we can extract are: (a) the approach is explicitly labelled \"supervised fine-tuning (SFT),\" meaning ground-truth pairs were used to guide the model toward instruction-following behaviour; (b) a technique or data source named \"Chat Vector\" accompanies SFT, implying an additional structured representation or augmentation strategy was applied during fine-tuning; (c) only the Instruct variants—the ones bearing \"Instruct\" in the model name (e.g., Llama-3-Swallow-8B-Instruct-v0.1)—undergo this extra SFT+Chat Vector stage.  Beyond that, the quotation gives no concrete numbers (epochs, learning rates, dataset size), so the fine-tuning procedure is characterized qualitatively rather than quantitatively.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Our Swallow model has undergone continual pre-training from the Llama 3 family, primarily with the addition of Japanese language data. The Instruct versions use supervised fine-tuning (SFT) and Chat Vector."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "No quotation provided mentions reinforcement learning, RLHF, DPO, PPO, or any related reward-based optimisation. Consequently, there is no available information about reinforcement-learning procedures, hyper-parameters, or objectives for tokyotech-llm/llama-3-swallow-8b-instruct-v0.1.",
+  "3-3 (Reinforcement Learning)__evidence": []
+}
