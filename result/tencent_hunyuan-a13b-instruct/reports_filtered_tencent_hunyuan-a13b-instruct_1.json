@@ -1,0 +1,57 @@
+{
+  "1-1 (Weights)": "The authors state explicitly that \"We release Hunyuan-A13B to the open-source community\" and describe the model as \"an efficient and open-source large language model built upon the MoE architecture.\" The same claim is reiterated when they note that it is being released \"to facilitate efficient, research-driven practical applications\" and highlight that the model \"exhibits superior inference throughput\" for latency-sensitive uses. Although the excerpts do not give a download URL, hosting platform, or access procedure, the wording confirms an intention to publish the full model weights without restriction. A related citation—\"Hunyuan-large: An open-source MoE model with 52 billion activated parameters\"—shows a precedent of open weight release within the Hunyuan family, reinforcing the expectation that Hunyuan-A13B weights are likewise publicly available.",
+  "1-2 (Code)": "None of the supplied sentences declare that Hunyuan-A13B’s training pipeline (data preparation, configuration files, pre-training scripts, fine-tuning or RLHF code) has been released. The only concrete code artefact mentioned is the GitHub repository for \"PenguinScrolls: A user-aligned fine-grained benchmark for long-context language model evaluation\" (URL: https://github.com/Penguin-Scrolls/PenguinScrolls), which pertains to evaluation rather than training. An arXiv preprint describing \"Hunyuan-large\" is branded \"open-source,\" implying some implementation material exists for that sibling model, but no link or repository is provided here. On the basis of the available quotations, we can confirm public availability of an evaluation benchmark but have no evidence that the end-to-end training code for Hunyuan-A13B has been made public.",
+  "1-3 (License)": "The quote set contains no references to a licence name (e.g., Apache-2.0, MIT), no usage clauses such as \"non-commercial\" or \"research only,\" and no statements about redistribution or derivative works. Accordingly, no licensing information for Hunyuan-A13B or its assets can be extracted from the provided material.",
+  "1-4 (Paper)": "Multiple written resources are cited. The cornerstone is the \"2025-06-26 Hunyuan-A13B Technical Report\" issued by the Tencent Hunyuan Team. One sentence notes: \"This paper presents Hunyuan-A13B, an efficient and open-source large language model built upon the MoE architecture,\" indicating that a standalone research paper accompanies the model. In the broader Hunyuan ecosystem, two further arXiv preprints are referenced: \"Hunyuan-turbos\" (arXiv:2505.15431, 2025) and \"Hunyuan-large\" (arXiv:2411.02265, 2024), both of which document related large-scale MoE models from Tencent. Finally, the team publicises an evaluation resource, \"PenguinScrolls\" (2024, GitHub URL supplied), which, while not a model paper, forms part of the official documentation set. Collectively, these documents supply technical details, architectural insights and evaluation methodologies for Hunyuan-A13B and its companion models.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We release Hunyuan-A13B to the open-source community to encourage ongoing advancements in LLMs and to facilitate efficient, research-driven practical applications."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This paper presents Hunyuan-A13B, an efficient and open-source large language model built upon the MoE architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Notably, our model exhibits superior inference throughput, making it particularly suitable for latency-sensitive applications. We release Hunyuan-A13B to the open-source community to encourage ongoing advancements in LLMs and to facilitate efficient, research-driven practical applications."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Xingwu Sun, Yanfeng Chen, Yiqing Huang, Ruobing Xie, Jiaqi Zhu, Kai Zhang, Shuaipeng Li, Zhen Yang,\nJonny Han, Xiaobo Shu, et al. Hunyuan-large: An open-source moe model with 52 billion activated\nparameters by tencent. arXiv preprint arXiv:2411.02265, 2024."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Tencent Hunyuan. PenguinScrolls: A user-aligned fine-grained benchmark for long-context language\nmodel evaluation, 2024. URL https://github.com/Penguin-Scrolls/PenguinScrolls."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Xingwu Sun, Yanfeng Chen, Yiqing Huang, Ruobing Xie, Jiaqi Zhu, Kai Zhang, Shuaipeng Li, Zhen Yang,\nJonny Han, Xiaobo Shu, et al. Hunyuan-large: An open-source moe model with 52 billion activated\nparameters by tencent. arXiv preprint arXiv:2411.02265, 2024."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "2025-06-26 Hunyuan-A13B Technical Report Tencent Hunyuan Team"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This paper presents Hunyuan-A13B, an efficient and open-source large language model built upon the MoE architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Ao Liu, Botong Zhou, Can Xu, Chayse Zhou, ChenChen Zhang, Chengcheng Xu, Chenhao Wang,\nDecheng Wu, Dengpeng Wu, Dian Jiao, et al. Hunyuan-turbos: Advancing large language models\nthrough mamba-transformer synergy and adaptive chain-of-thought. arXiv preprint arXiv:2505.15431,\n2025."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Xingwu Sun, Yanfeng Chen, Yiqing Huang, Ruobing Xie, Jiaqi Zhu, Kai Zhang, Shuaipeng Li, Zhen Yang,\nJonny Han, Xiaobo Shu, et al. Hunyuan-large: An open-source moe model with 52 billion activated\nparameters by tencent. arXiv preprint arXiv:2411.02265, 2024."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Tencent Hunyuan. PenguinScrolls: A user-aligned fine-grained benchmark for long-context language\nmodel evaluation, 2024. URL https://github.com/Penguin-Scrolls/PenguinScrolls."
+    }
+  ]
+}

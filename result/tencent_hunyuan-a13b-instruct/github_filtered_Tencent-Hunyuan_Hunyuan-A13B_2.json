@@ -1,0 +1,69 @@
+{
+  "1-5 (Architecture)": "Multiple repository excerpts explicitly characterise Hunyuan-A13B as “an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture,” establishing that the core design uses expert sparsity. One sentence quantifies the scale: “The newly introduced Hunyuan-A13B model features a total of 80 billion parameters with 13 billion active parameters,” which implies that, at inference time, only a 13 B-parameter subset of the 80 B parameter pool is selected. The code base reinforces this MoE-centric structure through dedicated classes such as “class HunYuanMoEV1ForCausalLM” and a model-specific rotary-embedding implementation (“class HunYuanRotaryEmbedding(nn.Module)”). Architectural hyper-parameters are stored via “HunYuanConfig,” whose docstring states that it “is used to instantiate an HunYuan model according to the specified arguments, defining the model architecture.” Among these arguments is “vocab_size … defaults to 32000,” signalling that the embedding layer is built for a 32 K token vocabulary. Collectively, the quotes depict Hunyuan-A13B as an 80 B parameter, 13 B-active, MoE-based causal language model implemented in bespoke PyTorch classes with rotary positional embeddings and a formal configuration object used to recreate the full architecture.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Welcome to the official repository of **Hunyuan-A13B**, an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The newly introduced Hunyuan-A13B model features a total of 80 billion parameters with 13 billion active parameters."
+    },
+    {
+      "source": "[py_files/models/configuration_hunyuan.py]",
+      "quote": "This is the configuration class to store the configuration of a [`HunYuanModel`]. It is used to instantiate an HunYuan model according to the specified arguments, defining the model architecture."
+    },
+    {
+      "source": "[py_files/models/configuration_hunyuan.py]",
+      "quote": "vocab_size (`int`, *optional*, defaults to 32000): Vocabulary size of the HunYuan model."
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "class HunYuanMoEV1ForCausalLM(HunYuanPreTrainedModel):"
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "class HunYuanRotaryEmbedding(nn.Module):"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "from models.configuration_hunyuan import HunYuanConfig"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "config = HunYuanConfig("
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer support is provided through a dedicated class: “class HYTokenizer(PreTrainedTokenizer): \\\"\\\"\\\"hunyuan tokenizer.\\\"\\\"\\\",” indicating a custom tokenizer subclass of the standard Hugging Face interface. The configuration snippet repeats that the model’s “vocab_size … defaults to 32000,” tying the tokenizer’s vocabulary to 32 K tokens. An additional code fragment shows the tokenizer is built on the tiktoken library: “enc = tiktoken.Encoding( \\n            \\\"HunYuan\\\", … ),” which names the underlying byte-pair-encoding scheme “HunYuan.” These details together show that Hunyuan-A13B employs a purpose-built HYTokenizer with a 32 000-token vocabulary and a tiktoken-based encoding labelled “HunYuan.”",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[py_files/models/configuration_hunyuan.py]",
+      "quote": "vocab_size (`int`, *optional*, defaults to 32000): Vocabulary size of the HunYuan model."
+    },
+    {
+      "source": "[py_files/tokenization_hy.py]",
+      "quote": "class HYTokenizer(PreTrainedTokenizer):\n    \"\"\"hunyuan tokenizer.\"\"\""
+    },
+    {
+      "source": "[py_files/tokenization_hy.py]",
+      "quote": "enc = tiktoken.Encoding(\n            \"HunYuan\","
+    }
+  ],
+  "2-1 (Hardware)": "No training-hardware information is disclosed in the provided quotes.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The repository explicitly notes that “Hunyuan-A13B provides processes related to model training,” and the code header labels it a “PyTorch HunYuan model,” confirming PyTorch as the primary machine-learning framework for training. Import lines such as “from models.modeling_hunyuan import HunYuanMoEV1ForCausalLM, HunYuanMoE” further show that the model’s MoE implementation is handled through custom PyTorch modules located within the same repository. Although no explicit version numbers or distributed-training libraries are named, the quotes collectively establish that the training software stack for Hunyuan-A13B is built around PyTorch with in-house Python modules that implement the MoE architecture and training routines.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Hunyuan-A13B provides processes related to model training."
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "\"\"\" PyTorch HunYuan model.\"\"\""
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "from models.modeling_hunyuan import HunYuanMoEV1ForCausalLM, HunYuanMoE"
+    }
+  ]
+}

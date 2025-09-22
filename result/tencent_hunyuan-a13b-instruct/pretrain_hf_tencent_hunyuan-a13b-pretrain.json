@@ -1,0 +1,10 @@
+{
+  "pretrain_method": "Welcome to the official repository of Hunyuan-A13B, an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture.",
+  "pretrain_data": "No information",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "Welcome to the official repository of **Hunyuan-A13B**, an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture."
+    }
+  ]
+}

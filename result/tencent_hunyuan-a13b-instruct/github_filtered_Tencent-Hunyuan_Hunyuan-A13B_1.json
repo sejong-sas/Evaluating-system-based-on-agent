@@ -1,0 +1,106 @@
+{
+  "1-1 (Weights)": "The project states that its model weights are publicly released and downloadable. A dated bullet point says “2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face.”  This makes clear that both the base pre-training checkpoint and several instruction-tuned or compressed variants (FP8 and GPTQ-Int4) are available.  A separate hyperlink “<a href=\"https://huggingface.co/tencent/Hunyuan-A13B-Instruct\"><b>Hugging Face</b></a>” indicates that the official hosting location is the Tencent organization page on Hugging Face.  Another sentence confirms direct, unauthenticated download of a quantized version: “You can also directly download our quantization completed open source model to use [Hunyuan-A13B-Instruct-FP8](https://huggingface.co/tencent/Hunyuan-A13B-Instruct-FP8).”  Therefore anyone can fetch full-precision and multiple quantized weights (FP8 and 4-bit GPTQ) from Hugging Face as of 27 June 2025, without mention of paywalls or request forms.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* 2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face."
+    },
+    {
+      "source": "[readme]",
+      "quote": "<a href=\"https://huggingface.co/tencent/Hunyuan-A13B-Instruct\"><b>Hugging Face</b></a>"
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can also directly download our quantization completed open source model to use [Hunyuan-A13B-Instruct-FP8](https://huggingface.co/tencent/Hunyuan-A13B-Instruct-FP8)."
+    }
+  ],
+  "1-2 (Code)": "Training-related source code is explicitly provided.  One line says “Hunyuan-A13B provides processes related to model training. Please refer to [Training](train/README.md) for model training purposes.”  This shows that scripts, configs, or instructions for running the training pipeline (not just inference) are present in the repository.  Internally, modular Python files are referenced: the repository contains “models.modeling_hunyuan” with classes “HunYuanMoEV1ForCausalLM, HunYuanMoE”, and a config class in “models.configuration_hunyuan” (“HunYuanConfig”).  The snippets “\"\"\" PyTorch HunYuan model.\"\"\"” (appearing twice) and “\"\"\"hunyuan tokenizer.\"\"\"” confirm that both model architecture and tokenizer implementations are in PyTorch.  A configuration constant shows “model_type='hunyuan',” indicating that the code registers a custom model type with the Transformers ecosystem.  Together these quotes demonstrate that end-to-end training components—configuration objects, model/optimizer definitions, tokenizer, and a dedicated Training README—are public, going beyond inference-only wrappers.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Hunyuan-A13B provides processes related to model training. Please refer to [Training](train/README.md) for model training purposes."
+    },
+    {
+      "source": "[py_files/models/configuration_hunyuan.py]",
+      "quote": "This is the configuration class to store the configuration of a [`HunYuanModel`]. It is used to instantiate an HunYuan model according to the specified arguments, defining the model architecture."
+    },
+    {
+      "source": "[py_files/models/hunyuan.py]",
+      "quote": "\"\"\" PyTorch HunYuan model.\"\"\""
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "\"\"\" PyTorch HunYuan model.\"\"\""
+    },
+    {
+      "source": "[py_files/tokenization_hy.py]",
+      "quote": "\"\"\"hunyuan tokenizer.\"\"\""
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "from models.modeling_hunyuan import HunYuanMoEV1ForCausalLM, HunYuanMoE"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "from models.configuration_hunyuan import HunYuanConfig"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "model_type='hunyuan',"
+    }
+  ],
+  "1-3 (License)": "The repository is primarily distributed under the “TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT.”  The header records the specific edition: “Tencent Hunyuan A13B Release Date: June 27, 2025.”  The grant of rights is spelled out: “We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license … to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy.”  Geographic restrictions follow: “You must not use, reproduce, modify, distribute, or display the Tencent Hunyuan Works, Output or results of the Tencent Hunyuan Works outside the Territory.”  Additional volume-based gating is specified: “If, on the Tencent Hunyuan version release date, the monthly active users of all products or services made available by or for Licensee is greater than 100 million monthly active users in the preceding calendar month, You must request a license from Tencent.”  Source files embed the notice “# Licensed under the TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT (the \"License\");” and provide the download link “#     https://github.com/Tencent/Tencent-Hunyuan-Large/blob/main/License.docx”.  Some individual files also carry the standard permissive header “# Licensed under the Apache License, Version 2.0 (the \"License\");  #     http://www.apache.org/licenses/LICENSE-2.0”, implying that certain components (likely code utilities) are dual-licensed or separately licensed under Apache-2.0 while the model weights and other ‘Materials’ remain under the Tencent Hunyuan Community License.  Consequently:  (a) use and modification are allowed only within the stated Territory and AUP; (b) redistribution and derivative works are permitted but subject to the same agreement; (c) very high-scale deployments (>100 M MAU) need a separate Tencent license; and (d) no explicit blanket ban on commercial use is present, but usage outside the Territory or exceeding the user-count threshold is restricted.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Tencent Hunyuan A13B Release Date: June 27, 2025"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license under Tencent’s intellectual property or other rights owned by Us embodied in or utilized by the Materials to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "You must not use, reproduce, modify, distribute, or display the Tencent Hunyuan Works, Output or results of the Tencent Hunyuan Works outside the Territory."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "If, on the Tencent Hunyuan version release date, the monthly active users of all products or services made available by or for Licensee is greater than 100 million monthly active users in the preceding calendar month, You must request a license from Tencent"
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "# Licensed under the TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT (the \"License\");"
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "# You may obtain a copy of the License at"
+    },
+    {
+      "source": "[py_files/models/modeling_hunyuan.py]",
+      "quote": "#     https://github.com/Tencent/Tencent-Hunyuan-Large/blob/main/License.docx"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "1-4 (Paper)": "The official technical documentation is provided as a PDF: “<a href=\"report/Hunyuan_A13B_Technical_Report.pdf\"><b>Technical Report</b> </a>” (mirrored as “report/Hunyuan_A13B_Technical_Report.pdf”).  This is the authoritative paper/report for the Hunyuan-A13B family.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "<a href=\"report/Hunyuan_A13B_Technical_Report.pdf\"><b>Technical Report</b> </a>"
+    },
+    {
+      "source": "[files]",
+      "quote": "report/Hunyuan_A13B_Technical_Report.pdf"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "The only explicit information about an end-user or developer-facing API for tencent/hunyuan-a13b-instruct appears in a single Docker-based launch example. The sentence shows that an OpenAI-compatible HTTP server can be stood up through the vLLM runtime by running a container image named “hunyuaninfer/hunyuan-infer-vllm-cuda12.4:v1”. The command passes the entry-point “python3 -m vllm.entrypoints.openai.api_server”, binds the server to 0.0.0.0, exposes it on port 8000, and enables 4-way tensor parallelism via “--tensor-parallel-size 4”. The model identifier fed to vLLM is exactly “tencent/Hunyuan-A13B-Instruct”, and the switch “--trust_remote_code” indicates that the implementation relies on the remote Hugging Face repository. The container is granted full GPU access (“--gpus=all”) and host networking (“--net=host”), with the seccomp profile disabled to avoid sandbox restrictions. A cache volume from the host’s ~/.cache directory is mounted into /root/.cache inside the container. Taken together, the quote confirms that tencent/hunyuan-a13b-instruct can be served through an OpenAI-style REST API using vLLM, that the maintainers provide an official CUDA 12.4 image, and that multi-GPU tensor parallelism is expected.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "docker run --rm  --ipc=host \\\n        -v ~/.cache:/root/.cache/ \\\n        --security-opt seccomp=unconfined \\\n        --net=host \\\n        --gpus=all \\\n        -it \\\n        --entrypoint python3 hunyuaninfer/hunyuan-infer-vllm-cuda12.4:v1 \\\n        -m vllm.entrypoints.openai.api_server \\\n        --host 0.0.0.0 \\\n        --tensor-parallel-size 4 \\\n        --port 8000 \\\n        --model tencent/Hunyuan-A13B-Instruct  \\\n        --trust_remote_code"
+    }
+  ],
+  "3-1 (Pre-training)": "One sentence provides the entirety of public pre-training details. It states that on “2025.6.27” Tencent released a family of checkpoints on Hugging Face: “Hunyuan-A13B-Pretrain”, “Hunyuan-A13B-Instruct”, “Hunyuan-A13B-Instruct-FP8”, and “Hunyuan-A13B-Instruct-GPTQ-Int4”. While no hyperparameters, corpus descriptions, or training procedures are enumerated, the quote does establish that there is a dedicated pre-training checkpoint (“Hunyuan-A13B-Pretrain”) separate from instruction-tuned variants. Furthermore, multiple precision formats (full precision, FP8, and GPTQ 4-bit quantization) are available, implying that the base pre-training run was completed early enough to derive these post-processed artifacts. The open-sourcing date also anchors the release timeline of the pre-trained backbone relative to the instruction-tuned model.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning information is conveyed through a legal definition extracted from Tencent’s license. The clause clarifies that “Tencent Hunyuan” encompasses all large language models and associated software, explicitly including fine-tuning-enabling code. It further cites “Tencent Hunyuan A13B released at https://github.com/Tencent-Hunyuan/Hunyuan-A13B” as part of that family. While procedural details are absent, the wording confirms (1) that fine-tuning support code is publicly distributed, (2) that the tencent/hunyuan-a13b-instruct weights belong to the licensable Hunyuan suite, and (3) that users are permitted to obtain and run fine-tuning pipelines hosted in the referenced GitHub repository.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[license_file]",
+      "quote": "j. “Tencent Hunyuan” shall mean the large language models, text/image/video/audio/3D generation models, and multimodal large language models and their software and algorithms, including trained model weights, parameters (including optimizer states), machine-learning model code, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing made publicly available by Us, including, without limitation to, Tencent Hunyuan A13B released at [https://github.com/Tencent-Hunyuan/Hunyuan-A13B]."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

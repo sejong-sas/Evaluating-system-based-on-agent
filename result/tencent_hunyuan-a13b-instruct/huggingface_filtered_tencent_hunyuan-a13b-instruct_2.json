@@ -1,0 +1,74 @@
+{
+  "1-5 (Architecture)": "The official repository describes \"Hunyuan-A13B\" as \"an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture.\"  It is further detailed that \"the newly introduced Hunyuan-A13B model features a total of 80 billion parameters with 13 billion active parameters,\" and that \"with only 13 billion active parameters (out of a total of 80 billion), the model delivers competitive performance on a wide range of benchmark tasks, rivaling much larger models.\"  For sequence processing it is stated that \"the Hunyuan A13B model supports a maximum context length of 256K tokens (262,144 tokens).\"  The code comments add that this is \"the bare HunYuan Model outputting raw hidden-states without any specific head on top,\" realized as a \"Transformer decoder consisting of *config.num_hidden_layers* layers. Each layer is a [`HunYuanDecoderLayer`].\"",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Welcome to the official repository of **Hunyuan-A13B**, an innovative and open-source large language model (LLM) built on a fine-grained Mixture-of-Experts (MoE) architecture."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The newly introduced Hunyuan-A13B model features a total of 80 billion parameters with 13 billion active parameters."
+    },
+    {
+      "source": "[readme]",
+      "quote": "With only 13 billion active parameters (out of a total of 80 billion), the model delivers competitive performance on a wide range of benchmark tasks, rivaling much larger models."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The Hunyuan A13B model supports a maximum context length of **256K tokens (262,144 tokens)**."
+    },
+    {
+      "source": "[py_files/modeling_hunyuan.py]",
+      "quote": "The bare HunYuan Model outputting raw hidden-states without any specific head on top."
+    },
+    {
+      "source": "[py_files/modeling_hunyuan.py]",
+      "quote": "Transformer decoder consisting of *config.num_hidden_layers* layers. Each layer is a [`HunYuanDecoderLayer`]"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer configuration snippets specify a \"vocab_size\": 128 167 together with token identifiers \"bos_token_id\": 1, \"eos_token_id\": 127 960, and \"pad_token_id\": 127 961.  The positional capacity on the tokenizer side is indicated by \"max_position_embeddings\": 32 768.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 128167,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 1,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 127960,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"pad_token_id\": 127961,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 32768,"
+    }
+  ],
+  "2-1 (Hardware)": "For 256 K-context deployment, the documentation recommends systems \"equipped with NVIDIA H20 GPUs (96 GB VRAM).\"",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The following configuration is recommended for deploying the model with 256K context length support on systems equipped with **NVIDIA H20 GPUs (96GB VRAM)**:"
+    }
+  ],
+  "2-2 (Software)": "The maintainers supply containerized runtimes: \"We provide a pre-built Docker image based on the latest version of TensorRT-LLM,\" obtainable via the command \"docker pull hunyuaninfer/hunyuan-a13b:hunyuan-moe-A13B-trtllm.\"  They also note, \"We provide a pre-built Docker image containing vLLM 0.8.5 with full support for this model.\"",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We provide a pre-built Docker image based on the latest version of TensorRT-LLM."
+    },
+    {
+      "source": "[readme]",
+      "quote": "docker pull hunyuaninfer/hunyuan-a13b:hunyuan-moe-A13B-trtllm"
+    },
+    {
+      "source": "[readme]",
+      "quote": "We provide a pre-built Docker image containing vLLM 0.8.5 with full support for this model."
+    }
+  ]
+}

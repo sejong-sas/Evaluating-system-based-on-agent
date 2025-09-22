@@ -1,0 +1,70 @@
+{
+  "4-1 (Pre-training Data)": "According to the provided statements, the pre-training of Hunyuan-A13B relies on a very large, carefully screened corpus. Two separate descriptions fix the overall scale at “more than 20 T tokens” (sometimes rounded to “20 T”); this figure represents the total volume of raw text that survived all upstream filtering steps before the model’s initial training began. Within that overall pool, STEM (science, technology, engineering, mathematics) material received special emphasis. The team explicitly “enhance[d] the STEM data acquisition and cleaning processes,” and—after the full pipeline of deduplication, denoising, topic labeling and semantic‐level checks—“successfully extract[ed] 250 billion tokens of high-quality STEM pre-training corpus,” which were then folded into the larger 20 T-token mix. Although the individual data sources are not enumerated, the repeated references to a “high-quality dataset,” “plain-text extraction,” and reuse of the Hunyuan-TurboS curation pipeline imply heterogeneous web-scale text, segmented, labeled, and quality-screened by automated modules. No restrictive licensing or usage limits are mentioned, suggesting the data is either public-domain or under terms that allow research and commercial use once it passes the internal quality gates. Overall, the composition can be summarized as: (1) a general-domain portion comprising the bulk of the >20 T tokens, already deduplicated and denoised; and (2) a strategically enlarged, 250 B-token STEM subset, curated for factual rigor and reasoning coverage, all of which is finally merged into the training mixture that seeds the Hunyuan-A13B weights.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning for Hunyuan-A13B is carried out in a “structured, multi-stage” post-training pipeline that starts with supervised fine-tuning (SFT) and is later augmented by reinforcement learning. During the SFT phase, the authors gathered “high-quality, long-CoT” (chain-of-thought) datasets explicitly aimed at strengthening step-by-step logic and complex reasoning. The supervision set therefore appears to be dominated by reasoning-oriented question-answer pairs or task-specific demonstrations where extended rationale chains are provided as targets. No numeric token count is disclosed for this stage, but the phrasing “high-quality” and “long-CoT” signal that the examples are carefully filtered for correctness and explanatory depth rather than raw volume. The data is framed as proprietary or internally collected (the quotes do not indicate a public release), and it is processed in successive sub-phases so that the model first learns from supervised demonstrations and later transitions to other optimization regimes. In total, the fine-tuning data serves to “significantly boost the model’s logic and complex reasoning performance,” aligning Hunyuan-A13B with specialized reasoning benchmarks while keeping the vocabulary and style inherited from the much larger pre-training mix.",
+  "4-3 (Reinforcement Learning Data)": "After supervised fine-tuning, the team performs “large-scale reinforcement learning” intended to “systematically enhance reasoning capabilities through iterative optimization.” Although the exact sources and formats of RL data are not itemized, the wording indicates that feedback-based data—likely in the form of synthetic dialogues, preference pairs, or reward signals generated from model interactions—forms the backbone of this phase. Because the RL step directly follows the SFT stage inside the same “post-training” umbrella, we can infer that the initial prompts are either sampled from, or stylistically consistent with, the supervised fine-tuning corpora. The phrase “high-quality data” is used again here, emphasizing that the prompts, responses, and reward signals were screened to maintain factuality and transparency. The overarching goal is to refine Hunyuan-A13B’s reasoning depth, flexibility, and response safety through repeated policy-gradient or similar reinforcement loops, thereby “comprehensively enhancing the model’s performance in all dimensions.”",
+  "4-4 (Data Filtering)": "Data filtering for Hunyuan-A13B is described as both rigorous and multi-layered, inheriting and then improving on the three-module pipeline originally published for Hunyuan-TurboS. The pipeline operates in three primary stages: (1) a Data-Preprocessing module that performs automatic deduplication, low-quality filtering, denoising, and topic labeling; (2) a Model-Based Extraction module that extracts plain text from the preprocessed material, presumably discarding non-text or malformed segments; and (3) a Post-Processing module that repeats low-quality filtering and adds \"semantic-level deduplication\" to remove near-duplicate passages with different surface forms. For Hunyuan-A13B specifically, the developers “optimize the sub-modules within this pipeline,” placing extra focus on STEM-related acquisition and cleaning so that the resulting corpus is more reliable on science and mathematics topics. The end product is a “rigorously filtered 20 T token corpus,” within which 250 B tokens constitute a specialized, high-quality STEM subset. Although the quotes do not list numerical thresholds such as perplexity cut-offs or Jaccard distances, the explicit mention of deduplication passes, low-quality screens, denoising routines, topic labeling, and semantic-level checks makes clear that data is admitted only after passing multiple automated gates at different stages of the pipeline. This multi-stage filtration is credited with “significantly improv[ing] factual reliability and reasoning abilities,” tying the cleanliness of the corpus directly to the observed performance benefits.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, Hunyuan-A13B is pretrained on a rigorously filtered 20T token corpus with enhanced STEM-focused data curation, which significantly improves its factual reliability and reasoning abilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the pre-training stage, we first train Hunyuan-A13B on high-quality dataset consisting of more than 20T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As a result, we successfully extract 250 billion tokens of high-quality STEM pre-training corpus, which is incorporated into the training of Hunyuan-A13B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the pre-training data processing of Hunyuan-A13B, we optimize the sub-modules within this pipeline. Specifically, we enhance the STEM data acquisition and cleaning processes, significantly improving the quality of STEM-related data. As a result, we successfully extract 250 billion tokens of high-quality STEM pre-training corpus, which is incorporated into the training of Hunyuan-A13B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We reuse the data curation pipeline of Hunyuan-TurboS (Liu et al., 2025), which consists of the following modules to obtain high-quality pre-training corpus: (1) Data preprocessing module, which completes data deduplication, low-quality filtering, data denoising and data topic labeling. (2) Model-based extraction module, extracting plain text from data processed by previous modules. (3) Post-processing module, which performs low-quality filtering and semantic level deduplication on the extracted corpus."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B shows superior performance when compared to other representative MoE or Dense model with comparable or larger activated or total parameter sizes. The post-training procedure involved a structured, multi-stage approach. Initially, we conducted supervised fine-tuning focused on reasoning tasks, followed by targeted RL optimization to further enhance reasoning capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B incorporates several innovative elements that collectively enhance its reasoning performance, flexibility, and inference efficiency. Second, we collected and utilized high-quality, long-CoT SFT data to significantly boost the model’s logic and complex reasoning performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the post-training stage, Hunyuan-A13B utilizes high-quality data for supervised fine-tuning (SFT) and large-scale reinforcement learning, comprehensively enhancing the model’s performance in all dimensions."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B incorporates several innovative elements that collectively enhance its reasoning performance, flexibility, and inference efficiency. Subsequently, we conducted large-scale reinforcement learning (RL), systematically enhancing reasoning capabilities through iterative optimization."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the post-training stage, Hunyuan-A13B utilizes high-quality data for supervised fine-tuning (SFT) and large-scale reinforcement learning, comprehensively enhancing the model’s performance in all dimensions."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, Hunyuan-A13B is pretrained on a rigorously filtered 20T token corpus with enhanced STEM-focused data curation, which significantly improves its factual reliability and reasoning abilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We reuse the data curation pipeline of Hunyuan-TurboS (Liu et al., 2025), which consists of the following modules to obtain high-quality pre-training corpus: (1) Data preprocessing module, which completes data deduplication, low-quality filtering, data denoising and data topic labeling. (2) Model-based extraction module, extracting plain text from data processed by previous modules. (3) Post-processing module, which performs low-quality filtering and semantic level deduplication on the extracted corpus. For the pre-training data processing of Hunyuan-A13B, we optimize the sub-modules within this pipeline."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We reuse the data curation pipeline of Hunyuan-TurboS (Liu et al., 2025), which consists of the following modules to obtain high-quality pre-training corpus: (1) Data preprocessing module, which completes data deduplication, low-quality filtering, data denoising and data topic labeling. (2) Model-based extraction module, extracting plain text from data processed by previous modules. (3) Post-processing module, which performs low-quality filtering and semantic level deduplication on the extracted corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the pre-training data processing of Hunyuan-A13B, we optimize the sub-modules within this pipeline. Specifically, we enhance the STEM data acquisition and cleaning processes, significantly improving the quality of STEM-related data."
+    }
+  ]
+}

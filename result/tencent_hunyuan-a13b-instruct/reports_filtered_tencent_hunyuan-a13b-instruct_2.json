@@ -1,0 +1,53 @@
+{
+  "1-5 (Architecture)": "According to the provided descriptions, Hunyuan-A13B is an open-source large language model that “employs a Mixture-of-Experts (MoE) architecture that optimizes the trade-off between computational efficiency and model performance.”  Concretely, it is “designed with a Sparse Mixture-of-Experts architecture comprising 80 billion total parameters, yet activating only 13 billion parameters per input.”  The implementation is “fine-grained”: it contains “1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension.”  During training, “the shared expert remains perpetually active, while only 8 non-shared experts are activated simultaneously,” yielding “13 billion active parameters within a total parameter count of 80 billion.”  Beyond the MoE layout, the model “incorporates Grouped-Query Attention (GQA … 2023) in its attention layers to enhance KV Cache memory efficiency.”  (For context on the broader family, the citation list also references “Hunyuan-large … with 52 billion activated parameters” and “Hunyuan-turbos …,” but no additional architectural numbers are given for A13B.)",
+  "1-6 (Tokenizer)": "The tokenizer that ships with Hunyuan-A13B is explicitly stated to be “the same as Hunyuan-Large … with a vocabulary size of 128 K.”  No further structural or availability details are provided in the quoted material.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "For training, the authors state: “In the pre-training stage, we first train Hunyuan-A13B on a high-quality dataset consisting of more than 20 T tokens. Subsequently, we process a fast annealing stage to enhance its overall performance and a long-context stage to scale the model’s context window to 256 K.”  The quotes do not mention the underlying ML framework, optimizer, distributed-training libraries, or any other software components beyond these three curriculum phases.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B is designed with a Sparse Mixture-of-Experts architecture comprising 80 billion total parameters, yet activating only 13 billion parameters per input."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The Hunyuan-A13B model employs a fine-grained MoE architecture (Dai et al., 2024). Specifically, it consists of 1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/Tencent-Hunyuan/Hunyuan-A13B/main/report/Hunyuan_A13B_Technical_Report.pdf]",
+      "quote": "We present Hunyuan-A13B, an open-source large language model employing a Mixture-of-Experts (MoE) architecture that optimizes the trade-off between computational efficiency and model performance."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/Tencent-Hunyuan/Hunyuan-A13B/main/report/Hunyuan_A13B_Technical_Report.pdf]",
+      "quote": "The Hunyuan-A13B model employs a fine-grained MoE architecture (Dai et al., 2024). Specifically, it consists of 1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension. During the training stage, the shared expert remains perpetually active, while only 8 non-shared experts are activated simultaneously. The model features 13 billion active parameters within a total parameter count of 80 billion."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/Tencent-Hunyuan/Hunyuan-A13B/main/report/Hunyuan_A13B_Technical_Report.pdf]",
+      "quote": "Hunyuan-A13B incorporates Grouped-Query Attention (GQA, Ainslie et al., 2023) in its attention layers to enhance KV Cache memory efficiency."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Xingwu Sun, Yanfeng Chen, Yiqing Huang, Ruobing Xie, Jiaqi Zhu, Kai Zhang, Shuaipeng Li, Zhen Yang, Jonny Han, Xiaobo Shu, et al. Hunyuan-large: An open-source moe model with 52 billion activated parameters by tencent. arXiv preprint arXiv:2411.02265, 2024."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Ao Liu, Botong Zhou, Can Xu, Chayse Zhou, ChenChen Zhang, Chengcheng Xu, Chenhao Wang, Decheng Wu, Dengpeng Wu, Dian Jiao, et al. Hunyuan-turbos: Advancing large language models through mamba-transformer synergy and adaptive chain-of-thought. arXiv preprint arXiv:2505.15431, 2025."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The tokenizer of Hunyuan-A13B is the same as Hunyuan-Large (Sun et al., 2024), with a vocabulary size of 128K."
+    },
+    {
+      "source": "[sections/https://raw.githubusercontent.com/Tencent-Hunyuan/Hunyuan-A13B/main/report/Hunyuan_A13B_Technical_Report.pdf]",
+      "quote": "The tokenizer of Hunyuan-A13B is the same as Hunyuan-Large (Sun et al., 2024), with a vocabulary size of 128K."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://raw.githubusercontent.com/Tencent-Hunyuan/Hunyuan-A13B/main/report/Hunyuan_A13B_Technical_Report.pdf]",
+      "quote": "In the pre-training stage, we first train Hunyuan-A13B on a high-quality dataset consisting of more than 20T tokens. Subsequently, we process a fast annealing stage to enhance its overall performance and a long-context stage to scale the model’s context window to 256K."
+    }
+  ]
+}

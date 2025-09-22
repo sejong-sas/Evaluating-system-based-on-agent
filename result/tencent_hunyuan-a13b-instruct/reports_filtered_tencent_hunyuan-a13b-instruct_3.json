@@ -1,0 +1,66 @@
+{
+  "2-3 (API)": "The material explicitly states that Hunyuan-A13B has been released to the open-source community, which signals that the model weights, code, or both are publicly accessible rather than restricted to an internal research preview. Although the excerpts do not describe a cloud-hosted REST or chat API in the style of GPT or Gemini, they do clarify how the model can be programmatically consumed: Hunyuan-A13B \"integrates seamlessly with mainstream open-source inference frameworks, including vLLM, SGLang, and TensorRT-LLM.\" These tool names imply that users can load the checkpoint in those libraries and expose their own endpoints or pipelines with \"straightforward one-click deployment for W16A16 precision inference.\" Hence, developers gain practical, code-level access through widely adopted inference stacks rather than a proprietary HTTP interface. The public release combined with plug-and-play compatibility effectively constitutes an accessible, community-oriented API surface, supported by documentation and examples native to vLLM, SGLang, and TensorRT-LLM ecosystems.",
+  "3-1 (Pre-training)": "Pre-training for Hunyuan-A13B follows a large-scale, multi-phase regimen. The authors state that they \"first train Hunyuan-A13B on [a] high-quality dataset consisting of more than 20T tokens,\" indicating an enormous corpus size well above the common trillion-token scale. They further break the process into \"three sequential stages,\" of which the \"Foundation Training Stage\" alone processes \"a total of 20T tokens.\" The engineering backbone is a \"fine-grained MoE architecture\" containing \"1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension.\" This configuration, together with GQA (mentioned elsewhere for inference), underpins efficient scaling while preserving capacity. Domain-specific augmentation is highlighted by the extraction of \"250 billion tokens of high-quality STEM pre-training corpus\" that is folded into the broader training mix. Although the citation list also references related Hunyuan variants such as \"Hunyuan-turbos\" (arXiv:2505.15431) and \"Hunyuan-large\" (arXiv:2411.02265), the quotes focus on the A13B model’s own data volume, staged curriculum, and MoE topology, giving a concrete picture of its pre-training methodology and hyper-scale data pipeline.",
+  "3-2 (Fine-tuning)": "After pre-training, the team executes a \"structured, multi-stage\" post-training pipeline. The first step is \"supervised fine-tuning (SFT)\" that leverages \"high-quality data\" and concentrates specifically on \"reasoning tasks,\" suggesting curated instruction or task-oriented datasets. This supervised pass aligns the model with downstream expectations before any reinforcement learning is applied. The approach is expressly comparative: it demonstrates that Hunyuan-A13B \"shows superior performance when compared to other representative MoE or Dense model[s]\" of similar or larger scale, implying that the fine-tuning regimen materially boosts real-world metrics. The authors indicate that these SFT efforts are part of a larger post-training suite that ultimately \"comprehensively [enhances] the model’s performance in all dimensions,\" laying the groundwork for the subsequent RL stage.",
+  "3-3 (Reinforcement Learning)": "Reinforcement learning forms the second pillar of the post-training workflow. Following SFT, the team embarks on \"large-scale reinforcement learning (RL), systematically enhancing reasoning capabilities through iterative optimization.\" They describe this as \"targeted RL optimization\" that is explicitly designed to \"enhance reasoning capabilities,\" implying task-reward shaping or preference-based fine-tuning that iteratively refines the model. The text underscores that RL is not a token afterthought but \"comprehensively [enhances] the model’s performance in all dimensions,\" integrating with earlier SFT to form a unified post-training regime. Although hyperparameters, reward models, or algorithmic variants (e.g., PPO, DPO) are not enumerated in the snippets, the repeated emphasis on \"large-scale\" and \"iterative optimization\" conveys that the RLHF-style phase is extensive and central to elevating Hunyuan-A13B’s final reasoning proficiency.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We release Hunyuan-A13B to the open-source community to encourage ongoing advancements in LLMs and to facilitate efficient, research-driven practical applications."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B employs GQA and MoE architectures to markedly enhance reasoning efficiency without sacrificing model performance. It integrates seamlessly with mainstream open-source inference frameworks, including vLLM, SGLang, and TensorRT-LLM, enabling straightforward one-click deployment for W16A16 precision inference."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In the pre-training stage, we first train Hunyuan-A13B on high-quality dataset consisting of more than 20T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training process of Hunyuan-A13B consisted of three sequential stages. Foundation Training Stage: This stage processed a total of 20T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B employs a fine-grained MoE architecture (Dai et al., 2024). Specifically, it consists of 1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We successfully extract 250 billion tokens of high-quality STEM pre-training corpus, which is incorporated into the training of Hunyuan-A13B."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The Hunyuan-A13B model employs a fine-grained MoE architecture (Dai et al., 2024). Specifically, it consists of 1 shared expert and 64 fine-grained non-shared experts, all operating with identical intermediate dimension."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Ao Liu, Botong Zhou, Can Xu, Chayse Zhou, ChenChen Zhang, Chengcheng Xu, Chenhao Wang, Decheng Wu, Dengpeng Wu, Dian Jiao, et al. Hunyuan-turbos: Advancing large language models through mamba-transformer synergy and adaptive chain-of-thought. arXiv preprint arXiv:2505.15431, 2025."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Xingwu Sun, Yanfeng Chen, Yiqing Huang, Ruobing Xie, Jiaqi Zhu, Kai Zhang, Shuaipeng Li, Zhen Yang, Jonny Han, Xiaobo Shu, et al. Hunyuan-large: An open-source moe model with 52 billion activated parameters by tencent. arXiv preprint arXiv:2411.02265, 2024."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B shows superior performance when compared to other representative MoE or Dense model with comparable or larger activated or total parameter sizes. The post-training procedure involved a structured, multi-stage approach. Initially, we conducted supervised fine-tuning focused on reasoning tasks, followed by targeted RL optimization to further enhance reasoning capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the post-training stage, Hunyuan-A13B utilizes high-quality data for supervised fine-tuning (SFT) and large-scale reinforcement learning, comprehensively enhancing the model’s performance in all dimensions."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Hunyuan-A13B incorporates several innovative elements that collectively enhance its reasoning performance, flexibility, and inference efficiency. Subsequently, we conducted large-scale reinforcement learning (RL), systematically enhancing reasoning capabilities through iterative optimization."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the post-training stage, Hunyuan-A13B utilizes high-quality data for supervised fine-tuning (SFT) and large-scale reinforcement learning, comprehensively enhancing the model’s performance in all dimensions."
+    }
+  ]
+}

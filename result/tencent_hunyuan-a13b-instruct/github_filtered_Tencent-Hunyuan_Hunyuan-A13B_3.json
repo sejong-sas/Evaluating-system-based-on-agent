@@ -1,0 +1,41 @@
+{
+  "2-3 (API)": "The single relevant quote explicitly presents a hyperlink labeled \"HunyuanAPI\" that points to https://cloud.tencent.com/product/hunyuan.  This establishes that an official, cloud-hosted application-programming interface exists for the Tencent-Hunyuan/Hunyuan-A13B model family and is publicly advertised through Tencent Cloud.  No additional implementation details or usage examples are provided in the available material, but the presence of the dedicated API link confirms that users can access the model via an online service rather than only through downloadable weights or libraries.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "🕖 <a href=\"https://cloud.tencent.com/product/hunyuan\"><b>HunyuanAPI</b></a>"
+    }
+  ],
+  "3-1 (Pre-training)": "The quotes indicate that Tencent released several pre-training–related artifacts for the Hunyuan-A13B series on 2025-06-27.  Specifically, the organization publicly open-sourced multiple variants—\"Hunyuan-A13B-Pretrain, Hunyuan-A13B-Instruct, Hunyuan-A13B-Instruct-FP8, and Hunyuan-A13B-Instruct-GPTQ-Int4\"—on Hugging Face, making both base and instruction-tuned checkpoints, as well as reduced-precision FP8 and INT4 quantized versions, freely available.  Alongside the model weights, Tencent published (a) a technical report and (b) a training and inference operation manual, both said to contain “detailed information about the model’s capabilities as well as the operations for training and inference.”  A repository path “[Training](train/README.md)” is referenced, indicating that step-by-step processes for reproducing or continuing training are documented.  Code snippets show that users can import the model classes through\n   from models.modeling_hunyuan import HunYuanMoEV1ForCausalLM, HunYuanMoE\nand configure them with\n   config = HunYuanConfig(\nThis confirms that configuration files and Python modules necessary for large-scale pre-training (and inference) are packaged within the release, providing a reproducible setup for the Hunyuan-A13B architecture.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face."
+    },
+    {
+      "source": "[readme]",
+      "quote": "In addition, we have released a technical report and a training and inference operation manual, which provide detailed information about the model’s capabilities as well as the operations for training and inference."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Hunyuan-A13B provides processes related to model training. Please refer to [Training](train/README.md) for model training purposes."
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "from models.modeling_hunyuan import HunYuanMoEV1ForCausalLM, HunYuanMoE"
+    },
+    {
+      "source": "[py_files/train/train.py]",
+      "quote": "config = HunYuanConfig("
+    }
+  ],
+  "3-2 (Fine-tuning)": "A licensing excerpt defines “Tencent Hunyuan” to include “fine-tuning enabling code” for the family of large language and multimodal models, explicitly naming “Tencent Hunyuan A13B” and citing its public GitHub repository (https://github.com/Tencent-Hunyuan/Hunyuan-A13B).  This shows that Tencent distributes not only the trained weights but also the software components required to run additional supervised instruction tuning or domain adaptation on the A13B checkpoint.  Although concrete hyperparameters are not given in the provided sentence, the legal text confirms that the fine-tuning pipeline—including optimizer states, training scripts, and other relevant elements—forms an integral, openly available part of the Hunyuan-A13B release, enabling users to reproduce or extend the model’s training.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "j.\t“Tencent Hunyuan” shall mean the large language models, text/image/video/audio/3D generation models, and multimodal large language models and their software and algorithms, including trained model weights, parameters (including optimizer states), machine-learning model code, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing made publicly available by Us, including, without limitation to, Tencent Hunyuan A13B released at [https://github.com/Tencent-Hunyuan/Hunyuan-A13B]."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

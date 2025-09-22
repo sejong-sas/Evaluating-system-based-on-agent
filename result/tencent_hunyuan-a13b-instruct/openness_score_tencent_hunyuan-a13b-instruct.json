@@ -1,0 +1,148 @@
+{
+  "model": "tencent/Hunyuan-A13B-Instruct",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The ‘Tencent Hunyuan Community License’ grants use, modification and redistribution but with significant territorial limits (no EU/UK/KR), a >100 M MAU clause and a ban on using outputs to improve other models – i.e. some rights are restricted so the license is only Semi-Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official provider-authored technical report (PDF) dedicated to Hunyuan-A13B is linked inside the repo."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "Quote refers only to recommended INFERENCE hardware (NVIDIA H20). No training-hardware type or quantities are disclosed."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Quotes give Docker images for TensorRT-LLM / vLLM inference only; nothing about the TRAINING software stack."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://github.com/Tencent-Hunyuan/Hunyuan-A13B, https://www.siliconflow.com/models/tencent-hunyuan-a13b-instruct, https://www.letsclouds.com/news/tencent-hunyuan-a13b-api. Tencent's Hunyuan-A13B-Instruct model is available via official APIs, with major version matching."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Text states a 3-stage pre-training on 20 T tokens and mentions the MoE setup, but lacks detailed objectives, schedules or reproducible hyper-parameters – partial disclosure."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Mentions supervised fine-tuning on reasoning data and that fine-tuning-enabling code is included, yet gives no concrete procedure – partial."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "States that large-scale RL was applied to enhance reasoning, but provides no algorithmic or parameter details – partial."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Quotes list overall size (20 T tokens) and STEM emphasis, plus a high-level three-module pipeline, but the actual corpus or full manifest is not released – partial."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Only qualitative description of ‘high-quality, long-CoT SFT data’; no datasets or files released – partial."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Only generic mention of ‘large-scale RL’ data; no concrete dataset or manifest – partial."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Pipeline steps (deduplication, low-quality filtering, denoising, topic labelling, semantic-level dedup) are listed, but no thresholds, ratios or reproducible parameters are given, so detail is insufficient for full replication."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 0.5,
+      "reason": "The ‘Tencent Hunyuan Community License’ grants use, modification and redistribution but with significant territorial limits (no EU/UK/KR), a >100 M MAU clause and a ban on using outputs to improve other models – i.e. some rights are restricted so the license is only Semi-Open."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official provider-authored technical report (PDF) dedicated to Hunyuan-A13B is linked inside the repo."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "Quote refers only to recommended INFERENCE hardware (NVIDIA H20). No training-hardware type or quantities are disclosed."
+    },
+    "2-2 Software": {
+      "score": 0.0,
+      "reason": "Quotes give Docker images for TensorRT-LLM / vLLM inference only; nothing about the TRAINING software stack."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://github.com/Tencent-Hunyuan/Hunyuan-A13B, https://www.siliconflow.com/models/tencent-hunyuan-a13b-instruct, https://www.letsclouds.com/news/tencent-hunyuan-a13b-api. Tencent's Hunyuan-A13B-Instruct model is available via official APIs, with major version matching."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Text states a 3-stage pre-training on 20 T tokens and mentions the MoE setup, but lacks detailed objectives, schedules or reproducible hyper-parameters – partial disclosure."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Mentions supervised fine-tuning on reasoning data and that fine-tuning-enabling code is included, yet gives no concrete procedure – partial."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "States that large-scale RL was applied to enhance reasoning, but provides no algorithmic or parameter details – partial."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Quotes list overall size (20 T tokens) and STEM emphasis, plus a high-level three-module pipeline, but the actual corpus or full manifest is not released – partial."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Only qualitative description of ‘high-quality, long-CoT SFT data’; no datasets or files released – partial."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Only generic mention of ‘large-scale RL’ data; no concrete dataset or manifest – partial."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.5,
+      "reason": "Pipeline steps (deduplication, low-quality filtering, denoising, topic labelling, semantic-level dedup) are listed, but no thresholds, ratios or reproducible parameters are given, so detail is insufficient for full replication."
+    }
+  },
+  "final_score_10pt": 5.625,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 9.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

@@ -1,0 +1,91 @@
+
+======== 1/1 ▶ tencent/Hunyuan-A13B-Instruct ========
+📁 Directory to create/use: tencent_hunyuan-a13b-instruct
+📁 Output path: tencent_hunyuan-a13b-instruct
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: sgl-project/sglang (score=-11, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 18, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: ztxz16/fastllm (score=-9, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 10, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: ollama/ollama (score=-9, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 19, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: turboderp-org/exllamav2 (score=-17, detail={'org_affinity': -6, 'name_hits': 0, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 24, 'from_hf_link': 0, 'version_conflict': -8})
+✅ Resolved GH repo: Tencent-Hunyuan/Hunyuan-A13B (score=20, detail={'org_affinity': 9, 'name_hits': 1, 'readme_hits': 2, 'path_hits': 1, 'bad_keywords': 19, 'from_hf_link': 1, 'version_conflict': 0})
+✅ HF model: tencent/hunyuan-a13b-instruct (found at priority: 1)
+📄 Reports saved/merged (HF): tencent_hunyuan-a13b-instruct\reports_fulltext_huggingface_tencent_hunyuan-a13b-instruct.json
+✅ JSON file saved: tencent_hunyuan-a13b-instruct\huggingface_tencent_hunyuan-a13b-instruct.json
+📄 Reports merged to: tencent_hunyuan-a13b-instruct\reports_fulltext_tencent_hunyuan-a13b-instruct.json (HF sources)
+✅ Saved group 1 result: tencent_hunyuan-a13b-instruct\huggingface_filtered_tencent_hunyuan-a13b-instruct_1.json
+✅ Saved group 2 result: tencent_hunyuan-a13b-instruct\huggingface_filtered_tencent_hunyuan-a13b-instruct_2.json
+✅ Saved group 3 result: tencent_hunyuan-a13b-instruct\huggingface_filtered_tencent_hunyuan-a13b-instruct_3.json
+✅ Saved group 4 result: tencent_hunyuan-a13b-instruct\huggingface_filtered_tencent_hunyuan-a13b-instruct_4.json
+✅ Saved final merged result: tencent_hunyuan-a13b-instruct\huggingface_filtered_final_tencent_hunyuan-a13b-instruct.json
+✅ GH repo: Tencent-Hunyuan/Hunyuan-A13B
+📄 Reports saved/merged (GH): tencent_hunyuan-a13b-instruct\reports_fulltext_github_tencent-hunyuan_hunyuan-a13b.json
+ℹ️ Merge skipped: could not determine a single target HF model id.
+✅ GitHub JSON file saved: tencent_hunyuan-a13b-instruct\github_Tencent-Hunyuan_Hunyuan-A13B.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 5, '1-2 (Code)': 10, '1-3 (License)': 12, '1-4 (Paper)': 3}, 'kept': {'1-1 (Weights)': 3, '1-2 (Code)': 8, '1-3 (License)': 10, '1-4 (Paper)': 2}}
+✅ Saved group 1 result: tencent_hunyuan-a13b-instruct\github_filtered_Tencent-Hunyuan_Hunyuan-A13B_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 18, '1-6 (Tokenizer)': 8, '2-1 (Hardware)': 0, '2-2 (Software)': 6}, 'kept': {'1-5 (Architecture)': 8, '1-6 (Tokenizer)': 3, '2-1 (Hardware)': 0, '2-2 (Software)': 3}}
+✅ Saved group 2 result: tencent_hunyuan-a13b-instruct\github_filtered_Tencent-Hunyuan_Hunyuan-A13B_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 2, '3-1 (Pre-training)': 11, '3-2 (Fine-tuning)': 9, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 1, '3-1 (Pre-training)': 5, '3-2 (Fine-tuning)': 1, '3-3 (Reinforcement Learning)': 0, '4-2 (Fine-tuning Data)': 1}}
+✅ Saved group 3 result: tencent_hunyuan-a13b-instruct\github_filtered_Tencent-Hunyuan_Hunyuan-A13B_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 result: tencent_hunyuan-a13b-instruct\github_filtered_Tencent-Hunyuan_Hunyuan-A13B_4.json
+✅ Saved final merged result: tencent_hunyuan-a13b-instruct\github_filtered_final_Tencent-Hunyuan_Hunyuan-A13B.json
+🔎 HF tags found arXiv IDs: []
+🔄 Simplified query: 'hunyuan a'
+🔎 Tavily search: hunyuan a paper
+  → arXiv link found: https://arxiv.org/abs/2411.02265
+🔎 Tavily search: hunyuan a technical report
+  → arXiv link found: https://arxiv.org/abs/2412.03603
+🛰️ Tavily candidates: ['2411.02265', '2412.03603']
+🔬 Verifying 2 Tavily candidate(s) with GPT…
+  • Candidate: 2411.02265
+    - GPT verdict: ❌ no match (The candidate paper describes 'Hunyuan-Large', a model with 52B activated parameters and 389B total parameters, which is a different version from the target 'hunyuan-a13b-instruct' (which implies a 13)
+  • Candidate: 2412.03603
+    - GPT verdict: ❌ no match (The candidate paper describes HunyuanVideo—a large video generative model—rather than an instruct-style model. Although both models have 13B parameters, they target different application domains (vide)
+✅ GPT-verified IDs: []
+📦 Final merged arXiv IDs: []
+❌ No arXiv ID found/verified for 'tencent/hunyuan-a13b-instruct'.
+📄 Reports merged to: tencent_hunyuan-a13b-instruct\reports_fulltext_tencent_hunyuan-a13b-instruct.json
+⚠️ No arXiv/report inputs found for dispatcher; skipping
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 4, '1-2 (Code)': 2, '1-3 (License)': 0, '1-4 (Paper)': 6}, 'kept': {'1-1 (Weights)': 4, '1-2 (Code)': 2, '1-3 (License)': 0, '1-4 (Paper)': 5}}
+✅ Saved group 1 : tencent_hunyuan-a13b-instruct\reports_filtered_tencent_hunyuan-a13b-instruct_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 8, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 0, '2-2 (Software)': 1}, 'kept': {'1-5 (Architecture)': 7, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 0, '2-2 (Software)': 1}}
+✅ Saved group 2 : tencent_hunyuan-a13b-instruct\reports_filtered_tencent_hunyuan-a13b-instruct_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 4, '3-1 (Pre-training)': 9, '3-2 (Fine-tuning)': 4, '3-3 (Reinforcement Learning)': 4}, 'kept': {'2-3 (API)': 2, '3-1 (Pre-training)': 7, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 2}}
+✅ Saved group 3 : tencent_hunyuan-a13b-instruct\reports_filtered_tencent_hunyuan-a13b-instruct_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 7, '4-2 (Fine-tuning Data)': 3, '4-3 (Reinforcement Learning Data)': 2, '4-4 (Data Filtering)': 5}, 'kept': {'4-1 (Pre-training Data)': 5, '4-2 (Fine-tuning Data)': 3, '4-3 (Reinforcement Learning Data)': 2, '4-4 (Data Filtering)': 4}}
+✅ Saved group 4 : tencent_hunyuan-a13b-instruct\reports_filtered_tencent_hunyuan-a13b-instruct_4.json
+✅ Saved final merged: tencent_hunyuan-a13b-instruct\reports_filtered_final_tencent_hunyuan-a13b-instruct.json
+🔑 Hugging Face API says 401/403 — model may be private. Set HF_TOKEN in .env if you have access.
+🧱 Pretrained (base) model found by GPT: tencent/Hunyuan-A13B-Pretrain
+📄 Reports saved/merged (HF): tencent_hunyuan-a13b-instruct\reports_fulltext_huggingface_tencent_hunyuan-a13b-pretrain.json
+✅ JSON file saved: tencent_hunyuan-a13b-instruct\huggingface_tencent_Hunyuan-A13B-Pretrain.json
+✅ Saved tencent_hunyuan-a13b-instruct\pretrain_hf_tencent_hunyuan-a13b-pretrain.json
+✅ Resolved GH repo: Tencent-Hunyuan/Hunyuan-A13B (score=17, detail={'org_affinity': 9, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 19, 'from_hf_link': 1, 'version_conflict': 0})
+📄 Reports saved/merged (GH): tencent_hunyuan-a13b-instruct\reports_fulltext_github_tencent-hunyuan_hunyuan-a13b.json
+ℹ️ Merge skipped: could not determine a single target HF model id.
+✅ GitHub JSON file saved: tencent_hunyuan-a13b-instruct\github_Tencent-Hunyuan_Hunyuan-A13B.json
+⚠️ GH fetch/dispatch failed: cannot import name 'filter_pretrain_gh' from 'pretrain_github_Dispatcher' (c:\Users\user\Desktop\lab git\lab git\Evaluating-system-based-on-agent\code\pretrain_github_Dispatcher.py)
+🔎 HF tags found arXiv IDs: []
+🔄 Simplified query: 'Hunyuan A Pretrain'
+🔎 Tavily search: Hunyuan A Pretrain paper
+  → arXiv link found: https://arxiv.org/abs/2411.02265
+🔎 Tavily search: Hunyuan A Pretrain technical report
+  → arXiv link found: https://www.arxiv.org/pdf/2509.05209
+🛰️ Tavily candidates: ['2509.05209', '2411.02265']
+🔬 Verifying 2 Tavily candidate(s) with GPT…
+  • Candidate: 2509.05209
+    - GPT verdict: ❌ no match (The candidate paper describes the Hunyuan-MT series (specifically Hunyuan-MT-7B and Hunyuan-MT-Chimera-7B), but the target model is Hunyuan-A13B. According to the version rule, the major versions must)
+  • Candidate: 2411.02265
+    - GPT verdict: ❌ no match (The candidate paper describes the Hunyuan-Large model (389B total parameters, 52B activated parameters), which does not match the target 'tencent/Hunyuan-A13B-Pretrain' based on our version rule. The )
+✅ GPT-verified IDs: []
+📦 Final merged arXiv IDs: []
+❌ No arXiv ID found/verified for 'tencent/Hunyuan-A13B-Pretrain'.
+⚠️ Could not find a paper link; skipping arXiv fetcher
+✅ Saved pretrain reports: tencent_hunyuan-a13b-instruct\pretrain_reports_tencent_hunyuan-a13b-pretrain.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: tencent_hunyuan-a13b-instruct\openness_score_tencent_hunyuan-a13b-instruct.json
+✅ Openness evaluation complete. Result file: tencent_hunyuan-a13b-instruct\openness_score_tencent_hunyuan-a13b-instruct.json
+✅ Saved model ID: tencent_hunyuan-a13b-instruct\identified_model.txt
+⏳ **Time taken for this model: 1941.19 seconds**
+🧾 Log saved to: tencent_hunyuan-a13b-instruct\run_20250918-074847_tencent_hunyuan-a13b-instruct.log

@@ -1,0 +1,90 @@
+{
+  "1-1 (Weights)": "The project explicitly states that the weights for **Hunyuan-A13B-Instruct** are publicly downloadable. The quoted line “* 2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face.” confirms that the base ‘Pretrain’ checkpoint as well as several instruction-tuned and quantised variants (FP8 and GPTQ-Int4) were released simultaneously on 27 June 2025. A command snippet shows the exact repository name --model tencent/Hunyuan-A13B-Instruct\\, establishing that the primary distribution channel is the Hugging Face Hub under that namespace. The file list excerpt (“model-00001-of-00033.safetensors” and the companion “model.safetensors.index.json”) indicates that the full-precision checkpoint is split across 33 *.safetensors shards with an index file, a conventional Hugging Face format that can be fetched by anyone who meets the licence terms. Taken together, the quotes demonstrate that the weights are openly hosted, versioned, and that multiple precision/format options are included for immediate use or further fine-tuning.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* 2025.6.27 We have open-sourced  **Hunyuan-A13B-Pretrain** , **Hunyuan-A13B-Instruct** , **Hunyuan-A13B-Instruct-FP8** , **Hunyuan-A13B-Instruct-GPTQ-Int4** on Hugging Face."
+    },
+    {
+      "source": "[readme]",
+      "quote": "--model tencent/Hunyuan-A13B-Instruct  \\"
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00033.safetensors"
+    },
+    {
+      "source": "[files]",
+      "quote": "model.safetensors.index.json"
+    }
+  ],
+  "1-2 (Code)": "The quotes reference a public GitHub repository: “<a href=\"https://github.com/Tencent-Hunyuan/Hunyuan-A13B\"><b>GITHUB</b></a>”. Inside that repo a source file named “modeling_hunyuan.py” is highlighted and begins with the header “\"\"\" PyTorch HunYuan model.\"\"\"”, signalling that at least the model definition and inference utilities are available in PyTorch form. While the snippets do not explicitly enumerate the entire training pipeline, they confirm that core model code has been released. Therefore: (1) Inference/model-loading code is public, (2) the repository is located under the Tencent-Hunyuan organisation on GitHub, and (3) the implementation is specifically tailored for the Hunyuan-A13B family, making it directly usable with the tencent/Hunyuan-A13B-Instruct checkpoint. No sentence in the provided material claims that full pre-training scripts, RLHF pipelines, or data-generation code are shared, so only the availability of model implementation (and likely basic fine-tuning scripts) can be asserted on the basis of the quotes.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "<a href=\"https://github.com/Tencent-Hunyuan/Hunyuan-A13B\"><b>GITHUB</b></a>"
+    },
+    {
+      "source": "[files]",
+      "quote": "modeling_hunyuan.py"
+    },
+    {
+      "source": "[py_files/modeling_hunyuan.py]",
+      "quote": "\"\"\" PyTorch HunYuan model.\"\"\""
+    }
+  ],
+  "1-3 (License)": "All artefacts are distributed under the “TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT”, referenced multiple times: “license_name: tencent-hunyuan-a13b”, “# Licensed under the TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT (the \"License\");”. Core terms quoted include: “We grant You … a non-exclusive, non-transferable and royalty-free limited license … to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy.” The licence places explicit limitations: “You must not use the Tencent Hunyuan Works or any Output or results of the Tencent Hunyuan Works to improve any other AI model (other than Tencent Hunyuan or Model Derivatives thereof).” It is territorially restricted: “THIS LICENSE AGREEMENT DOES NOT APPLY IN THE EUROPEAN UNION, UNITED KINGDOM AND SOUTH KOREA AND IS EXPRESSLY LIMITED TO THE TERRITORY…”. It introduces a usage-scale clause: “If, on the Tencent Hunyuan version release date, the monthly active users of all products or services made available by or for Licensee is greater than 100 million … You must request a license from Tencent.” Trademark permissions are narrow: “Tencent hereby grants You a license to use ‘Tencent Hunyuan’ (the ‘Mark’) in the Territory solely as required…”. A direct link to the full text is provided (“https://github.com/Tencent/Tencent-Hunyuan-Large/blob/main/License.docx”) and an email contact (hunyuan_opensource@tencent.com) is supplied for licensing questions. Finally, the repository contains an explicit LICENSE file (“LICENSE file present: LICENSE”), ensuring that the legal terms accompany every download.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license_name: tencent-hunyuan-a13b"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "We grant You, for the Territory only, a non-exclusive, non-transferable and royalty-free limited license under Tencent’s intellectual property or other rights owned by Us embodied in or utilized by the Materials to use, reproduce, distribute, create derivative works of (including Model Derivatives), and make modifications to the Materials, only in accordance with the terms of this Agreement and the Acceptable Use Policy"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You must not use the Tencent Hunyuan Works or any Output or results of the Tencent Hunyuan Works to improve any other AI model (other than Tencent Hunyuan or Model Derivatives thereof)."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "THIS LICENSE AGREEMENT DOES NOT APPLY IN THE EUROPEAN UNION, UNITED KINGDOM AND SOUTH KOREA AND IS EXPRESSLY LIMITED TO THE TERRITORY, AS DEFINED BELOW."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If, on the Tencent Hunyuan version release date, the monthly active users of all products or services made available by or for Licensee is greater than 100 million monthly active users in the preceding calendar month, You must request a license from Tencent"
+    },
+    {
+      "source": "[py_files/modeling_hunyuan.py]",
+      "quote": "# Licensed under the TENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT (the \"License\");\n# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/modeling_hunyuan.py]",
+      "quote": "# You may obtain a copy of the License at\n#     https://github.com/Tencent/Tencent-Hunyuan-Large/blob/main/License.docx"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "ia email (hunyuan_opensource@tencent.com).\n\n\n[license_file]\nTENCENT HUNYUAN COMMUNITY LICENSE AGREEMENT\r\nTencent Hunyuan A13B Release Date: June 27, 2025\r\nTHIS LICENSE AGREEMENT DOES NOT APPLY IN THE EUROPEAN UNION, UNITED KINGDOM AND SOUTH KOREA AND IS EXPRESSLY LIMITED TO THE TERRITORY, AS DEFINED BELOW.\r\nBy clicking to agree or by using, reproducing, modifying, distributing, performing or displaying any portion or element"
+    },
+    {
+      "source": "[readme]",
+      "quote": "ny of its affiliates, except as required for reasonable and customary use in describing and distributing the Tencent Hunyuan Works. Tencent hereby grants You a license to use “Tencent Hunyuan” (the “Mark”) in the Territory solely as required to comply with the provisions of Section 3(c), provided that You comply with any applicable laws related to trademark protection. All goodwill arising out of Your use o"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The official technical documentation is supplied through a GitHub-hosted PDF: “<a href=\"https://github.com/Tencent-Hunyuan/Hunyuan-A13B/blob/main/report/Hunyuan_A13B_Technical_Report.pdf\"><b>Technical Report</b> </a>”. Although only the link is quoted, its placement in the repository indicates that a full technical report dedicated to the Hunyuan-A13B series exists, providing empirical results, architecture details, and design rationales for the same major version as the Instruct model.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "<a href=\"https://github.com/Tencent-Hunyuan/Hunyuan-A13B/blob/main/report/Hunyuan_A13B_Technical_Report.pdf\"><b>Technical Report</b> </a>"
+    }
+  ]
+}
