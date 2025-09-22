@@ -1,0 +1,20 @@
+{
+  "1-5 (Architecture)": "The only explicit architectural statement provided for mixtral-8x7b says: “The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.”  From this single sentence we can still draw several details.  First, the model is categorically identified as Mixtral-8x7B, directly tying the information to the desired target model series.  Second, it is labelled “pretrained,” meaning the parameters of both the experts and the gating / routing network have already been trained prior to any downstream fine-tuning or instruction-following phases.  Third, it is “generative,” implying an autoregressive decoder-only transformer that produces text token-by-token.  Finally, the phrase “Sparse Mixture of Experts” (MoE) indicates that the architecture contains multiple expert subnetworks of which only a subset is activated for any given forward pass; this yields computational sparsity and a larger effective parameter budget than a dense model with the same FLOPs per token.  Although the quote does not enumerate layer counts, hidden sizes, attention heads, router capacity factors, or gating strategies, the “8×7B” naming convention strongly suggests (but does not definitively confirm) that eight expert blocks exist, each roughly on the order of seven billion parameters.  No additional hyper-parameters, positional-embedding choices, or optimisation tricks are revealed in the supplied material.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts."
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer details are limited to a single line that states: “`<s>` and `</s>` are special tokens for beginning of string (BOS) and end of string (EOS) while [INST] and [/INST] are regular strings.”  Consequently, we know that the Mixtral-8x7B instruction format reserves `<s>` as the start-of-sequence token and `</s>` as the end-of-sequence token; these two are mapped to dedicated special-token IDs inside the vocabulary.  In contrast, the prompt-formatting markers `[INST]` and `[/INST]` are not given special status by the tokenizer: they are processed just like ordinary text and therefore split into normal sub-word pieces according to the tokenizer’s encoding rules.  The quote does not disclose the tokenizer’s underlying technology (e.g., SentencePiece, BPE, or a custom implementation), vocabulary size, byte-fallback behaviour, or whether the tokenizer files are distributed alongside the model weights.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Note that `<s>` and `</s>` are special tokens for beginning of string (BOS) and end of string (EOS) while [INST] and [/INST] are regular strings."
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": []
+}

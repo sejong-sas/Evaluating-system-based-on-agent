@@ -1,0 +1,29 @@
+{
+  "4-1 (Pre-training Data)": "The only disclosed detail about the pre-training of mistralai/mixtral-8x7b-instruct-v0.1 is that “Mixtral is pretrained with multilingual data using a context size of 32k tokens.”  From this statement we learn that the raw corpus contains text drawn from more than one language (the phrase “multilingual data”), and that, during pre-training, the model was exposed to sequences as long as 32 000 tokens (the “context size of 32k tokens”).  Beyond these two points—language diversity and maximum sequence length—no additional information regarding the volumes, specific sources, licensing constraints, or domain balance of the pre-training corpus is provided in the available quotes.",
+  "4-2 (Fine-tuning Data)": "Two sentences describe the fine-tuning stage for mistralai/mixtral-8x7b-instruct-v0.1.  First, the developers state that they “provide a model fine-tuned to follow instructions, Mixtral 8x7B – Instruct, that surpasses GPT-3.5 Turbo, Claude-2.1, Gemini Pro, and Llama 2 70B – chat model on human benchmarks.”  This confirms the existence of an instruction-following variant and indirectly suggests that the fine-tuning data are instruction-oriented.  Second, they clarify the training recipe: “We train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by Direct Preference Optimization (DPO) [25] on a paired feedback dataset.”  Together, these lines show that fine-tuning occurs in two phases: (1) a supervised fine-tuning pass over an instruction dataset, and (2) the application of DPO on a separate dataset consisting of preference-labeled pairs.  No quantitative statistics (size, number of instructions, language mix) or sourcing information for either dataset are revealed in the provided material.",
+  "4-3 (Reinforcement Learning Data)": "The same sentence—“We train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by Direct Preference Optimization (DPO) [25] on a paired feedback dataset.”—provides the entire picture of reinforcement-style data for mistralai/mixtral-8x7b-instruct-v0.1.  The developers employ Direct Preference Optimization, which is an RL-from-human-feedback-style method, and it operates on a “paired feedback dataset” (i.e., data in which two candidate responses are ranked).  Aside from confirming that such a paired dataset exists and is used after SFT, the quote gives no details about its provenance, size, format, or public availability.",
+  "4-4 (Data Filtering)": "No statements in the provided quotes mention any filtering or cleaning criteria, tools, or thresholds for mistralai/mixtral-8x7b-instruct-v0.1; therefore no information about data filtering processes is available.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Mixtral is pretrained with multilingual data using a context size of 32k tokens."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We also provide a model fine-tuned to follow instructions, Mixtral 8x7B – Instruct, that surpasses GPT-3.5 Turbo, Claude-2.1, Gemini Pro, and Llama 2 70B – chat model on human benchmarks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by Direct Preference Optimization (DPO) [25] on a paired feedback dataset."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by Direct Preference Optimization (DPO) [25] on a paired feedback dataset."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": []
+}

@@ -1,0 +1,33 @@
+{
+  "1-1 (Weights)": "The only two captured lines that explicitly mention the target model’s weights both read: “Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30” (the second line is identical but appends “mistral-small-latest”). From these fragments we can state that (a) the weights for the model identified as “Mixtral 8×7B” and the repository label “open-mixtral-8x7b v0.1” are published, because the line contains the check-mark symbol and the word “open”; (b) the weights are distributed under the Apache 2 licence (the tag “Apache2” appears inline with the model name); (c) the specific version is “v0.1”, meaning the summary refers exactly to “mistralai/mixtral-8x7b-instruct-v0.1”; and (d) the dates “2024/11/30” and “2025/03/30” are shown, which likely record a release window or availability period for those weights. No further information about the storage location (e.g. a Hugging Face URL, S3 bucket, or torrent) or procedural access requirements is contained in the quoted text, nor is there mention of gated or restricted download. The presence of the string “open-mixtral-8x7b” strongly suggests that the weights are hosted in a public repository that can be freely downloaded, but the quote itself does not supply an explicit link or download instruction.",
+  "1-2 (Code)": "No sentence in the collected quotes mentions training code, data-preparation scripts, configuration files, or any other portion of the end-to-end training pipeline. Consequently there is no evidence—positive or negative—about the public availability of Mixtral-8×7B’s pre-training, fine-tuning, or RLHF code. All that can be said from the present material is that the dataset contains no information on code release or location.",
+  "1-3 (License)": "Both licensing lines are identical to the weight-release lines: “Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30” (the second repeats with the suffix “mistral-small-latest”). The presence of the label “Apache2” indicates that the model distribution is governed by the Apache License, Version 2.0. The quote itself does not reprint the licence text or carve-outs, but Apache-2.0 is a well-known permissive licence that ordinarily grants—without fee—rights to use, modify, redistribute, and exploit the software and associated works for commercial or non-commercial purposes, provided that notices and disclaimers remain intact. The quote contains no additional restrictions such as “non-commercial”, “research-only”, or “no redistribution”. Therefore, based solely on the captured text, the model is released under a standard permissive licence with no extra field-of-use limits stated.",
+  "1-4 (Paper)": "The only reference to documentation or papers in the provided material is a single link: “https://huggingface.co/docs/transformers/main/en/chat_templating”. This URL points to Hugging Face’s Transformers documentation page that explains chat templating; it is not a peer-reviewed paper, formal technical report, or dedicated Mixtral white paper. No DOI, arXiv identifier, blog post, or project webpage specific to Mixtral-8×7B is cited. Therefore, based solely on the available quote, there is no official academic paper yet released for Mixtral-8×7B; the only public technical resource mentioned is generic usage documentation hosted on Hugging Face.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://docs.mistral.ai/getting-started/open_weight_models/#downloading]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30"
+    },
+    {
+      "source": "[sections/https://docs.mistral.ai/quickstart]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://docs.mistral.ai/getting-started/open_weight_models/#downloading]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30"
+    },
+    {
+      "source": "[sections/https://docs.mistral.ai/quickstart]",
+      "quote": "Mixtral 8x7B ✔️ Apache2 open-mixtral-8x7b v0.1 2024/11/30 2025/03/30 mistral-small-latest"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "sections/https://huggingface.co/docs/transformers/main/en/chat_templating",
+      "quote": "https://huggingface.co/docs/transformers/main/en/chat_templating"
+    }
+  ]
+}
