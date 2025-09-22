@@ -1,1 +1,0 @@
-nvidia/nvidia-nemotron-nano-12b-v2
