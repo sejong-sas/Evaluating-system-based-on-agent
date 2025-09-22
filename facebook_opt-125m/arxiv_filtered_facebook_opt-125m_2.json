@@ -1,0 +1,61 @@
+{
+  "1-5 (Architecture)": "The authors describe OPT as a family of decoder-only transformer language models whose sizes span from 125 M to 175 B parameters. Within this range, the 125 M parameter checkpoint sits at the smallest end of the suite. The paper explicitly calls OPT a “suite of decoder-only pre-trained transformers” and refers to their intention to release models across those sizes. Although many size points are listed (125 M, 350 M, 760 M, 1.3 B, 2.7 B, 6.7 B, 13 B, 175 B), every mention is framed as part of the same unified architectural design: a decoder-only transformer. No encoder or hybrid components are mentioned, indicating a classic GPT-style autoregressive stack. Specific layer counts, hidden sizes, or attention head numbers are not stated in the supplied sentences, but the repeated description “large decoder-only transformer language model” makes clear that the architectural template is identical across scales, differing only in parameter count.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "Training for the OPT models—including the larger 175 B checkpoint—was carried out on clusters of 992 NVIDIA A100 GPUs equipped with 80 GB of memory each. The logbook quote further notes that this hardware configuration achieved 147 TFLOP/s of sustained utilization per GPU. No other accelerator types or node counts are cited in the provided material, so the compute footprint for the work that also produced the 125 M checkpoint can be summarized as nearly one thousand 80 GB A100 cards operating in parallel.",
+  "2-2 (Software)": "The training stack used to create the OPT models combines several open-source, distributed-training technologies. Core training relied on PyTorch (implied by the use of Fully Sharded Data Parallel, FSDP). Model parallelism was provided through Megatron-LM Tensor Parallelism, while data and parameter sharding employed the Fully Sharded Data Parallel (FSDP) approach (Artetxe et al., 2021). The entire workflow was orchestrated by the Meta-developed codebase “metaseq,” which the authors plan to release publicly. Optimization was performed with AdamW; the same optimizer is said to have been used for all parameter scales from 125 M up to 175 B. No additional learning-rate schedules, mixed-precision details, or kernel accelerations (e.g., FlashAttention) are mentioned in the supplied sentences.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/D Model Card]",
+      "quote": "• Model type: OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[sections/E Human Quality Assessment of Synthetic News Articles]",
+      "quote": "We used the article titles and subtitles to produce outputs from the 125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13.0B, and 200B (GPT-3) parameter language models."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/D.1 Model Details]",
+      "quote": "OPT-175B is a large decoder-only transformer language model."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+    },
+    {
+      "source": "[sections/D Model Card]",
+      "quote": "Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/D.1 Model Details]",
+      "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    }
+  ]
+}

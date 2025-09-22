@@ -1,0 +1,72 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The Open Pre-trained Transformers (OPT) project introduces a family of decoder-only language models that spans sizes from 125 M to 175 B parameters. The authors say they “train the OPT models to roughly match the performance and sizes of the GPT-3 class of models,” while following contemporary best practices in data acquisition and efficient large-scale training. Training for every OPT model, including the 125 M baseline, relies on AdamW optimization. A linear learning-rate schedule is used, warming from 0 to peak LR during the first 2 000 steps for OPT-175B (or the first 375 M tokens for smaller variants such as OPT-125M) and then decaying to 10 % of the peak over 300 B tokens. Hardware for the largest run comprised 992 NVIDIA A100-80 GB GPUs; Fully-Sharded Data Parallelism combined with Megatron-LM tensor parallelism shards FP32 Adam states across hosts while keeping model weights in FP16. Training data for OPT-175B (and by extension the 125 M–66 B baselines) was selected for breadth and public availability, and the report notes that “significant training process adjustments” were required during pre-training. Named personnel are credited specifically for “Training 125M–66B baselines,” underscoring that the 125 M parameter version followed the shared pipeline and hyper-parameter choices summarized above.",
+  "3-2 (Fine-tuning)": "Empirical results indicate that OPT-175B—without task-specific supervision—already surpasses the unsupervised Reddit 2.7 B model across all evaluated tasks and approaches the performance of the fully supervised BlenderBot 1 on the ConvAI2 benchmark. Nonetheless, the authors stress that any future dialogue work with OPT should involve explicit fine-tuning on carefully curated datasets to improve the model’s safety profile. No concrete hyper-parameters or datasets are listed beyond this high-level recommendation.",
+  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We use a linear learning rate schedule, warming up from 0 to the maximum learning rate over the first 2000 steps in OPT-175B, or over 375M tokens in our smaller baselines, and decaying down to 10% of the maximum LR over 300B tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019). We keep Adam state in FP32, since we shard it across all hosts, while the model weights remained in FP16."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "Training data for OPT-175B was selected based on a combination of breadth and availability."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2205.01068.pdf]",
+      "quote": "• Training 125M–66B baselines: Naman Goyal, Stephen Roller, Susan Zhang"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Here we describe significant training process adjustments that arose during OPT-175B pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Training 125M–66B baselines: Naman Goyal, Stephen Roller, Susan Zhang"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We see that OPT-175B significantly outperforms the also-unsupervised Reddit 2.7B model on all tasks, and performs competitively with the fully supervised BlenderBot 1 model, especially in the ConvAI2 dataset."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We conclude that future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": []
+}

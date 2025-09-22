@@ -1,0 +1,28 @@
+{
+  "4-1 (Pre-training Data)": "facebook/opt-125m was predominantly pretrained on English text, but the corpus also contained a small proportion of non-English material that entered through CommonCrawl. In order to maximise corpus size, the Meta AI team assembled the pre-training set as the union of five separately filtered textual datasets.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "OPT was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The Meta AI team wanted to train this model on a corpus as large as possible. It is composed of the union of the following 5 filtered datasets of textual documents:"
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "Before the data reached facebook/opt-125m, it had already been filtered into five distinct, cleaned textual datasets. The material—originally gathered from the public internet—was subjected to classic preprocessing and re-formatting steps. These filtering stages specifically removed repetitive or non-informative boiler-plate strings such as “Chapter One” or the standard disclaimers found in many Project Gutenberg e-books, ensuring that only higher-quality, content-bearing text remained.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "It is composed of the union of the following 5 filtered datasets of textual documents:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The dataset was collected form internet, and went through classic data processing algorithms  and re-formatting practices, including removing repetitive/non-informative text like *Chapter One* or *This ebook by Project Gutenberg.*"
+    }
+  ]
+}
