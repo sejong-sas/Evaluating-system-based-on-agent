@@ -1,0 +1,15 @@
+{
+  "4-1 (Pre-training Data)": "cyberagent/open-calm-7b, part of the OpenCALM suite, is a decoder-only language model that was pre-trained on Japanese datasets and developed by CyberAgent, Inc.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "OpenCALM is a suite of decoder-only language models pre-trained on Japanese datasets, developed by CyberAgent, Inc."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

@@ -1,0 +1,73 @@
+{
+  "1-5 (Architecture)": "The publicly-shared configuration snippets for cyberagent/open-calm-7b give a fairly complete picture of its core transformer layout. A markdown table row that explicitly names the checkpoint — “|[cyberagent/open-calm-7b](https://huggingface.co/cyberagent/open-calm-7b)|6.8B|32|4096|32|8.2|” — states that the model contains roughly 6.8 billion trainable parameters spread across 32 transformer blocks. The same row also lists a model dimension of 4096 and shows that each block employs 32 self-attention heads. Immediately below, the exported Hugging Face configuration affirms these figures in machine-readable form: \"architectures\": [\"GPTNeoXForCausalLM\"] declares that the checkpoint instantiates the GPT-NeoX implementation, while \"hidden_size\": 4096, \"num_hidden_layers\": 32, and \"num_attention_heads\": 32 repeat the width, depth and head count. The feed-forward network width is recorded as \"intermediate_size\": 16384, implying a 4× expansion over the hidden size (4096 → 16384) inside the MLP. Taken together, the quotes show that open-calm-7b is a 6.8 B-parameter GPT-NeoX-style decoder-only model with 32 layers, 4096-wide representations, 32 attention heads per layer, and 16 384-wide intermediate MLP projections, and it is served through the GPTNeoXForCausalLM wrapper on the Hugging Face Hub.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "|[cyberagent/open-calm-7b](https://huggingface.co/cyberagent/open-calm-7b)|6.8B|32|4096|32|8.2|"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"GPTNeoXForCausalLM\"\n  ]"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 4096,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 32,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 32,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"intermediate_size\": 16384,"
+    }
+  ],
+  "1-6 (Tokenizer)": "All tokenizer information that explicitly mentions cyberagent/open-calm-7b is concentrated in the provided code and config fragments. The example call, `tokenizer = AutoTokenizer.from_pretrained(\"cyberagent/open-calm-7b\")`, confirms that the model ships with a ready-to-download tokenizer hosted on the same Hugging Face repository. The tokenizer metadata lists \"bos_token_id\": 0 and \"eos_token_id\": 0, meaning that both the beginning-of-sequence and end-of-sequence markers share the same integer ID. The vocabulary size is given as \"vocab_size\": 52224, so the tokenizer can emit up to 52 224 unique token IDs. Two asset filenames are also enumerated — “tokenizer.json” and “tokenizer_config.json” — indicating that the full tokenization schema and configuration can be obtained in standard Hugging Face formats alongside the model weights.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"cyberagent/open-calm-7b\")"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 0,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 0,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 52224"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer.json"
+    },
+    {
+      "source": "[files]",
+      "quote": "tokenizer_config.json"
+    }
+  ],
+  "2-1 (Hardware)": "No sentences in the supplied quote set mention GPUs, TPUs, node counts, total PF-days, or any other details about the physical compute used to train cyberagent/open-calm-7b. Consequently, the provided material does not contain hardware information for this model.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The quotes provide a concise but explicit snapshot of the software stack associated with cyberagent/open-calm-7b. A bullet line identifies the primary training framework as “* **Library**: [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)”, showing that the model was built with EleutherAI’s GPT-NeoX codebase. The exported configuration also pins a Transformers library version: \"transformers_version\": \"4.27.0.dev0\", indicating that the checkpoint expects or was produced with a development build around the 4.27 release cycle. Finally, an import snippet — `from transformers import AutoModelForCausalLM, AutoTokenizer` — illustrates the standard Hugging Face runtime API used to load both the weights and tokenizer. Together these lines confirm that GPT-NeoX was employed during training and that inference is intended to occur through Hugging Face Transformers ≥ 4.27.0.dev0.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Library**: [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.27.0.dev0\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "from transformers import AutoModelForCausalLM, AutoTokenizer"
+    }
+  ]
+}

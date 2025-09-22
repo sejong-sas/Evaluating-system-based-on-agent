@@ -1,0 +1,29 @@
+{
+  "2-3 (API)": "The available material shows that CyberAgent provides a straightforward Hugging Face–style interface for interacting with the cyberagent/open-calm-7b model. In the quoted example, users invoke AutoModelForCausalLM.from_pretrained(\"cyberagent/open-calm-7b\", device_map=\"auto\", torch_dtype=torch.float16), demonstrating that the model weights can be pulled directly from the Hugging Face Hub, instantiated as a causal-language-model object, and automatically placed across any available hardware through the device_map=\"auto\" flag while running in half-precision (FP16). A complementary call, tokenizer = AutoTokenizer.from_pretrained(\"cyberagent/open-calm-7b\"), confirms that the matching tokenizer is likewise hosted and can be fetched in a single line. Together, these two code snippets constitute the entirety of publicly documented API information: the model is accessible via the standard Hugging Face Transformers API, supports automatic device placement, and can be used out-of-the-box with an accompanying tokenizer.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\"cyberagent/open-calm-7b\", device_map=\"auto\", torch_dtype=torch.float16)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"cyberagent/open-calm-7b\")"
+    }
+  ],
+  "3-1 (Pre-training)": "The single explicit statement on pre-training explains that OpenCALM is a suite of decoder-only language models that have been pre-trained on Japanese datasets and that the effort was carried out by CyberAgent, Inc. From this, we learn that the foundational architecture for the 7-billion-parameter variant (open-calm-7b) is decoder-only, implying an autoregressive transformer design tailored for next-token prediction. The quote further clarifies that large-scale Japanese corpora form the core of the pre-training data, positioning the model for strong performance in Japanese language tasks. No additional hyper-parameters, dataset sizes, or optimization details are provided in the cited material.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "OpenCALM is a suite of decoder-only language models pre-trained on Japanese datasets, developed by CyberAgent, Inc."
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning information is limited to one illustrative sentence: \"This model is a fine-tuned version of OpenCALM-XX developed by CyberAgent, Inc.\" This wording indicates that CyberAgent supports derivative models that start from a base OpenCALM checkpoint (e.g., open-calm-7b) and then undergo task- or domain-specific adaptation. The use of the generic placeholder \"XX\" hints at multiple possible fine-tuned variants within the OpenCALM family. Apart from confirming the availability of fine-tuned offspring, no further methodological details—such as training objectives, datasets, or hyper-parameters—are supplied in the provided source.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Example (en): This model is a fine-tuned version of OpenCALM-XX developed by CyberAgent, Inc."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The supplied corpus contains no sentences that reference reinforcement learning, RLHF, PPO, DPO, or any experimental details of that nature for the cyberagent/open-calm-7b model. Consequently, no information is available on whether CyberAgent applies reinforcement-learning-based alignment techniques to this model.",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

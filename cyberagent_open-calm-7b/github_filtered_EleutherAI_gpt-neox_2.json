@@ -1,0 +1,146 @@
+{
+  "1-5 (Architecture)": "The EleutherAI/gpt-neox codebase exposes its core architectural hyper-parameters directly through the NeoXArgs configuration object. Multiple snippets show that the model expects explicit numeric values for \"num_layers\", \"hidden_size\" and \"num_attention_heads\", and also supports a configurable \"max_position_embeddings\" field. Internal calculations such as \"hidden_size_per_attention_head = mpu.divide(self.neox_args.hidden_size, self.neox_args.num_attention_heads)\" confirm that the transformer follows the usual GPT family layout in which hidden-size is evenly split across attention heads. Several class doc-strings clarify that the implementation is a \"GPT2Model adapted for pipeline parallelism\", indicating that the forward pass is partitioned across devices. GPT-NeoX additionally supports a Mixture-of-Experts variant: \"GPT-NeoX includes support for Dropless Mixture of Experts (DMoE) through the megablocks library\" and the presence of \"self.num_experts = neox_args.moe_num_experts\" shows that expert counts are configurable. Overall, the architecture is a GPT-2-style transformer with user-defined depth, width and head count, optional pipeline parallel execution, and optional DMoE expert layers provided by Megablocks.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-NeoX includes support for Dropless Mixture of Experts (DMoE) through the `megablocks` library."
+    },
+    {
+      "source": "[py_files/megatron/checkpointing.py]",
+      "quote": "\"num_layers\": neox_args.num_layers,"
+    },
+    {
+      "source": "[py_files/megatron/checkpointing.py]",
+      "quote": "\"hidden_size\": neox_args.hidden_size,"
+    },
+    {
+      "source": "[py_files/megatron/checkpointing.py]",
+      "quote": "\"num_attention_heads\": neox_args.num_attention_heads,"
+    },
+    {
+      "source": "[py_files/configs/gen_docs.py]",
+      "quote": "intro_str = \"\"\"Arguments for gpt-neox. All of the following can be specified in your .yml config file(s):\\n\"\"\""
+    },
+    {
+      "source": "[files]",
+      "quote": "\"num_layers\": neox_args.num_layers,"
+    },
+    {
+      "source": "[files]",
+      "quote": "\"hidden_size\": neox_args.hidden_size,"
+    },
+    {
+      "source": "[files]",
+      "quote": "\"num_attention_heads\": neox_args.num_attention_heads,"
+    },
+    {
+      "source": "[files]",
+      "quote": "\"max_position_embeddings\": neox_args.max_position_embeddings,"
+    },
+    {
+      "source": "[py_files/megatron/logging.py]",
+      "quote": "hidden_size = neox_args.hidden_size"
+    },
+    {
+      "source": "[py_files/megatron/logging.py]",
+      "quote": "num_layers = neox_args.num_layers"
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "\"\"\"GPT-2 model.\"\"\""
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "\"\"\"GPT2Model adapted for pipeline parallelism."
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "self.hidden_size = self.neox_args.hidden_size"
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "hidden_size_per_attention_head = mpu.divide(self.neox_args.hidden_size, self.neox_args.num_attention_heads)"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "self.hidden_size = neox_args.hidden_size"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "self.num_experts = neox_args.moe_num_experts"
+    }
+  ],
+  "1-6 (Tokenizer)": "The training scripts reference a dedicated \"GPT-NeoX-20B tokenizer\" stored at \"./20B_checkpoints/20B_tokenizer.json\", implying that a custom JSON tokenizer file (compatible with HuggingFace tokenizers) is distributed. At configuration time the field \"tokenizer_type\" must be set via NeoXArgs, and the code also accesses \"vocab_size = neox_args.padded_vocab_size\", meaning the vocabulary can be padded to a round number for tensor parallelism. Documentation advises users to \"download the GPT2 tokenizer vocab and merge files\" before training, so the tokenizer is GPT-2 compatible in format even if the vocab differs.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "or a single shard of the pile (`pile_subset`) with the GPT-NeoX-20B tokenizer (assuming you have it saved at `./20B_checkpoints/20B_tokenizer.json`):"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Next make sure to download the GPT2 tokenizer vocab, and merge files from the following links:"
+    },
+    {
+      "source": "[py_files/megatron/checkpointing.py]",
+      "quote": "\"tokenizer_type\": neox_args.tokenizer_type,"
+    },
+    {
+      "source": "[files]",
+      "quote": "\"tokenizer_type\": neox_args.tokenizer_type,"
+    },
+    {
+      "source": "[py_files/megatron/logging.py]",
+      "quote": "vocab_size = neox_args.padded_vocab_size"
+    }
+  ],
+  "2-1 (Hardware)": "The library is hardware-agnostic and has successfully launched on a diverse fleet: Slurm, MPI and IBM Job Step Manager clusters, as well as major supercomputers and cloud providers—including AWS, CoreWeave, ORNL Summit, ORNL Frontier, and the LUMI system. This demonstrates that EleutherAI/gpt-neox has been validated from commodity GPU clusters up to world-class exascale machines.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Uniquely among similar libraries GPT-NeoX supports a wide variety of systems and hardwares, including launching via Slurm, MPI, and the IBM Job Step Manager, and has been run at scale on AWS, CoreWeave, ORNL Summit, ORNL Frontier, LUMI, and others."
+    }
+  ],
+  "2-2 (Software)": "EleutherAI/gpt-neox is tightly coupled with the Megatron-DeepSpeed ecosystem. The maintainers note that it \"leverages many of the same features and technologies as the popular Megatron-DeepSpeed library\". A major upgrade—\"GPT-NeoX 2.0.0\"—was rebuilt \"on the latest DeepSpeed\" and will remain in sync going forward. Historically, versions prior to 3/9/2023 depended on \"DeeperSpeed\" derived from DeepSpeed 0.3.15. Runtime code shows deep integration: \"from megatron.neox_arguments import neox_args, deepspeed_args\"; the call \"deepspeed_main_args = neox_args.get_deepspeed_main_args()\" forwards CLI flags; and safety checks such as \"else: raise ValueError('Must be using deepspeed to use neox')\" enforce the dependency. Training features include advanced activation-checkpointing with \"deepspeed.checkpointing.configure(... partition_activations, contiguous_checkpointing, checkpoint_in_cpu, synchronize_each_layer, profile_backward)\" and model-parallel initialisation through \"mpu.initialize_model_parallel(neox_args.model_parallel_size, topology=topo, fp32_allreduce=neox_args.fp32_allreduce)\". Together these quotes establish that GPT-NeoX trains under PyTorch + DeepSpeed/Megatron libraries with built-in model, data and pipeline parallel capabilities, sophisticated checkpointing, and explicit argument forwarding for reproducibility.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-NeoX leverages many of the same features and technologies as the popular Megatron-DeepSpeed library but with substantially increased usability and novel optimizations."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We have released GPT-NeoX 2.0.0, an upgraded version built on the latest DeepSpeed which will be regularly synced with going forward."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Prior to 3/9/2023, GPT-NeoX relied on DeeperSpeed, which was based on an old version of DeepSpeed (0.3.15)."
+    },
+    {
+      "source": "[py_files/configs/gen_docs.py]",
+      "quote": "from megatron.neox_arguments import neox_args, deepspeed_args"
+    },
+    {
+      "source": "[py_files/deepy.py]",
+      "quote": "deepspeed_main_args = neox_args.get_deepspeed_main_args()"
+    },
+    {
+      "source": "[files]",
+      "quote": "else: raise ValueError(\"Must be using deepspeed to use neox\")"
+    },
+    {
+      "source": "[py_files/megatron/initialize.py]",
+      "quote": "deepspeed.checkpointing.configure( mpu, partition_activations=neox_args.partition_activations, contiguous_checkpointing=neox_args.contiguous_checkpointing, num_checkpoints=num_layers, checkpoint_in_cpu=neox_args.checkpoint_in_cpu, synchronize=neox_args.synchronize_each_layer, profile=neox_args.profile_backward, )"
+    },
+    {
+      "source": "[py_files/megatron/initialize.py]",
+      "quote": "m mpu.initialize_model_parallel( neox_args.model_parallel_size, topology=topo, fp32_allreduce=neox_args.fp32_allreduce, )"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "from megatron.neox_arguments.arguments import NeoXArgs"
+    },
+    {
+      "source": "[py_files/megatron/model/router.py]",
+      "quote": "from megatron.neox_arguments.arguments import NeoXArgs"
+    }
+  ]
+}
