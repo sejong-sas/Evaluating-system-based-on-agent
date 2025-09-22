@@ -1,5 +1,5 @@
 {
-  "1-1 (Weights)": "The quotes state that “Cohere Labs Command A is an open weights research release of a 111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI.”  They further explain that users are invited to “try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space (https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025).”  Finally, the authors say, “We hope that the release of this model will make community-based research efforts more accessible, by releasing the weights of a highly performant 111 billion parameter model to researchers all over the world.”  Taken together, the quotes confirm that the weights of the target model (c4ai-command-a-03-2025) are publicly downloadable (after an initial ‘try-out’ option), constitute an “open weights research release,” and are explicitly intended for broad, global research use.",
+  "1-1 (Weights)": "The provided material repeatedly stresses that \"Cohere Labs Command A is an open weights research release\" and identifies the snapshot as a 111 billion-parameter model. Access is explicitly offered in two ways: (1) users may \"try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space (https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025),\" and (2) they can fetch the individual weight shards that follow the pattern \"model-00001-of-00049.safetensors\" (the quoted filename confirms that at least 49 sharded .safetensors files are distributed). All sentences that describe the weights label the release as ‘open,’ signalling that the full parameter tensors are downloadable, not merely held behind an API. No paywall or enterprise-only gate is mentioned in the quotes; the only referenced prerequisite is visiting the Hugging Face Space, where both an interactive demo and the raw checkpoints are made available for the \"command-a-03-2025\" checkpoint.",
   "1-1 (Weights)__evidence": [
     {
       "source": "[readme]",
@@ -7,22 +7,26 @@
     },
     {
       "source": "[readme]",
-      "quote": "You can try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space (https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025)."
+      "quote": "You can try out Cohere Labs Command A before downloading the weights in our hosted [Hugging Face Space](https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025)."
     },
     {
-      "source": "[readme]",
-      "quote": "We hope that the release of this model will make community-based research efforts more accessible, by releasing the weights of a highly performant 111 billion parameter model to researchers all over the world."
+      "source": "[files]",
+      "quote": "model-00001-of-00049.safetensors"
     }
   ],
-  "1-2 (Code)": "Only one statement about code is provided: “Please install transformers from the source repository that includes the necessary changes for this model.”  This indicates that inference/serving support for c4ai-command-a-03-2025 requires a fork or branch of the Transformers library containing model-specific modifications.  The quotes give no information about the availability of any training, fine-tuning, or RLHF code, implying that such training code is not publicly released; only the modified inference library is referenced.",
+  "1-2 (Code)": "The only statement about code is: \"Please install transformers from the source repository that includes the necessary changes for this model.\" From this we can infer that inference/serving requires a fork or a bleeding-edge commit of the Hugging Face Transformers library that already integrates the Command-A architecture or tokenizer changes. Crucially, there is NO line indicating that the pre-training, fine-tuning, or RLHF training scripts themselves have been open-sourced; the quote talks solely about installing a modified inference library. Therefore, with the evidence given, training code for any stage (pre-training, supervised fine-tune, or RL) is not publicly provided, while minimal inference support has been upstreamed to a special branch of Transformers.",
   "1-2 (Code)__evidence": [
     {
       "source": "[readme]",
       "quote": "Please install transformers from the source repository that includes the necessary changes for this model."
     }
   ],
-  "1-3 (License)": "Multiple excerpts consistently specify that the model is released under the Creative Commons Attribution-NonCommercial license: “* License:[CC-BY-NC](https://cohere.com/cohere-labs-cc-by-nc-license)” and “license: cc-by-nc-4.0.”  All quotes emphasize the non-commercial restriction—e.g., “I agree to use this model for non-commercial use ONLY: checkbox.”  In addition to the CC-BY-NC terms, users must also comply with “Cohere Lab's Acceptable Use Policy,” which is hyperlinked in the same sentences.  Access is gated: the model card lists “extra_gated_fields” (Name, Affiliation, Country) and requires confirmation of adherence to the License Agreement, underscoring that redistribution or commercial deployment is prohibited unless separately licensed by Cohere.  Thus, usage is limited to non-commercial purposes under CC-BY-NC 4.0 plus the Cohere Labs AUP, with mandatory acceptance via a gated form.",
+  "1-3 (License)": "Multiple overlapping passages establish that the model is released under Creative Commons Non-Commercial terms. Exact quoted phrases include \"license: cc-by-nc-4.0\", \"* License:[CC-BY-NC](https://cohere.com/cohere-labs-cc-by-nc-license), requires also adhering to [Cohere Lab's Acceptable Use Policy]\", and \"This model is governed by a [CC-BY-NC](https://cohere.com/cohere-labs-cc-by-nc-license)\".  A gated download form presents an \"extra_gated_prompt\" where users must agree that \"By submitting this form, you agree to the [License Agreement]\"; additional gated fields request \"Name\", \"Affiliation\", \"Country\", and a mandatory checkbox that states \"I agree to use this model for non-commercial use ONLY\".  Together these clauses mean:  • Redistribution and modification are allowed only under CC-BY-NC 4.0;  • Commercial use is expressly disallowed;  • Users must also follow Cohere Labs’ AUP, forming an extra layer of restrictions;  • The project is co-developed by \"[Cohere](https://cohere.com/) and [Cohere Labs](https://cohere.for.ai/)\" who serve as the points of contact. No text offers an enterprise/commercial license path inside these quotes, so the sole officially documented permission set is the CC-BY-NC 4.0 plus AUP regime.",
   "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: cc-by-nc-4.0"
+    },
     {
       "source": "[readme]",
       "quote": "* License:[CC-BY-NC](https://cohere.com/cohere-labs-cc-by-nc-license), requires also adhering to [Cohere Lab's Acceptable Use Policy](https://docs.cohere.com/docs/cohere-labs-acceptable-use-policy)"
@@ -30,14 +34,6 @@
     {
       "source": "[readme]",
       "quote": "This model is governed by a [CC-BY-NC](https://cohere.com/cohere-labs-cc-by-nc-license), requires also adhering to [Cohere Lab's Acceptable Use Policy](https://docs.cohere.com/docs/cohere-labs-acceptable-use-policy)"
-    },
-    {
-      "source": "[readme]",
-      "quote": "I agree to use this model for non-commercial use ONLY: checkbox"
-    },
-    {
-      "source": "[readme]",
-      "quote": "license: cc-by-nc-4.0"
     },
     {
       "source": "[readme]",
@@ -52,29 +48,29 @@
       "quote": "ribe at any time.\" \nextra_gated_fields:\n Name: text\n Affiliation: text\n Country: country\n I agree to use this model for non-commercial use ONLY: checkbox\n---\n\n# **Model Card for Cohere Labs Command A**\n\n## **Model Summary**\n\nCohere Labs Command A is an o"
     }
   ],
-  "1-4 (Paper)": "The documentation points to an official technical report: “For more details on how this model was developed, check out our [Tech Report](https://arxiv.org/abs/2504.00698).”  A citation is also provided: “@misc{cohere2025commandaenterprisereadylarge, title={Command A: An Enterprise-Ready Large Language Model}, …”  These quotes confirm that a dedicated paper/tech report exists on arXiv (identifier 2504.00698) specifically covering Command A, offering deeper discussion of its development and enterprise readiness.",
+  "1-4 (Paper)": "One concise sentence links to formal documentation: \"For more details on how this model was developed, check out our [Tech Report](https://arxiv.org/abs/2504.00698).\" Hence the canonical write-up for Command-A-03-2025 is an arXiv technical report at the above URL, which readers are directed to for methodology, training details, evaluation, and further background.",
   "1-4 (Paper)__evidence": [
     {
       "source": "[readme]",
       "quote": "For more details on how this model was developed, check out our [Tech Report](https://arxiv.org/abs/2504.00698)."
-    },
-    {
-      "source": "[readme]",
-      "quote": "@misc{cohere2025commandaenterprisereadylarge,\n      title={Command A: An Enterprise-Ready Large Language Model},"
     }
   ],
-  "1-5 (Architecture)": "The provided documentation repeatedly identifies the model as “c4ai-command-a-03-2025.” In the architecture bullet list, it explicitly states “Model Size: 111 billion parameters,” establishing that the network contains 111 B learnable weights. In the same list, as well as in a separate reiterated sentence, the text specifies a “Context length: 256K,” and restates that “Command A supports a context length of 256 K.” Taken together, these two facts give the entirety of the architectural detail disclosed in the quotes: (1) the parameter count of 111 B and (2) the extremely large maximum window of 256 000 tokens that the architecture is designed to accept in a single forward pass. No further layer‐wise, head‐count, or hyper-parameter breakdowns are present in the supplied excerpts.",
+  "1-5 (Architecture)": "The quotes state that the model explicitly identified as “c4ai-command-a-03-2025” (also referred to as Cohere Labs Command A) is an open-weights research release with 111 billion parameters. It is an auto-regressive transformer language model whose context window is 256 K tokens. Design details given in the quoted material describe four distinct attention layers: the first three layers rely on sliding-window attention with a window size of 4096 tokens and employ RoPE (Rotary Positional Embeddings) for relative positional encoding, while a fourth layer switches to global attention that completely removes positional embeddings so tokens can interact freely across the entire sequence. After the core pre-training, the model undergoes supervised fine-tuning (SFT) followed by preference-based alignment to make its behaviour helpful and safe for enterprise use. In short, c4ai-command-a-03-2025 is a 111 B-parameter, 256 K-context, autoregressive transformer that combines sliding-window + RoPE attention with a final global-attention layer, then gains additional alignment through SFT and preference training.",
   "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Cohere Labs Command A is an open weights research release of a 111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI."
+    },
     {
       "source": "[readme]",
       "quote": "* Model: c4ai-command-a-03-2025  \n* Model Size: 111 billion parameters  \n* Context length: 256K"
     },
     {
       "source": "[readme]",
-      "quote": "**Context Length**: Command A supports a context length of 256K."
+      "quote": "**Model Architecture**: This is an auto-regressive language model that uses an optimized transformer architecture. After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety. The model features three layers with **sliding window attention** (window size 4096) and **RoPE** for efficient local context modeling and relative positional encoding. A fourth layer uses **global attention** without positional embeddings, enabling unrestricted token interactions across the entire sequence."
     }
   ],
-  "1-6 (Tokenizer)": "All tokenizer information centers on how users should load and format messages for the target model. The snippet shows that messages should be prepared “with the c4ai-command-a-03-2025 chat template,” implying a dedicated prompt-formatting convention bundled with the release. Programmatically, the tokenizer is pulled directly from HuggingFace via:\n\nmodel_id = \"CohereLabs/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)\n\nThis line demonstrates that the tokenizer artefact is published under the same repository name on the Hub and can be downloaded with the standard AutoTokenizer class, suggesting compatibility with the Transformers ecosystem. The quote, however, does not reveal vocabulary size, model type (BPE, SentencePiece, etc.), or any special token details beyond the existence of a chat template.",
+  "1-6 (Tokenizer)": "The only tokenizer-related information in the quotes is that users must “format messages with the c4ai-command-a-03-2025 chat template,” and that Retrieval-Augmented Generation (RAG) with Command A is supported through chat templates in Hugging Face Transformers. No further specifics (vocabulary size, BPE vs. SentencePiece, download location, etc.) are provided in the supplied quotes.",
   "1-6 (Tokenizer)__evidence": [
     {
       "source": "[readme]",
@@ -82,76 +78,70 @@
     },
     {
       "source": "[readme]",
-      "quote": "model_id = \"CohereLabs/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)"
+      "quote": "RAG with Command A is supported through chat templates in Transformers."
     }
   ],
-  "2-1 (Hardware)": "The only hardware-related statement given is that Cohere Labs positions Command A as “deployable on just two GPUs,” despite its 111 billion parameter scale. While framed in terms of deployment rather than training, this still conveys that the model can run inference on a dual-GPU setup, highlighting cost-effective operational requirements. No other specifics—such as GPU model (A100, H100, etc.), memory footprint, training cluster size, or total FLOPs—are disclosed in the provided material.",
-  "2-1 (Hardware)__evidence": [
-    {
-      "source": "[readme]",
-      "quote": "Cohere Labs Command A is an open weights research release of a 111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI. Compared to other leading proprietary and open-weights models Command A delivers maximum performance with minimum hardware costs, excelling on business-critical agentic and multilingual tasks while‬ being deployable on just two GPUs."
-    }
-  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
   "2-2 (Software)": "",
   "2-2 (Software)__evidence": [],
-  "2-3 (API)": "Command A has been specifically trained with conversational tool use capabilities, allowing the model to interact with external tools such as APIs, databases, or search engines.",
+  "2-3 (API)": "The quotes explicitly state two publicly accessible entry points for working with coherelabs/c4ai-command-a-03-2025. First, “You can try Command A chat in the playground [here](https://dashboard.cohere.com/playground/chat?model=command-a-03-2025),” confirming that Cohere’s own dashboard playground hosts an interactive chat interface tied to the exact model string “command-a-03-2025.” Second, “You can try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space(https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025),” establishes that a Hugging Face Space also exposes an online demo of the same model. Together these two sentences show the existence of an API-like, point-and-click interface (Cohere Playground) and an additional browser-based endpoint (Hugging Face Space) where users can send prompts and receive completions without running local code. Although no explicit token limits, authentication flow, or REST/RPC specification is listed in the quotes, the presence of both a Cohere dashboard URL and a Hugging Face Space URL strongly implies that developers can experiment interactively and download weights after testing. Thus, from the provided text we can summarize that the model is publicly reachable through Cohere’s playground and through a hosted Hugging Face Space, giving immediate hands-on access before any local deployment.",
   "2-3 (API)__evidence": [
     {
       "source": "[readme]",
-      "quote": "Command A has been specifically trained with conversational tool use capabilities. This allows the model to interact with external tools like APIs, databases, or search engines."
+      "quote": "You can try Command A chat in the playground [here](https://dashboard.cohere.com/playground/chat?model=command-a-03-2025)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space(https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025)."
     }
   ],
-  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)": "The only direct information about pre-training for coherelabs/c4ai-command-a-03-2025 is contained in the sentence: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” The wording confirms that a distinct pre-training phase occurred prior to alignment work, but it does not enumerate data sources, corpus size, token counts, model hyper-parameters, curriculum order, or training duration. Nonetheless, the sentence does establish a clear chronological boundary: pre-training finished first, and subsequent alignment stages (SFT and preference training) were layered on top. Therefore, the summary is limited to acknowledging the completion of an undisclosed pre-training process that produced a base model sufficiently capable to move on to supervised fine-tuning and preference-based alignment.",
   "3-1 (Pre-training)__evidence": [
     {
       "source": "[readme]",
-      "quote": "Model Architecture: This is an auto-regressive language model that uses an optimized transformer architecture. After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
+      "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)": "Fine-tuning information comes from the same statement: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” From this we can derive that coherelabs/c4ai-command-a-03-2025 underwent a supervised fine-tuning (SFT) stage immediately after its base pre-training. The stated goal of this SFT was explicit: to adjust the model so that its responses are aligned with human preferences, particularly around being helpful and safe. The quote groups SFT together with “preference training,” implying that SFT formed the first half of a broader alignment pipeline. No dataset names, number of examples, or hyper-parameters (learning rate, batch size, epochs) are provided in the quotes, but we can definitively report that supervised fine-tuning was employed and that its alignment objectives centered on helpfulness and safety.",
   "3-2 (Fine-tuning)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)": "The reinforcement-learning or preference-optimization stage is again referenced in the sentence: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” Here, the term “preference training” is the only clue pointing to an RL-type alignment step—likely Reinforcement Learning from Human Feedback (RLHF) or a comparable approach—whose purpose was to nudge the model toward outputs rated higher by human evaluators for helpfulness and safety. While the quote does not spell out the algorithmic variant (e.g., PPO, DPO) or specific reward models, it affirms that some form of preference-based reinforcement learning occurred after SFT. Thus, the summary: coherelabs/c4ai-command-a-03-2025, having completed pre-training and SFT, received an additional preference-training phase that leverages human feedback to further align its behavior, specifically optimizing for helpfulness and safety in its responses.",
   "3-3 (Reinforcement Learning)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "4-1 (Pre-training Data)": "The documentation for coherelabs/c4ai-command-a-03-2025 states that the pre-training corpus spans 23 distinct natural languages. Specifically, the training mixture includes English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian. The quote emphasizes the breadth of linguistic coverage, implying that the raw pre-training data was intentionally assembled to represent a multilingual distribution rather than an English-only set. No numerical token counts, domain breakdowns, or license descriptions are provided, but the explicit enumeration of the 23 languages confirms that the model’s foundational corpus is multilingual and that representation was a design objective during data collection for the 03-2025 Command series model.",
+  "4-1 (Pre-training Data)": "The quotes indicate that the coherelabs/c4ai-command-a-03-2025 model was exposed, during its pre-training stage, to a multilingual corpus that explicitly covered 23 languages: English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian. No other details about data source types, licensing, or exact corpus sizes are disclosed in the available material.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "**Languages covered**: The model has been trained on 23 languages: English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian."
     }
   ],
-  "4-2 (Fine-tuning Data)": "For the fine-tuning stage, the only disclosed information is that, after pre-training, coherelabs/c4ai-command-a-03-2025 undergoes supervised fine-tuning (SFT) and subsequent preference training. These two steps are carried out to ‘align model behavior to human preferences for helpfulness and safety’. While the quote does not enumerate concrete datasets, domains, or licensing terms, it clearly conveys the pipeline structure: first an SFT pass—implying a curated set of instruction–response pairs—and then a preference-based optimization phase where human (or human-like) feedback signals are used to steer the model toward preferred answers. Thus, compositionally, the fine-tuning data consist of (i) supervision examples used in SFT and (ii) preference-annotated examples used in alignment, both selected for the twin goals of helpfulness and safety.",
+  "4-2 (Fine-tuning Data)": "According to the quoted material, once the base pre-training was complete the coherelabs/c4ai-command-a-03-2025 model underwent supervised fine-tuning (SFT) followed by preference training. Both steps were aimed at aligning the system’s behavior with human preferences for helpfulness and safety. The source composition, concrete examples, or public availability of these fine-tuning datasets are not described in the provided quotes.",
   "4-2 (Fine-tuning Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "4-3 (Reinforcement Learning Data)": "The same sentence indicates that, in addition to SFT, coherelabs/c4ai-command-a-03-2025 receives ‘preference training’. In typical alignment pipelines, this preference training corresponds to a reinforcement-learning-from-human-feedback (RLHF) or similar reward-model approach. The quote clarifies that the preference data are grounded in ‘human preferences for helpfulness and safety’. Although no numeric details or accessibility statements are provided, the disclosure confirms that the RL dataset is human-labelled (or derived from human feedback) and that its purpose is to optimize the model’s responses toward safety-conscious, helpful outputs. Therefore, the reinforcement-learning data component is a set of preference comparisons or ratings that teach the model which answers humans consider superior under the safety and usefulness criteria.",
+  "4-3 (Reinforcement Learning Data)": "The same quoted sentence states that, in addition to supervised fine-tuning, the model also received preference training designed to align output with human judgments of helpfulness and safety. This implies a reinforcement-learning-from-human-feedback (RLHF) style dataset, but the specific composition, accessibility, or generation method (e.g., size, annotator demographics, or sampling strategy) is not revealed in the supplied excerpts.",
   "4-3 (Reinforcement Learning Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "4-4 (Data Filtering)": "The only filtering-related information released for coherelabs/c4ai-command-a-03-2025 centers on its configurable safety modes. The quote explains that ‘Command A can be configured with two safety modes’, labelled ‘contextual mode’ and ‘strict mode’. Contextual mode is intended for ‘wide-ranging interactions with fewer constraints on output’ yet still maintains ‘core protections by rejecting harmful or illegal suggestions’. Although explicit numeric thresholds or classifier names are not furnished, the existence of a strict-versus-contextual toggle indicates an internal filtering or guard-rail subsystem controlling generation. The designers therefore built two operational policies: (1) a looser, context-aware filter that allows more open-ended content while screening out disallowed material, and (2) a stricter policy that presumably applies tighter constraints. This dual-mode guardrail mechanism represents the principal documented data (or output) filtering feature for the 03-2025 Command model.",
-  "4-4 (Data Filtering)__evidence": [
-    {
-      "source": "[readme]",
-      "quote": "Besides, Command A can be configured with two safety modes, which enable users to set guardrails that are both safe and suitable to their needs: contextual mode, or strict mode. Contextual mode is appropriate for wide-ranging interactions with fewer constraints on output, while maintaining core protections by rejecting harmful or illegal suggestions."
-    }
-  ],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
   "__usage": {
     "fine_tuning": "used",
-    "rl": "unknown"
+    "rl": "used"
   }
 }

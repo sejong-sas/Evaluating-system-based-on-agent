@@ -1,9 +1,9 @@
 {
-  "model": "coherelabs/c4ai-command-a-03-2025",
+  "model": "CohereLabs/c4ai-command-a-03-2025",
   "scores": {
     "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-2 Code": {
       "score": 0.0,
@@ -11,65 +11,65 @@
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "Released under CC-BY-NC-4.0 plus an additional AUP, which forbids commercial use but allows other rights."
+      "reason": "The model is released under CC-BY-NC-4.0 plus an AUP, which forbids commercial use but allows the other rights; hence Semi-Open."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "Dedicated technical report on arXiv ( “Command A: An Enterprise-Ready Large Language Model” ) covers this exact model."
+      "reason": "An official provider-authored tech report on arXiv (link in README) describes the exact model; this meets the “Open” criterion."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 0.0,
-      "reason": "Quotes mention only inference on two GPUs; no information about training hardware type or quantity."
+      "reason": "Quotes discuss SERVING on two A100/H100 GPUs but give no information about the hardware used for TRAINING; rubric therefore scores Closed."
     },
     "2-2 Software": {
       "score": 0.0,
-      "reason": "No quoted details about the software stack used for TRAINING."
+      "reason": "No quotes describe the TRAINING software stack beyond the base framework, so this item is Closed."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic/irrelevant mentions; no qualifying API docs.  No API docs found via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://cohere.com/developers, https://docs.cohere.com/release-notes/, https://docs.cohere.com/. Official API documentation and key issuance available on Cohere's developer portal."
     },
     "3-1 Pre-training": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Quotes outline data sources and some filtering but lack full, reproducible training schedules or hyper-parameters; thus Semi-Open."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+      "reason": "The multi-stage SFT / model-merging procedure is described, yet without full configs or scripts; graded Semi-Open."
     },
     "3-3 Reinforcement Learning": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Paper explains six RL experts, ping-pong optimisation, and reward types, but not enough to reproduce exactly; counts as Semi-Open."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources and language coverage are listed, but sizes, licences and full download instructions are not provided."
+      "reason": "Sources (web text/code, synthetic, vendor, 23 languages) are named, but no sizes or public access; partial disclosure ⇒ Semi-Open."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Describes SFT and preference datasets conceptually (expert soups, synthetic preambles) without concrete release details."
+      "reason": "Lists programming-language/SQL focus and synthetic preamble generation, but omits dataset sizes and releases; Semi-Open."
     },
     "4-3 Reinforcement Learning Data": {
-      "score": 0.0,
-      "reason": "No quoted information about the RLHF preference dataset composition or access."
+      "score": 0.5,
+      "reason": "Mentions pairwise-comparison and verifiable-reward data for six RL experts, yet no concrete datasets; qualifies as partial disclosure."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Mentions ML quality filters, deduplication, safety heuristics and prompt-complexity filtering, but lacks thresholds or full pipeline specs."
+      "reason": "Describes de-duplication, ML quality filters, heuristic safety filters and reward-based answer selection, but lacks thresholds/ratios, so counted as Semi-Open per rubric."
     }
   },
   "included_scores": {
     "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-2 Code": {
       "score": 0.0,
@@ -77,62 +77,62 @@
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "Released under CC-BY-NC-4.0 plus an additional AUP, which forbids commercial use but allows other rights."
+      "reason": "The model is released under CC-BY-NC-4.0 plus an AUP, which forbids commercial use but allows the other rights; hence Semi-Open."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "Dedicated technical report on arXiv ( “Command A: An Enterprise-Ready Large Language Model” ) covers this exact model."
+      "reason": "An official provider-authored tech report on arXiv (link in README) describes the exact model; this meets the “Open” criterion."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 0.0,
-      "reason": "Quotes mention only inference on two GPUs; no information about training hardware type or quantity."
+      "reason": "Quotes discuss SERVING on two A100/H100 GPUs but give no information about the hardware used for TRAINING; rubric therefore scores Closed."
     },
     "2-2 Software": {
       "score": 0.0,
-      "reason": "No quoted details about the software stack used for TRAINING."
+      "reason": "No quotes describe the TRAINING software stack beyond the base framework, so this item is Closed."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic/irrelevant mentions; no qualifying API docs.  No API docs found via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://cohere.com/developers, https://docs.cohere.com/release-notes/, https://docs.cohere.com/. Official API documentation and key issuance available on Cohere's developer portal."
     },
     "3-1 Pre-training": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Quotes outline data sources and some filtering but lack full, reproducible training schedules or hyper-parameters; thus Semi-Open."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+      "reason": "The multi-stage SFT / model-merging procedure is described, yet without full configs or scripts; graded Semi-Open."
     },
     "3-3 Reinforcement Learning": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Paper explains six RL experts, ping-pong optimisation, and reward types, but not enough to reproduce exactly; counts as Semi-Open."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources and language coverage are listed, but sizes, licences and full download instructions are not provided."
+      "reason": "Sources (web text/code, synthetic, vendor, 23 languages) are named, but no sizes or public access; partial disclosure ⇒ Semi-Open."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Describes SFT and preference datasets conceptually (expert soups, synthetic preambles) without concrete release details."
+      "reason": "Lists programming-language/SQL focus and synthetic preamble generation, but omits dataset sizes and releases; Semi-Open."
     },
     "4-3 Reinforcement Learning Data": {
-      "score": 0.0,
-      "reason": "No quoted information about the RLHF preference dataset composition or access."
+      "score": 0.5,
+      "reason": "Mentions pairwise-comparison and verifiable-reward data for six RL experts, yet no concrete datasets; qualifies as partial disclosure."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Mentions ML quality filters, deduplication, safety heuristics and prompt-complexity filtering, but lacks thresholds or full pipeline specs."
+      "reason": "Describes de-duplication, ML quality filters, heuristic safety filters and reward-based answer selection, but lacks thresholds/ratios, so counted as Semi-Open per rubric."
     }
   },
-  "final_score_10pt": 4.062,
+  "final_score_10pt": 5.625,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "used",
@@ -140,7 +140,7 @@
     },
     "excluded": [],
     "denominator": 16,
-    "raw_sum": 6.5,
+    "raw_sum": 9.0,
     "scale": "10/16",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false

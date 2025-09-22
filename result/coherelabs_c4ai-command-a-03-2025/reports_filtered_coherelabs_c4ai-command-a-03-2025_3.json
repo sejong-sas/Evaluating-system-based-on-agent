@@ -1,42 +1,42 @@
 {
-  "2-3 (API)": "The publicly-released model checkpoint \"CohereForAI/c4ai-command-a-03-2025\" can be accessed exactly like any other Hugging Face Hub model: the documentation shows a minimal Python snippet that loads the tokenizer and weights with `AutoTokenizer.from_pretrained(model_id)` and `AutoModelForCausalLM.from_pretrained(model_id)`.  The authors also provide a full Hugging Face guide that covers how to \"run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases\" and how to \"set system instructions for Command A\".  For chat-style interactions the recommended interface is the Transformers chat-template system: users call `apply_chat_template()` and pass a list of evidence passages through the dedicated `documents` parameter, thereby enabling “grounded generation in Command A.”  Taken together, the quotes confirm that an API-style, hosted workflow is supported (no local library hacking required), that concrete instructions and examples are already published, and that the same entry points let developers build classic chatbots, retrieval-augmented generation pipelines, function-calling single-shot tools, or multi-step agent loops on top of the exact 03-2025 checkpoint.",
-  "3-1 (Pre-training)": "The technical report explains that Command A was conceived as “a powerful large language model purpose-built to excel at real-world enterprise use cases.”  Its strong performance is attributed to a deliberately “decentralised training approach,” which combines self-refinement algorithms with explicit model-merging techniques.  An “original training pipeline” is laid out in detail in the report, after which an “extensive evaluation” demonstrates the benefits of the approach on enterprise-relevant public benchmarks.  Although the authors also discuss a sibling model called Command R7B in the same family (released for research and sharing architectural commonalities), the focus remains on the 03-2025 Command A checkpoint.  The text further stresses that the pre-training phase already imbues the model with domain-targeted competences: it \"has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG),\" indicating that the upstream corpus and objectives were curated to support grounded generation scenarios.",
-  "3-2 (Fine-tuning)": "After the core pre-training, Command A undergoes multiple post-training stages described as “a mixture of supervised fine-tuning and preference fine-tuning.”  This composite regimen is directly credited for teaching the model high-level behaviors such as enterprise-grade summarization and end-of-pipeline RAG answer generation.  The same process is repeated for more advanced agentic skills: the documentation says that conversational tool use, single-shot function calling, and iterative Plan → Action → Observation agent loops were also “trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template.”  Thus, the fine-tuning stage is characterized by two ingredients—labeled datasets for supervised objectives and preference-based feedback for alignment—and by explicit prompt engineering that standardizes how those capabilities are invoked.",
-  "3-3 (Reinforcement Learning)": "While no standalone RLHF section is provided, the authors repeatedly note that in addition to supervised updates, Command A received “preference fine-tuning.”  In current LLM practice this term typically denotes reinforcement-learning-style optimization (e.g., DPO or PPO on reward models derived from human preferences).  The quote directly ties that preference-based stage to the emergence of summarization and RAG competence, implying that the model’s final alignment loop relied on human-or-human-proxy preferences rather than purely generative log-prob objectives.  Therefore, the only reinforcement-learning-like detail disclosed is the existence of a preference-tuning pass that complements supervised fine-tuning; specific reward models, batch sizes, or hyperparameters are not enumerated in the source material.",
+  "2-3 (API)": "All publicly-exposed interaction pathways described for coherelabs/c4ai-command-a-03-2025 are delivered through the standard Hugging Face Transformers API. The model can be pulled with the usual Python loaders: AutoTokenizer.from_pretrained() and AutoModelForCausalLM.from_pretrained(), using the model identifier \"CohereForAI/c4ai-command-a-03-2025\". The documentation explains how to structure system instructions and how to invoke the model in multiple usage scenarios—Chat, Retrieval-Augmented Generation (RAG), Tool Use and Agent frameworks—directly from the Hugging Face “Copy” page. For grounded (document-aware) generation, the SDK exposes apply_chat_template(); users pass an explicit documents parameter that injects external snippets into the prompt. The same chat-template mechanism underlies tool invocation: specialised prompt blocks can be generated for tools, and model outputs are post-processed with tool results. Therefore, every quoted instruction shows that Command A is accessible as a hosted model endpoint or local checkpoint through the standard, public HF API rather than a private library.",
+  "3-1 (Pre-training)": "The authors characterise Command A as a \"powerful large language model\" created for real-world enterprise tasks through a decentralised training approach. The pre-training phase combines self-refinement algorithms and model-merging techniques. A dedicated technical report \"details our original training pipeline\" and provides an \"extensive evaluation\" across enterprise benchmarks, emphasising both performance and efficiency. No explicit numeric hyper-parameters are disclosed in the quotes, but the pipeline description establishes that Command A’s base capability arises from self-refinement (iterative self-improvement) plus the aggregation of multiple sub-models via model merging within a distributed training workflow.",
+  "3-2 (Fine-tuning)": "After the base model is built, Command A undergoes multiple rounds of supervised fine-tuning and preference fine-tuning. The objective set includes summarisation, the final step of Retrieval-Augmented Generation (RAG), and explicit tool-use behaviours. The same blend of supervised data and preference signals, coupled with a \"specific prompt template,\" is applied to teach structured tool calls. Hence, the fine-tuning stage is task-oriented: it aligns the model with enterprise-centric downstream goals (summaries, RAG answers, tool workflows) through supervised instruction datasets complemented by preference optimisation.",
+  "3-3 (Reinforcement Learning)": "Preference fine-tuning (i.e., learning from preference comparisons, a form of RLHF-style optimisation) is repeatedly highlighted as a core component of Command A’s post-training stack. Both its summarisation/RAG abilities and its tool-use policies are \"trained into the model via a mixture of supervised fine-tuning and preference fine-tuning.\" Although concrete reward functions or batch sizes are not enumerated, the text confirms that preference-based reinforcement steps are interleaved with supervised updates to sculpt model behaviour toward user-preferred outputs.",
   "2-3 (API)__evidence": [
     {
       "source": "[sections/Using Command A on Hugging Face]",
       "quote": "Grounded generation in Command A is supported through chat templates in Transformers. Simply provide document snippets using the documents parameter of Hugging Face’s apply_chat_template()."
     },
     {
-      "source": "[sections/Using Command A on Hugging Face]",
-      "quote": "This page contains detailed instructions about: How to set system instructions for Command A in Hugging Face How to run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases."
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Using Command A on Hugging Face Copy page This page contains detailed instructions about: How to set system instructions for Command A in Hugging Face How to run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases."
     },
     {
       "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
-      "quote": "This page contains detailed instructions about: How to set system instructions for Command A in Hugging Face How to run Command A in Hugging Face for Chat, RAG, Tool Use and Agents use cases."
+      "quote": "Grounded generation in Command A is supported through chat templates in Transformers. Simply provide document snippets using the documents parameter of Hugging Face’s apply_chat_template() ."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "4 model_id = \"CohereForAI/c4ai-command-a-03-2025\"\n5 tokenizer = AutoTokenizer.from_pretrained(model_id)\n6 model = AutoModelForCausalLM.from_pretrained(model_id)"
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Tool use in Command A is supported through chat templates in Transformers."
+    },
+    {
+      "source": "[sections/https://huggingface.co/docs/transformers/main/en/chat_templating#advanced-retrieval-augmented-generation]",
+      "quote": "Usage: Generate the Tool Use prompt with tool results in the conversation  PYTHON 1 from transformers import AutoTokenizer, AutoModelForCausalLM 2 3 # Load the model and tokenizer 4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id) 6 model = AutoModelForCausalLM.from_pretrained(model_id)"
     }
   ],
   "3-1 (Pre-training)__evidence": [
     {
-      "source": "[pdf_text]",
+      "source": "[abstract]",
       "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. These abilities are achieved through a decentralised training approach, including self-refinement algorithms and model merging techniques."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. These abilities are achieved through a decentralised training approach, including self-refinement algorithms and model merging techniques."
     },
     {
-      "source": "[pdf_text]",
+      "source": "[sections/https://arxiv.org/abs/2504.00698]",
       "quote": "This technical report details our original training pipeline and presents an extensive evaluation of our models across a suite of enterprise-relevant tasks and public benchmarks, demonstrating excellent performance and efficiency."
-    },
-    {
-      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
-      "quote": "Grounded Generation and RAG Capabilities: Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG)."
     }
   ],
   "3-2 (Fine-tuning)__evidence": [
@@ -45,22 +45,26 @@
       "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
     },
     {
-      "source": "[sections/Using Command A on Hugging Face]",
-      "quote": "These tool use capabilities unlock two use cases: Function Calling : A single inference where Command A selects relevant tools to fulfill a user request. Agents : Several inference cycles where Command A iterates through Plan → Action → Observation loops until it arrives at a final response. These capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
-    },
-    {
       "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
       "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
     },
     {
       "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
-      "quote": "Command A has been specifically trained with conversational tool use capabilities. These capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
     }
   ],
   "3-3 (Reinforcement Learning)__evidence": [
     {
-      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "source": "[sections/Using Command A on Hugging Face]",
       "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    },
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "These tool use capabilities have been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning, using a specific prompt template."
     }
   ]
 }

@@ -1,33 +1,54 @@
 {
-  "4-1 (Pre-training Data)": "The available statements indicate that the pre-training corpus for the Command-series model is intentionally broad and multi-source. For Command A the creators combine: (a) multilingual publicly available text-and-code scraped from the open web, (b) internally generated synthetic corpora, (c) instruction-tuning sets written by human annotators, and (d) additional \"high-quality\" material licensed from specialised data vendors. While absolute token counts are not given, the authors explicitly characterise the mix as spanning many languages and data modalities. In addition to the raw web and vendor text, the team exploits a dedicated long-context pre-training dataset: they sample fragments up to 8,192 tokens long and use Command R+ Refresh to generate paired question-answer examples from those excerpts, thereby seeding the model with long-range context-handling skills. No further numerical breakdown or licensing detail is supplied, but the quoted passages make clear that the pre-training pool is a heterogeneous blend of public, synthetic, and commercially sourced data whose composition was chosen to balance coverage (via large-scale web text and code) with quality (via curated vendor deliveries and human-authored instruction data).",
-  "4-2 (Fine-tuning Data)": "Fine-tuning for Command A proceeds in multiple successive steps that each depend on purpose-built datasets. First, a collection of expert sub-models is trained with supervised fine-tuning (SFT) on task-specific instruction/response pairs; these experts are then merged into an initial “SFT model soup.” Next, additional experts are trained on the same soup with offline preference-optimisation methods, producing an “off-pref soup” that captures human-style preferences. During both of these stages the pipeline injects synthetic preamble material: the team programmatically generates diverse preambles, attaches them to incoming prompts, and ensures that completions and preference labels are conditioned on those preambles. Consequently, the fine-tuning data encompass (i) SFT instruction sets, (ii) preference-labelled variants of those sets, and (iii) the automatically generated preamble-augmented versions of each. The public availability, licensing terms, or exact token counts of these corpora are not disclosed in the quoted text.",
-  "4-3 (Reinforcement Learning Data)": "None of the supplied quotations describe any reinforcement-learning (RL) or RL-from-human-feedback datasets used for Command A; therefore no information about the composition, provenance, or accessibility of RL data can be summarised from the provided material.",
-  "4-4 (Data Filtering)": "Data cleaning for Command A is addressed at two distinct points in the training pipeline. (1) Web-scale text filtering: after deduplicating raw crawls, the team increases the relative proportion of hard-to-find educational material and aggressively down-samples low-quality documents that are flagged by machine-learning-based quality classifiers. Additional heuristic filters target both safety and general quality issues before the corpus is admitted to pre-training. (2) Prompt-level filtering: when constructing instruction datasets, the authors feed candidate prompts through Command R+ Refresh and evaluate them along multiple axes (described as a \"more comprehensive notion of prompt complexity\"). Prompts that fail these automated checks are discarded, a process that the authors note can be \"overly strict\" but nevertheless yields a remaining pool that is \"sufficiently difficult even for state-of-the-art models.\" Together these procedures control duplication, elevate educational content, suppress low-quality or unsafe text, and enforce a minimum complexity threshold on prompts—although no explicit numerical thresholds (e.g., Jaccard scores, perplexity cut-offs, or size reductions) are published in the quoted excerpts.",
+  "4-1 (Pre-training Data)": "The pre-training corpus for coherelabs/c4ai-command-a-03-2025 (referred to in the documentation as “Command A”) is intentionally broad and multilingual. According to the quoted material, it is assembled from four main streams: (1) publicly-available web text and source-code, (2) internally-generated synthetic data, (3) instruction-tuning sets written by human annotators, and (4) specialised, high-quality data purchased from commercial vendors. A long-context sub-corpus is also maintained; fragments of up to 8,192 tokens are sampled from this set and then used to prompt a sister model (“Command R+ Refresh”) to create additional question–answer pairs that become part of the pre-training mix. The engineering team employs a “model-merging” approach so that different research groups can train partial models on different slices of the data and later merge their checkpoints in parameter space. This strategy lets them combine capabilities that arise from very different data scales without having to concatenate everything into one monolithic dataset or adopt a single optimisation schedule.",
+  "4-2 (Fine-tuning Data)": "For supervised fine-tuning, the team concentrates on boosting code-related and multilingual instruction-following skills. One major component is a code-centric mixture that emphasises eight languages—Python, Java, C++, Rust, Go, JavaScript, TypeScript and COBOL—as well as five SQL dialects (SQLite, MySQL, PostgreSQL, Microsoft T-SQL and Oracle PL/SQL). Separate synthetic pipelines generate diverse “preambles” (policy, style or context directives) that are prepended to real user prompts so that the model learns to respect pre-conversation instructions. Beyond code, the post-training recipe deliberately covers many domains: factual Q&A, formatting tasks, STEM reasoning, tabular or other structured data manipulation, and general compliance. Multilingual quality is improved through iterative, synthetic data harvesting that uses a best-of-N sampling strategy; the method repeats generation in multiple languages, ranks the outputs and keeps only the top candidates for further fine-tuning.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement learning is applied after supervised fine-tuning in a multi-stage post-training pipeline. The process starts from an SFT “Soup” checkpoint and branches into six separate RL experts, each optimised for one domain with an RL algorithm that is explicitly ‘tailored’ to that domain. The quoted text indicates two reward-collection methods: (i) pairwise human or model comparisons, and (ii) automatically-verifiable reward functions. Although no concrete datasets are listed, the structure implies that each RL expert gathers or is fed preference-comparison data specific to its specialty before the experts are later merged or distilled back into the main Command A model.",
+  "4-4 (Data Filtering)": "The documentation reports a multi-layered filtering regime. During raw-web corpus construction, the team raises the proportion of educational documents—judged to be under-represented online—while aggressively down-sampling low-quality pages. The down-sampling decision is driven by ML-based quality classifiers that run after a de-duplication pass and a sequence of safety-oriented heuristic rules. For prompt-generation pipelines, they use the sister model “Command R+ Refresh” to automatically score or remove prompts along several complexity axes; although they concede the filters may be overly strict in edge cases, empirical checks show that the surviving prompts remain challenging for state-of-the-art systems. When building long-context training examples, multiple candidate answers are produced and a proprietary reward model selects the single best answer for inclusion, effectively acting as another quality-filtering stage.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[pdf_text]",
       "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
     },
     {
-      "source": "[sections/Pre-training]",
+      "source": "[sections/Expert Merging]",
+      "quote": "Model merging enables multiple teams to work asynchronously on improving different capabilities, with their contributions merged together in parameter space. The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy."
+    },
+    {
+      "source": "[sections/2.2 Data]",
       "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
     },
     {
-      "source": "[sections/Long Context/Data]",
+      "source": "[sections/Long Context]",
       "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024)."
     }
   ],
   "4-2 (Fine-tuning Data)__evidence": [
     {
-      "source": "[sections/3.4.3 Expert Merging]",
-      "quote": "The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
+      "source": "[pdf_text]",
+      "quote": "Generating and understanding code is a fundamental requirement for any enterprise LLM. We invest in the code capabilities of Command A to assist the software development cycle and improve user coding experience. Data Mixture. Our data mix focuses on 8 priority programming languages (Python, Java, C++, Rust, Go, JavaScript, TypeScript, COBOL) and 5 dialects of SQL (SQLite, MySQL, PostgreSQL, Microsoft T-SQL, Oracle PL/SQL)."
     },
     {
-      "source": "[sections/Instruction-Following]",
-      "quote": "To train Command A to follow preamble instructions, we develop methods based on synthetic data generation to create diverse preambles that are attached to prompts flowing into the above-described pipeline. The preambles are then taken into account when creating the respective completions and preferences, i.e., preamble-augmented data is used during both SFT and preference tuning."
+      "source": "[pdf_text]",
+      "quote": "To train Command A to follow preamble instructions, we develop methods based on synthetic data generation to create diverse preambles that are attached to prompts flowing into the above-described pipeline."
+    },
+    {
+      "source": "[sections/3.3.1 Instruction-Following]",
+      "quote": "As such, in the Command A post-training recipe, we teach the model to follow instructions across a wide range of topics and domains, including but not limited to generalist instruction-following (e.g., factual knowledge requests), formatting, STEM-specific tasks (e.g., tabular reasoning, structured data manipulation), and preamble compliance."
+    },
+    {
+      "source": "[sections/3.3.3 Multilingual]",
+      "quote": "To further improve the multilingual quality of Command A, we conduct iterative synthetic data collection through multilingual best-of-N (Stiennon et al., 2020; Eisenstein et al., 2024)."
     }
   ],
-  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    },
+    {
+      "source": "[sections/3 Post-training Overview]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: … • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    }
+  ],
   "4-4 (Data Filtering)__evidence": [
     {
       "source": "[pdf_text]",
@@ -35,15 +56,19 @@
     },
     {
       "source": "[sections/4.11.1 Evaluation Data]",
-      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity."
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity. While the filtering may be overly strict in some instances, our findings show that the resulting pool of prompts is sufficiently difficult even for state-of-the-art models."
     },
     {
-      "source": "[sections/Pre-training]",
-      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+      "source": "[sections/2.2 Data]",
+      "quote": "Command A models are trained on multilingual data … . We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[sections/Long Context]",
+      "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024). To ensure high-quality, we use our reward model to select the best generation from a pool of candidates."
     },
     {
       "source": "[sections/Human Evaluation]",
-      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity. While the filtering may be overly strict in some instances, our findings show that the resulting pool of prompts is sufficiently difficult even for state-of-the-art models."
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity."
     }
   ]
 }

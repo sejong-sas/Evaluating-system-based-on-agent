@@ -1,16 +1,20 @@
 {
-  "1-5 (Architecture)": "The provided documentation repeatedly identifies the model as “c4ai-command-a-03-2025.” In the architecture bullet list, it explicitly states “Model Size: 111 billion parameters,” establishing that the network contains 111 B learnable weights. In the same list, as well as in a separate reiterated sentence, the text specifies a “Context length: 256K,” and restates that “Command A supports a context length of 256 K.” Taken together, these two facts give the entirety of the architectural detail disclosed in the quotes: (1) the parameter count of 111 B and (2) the extremely large maximum window of 256 000 tokens that the architecture is designed to accept in a single forward pass. No further layer‐wise, head‐count, or hyper-parameter breakdowns are present in the supplied excerpts.",
+  "1-5 (Architecture)": "The quotes state that the model explicitly identified as “c4ai-command-a-03-2025” (also referred to as Cohere Labs Command A) is an open-weights research release with 111 billion parameters. It is an auto-regressive transformer language model whose context window is 256 K tokens. Design details given in the quoted material describe four distinct attention layers: the first three layers rely on sliding-window attention with a window size of 4096 tokens and employ RoPE (Rotary Positional Embeddings) for relative positional encoding, while a fourth layer switches to global attention that completely removes positional embeddings so tokens can interact freely across the entire sequence. After the core pre-training, the model undergoes supervised fine-tuning (SFT) followed by preference-based alignment to make its behaviour helpful and safe for enterprise use. In short, c4ai-command-a-03-2025 is a 111 B-parameter, 256 K-context, autoregressive transformer that combines sliding-window + RoPE attention with a final global-attention layer, then gains additional alignment through SFT and preference training.",
   "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Cohere Labs Command A is an open weights research release of a 111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI."
+    },
     {
       "source": "[readme]",
       "quote": "* Model: c4ai-command-a-03-2025  \n* Model Size: 111 billion parameters  \n* Context length: 256K"
     },
     {
       "source": "[readme]",
-      "quote": "**Context Length**: Command A supports a context length of 256K."
+      "quote": "**Model Architecture**: This is an auto-regressive language model that uses an optimized transformer architecture. After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety. The model features three layers with **sliding window attention** (window size 4096) and **RoPE** for efficient local context modeling and relative positional encoding. A fourth layer uses **global attention** without positional embeddings, enabling unrestricted token interactions across the entire sequence."
     }
   ],
-  "1-6 (Tokenizer)": "All tokenizer information centers on how users should load and format messages for the target model. The snippet shows that messages should be prepared “with the c4ai-command-a-03-2025 chat template,” implying a dedicated prompt-formatting convention bundled with the release. Programmatically, the tokenizer is pulled directly from HuggingFace via:\n\nmodel_id = \"CohereLabs/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)\n\nThis line demonstrates that the tokenizer artefact is published under the same repository name on the Hub and can be downloaded with the standard AutoTokenizer class, suggesting compatibility with the Transformers ecosystem. The quote, however, does not reveal vocabulary size, model type (BPE, SentencePiece, etc.), or any special token details beyond the existence of a chat template.",
+  "1-6 (Tokenizer)": "The only tokenizer-related information in the quotes is that users must “format messages with the c4ai-command-a-03-2025 chat template,” and that Retrieval-Augmented Generation (RAG) with Command A is supported through chat templates in Hugging Face Transformers. No further specifics (vocabulary size, BPE vs. SentencePiece, download location, etc.) are provided in the supplied quotes.",
   "1-6 (Tokenizer)__evidence": [
     {
       "source": "[readme]",
@@ -18,16 +22,11 @@
     },
     {
       "source": "[readme]",
-      "quote": "model_id = \"CohereLabs/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)"
+      "quote": "RAG with Command A is supported through chat templates in Transformers."
     }
   ],
-  "2-1 (Hardware)": "The only hardware-related statement given is that Cohere Labs positions Command A as “deployable on just two GPUs,” despite its 111 billion parameter scale. While framed in terms of deployment rather than training, this still conveys that the model can run inference on a dual-GPU setup, highlighting cost-effective operational requirements. No other specifics—such as GPU model (A100, H100, etc.), memory footprint, training cluster size, or total FLOPs—are disclosed in the provided material.",
-  "2-1 (Hardware)__evidence": [
-    {
-      "source": "[readme]",
-      "quote": "Cohere Labs Command A is an open weights research release of a 111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI. Compared to other leading proprietary and open-weights models Command A delivers maximum performance with minimum hardware costs, excelling on business-critical agentic and multilingual tasks while‬ being deployable on just two GPUs."
-    }
-  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
   "2-2 (Software)": "",
   "2-2 (Software)__evidence": []
 }

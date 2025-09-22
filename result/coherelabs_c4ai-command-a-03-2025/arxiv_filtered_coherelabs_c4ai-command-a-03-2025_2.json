@@ -1,28 +1,32 @@
 {
-  "1-5 (Architecture)": "The available statements describe coherelabs/c4ai-command-a-03-2025 (\"Command A\") as a \"decoder-only Transformer architecture (Vaswani et al., 2017).\" A schematic is provided in Figure 2. The model is explicitly said to have \"111 B parameters,\" and it is compared with a smaller sibling (Command R7B) while being characterized as delivering \"best-in-class\" benchmark results for its size. The architecture is further described as a \"hybrid architecture\" that preserves strong long-context performance while cutting KV-cache memory use. Quantitatively, at an 8 k token sequence length it needs only \"75 % of the KV cache memory\" used by Llama 3.3 70B Instruct, \"23.8 %\" of that required by Llama 3.1 405B Instruct, and \"45.5 %\" of Mistral Large. These points together give the only publicly-quoted structural details: (1) decoder-only Transformer backbone, (2) 111 B parameter scale, and (3) a memory-efficient hybrid attention design delivering reduced KV-cache footprint.",
+  "1-5 (Architecture)": "The documentation repeatedly emphasises that command-a is built around a novel, hybrid architecture that was explicitly engineered to balance efficiency with top-tier performance.  A schematic of this design is provided (Figure 2), and the text explains that the model combines architectural components in such a way that it can handle very long sequences while using far less key-value (KV) cache memory than conventional full-attention designs.  Concrete numbers are supplied: at an 8 k context length, command-a needs only 75 % of the KV cache required by Llama 3 70 B Instruct, 23.8 % of that used by Llama 3 405 B Instruct, and 45.5 % of Mistral Large, illustrating the memory savings delivered by the hybrid layout.\n\nThe model size is clearly specified as 111 B parameters.  Even within this size class, the authors claim state-of-the-art results: Figure 6 shows that command-a achieves leading code-generation accuracy against models of similar or much larger size, and the “Command A Agent” variant pushes the performance frontier even farther while remaining at the same 111 B scale through tool-use integration.\n\nBeyond raw scale, the architecture is described as “agent-optimised” and “multilingual-capable,” with native support for 23 business-relevant languages.  The quoted material also stresses that the same core architecture underpins the model’s exceptional long-context reasoning benchmarks (Tables 21 & 22), confirming that these strengths emerge directly from structural choices rather than post-hoc fine-tuning.  Collectively, the quotes portray command-a as a single-tower, 111 B-parameter, hybrid-attention LLM that sets new efficiency and quality standards for enterprise deployments, especially in memory-strained scenarios and code-heavy workloads.",
   "1-6 (Tokenizer)": "",
-  "2-1 (Hardware)": "The sole hardware detail concerns inference/serving, not training: \"With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models.\" No quotes mention the training cluster size, accelerator count, or total compute budget, so the only confirmed fact is that the model can be served on as few as two NVIDIA A100 or H100 GPUs.",
+  "2-1 (Hardware)": "The available statements focus on the model’s inference footprint.  They indicate that command-a can be served on as little as two NVIDIA A100 or H100 GPUs, highlighting its computational frugality relative to competing models.  The text adds that this limited hardware requirement not only lowers computational overhead but also enables on-premise or private-cloud deployment while still delivering a high token throughput.  No further details about the hardware used during pre-training (e.g., total GPU count, cluster scale, or training FLOPs) are disclosed in the supplied quotations.",
   "2-2 (Software)": "",
   "1-5 (Architecture)__evidence": [
     {
       "source": "[pdf_text]",
-      "quote": "Figure 2: Schematic of the Command A model architecture. We use a decoder-only Transformer architecture (Vaswani et al., 2017) as depicted in Figure 2."
-    },
-    {
-      "source": "[pdf_text]",
-      "quote": "Both the 111B parameter Command A and Command R7B perform best-in-class across a suite of established benchmarks for their respective model sizes."
-    },
-    {
-      "source": "[sections/4.8 Long-Context Benchmarks]",
-      "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture. For instance, at an 8k sequence length, Command A requires only 75% of the KV cache memory used by Llama 3.3 70B Instruct, 23.8% of that used by Llama 3.1 405B Instruct, and 45.5% of that used by Mistral Large."
-    },
-    {
-      "source": "[sections/2.3 Model Architecture]",
       "quote": "Figure 2: Schematic of the Command A model architecture."
+    },
+    {
+      "source": "[figure/Figure 6 caption]",
+      "quote": "Figure 6: Code Performance against Model Size. Command A provides state-of-the-art performance compared to models of similar size, and often significantly larger models. Command A Agent improves even further to set a new standard for performance at 111B size with tool-use in code."
     },
     {
       "source": "[sections/Long-Context Benchmarks]",
       "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings. Both the 111B parameter Command A and Command R7B perform best-in-class across a suite of established benchmarks for their respective model sizes."
+    },
+    {
+      "source": "[figure 6 caption]",
+      "quote": "Figure 6: Code Performance against Model Size. Command A provides state-of-the-art performance compared to models of similar size, and often significantly larger models. Command A Agent improves even further to set a new standard for performance at 111B size with tool-use in code."
     },
     {
       "source": "[sections/Long-Context Benchmarks]",
@@ -32,12 +36,12 @@
   "1-6 (Tokenizer)__evidence": [],
   "2-1 (Hardware)__evidence": [
     {
-      "source": "[pdf_text]",
-      "quote": "With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
-    },
-    {
       "source": "[sections/Introduction]",
       "quote": "Command A focuses on delivering competitive performance as efficiently as possible. With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate."
     }
   ],
   "2-2 (Software)__evidence": []

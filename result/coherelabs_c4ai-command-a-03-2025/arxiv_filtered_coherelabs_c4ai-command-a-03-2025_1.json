@@ -1,20 +1,24 @@
 {
-  "1-1 (Weights)": "The quotes consistently state that the weights for the target model family are publicly released. One passage explicitly says that “Weights for both models have been released for research purposes,” referring to Command A and its sibling model Command R7B. A second quote clarifies the distribution framework: “We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum.” A third quote reiterates that the release is designed to “further facilitate community-based exploration and research,” while also emphasizing that the model is lightweight enough to be served on “just two A100 or H100 GPUs,” underscoring the practical deployability of the released checkpoints. Together, these sentences convey that (1) the weights are indeed downloadable for the public research community, (2) the release covers both Command A and Command R7B, (3) the purpose is explicitly framed as research and community exploration, and (4) the distribution is governed by the CC-BY-NC (non-commercial) license and an additional acceptable-use policy. No URL or hosting platform is named in the cited text, nor is any gated-access mechanism mentioned; only the fact of availability “to the research community” under the specified license is provided.",
-  "1-2 (Code)": "The supplied quotation set does not contain any sentence that mentions the release, openness, or availability of training code, data-prep scripts, configuration files, or any other part of the training pipeline for Command A. There is likewise no statement about inference-only code. Consequently, based strictly on the provided text, no public training or inference code release is disclosed for the model.",
-  "1-3 (License)": "Every licensing reference in the quotes is bound to the distribution of model weights. The relevant lines twice identify the license as “CC-BY-NC” and explicitly label it “Non-Commercial.” One sentence expands on this by adding that the release is accompanied by “an acceptable use addendum,” implying extra policy constraints on top of the baseline Creative Commons license. The text frames the license’s intent as enabling “community-based exploration and research.” No statements appear that grant rights for commercial exploitation, downstream redistribution outside the specified terms, or derivative works. Therefore, the quoted material characterizes the license as: (a) permitting non-commercial research use, (b) governed by CC-BY-NC attribution requirements, and (c) further restricted by an acceptable-use policy; it does not mention allowances for commercial use, broad redistribution, or unbounded modification.",
-  "1-4 (Paper)": "Multiple quotes confirm the existence of an official technical report devoted to the model. They introduce it variously as “In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases,” and “This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings.” Additional lines state that the report “shared extensive performance evaluations across many domains and languages” and that it should be cited as “Cohere (2025).” One short title-style quote provides the likely report title: “Command A: An Enterprise-Ready Large Language Model.” Collectively, these sentences establish that (1) an official technical report exists, (2) it covers model development details and broad evaluation results, (3) it includes side-by-side discussion of Command A and Command R7B, (4) its primary focus is enterprise-oriented capabilities, and (5) the citation year is 2025.",
+  "1-1 (Weights)": "The quotes repeatedly state that the “Command” family’s parameters have been made publicly available. In particular, they say that “Weights for both models have been released for research purposes” and that “We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum. The model checkpoints are available on the HuggingFace model hub.” These statements cover both Command A and its closely related sibling Command R7B. No pay-wall or application process is mentioned, implying that anyone can download the full checkpoints from HuggingFace, but only for non-commercial, research-oriented use in keeping with the stated license. There is no claim that earlier or smaller ‘adapter’ versions, partial weights, or quantised artefacts differ; the wording implies the full model weights are supplied. The material does not mention any alternative hosting location, gated access, or request form, nor does it clarify whether fine-tuned variants or future updates will also be released. Overall, the available evidence indicates that the complete weights for Command A (and R7B) can be obtained by any researcher from the HuggingFace hub, subject to the non-commercial licence and acceptable-use restrictions.",
+  "1-2 (Code)": "None of the provided sentences mention training scripts, data-preparation pipelines, configuration files, fine-tuning notebooks, reinforcement-learning code, or any other part of the training stack. Likewise, there is no reference to inference-only code, example notebooks, or SDKs. Consequently, based on the supplied material there is no evidence that any portion of the Command A training code—whether for pre-training, alignment, or evaluation—has been released or even partially documented.",
+  "1-3 (License)": "Every licensing reference revolves around a single clause: “CC-BY-NC License (Non-Commercial) with an acceptable use addendum.” Because it is a CC-BY-NC licence, the community is explicitly granted the rights to copy, share, and adapt the model weights so long as they (a) attribute the originator and (b) do so strictly for NON-COMMERCIAL purposes. Commercial exploitation is therefore disallowed unless a separate agreement is reached. The acceptable-use addendum, while not itself quoted, is declared to exist and presumably narrows the scope further (for instance, by forbidding disallowed content generation). As the language explicitly calls the licence ‘Non-Commercial,’ we can infer that:\n(a) Use: permitted for research and other non-commercial activity.\n(b) Modification and derivative works: allowed under the BY-NC terms, again only non-commercially.\n(c) Redistribution: allowed with attribution and non-commercial restriction.\n(d) Commercial use: expressly prohibited without additional permission.\nNo other licence types (e.g., Apache-2.0, MIT, Eval-only) are mentioned, and the quotes never state that code or data are covered—only the model weights fall under this CC-BY-NC regime.",
+  "1-4 (Paper)": "An official technical report titled “Command A: An Enterprise-Ready Large Language Model” is referenced. The document was “released as a preprint on April 7, 2025,” and it instructs readers to “please cite this technical report as ‘Cohere (2025)’.” The report describes the development of Command A, benchmarks the model across “academic, agentic, code and multilingual” tasks, and presents side-by-side results for both Command A and the smaller companion model Command R7B. The authors emphasise a wide evaluation sweep using public datasets as well as proprietary internal tests, aiming to demonstrate the model’s suitability for enterprise deployments. Although the quotes do not provide a DOI or a direct URL, they clearly establish the existence, title, release date, citation format, and thematic scope (architecture, performance evaluations, and enterprise applicability) of the underlying paper.",
   "1-1 (Weights)__evidence": [
     {
-      "source": "[abstract]",
+      "source": "[pdf_text]",
       "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
     },
     {
       "source": "[pdf_text]",
-      "quote": "Table 1: Command A and Command R7B results on key academic, agentic, code and multilingual benchmarks, in comparison to relevant external models. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
+      "quote": "Table 1: Command A and Command R7B results on key academic, agentic, code and multilingual benchmarks, in comparison to relevant external models. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum. The model checkpoints are available on the HuggingFace model hub."
     },
     {
       "source": "[sections/Conclusion]",
-      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate. The release of model weights under a non-commercial license further facilitates community-based exploration and research."
+      "quote": "The release of model weights under a non-commercial license further facilitates community-based exploration and research. Command A sets a new standard for LLMs in enterprise applications, balancing performance, efficiency, and versatility — and providing maximum performance for minimal compute."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "Command A can deliver tokens at a rate of up to 156 tokens/sec which is 1.75x higher than GPT-4o and 2.4x higher than DeepSeek V3. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
     }
   ],
   "1-2 (Code)__evidence": [],
@@ -25,33 +29,37 @@
     },
     {
       "source": "[sections/Conclusion]",
-      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate. The release of model weights under a non-commercial license further facilitates community-based exploration and research."
+      "quote": "The release of model weights under a non-commercial license further facilitates community-based exploration and research. Command A sets a new standard for LLMs in enterprise applications, balancing performance, efficiency, and versatility — and providing maximum performance for minimal compute."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "Command A can deliver tokens at a rate of up to 156 tokens/sec which is 1.75x higher than GPT-4o and 2.4x higher than DeepSeek V3. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
     }
   ],
   "1-4 (Paper)__evidence": [
     {
-      "source": "[abstract]",
-      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases."
+      "source": "[title]",
+      "quote": "Command A: An Enterprise-Ready Large Language Model"
     },
     {
       "source": "[pdf_text]",
-      "quote": "This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings."
+      "quote": "Released as a preprint on April 7, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Please cite this technical report as “Cohere (2025)”."
     },
     {
       "source": "[sections/Results]",
-      "quote": "We report results from a diverse and extensive set of evaluations benchmarking the performance of Command A and Command R7B."
+      "quote": "We report results from a diverse and extensive set of evaluations benchmarking the performance of Command A and Command R7B. We evaluate a broad range of capabilities using public academic datasets and internal evaluations."
     },
     {
       "source": "[sections/Conclusion]",
       "quote": "This technical report detailed the development of Command A, shared extensive performance evaluations across many domains and languages, and shared additional results for Command R7B."
     },
     {
-      "source": "[title]",
-      "quote": "Command A: An Enterprise-Ready Large Language Model"
-    },
-    {
       "source": "[sections/2504.00698]",
-      "quote": "Please cite this technical report as “Cohere (2025)”."
+      "quote": "Please cite this technical report as “Cohere (2025)”. A full author list can be found at the end of this document."
     }
   ]
 }

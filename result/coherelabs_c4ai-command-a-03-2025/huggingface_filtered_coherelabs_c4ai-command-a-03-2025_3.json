@@ -1,26 +1,30 @@
 {
-  "2-3 (API)": "Command A has been specifically trained with conversational tool use capabilities, allowing the model to interact with external tools such as APIs, databases, or search engines.",
+  "2-3 (API)": "The quotes explicitly state two publicly accessible entry points for working with coherelabs/c4ai-command-a-03-2025. First, “You can try Command A chat in the playground [here](https://dashboard.cohere.com/playground/chat?model=command-a-03-2025),” confirming that Cohere’s own dashboard playground hosts an interactive chat interface tied to the exact model string “command-a-03-2025.” Second, “You can try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space(https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025),” establishes that a Hugging Face Space also exposes an online demo of the same model. Together these two sentences show the existence of an API-like, point-and-click interface (Cohere Playground) and an additional browser-based endpoint (Hugging Face Space) where users can send prompts and receive completions without running local code. Although no explicit token limits, authentication flow, or REST/RPC specification is listed in the quotes, the presence of both a Cohere dashboard URL and a Hugging Face Space URL strongly implies that developers can experiment interactively and download weights after testing. Thus, from the provided text we can summarize that the model is publicly reachable through Cohere’s playground and through a hosted Hugging Face Space, giving immediate hands-on access before any local deployment.",
   "2-3 (API)__evidence": [
     {
       "source": "[readme]",
-      "quote": "Command A has been specifically trained with conversational tool use capabilities. This allows the model to interact with external tools like APIs, databases, or search engines."
+      "quote": "You can try Command A chat in the playground [here](https://dashboard.cohere.com/playground/chat?model=command-a-03-2025)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can try out Cohere Labs Command A before downloading the weights in our hosted Hugging Face Space(https://coherelabs-c4ai-command.hf.space/models/command-a-03-2025)."
     }
   ],
-  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)": "The only direct information about pre-training for coherelabs/c4ai-command-a-03-2025 is contained in the sentence: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” The wording confirms that a distinct pre-training phase occurred prior to alignment work, but it does not enumerate data sources, corpus size, token counts, model hyper-parameters, curriculum order, or training duration. Nonetheless, the sentence does establish a clear chronological boundary: pre-training finished first, and subsequent alignment stages (SFT and preference training) were layered on top. Therefore, the summary is limited to acknowledging the completion of an undisclosed pre-training process that produced a base model sufficiently capable to move on to supervised fine-tuning and preference-based alignment.",
   "3-1 (Pre-training)__evidence": [
     {
       "source": "[readme]",
-      "quote": "Model Architecture: This is an auto-regressive language model that uses an optimized transformer architecture. After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
+      "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)": "Fine-tuning information comes from the same statement: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” From this we can derive that coherelabs/c4ai-command-a-03-2025 underwent a supervised fine-tuning (SFT) stage immediately after its base pre-training. The stated goal of this SFT was explicit: to adjust the model so that its responses are aligned with human preferences, particularly around being helpful and safe. The quote groups SFT together with “preference training,” implying that SFT formed the first half of a broader alignment pipeline. No dataset names, number of examples, or hyper-parameters (learning rate, batch size, epochs) are provided in the quotes, but we can definitively report that supervised fine-tuning was employed and that its alignment objectives centered on helpfulness and safety.",
   "3-2 (Fine-tuning)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)": "The reinforcement-learning or preference-optimization stage is again referenced in the sentence: “After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety.” Here, the term “preference training” is the only clue pointing to an RL-type alignment step—likely Reinforcement Learning from Human Feedback (RLHF) or a comparable approach—whose purpose was to nudge the model toward outputs rated higher by human evaluators for helpfulness and safety. While the quote does not spell out the algorithmic variant (e.g., PPO, DPO) or specific reward models, it affirms that some form of preference-based reinforcement learning occurred after SFT. Thus, the summary: coherelabs/c4ai-command-a-03-2025, having completed pre-training and SFT, received an additional preference-training phase that leverages human feedback to further align its behavior, specifically optimizing for helpfulness and safety in its responses.",
   "3-3 (Reinforcement Learning)__evidence": [
     {
       "source": "[readme]",

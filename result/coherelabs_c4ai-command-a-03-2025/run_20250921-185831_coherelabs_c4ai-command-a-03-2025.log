@@ -1,0 +1,79 @@
+
+======== 1/1 ▶ CohereLabs/c4ai-command-a-03-2025 ========
+📁 Directory to create/use: coherelabs_c4ai-command-a-03-2025
+📁 Output path: coherelabs_c4ai-command-a-03-2025
+1️⃣ HF: True, GH: False
+⚠️ No GitHub repo passed the thresholds.
+✅ HF model: coherelabs/c4ai-command-a-03-2025 (found at priority: 1)
+⚠️ report fetch failed: https://docs.cohere.com/docs/command-a-hf&sa=D&source=docs&ust=1741857329583678&usg=AOvVaw3sS-2eIfLzShS6c9VWXJWa 404 Client Error: Not Found for url: https://docs.cohere.com/docs/command-a-hf&sa=D&source=docs&ust=1741857329583678&usg=AOvVaw3sS-2eIfLzShS6c9VWXJWa
+📄 Reports saved/merged (HF): coherelabs_c4ai-command-a-03-2025\reports_fulltext_huggingface_coherelabs_c4ai-command-a-03-2025.json
+✅ JSON file saved: coherelabs_c4ai-command-a-03-2025\huggingface_coherelabs_c4ai-command-a-03-2025.json
+📄 Reports merged to: coherelabs_c4ai-command-a-03-2025\reports_fulltext_coherelabs_c4ai-command-a-03-2025.json (HF sources)
+✅ Saved group 1 result: coherelabs_c4ai-command-a-03-2025\huggingface_filtered_coherelabs_c4ai-command-a-03-2025_1.json
+✅ Saved group 2 result: coherelabs_c4ai-command-a-03-2025\huggingface_filtered_coherelabs_c4ai-command-a-03-2025_2.json
+✅ Saved group 3 result: coherelabs_c4ai-command-a-03-2025\huggingface_filtered_coherelabs_c4ai-command-a-03-2025_3.json
+✅ Saved group 4 result: coherelabs_c4ai-command-a-03-2025\huggingface_filtered_coherelabs_c4ai-command-a-03-2025_4.json
+✅ Saved final merged result: coherelabs_c4ai-command-a-03-2025\huggingface_filtered_final_coherelabs_c4ai-command-a-03-2025.json
+⚠️ No GitHub info
+🔎 HF tags found arXiv IDs: ['2504.00698']
+🔄 Simplified query: 'c4ai command a 03 2025'
+🔎 Tavily search: c4ai command a 03 2025 paper
+  → No arXiv link found in results.
+🔎 Tavily search: c4ai command a 03 2025 technical report
+  → arXiv link found: https://arxiv.org/abs/2504.00698
+🛰️ Tavily candidates: ['2504.00698']
+📦 Final merged arXiv IDs: ['2504.00698']
+📄 PDF saved: coherelabs_c4ai-command-a-03-2025\arxiv_2504.00698.pdf
+✅ Full paper text saved: coherelabs_c4ai-command-a-03-2025\arxiv_fulltext_coherelabs_c4ai-command-a-03-2025.json
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 5, '1-2 (Code)': 0, '1-3 (License)': 4, '1-4 (Paper)': 7}, 'kept': {'1-1 (Weights)': 4, '1-2 (Code)': 0, '1-3 (License)': 3, '1-4 (Paper)': 6}}
+✅ Saved group 1 : coherelabs_c4ai-command-a-03-2025\arxiv_filtered_coherelabs_c4ai-command-a-03-2025_1.json
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 8, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 7, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 0}}
+✅ Saved group 2 : coherelabs_c4ai-command-a-03-2025\arxiv_filtered_coherelabs_c4ai-command-a-03-2025_2.json
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 1, '3-1 (Pre-training)': 3, '3-2 (Fine-tuning)': 5, '3-3 (Reinforcement Learning)': 6}, 'kept': {'2-3 (API)': 1, '3-1 (Pre-training)': 3, '3-2 (Fine-tuning)': 5, '3-3 (Reinforcement Learning)': 5}}
+✅ Saved group 3 : coherelabs_c4ai-command-a-03-2025\arxiv_filtered_coherelabs_c4ai-command-a-03-2025_3.json
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 4, '4-2 (Fine-tuning Data)': 4, '4-3 (Reinforcement Learning Data)': 2, '4-4 (Data Filtering)': 5}, 'kept': {'4-1 (Pre-training Data)': 4, '4-2 (Fine-tuning Data)': 4, '4-3 (Reinforcement Learning Data)': 2, '4-4 (Data Filtering)': 5}}
+✅ Saved group 4 : coherelabs_c4ai-command-a-03-2025\arxiv_filtered_coherelabs_c4ai-command-a-03-2025_4.json
+✅ Saved final merged: coherelabs_c4ai-command-a-03-2025\arxiv_filtered_final_coherelabs_c4ai-command-a-03-2025.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 4, '1-2 (Code)': 0, '1-3 (License)': 1, '1-4 (Paper)': 3}, 'kept': {'1-1 (Weights)': 4, '1-2 (Code)': 0, '1-3 (License)': 1, '1-4 (Paper)': 3}}
+✅ Saved group 1 : coherelabs_c4ai-command-a-03-2025\reports_filtered_coherelabs_c4ai-command-a-03-2025_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 2, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 0, '2-2 (Software)': 1}, 'kept': {'1-5 (Architecture)': 2, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 0, '2-2 (Software)': 1}}
+✅ Saved group 2 : coherelabs_c4ai-command-a-03-2025\reports_filtered_coherelabs_c4ai-command-a-03-2025_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 5, '3-1 (Pre-training)': 3, '3-2 (Fine-tuning)': 3, '3-3 (Reinforcement Learning)': 3}, 'kept': {'2-3 (API)': 5, '3-1 (Pre-training)': 3, '3-2 (Fine-tuning)': 3, '3-3 (Reinforcement Learning)': 3}}
+✅ Saved group 3 : coherelabs_c4ai-command-a-03-2025\reports_filtered_coherelabs_c4ai-command-a-03-2025_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 1, '4-2 (Fine-tuning Data)': 1, '4-3 (Reinforcement Learning Data)': 1, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 1, '4-2 (Fine-tuning Data)': 1, '4-3 (Reinforcement Learning Data)': 1, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 : coherelabs_c4ai-command-a-03-2025\reports_filtered_coherelabs_c4ai-command-a-03-2025_4.json
+✅ Saved final merged: coherelabs_c4ai-command-a-03-2025\reports_filtered_final_coherelabs_c4ai-command-a-03-2025.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: coherelabs_c4ai-command-a-03-2025\openness_score_coherelabs_c4ai-command-a-03-2025.json
+✅ Openness evaluation complete. Result file: coherelabs_c4ai-command-a-03-2025\openness_score_coherelabs_c4ai-command-a-03-2025.json
+✅ Saved model ID: coherelabs_c4ai-command-a-03-2025\identified_model.txt
+⏳ **Time taken for this model: 2346.05 seconds**
+🧾 Log saved to: coherelabs_c4ai-command-a-03-2025\run_20250921-185831_coherelabs_c4ai-command-a-03-2025.log

@@ -1,30 +1,25 @@
 {
-  "4-1 (Pre-training Data)": "The documentation for coherelabs/c4ai-command-a-03-2025 states that the pre-training corpus spans 23 distinct natural languages. Specifically, the training mixture includes English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian. The quote emphasizes the breadth of linguistic coverage, implying that the raw pre-training data was intentionally assembled to represent a multilingual distribution rather than an English-only set. No numerical token counts, domain breakdowns, or license descriptions are provided, but the explicit enumeration of the 23 languages confirms that the model’s foundational corpus is multilingual and that representation was a design objective during data collection for the 03-2025 Command series model.",
+  "4-1 (Pre-training Data)": "The quotes indicate that the coherelabs/c4ai-command-a-03-2025 model was exposed, during its pre-training stage, to a multilingual corpus that explicitly covered 23 languages: English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian. No other details about data source types, licensing, or exact corpus sizes are disclosed in the available material.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "**Languages covered**: The model has been trained on 23 languages: English, French, Spanish, Italian, German, Portuguese, Japanese, Korean, Arabic, Chinese, Russian, Polish, Turkish, Vietnamese, Dutch, Czech, Indonesian, Ukrainian, Romanian, Greek, Hindi, Hebrew, and Persian."
     }
   ],
-  "4-2 (Fine-tuning Data)": "For the fine-tuning stage, the only disclosed information is that, after pre-training, coherelabs/c4ai-command-a-03-2025 undergoes supervised fine-tuning (SFT) and subsequent preference training. These two steps are carried out to ‘align model behavior to human preferences for helpfulness and safety’. While the quote does not enumerate concrete datasets, domains, or licensing terms, it clearly conveys the pipeline structure: first an SFT pass—implying a curated set of instruction–response pairs—and then a preference-based optimization phase where human (or human-like) feedback signals are used to steer the model toward preferred answers. Thus, compositionally, the fine-tuning data consist of (i) supervision examples used in SFT and (ii) preference-annotated examples used in alignment, both selected for the twin goals of helpfulness and safety.",
+  "4-2 (Fine-tuning Data)": "According to the quoted material, once the base pre-training was complete the coherelabs/c4ai-command-a-03-2025 model underwent supervised fine-tuning (SFT) followed by preference training. Both steps were aimed at aligning the system’s behavior with human preferences for helpfulness and safety. The source composition, concrete examples, or public availability of these fine-tuning datasets are not described in the provided quotes.",
   "4-2 (Fine-tuning Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "4-3 (Reinforcement Learning Data)": "The same sentence indicates that, in addition to SFT, coherelabs/c4ai-command-a-03-2025 receives ‘preference training’. In typical alignment pipelines, this preference training corresponds to a reinforcement-learning-from-human-feedback (RLHF) or similar reward-model approach. The quote clarifies that the preference data are grounded in ‘human preferences for helpfulness and safety’. Although no numeric details or accessibility statements are provided, the disclosure confirms that the RL dataset is human-labelled (or derived from human feedback) and that its purpose is to optimize the model’s responses toward safety-conscious, helpful outputs. Therefore, the reinforcement-learning data component is a set of preference comparisons or ratings that teach the model which answers humans consider superior under the safety and usefulness criteria.",
+  "4-3 (Reinforcement Learning Data)": "The same quoted sentence states that, in addition to supervised fine-tuning, the model also received preference training designed to align output with human judgments of helpfulness and safety. This implies a reinforcement-learning-from-human-feedback (RLHF) style dataset, but the specific composition, accessibility, or generation method (e.g., size, annotator demographics, or sampling strategy) is not revealed in the supplied excerpts.",
   "4-3 (Reinforcement Learning Data)__evidence": [
     {
       "source": "[readme]",
       "quote": "After pretraining, this model uses supervised fine-tuning (SFT) and preference training to align model behavior to human preferences for helpfulness and safety."
     }
   ],
-  "4-4 (Data Filtering)": "The only filtering-related information released for coherelabs/c4ai-command-a-03-2025 centers on its configurable safety modes. The quote explains that ‘Command A can be configured with two safety modes’, labelled ‘contextual mode’ and ‘strict mode’. Contextual mode is intended for ‘wide-ranging interactions with fewer constraints on output’ yet still maintains ‘core protections by rejecting harmful or illegal suggestions’. Although explicit numeric thresholds or classifier names are not furnished, the existence of a strict-versus-contextual toggle indicates an internal filtering or guard-rail subsystem controlling generation. The designers therefore built two operational policies: (1) a looser, context-aware filter that allows more open-ended content while screening out disallowed material, and (2) a stricter policy that presumably applies tighter constraints. This dual-mode guardrail mechanism represents the principal documented data (or output) filtering feature for the 03-2025 Command model.",
-  "4-4 (Data Filtering)__evidence": [
-    {
-      "source": "[readme]",
-      "quote": "Besides, Command A can be configured with two safety modes, which enable users to set guardrails that are both safe and suitable to their needs: contextual mode, or strict mode. Contextual mode is appropriate for wide-ranging interactions with fewer constraints on output, while maintaining core protections by rejecting harmful or illegal suggestions."
-    }
-  ]
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
 }

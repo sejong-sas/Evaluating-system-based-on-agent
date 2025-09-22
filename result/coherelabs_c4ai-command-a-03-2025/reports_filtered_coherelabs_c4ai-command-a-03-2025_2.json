@@ -1,12 +1,12 @@
 {
-  "1-5 (Architecture)": "The available material about the model c4ai-command-a-03-2025 (referred to in the quote as “Command A”) states that it is an “agent-optimised and multilingual-capable model” that explicitly supports 23 languages used in global business contexts. Architectural-wise, it is said to rely on “a novel hybrid architecture” whose stated goal is to balance computational efficiency with “top-of-the-range performance.” No other structural information—such as layer counts, parameter size, attention layout, or other hyper-parameters—is revealed in the supplied text.",
-  "1-6 (Tokenizer)": "The quotes provide two code snippets that show how to obtain the tokenizer: \nmodel_id = \"CohereForAI/c4ai-command-a-03-2025\";\n​tokenizer = AutoTokenizer.from_pretrained(model_id).\nThis confirms that a tokenizer artefact is hosted under the same model repository name and can be instantiated through Hugging Face’s AutoTokenizer interface, implying that the tokenizer is publicly downloadable and ready for immediate use. No further technical details (e.g., vocabulary size, byte-pair encoding, special tokens) are disclosed.",
+  "1-5 (Architecture)": "The report states that Command A is a “powerful large language model” built for real-world enterprise scenarios. It is explicitly described as agent-optimised and multilingual, covering 23 global business languages. The only structural detail disclosed is that it uses a “novel hybrid architecture” whose intent is to balance computational efficiency with top-of-the-range performance. No additional hyper-parameters, layer counts, or component breakdowns are mentioned in the quoted material.",
+  "1-6 (Tokenizer)": "Code snippets show the tokenizer is distributed with the model on Hugging Face and can be loaded via:\nmodel_id = \"CohereForAI/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)\nThis indicates that a pretrained tokenizer artifact is publicly available under the same repository name and can be fetched programmatically with AutoTokenizer, but the quotes give no further details about its vocabulary size, byte-level handling, or special token configuration.",
   "2-1 (Hardware)": "",
-  "2-2 (Software)": "",
+  "2-2 (Software)": "The only training-software detail provided is that Command A was trained for summarization and the final step of Retrieval-Augmented Generation (RAG) using a mixture of supervised fine-tuning and preference fine-tuning. The excerpts do not disclose the core ML framework (e.g., PyTorch/JAX), distributed-training libraries, optimizer settings, or any other runtime configuration.",
   "1-5 (Architecture)__evidence": [
     {
       "source": "[abstract]",
-      "quote": "Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
     },
     {
       "source": "[sections/https://arxiv.org/abs/2504.00698]",
@@ -15,14 +15,19 @@
   ],
   "1-6 (Tokenizer)__evidence": [
     {
-      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
-      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\"\n tokenizer = AutoTokenizer.from_pretrained(model_id)"
+      "source": "[sections/Using Command A on Hugging Face]",
+      "quote": "model_id = \"CohereForAI/c4ai-command-a-03-2025\"\ntokenizer = AutoTokenizer.from_pretrained(model_id)"
     },
     {
       "source": "[sections/https://huggingface.co/docs/transformers/main/en/chat_templating#advanced-retrieval-augmented-generation]",
-      "quote": "4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id)"
+      "quote": "# Load the model and tokenizer 4 model_id = \"CohereForAI/c4ai-command-a-03-2025\" 5 tokenizer = AutoTokenizer.from_pretrained(model_id)"
     }
   ],
   "2-1 (Hardware)__evidence": [],
-  "2-2 (Software)__evidence": []
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/https://docs.cohere.com/docs/command-a-hf#obtaining-non-interactive-behavior]",
+      "quote": "Command A has been trained specifically for tasks like summarization and the final step of Retrieval Augmented Generation (RAG). This behavior has been trained into the model via a mixture of supervised fine-tuning and preference fine-tuning."
+    }
+  ]
 }

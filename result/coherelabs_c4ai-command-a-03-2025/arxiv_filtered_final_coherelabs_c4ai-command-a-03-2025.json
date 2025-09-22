@@ -1,20 +1,24 @@
 {
-  "1-1 (Weights)": "The quotes consistently state that the weights for the target model family are publicly released. One passage explicitly says that “Weights for both models have been released for research purposes,” referring to Command A and its sibling model Command R7B. A second quote clarifies the distribution framework: “We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum.” A third quote reiterates that the release is designed to “further facilitate community-based exploration and research,” while also emphasizing that the model is lightweight enough to be served on “just two A100 or H100 GPUs,” underscoring the practical deployability of the released checkpoints. Together, these sentences convey that (1) the weights are indeed downloadable for the public research community, (2) the release covers both Command A and Command R7B, (3) the purpose is explicitly framed as research and community exploration, and (4) the distribution is governed by the CC-BY-NC (non-commercial) license and an additional acceptable-use policy. No URL or hosting platform is named in the cited text, nor is any gated-access mechanism mentioned; only the fact of availability “to the research community” under the specified license is provided.",
-  "1-2 (Code)": "The supplied quotation set does not contain any sentence that mentions the release, openness, or availability of training code, data-prep scripts, configuration files, or any other part of the training pipeline for Command A. There is likewise no statement about inference-only code. Consequently, based strictly on the provided text, no public training or inference code release is disclosed for the model.",
-  "1-3 (License)": "Every licensing reference in the quotes is bound to the distribution of model weights. The relevant lines twice identify the license as “CC-BY-NC” and explicitly label it “Non-Commercial.” One sentence expands on this by adding that the release is accompanied by “an acceptable use addendum,” implying extra policy constraints on top of the baseline Creative Commons license. The text frames the license’s intent as enabling “community-based exploration and research.” No statements appear that grant rights for commercial exploitation, downstream redistribution outside the specified terms, or derivative works. Therefore, the quoted material characterizes the license as: (a) permitting non-commercial research use, (b) governed by CC-BY-NC attribution requirements, and (c) further restricted by an acceptable-use policy; it does not mention allowances for commercial use, broad redistribution, or unbounded modification.",
-  "1-4 (Paper)": "Multiple quotes confirm the existence of an official technical report devoted to the model. They introduce it variously as “In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases,” and “This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings.” Additional lines state that the report “shared extensive performance evaluations across many domains and languages” and that it should be cited as “Cohere (2025).” One short title-style quote provides the likely report title: “Command A: An Enterprise-Ready Large Language Model.” Collectively, these sentences establish that (1) an official technical report exists, (2) it covers model development details and broad evaluation results, (3) it includes side-by-side discussion of Command A and Command R7B, (4) its primary focus is enterprise-oriented capabilities, and (5) the citation year is 2025.",
+  "1-1 (Weights)": "The quotes repeatedly state that the “Command” family’s parameters have been made publicly available. In particular, they say that “Weights for both models have been released for research purposes” and that “We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum. The model checkpoints are available on the HuggingFace model hub.” These statements cover both Command A and its closely related sibling Command R7B. No pay-wall or application process is mentioned, implying that anyone can download the full checkpoints from HuggingFace, but only for non-commercial, research-oriented use in keeping with the stated license. There is no claim that earlier or smaller ‘adapter’ versions, partial weights, or quantised artefacts differ; the wording implies the full model weights are supplied. The material does not mention any alternative hosting location, gated access, or request form, nor does it clarify whether fine-tuned variants or future updates will also be released. Overall, the available evidence indicates that the complete weights for Command A (and R7B) can be obtained by any researcher from the HuggingFace hub, subject to the non-commercial licence and acceptable-use restrictions.",
+  "1-2 (Code)": "None of the provided sentences mention training scripts, data-preparation pipelines, configuration files, fine-tuning notebooks, reinforcement-learning code, or any other part of the training stack. Likewise, there is no reference to inference-only code, example notebooks, or SDKs. Consequently, based on the supplied material there is no evidence that any portion of the Command A training code—whether for pre-training, alignment, or evaluation—has been released or even partially documented.",
+  "1-3 (License)": "Every licensing reference revolves around a single clause: “CC-BY-NC License (Non-Commercial) with an acceptable use addendum.” Because it is a CC-BY-NC licence, the community is explicitly granted the rights to copy, share, and adapt the model weights so long as they (a) attribute the originator and (b) do so strictly for NON-COMMERCIAL purposes. Commercial exploitation is therefore disallowed unless a separate agreement is reached. The acceptable-use addendum, while not itself quoted, is declared to exist and presumably narrows the scope further (for instance, by forbidding disallowed content generation). As the language explicitly calls the licence ‘Non-Commercial,’ we can infer that:\n(a) Use: permitted for research and other non-commercial activity.\n(b) Modification and derivative works: allowed under the BY-NC terms, again only non-commercially.\n(c) Redistribution: allowed with attribution and non-commercial restriction.\n(d) Commercial use: expressly prohibited without additional permission.\nNo other licence types (e.g., Apache-2.0, MIT, Eval-only) are mentioned, and the quotes never state that code or data are covered—only the model weights fall under this CC-BY-NC regime.",
+  "1-4 (Paper)": "An official technical report titled “Command A: An Enterprise-Ready Large Language Model” is referenced. The document was “released as a preprint on April 7, 2025,” and it instructs readers to “please cite this technical report as ‘Cohere (2025)’.” The report describes the development of Command A, benchmarks the model across “academic, agentic, code and multilingual” tasks, and presents side-by-side results for both Command A and the smaller companion model Command R7B. The authors emphasise a wide evaluation sweep using public datasets as well as proprietary internal tests, aiming to demonstrate the model’s suitability for enterprise deployments. Although the quotes do not provide a DOI or a direct URL, they clearly establish the existence, title, release date, citation format, and thematic scope (architecture, performance evaluations, and enterprise applicability) of the underlying paper.",
   "1-1 (Weights)__evidence": [
     {
-      "source": "[abstract]",
+      "source": "[pdf_text]",
       "quote": "We also include results for Command R7B which shares capability and architectural similarities to Command A. Weights for both models have been released for research purposes."
     },
     {
       "source": "[pdf_text]",
-      "quote": "Table 1: Command A and Command R7B results on key academic, agentic, code and multilingual benchmarks, in comparison to relevant external models. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
+      "quote": "Table 1: Command A and Command R7B results on key academic, agentic, code and multilingual benchmarks, in comparison to relevant external models. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum. The model checkpoints are available on the HuggingFace model hub."
     },
     {
       "source": "[sections/Conclusion]",
-      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate. The release of model weights under a non-commercial license further facilitates community-based exploration and research."
+      "quote": "The release of model weights under a non-commercial license further facilitates community-based exploration and research. Command A sets a new standard for LLMs in enterprise applications, balancing performance, efficiency, and versatility — and providing maximum performance for minimal compute."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "Command A can deliver tokens at a rate of up to 156 tokens/sec which is 1.75x higher than GPT-4o and 2.4x higher than DeepSeek V3. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
     }
   ],
   "1-2 (Code)__evidence": [],
@@ -25,59 +29,67 @@
     },
     {
       "source": "[sections/Conclusion]",
-      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate. The release of model weights under a non-commercial license further facilitates community-based exploration and research."
+      "quote": "The release of model weights under a non-commercial license further facilitates community-based exploration and research. Command A sets a new standard for LLMs in enterprise applications, balancing performance, efficiency, and versatility — and providing maximum performance for minimal compute."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "Command A can deliver tokens at a rate of up to 156 tokens/sec which is 1.75x higher than GPT-4o and 2.4x higher than DeepSeek V3. We also release model weights to the research community to facilitate community-based exploration under a CC-BY-NC License (Non-Commercial) with an acceptable use addendum."
     }
   ],
   "1-4 (Paper)__evidence": [
     {
-      "source": "[abstract]",
-      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases."
+      "source": "[title]",
+      "quote": "Command A: An Enterprise-Ready Large Language Model"
     },
     {
       "source": "[pdf_text]",
-      "quote": "This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings."
+      "quote": "Released as a preprint on April 7, 2025"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Please cite this technical report as “Cohere (2025)”."
     },
     {
       "source": "[sections/Results]",
-      "quote": "We report results from a diverse and extensive set of evaluations benchmarking the performance of Command A and Command R7B."
+      "quote": "We report results from a diverse and extensive set of evaluations benchmarking the performance of Command A and Command R7B. We evaluate a broad range of capabilities using public academic datasets and internal evaluations."
     },
     {
       "source": "[sections/Conclusion]",
       "quote": "This technical report detailed the development of Command A, shared extensive performance evaluations across many domains and languages, and shared additional results for Command R7B."
     },
     {
-      "source": "[title]",
-      "quote": "Command A: An Enterprise-Ready Large Language Model"
-    },
-    {
       "source": "[sections/2504.00698]",
-      "quote": "Please cite this technical report as “Cohere (2025)”."
+      "quote": "Please cite this technical report as “Cohere (2025)”. A full author list can be found at the end of this document."
     }
   ],
-  "1-5 (Architecture)": "The available statements describe coherelabs/c4ai-command-a-03-2025 (\"Command A\") as a \"decoder-only Transformer architecture (Vaswani et al., 2017).\" A schematic is provided in Figure 2. The model is explicitly said to have \"111 B parameters,\" and it is compared with a smaller sibling (Command R7B) while being characterized as delivering \"best-in-class\" benchmark results for its size. The architecture is further described as a \"hybrid architecture\" that preserves strong long-context performance while cutting KV-cache memory use. Quantitatively, at an 8 k token sequence length it needs only \"75 % of the KV cache memory\" used by Llama 3.3 70B Instruct, \"23.8 %\" of that required by Llama 3.1 405B Instruct, and \"45.5 %\" of Mistral Large. These points together give the only publicly-quoted structural details: (1) decoder-only Transformer backbone, (2) 111 B parameter scale, and (3) a memory-efficient hybrid attention design delivering reduced KV-cache footprint.",
+  "1-5 (Architecture)": "The documentation repeatedly emphasises that command-a is built around a novel, hybrid architecture that was explicitly engineered to balance efficiency with top-tier performance.  A schematic of this design is provided (Figure 2), and the text explains that the model combines architectural components in such a way that it can handle very long sequences while using far less key-value (KV) cache memory than conventional full-attention designs.  Concrete numbers are supplied: at an 8 k context length, command-a needs only 75 % of the KV cache required by Llama 3 70 B Instruct, 23.8 % of that used by Llama 3 405 B Instruct, and 45.5 % of Mistral Large, illustrating the memory savings delivered by the hybrid layout.\n\nThe model size is clearly specified as 111 B parameters.  Even within this size class, the authors claim state-of-the-art results: Figure 6 shows that command-a achieves leading code-generation accuracy against models of similar or much larger size, and the “Command A Agent” variant pushes the performance frontier even farther while remaining at the same 111 B scale through tool-use integration.\n\nBeyond raw scale, the architecture is described as “agent-optimised” and “multilingual-capable,” with native support for 23 business-relevant languages.  The quoted material also stresses that the same core architecture underpins the model’s exceptional long-context reasoning benchmarks (Tables 21 & 22), confirming that these strengths emerge directly from structural choices rather than post-hoc fine-tuning.  Collectively, the quotes portray command-a as a single-tower, 111 B-parameter, hybrid-attention LLM that sets new efficiency and quality standards for enterprise deployments, especially in memory-strained scenarios and code-heavy workloads.",
   "1-6 (Tokenizer)": "",
-  "2-1 (Hardware)": "The sole hardware detail concerns inference/serving, not training: \"With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models.\" No quotes mention the training cluster size, accelerator count, or total compute budget, so the only confirmed fact is that the model can be served on as few as two NVIDIA A100 or H100 GPUs.",
+  "2-1 (Hardware)": "The available statements focus on the model’s inference footprint.  They indicate that command-a can be served on as little as two NVIDIA A100 or H100 GPUs, highlighting its computational frugality relative to competing models.  The text adds that this limited hardware requirement not only lowers computational overhead but also enables on-premise or private-cloud deployment while still delivering a high token throughput.  No further details about the hardware used during pre-training (e.g., total GPU count, cluster scale, or training FLOPs) are disclosed in the supplied quotations.",
   "2-2 (Software)": "",
   "1-5 (Architecture)__evidence": [
     {
       "source": "[pdf_text]",
-      "quote": "Figure 2: Schematic of the Command A model architecture. We use a decoder-only Transformer architecture (Vaswani et al., 2017) as depicted in Figure 2."
-    },
-    {
-      "source": "[pdf_text]",
-      "quote": "Both the 111B parameter Command A and Command R7B perform best-in-class across a suite of established benchmarks for their respective model sizes."
-    },
-    {
-      "source": "[sections/4.8 Long-Context Benchmarks]",
-      "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture. For instance, at an 8k sequence length, Command A requires only 75% of the KV cache memory used by Llama 3.3 70B Instruct, 23.8% of that used by Llama 3.1 405B Instruct, and 45.5% of that used by Mistral Large."
-    },
-    {
-      "source": "[sections/2.3 Model Architecture]",
       "quote": "Figure 2: Schematic of the Command A model architecture."
+    },
+    {
+      "source": "[figure/Figure 6 caption]",
+      "quote": "Figure 6: Code Performance against Model Size. Command A provides state-of-the-art performance compared to models of similar size, and often significantly larger models. Command A Agent improves even further to set a new standard for performance at 111B size with tool-use in code."
     },
     {
       "source": "[sections/Long-Context Benchmarks]",
       "quote": "Tables 21 and 22 highlight Command A’s exceptional long-context capabilities. Our hybrid architecture enables this level of performance while requiring significantly less KV cache memory compared to models with a full attention architecture."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "In this report we describe the development of Command A, a powerful large language model purpose-built to excel at real-world enterprise use cases. Command A is an agent-optimised and multilingual-capable model, with support for 23 languages of global business, and a novel hybrid architecture balancing efficiency with top of the range performance."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "This technical report describes the development of Command A and Command R7B, two LLMs designed to excel in real-world enterprise settings. Both the 111B parameter Command A and Command R7B perform best-in-class across a suite of established benchmarks for their respective model sizes."
+    },
+    {
+      "source": "[figure 6 caption]",
+      "quote": "Figure 6: Code Performance against Model Size. Command A provides state-of-the-art performance compared to models of similar size, and often significantly larger models. Command A Agent improves even further to set a new standard for performance at 111B size with tool-use in code."
     },
     {
       "source": "[sections/Long-Context Benchmarks]",
@@ -87,19 +99,19 @@
   "1-6 (Tokenizer)__evidence": [],
   "2-1 (Hardware)__evidence": [
     {
-      "source": "[pdf_text]",
-      "quote": "With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
-    },
-    {
       "source": "[sections/Introduction]",
       "quote": "Command A focuses on delivering competitive performance as efficiently as possible. With a serving footprint of just two A100s or H100s, Command A requires considerably less computational overhead than comparable models."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "Command A outperforms comparable models in both efficiency and computational overhead, requiring fewer resources for serving, making it easy to deploy on-premises or in private cloud environments on just two A100 or H100 GPUs, and delivering tokens at a higher rate."
     }
   ],
   "2-2 (Software)__evidence": [],
-  "2-3 (API)": "The only sentence in the supplied material that meets the strict model-token filter simply states that “Command A shows strong performance in various categories of unsafe content.”  No additional filtered sentences describe endpoints, rate limits, authentication, SDKs, pricing tiers, public documentation, example cURL calls or any other concrete aspect of an externally accessible API.  As a result, the quotes provide no evidence of a public, self-serve or partner API for coherelabs/c4ai-command-a-03-2025, nor any information about how developers might invoke the model programmatically.  Consequently, all that can be reported for this section is that the quotes do not reveal an API; they only indicate the model’s safety behaviour in an unspecified evaluation setting.",
-  "3-1 (Pre-training)": "The filtered quotations reveal several key features of the pre-training stage for coherelabs/c4ai-command-a-03-2025:\n• Training corpus composition Command A is pre-trained on a multilingual mixture that combines (i) publicly available web text and code, (ii) internally generated synthetic data sets, (iii) instruction-tuning data produced by human annotators, and (iv) high-quality text purchased from specialised data vendors.  \n• Data quality strategy To improve signal quality the team (a) increases the proportion of educational content, which is under-represented on the open web, (b) performs careful de-duplication, (c) applies heuristic safety filters, and (d) down-samples examples that automatic ML-based quality classifiers mark as low quality.\n• Model architecture A decoder-only Transformer, following the canonical Vaswani et al. (2017) design, is adopted for Command A; Figure 2 in the source text depicts this architecture.\n• Long-context component During pre-training, fragments of up to 8,192 tokens are sampled from a long-context data set; the internal model “Command R+ Refresh” is prompted on those fragments to generate question–answer pairs, enriching the training signal for extended-context comprehension.\nCollectively, the quotes portray a large-scale, multilingual, quality-filtered web-plus-synthetic pipeline married to a standard decoder-only Transformer backbone, with explicit attention to long-context capability and safety-oriented data curation.",
-  "3-2 (Fine-tuning)": "According to the filtered sentences, fine-tuning (post-training) of coherelabs/c4ai-command-a-03-2025 is a multi-stage, decentralised pipeline designed to balance broad coverage with targeted expertise:\n1. Overall philosophy The system is “post-trained using a novel decentralised approach” so that many capability areas can be tuned in parallel while still converging on a single model.\n2. Instruction-following sequence For instruction tasks the team first applies supervised fine-tuning (SFT) and then preference tuning, executed one after the other.\n3. Expert SFT phase Six SFT expert models are trained on top of an earlier “Instruct” checkpoint, each receiving its own specialised data mixture to maximise competence in a specific domain.\n4. Model-soup merging (stage 1) Those expert checkpoints are merged into an initial “SFT model soup,” creating a single model that aggregates their strengths.\n5. Offline preference experts & merging (stage 2) Additional experts are trained with offline preference-optimisation techniques on the SFT soup; these are then merged into an “off-pref soup.”\n6. Final refinement loop A best-of-N supervised stage is first run on the RL-soup variant, after which the team alternates (“ping-pong”) between offline preference tuning and online reinforcement learning until human-preference scores plateau, at which point the final Command A model is frozen.\nTaken together, the fine-tuning regimen blends specialised SFT, preference optimisation and iterative merging to create a single robust checkpoint while continuously monitoring human-judged quality.",
-  "3-3 (Reinforcement Learning)": "The reinforcement-learning stage for coherelabs/c4ai-command-a-03-2025 is closely intertwined with the fine-tuning pipeline but has distinct characteristics highlighted in the quotes:\n• RL expert creation Six “RL Expert Models” are trained on top of the previously formed SFT soup.  The training uses RL algorithms customised per domain and can rely either on pairwise human preference comparisons or on verifiable programmatic reward signals.\n• Ping-pong schedule Training proceeds by alternating—i.e., ping-ponging—between offline preference optimisation and online RL optimisation.  This alternation continues until human preference evaluations reach a plateau.\n• Stability & performance tracking Figure 13 (referenced in the quotes) tracks Command A’s win rate against GPT-4o throughout the CoPG/SRPO ping-pong schedule.  Interleaving the two optimisation methods is reported to enhance stability: any regression in one phase is likely to be corrected in the next.\nThe evidence therefore depicts a reinforcement-learning strategy that (a) begins with multiple domain-specific experts, (b) relies on both offline and online reward formulations, (c) cycles the two methods to mitigate instability, and (d) monitors progress via head-to-head evaluations against strong baselines until convergence.",
+  "2-3 (API)": "The material explicitly notes that Cohere exposes Command-series models through an \"API or enterprise contexts.\"  Because the authors deliberately evaluate \"without a system preamble to simulate cases outside of Cohere’s API,\" the text confirms (a) the existence of a production-grade Cohere API through which users normally invoke coherelabs/c4ai-command-a-03-2025, and (b) that the same model can also be run in settings that bypass the default, safety-oriented system preamble applied by the API.  No further implementation details, documentation links, pricing, or example endpoints are provided in the supplied quotation.",
+  "3-1 (Pre-training)": "According to the quotations, the pre-training of coherelabs/c4ai-command-a-03-2025 (\"Command A\" series) relies on a large, multilingual mixture of data types and multiple quality-control passes.  The corpus is assembled from: (1) publicly scraped text and code from the web; (2) internally generated synthetic datasets; (3) instruction-tuning sets created by human annotators; and (4) \"high-quality data\" purchased from specialised vendors.  To rebalance topic coverage the team \"enhance[s] the ratio of educational samples\"—material considered sparse on the public internet—while simultaneously down-sampling low-quality content that has been identified through ML-based quality classifiers.  The pipeline also performs careful de-duplication and safety-oriented heuristic filtering before training.  Long-context ability is cultivated by sampling segments up to 8 192 tokens from the pre-training corpus and prompting another internal model (\"Command R+ Refresh\") to generate paired question-answer examples, thereby enriching the training set with context-length-aware supervision data.",
+  "3-2 (Fine-tuning)": "After base pre-training, coherelabs/c4ai-command-a-03-2025 undergoes an extensive, multi-stage \"post-training\" regimen that alternates between centralised and decentralised phases.  In centralised phases a single checkpoint is fine-tuned; in decentralised phases multiple specialised \"expert\" models are trained in parallel to maximise performance on different domains.  Their parameters are subsequently merged—first into a supervised-fine-tuning (SFT) \"model soup\" that collects the outputs of experts trained with standard supervised learning, then into an \"off-pref soup\" that combines experts optimised with offline preference-based objectives.  A dedicated stage called the \"Instruct Model\" is produced early in the workflow, giving the base model core instruction-following capabilities via supervised learning.  Overall, the process embodies a sequential recipe of SFT followed by preference-tuning, with model-merging used at two decisive checkpoints to consolidate diverse capabilities contributed by separate teams working asynchronously.",
+  "3-3 (Reinforcement Learning)": "The reinforcement-learning portion of the post-training pipeline creates six \"RL Expert Models\" by starting from the SFT Soup checkpoint and applying RL algorithms tailored to each target domain.  Depending on the domain, the experts are trained with either pairwise human-preference comparisons or objective, \"verifiable\" reward functions.  Training then proceeds in a \"ping-pong\" cycle that alternates between offline preference optimisation and online RL (labelled CoPG/SRPO in the cited figure).  At each iteration human-preference win-rates are measured—e.g., against GPT-4o baselines—and the back-and-forth continues until those win-rates plateau, yielding the final Command A model.  The authors emphasise that interleaving the two optimisation styles improves stability, because regressions introduced by one phase are likely to be corrected in the next.",
   "2-3 (API)__evidence": [
     {
       "source": "[sections/Default Safety]",
@@ -110,10 +122,6 @@
     {
       "source": "[pdf_text]",
       "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
-    },
-    {
-      "source": "[pdf_text]",
-      "quote": "Figure 2: Schematic of the Command A model architecture. We use a decoder-only Transformer architecture (Vaswani et al., 2017) as depicted in Figure 2."
     },
     {
       "source": "[sections/2504.00698]",
@@ -127,23 +135,23 @@
   "3-2 (Fine-tuning)__evidence": [
     {
       "source": "[pdf_text]",
-      "quote": "Command A is post-trained using a novel decentralised approach to maximise and control its performance over a wide spectrum of domains and capability areas."
+      "quote": "Command A is post-trained using a novel decentralised approach to maximise and control its performance over a wide spectrum of domains and capability areas. More precisely, Command A is trained by alternating centralised training stages, where a single model is fine-tuned, and decentralised training stages, where multiple expert models are trained separately to maximise domain-wise performance before merging their parameters."
     },
     {
       "source": "[pdf_text]",
-      "quote": "In the context of instruction-following we post-train Command A in sequence with SFT and preference tuning."
-    },
-    {
-      "source": "[pdf_text]",
-      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • SFT Expert Models: We train six SFT experts on top of the Instruct checkpoint with specialised data mixtures to maximise capability-specific performance."
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • Instruct Model: We train an initial Instruct model with supervised learning on top of the base model to provide the core basic capabilities of the model."
     },
     {
       "source": "[sections/Expert Merging]",
-      "quote": "The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
+      "quote": "Model merging enables multiple teams to work asynchronously on improving different capabilities, with their contributions merged together in parameter space. The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
     },
     {
       "source": "[sections/2504.00698]",
-      "quote": "First, we apply a best-of-N supervised training stage to the RL Soup model. Then, we alternate between offline preference and online RL optimisation in a ping-pong approach, iterating as required until we observe a human preference performance plateau, to obtain the final Command A model."
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • Instruct Model: We train an initial Instruct model with supervised learning on top of the base model to provide the core basic capabilities of the model."
+    },
+    {
+      "source": "[sections/2504.00698]",
+      "quote": "In the context of instruction-following we post-train Command A in sequence with SFT and preference tuning."
     }
   ],
   "3-3 (Reinforcement Learning)__evidence": [
@@ -152,11 +160,7 @@
       "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "Then, we alternate between offline preference and online RL optimisation in a ping-pong approach, iterating as required until we observe a human preference performance plateau, to obtain the final Command A model."
-    },
-    {
-      "source": "[pdf_text]",
+      "source": "[sections/Polishing]",
       "quote": "In Figure 13, we show Command A win rates against GPT-4o (1120) according to a pool of LLM judges at each phase of the CoPG/SRPO ping-pong. While this method allows us to achieve high win rates, we also observe that interleaving the two methods tends to increase overall training stability: a potential regression occurring at a particular phase is likely to be corrected by the next one."
     },
     {
@@ -164,39 +168,64 @@
       "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
     },
     {
+      "source": "[sections/2504.00698]",
+      "quote": "Then, we alternate between offline preference and online RL optimisation in a ping-pong approach, iterating as required until we observe a human preference performance plateau, to obtain the final Command A model."
+    },
+    {
       "source": "[sections/Polishing]",
-      "quote": "In Figure 13, we show Command A win rates against GPT-4o (1120) according to a pool of LLM judges at each phase of the CoPG/SRPO ping-pong. While this method allows us to achieve high win rates, we also observe that interleaving the two methods tends to increase overall training stability: a potential regression occurring at a particular phase is likely to be corrected by the next one."
+      "quote": "In Figure 13, we show Command A win rates against GPT-4o (1120) according to a pool of LLM judges at each phase of the CoPG/SRPO ping-pong."
     }
   ],
-  "4-1 (Pre-training Data)": "The available statements indicate that the pre-training corpus for the Command-series model is intentionally broad and multi-source. For Command A the creators combine: (a) multilingual publicly available text-and-code scraped from the open web, (b) internally generated synthetic corpora, (c) instruction-tuning sets written by human annotators, and (d) additional \"high-quality\" material licensed from specialised data vendors. While absolute token counts are not given, the authors explicitly characterise the mix as spanning many languages and data modalities. In addition to the raw web and vendor text, the team exploits a dedicated long-context pre-training dataset: they sample fragments up to 8,192 tokens long and use Command R+ Refresh to generate paired question-answer examples from those excerpts, thereby seeding the model with long-range context-handling skills. No further numerical breakdown or licensing detail is supplied, but the quoted passages make clear that the pre-training pool is a heterogeneous blend of public, synthetic, and commercially sourced data whose composition was chosen to balance coverage (via large-scale web text and code) with quality (via curated vendor deliveries and human-authored instruction data).",
-  "4-2 (Fine-tuning Data)": "Fine-tuning for Command A proceeds in multiple successive steps that each depend on purpose-built datasets. First, a collection of expert sub-models is trained with supervised fine-tuning (SFT) on task-specific instruction/response pairs; these experts are then merged into an initial “SFT model soup.” Next, additional experts are trained on the same soup with offline preference-optimisation methods, producing an “off-pref soup” that captures human-style preferences. During both of these stages the pipeline injects synthetic preamble material: the team programmatically generates diverse preambles, attaches them to incoming prompts, and ensures that completions and preference labels are conditioned on those preambles. Consequently, the fine-tuning data encompass (i) SFT instruction sets, (ii) preference-labelled variants of those sets, and (iii) the automatically generated preamble-augmented versions of each. The public availability, licensing terms, or exact token counts of these corpora are not disclosed in the quoted text.",
-  "4-3 (Reinforcement Learning Data)": "None of the supplied quotations describe any reinforcement-learning (RL) or RL-from-human-feedback datasets used for Command A; therefore no information about the composition, provenance, or accessibility of RL data can be summarised from the provided material.",
-  "4-4 (Data Filtering)": "Data cleaning for Command A is addressed at two distinct points in the training pipeline. (1) Web-scale text filtering: after deduplicating raw crawls, the team increases the relative proportion of hard-to-find educational material and aggressively down-samples low-quality documents that are flagged by machine-learning-based quality classifiers. Additional heuristic filters target both safety and general quality issues before the corpus is admitted to pre-training. (2) Prompt-level filtering: when constructing instruction datasets, the authors feed candidate prompts through Command R+ Refresh and evaluate them along multiple axes (described as a \"more comprehensive notion of prompt complexity\"). Prompts that fail these automated checks are discarded, a process that the authors note can be \"overly strict\" but nevertheless yields a remaining pool that is \"sufficiently difficult even for state-of-the-art models.\" Together these procedures control duplication, elevate educational content, suppress low-quality or unsafe text, and enforce a minimum complexity threshold on prompts—although no explicit numerical thresholds (e.g., Jaccard scores, perplexity cut-offs, or size reductions) are published in the quoted excerpts.",
+  "4-1 (Pre-training Data)": "The pre-training corpus for coherelabs/c4ai-command-a-03-2025 (referred to in the documentation as “Command A”) is intentionally broad and multilingual. According to the quoted material, it is assembled from four main streams: (1) publicly-available web text and source-code, (2) internally-generated synthetic data, (3) instruction-tuning sets written by human annotators, and (4) specialised, high-quality data purchased from commercial vendors. A long-context sub-corpus is also maintained; fragments of up to 8,192 tokens are sampled from this set and then used to prompt a sister model (“Command R+ Refresh”) to create additional question–answer pairs that become part of the pre-training mix. The engineering team employs a “model-merging” approach so that different research groups can train partial models on different slices of the data and later merge their checkpoints in parameter space. This strategy lets them combine capabilities that arise from very different data scales without having to concatenate everything into one monolithic dataset or adopt a single optimisation schedule.",
+  "4-2 (Fine-tuning Data)": "For supervised fine-tuning, the team concentrates on boosting code-related and multilingual instruction-following skills. One major component is a code-centric mixture that emphasises eight languages—Python, Java, C++, Rust, Go, JavaScript, TypeScript and COBOL—as well as five SQL dialects (SQLite, MySQL, PostgreSQL, Microsoft T-SQL and Oracle PL/SQL). Separate synthetic pipelines generate diverse “preambles” (policy, style or context directives) that are prepended to real user prompts so that the model learns to respect pre-conversation instructions. Beyond code, the post-training recipe deliberately covers many domains: factual Q&A, formatting tasks, STEM reasoning, tabular or other structured data manipulation, and general compliance. Multilingual quality is improved through iterative, synthetic data harvesting that uses a best-of-N sampling strategy; the method repeats generation in multiple languages, ranks the outputs and keeps only the top candidates for further fine-tuning.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement learning is applied after supervised fine-tuning in a multi-stage post-training pipeline. The process starts from an SFT “Soup” checkpoint and branches into six separate RL experts, each optimised for one domain with an RL algorithm that is explicitly ‘tailored’ to that domain. The quoted text indicates two reward-collection methods: (i) pairwise human or model comparisons, and (ii) automatically-verifiable reward functions. Although no concrete datasets are listed, the structure implies that each RL expert gathers or is fed preference-comparison data specific to its specialty before the experts are later merged or distilled back into the main Command A model.",
+  "4-4 (Data Filtering)": "The documentation reports a multi-layered filtering regime. During raw-web corpus construction, the team raises the proportion of educational documents—judged to be under-represented online—while aggressively down-sampling low-quality pages. The down-sampling decision is driven by ML-based quality classifiers that run after a de-duplication pass and a sequence of safety-oriented heuristic rules. For prompt-generation pipelines, they use the sister model “Command R+ Refresh” to automatically score or remove prompts along several complexity axes; although they concede the filters may be overly strict in edge cases, empirical checks show that the surviving prompts remain challenging for state-of-the-art systems. When building long-context training examples, multiple candidate answers are produced and a proprietary reward model selects the single best answer for inclusion, effectively acting as another quality-filtering stage.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[pdf_text]",
       "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
     },
     {
-      "source": "[sections/Pre-training]",
+      "source": "[sections/Expert Merging]",
+      "quote": "Model merging enables multiple teams to work asynchronously on improving different capabilities, with their contributions merged together in parameter space. The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy."
+    },
+    {
+      "source": "[sections/2.2 Data]",
       "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors."
     },
     {
-      "source": "[sections/Long Context/Data]",
+      "source": "[sections/Long Context]",
       "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024)."
     }
   ],
   "4-2 (Fine-tuning Data)__evidence": [
     {
-      "source": "[sections/3.4.3 Expert Merging]",
-      "quote": "The capabilities exhibited by Command A cover a wide range of data scales, that would be non-trivial to combine into a single dataset and optimisation strategy. We apply merging at two points in the overall training pipeline: firstly, to combine a set of expert models trained using SFT into an initial ‘SFT model soup’; secondly, to combine a set of experts that were trained using offline preference optimisation techniques on top of the SFT soup, giving an ‘off-pref soup’."
+      "source": "[pdf_text]",
+      "quote": "Generating and understanding code is a fundamental requirement for any enterprise LLM. We invest in the code capabilities of Command A to assist the software development cycle and improve user coding experience. Data Mixture. Our data mix focuses on 8 priority programming languages (Python, Java, C++, Rust, Go, JavaScript, TypeScript, COBOL) and 5 dialects of SQL (SQLite, MySQL, PostgreSQL, Microsoft T-SQL, Oracle PL/SQL)."
     },
     {
-      "source": "[sections/Instruction-Following]",
-      "quote": "To train Command A to follow preamble instructions, we develop methods based on synthetic data generation to create diverse preambles that are attached to prompts flowing into the above-described pipeline. The preambles are then taken into account when creating the respective completions and preferences, i.e., preamble-augmented data is used during both SFT and preference tuning."
+      "source": "[pdf_text]",
+      "quote": "To train Command A to follow preamble instructions, we develop methods based on synthetic data generation to create diverse preambles that are attached to prompts flowing into the above-described pipeline."
+    },
+    {
+      "source": "[sections/3.3.1 Instruction-Following]",
+      "quote": "As such, in the Command A post-training recipe, we teach the model to follow instructions across a wide range of topics and domains, including but not limited to generalist instruction-following (e.g., factual knowledge requests), formatting, STEM-specific tasks (e.g., tabular reasoning, structured data manipulation), and preamble compliance."
+    },
+    {
+      "source": "[sections/3.3.3 Multilingual]",
+      "quote": "To further improve the multilingual quality of Command A, we conduct iterative synthetic data collection through multilingual best-of-N (Stiennon et al., 2020; Eisenstein et al., 2024)."
     }
   ],
-  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    },
+    {
+      "source": "[sections/3 Post-training Overview]",
+      "quote": "We divide the global Command A post-training recipe into several sub-stages, each producing intermediary model artifacts: … • RL Expert Models: We train six RL experts on top of the SFT Soup checkpoint using RL algorithms tailored to each domain, using pairwise comparisons or verifiable rewards."
+    }
+  ],
   "4-4 (Data Filtering)__evidence": [
     {
       "source": "[pdf_text]",
@@ -204,15 +233,19 @@
     },
     {
       "source": "[sections/4.11.1 Evaluation Data]",
-      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity."
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity. While the filtering may be overly strict in some instances, our findings show that the resulting pool of prompts is sufficiently difficult even for state-of-the-art models."
     },
     {
-      "source": "[sections/Pre-training]",
-      "quote": "Command A models are trained on multilingual data (also see Section 3.3.3.1) from various sources including publicly available text and code data from the web, a collection of synthetic datasets generated internally, instruction-tuning datasets obtained from human annotators, and high quality data sourced from specialised data vendors. We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+      "source": "[sections/2.2 Data]",
+      "quote": "Command A models are trained on multilingual data … . We optimise the web text data by enhancing the ratio of educational samples that are relatively sparse on the internet, and down-sampling low-quality samples identified by Machine Learning (ML)-based quality filters after careful de-duplication and heuristic filtering for safety and quality."
+    },
+    {
+      "source": "[sections/Long Context]",
+      "quote": "We sample from our long-context pretraining dataset and prompt Command R+ Refresh to generate question-answer pairs based on randomly selected fragments within 8,192 tokens (Xiong et al., 2024). To ensure high-quality, we use our reward model to select the best generation from a pool of candidates."
     },
     {
       "source": "[sections/Human Evaluation]",
-      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity. While the filtering may be overly strict in some instances, our findings show that the resulting pool of prompts is sufficiently difficult even for state-of-the-art models."
+      "quote": "We automatically filter prompts with the help of Command R+ Refresh along several axes, building up a more comprehensive notion of prompt complexity."
     }
   ],
   "__usage": {
