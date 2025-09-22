@@ -1,0 +1,54 @@
+{
+  "2-3 (API)": "The HyperCLOVA X SEED Think 14B model offers a practical, user-facing interface that is explicitly designed for easy integration with vLLM. According to the quotes, “The HyperCLOVA X SEED Think model is built on a custom LLM architecture based on the LLaMA architecture, incorporating μP and Peri-LN techniques. For convenient use with vLLM, it is available as a dedicated vLLM plugin that can be installed and used with ease once vLLM is set up.” Once the user has “download[ed] the model checkpoint to a local path (`/path/to/hyperclova-x-seed-think-14b`)” they can “perform text inference by running the following commands on a GPU environment with A100 or higher.” In short, the API story centers on (1) a pre-packaged plugin for vLLM, (2) a straightforward local-checkpoint workflow, and (3) an expectation of modern, high-end GPUs (A100+) for inference.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The HyperCLOVA X SEED Think model is built on a custom LLM architecture based on the LLaMA architecture, incorporating μP and Peri-LN techniques. For convenient use with vLLM, it is available as a dedicated vLLM plugin that can be installed and used with ease once vLLM is set up."
+    },
+    {
+      "source": "[readme]",
+      "quote": "After downloading the model checkpoint to a local path (`/path/to/hyperclova-x-seed-think-14b`), you can perform text inference by running the following commands on a GPU environment with A100 or higher."
+    }
+  ],
+  "3-1 (Pre-training)": "HyperCLOVA X SEED 14B Think is framed in the quotes as “a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance.” Its pre-training formula combines “HyperCLOVA X’s lightweighting technology for building high-efficiency LLMs with advanced reasoning capabilities.” The process rests on “two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability.” Concretely, the team “prun[es] low-importance parameters and distill[s] knowledge from a large model into a smaller one,” which the quotes emphasize has “significantly reduced” training cost. Additional implementation artifacts highlighted in the quoted material include the presence of a dedicated architecture file (“# This file was created for the HyperCLOVA X SEED 14B Think architecture.”) as well as tokenizer-level details such as the “Vocabulary size of the HyperCLOVAX model” and the explicit JSON line “\"model_type\": \"hyperclovax\".” All of these points, drawn directly from the supplied sentences, underscore a pre-training pipeline that compresses and distills knowledge while simultaneously preparing for later RL-based capability maximization.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "HyperCLOVA X SEED 14B Think is a next-generation language model that moves beyond the conventional approach of simply increasing model size to improve performance. It combines [HyperCLOVA X’s lightweighting technology](https://tinyurl.com/y3hrfz67) for building high-efficiency LLMs with advanced reasoning capabilities. Its development relied on two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability."
+    },
+    {
+      "source": "[readme]",
+      "quote": "By pruning low-importance parameters and distilling knowledge from a large model into a smaller one, training costs have been significantly reduced."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "# This file was created for the HyperCLOVA X SEED 14B Think architecture."
+    },
+    {
+      "source": "[py_files/configuration_hyperclovax.py]",
+      "quote": "Vocabulary size of the HyperCLOVAX model. Defines the number of different tokens that can be represented by the"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"hyperclovax\","
+    }
+  ],
+  "3-2 (Fine-tuning)": "The fine-tuning phase for HyperCLOVA X SEED Think 14B is described in a single but information-dense quote. The model adopts “the latest RL recipe validated in HyperCLOVA X Think … in a multi-stage process” consisting of: “(1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR.” Thus, the fine-tuning pipeline first aligns the model via standard SFT, then iteratively refines behavior using reward-based objectives that can be independently verified (RLVR), introduces an LC mechanism to regulate the length—and thereby the structure—of generated reasoning chains, and finally merges human-feedback signals with RLVR in a combined objective to consolidate alignment and reasoning performance.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process: (1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "Reinforcement learning is treated as a central capability amplifier for HyperCLOVA X SEED Think 14B. One quote lists it as one of “two key technologies,” stating explicitly that “a Reinforcement Learning (RL) pipeline … maximizes reasoning ability.” A second quote expands this into a concrete, staged recipe: “(1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR.” Taken together, these sentences outline an RL strategy that layers verifiable reward shaping, length-aware control, and human-feedback-augmented objectives on top of an SFT baseline. The pipeline’s ultimate goal, as stated, is to “maximize reasoning ability” while preserving the compactness achieved through earlier pruning and distillation steps.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Its development relied on two key technologies: (1) Pruning & Knowledge Distillation, which achieves both compactness and high performance, and (2) a Reinforcement Learning (RL) pipeline, which maximizes reasoning ability."
+    },
+    {
+      "source": "[readme]",
+      "quote": "On top of this, [the latest RL recipe validated in HyperCLOVA X Think](https://arxiv.org/pdf/2506.22403) is applied in a multi-stage process: (1) Supervised Fine-Tuning (SFT), (2) Reinforcement Learning with Verifiable Rewards (RLVR), (3) Length Controllability (LC) for reasoning path optimization, and (4) a joint training of Reinforcement Learning from Human Feedback (RLHF) and RLVR."
+    }
+  ]
+}

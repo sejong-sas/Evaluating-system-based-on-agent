@@ -1,0 +1,27 @@
+{
+  "2-3 (API)": "The quotes indicate that NAVER-Cloud-HyperCLOVA-X/hcx-vllm-plugin is intended to be accessed through the vLLM \"plugin system.\" The link “https://docs.vllm.ai/en/latest/design/plugin_system.html” (quoted as “### How to use vLLM (Docs)”) shows there is public documentation that explains how the model integrates with vLLM. Installation instructions are extremely brief and concrete: after installing vllm, a single command – “pip install .” – registers the class “HyperCLOVAXForCausalLM” inside the vllm package, making the model callable through that framework. Deployment guidance is also documented: “### Deploying with vLLM Docker Example” points to “https://docs.vllm.ai/en/latest/serving/deploying_with_docker.html,” implying that a ready-made Docker workflow exists for serving the model as an API-style service. Finally, usage code relies on the OpenAI-compatible protocol built into vLLM, as shown by the import line “from vllm.entrypoints.openai.protocol import ChatCompletionRequest, DeltaMessage,” confirming that once the plugin is registered, developers can issue ChatCompletion-style requests through the same schema. Altogether, the quotes collectively describe an accessible, documented path for exposing HyperCLOVAXForCausalLM through a vLLM-hosted, OpenAI-compatible API endpoint, with both installation and Docker deployment examples publicly documented.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "### How to use vLLM ([Docs](https://docs.vllm.ai/en/latest/design/plugin_system.html))"
+    },
+    {
+      "source": "[readme]",
+      "quote": "After install vllm, `pip install .` to register `HyperCLOVAXForCausalLM` on vllm package."
+    },
+    {
+      "source": "[readme]",
+      "quote": "### Deploying with vLLM Docker Example ([Docs](https://docs.vllm.ai/en/latest/serving/deploying_with_docker.html))"
+    },
+    {
+      "source": "[py_files/parser/hcx_reasoner.py]",
+      "quote": "from vllm.entrypoints.openai.protocol import ChatCompletionRequest, DeltaMessage"
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}
