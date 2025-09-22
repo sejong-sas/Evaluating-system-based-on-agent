@@ -1,0 +1,126 @@
+{
+  "1-5 (Architecture)": "Llama 3 is offered as a \"herd\" of three multilingual transformer models containing 8 B, 70 B and 405 B parameters.  All variants follow a standard, dense Transformer design, and Table 3 in the source material enumerates their main hyper-parameters.  For the 405 B model those figures are spelled out: 126 decoder layers, a 16 384-dimension token embedding/hidden size and 128 attention heads.  The basic context window used during most of pre-training is 8 K tokens, but in a final training stage that window is dramatically enlarged to 128 K tokens.  Vision-augmented versions bolt on a ViT image encoder plus additional self- and cross-attention blocks; just the cross-attention layers account for ≈ 100 B parameters in the 405 B model, while the combination of video-aggregator and cross-attention layers adds 0.6 B parameters to the 7 B model and 4.6 B to the 70 B model.  Overall quality gains are attributed to both architectural scale and much larger compute budgets—e.g. the 405 B model consumed almost 50 × the pre-training compute that went into Llama 2-70B—yet, thanks to improved scaling laws, the 405 B variant still uses fewer parameters than older giants such as PaLM.",
+  "1-6 (Tokenizer)": "Llama 3 ships with a new tokenizer that is materially more compact than the one used in Llama 2: on a sample of English data the average number of characters represented per token rises from 3.17 → 3.94, indicating that the same text can be expressed with fewer tokens.",
+  "2-1 (Hardware)": "The 405 B-parameter Llama 3 was trained at massive scale on up to 16 000 NVIDIA H100 GPUs (80 GB HBM3 each, 700 W TDP) deployed inside Meta’s Grand Teton AI server platform.  Each Grand Teton node contains eight H100 GPUs and two CPUs, and the cluster is tied together with RDMA-over-Converged-Ethernet (RoCE) networking built around Arista 7800 and Minipack2 OCP rack switches.  Even using BF16 precision, the full 405 B model cannot fit into the collective memory of a single eight-GPU server, so multi-node distributed training is mandatory.",
+  "2-2 (Software)": "Training is implemented in PyTorch with Meta’s distributed stack.  Model, gradient and optimizer states are partitioned using Fully Sharded Data Parallel (FSDP); unlike default FSDP behaviour, model shards are kept resident after the forward pass to avoid the extra all-gather normally required during back-propagation.  Collective communication is handled by NCCLX, Meta’s fork of NVIDIA NCCL optimised for the company’s infrastructure.  Jobs at the 16 K-GPU scale are launched and monitored through MAST, Meta’s global training scheduler.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The result of our work is Llama 3: a herd of three multilingual language models with 8B, 70B, and 405B parameters."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "Llama 3 uses a standard, dense Transformer architecture (Vaswani et al., 2017)."
+    },
+    {
+      "source": "[Table 3]",
+      "quote": "Table 3 Overview of the key hyperparameters of Llama 3. We display settings for 8B, 70B, and 405B language models."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "Llama 3 405B uses an architecture with 126 layers, a token representation dimension of 16,384, and 128 attention heads; see Table 3 for details."
+    },
+    {
+      "source": "[sections/Long Context]",
+      "quote": "During the final pre-training stage, we extend the context length of Llama 3 from 8K tokens to 128K tokens (see Section 3.4 for more details)."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "The video aggregator and cross attention layers have 0.6B and 4.6B parameters for Llama 3 7B and 70B, respectively."
+    },
+    {
+      "source": "[sections/Model Scaling]",
+      "quote": "After the visual-recognition components are added to Llama 3, the model contains self-attention layers, cross-attention layers, and a ViT image encoder."
+    },
+    {
+      "source": "[sections/Model Scaling]",
+      "quote": "To train adapters for the smaller 8B and 70B parameter models, we found a combination of data and tensor parallelization is the most efficient."
+    },
+    {
+      "source": "[sections/Related Work: Language – Scale]",
+      "quote": "Improvements are driven by increased compute and improved data, with the 405B model using almost fifty times the pre-training compute budget of Llama 2 70B."
+    },
+    {
+      "source": "[sections/Related Work: Language – Scale]",
+      "quote": "Despite containing 405B parameters, our largest Llama 3 in fact contains fewer parameters than earlier and much less performant models such as PALM (Chowdhery et al., 2023), due to better understanding of scaling laws (Kaplan et al., 2020; Hoffmann et al., 2022)."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "The result of our work is Llama 3: a herd of three multilingual1 language models with 8B, 70B, and 405B parameters."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Llama 3 405B uses an architecture with 126 layers, a token representation dimension of 16,384, and 128 attention heads; see Table 3 for details."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the final pre-training stage, we extend the context length of Llama 3 from 8K tokens to 128K tokens (see Section 3.4 for more details)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The cross-attention layers introduce substantial numbers of additional trainable parameters into the model: for Llama 3 405B, the cross-attention layers have ≈100B parameters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The video aggregator and cross attention layers have 0.6B and 4.6B parameters for Llama 3 7B and 70B, respectively."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "Compared to the Llama 2 tokenizer, our new tokenizer improves compression rates on a sample of English data from 3.17 to 3.94 characters per token."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Compared to the Llama 2 tokenizer, our new tokenizer improves compression rates on a sample of English data from 3.17 to 3.94 characters per token."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[sections/Infrastructure, Scaling, and Efficiency]",
+      "quote": "Compute. Llama 3 405B is trained on up to 16K H100 GPUs, each running at 700W TDP with 80GB HBM3, using Meta’s Grand Teton AI server platform (Matt Bowman, 2022)."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Compute. Llama 3 405B is trained on up to 16K H100 GPUs, each running at 700W TDP with 80GB HBM3, using Meta’s Grand Teton AI server platform (Matt Bowman, 2022)."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Compute. Llama 3 405B is trained on up to 16K H100 GPUs, each running at 700W TDP with 80GB HBM3, using Meta’s Grand Teton AI server platform (Matt Bowman, 2022). Each server is equipped with eight GPUs and two CPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compute. Llama 3 405B is trained on up to 16K H100 GPUs, each running at 700W TDP with 80GB HBM3, using Meta’s Grand Teton AI server platform (Matt Bowman, 2022). Each server is equipped with eight GPUs and two CPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Network. Llama 3 405B used RDMA over Converged Ethernet (RoCE) fabric based on the Arista 7800 and Minipack2 Open Compute Project4 OCP rack switches."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When using a BF16 number representation for the model parameters, Llama 3 405B does not fit in the GPU memory of a single machine with 8 Nvidia H100 GPUs."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[sections/Parallelism for Model Scaling]",
+      "quote": "Our use of FSDP for Llama 3 shards optimizer states and gradients, but for model shards we do not reshard after forward computation to avoid an extra all-gather communication during backward passes."
+    },
+    {
+      "source": "[sections/Collective Communication]",
+      "quote": "Our collective communication library for Llama 3 is based on a fork of Nvidia’s NCCL library, called NCCLX."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Compute. Llama 3 405B is trained on up to 16K H100 GPUs, each running at 700W TDP with 80GB HBM3, using Meta’s Grand Teton AI server platform (Matt Bowman, 2022). Training jobs are scheduled using MAST (Choudhury et al., 2024), Meta’s global-scale training scheduler."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our collective communication library for Llama 3 is based on a fork of Nvidia’s NCCL library, called NCCLX."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Our use of FSDP for Llama 3 shards optimizer states and gradients, but for model shards we do not reshard after forward computation to avoid an extra all-gather communication during backward passes."
+    }
+  ]
+}

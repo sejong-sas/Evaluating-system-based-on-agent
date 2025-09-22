@@ -1,0 +1,19 @@
+{
+  "4-1 (Pre-training Data)": "None of the provided quotations address the pre-training stage for meta-llama/llama3. The excerpt list contains zero sentences that mention the nature, provenance, volume, licensing status, or thematic composition of the raw corpus used before fine-tuning. Because there are literally no relevant lines to cite or paraphrase, no further summary of pre-training data can be generated from the supplied material.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "The quote set does not include any sentence that discusses the fine-tuning datasets for meta-llama/llama3—no references to dataset names, public or private sources, curation criteria, or sample excerpts. Consequently, no information about size, domain mix, licensing, public availability, or example prompts/targets is available to summarize.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "There are no quotations describing reinforcement-learning or preference-optimization datasets for meta-llama/llama3. The supplied material contains no lines about the collection method, synthetic vs. human feedback provenance, scale, or accessibility of such data, leaving this section with no content to summarize.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The two relevant quotations focus exclusively on safety-oriented filtering during inference. First, the statement “You can also deploy additional classifiers to filter out inputs and outputs that are deemed unsafe.” indicates that the data‐cleaning approach relies on one or more auxiliary classifiers whose role is to screen both user prompts (inputs) and model responses (outputs) for content considered inappropriate or unsafe. Second, “See the llama-cookbook repo for an example of how to add a safety checker to the inputs and outputs of your inference code.” adds that practical implementation guidance can be found in the publicly available ‘llama-cookbook’ repository, which includes code-level illustrations of wrapping inference calls with a safety checker. Together, these quotes specify the core criterion—using classifier-based gating for safety—and point to a concrete pipeline resource (llama-cookbook) that operationalizes the approach. No numeric thresholds, false-positive metrics, or corpus-level removal percentages are disclosed, but the text makes clear that filtering is applied symmetrically to incoming and outgoing data and is modular enough to be swapped or extended with additional classifiers.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can also deploy additional classifiers to filter out inputs and outputs that are deemed unsafe."
+    },
+    {
+      "source": "[readme]",
+      "quote": "See the llama-cookbook repo for an example of how to add a safety checker to the inputs and outputs of your inference code."
+    }
+  ]
+}

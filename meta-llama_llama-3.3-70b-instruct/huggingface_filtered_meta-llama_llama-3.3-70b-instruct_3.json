@@ -1,0 +1,54 @@
+{
+  "2-3 (API)": "The available material explicitly states that there are two separately packaged builds of Llama-3.3-70B-Instruct: one that integrates directly with the original \"llama\" codebase and a second that plugs into the Hugging Face Transformers stack. Beginning with transformers ≥ 4.45.0, users can perform conversational inference in two canonical ways: (1) through the high-level `pipeline` abstraction and (2) by instantiating the usual `Auto*` classes and calling `generate()`. The repository therefore exposes the model as an easy-to-call, GPT-style API, identified in code snippets with the exact model string \"meta-llama/Llama-3.3-70B-Instruct\". These details collectively confirm public, programmatic access as well as the canonical model identifier that developers must supply when loading or querying the model.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase.\n\nStarting with `transformers >= 4.45.0` onward, you can run conversational inference using the Transformers `pipeline` abstraction or by leveraging the Auto classes with the `generate()` function."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_id = \"meta-llama/Llama-3.3-70B-Instruct\""
+    }
+  ],
+  "3-1 (Pre-training)": "According to the quoted documentation, Llama 3.3 underwent large-scale pre-training on roughly 15 trillion tokens drawn entirely from publicly available sources, with a data-collection cut-off of December 2023. The effort was carried out on Meta’s bespoke GPU infrastructure using custom training libraries and a dedicated cluster; in aggregate, the run consumed 39.3 million H100-80 GB GPU-hours (each card listed with a 700 W TDP). All cited figures refer strictly to the pre-training corpus—no instruction-tuning or later stages are included in those token counts. Architecturally, every Llama 3.3 variant employs Grouped-Query Attention (GQA) so that inference scales more efficiently at the 70 billion-parameter level.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 was pretrained on \\~15 trillion tokens of data from publicly available sources."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pretraining data has a cutoff of December 2023."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We used custom training libraries, Meta's custom built GPU cluster, and production infrastructure for pretraining."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Training utilized a cumulative of **39.3**M GPU hours of computation on H100-80GB (TDP of 700W) type hardware, per the table below."
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Llama 3.3 model**. Token counts refer to pretraining data only. All model versions use Grouped-Query Attention (GQA) for improved inference scalability."
+    }
+  ],
+  "3-2 (Fine-tuning)": "The fine-tuning pipeline for Llama 3.3 Instruct supplements the ~15 T token pre-training corpus with two major sources: (i) publicly available instruction-style data and (ii) more than 25 million synthetically generated examples. The stated motivation of this phase is safety-oriented: the team seeks both to furnish researchers with a benchmarkable artifact for studying robustness of safety fine-tuning and to give application developers an immediately deployable model that reduces the overhead of building safe AI systems. These goals are summarized under the heading \"Llama 3.3 instruct,\" underscoring that the described procedure is an official post-pre-training step for the 70 B parameter model.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Overview:** Llama 3.3 was pretrained on \\~15 trillion tokens of data from publicly available sources. The fine-tuning data includes publicly available instruction datasets, as well as over 25M synthetically generated examples."
+    },
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\nOur main objectives for conducting safety fine-tuning are to provide the research community with a valuable resource for studying the robustness of safety fine-tuning, as well as to offer developers a readily available, safe, and powerful model for various applications to reduce the developer workload to deploy safe AI systems."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The alignment stack for Llama 3.3 proceeds beyond supervised fine-tuning by applying reinforcement learning with human feedback (RLHF). The documentation specifies that tuned versions of the auto-regressive transformer first receive SFT and are then optimized through RLHF to better match human judgments of helpfulness and safety. While no hyper-parameters or reward-model specifics are disclosed in the cited sentence, the passage confirms RLHF as a core component of the alignment procedure for the 70 B parameter Llama 3.3 family.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Model Architecture:** Llama 3.3 is an auto-regressive language model that uses an optimized transformer architecture. The tuned versions use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety."
+    }
+  ]
+}

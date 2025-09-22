@@ -1,0 +1,205 @@
+{
+  "1-1 (Weights)": "The quotes specify that the model weights for meta-llama/llama-3.3-70b-instruct are openly hosted by Meta and mirrored on Hugging Face. One quote states: “This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase,” making clear that users can choose between a transformers-compatible format or the format used by the original `llama` tooling. A concrete download instruction is also given: “To download Original checkpoints, see the example command below leveraging `huggingface-cli` … `huggingface-cli download meta-llama/Llama-3.3-70B-Instruct --include \"original/*\" --local-dir Llama-3.3-70B-Instruct`.” Finally, the weights fall under the umbrella of the broader “Llama 3.3” release, which covers “trained model weights” that are “distributed by Meta at https://www.llama.com/llama-downloads.” Together, these sentences indicate that anyone can fetch the 70 B parameter instruct checkpoints directly from Meta’s official distribution point or via Hugging Face using the provided command, and that both a transformers-style and original-style weight format are offered.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To download Original checkpoints, see the example command below leveraging `huggingface-cli`:\n\n```\nhuggingface-cli download meta-llama/Llama-3.3-70B-Instruct --include \"original/*\" --local-dir Llama-3.3-70B-Instruct\n```"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "“Llama 3.3” means the foundational large language models and software and algorithms, including machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at [https://www.llama.com/llama-downloads](https://www.llama.com/llama-downloads)."
+    }
+  ],
+  "1-2 (Code)": "The code situation for meta-llama/llama-3.3-70b-instruct is summarized in several quotes. The definition of “Llama 3.3” explicitly includes “machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at https://www.llama.com/llama-downloads,” showing that pre-training, fine-tuning, and inference components are all part of the release. Practical usage examples are hosted in a public GitHub repository: “For more technical information about generation parameters and recipes for how to use Llama 3.3 in applications, please go https://github.com/meta-llama/llama-recipes.” The weight repository itself “contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase,” implying that the corresponding loaders / wrappers for both ecosystems are available. The quotes do not mention any private or withheld stages; therefore, all referenced training-enabling, fine-tuning-enabling, and inference code is considered publicly distributed by Meta within the scope of the “Llama 3.3” package and the linked `llama-recipes` cookbook.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[license_file]",
+      "quote": "“Llama 3.3” means the foundational large language models and software and algorithms, including machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at [https://www.llama.com/llama-downloads](https://www.llama.com/llama-downloads)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "For more technical information about generation parameters and recipes for how to use Llama 3.3 in applications, please go [here](https://github.com/meta-llama/llama-recipes)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase."
+    }
+  ],
+  "1-3 (License)": "All provided sentences make it clear that meta-llama/llama-3.3-70b-instruct is governed by a bespoke license: “**License** A custom commercial license, the Llama 3.3 Community License Agreement, is available at: https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE.” The agreement grants broad but conditional rights: “You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials.” However, the license contains a high-scale usage trigger: “If, on the Llama 3.3 version release date, the monthly active users of the products or services made available by or for Licensee … is greater than 700 million monthly active users … you must request a license from Meta … and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights.” Distribution also requires attribution: “You must retain in all copies … the following notice … ‘Llama 3.3 is licensed under the Llama 3.3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.’” Meta additionally grants a limited trademark license: “Meta hereby grants you a license to use ‘Llama’ (the ‘Mark’) solely as required to comply with the last sentence of Section 1.b.i” and enforces adherence to its brand guidelines. A `LICENSE` file is present in the repository, confirming that the stated terms are embedded with the release.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**License** A custom commercial license, the Llama 3.3 Community License Agreement, is available at: [https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Meta’s intellectual property or other rights owned by Meta embodied in the Llama Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If, on the Llama 3.3 version release date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s affiliates, is greater than 700 million monthly active users in the preceding calendar month, you must request a license from Meta, which Meta may grant to you in its sole discretion, and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You must retain in all copies of the Llama Materials that you distribute the following attribution notice within a “Notice” text file distributed as a part of such copies: “Llama 3.3 is licensed under the Llama 3.3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”"
+    },
+    {
+      "source": "[readme]",
+      "quote": "s required for reasonable and customary use in describing and redistributing the Llama Materials or as set forth in this Section 5(a). Meta hereby grants you a license to use “Llama” (the “Mark”) solely as required to comply with the last sentence of Section 1.b.i. You will comply with Meta’s brand guidelines (currently accessible at [https://about.meta.com/brand/resources/meta/co"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The documentation points to an accompanying technical write-up: “For more details on the safety mitigations implemented please read the Llama 3 paper.” This sentence confirms the existence of an official Llama 3 paper that covers, at minimum, the model’s safety strategies. No additional bibliographic details or links are provided in the quotes, but the statement asserts that the authoritative discussion of safety and presumably broader technical aspects can be found in that dedicated paper.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For more details on the safety mitigations implemented please read the Llama 3 paper."
+    }
+  ],
+  "1-5 (Architecture)": "The available quotes give several explicit architectural details for the meta-llama/llama-3.3-70b-instruct family. First, the model is described as “Llama 3.3 … an auto-regressive language model that uses an optimized transformer architecture,” establishing that it follows the standard decoder-only, next-token-prediction paradigm. Parameter scale is fixed at “70B,” and the tabulated information (“| Llama 3.3 (text only) … | 70B |”) confirms this figure while also implying that the specific checkpoint summarized here is the text-only variant of the 70-billion-parameter series. The same table line reports a maximum context window of “128k,” indicating the model was engineered for extremely long-context inference. Training‐data scale is given as “15T+” tokens, and a note clarifies, “Token counts refer to pretraining data only,” so downstream fine-tuning tokens are in addition to that total. Coverage is “Multilingual Text and code,” signaling that both natural-language and coding corpora were included in the curriculum. Finally, “All model versions use Grouped-Query Attention (GQA) for improved inference scalability,” identifying GQA as a core architectural optimization applied across the Llama 3.3 range. In sum, the llama-3.3-70B-instruct checkpoint is a 70-billion-parameter, auto-regressive transformer with GQA, a 128 000-token context length, and was pretrained on more than fifteen trillion multilingual text-and-code tokens collected up to December 2023.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Model Architecture:** Llama 3.3 is an auto-regressive language model that uses an optimized transformer architecture."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| Llama 3.3 (text only)  | A new mix of publicly available online data. | 70B | Multilingual Text | Multilingual Text and code  | 128k | Yes | 15T+ | December 2023 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Llama 3.3 model**. Token counts refer to pretraining data only. All model versions use Grouped-Query Attention (GQA) for improved inference scalability."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "For meta-llama/llama-3.3-70b-instruct, the quoted sources state that training \"utilized a cumulative of 39.3 M GPU hours of computation on H100-80 GB (TDP of 700 W) type hardware.\" The accompanying hardware table row, “| Llama 3.3 70B | 7.0M | 700 | 2,040 | 0 |,” lists figures alongside the model name; although column headers are not supplied in the excerpt, the numbers are tied directly to the 70-B-parameter run. Together, the quotes establish that the project relied on NVIDIA H100-80 GB accelerators—each rated at 700 W—and that the aggregate compute expenditure amounted to 39.3 million GPU-hours, with the table further hinting at metrics such as 7.0 million (possibly node-hours or training steps) and a fleet size on the order of 2 040 devices or nodes.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Training utilized a cumulative of **39.3**M GPU hours of computation on H100-80GB (TDP of 700W) type hardware, per the table below."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| Llama 3.3 70B | 7.0M | 700 | 2,040 | 0 |"
+    }
+  ],
+  "2-2 (Software)": "The software environment for training llama-3.3-70b-instruct is summarized in a single statement: “We used custom training libraries, Meta's custom built GPU cluster, and production infrastructure for pretraining.” This indicates that, rather than off-the-shelf frameworks alone, Meta employed internally developed libraries and ran them on an in-house GPU cluster tightly integrated with its broader production infrastructure. No specific framework versions, flags, or auxiliary libraries are enumerated in the provided material.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Training Factors** We used custom training libraries, Meta's custom built GPU cluster, and production infrastructure for pretraining."
+    }
+  ],
+  "2-3 (API)": "The available material explicitly states that there are two separately packaged builds of Llama-3.3-70B-Instruct: one that integrates directly with the original \"llama\" codebase and a second that plugs into the Hugging Face Transformers stack. Beginning with transformers ≥ 4.45.0, users can perform conversational inference in two canonical ways: (1) through the high-level `pipeline` abstraction and (2) by instantiating the usual `Auto*` classes and calling `generate()`. The repository therefore exposes the model as an easy-to-call, GPT-style API, identified in code snippets with the exact model string \"meta-llama/Llama-3.3-70B-Instruct\". These details collectively confirm public, programmatic access as well as the canonical model identifier that developers must supply when loading or querying the model.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase.\n\nStarting with `transformers >= 4.45.0` onward, you can run conversational inference using the Transformers `pipeline` abstraction or by leveraging the Auto classes with the `generate()` function."
+    },
+    {
+      "source": "[readme]",
+      "quote": "model_id = \"meta-llama/Llama-3.3-70B-Instruct\""
+    }
+  ],
+  "3-1 (Pre-training)": "According to the quoted documentation, Llama 3.3 underwent large-scale pre-training on roughly 15 trillion tokens drawn entirely from publicly available sources, with a data-collection cut-off of December 2023. The effort was carried out on Meta’s bespoke GPU infrastructure using custom training libraries and a dedicated cluster; in aggregate, the run consumed 39.3 million H100-80 GB GPU-hours (each card listed with a 700 W TDP). All cited figures refer strictly to the pre-training corpus—no instruction-tuning or later stages are included in those token counts. Architecturally, every Llama 3.3 variant employs Grouped-Query Attention (GQA) so that inference scales more efficiently at the 70 billion-parameter level.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 was pretrained on \\~15 trillion tokens of data from publicly available sources."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pretraining data has a cutoff of December 2023."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We used custom training libraries, Meta's custom built GPU cluster, and production infrastructure for pretraining."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Training utilized a cumulative of **39.3**M GPU hours of computation on H100-80GB (TDP of 700W) type hardware, per the table below."
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Llama 3.3 model**. Token counts refer to pretraining data only. All model versions use Grouped-Query Attention (GQA) for improved inference scalability."
+    }
+  ],
+  "3-2 (Fine-tuning)": "The fine-tuning pipeline for Llama 3.3 Instruct supplements the ~15 T token pre-training corpus with two major sources: (i) publicly available instruction-style data and (ii) more than 25 million synthetically generated examples. The stated motivation of this phase is safety-oriented: the team seeks both to furnish researchers with a benchmarkable artifact for studying robustness of safety fine-tuning and to give application developers an immediately deployable model that reduces the overhead of building safe AI systems. These goals are summarized under the heading \"Llama 3.3 instruct,\" underscoring that the described procedure is an official post-pre-training step for the 70 B parameter model.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Overview:** Llama 3.3 was pretrained on \\~15 trillion tokens of data from publicly available sources. The fine-tuning data includes publicly available instruction datasets, as well as over 25M synthetically generated examples."
+    },
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\nOur main objectives for conducting safety fine-tuning are to provide the research community with a valuable resource for studying the robustness of safety fine-tuning, as well as to offer developers a readily available, safe, and powerful model for various applications to reduce the developer workload to deploy safe AI systems."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The alignment stack for Llama 3.3 proceeds beyond supervised fine-tuning by applying reinforcement learning with human feedback (RLHF). The documentation specifies that tuned versions of the auto-regressive transformer first receive SFT and are then optimized through RLHF to better match human judgments of helpfulness and safety. While no hyper-parameters or reward-model specifics are disclosed in the cited sentence, the passage confirms RLHF as a core component of the alignment procedure for the 70 B parameter Llama 3.3 family.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**Model Architecture:** Llama 3.3 is an auto-regressive language model that uses an optimized transformer architecture. The tuned versions use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety."
+    }
+  ],
+  "4-1 (Pre-training Data)": "For the meta-llama/llama-3.3-70b-instruct model the pre-training stage relied exclusively on material that the project describes as “a new mix of publicly available online data.”  The corpus combines multilingual text with code and totals “~15 trillion tokens,” or “15T+” tokens, making it one of the largest openly described training sets for a Llama family model.  The documentation places strong emphasis on the public availability of every component in the mixture, implying that no proprietary or private corpora were incorporated.  A tabular overview explicitly links these details to “Llama 3.3 (text only)” and lists the model size as “70B,” the modality as “Multilingual Text” (with an additional column noting “Multilingual Text and code”), and the maximum sequence length used during training as “128k.”  All material is said to be current up to a “Data Freshness” or cut-off date of “December 2023,” establishing the temporal boundary of the corpus.  No further source-by-source breakdown or license enumeration is provided in the quoted material, but every sentence that does appear stresses both the public origin of the data and its massive, multilingual, multi-domain scale.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "| Llama 3.3 (text only)  | A new mix of publicly available online data. | 70B | Multilingual Text | Multilingual Text and code  | 128k | Yes | 15T+ | December 2023 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**Overview:** Llama 3.3 was pretrained on ~15 trillion tokens of data from publicly available sources."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Data Freshness: The pretraining data has a cutoff of December 2023."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "The fine-tuning phase for Llama 3.3 70B draws on two principal streams: (1) publicly available instruction datasets and (2) a very large set of synthetic examples.  One sentence states that the fine-tuning pool “includes publicly available instruction datasets, as well as over 25 M synthetically generated examples,” giving a concrete size for the synthetic portion.  A separate passage headed “Llama 3.3 instruct” further clarifies that the team “employ[s] a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks.”  Together, these quotes show that the curation strategy mixes vendor-supplied human demonstrations with large-scale synthetic data, all of which is used to specialise the base 15-trillion-token model into an instruction-following variant.  The emphasis on safety-motivated data generation and selection is part of the stated rationale for blending real and synthetic sources, but no additional public release or licensing information beyond “publicly available” is given in the provided text.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 was pretrained on ~15 trillion tokens of data from publicly available sources. The fine-tuning data includes publicly available instruction datasets, as well as over 25M synthetically generated examples."
+    },
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\n**Fine-tuning data** We employ a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "For alignment, the “tuned versions” of Llama 3.3 70B “use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety.”  Although the quotations do not enumerate the exact datasets or the number of preference comparisons collected, they explicitly confirm that RLHF is employed and that the feedback comes from humans who judge model outputs on helpfulness and safety axes.  Therefore the reinforcement-learning data consists of human preference signals gathered specifically for those alignment goals, applied after the SFT stage to steer the model’s behaviour toward user-aligned responses.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Llama 3.3 is an auto-regressive language model that uses an optimized transformer architecture. The tuned versions use supervised fine-tuning (SFT) and reinforcement learning with human feedback (RLHF) to align with human preferences for helpfulness and safety."
+    }
+  ],
+  "4-4 (Data Filtering)": "The documentation for Llama 3.3 70B highlights a multi-layer filtering and evaluation pipeline built around model-based classifiers and safety tools.  In the context of fine-tuning data, the team “developed many large language model (LLM)-based classifiers that enable [them] to thoughtfully select high-quality prompts and responses,” indicating that automated classifiers vet both questions and answers before they are admitted into the training pool.  Beyond training data selection, the release describes a broader safety stack: they “built dedicated, adversarial evaluation datasets and evaluated systems composed of Llama models and Llama Guard 3 to filter input prompt and output response.”  As part of the overall responsible-release strategy, they offer “safeguards that developers should deploy with Llama models or other LLMs, including Llama Guard 3, Prompt Guard and Code Shield.”  Although the quotes do not supply numeric cut-offs (e.g., perplexity thresholds) or rejection rates, they show that data and interaction filtering is performed with purpose-built LLM classifiers, adversarial test suites, and publicly released guard models that operate at both the prompt and response stages.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "#### Llama 3.3 instruct\n\n**Fine-tuning data** We employ a multi-faceted approach to data collection, combining human-generated data from our vendors with synthetic data to mitigate potential safety risks. We’ve developed many large language model (LLM)-based classifiers that enable us to thoughtfully select high-quality prompts and responses, enhancing data quality control."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We built dedicated, adversarial evaluation datasets and evaluated systems composed of Llama models and Llama Guard 3 to filter input prompt and output response."
+    },
+    {
+      "source": "[readme]",
+      "quote": "As part of our responsible release approach, we provide the community with safeguards that developers should deploy with Llama models or other LLMs, including Llama Guard 3, Prompt Guard and Code Shield."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

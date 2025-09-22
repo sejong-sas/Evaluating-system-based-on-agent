@@ -1,0 +1,174 @@
+{
+  "4-1 (Pre-training Data)": "meta-llama/llama-3.3-70b-instruct is pre-trained on a markedly larger and more diverse corpus than earlier releases in the Llama family.\n• Size and language mix Several passages state that “We pre-train Llama 3 on a corpus of about 15 T multilingual tokens, compared to 1.8 T tokens for Llama 2”, and that the 8 B and 70 B checkpoints were also pre-trained on a multilingual blend even though they were primarily intended for English use at launch.  Multiple quotes emphasise that the percentage of non-English material was deliberately increased, while English still remains the majority of tokens.  A specialised “multilingual expert” branch was created by resuming the run on a data mix that is “90 % multilingual tokens”, so that higher-quality non-English annotations could be collected.\n• Content composition tweaks During training the team “upsample[d] mathematical data”, “added more recent web data in later stages to advance the knowledge cut-off”, and “downsampled subsets … later identified as being lower quality”.  The mix was iteratively re-balanced whenever downstream evaluations indicated a weakness (e.g. multilingual reasoning) – a process described in the quotes as “Adjusting the data mix”.\n• Provenance, curation and contamination control A separate procurement team — “strongly incentivized to prevent contamination … with external benchmarks” — collected and processed the raw corpus so that benchmark leak-through would be minimised.  The paper also notes that “we improved both the quantity and quality of the data we use for pre-training and post-training” by introducing “more careful pre-processing and curation pipelines”.\n• Synthetic expansions for long context Earlier Llama 3 checkpoints were used to generate synthetic long-document question answering, summarisation and code-repository reasoning examples; these synthetic long documents themselves came from “our pre-training mix”.\n• Training run specifics (contextual for data throughput) One quote gives optimizer and throughput parameters for a 405 B variant (AdamW, peak LR 8×10⁻⁵, up to 8 M sequences of 8192 tokens) and another observes that “cross-attention layers … have ≈ 100 B parameters”.  Although these numbers refer to a larger sibling, they illuminate the scale of data pushed through the pipeline that also produced the 70 B checkpoint.\n• Memorisation auditing “Table 24” (verbatim) reports average memorisation rates “in pre-trained Llama 3”, signalling that the team measured how often the raw corpus appears verbatim in generated text.\nIn aggregate, the pre-training stage for llama-3.3-70b-instruct involved ~15 T tokens spanning web, code and domain-specific sources, a deliberate multilingual boost, math up-sampling, recent-web freshness, low-quality down-sampling, synthetic long-context additions, and strong safeguards against benchmark contamination.",
+  "4-2 (Fine-tuning Data)": "Post-training for meta-llama/llama-3.3-70b-instruct follows a multi-round alignment pipeline built around supervised fine-tuning (SFT) and Direct Preference Optimisation (DPO).\n• Two-stage development Quotes explain that after generic LM pre-training, “Language model post-training” aligns the model so that it follows instructions, behaves safely and acquires specialised skills such as coding and complex reasoning.\n• Core data sources The instruction-tuning sets are said to be “largely comprised” of (1) “prompts from our human annotation collection with rejection-sampled responses”, (2) “synthetic data targeting specific capabilities”, and (3) “small amounts of human-curated data”.  Millions of human-written instructions and preference judgements are mentioned explicitly.\n• Synthetic generation loops As stronger checkpoints emerge, they are recursively used to collect ever larger and more difficult datasets.  Earlier Llama 3 versions are prompted to fabricate long-context tasks — “question-answering, summarization for long documents, and reasoning over code repositories” — that feed into later SFT rounds.\n• Multilingual instruction tuning Separate quotes describe efforts to “source and generate high quality multilingual instruction tuning data for German, French, Italian, Portuguese, Hindi, Spanish, and Thai”, complemented by training a dedicated multilingual expert model.  This multilingual SFT data is combined with English instructions so the aligned model performs in many languages even though the 70 B checkpoint primarily targets English usage.\n• Safety SFT Following the “Llama 2 recipe”, helpfulness and safety prompts are mixed, and a new “borderline dataset” teaches the model to recognise subtle differences between safe and unsafe requests.\n• Context-length adaptation Because the base model’s context window was extended from 8 K to 128 K near the end of pre-training, naïvely re-using short-context SFT data “resulted in significant regressions”.  Long-context samples therefore had to be added to the SFT mix.\n• Coding specialisation Quotes show the team “prompt Llama 3 to solve each problem in a given programming language”, producing code datasets that are later filtered or scored (details in Section 4-4).  Overall, the fine-tuning corpus blends human-written, human-rated, synthetic and borderline safety material, covers many languages, includes special long-context and coding subsets, and is repeatedly expanded and cleaned in concert with stronger checkpoints and DPO rounds.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-style preference data underpins the DPO phase for meta-llama/llama-3.3-70b-instruct.\n• Collection protocol The paper notes that annotators engage in “multi-turn dialogues with the models and make comparisons among responses at each turn”.  Statistics for these comparisons appear in “Table 6”.  After each alignment round “multiple models” are deployed so that any single preference dataset does not over-fit to one checkpoint.\n• Pairwise and multi-turn comparisons For every user prompt, “two responses from two different models” are sampled and ranked — mirroring the methodology of Llama 2 but executed at larger scale.\n• Self-generation of reasoning traces The team “use Llama 3 to generate step-by-step solutions for a set of prompts”; generations are then “filtered based on the correct answer”.  This creates extra preference signals that reward valid chain-of-thought without leaking erroneous reasoning into the policy.\n• Scale An earlier quote in Section 4-2 emphasises that “Llama 3 uses millions of human instructions and preference judgments”, indicating that the reinforcement learning corpus itself is very large.  All of these comparisons feed into DPO reward models that in turn guide the policy updates for the 70 B instruct checkpoint.",
+  "4-4 (Data Filtering)": "A multilayer filtering stack is applied to both pre-training and post-training data for meta-llama/llama-3.3-70b-instruct, with special attention to measurable quality, difficulty, safety and deduplication.\n• Classifier-based web cleaning “To train a quality classifier based on Llama 2, we create a training set of cleaned web documents … and instruct Llama 2’s chat model to determine if the document meets these requirements.”  Separate DistilRoBERTa classifiers for code and reasoning are “trained on web data annotated by Llama 2”.  Although the classifiers are distilled from a predecessor, they form the foundation for initial web-scale triage.\n• Quality scoring at post-training time Quotes state: “We use both reward model and Llama-based signals to obtain a quality score for each sample.  For an RM-based score, we consider data that is in the top quartile of RM scores as high quality.  For a Llama-based score, we prompt a Llama 3 checkpoint to rate each sample on a three-point scale (accuracy, instruction following, tone) for general English data and a two-point scale (bug identification, user intention) for coding data; samples that obtain the maximum score are retained.”  Hence, the pipeline explicitly expresses numeric cut-offs (top 25 % by RM; perfect 3/3 or 2/2 from Llama graders).\n• Difficulty scoring Because curriculum learning is desired, every retained example also receives a difficulty estimate.  Two metrics are used: Instag (a public automatic difficulty metric) and “Llama-based scoring”, so harder examples can be up-sampled.\n• Model-as-judge for code style and correctness “To address this, we utilise the ‘model-as-judge’ approach, where earlier versions of Llama 3 assign a binary (0/1) score on two criteria: code correctness and code style.  We retain only those samples that achieve a perfect score of 2.”\n• Self-verification of reasoning traces “We also do self-verification where Llama 3 is used to verify whether a particular step-by-step solution is valid … eliminating instances where the model does not produce valid reasoning traces.”\n• Safety and responsible-AI filtering “Our safety work begins in the pre-training stage, primarily in the form of data cleaning and filtering.”  Llama Guard 3, a safety filter, is itself improved via “extensive cleaning of the collected samples using human annotation as well as LLM annotation by Llama 3.”\n• Iterative filtering throughout alignment “In order to curate instruction and preference examples, we deploy earlier versions of Llama 3 to filter, re-write, or generate prompts and responses … through multiple rounds of post-training.”  The approach couples progressive dataset growth with repeated vetting.\nAcross stages, the system relies on Llama-family self-review, reward-model percentiles, binary pass/fail code judges, three-point and two-point rubric grades, Instag difficulty, and human/LLM safety screens.  Only examples meeting explicit numeric or rubric-based thresholds — e.g. top-quartile RM, perfect Llama rubric score, perfect 2/2 code score — survive to reach llama-3.3-70b-instruct’s final training sets.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared to prior versions of Llama (Touvron et al., 2023a,b), we improved both the quantity and quality of the data we use for pre-training and post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train Llama 3 on a corpus of about 15T multilingual tokens, compared to 1.8T tokens for Llama 2."
+    },
+    {
+      "source": "[sections/Training Recipe]",
+      "quote": "In particular, we increased the percentage of non-English data during pre-training to improve the multilingual performance of Llama 3. We also upsample mathematical data to improve the model’s mathematical reasoning performance, we added more recent web data in the later stages of pre-training to advance the model’s knowledge cut-off, and we downsampled subsets of the pre-training data that were later identified as being lower quality."
+    },
+    {
+      "source": "[sections/Multilinguality]",
+      "quote": "Expert training. Our Llama 3 pre-training data mix contains significantly more English tokens than non-English tokens. To collect higher quality human annotations in non-English languages, we train a multilingual expert by branching off the pre-training run and continuing to pre-train on a data mix that consists of 90% multilingual tokens."
+    },
+    {
+      "source": "[sections/Model Architecture]",
+      "quote": "The cross-attention layers introduce substantial numbers of additional trainable parameters into the model: for Llama 3 405B, the cross-attention layers have ≈100B parameters. We pre-train our image adapter in two stages: (1) initial pre-training followed by (2) annealing: • Initial pre-training. We pre-train our image adapter on our dataset of ∼6B image-text pairs described above."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "For example, to ensure Llama 3 is not accidentally overfitted on commonly used benchmarks, our pre-training data was procured and processed by a separate team that was strongly incentivized to prevent contamination of that pre-training data with external benchmarks."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "We pre-train Llama 3 on a corpus of about 15T multilingual tokens, compared to 1.8T tokens for Llama 2."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "The Llama 3 8B and 70B were pre-trained on multilingual data but were intended for use in English at the time."
+    },
+    {
+      "source": "[sections/Training Recipe]",
+      "quote": "We pre-train Llama 3 405B using AdamW with a peak learning rate of 8 × 10−5 , a linear warm up of 8,000 steps, and a cosine learning rate schedule decaying to 8 × 10−7 over 1,200,000 steps. Specifically, we use an initial batch size of 4M tokens and sequences of length 4,096, and double these values to a batch size of 8M sequences of 8,192 tokens after pre-training 252M tokens."
+    },
+    {
+      "source": "[sections/Training Recipe]",
+      "quote": "Adjusting the data mix. We made a several adjustments to the pre-training data mix during training to improve model performance on particular downstream tasks. In particular, we increased the percentage of non-English data during pre-training to improve the multilingual performance of Llama 3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We use earlier versions of Llama 3 to generate synthetic data based on the key long-context use-cases: (possibly multi-turn) question-answering, summarization for long documents, and reasoning over code repositories, and describe them in greater detail below. We carefully curate a set of long documents from our pre-training mix."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 24 Average verbatim memorization in pre-trained Llama 3 for selected test scenarios."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The development of our Llama 3 language models comprises two main stages: Language model post-training. The pre-trained language model has a rich understanding of language but it does not yet follow instructions, align with human preferences, and improve specific capabilities (for example, coding and reasoning). We align the model with human feedback in several rounds, each of which involves supervised finetuning (SFT) on instruction tuning data and Direct Preference Optimization (DPO; Rafailov et al., 2023)."
+    },
+    {
+      "source": "[sections/SFT Data]",
+      "quote": "As our post-training rounds progress, we develop stronger Llama 3 variants that we use to collect larger datasets that cover a wide range of complex capabilities. Our finetuning data is largely comprised of the following sources: • Prompts from our human annotation collection with rejection-sampled responses. • Synthetic data targeting specific capabilities (see Section 4.3 for more details). • Small amounts of human-curated data (see Section 4.3 for more details)."
+    },
+    {
+      "source": "[sections/Multilinguality]",
+      "quote": "We describe how we improve Llama 3’s multilingual capabilities, including training an expert specialized on substantially more multilingual data, sourcing and generating high quality multilingual instruction tuning data for German, French, Italian, Portuguese, Hindi, Spanish, and Thai, and tackling specific challenges of multilingual language steering to enhance the overall performance of our model."
+    },
+    {
+      "source": "[sections/Long Context]",
+      "quote": "We use earlier versions of Llama 3 to generate synthetic data based on the key long-context use-cases: (possibly multi-turn) question-answering, summarization for long documents, and reasoning over code repositories, and describe them in greater detail below."
+    },
+    {
+      "source": "[sections/Safety Finetuning]",
+      "quote": "Safety supervised finetuning. Following our Llama 2 recipe (Touvron et al., 2023b), we combine all helpfulness data and safety data during the model alignment stage. Additionally, we introduce a borderline dataset to help the model discern the subtle distinctions between safe and unsafe requests."
+    },
+    {
+      "source": "[sections/9.1 Language – Post-training]",
+      "quote": "Post-training Llama 3 follows the established strategy of instruction tuning (Chung et al., 2022; Ouyang et al., 2022) followed by alignment with human feedback (Kaufmann et al., 2023). While some studies have shown the surprising effectiveness of lightweight alignment procedures (Zhou et al., 2024), Llama 3 uses millions of human instructions and preference judgments to improve the pre-trained model, including techniques such as rejection sampling (Bai et al., 2022), supervised finetuning (Sanh et al., 2022), and Direct Preference Optimization (Rafailov et al., 2023)."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "The development of our Llama 3 language models comprises two main stages: … • Language model post-training. … We align the model with human feedback in several rounds, each of which involves supervised finetuning (SFT) on instruction tuning data and Direct Preference Optimization (DPO; Rafailov et al., 2024)."
+    },
+    {
+      "source": "[sections/Code – Synthetic data generation]",
+      "quote": "We prompt Llama 3 to solve each problem in a given programming language."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the final pre-training stage, we extend the context length of Llama 3 from 8K tokens to 128K tokens (see Section 3.4 for more details). Naively applying our existing SFT recipe with only short-context data resulted in significant regressions in long-context capabilities from pre-training, highlighting the need to incorporate long-context data in our SFT data mix."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/Preference Data]",
+      "quote": "In Table 6, we report the statistics of preference annotations that we use for Llama 3 training. We ask annotators to perform multi-turn dialogues with the models and make comparisons among responses at each turn."
+    },
+    {
+      "source": "[sections/Preference Data]",
+      "quote": "Our preference data annotation process is similar to Llama 2. We deploy multiple models for annotation after each round and sample two responses from two different models for each user prompt."
+    },
+    {
+      "source": "[sections/Math and Reasoning]",
+      "quote": "Augmenting training data with step-wise reasoning traces: We use Llama 3 to generate step-by-step solutions for a set of prompts. These generations are then filtered based on the correct answer (Li et al., 2024a)."
+    },
+    {
+      "source": "[sections/9.1 Language – Post-training]",
+      "quote": "While some studies have shown the surprising effectiveness of lightweight alignment procedures (Zhou et al., 2024), Llama 3 uses millions of human instructions and preference judgments to improve the pre-trained model, including techniques such as rejection sampling (Bai et al., 2022), supervised finetuning (Sanh et al., 2022), and Direct Preference Optimization (Rafailov et al., 2023)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To train a quality classifier based on Llama 2, we create a training set of cleaned web documents, describe the quality requirements, and instruct Llama 2’s chat model to determine if the documents meets these requirements."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Specifically, both the code and reasoning classifiers are DistilRoberta models trained on web data annotated by Llama 2."
+    },
+    {
+      "source": "[sections/Data Processing and Quality Control]",
+      "quote": "• Quality scoring: We use both reward model and Llama-based signals to obtain a quality score for each sample. For an RM-based score, we consider data that is in the top quartile of RM scores as high quality. For a Llama-based score, we prompt Llama 3 checkpoint to rate each sample on a three-point scale for general English data (accuracy, instruction following, and tone/presentation) and a two-point scale for coding data (bug identification and user intention), and consider samples that obtain the maximum score as high quality."
+    },
+    {
+      "source": "[sections/Data Processing and Quality Control]",
+      "quote": "• Difficulty scoring: Because we are also interested in prioritizing examples that are more complex for the model, we score data using two measures of difficulty: Instag (Lu et al., 2023) and Llama-based scoring."
+    },
+    {
+      "source": "[sections/Data Processing and Quality Control]",
+      "quote": "• Semantic deduplication: Finally, we perform semantic deduplication (Abbas et al., 2023; Liu et al., 2024c). We first cluster complete dialogs using RoBERTa and within each cluster sort them by quality score × difficulty score."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To address this, we utilize the “model-as-judge” approach, where earlier versions of Llama 3 assess and assign a binary (0/1) score based on two criteria: code correctness and code style. We retain only those samples that achieve a perfect score of 2."
+    },
+    {
+      "source": "[sections/Math and Reasoning]",
+      "quote": "We also do self-verification where Llama 3 is used to verify whether a particular step-by-step solution is valid for a given question. This process improves the quality of the finetuning data by eliminating instances where the model does not produce valid reasoning traces."
+    },
+    {
+      "source": "[sections/Safety]",
+      "quote": "We focus our study on assessing Llama 3’s ability to generate content in a safe and responsible way, while still maximizing helpful information. Our safety work begins in the pre-training stage, primarily in the form of data cleaning and filtering."
+    },
+    {
+      "source": "[sections/9.1 Language – Post-training]",
+      "quote": "In order to curate these instruction and preference examples, we deploy earlier versions of Llama 3 to filter (Liu et al., 2024c), re-write (Pan et al., 2024), or generate prompts and responses (Liu et al., 2024b) and apply these techniques through multiple rounds of post-training."
+    },
+    {
+      "source": "[sections/2407.21783]",
+      "quote": "Compared to prior versions of Llama (Touvron et al., 2023a,b), we improved both the quantity and quality of the data we use for pre-training and post-training. These improvements include the development of more careful pre-processing and curation pipelines for pre-training data and the development of more rigorous quality assurance and filtering approaches for post-training data."
+    },
+    {
+      "source": "[sections/Data Processing and Quality Control]",
+      "quote": "Quality scoring: We use both reward model and Llama-based signals to obtain a quality score for each sample."
+    },
+    {
+      "source": "[sections/Data Processing and Quality Control]",
+      "quote": "Difficulty scoring: Because we are also interested in prioritizing examples that are more complex for the model, we score data using two measures of difficulty: Instag (Lu et al., 2023) and Llama-based scoring."
+    },
+    {
+      "source": "[sections/Code – Filtering training data]",
+      "quote": "To address this, we utilize the “model-as-judge” approach, where earlier versions of Llama 3 assess and assign a binary (0/1) score based on two criteria: code correctness and code style."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "More precisely, we extract function calls and their definitions, clean and filter them, e.g. for missing docstrings or non-executable functions, and use Llama 3 to generate a natural language query corresponding to the function call."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To improve the performance of Llama Guard 3, we do extensive cleaning of the collected samples using human annotation as well as LLM annotation by Llama 3."
+    }
+  ]
+}

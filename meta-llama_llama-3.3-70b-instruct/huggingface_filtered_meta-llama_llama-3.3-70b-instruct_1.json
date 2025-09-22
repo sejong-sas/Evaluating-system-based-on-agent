@@ -1,0 +1,66 @@
+{
+  "1-1 (Weights)": "The quotes specify that the model weights for meta-llama/llama-3.3-70b-instruct are openly hosted by Meta and mirrored on Hugging Face. One quote states: “This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase,” making clear that users can choose between a transformers-compatible format or the format used by the original `llama` tooling. A concrete download instruction is also given: “To download Original checkpoints, see the example command below leveraging `huggingface-cli` … `huggingface-cli download meta-llama/Llama-3.3-70B-Instruct --include \"original/*\" --local-dir Llama-3.3-70B-Instruct`.” Finally, the weights fall under the umbrella of the broader “Llama 3.3” release, which covers “trained model weights” that are “distributed by Meta at https://www.llama.com/llama-downloads.” Together, these sentences indicate that anyone can fetch the 70 B parameter instruct checkpoints directly from Meta’s official distribution point or via Hugging Face using the provided command, and that both a transformers-style and original-style weight format are offered.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To download Original checkpoints, see the example command below leveraging `huggingface-cli`:\n\n```\nhuggingface-cli download meta-llama/Llama-3.3-70B-Instruct --include \"original/*\" --local-dir Llama-3.3-70B-Instruct\n```"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "“Llama 3.3” means the foundational large language models and software and algorithms, including machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at [https://www.llama.com/llama-downloads](https://www.llama.com/llama-downloads)."
+    }
+  ],
+  "1-2 (Code)": "The code situation for meta-llama/llama-3.3-70b-instruct is summarized in several quotes. The definition of “Llama 3.3” explicitly includes “machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at https://www.llama.com/llama-downloads,” showing that pre-training, fine-tuning, and inference components are all part of the release. Practical usage examples are hosted in a public GitHub repository: “For more technical information about generation parameters and recipes for how to use Llama 3.3 in applications, please go https://github.com/meta-llama/llama-recipes.” The weight repository itself “contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase,” implying that the corresponding loaders / wrappers for both ecosystems are available. The quotes do not mention any private or withheld stages; therefore, all referenced training-enabling, fine-tuning-enabling, and inference code is considered publicly distributed by Meta within the scope of the “Llama 3.3” package and the linked `llama-recipes` cookbook.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[license_file]",
+      "quote": "“Llama 3.3” means the foundational large language models and software and algorithms, including machine-learning model code, trained model weights, inference-enabling code, training-enabling code, fine-tuning enabling code and other elements of the foregoing distributed by Meta at [https://www.llama.com/llama-downloads](https://www.llama.com/llama-downloads)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "For more technical information about generation parameters and recipes for how to use Llama 3.3 in applications, please go [here](https://github.com/meta-llama/llama-recipes)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This repository contains two versions of Llama-3.3-70B-Instruct, for use with transformers and with the original `llama` codebase."
+    }
+  ],
+  "1-3 (License)": "All provided sentences make it clear that meta-llama/llama-3.3-70b-instruct is governed by a bespoke license: “**License** A custom commercial license, the Llama 3.3 Community License Agreement, is available at: https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE.” The agreement grants broad but conditional rights: “You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license … to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials.” However, the license contains a high-scale usage trigger: “If, on the Llama 3.3 version release date, the monthly active users of the products or services made available by or for Licensee … is greater than 700 million monthly active users … you must request a license from Meta … and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights.” Distribution also requires attribution: “You must retain in all copies … the following notice … ‘Llama 3.3 is licensed under the Llama 3.3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.’” Meta additionally grants a limited trademark license: “Meta hereby grants you a license to use ‘Llama’ (the ‘Mark’) solely as required to comply with the last sentence of Section 1.b.i” and enforces adherence to its brand guidelines. A `LICENSE` file is present in the repository, confirming that the stated terms are embedded with the release.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "**License** A custom commercial license, the Llama 3.3 Community License Agreement, is available at: [https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE](https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/LICENSE)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You are granted a non-exclusive, worldwide, non-transferable and royalty-free limited license under Meta’s intellectual property or other rights owned by Meta embodied in the Llama Materials to use, reproduce, distribute, copy, create derivative works of, and make modifications to the Llama Materials."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If, on the Llama 3.3 version release date, the monthly active users of the products or services made available by or for Licensee, or Licensee’s affiliates, is greater than 700 million monthly active users in the preceding calendar month, you must request a license from Meta, which Meta may grant to you in its sole discretion, and you are not authorized to exercise any of the rights under this Agreement unless or until Meta otherwise expressly grants you such rights."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "You must retain in all copies of the Llama Materials that you distribute the following attribution notice within a “Notice” text file distributed as a part of such copies: “Llama 3.3 is licensed under the Llama 3.3 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”"
+    },
+    {
+      "source": "[readme]",
+      "quote": "s required for reasonable and customary use in describing and redistributing the Llama Materials or as set forth in this Section 5(a). Meta hereby grants you a license to use “Llama” (the “Mark”) solely as required to comply with the last sentence of Section 1.b.i. You will comply with Meta’s brand guidelines (currently accessible at [https://about.meta.com/brand/resources/meta/co"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The documentation points to an accompanying technical write-up: “For more details on the safety mitigations implemented please read the Llama 3 paper.” This sentence confirms the existence of an official Llama 3 paper that covers, at minimum, the model’s safety strategies. No additional bibliographic details or links are provided in the quotes, but the statement asserts that the authoritative discussion of safety and presumably broader technical aspects can be found in that dedicated paper.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For more details on the safety mitigations implemented please read the Llama 3 paper."
+    }
+  ]
+}
