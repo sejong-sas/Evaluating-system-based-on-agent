@@ -1,0 +1,574 @@
+{
+  "1-1 (Weights)": "The quotes make it clear that the DeepSeek-V3 model weights are openly released. Twice we are told verbatim that “The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3.”  This public GitHub URL is the explicit download location and implies that anyone can obtain them directly.  Multiple evaluative sentences underscore that the release is not merely a research teaser but a fully usable open-source checkpoint: “DeepSeek-V3 stands as the best-performing open-source model…”, “Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available…”, and “DeepSeek-V3 achieves a groundbreaking milestone as the first open-source model to surpass 85 % on the Arena-Hard benchmark.”  Further, the text highlights practical expectations: “The open-source DeepSeek-V3 is expected to foster advancements in coding-related engineering tasks,” which reinforces that broad community use is anticipated and encouraged.  The quote comparing DeepSeek-V3-Base to earlier DeepSeek-V2-Base and other competitors (“DeepSeek-V3-Base comprehensively outperforms DeepSeek-V2-Base…”) confirms that multiple checkpoints/variants (Base, etc.) are being shipped.  Finally, the command line “python3 -m sglang.launch_server --model deepseek-ai/DeepSeek-Coder-V2-Instruct …” shows that the organisation routinely publishes checkpoints that can be loaded directly with common inference packages, further signalling that the DeepSeek family models (V3 included) are downloadable and runnable without private credentials or pay-walled APIs.",
+  "1-2 (Code)": "Very little is revealed about training code.  The sole code-related evidence is an inference-only launch command: “python3 -m vllm.entrypoints.openai.api_server --model deepseek-ai/DeepSeek-Coder-V2-Instruct ….”  This snippet demonstrates that DeepSeek provides enough adapters (via the “trust-remote-code” flag) to let popular inference stacks such as vLLM auto-download and execute custom model code needed for serving.  However, there is no mention of scripts, configs, or repositories that cover pre-training, data preprocessing, mixture-of-experts routing, or any reinforcement-learning or fine-tuning procedures.  Consequently, from the available quotes we can only say that limited, serving-time helper code is accessible through the Hugging Face ‘trust-remote-code’ mechanism, while the full training pipeline remains undisclosed.",
+  "1-3 (License)": "The provided quote set contains no sentence that both satisfies the strict DeepSeek token rule and gives licensing details.  Therefore, no licensing terms, no license file name, and no explicit grant or restriction statements (e.g., use, modification, redistribution, commercial use) are available in the excerpts.",
+  "1-4 (Paper)": "The model is documented in an official technical report: “DeepSeek-V3 Technical Report” available directly in the project repository (“URL Source: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf”).  The paper introduces the model as “a strong Mixture-of-Experts (MoE) language model with 671 B total parameters with 37 B activated for each token,” trained on a massive 14.8 T-token corpus.  The authors emphasise both scale and efficiency: DeepSeek-V3 uses only a 37 B active sub-network per token, a hallmark of MoE efficiency.  The report situates the model in the broader DeepSeek lineage, explicitly comparing the new release with prior work: “we compare the base model of DeepSeek-V3 with the state-of-the-art open-source base models, including DeepSeek-V2-Base …, Qwen2.5 72B Base, and LLaMA-3.1 405B Base.”  Performance analyses are multi-dimensional—e.g., Figure 8 measures long-context understanding (“DeepSeek-V3 performs well across all context window lengths up to 128 K”).  The text notes that long-context capability is achieved using “a similar approach to DeepSeek-V2.”  Several bibliographic references confirm a sustained research roadmap: “DeepSeek-AI. Deepseek LLM: scaling open-source language models with longtermism,” and “Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model.”  Collectively these statements show that DeepSeek-V3 is formally described in a publicly accessible technical report, framed as the successor to DeepSeek-V2, and accompanied by detailed architecture, training-data size, evaluation benchmarks, and context-window analyses.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 stands as the best-performing open-source model, and also exhibits competitive performance against frontier closed-source models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In engineering tasks, DeepSeek-V3 trails behind Claude-Sonnet-3.5-1022 but significantly outperforms open-source models. The open-source DeepSeek-V3 is expected to foster advancements in coding-related engineering tasks."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3-Base comprehensively outperforms DeepSeek-V2-Base and Qwen2.5 72B Base, and surpasses LLaMA-3.1 405B Base in the majority of benchmarks, essentially becoming the strongest open-source model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 achieves a groundbreaking milestone as the first open-source model to surpass 85% on the Arena-Hard benchmark."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available, and achieves performance comparable to leading closed-source models like GPT-4o and Claude-3.5-Sonnet."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m sglang . launch_server --model deepseek-ai / DeepSeek-Coder-V2-Instruct --disable-radix --tp 8 --trust-remote-code --enable-mla"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m vllm . entrypoints . openai . api_server --model deepseek-ai / DeepSeek-Coder-V2-Instruct --disable-log-requests --tensor-parallel-size 8 --trust-remote-code --max-model-len 4096"
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 Technical Report\nDeepSeek-AI\nresearch@deepseek.com"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Table 3, we compare the base model of DeepSeek-V3 with the state-of-the-art open-source base models, including DeepSeek-V2-Base (DeepSeek-AI, 2024c) (our previous release), Qwen2.5 72B Base (Qwen, 2024b), and LLaMA-3.1 405B Base (AI@Meta, 2024b)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-AI. Deepseek LLM: scaling open-source language models with longtermism. CoRR, abs/2401.02954, 2024b."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-AI. Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model. CoRR, abs/2405.04434, 2024c."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf]",
+      "quote": "URL Source: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "DeepSeek-V3 Technical Report"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt a similar approach to DeepSeek-V2 (DeepSeek-AI, 2024c) to enable long context capabilities in DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 8 | Evaluation results on the “Needle In A HayStack” (NIAH) tests. DeepSeek-V3 performs well across all context window lengths up to 128K."
+    }
+  ],
+  "1-5 (Architecture)": "DeepSeek-V3 is described as a very large Mixture-of-Experts (MoE) Transformer-family language model that contains 671 billion total parameters, while only 37 billion parameters are actually activated for every input token. The model keeps the overall Transformer backbone but replaces standard sub-components with two in-house designs: Multi-head Latent Attention (MLA) for the attention stack and DeepSeekMoE for the feed-forward (FFN) parts. MLA reduces inference cost by using a single KV head, and DeepSeekMoE lowers training cost through expert routing. Compared with the earlier V2 generation, V3 keeps MLA and DeepSeekMoE but adds (1) an auxiliary-loss-free load-balancing strategy to avoid the quality drop normally induced by MoE load balancing and (2) a multi-token-prediction (MTP) objective that predicts the next two tokens instead of only one, improving benchmark performance. Additional RMSNorm layers are placed after compressed latent vectors, and width-bottleneck scaling factors are applied just as in DeepSeek-V2. Internally, the gating function for expert selection now uses a sigmoid to compute affinity scores, followed by normalization over the selected scores, slightly diverging from V2’s formulation. Overall, the design choices—Transformer backbone, MLA attention, DeepSeekMoE FFNs, single-KV-head attention, auxiliary-loss-free balancing, and MTP objective—collectively target efficient inference, cheaper MoE training, and stronger downstream accuracy while keeping the active parameter count to 37 B per token.",
+  "1-6 (Tokenizer)": "The model is tokenised with a Byte-level BPE scheme and uses an enlarged 128 K-token vocabulary specifically built for DeepSeek-V3.",
+  "2-1 (Hardware)": "Training is carried out exclusively on NVIDIA H800 GPUs. The authors report a cluster of 2 048 H800 cards, organised as 256 nodes with 8 GPUs each. Within a node the eight H800s are connected through NVLink and NVSwitch, and cross-node traffic is fully interconnected by InfiniBand (IB). Efficiency numbers are provided in GPU-hours: pre-training consumes 180 K H800 GPU-hours per trillion tokens, which on the 2 048-GPU cluster translates to roughly 3.7 days for each trillion tokens. Adding 119 K GPU-hours for context-length extension and 5 K GPU-hours for post-training, the complete training run costs 2.788 million H800 GPU-hours—highlighted by the authors as being cheaper than training 72 B or 405 B dense counterparts.",
+  "2-2 (Software)": "DeepSeek-V3 is trained with an in-house, lightweight framework called HAI-LLM. The distributed strategy combines several parallelism modes: 16-way Pipeline Parallelism, 64-way Expert Parallelism spread across 8 nodes, and ZeRO-1 Data Parallelism. To accelerate the pipeline stage scheduling the engineers created a DualPipe algorithm. FP8 arithmetic support is integrated to cut memory use and FLOP cost, contributing to the claimed cost-effectiveness. Hyper-parameter scheduling during supervised fine-tuning (SFT) is documented: two epochs on the SFT set with a cosine-decay learning rate that starts at 5×10⁻⁶ and anneals to 1×10⁻⁶. In summary, the software stack couples the custom HAI-LLM framework, FP8 precision, DualPipe-optimised 16-PP / 64-EP / ZeRO-1-DP topology, and standard LR scheduling to realise scalable, economical MoE training.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architectures, which were thoroughly validated in DeepSeek-V2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Therefore, in terms of architecture, DeepSeek-V3 still adopts Multi-head Latent Attention (MLA) (DeepSeek-AI, 2024c) for efficient inference and DeepSeekMoE (Dai et al., 2024) for cost-effective training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Secondly, DeepSeek-V3 employs a multi-token prediction training objective, which we have observed to enhance the overall performance on evaluation benchmarks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The basic architecture of DeepSeek-V3 is still within the Transformer (Vaswani et al., 2017) framework."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared with DeepSeek-V2, an exception is that we additionally introduce an auxiliary-loss-free load balancing strategy (Wang et al., 2024a) for DeepSeekMoE to mitigate the performance degradation induced by the effort to ensure load balance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For attention, DeepSeek-V3 adopts the MLA architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For Feed-Forward Networks (FFNs), DeepSeek-V3 employs the DeepSeekMoE architecture (Dai et al., 2024)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Slightly different from DeepSeek-V2, DeepSeek-V3 uses the sigmoid function to compute the affinity scores, and applies a normalization among all selected affinity scores to produce the gating values."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Under this configuration, DeepSeek-V3 comprises 671B total parameters, of which 37B are activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total pa-\nrameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In addition to the MLA and\nDeepSeekMoE architectures, it also pioneers an auxiliary-loss-free strategy for load balancing\nand sets a multi-token prediction training objective for stronger performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Instead of predicting just the next single token, DeepSeek-V3 predicts the next 2 tokens through\nthe MTP technique."
+    },
+    {
+      "source": "[title:SGLang v0.3 Release: 7x Faster DeepSeek MLA, 1.5x Faster torch.compile, Multi-Image/Video LLaVA-OneVision | LMSYS Org]",
+      "quote": "Multi-head Latent Attention (MLA) is a new attention variant introduced by the DeepSeek team to improve inference efficiency."
+    },
+    {
+      "source": "[title:SGLang v0.4: Zero-Overhead Batch Scheduler, Cache-Aware Load Balancer, Faster Structured Outputs | LMSYS Org]",
+      "quote": "For example, DeepSeek models use MLA and only have one KV head."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architectures, which were thoroughly validated in DeepSeek-V2."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "Therefore, in terms of architecture, DeepSeek-V3 still adopts Multi-head Latent Attention (MLA) (DeepSeek-AI, 2024c) for efficient inference and DeepSeekMoE (Dai et al., 2024) for cost-effective training."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "The basic architecture of DeepSeek-V3 is still within the Transformer (Vaswani et al., 2017) framework."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "For attention, DeepSeek-V3 adopts the MLA architecture."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "For Feed-Forward Networks (FFNs), DeepSeek-V3 employs the DeepSeekMoE architecture (Dai et al., 2024)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As DeepSeek-V2, DeepSeek-V3 also employs additional RMSNorm layers after the compressed latent vectors, and multiplies additional scaling factors at the width bottlenecks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In addition to the MLA and DeepSeekMoE architectures, it also pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Instead of predicting just the next single token, DeepSeek-V3 predicts the next 2 tokens through the MTP technique."
+    },
+    {
+      "source": "[sections/https://lmsys.org/blog/2024-12-04-sglang-v0-4/#data-parallelism-attention-for-deepseek-models]",
+      "quote": "For example, DeepSeek models use MLA and only have one KV head."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The tokenizer for DeepSeek-V3 employs Byte-level BPE (Shibata et al., 1999) with an extended vocabulary of 128K tokens."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Despite its excellent performance, DeepSeek-V3 requires only 2.788M H800 GPU hours for its full training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the pre-training stage, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, i.e., 3.7 days on our cluster with 2048 H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Combined with 119K GPU hours for the context length extension and 5K GPU hours for post-training, DeepSeek-V3 costs only 2.788M GPU hours for its full training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs. Each node in the H800 cluster contains 8 GPUs connected by NVLink and NVSwitch within nodes."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Under our training framework and infrastruc-\ntures, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, which\nis much cheaper than training 72B or 405B dense models."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "DeepSeek-V3 is trained on a cluster equipped with 2048 NVIDIA H800 GPUs. Each node in the H800 cluster contains 8 GPUs connected by NVLink and NVSwitch within nodes."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "During the pre-training stage, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, i.e., 3.7 days on our cluster with 2048 H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We deploy DeepSeek-V3 on the H800 cluster, where GPUs within each node are interconnected using NVLink, and all GPUs across the cluster are fully interconnected via IB."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Under our training framework and infrastructures, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, which is much cheaper than training 72B or 405B dense models."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In the remainder of this paper, we first present a detailed exposition of our DeepSeek-V3 model architecture (Section 2). Subsequently, we introduce our infrastructures, encompassing our compute clusters, the training framework, the support for FP8 training, the inference deployment strategy, and our suggestions on future hardware design."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of DeepSeek-V3 is supported by the HAI-LLM framework, an efficient and lightweight training framework crafted by our engineers from the ground up."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the whole, DeepSeek-V3 applies 16-way Pipeline Parallelism (PP) (Qi et al., 2023a), 64-way Expert Parallelism (EP) (Lepikhin et al., 2021) spanning 8 nodes, and ZeRO-1 Data Parallelism (DP) (Rajbhandari et al., 2020)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tune DeepSeek-V3-Base for two epochs using the SFT dataset, using the cosine decay learning rate scheduling that starts at 5 × 10−6 and gradually decreases to 1 × 10−6."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "The training of DeepSeek-V3 is supported by the HAI-LLM framework, an efficient and lightweight training framework crafted by our engineers from the ground up."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "On the whole, DeepSeek-V3 applies 16-way Pipeline Parallelism (PP) (Qi et al., 2023a), 64-way Expert Parallelism (EP) (Lepikhin et al., 2021) spanning 8 nodes, and ZeRO-1 Data Parallelism (DP) (Rajbhandari et al., 2020)."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "In order to facilitate efficient training of DeepSeek-V3, we implement meticulous engineering optimizations. Firstly, we design the DualPipe algorithm for efficient pipeline parallelism."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of DeepSeek-V3 is cost-effective due to the support of FP8 training and meticulous engineering optimizations."
+    }
+  ],
+  "2-3 (API)": "The project states that \"The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3,\" confirming that the DeepSeek-V3 weights can be freely downloaded.  Several command-line examples illustrate how DeepSeek models are exposed through an OpenAI-compatible HTTP endpoint.  One line starts an sglang service:  `python3 -m sglang.launch_server --model deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct --enable-mla --disable-radix --trust-remote-code`, while others rely on vLLM’s `openai.api_server`, e.g.  `python3 -m vllm.entrypoints.openai.api_server --model deepseek-ai/DeepSeek-Coder-V2-Instruct --disable-log-requests --tensor-parallel-size 8 --trust-remote-code --max-model-len 4096` and a similar command that adds `--quantization fp8`.  Although the options are shown for earlier DeepSeek-Coder-V2 variants, they demonstrate the typical pattern for spinning up an OpenAI-style REST service around a DeepSeek checkpoint, including flags for tensor parallelism, FP8 quantization, request logging, maximum context length, and trusting remote code.  Taken together, the quotes indicate that DeepSeek-V3 is publicly downloadable and can be served through standard OpenAI-compatible API servers or the sglang launcher with only a single shell command.",
+  "3-1 (Pre-training)": "DeepSeek-V3 is introduced as \"a large MoE language model with 671 B total parameters, 37 B of which are activated per token,\" trained from scratch on \"14.8 trillion diverse and high-quality tokens.\"  The tokenizer is a Byte-level BPE with a 128 K vocabulary.  Compared with DeepSeek-V2, the corpus increases the proportion of mathematics and programming data and broadens multilingual coverage beyond English and Chinese; the Fill-in-the-Middle (FIM) strategy is also retained.  The pre-training pipeline is highly cost–efficient: each trillion tokens consumes \"only 180 K H800 GPU hours (≈3.7 days on 2 048 H800 GPUs),\" and the entire base model pre-train finishes for \"2.664 M H800 GPU hours.\"  FP8 training and extensive engineering optimizations drive the low cost.  After the base run, a two-stage context-length extension is performed—first to 32 K tokens and then to 128 K—via two additional training phases, enabling 128 K-token inputs while preserving quality.  Under the same framework, pre-training plus context-length extension and post-training sum to \"2.788 M H800 GPU hours.\"  Architectural novelties include the MLA and DeepSeekMoE designs, an auxiliary-loss-free load-balancing strategy, and a multi-token-prediction objective.  Overall, evaluations show DeepSeek-V3 as \"the strongest open-source base model\" with performance approaching GPT-4o and Claude-3.5-Sonnet, yet trained at markedly lower hardware cost.",
+  "3-2 (Fine-tuning)": "After pre-training, the model undergoes \"post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL)\" to align it with human preferences.  The authors \"fine-tune DeepSeek-V3-Base for two epochs\" on an SFT corpus using a cosine-decay schedule that starts at 5 × 10⁻⁶ and anneals to 1 × 10⁻⁶.  Long-context capability is added by first running YaRN to stretch the window from 4 K to 32 K tokens and then to 128 K, with \"two additional training phases, each comprising 1 000 steps.\"  Figure-8 (referenced) shows that, \"following supervised fine-tuning, [the model] achieves notable performance on the ‘Needle In A HayStack’ test\" and remains robust across the 128 K context.  A separate \"innovative methodology\" distills the reasoning skills of a long Chain-of-Thought DeepSeek-R1 model into DeepSeek-V3, and the post-training successfully \"distill[s] the reasoning capability\" while balancing accuracy and compute.  All of these procedures leverage the same FP8/engineering stack that kept pre-training inexpensive.",
+  "3-3 (Reinforcement Learning)": "Reinforcement Learning is the final alignment stage: \"We pre-train DeepSeek-V3 … followed by Supervised Fine-Tuning and Reinforcement Learning\" and then \"conduct post-training … RL on the base model … to align it with human preferences.\"  The reward model itself \"is trained from the DeepSeek-V3 SFT checkpoints.\"  For policy optimization the team \"adopt[s] Group Relative Policy Optimization (GRPO),\" which discards a full-size critic and instead uses baseline estimates from group scores, mirroring the method used in DeepSeek-V2.  To produce richer feedback, the project employs \"the constitutional AI approach,\" letting DeepSeek-V3’s own voting evaluations act as an additional reward signal, particularly for long-context tasks.  Collectively, these steps finish the human-preference alignment process without the computational overhead of a same-sized critic model.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[title:SGLang v0.3 Release: 7x Faster DeepSeek MLA, 1.5x Faster torch.compile, Multi-Image/Video LLaVA-OneVision | LMSYS Org]",
+      "quote": "python3 - m sglang . launch_server --model deepseek-ai / DeepSeek-Coder-V2-Lite-Instruct --enable-mla --disable-radix --trust-remote-code"
+    },
+    {
+      "source": "[title:SGLang v0.3 Release: 7x Faster DeepSeek MLA, 1.5x Faster torch.compile, Multi-Image/Video LLaVA-OneVision | LMSYS Org]",
+      "quote": "python3 - m vllm . entrypoints . openai . api_server --model deepseek-ai / DeepSeek-Coder-V2-Lite-Instruct --disable-log-requests --trust-remote-code --max-model-len 4096"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m vllm . entrypoints . openai . api_server --model deepseek-ai / DeepSeek-Coder-V2-Instruct --disable-log-requests --tensor-parallel-size 8 --trust-remote-code --max-model-len 4096"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m vllm . entrypoints . openai . api_server --model neuralmagic / DeepSeek-Coder-V2-Instruct-FP8 --quantization fp8 --disable-log-requests --tensor-parallel-size 8 --trust-remote-code --max-model-len 4096"
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During pre-training, we train DeepSeek-V3 on 14.8T high-quality and diverse tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the pre-training stage, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, i.e., 3.7 days on our cluster with 2048 H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared with DeepSeek-V2, we optimize the pre-training corpus by enhancing the ratio of mathematical and programming samples, while expanding multilingual coverage beyond English and Chinese."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Finally, the training corpus for DeepSeek-V3 consists of 14.8T high-quality and diverse tokens in our tokenizer."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In alignment with DeepSeekCoder-V2, we also incorporate the FIM strategy in the pre-training of DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Under this configuration, DeepSeek-V3 comprises 671B total parameters, of which 37B are activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through this two-phase extension training, DeepSeek-V3 is capable of handling inputs up to 128K in length while maintaining strong performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Under our training framework and infrastructures, training DeepSeek-V3 on each trillion tokens requires only 180K H800 GPU hours, which is much cheaper than training 72B or 405B dense models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available, and achieves performance comparable to leading closed-source models like GPT-4o and Claude-3.5-Sonnet. Despite its strong performance, it also maintains economical training costs. It requires only 2.788M H800 GPU hours for its full training, including pre-training, context length extension, and post-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Next, we conduct a two-stage context length extension for DeepSeek-V3. In the first stage, the maximum context length is extended to 32K, and in the second stage, it is further extended to 128K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The tokenizer for DeepSeek-V3 employs Byte-level BPE (Shibata et al., 1999) with an extended vocabulary of 128K tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of DeepSeek-V3 is cost-effective due to the support of FP8 training and meticulous engineering optimizations."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens. In addition to the MLA and DeepSeekMoE architectures, it also pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available, and achieves performance comparable to leading closed-source models like GPT-4o and Claude-3.5-Sonnet. It requires only 2.788M H800 GPU hours for its full training, including pre-training, context length extension, and post-training."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Following this, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "• We introduce an innovative methodology to distill reasoning capabilities from the long-Chain-of-Thought (CoT) model, specifically from one of the DeepSeek R1 series models, into standard LLMs, particularly DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through this two-phase extension training, DeepSeek-V3 is capable of handling inputs up to 128K in length while maintaining strong performance. Figure 8 illustrates that DeepSeek-V3, following supervised fine-tuning, achieves notable performance on the \"Needle In A HayStack\" (NIAH) test, demonstrating consistent robustness across context window lengths up to 128K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We fine-tune DeepSeek-V3-Base for two epochs using the SFT dataset, using the cosine decay learning rate scheduling that starts at 5 × 10−6 and gradually decreases to 1 × 10−6."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt a similar approach to DeepSeek-V2 (DeepSeek-AI, 2024c) to enable long context capabilities in DeepSeek-V3. After the pre-training stage, we apply YaRN (Peng et al., 2023a) for context extension and perform two additional training phases, each comprising 1000 steps, to progressively expand the context window from 4K to 32K and then to 128K."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Through this two-phase extension training, DeepSeek-V3 is capable of handling inputs up to 128K in length while maintaining strong performance."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training of DeepSeek-V3 is cost-effective due to the support of FP8 training and meticulous engineering optimizations. The post-training also makes a success in distilling the reasoning capability from the DeepSeek-R1 series of models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To maintain a balance between model accuracy and computational efficiency, we carefully selected optimal settings for DeepSeek-V3 in distillation."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Following this, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is trained from the DeepSeek-V3 SFT checkpoints."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to DeepSeek-V2 (DeepSeek-AI, 2024c), we adopt Group Relative Policy Optimization (GRPO) (Shao et al., 2024), which foregoes the critic model that is typically with the same size as the policy model, and estimates the baseline from group scores instead."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the development of DeepSeek-V3, for these broader contexts, we employ the constitutional AI approach (Bai et al., 2022), leveraging the voting evaluation results of DeepSeek-V3 itself as a feedback source."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Rewards play a pivotal role in RL, steering the optimization process. During the development of DeepSeek-V3, for these broader contexts, we employ the constitutional AI approach (Bai et al., 2022), leveraging the voting evaluation results of DeepSeek-V3 itself as a feedback source."
+    }
+  ],
+  "4-1 (Pre-training Data)": "DeepSeek-V3 is pre-trained from scratch on a very large, curated corpus that the authors repeatedly characterize as “14.8 trillion high-quality and diverse tokens.”  The same 14.8 T figure is mentioned in several places, confirming that all pre-training runs—completed with 2.664 million H800 GPU-hours—use exactly this token budget.  The corpus composition was deliberately adjusted relative to DeepSeek-V2: the share of mathematical and programming samples is boosted and multilingual coverage is extended beyond English and Chinese, while a refined data-processing pipeline is applied to reduce redundancy yet preserve diversity.  Tokenization relies on a Byte-level BPE vocabulary expanded to 128 K symbols, and the Fill-in-Middle (FIM) strategy previously used for DeepSeekCoder-V2 is explicitly incorporated in DeepSeek-V3’s pre-training phase.  In total the model is a 671 B-parameter MoE system with 37 B parameters active per token during pre-training, and that entire parameter set is exposed to the 14.8 T-token mixture before any supervised or reinforcement post-training begins.",
+  "4-2 (Fine-tuning Data)": "After the base model is produced, the team performs a post-training stage made up of Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL).  The SFT data are split into two broad categories.  (1) “Reasoning Data” covering mathematics, code-competition problems, and logic puzzles are generated in-house with an internal DeepSeek-R1 model.  (2) “Non-Reasoning Data,” such as creative writing, role-play, and simpler question answering, are generated with DeepSeek-V2.5; human annotators then verify the correctness and accuracy of every example.  During distillation and other SFT procedures, hyper-parameters are chosen so that DeepSeek-V3 achieves an optimal trade-off between final model quality and computational cost.  All of these curated SFT datasets collectively align the base model with human-preferred behavior before it enters the reinforcement stage.",
+  "4-3 (Reinforcement Learning Data)": "The subsequent RL-based alignment also starts from the DeepSeek-V3 checkpoints produced by SFT.  A dedicated reward model is trained on preference data that not only labels final answers but also includes the entire chain-of-thought that leads up to each judgment, increasing reward reliability.  For policy optimization, the authors adopt Group Relative Policy Optimization (GRPO), the same technique previously used for DeepSeek-V2.  GRPO eliminates a separate critic model by estimating baselines from group scores.  Prompts for RL cover a diverse set of domains—coding, mathematics, creative writing, role-play, and general question answering.  In addition, a constitutional-AI style procedure is layered on top: DeepSeek-V3 itself performs voting evaluations and supplies feedback signals on open-ended questions, allowing self-feedback to further strengthen alignment.",
+  "4-4 (Data Filtering)": "Although the paper offers relatively few concrete numeric thresholds, it does describe several filtering and cleaning principles.  First, an effective load-balancing strategy is employed during training, with the explicit remark that DeepSeek-V3 therefore “does not drop any tokens,” indicating that upstream filtering has already produced a corpus judged clean enough to keep in its entirety.  Second, when constructing the response-generation datasets (e.g., those derived from DeepSeek-R1), an additional filtering pass ensures that the final data “retain the strengths of DeepSeek-R1 while producing responses that are concise and effective.”  Third, in the pre-training pipeline the corpus is “refined to minimize redundancy while maintaining corpus diversity,” and the team increases the proportion of mathematical and programming examples while broadening multilingual content.  Together, these steps constitute the stated data-filtering regime for DeepSeek-V3: redundancy reduction, targeted domain-ratio adjustments, multilingual expansion, and a final validation stage that obviates token dropping during training.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During pre-training, we train DeepSeek-V3 on 14.8T high-quality and diverse tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Finally, the training corpus for DeepSeek-V3 consists of 14.8T high-quality and diverse tokens in our tokenizer."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In alignment with DeepSeekCoder-V2, we also incorporate the FIM strategy in the pre-training of DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The tokenizer for DeepSeek-V3 employs Byte-level BPE (Shibata et al., 1999) with an extended vocabulary of 128K tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "During pre-training, we train DeepSeek-V3 on 14.8T high-quality and diverse tokens."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of DeepSeek-V3 on 14.8T tokens, producing the currently strongest open-source base model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared with DeepSeek-V2, we optimize the pre-training corpus by enhancing the ratio of mathematical and programming samples, while expanding multilingual coverage beyond English and Chinese. Also, our data processing pipeline is refined to minimize redundancy while maintaining corpus diversity."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Next, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Reasoning Data. For reasoning-related datasets, including those focused on mathematics, code competition problems, and logic puzzles, we generate the data by leveraging an internal DeepSeek-R1 model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Non-Reasoning Data. For non-reasoning data, such as creative writing, role-play, and simple question answering, we utilize DeepSeek-V2.5 to generate responses and enlist human annotators to verify the accuracy and correctness of the data."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "Following this, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For non-reasoning data, such as creative writing, role-play, and simple question answering, we utilize DeepSeek-V2.5 to generate responses and enlist human annotators to verify the accuracy and correctness of the data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To maintain a balance between model accuracy and computational efficiency, we carefully selected optimal settings for DeepSeek-V3 in distillation."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Next, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is trained from the DeepSeek-V3 SFT checkpoints. To enhance its reliability, we construct preference data that not only provides the final reward but also includes the chain-of-thought leading to the reward."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "Following this, we conduct post-training, including Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) on the base model of DeepSeek-V3, to align it with human preferences and further unlock its potential."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Similar to DeepSeek-V2 (DeepSeek-AI, 2024c), we adopt Group Relative Policy Optimization (GRPO) (Shao et al., 2024), which foregoes the critic model that is typically with the same size as the policy model, and estimates the baseline from group scores instead. We incorporate prompts from diverse domains, such as coding, math, writing, role-playing, and question answering, during the RL process."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The reward model is trained from the DeepSeek-V3 SFT checkpoints."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During the development of DeepSeek-V3, for these broader contexts, we employ the constitutional AI approach (Bai et al., 2022), leveraging the voting evaluation results of DeepSeek-V3 itself as a feedback source."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Therefore, we employ DeepSeek-V3 along with voting to offer self-feedback on open-ended questions, thereby improving the effectiveness and robustness of the alignment process."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Due to the effective load balancing strategy, DeepSeek-V3 keeps a good load balance during its full training. Therefore, DeepSeek-V3 does not drop any tokens during training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "This method ensures that the final training data retains the strengths of DeepSeek-R1 while producing responses that are concise and effective."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Compared with DeepSeek-V2, we optimize the pre-training corpus by enhancing the ratio of mathematical and programming samples, while expanding multilingual coverage beyond English and Chinese. Also, our data processing pipeline is refined to minimize redundancy while maintaining corpus diversity."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
