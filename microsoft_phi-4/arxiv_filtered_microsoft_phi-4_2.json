@@ -1,0 +1,36 @@
+{
+  "1-5 (Architecture)": "According to the quoted passages, phi-4 is explicitly described as a decoder-only transformer. The authors repeatedly state that the model contains 14 billion parameters (14B). Its default context window at the start of training is 4,096 tokens, and that window is later enlarged “during midtraining” to 16 K tokens, indicating that the sequence length was deliberately expanded part-way through the training run. The project team also stresses that only “minimal changes” were made relative to the earlier phi-3 design; most of the performance gains instead come from improvements in data quality, curriculum design, and post-training procedures. Although no layer counts, hidden sizes, or other fine-grained hyperparameters are given in the excerpts, the quotes collectively emphasize that the structural backbone stays close to phi-3 while retaining a decoder-only setup, 14B total parameters, and the two-stage context-length schedule (4 K → 16 K).",
+  "1-6 (Tokenizer)": "The quotes specify that phi-4 switches to the tiktoken tokenizer. This change, relative to phi-3-medium, is motivated by “better multilingual support.” The tokenizer is shipped with a padded vocabulary size of 100,352 tokens, a figure that explicitly includes reserved or unused tokens. In addition, the same sentence notes that, for phi-4, the model applies full attention across the entire 4 K context window, whereas phi-3-medium previously relied on a 2 K sliding-window scheme. All tokenizer-related facts—tiktoken adoption, multilingual rationale, exact padded vocabulary size, and the full-attention policy—are drawn directly from the provided quotations.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture with 14B parameters and a default context length of 4096. This is later extended to a 16K context length during midtraining."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Despite minimal changes to the phi-3 architecture, phi-4 achieves strong performance relative to its size – especially on reasoning-focused benchmarks – due to improved data, training curriculum, and innovations in the post-training scheme."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present phi-4, a 14-billion parameter language model developed with a training recipe that is centrally focused on data quality."
+    },
+    {
+      "source": "[sections/Pretraining details]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. This is later extended to a 16K context length during midtraining."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The architecture closely follows phi-3-medium, except that we now use the tiktoken tokenizer (for better multilingual support) with a padded vocabulary size of 100,352 (including unused tokens)."
+    },
+    {
+      "source": "[sections/Pretraining details]",
+      "quote": "The phi-4 model is based on a decoder-only transformer architecture [VSP+17] with 14B parameters and a default context length of 4096. The architecture closely follows phi-3-medium, except that we now use the tiktoken tokenizer (for better multilingual support) with a padded vocabulary size of 100,352 (including unused tokens) and we use full attention over the 4K context length, rather than a 2K sliding window used in phi-3-medium."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": []
+}

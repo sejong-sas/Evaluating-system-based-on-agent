@@ -1,0 +1,86 @@
+{
+  "4-1 (Pre-training Data)": "According to the disclosed material, phi-4’s pre-training corpus is dominated by synthetic text that was deliberately engineered to cover a wide span of skills and topics. The authors state twice that “synthetic data constitutes the bulk of the training data for phi-4,” emphasizing that it is produced through “multi-agent prompting, self-revision workflows, and instruction reversal,” as well as other unspecified “multi-stage prompting procedure[s].” Concretely, they list the creation of “50 broad types of synthetic datasets,” each built from distinct seed material and prompting pipelines, which jointly sum to “about 400 B unweighted tokens.”\n\nAlthough synthetic text is the single largest slice, the overall token mixture is explicitly broken down. One quote reports the “final data mixture used for phi-4” as:\n• 30 % web data, split evenly between raw web and “web rewrites.”\n• 40 % synthetic data (the fraction that incorporates the 50 synthetic sets described above).\n• 20 % code, which itself is a combination of synthetic and raw code repositories.\n• 10 % “targeted acquired sources like academic data and books.”\n\nThe team additionally notes an effort to gather “high-quality organic data” for the non-synthetic portions, prioritizing “reasoning-dense and nuanced material (e.g., academic papers, educational forums, and programming tutorials).” Finally, they clarify that “all external models we tested were published before this date, as were the datasets for all stages of phi-4’s training,” signalling that pre-training relied only on data publicly available before a cutoff date (the exact date is not provided in the excerpt).",
+  "4-2 (Fine-tuning Data)": "Fine-tuning (the authors label this entire phase “post-training”) rests on two hand-curated data families: supervised fine-tuning (SFT) examples and preference-based Direct Preference Optimization (DPO) pairs.\n\nCreation principles. The narrative says phi-4 development is driven by “three core pillars,” the third of which is “Post-Training,” where the team “creat[es] new refined versions of SFT datasets” and “develop[s] a new technique to create DPO pairs, based on pivotal token search.” The stated goal is to “mitigate hallucinations in simple settings,” because, “without any mitigation, phi-4 would almost never admit to ignorance.”\n\nConcrete SFT labeling policy. The authors spell out exact labeling rules:\n• If the base phi-4 was “usually correct” on a question, the SFT record is (question, correct answer).\n• If the base model was “usually wrong,” the record becomes (question, refusal).\n• For “bogus questions” the record is (bogus question, refusal).\n\nConcrete DPO preference policy. DPO pairs are produced from the same pool of questions but ranked outcomes are chosen differently:\n• “(correct > refusal)” whenever the base phi-4 is only “sometimes” correct.\n• “(refusal > wrong)” when the base model “sometimes answered incorrectly.”\n\nThus, the post-training dataset explicitly encodes correctness-over-refusal and refusal-over-wrong preferences, leveraging the model’s prior behavior (frequency of success or failure) as the gating criterion for every pair.",
+  "4-3 (Reinforcement Learning Data)": "Two short disclosures outline how reinforcement-style data is gathered and applied. First, the authors say “synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs.” Although the excerpt calls the phase “post-training,” the presence of rejection sampling and DPO signals a reinforcement or preference-optimization loop built on generated trajectories and accept/reject feedback.\n\nSecond, they describe a special agentic corpus: “In agent tasks, phi-4 follows a characteristic chain-of-thought with explicit planning and reflections. Our training data consists of trajectories collected from AgentKit [WFM+24] with detailed chain-of-thought.” Thus the RL-style data includes multi-step agent trajectories that record plans, actions, and reflections, all stored as complete sequences (‘trajectories’) for learning.",
+  "4-4 (Data Filtering)": "All public statements portray filtering as one of phi-4’s core design planks. The authors explicitly list “Curation and Filtering of High-Quality Organic Data” as the second of three guiding principles. They “meticulously curate and filter organic data sources, including web content, licensed books, and code repositories,” not merely to remove noise but also to “extract seeds for the synthetic data pipeline that encourage high-depth reasoning and prioritize educational value.”\n\nBenchmark leakage avoidance. Two nearly identical statements focus on benchmark contamination: “One pitfall of foundation models is overfitting to benchmarks… We improved the data decontamination process for phi-4 compared to previous Phi models to ensure no unfair influence on evaluation results.” They reiterate that the decontamination procedure is stronger than in earlier releases and specifically targets benchmark test-set leakage from the web corpus.\n\nAlthough the excerpts stress the importance of curation and ‘improved’ decontamination, they do not reveal concrete numeric thresholds, classifier names, hash/Jaccard cut-offs, or percentage of data removed. Consequently, the only detailed facts we can record are: (1) a dedicated curation pipeline exists for organic data, (2) that pipeline both filters noise and selects high-reasoning seeds for subsequent synthetic generation, and (3) benchmark test-set removal was explicitly upgraded relative to prior Phi versions.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[sections/Approach to Data]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques."
+    },
+    {
+      "source": "[sections/Data Mixture]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them. The remaining tokens are largely sourced from synthetic data which accounts for 40% of the data mixture tokens. Finally we allocate 20% of tokens to code data (mixture of synthetic and raw code) and 10% to targeted acquired sources like academic data and books."
+    },
+    {
+      "source": "[sections/Approach to Data]",
+      "quote": "The pretraining phase of phi-4 relies heavily on synthetic datasets generated through a variety of techniques. We created 50 broad types of synthetic datasets, each one relying on a different set of seeds and different multi-stage prompting procedure, spanning an array of topics, skills, and natures of interaction, accumulating to a total of about 400B unweighted tokens."
+    },
+    {
+      "source": "[sections/Approach to Data]",
+      "quote": "Synthetic data constitutes the bulk of the training data for phi-4 and is generated using a diverse array of techniques, including multi-agent prompting, self-revision workflows, and instruction reversal."
+    },
+    {
+      "source": "[sections/Approach to Data]",
+      "quote": "We collected a wide variety of high-quality organic data sources for phi-4, prioritizing reasoning-dense and nuanced material (e.g., academic papers, educational forums, and programming tutorials)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The final data mixture used for phi-4 allocates 30% of the training tokens to web and web rewrites data sources, divided equally between them. The remaining tokens are largely sourced from synthetic data which accounts for 40% of the data mixture tokens. Finally we allocate 20% of tokens to code data (mixture of synthetic and raw code) and 10% to targeted acquired sources like academic data and books."
+    },
+    {
+      "source": "[sections/AMC Evaluation Details]",
+      "quote": "All external models we tested were published before this date, as were the datasets for all stages of phi-4’s training."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "The development of phi-4 is guided by three core pillars: ... 3. Post-Training: We further advance the post-training recipe in phi-4 by creating new refined versions of SFT datasets, as well as by developing a new technique to create DPO pairs, based on pivotal token search."
+    },
+    {
+      "source": "[appendix/A.1 Refusal to Hallucinate]",
+      "quote": "We created post-training SFT and DPO data to mitigate hallucinations in simple settings. Without any mitigation, phi-4 would almost never admit to ignorance."
+    },
+    {
+      "source": "[appendix/A.1 Refusal to Hallucinate]",
+      "quote": "For SFT data, we used the pair (question, correct answer) wherever the base phi-4 model was usually correct, (question, refusal) where the model was usually wrong, and (bogus question, refusal) for all bogus questions."
+    },
+    {
+      "source": "[appendix/A.1 Refusal to Hallucinate]",
+      "quote": "For DPO data, we used (correct > refusal) for every question that the base phi-4 sometimes answered correctly, and (refusal > wrong) if phi-4 sometimes answered incorrectly."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "Synthetic data in phi-4 also plays a crucial role in post-training, where techniques such as rejection sampling and a novel approach to Direct Preference Optimization (DPO) are employed to refine the model’s outputs."
+    },
+    {
+      "source": "[sections/Agents]",
+      "quote": "In agent tasks, phi-4 follows a characteristic chain-of-thought with explicit planning and reflections. Our training data consists of trajectories collected from AgentKit [WFM+24] with detailed chain-of-thought."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Introduction]",
+      "quote": "The development of phi-4 is guided by three core pillars: 2. Curation and Filtering of High-Quality Organic Data: We meticulously curate and filter organic2 data sources, including web content, licensed books, and code repositories to extract seeds for the synthetic data pipeline that encourage high-depth reasoning and prioritize educational value (to the model)."
+    },
+    {
+      "source": "[sections/Addressing Overfitting and Data Contamination]",
+      "quote": "We improved the data decontamination process for phi-4 compared to previous Phi models to ensure no unfair influence on evaluation results."
+    },
+    {
+      "source": "[sections/Addressing Overfitting and Data Contamination]",
+      "quote": "Decontamination: One pitfall of foundation models is overfitting to benchmarks, such as through the leakage of benchmark test sets via the web corpus. We improved the data decontamination process for phi-4 compared to previous Phi models to ensure no unfair influence on evaluation results."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The phi-3 model family were trained using a two-phase strategy. Most of the training tokens were used in phase 1 of the training, which consisted largely of filtered web data. Phase 2 was trained with a data mixture consisting primarily of synthetic tokens and a much smaller allocation for ultra-filtered and reasoning-heavy web data."
+    }
+  ]
+}

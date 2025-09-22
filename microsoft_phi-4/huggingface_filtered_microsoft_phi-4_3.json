@@ -1,0 +1,50 @@
+{
+  "2-3 (API)": "The only explicit statement concerning how users should interact with phi-4 explains that, \"Given the nature of the training data, `phi-4` is best suited for prompts using the chat format as follows:\"  From this we can infer that any public interface, SDK, or web service exposing the model is expected to accept messages in a multi-turn chat schema rather than a single-completion or purely instruction-based format.  Although no URLs, authentication schemes, or code snippets are provided, the language strongly implies an API experience similar to mainstream chat-centric LLM offerings: users deliver a series of role-tagged turns (e.g., system, user, assistant), and phi-4 returns a streamed or batched assistant response.  No other modalities, invocation styles, or tooling requirements are mentioned, so the guidance confines best-practice usage to this conversational template.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Given the nature of the training data, `phi-4` is best suited for prompts using the chat format as follows:"
+    }
+  ],
+  "3-1 (Pre-training)": "`phi-4` is described as \"a state-of-the-art open model\" whose corpus is \"built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets.\"  These three sources—synthetic, carefully selected public-domain web text, and professionally curated academic material—together define the data pipeline, indicating deliberate curation for breadth (public web), depth (academic books), and controllability (synthetic and Q&A pairs).  Scale figures in the accompanying table specify that pre-training consumed \"9.8T tokens,\" ran for \"21 days,\" and was executed on \"1920 H100-80G\" GPUs.  Taken together, the statements outline the essential methodology: assemble a multicomponent corpus emphasizing quality and diversity, stream ~9.8 trillion tokens through nearly two thousand high-end H100 GPUs, and carry out the entire training run in roughly three weeks, thereby producing the base weights that underlie subsequent alignment stages.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` is a state-of-the-art open model built upon a blend of synthetic datasets, data from filtered public domain websites, and acquired academic books and Q&A datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **GPUs**                | 1920 H100-80G                                                                 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **Training data**       | 9.8T tokens                                                                   |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "| **Training time**       | 21 days                                                                       |"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning for phi-4 follows a dual-stage alignment strategy explicitly comprising \"supervised fine-tuning\" (SFT) and \"direct preference optimization\" (DPO).  The quote notes that phi-4 \"underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures.\"  In practice, SFT provides direct teacher-forced demonstrations so the model learns canonical, policy-compliant responses, while iterative DPO refines those weights by comparing alternate generations against human or synthetic preference labels.  The data used in this phase come from \"publicly available datasets focusing on helpfulness and harmlessness\" as well as \"various questions and answers targeted to multiple safety categories,\" indicating that the curation explicitly balances utility with risk mitigation.  Although no epoch counts or learning-rate schedules are given, the description establishes that the SFT and DPO loops constitute the core fine-tuning pipeline responsible for instruction following and safety alignment after base pre-training.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "Reinforcement-style learning for phi-4 is delivered through the \"iterative DPO (Direct Preference Optimization)\" technique referenced in the alignment description.  The text states that the safety alignment \"is a combination of SFT (Supervised Fine-Tuning) and iterative DPO,\" making DPO the only reinforcement-driven component explicitly cited for phi-4.  DPO operates by presenting the model with pairs of candidate completions and optimizing the policy toward the option preferred by annotators or a proxy preference model, thereby serving a similar role to RLHF while avoiding full policy-gradient complexity.  The same quote links DPO to \"publicly available datasets focusing on helpfulness and harmlessness\" and to Q&A material across \"multiple safety categories,\" underscoring that the reward signal (i.e., preferences) is targeted at both utility and risk reduction.  No explicit hyperparameters—batch size, KL coefficients, or rollout count—are provided, but the mention of an \"iterative\" process implies multiple passes of preference-based updates, solidifying DPO as the reinforcement learning mechanism that polishes phi-4’s responses beyond supervised fine-tuning.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`phi-4` underwent a rigorous enhancement and alignment process, incorporating both supervised fine-tuning and direct preference optimization to ensure precise instruction adherence and robust safety measures"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The overall technique employed to do the safety alignment is a combination of SFT (Supervised Fine-Tuning) and iterative DPO (Direct Preference Optimization), including publicly available datasets focusing on helpfulness and harmlessness as well as various questions and answers targeted to multiple safety categories."
+    }
+  ]
+}
