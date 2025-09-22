@@ -1,0 +1,236 @@
+{
+  "1-1 (Weights)": "The quotes state that “we have open-sourced DeepSeek-R1-Zero, DeepSeek-R1, and six dense models distilled from DeepSeek-R1 based on Llama and Qwen.”  In other words, the full, original DeepSeek-R1 checkpoint, its ‘Zero’ variant, and a set of six distilled offspring models are all placed in the public domain for direct download.  Concretely, the project provides a HuggingFace model card: “| DeepSeek-R1 | 671B | 37B | 128K | https://huggingface.co/deepseek-ai/DeepSeek-R1 |”.  The presence of the public HuggingFace URL indicates that anyone with a HuggingFace account can retrieve the weights through the standard HF interface (git-LFS or the HF web UI/Hub API).  No gated-access, request form, or license pre-approval flow is mentioned in the supplied text; the wording “open-sourced” and the direct HF link together imply immediate, no-cost availability.  In addition to the main model, the release explicitly bundles all six dense distilled variants that were “distilled from DeepSeek-R1 based on Llama and Qwen,” signalling that derivative checkpoints are also downloadable.  Overall, the quotes show that the entire family of DeepSeek-R1 models is publicly hosted, with the primary distribution channel being the deepseek-ai organisation page on HuggingFace.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To support the research community, we have open-sourced DeepSeek-R1-Zero, DeepSeek-R1, and six dense models distilled from DeepSeek-R1 based on Llama and Qwen."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| DeepSeek-R1   | 671B | 37B |  128K   | [🤗 HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-R1)   |"
+    }
+  ],
+  "1-2 (Code)": "Only a single sentence about code is provided: “Please visit DeepSeek-V3 repo for more information about running DeepSeek-R1 locally.”  This sentence indicates that inference or serving scripts for DeepSeek-R1 live in the DeepSeek-V3 GitHub repository and can be used to execute the model on local hardware.  The wording talks about “running” rather than “training,” “pre-training,” “fine-tuning,” or “RL,” so the quote supports the conclusion that public code coverage is limited to deployment / inference.  There is no passage claiming that pre-training, supervised fine-tuning, or reinforcement learning pipelines are open-sourced; nor is there any mention of configuration files, datasets, or trainer scripts for those stages.  Hence, based on the provided evidence, the project publishes code that helps users load and run the already-trained checkpoints but does not share the end-to-end training stack.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Please visit [DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3) repo for more information about running DeepSeek-R1 locally."
+    }
+  ],
+  "1-3 (License)": "Multiple snippets repeatedly emphasise that both the repository and the model weights are governed by the MIT License: “This code repository and the model weights are licensed under the MIT License.”  The README front-matter reinforces this with `license: mit`, and a badge visual (“License-MIT”) plus the presence of a top-level `LICENSE` file further confirm the choice.  The license description is expansive: “DeepSeek-R1 series support commercial use, allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs.”  Therefore users are explicitly granted the right to use the weights commercially, redistribute them, or build derivative models without additional permission.  The documentation is also transparent about the lineage-specific constraints of certain distilled releases: it lists that the Qwen-based variants are “originally licensed under Apache 2.0,” while two Llama-based variants inherit their respective “llama3.x license.”  These notes make it clear that, although DeepSeek-R1’s own contribution is MIT-licensed, downstream users must respect the original licenses of the base models for those particular checkpoints.  Taken together, the quotes depict a permissive, modification-friendly licensing posture, with explicit acknowledgement of upstream obligations where relevant.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This code repository and the model weights are licensed under the [MIT License](https://github.com/deepseek-ai/DeepSeek-R1/blob/main/LICENSE).\nDeepSeek-R1 series support commercial use, allow for any modifications and derivative works, including, but not limited to, distillation for training other LLMs."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- DeepSeek-R1-Distill-Qwen-1.5B, DeepSeek-R1-Distill-Qwen-7B, DeepSeek-R1-Distill-Qwen-14B and DeepSeek-R1-Distill-Qwen-32B are derived from [Qwen-2.5 series](https://github.com/QwenLM/Qwen2.5), which are originally licensed under [Apache 2.0 License](https://huggingface.co/Qwen/Qwen2.5-1.5B/blob/main/LICENSE), and now finetuned with 800k samples curated with DeepSeek-R1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- DeepSeek-R1-Distill-Llama-8B is derived from Llama3.1-8B-Base and is originally licensed under [llama3.1 license](https://huggingface.co/meta-llama/Llama-3.1-8B/blob/main/LICENSE)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- DeepSeek-R1-Distill-Llama-70B is derived from Llama3.3-70B-Instruct and is originally licensed under [llama3.3 license](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct/blob/main/LICENSE)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: mit\nlibrary_name: transformers\n---\n# DeepSeek-R1\n<!-- markdownlint-disable first-line-h1 -->\n<!-- markdownlint-disable html -->\n<!-- markdownlint-disable no-duplic"
+    },
+    {
+      "source": "[readme]",
+      "quote": "t: 1;\">\n <a href=\"https://github.com/deepseek-ai/DeepSeek-R1/blob/main/LICENSE\" style=\"margin: 2px;\">\n <img alt=\"License\" src=\"https://img.shields.io/badge/License-MIT-f5de53?&color=f5de53\" style=\"display: inline-block; vertical-align: middle;\"/>\n </a>\n</div>\n\n\n<p align=\"center\">\n <a href=\"https://github.com/deepseek-ai/Dee"
+    },
+    {
+      "source": "[readme]",
+      "quote": "forcing the model to initiate its response with \"\\<think\\>\\n\" at the beginning of every output.**\n\n## 7. License\nThis code repository and the model weights are licensed under the [MIT License](https://github.com/deepseek-ai/DeepSeek-R1/blob/main/LICENSE).\nDeepSeek-R1 series support commercial use, allow for any modifications and derivative w"
+    },
+    {
+      "source": "[readme]",
+      "quote": "n-7B, DeepSeek-R1-Distill-Qwen-14B and DeepSeek-R1-Distill-Qwen-32B are derived from [Qwen-2.5 series](https://github.com/QwenLM/Qwen2.5), which are originally licensed under [Apache 2.0 License](https://huggingface.co/Qwen/Qwen2.5-1.5B/blob/main/LICENSE), and now finetuned with 800k samples curated with DeepSeek-R1.\n- DeepSeek-R1-Distill-Llama"
+    },
+    {
+      "source": "[readme]",
+      "quote": "wen-2.5 series](https://github.com/QwenLM/Qwen2.5), which are originally licensed under [Apache 2.0 License](https://huggingface.co/Qwen/Qwen2.5-1.5B/blob/main/LICENSE), and now finetuned with 800k samples curated with DeepSeek-R1.\n- DeepSeek-R1-Distill-Llama-8B is derived from Llama3.1-8B-Base and is originally licensed under [llama3.1 license](https://hugging"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "A single BibTeX entry is given: “title={DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning}.”  This confirms the existence of an official academic or technical document dedicated to the model, dated 2025 and authored under the `deepseekai` namespace.  The title reveals the core research contribution—using reinforcement learning to ‘incentivize reasoning capability’ in large language models—thereby positioning the paper as the canonical reference for the algorithmic methods and evaluation results behind DeepSeek-R1.  No URL, venue, or page numbers are provided in the extract, but the BibTeX formatting and the `@misc` tag strongly suggest that the work is a pre-print (e.g., on arXiv) or a technical report hosted online.  Hence, an official written resource is available for readers who need theoretical background or experimental details about DeepSeek-R1.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{deepseekai2025deepseekr1incentivizingreasoningcapability,\n      title={DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning},"
+    }
+  ],
+  "1-5 (Architecture)": "For the target model series deepseek-r1, the available configuration lines state that \"DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base.\"  The same block also lists the exact architecture string as \"DeepseekV3ForCausalLM\" and identifies the overall \"model_type\" as \"deepseek_v3\".  Taken together, these quotes show that every deepseek-r1 variant inherits its core network design directly from the earlier DeepSeek-V3-Base backbone and is instantiated through the DeepseekV3ForCausalLM class, which is recorded inside the model configuration under the deepseek_v3 type label.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"DeepseekV3ForCausalLM\"\n  ],"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"deepseek_v3\","
+    }
+  ],
+  "1-6 (Tokenizer)": "The tokenizer used with the deepseek-r1 family is slightly modified from the open-source baselines employed for DeepSeek-R1-Distill, as the authors note: \"We slightly change their configs and tokenizers. Please use our setting to run these models.\"  Explicit configuration fields give a \"vocab_size\" of 129 280, a \"bos_token_id\" of 0, and an \"eos_token_id\" of 1, indicating that inference or fine-tuning should rely on these specific special-token IDs and the enlarged vocabulary when using deepseek-r1 checkpoints.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Distill models are fine-tuned based on open-source models, using samples generated by DeepSeek-R1.\nWe slightly change their configs and tokenizers. Please use our setting to run these models."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 129280,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 0,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 1,"
+    }
+  ],
+  "2-1 (Hardware)": "No hardware details (GPU/TPU model counts or compute totals) are provided for deepseek-r1 in the supplied quotes.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The training stack for deepseek-r1 is documented only by the presence of the Transformers library: the configuration shows \"library_name: transformers\" with recorded versions \"4.46.3\" and \"4.39.3\".  These lines confirm that Hugging Face Transformers was the primary framework used, and that at least two close version tags (4.39.3 and the newer 4.46.3) were associated with the project.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "library_name: transformers"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.46.3\","
+    },
+    {
+      "source": "[generation_config]",
+      "quote": "\"transformers_version\": \"4.39.3\""
+    }
+  ],
+  "2-3 (API)": "For DeepSeek-R1, the public can interact with the model in two main ways. First, real-time conversational access is offered through the official DeepSeek chat site at “chat.deepseek.com,” where users can enable the special “DeepThink” toggle to engage the model. Second, the provider exposes an OpenAI-compatible, programmatic interface: the DeepSeek Platform, reachable at “platform.deepseek.com.” This API is explicitly described as compatible with the standard OpenAI pattern, implying developers can integrate DeepSeek-R1 into their applications via familiar endpoint conventions while leveraging the model’s capabilities.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can chat with DeepSeek-R1 on DeepSeek's official website: [chat.deepseek.com](https://chat.deepseek.com), and switch on the button \"DeepThink\""
+    },
+    {
+      "source": "[readme]",
+      "quote": "We also provide OpenAI-Compatible API at DeepSeek Platform: [platform.deepseek.com](https://platform.deepseek.com/)"
+    }
+  ],
+  "3-1 (Pre-training)": "The authors state that DeepSeek-R1-Zero and DeepSeek-R1 were both trained on top of the backbone called DeepSeek-V3-Base. Concrete architectural hyper-parameters are listed: a vocabulary size of 129,280 tokens, a hidden (model) dimension of 7,168, an intermediate (MLP) dimension of 18,432, a depth of 61 transformer layers, 128 attention heads, and support for sequences up to 163,840 positions. These values define the capacity of DeepSeek-R1’s pre-training configuration and show that the model inherits its fundamental architecture directly from the DeepSeek-V3-Base initialization before any subsequent stages such as RL or SFT.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 129280,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 7168,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"intermediate_size\": 18432,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 61,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 128,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 163840,"
+    }
+  ],
+  "3-2 (Fine-tuning)": "DeepSeek-R1’s own generated reasoning data is reused to improve other networks: the team fine-tunes several widely adopted dense models using those R1-produced samples. In addition, a set of “DeepSeek-R1-Distill” variants is created by fine-tuning open-source base models with the same R1-generated examples. Thus, the fine-tuning strategy positions DeepSeek-R1 outputs as high-quality supervision data for both research-community baselines and for distilled descendants that inherit R1’s reasoning strengths.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Using the reasoning data generated by DeepSeek-R1, we fine-tuned several dense models that are widely used in the research community."
+    },
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Distill models are fine-tuned based on open-source models, using samples generated by DeepSeek-R1."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The reinforcement-learning strategy for DeepSeek-R1 is multifaceted. A special branch, DeepSeek-R1-Zero, is trained purely with large-scale RL, explicitly skipping any supervised fine-tuning (SFT) warm-up, yet still achieves strong reasoning ability. In the general R1 development pipeline, the team “directly” applies RL to the base model but also designs a four-stage process: two RL phases (one to uncover better reasoning patterns, another to align with human preferences) are interleaved with two SFT phases that seed the model’s general reasoning and non-reasoning skills. This indicates that RL is central to performance and alignment, while the SFT steps provide initial behavioral scaffolding.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Zero, a model trained via large-scale reinforcement learning (RL) without supervised fine-tuning (SFT) as a preliminary step, demonstrated remarkable performance on reasoning."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We directly apply reinforcement learning (RL) to the base model without relying on supervised fine-tuning (SFT) as a preliminary step."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We introduce our pipeline to develop DeepSeek-R1. The pipeline incorporates two RL stages aimed at discovering improved reasoning patterns and aligning with human preferences, as well as two SFT stages that serve as the seed for the model's reasoning and non-reasoning capabilities."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The project states only two concrete facts about pre-training for the target model family. First, “DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base,” establishing that the R1 line is not built entirely from scratch but is further trained from the earlier DeepSeek-V3-Base checkpoint. Second, the authors note that “we introduce DeepSeek-R1, which incorporates cold-start data before RL.” Hence the pre-training recipe entails (i) inheritance of the DeepSeek-V3-Base weights and (ii) an additional cold-start data segment that is injected prior to any reinforcement-learning phase. No other details—such as data sources, licenses, or token counts—are disclosed in the supplied material.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Zero & DeepSeek-R1 are trained based on DeepSeek-V3-Base."
+    },
+    {
+      "source": "[readme]",
+      "quote": "we introduce DeepSeek-R1, which incorporates cold-start data before RL."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "Fine-tuning for the DeepSeek-R1 ecosystem is described as a two-stage supervised pipeline followed by, or interleaved with, RL. One quotation explains that “The pipeline incorporates two RL stages … as well as two SFT stages that serve as the seed for the model’s reasoning and non-reasoning capabilities,” confirming the existence of two dedicated supervised fine-tuning (SFT) phases whose data initialise those capabilities. A second quotation specifies how distillation variants obtain their training signals: “DeepSeek-R1-Distill models are fine-tuned based on open-source models, using samples generated by DeepSeek-R1.” Thus the SFT data for the distill line consist entirely of DeepSeek-R1-generated examples rather than human-written corpora. The final quotation adds quantity and licensing information for one subset: “DeepSeek-R1-Distill-Qwen-… are derived from Qwen-2.5 series … and now finetuned with 800k samples curated with DeepSeek-R1.” In summary, fine-tuning relies on two SFT stages seeded with 800 000 R1-generated examples (for the Qwen-based distill models) and is executed on top of multiple open-source model backbones that remain under their original Apache-2.0 license.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The pipeline incorporates two RL stages aimed at discovering improved reasoning patterns and aligning with human preferences, as well as two SFT stages that serve as the seed for the model's reasoning and non-reasoning capabilities."
+    },
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Distill models are fine-tuned based on open-source models, using samples generated by DeepSeek-R1."
+    },
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Distill-Qwen-1.5B, DeepSeek-R1-Distill-Qwen-7B, DeepSeek-R1-Distill-Qwen-14B and DeepSeek-R1-Distill-Qwen-32B are derived from Qwen-2.5 series, which are originally licensed under Apache 2.0 License, and now finetuned with 800k samples curated with DeepSeek-R1."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "The reinforcement-learning component is defined by three explicit statements. First, “We directly apply reinforcement learning (RL) to the base model without relying on supervised fine-tuning (SFT) as a preliminary step,” indicating that at least one training track begins RL from the base weights alone. Second, “DeepSeek-R1-Zero, a model trained via large-scale reinforcement learning (RL) without supervised fine-tuning (SFT) as a preliminary step, demonstrated remarkable performance on reasoning,” giving a concrete example—DeepSeek-R1-Zero—where this RL-first strategy was used and shown effective. Third, “The pipeline incorporates two RL stages aimed at discovering improved reasoning patterns and aligning with human preferences,” showing that the overall training schedule reserves two distinct RL phases: one to enhance reasoning and one to align with preference data. Beyond these structural notes (direct RL, two stages, reasoning/human-preference focus), no specifics about the feedback format, task selection, or reward source are disclosed in the excerpts provided.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We directly apply reinforcement learning (RL) to the base model without relying on supervised fine-tuning (SFT) as a preliminary step."
+    },
+    {
+      "source": "[readme]",
+      "quote": "DeepSeek-R1-Zero, a model trained via large-scale reinforcement learning (RL) without supervised fine-tuning (SFT) as a preliminary step, demonstrated remarkable performance on reasoning."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pipeline incorporates two RL stages aimed at discovering improved reasoning patterns and aligning with human preferences"
+    }
+  ],
+  "4-4 (Data Filtering)": "The supplied quotations do not contain any statements about data-cleaning tools, numerical thresholds, duplicate removal, toxicity filters, or other filtering criteria for DeepSeek-R1. Consequently, no information on data-filtering procedures or their quantitative impact is available from the provided material.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
