@@ -1,0 +1,106 @@
+{
+  "1-1 (Weights)": "The quotes make it clear that the DeepSeek-V3 model weights are openly released. Twice we are told verbatim that “The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3.”  This public GitHub URL is the explicit download location and implies that anyone can obtain them directly.  Multiple evaluative sentences underscore that the release is not merely a research teaser but a fully usable open-source checkpoint: “DeepSeek-V3 stands as the best-performing open-source model…”, “Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available…”, and “DeepSeek-V3 achieves a groundbreaking milestone as the first open-source model to surpass 85 % on the Arena-Hard benchmark.”  Further, the text highlights practical expectations: “The open-source DeepSeek-V3 is expected to foster advancements in coding-related engineering tasks,” which reinforces that broad community use is anticipated and encouraged.  The quote comparing DeepSeek-V3-Base to earlier DeepSeek-V2-Base and other competitors (“DeepSeek-V3-Base comprehensively outperforms DeepSeek-V2-Base…”) confirms that multiple checkpoints/variants (Base, etc.) are being shipped.  Finally, the command line “python3 -m sglang.launch_server --model deepseek-ai/DeepSeek-Coder-V2-Instruct …” shows that the organisation routinely publishes checkpoints that can be loaded directly with common inference packages, further signalling that the DeepSeek family models (V3 included) are downloadable and runnable without private credentials or pay-walled APIs.",
+  "1-2 (Code)": "Very little is revealed about training code.  The sole code-related evidence is an inference-only launch command: “python3 -m vllm.entrypoints.openai.api_server --model deepseek-ai/DeepSeek-Coder-V2-Instruct ….”  This snippet demonstrates that DeepSeek provides enough adapters (via the “trust-remote-code” flag) to let popular inference stacks such as vLLM auto-download and execute custom model code needed for serving.  However, there is no mention of scripts, configs, or repositories that cover pre-training, data preprocessing, mixture-of-experts routing, or any reinforcement-learning or fine-tuning procedures.  Consequently, from the available quotes we can only say that limited, serving-time helper code is accessible through the Hugging Face ‘trust-remote-code’ mechanism, while the full training pipeline remains undisclosed.",
+  "1-3 (License)": "The provided quote set contains no sentence that both satisfies the strict DeepSeek token rule and gives licensing details.  Therefore, no licensing terms, no license file name, and no explicit grant or restriction statements (e.g., use, modification, redistribution, commercial use) are available in the excerpts.",
+  "1-4 (Paper)": "The model is documented in an official technical report: “DeepSeek-V3 Technical Report” available directly in the project repository (“URL Source: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf”).  The paper introduces the model as “a strong Mixture-of-Experts (MoE) language model with 671 B total parameters with 37 B activated for each token,” trained on a massive 14.8 T-token corpus.  The authors emphasise both scale and efficiency: DeepSeek-V3 uses only a 37 B active sub-network per token, a hallmark of MoE efficiency.  The report situates the model in the broader DeepSeek lineage, explicitly comparing the new release with prior work: “we compare the base model of DeepSeek-V3 with the state-of-the-art open-source base models, including DeepSeek-V2-Base …, Qwen2.5 72B Base, and LLaMA-3.1 405B Base.”  Performance analyses are multi-dimensional—e.g., Figure 8 measures long-context understanding (“DeepSeek-V3 performs well across all context window lengths up to 128 K”).  The text notes that long-context capability is achieved using “a similar approach to DeepSeek-V2.”  Several bibliographic references confirm a sustained research roadmap: “DeepSeek-AI. Deepseek LLM: scaling open-source language models with longtermism,” and “Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model.”  Collectively these statements show that DeepSeek-V3 is formally described in a publicly accessible technical report, framed as the successor to DeepSeek-V2, and accompanied by detailed architecture, training-data size, evaluation benchmarks, and context-window analyses.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 stands as the best-performing open-source model, and also exhibits competitive performance against frontier closed-source models."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In engineering tasks, DeepSeek-V3 trails behind Claude-Sonnet-3.5-1022 but significantly outperforms open-source models. The open-source DeepSeek-V3 is expected to foster advancements in coding-related engineering tasks."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3-Base comprehensively outperforms DeepSeek-V2-Base and Qwen2.5 72B Base, and surpasses LLaMA-3.1 405B Base in the majority of benchmarks, essentially becoming the strongest open-source model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 achieves a groundbreaking milestone as the first open-source model to surpass 85% on the Arena-Hard benchmark."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comprehensive evaluations demonstrate that DeepSeek-V3 has emerged as the strongest open-source model currently available, and achieves performance comparable to leading closed-source models like GPT-4o and Claude-3.5-Sonnet."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m sglang . launch_server --model deepseek-ai / DeepSeek-Coder-V2-Instruct --disable-radix --tp 8 --trust-remote-code --enable-mla"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "python3 - m vllm . entrypoints . openai . api_server --model deepseek-ai / DeepSeek-Coder-V2-Instruct --disable-log-requests --tensor-parallel-size 8 --trust-remote-code --max-model-len 4096"
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    },
+    {
+      "source": "[web:https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE]",
+      "quote": "https://huggingface.co/tiiuae/falcon-40b/blob/main/LICENSE"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-V3 Technical Report\nDeepSeek-AI\nresearch@deepseek.com"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Table 3, we compare the base model of DeepSeek-V3 with the state-of-the-art open-source base models, including DeepSeek-V2-Base (DeepSeek-AI, 2024c) (our previous release), Qwen2.5 72B Base (Qwen, 2024b), and LLaMA-3.1 405B Base (AI@Meta, 2024b)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this paper, we introduce DeepSeek-V3, a large MoE language model with 671B total parameters and 37B activated parameters, trained on 14.8T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-AI. Deepseek LLM: scaling open-source language models with longtermism. CoRR, abs/2401.02954, 2024b."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "DeepSeek-AI. Deepseek-v2: A strong, economical, and efficient mixture-of-experts language model. CoRR, abs/2405.04434, 2024c."
+    },
+    {
+      "source": "[sections/https://r.jina.ai/https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf]",
+      "quote": "URL Source: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "DeepSeek-V3 Technical Report"
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2412.19437]",
+      "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt a similar approach to DeepSeek-V2 (DeepSeek-AI, 2024c) to enable long context capabilities in DeepSeek-V3."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Figure 8 | Evaluation results on the “Needle In A HayStack” (NIAH) tests. DeepSeek-V3 performs well across all context window lengths up to 128K."
+    }
+  ]
+}

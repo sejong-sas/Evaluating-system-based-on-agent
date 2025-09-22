@@ -1,0 +1,87 @@
+
+======== 2/2 ▶ deepseek-ai/DeepSeek-V3 ========
+📁 Directory to create/use: deepseek-ai_deepseek-v3
+📁 Output path: deepseek-ai_deepseek-v3
+1️⃣ HF: True, GH: True
+✅ HF model: deepseek-ai/deepseek-v3 (found at priority: 1)
+⚠️ report fetch failed: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf 404 Client Error: Not Found for url: https://github.com/deepseek-ai/DeepSeek-V3/blob/main/DeepSeek_V3.pdf
+📄 Reports saved/merged (HF): deepseek-ai_deepseek-v3\reports_fulltext_huggingface_deepseek-ai_deepseek-v3.json
+✅ JSON file saved: deepseek-ai_deepseek-v3\huggingface_deepseek-ai_deepseek-v3.json
+📄 Reports merged to: deepseek-ai_deepseek-v3\reports_fulltext_deepseek-ai_deepseek-v3.json (HF sources)
+✅ Saved group 1 result: deepseek-ai_deepseek-v3\huggingface_filtered_deepseek-ai_deepseek-v3_1.json
+✅ Saved group 2 result: deepseek-ai_deepseek-v3\huggingface_filtered_deepseek-ai_deepseek-v3_2.json
+✅ Saved group 3 result: deepseek-ai_deepseek-v3\huggingface_filtered_deepseek-ai_deepseek-v3_3.json
+✅ Saved group 4 result: deepseek-ai_deepseek-v3\huggingface_filtered_deepseek-ai_deepseek-v3_4.json
+✅ Saved final merged result: deepseek-ai_deepseek-v3\huggingface_filtered_final_deepseek-ai_deepseek-v3.json
+✅ GH repo: deepseek-ai/DeepSeek-V3
+📄 Reports saved/merged (GH): deepseek-ai_deepseek-v3\reports_fulltext_github_deepseek-ai_deepseek-v3.json
+ℹ️ Merge skipped: could not determine a single target HF model id.
+✅ GitHub JSON file saved: deepseek-ai_deepseek-v3\github_deepseek-ai_DeepSeek-V3.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 3, '1-2 (Code)': 3, '1-3 (License)': 4, '1-4 (Paper)': 3}, 'kept': {'1-1 (Weights)': 2, '1-2 (Code)': 2, '1-3 (License)': 3, '1-4 (Paper)': 1}}
+✅ Saved group 1 result: deepseek-ai_deepseek-v3\github_filtered_deepseek-ai_DeepSeek-V3_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 5, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 2}, 'kept': {'1-5 (Architecture)': 4, '1-6 (Tokenizer)': 0, '2-1 (Hardware)': 2, '2-2 (Software)': 0}}
+✅ Saved group 2 result: deepseek-ai_deepseek-v3\github_filtered_deepseek-ai_DeepSeek-V3_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 2, '3-1 (Pre-training)': 2, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 1}, 'kept': {'2-3 (API)': 2, '3-1 (Pre-training)': 2, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 1}}
+✅ Saved group 3 result: deepseek-ai_deepseek-v3\github_filtered_deepseek-ai_DeepSeek-V3_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 2, '4-3 (Reinforcement Learning Data)': 2, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 2, '4-2 (Fine-tuning Data)': 2, '4-3 (Reinforcement Learning Data)': 1, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 result: deepseek-ai_deepseek-v3\github_filtered_deepseek-ai_DeepSeek-V3_4.json
+✅ Saved final merged result: deepseek-ai_deepseek-v3\github_filtered_final_deepseek-ai_DeepSeek-V3.json
+🔎 HF tags found arXiv IDs: ['2412.19437']
+🔄 Simplified query: 'deepseek 3'
+🔎 Tavily search: deepseek 3 paper
+  → arXiv link found: https://arxiv.org/abs/2412.19437
+🔎 Tavily search: deepseek 3 technical report
+  → arXiv link found: https://arxiv.org/abs/2412.19437
+🛰️ Tavily candidates: ['2412.19437']
+📦 Final merged arXiv IDs: ['2412.19437']
+📄 PDF saved: deepseek-ai_deepseek-v3\arxiv_2412.19437.pdf
+✅ Full paper text saved: deepseek-ai_deepseek-v3\arxiv_fulltext_deepseek-ai_deepseek-v3.json
+📄 Reports merged to: deepseek-ai_deepseek-v3\reports_fulltext_deepseek-ai_deepseek-v3.json
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+🔎 recall keys: ['1-1 (Weights)', '1-2 (Code)', '1-3 (License)', '1-4 (Paper)']
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 7, '1-2 (Code)': 0, '1-3 (License)': 0, '1-4 (Paper)': 5}, 'kept': {'1-1 (Weights)': 6, '1-2 (Code)': 0, '1-3 (License)': 0, '1-4 (Paper)': 4}}
+✅ Saved group 1 : deepseek-ai_deepseek-v3\arxiv_filtered_deepseek-ai_deepseek-v3_1.json
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+🔎 recall keys: ['1-5 (Architecture)', '1-6 (Tokenizer)', '2-1 (Hardware)', '2-2 (Software)']
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 14, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 9, '2-2 (Software)': 7}, 'kept': {'1-5 (Architecture)': 12, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 4, '2-2 (Software)': 7}}
+✅ Saved group 2 : deepseek-ai_deepseek-v3\arxiv_filtered_deepseek-ai_deepseek-v3_2.json
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-Tuning)', '3-3 (Reinforcement Learning)']
+🔎 recall keys: ['2-3 (API)', '3-1 (Pre-training)', '3-2 (Fine-tuning)', '3-3 (Reinforcement Learning)']
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 1, '3-1 (Pre-training)': 18, '3-2 (Fine-tuning)': 6, '3-3 (Reinforcement Learning)': 9}, 'kept': {'2-3 (API)': 1, '3-1 (Pre-training)': 18, '3-2 (Fine-tuning)': 6, '3-3 (Reinforcement Learning)': 7}}
+✅ Saved group 3 : deepseek-ai_deepseek-v3\arxiv_filtered_deepseek-ai_deepseek-v3_3.json
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+🔎 recall keys: ['4-1 (Pre-training Data)', '4-2 (Fine-tuning Data)', '4-3 (Reinforcement Learning Data)', '4-4 (Data Filtering)']
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 9, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 6, '4-4 (Data Filtering)': 4}, 'kept': {'4-1 (Pre-training Data)': 7, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 6, '4-4 (Data Filtering)': 3}}
+✅ Saved group 4 : deepseek-ai_deepseek-v3\arxiv_filtered_deepseek-ai_deepseek-v3_4.json
+✅ Saved final merged: deepseek-ai_deepseek-v3\arxiv_filtered_final_deepseek-ai_deepseek-v3.json
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 9, '1-2 (Code)': 1, '1-3 (License)': 0, '1-4 (Paper)': 13}, 'kept': {'1-1 (Weights)': 8, '1-2 (Code)': 1, '1-3 (License)': 0, '1-4 (Paper)': 11}}
+✅ Saved group 1 : deepseek-ai_deepseek-v3\reports_filtered_deepseek-ai_deepseek-v3_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 27, '1-6 (Tokenizer)': 2, '2-1 (Hardware)': 9, '2-2 (Software)': 8}, 'kept': {'1-5 (Architecture)': 26, '1-6 (Tokenizer)': 1, '2-1 (Hardware)': 9, '2-2 (Software)': 8}}
+✅ Saved group 2 : deepseek-ai_deepseek-v3\reports_filtered_deepseek-ai_deepseek-v3_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 5, '3-1 (Pre-training)': 24, '3-2 (Fine-tuning)': 10, '3-3 (Reinforcement Learning)': 9}, 'kept': {'2-3 (API)': 5, '3-1 (Pre-training)': 18, '3-2 (Fine-tuning)': 8, '3-3 (Reinforcement Learning)': 6}}
+✅ Saved group 3 : deepseek-ai_deepseek-v3\reports_filtered_deepseek-ai_deepseek-v3_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 12, '4-2 (Fine-tuning Data)': 7, '4-3 (Reinforcement Learning Data)': 7, '4-4 (Data Filtering)': 3}, 'kept': {'4-1 (Pre-training Data)': 10, '4-2 (Fine-tuning Data)': 6, '4-3 (Reinforcement Learning Data)': 7, '4-4 (Data Filtering)': 3}}
+✅ Saved group 4 : deepseek-ai_deepseek-v3\reports_filtered_deepseek-ai_deepseek-v3_4.json
+✅ Saved final merged: deepseek-ai_deepseek-v3\reports_filtered_final_deepseek-ai_deepseek-v3.json
+📝 Starting openness evaluation...
+📝 Saved evaluation result: deepseek-ai_deepseek-v3\openness_score_deepseek-ai_deepseek-v3.json
+✅ Openness evaluation complete. Result file: deepseek-ai_deepseek-v3\openness_score_deepseek-ai_deepseek-v3.json
+✅ Saved model ID: deepseek-ai_deepseek-v3\identified_model.txt
+⏳ **Time taken for this model: 3348.14 seconds**
+🧾 Log saved to: deepseek-ai_deepseek-v3\run_20250913-132037_deepseek-ai_deepseek-v3.log
