@@ -1,0 +1,102 @@
+{
+  "2-3 (API)": "gpt-oss-120b is explicitly described as “compatible with our Responses API,” meaning it can be called through the same endpoint used for other production GPT models. A code snippet shows the canonical call pattern – client.responses.create(model=\"openai/gpt-oss-120b\", instructions=\"You are a helpful assistant.\", input=\"…\") – confirming standard request / response semantics. Documentation states that these models are intended for agentic workflows, with strong instruction-following, tool use (web search, Python execution), adjustable reasoning depth, and the ability to deliver very low-latency answers when intensive reasoning is unnecessary. Although self-hosting is emphasized (“gpt-oss is a great fit” for developers who want to fine-tune and deploy in their own environments), the text clarifies that the official API platform is still the most seamless route for multimodal support and built-in tools. A note adds that the team is “listening closely to developer feedback and may consider API support for gpt-oss in the future,” implying that full parity with hosted endpoints is not yet guaranteed. For self-service deployment, two detailed guides are referenced: one using vLLM (“serve openai/gpt-oss-120b” to expose an API and connect to the Agents SDK) and one using Ollama to run the 20 B or 120 B checkpoints locally, chat offline, or expose an API. Together, these statements confirm that an accessible HTTP-style interface exists (or can be stood up) for the model, provide a concrete request example, and clarify the current/road-map status of first-party hosted API support.",
+  "3-1 (Pre-training)": "All quoted passages agree that gpt-oss-120b (and its 20 B sibling) was built with “our most advanced pre-training and post-training techniques,” targeting strong reasoning quality, high efficiency, and broad deployability. Architecturally, the models are mixture-of-experts transformers. Training relied on “large-scale distillation and reinforcement learning,” plus additional techniques “informed by OpenAI’s most advanced internal models, including o3.” Training data were run through safety filters that removed Chemical, Biological, Radiological, and Nuclear (CBRN) content, and the models were optimized on the proprietary “harmony response format,” a schema that structures conversations, reasoning traces, and function-call outputs. During pre-training the model had two built-in tools – a browser and a Python executor – which it could invoke to gather information and refine answers. Overall, the pre-training pipeline blended distillation from stronger teacher systems, reinforcement-learning-style objectives, safety-oriented data curation, and tool-augmented self-improvement, all applied to a MoE transformer intended to maximize reasoning skill per FLOP.",
+  "3-2 (Fine-tuning)": "The documentation repeatedly stresses that gpt-oss models are “fully customizable” and can be fine-tuned by developers in their own environments. From an internal standpoint, OpenAI also performed controlled experiments: an “adversarially fine-tuned version of gpt-oss-120b” was evaluated under the company’s Preparedness Framework, providing an additional safety-check layer on top of the ordinary post-training evaluations. The safety section warns that once an open-weight model is released, “adversaries may be able to fine-tune the model for malicious purposes,” so robust oversight and red-teaming are required. These statements collectively establish that fine-tuning is both officially supported (for customization) and scrutinized (for misuse), but no hyper-parameters or concrete pipelines beyond that are disclosed in the quotes.",
+  "3-3 (Reinforcement Learning)": "Reinforcement learning is a central ingredient in the training stack: gpt-oss-120b was \"trained using large-scale distillation and reinforcement learning,\" and a second quote reiterates that training used \"a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models.\" No further algorithmic detail or hyper-parameters are provided, but RL is clearly presented as co-equal with distillation for aligning the mixture-of-experts architecture toward high accuracy and low inference cost.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The gpt-oss-120b model achieves near-parity with OpenAI o4-mini on core reasoning benchmarks, while running efficiently on a single 80 GB GPU. These models are compatible with our Responses API⁠(opens in a new window) and are designed to be used within agentic workflows with exceptional instruction following, tool use like web search or Python code execution, and reasoning capabilities—including the ability to adjust the reasoning effort for tasks that don’t require complex reasoning and/or target very low latency final outputs."
+    },
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "For developers who want fully customizable models they can fine-tune and deploy in their own environments, gpt-oss is a great fit. For those seeking multimodal support, built-in tools, and seamless integration with our platform, models available through our API platform remain the best option."
+    },
+    {
+      "source": "[sections/How to run gpt-oss with vLLM]",
+      "quote": "response = client.responses.create( model = \"openai/gpt-oss-120b\" , instructions = \"You are a helfpul assistant.\" , input = \"Explain what MXFP4 quantization is.\" )"
+    },
+    {
+      "source": "[sections/How to run gpt-oss with vLLM]",
+      "quote": "# For 120B vllm serve openai/gpt-oss-120b"
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "For developers who want fully customizable models they can fine-tune and deploy in their own environments, gpt-oss is a great fit. For those seeking multimodal support, built-in tools, and seamless integration with our platform, models available through our API platform remain the best option. We’re continuing to listen closely to developer feedback and may consider API support for gpt-oss in the future."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/gpt-oss/run-vllm]",
+      "quote": "This guide will walk you through how to use vLLM to set up gpt-oss-20b or gpt-oss-120b on a server to serve gpt-oss as an API for your applications, and even connect it to the Agents SDK."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/gpt-oss/run-locally-ollama]",
+      "quote": "This guide will walk you through how to use Ollama to set up gpt-oss-20b or gpt-oss-120b locally, to chat with it offline, use it through an API, and even connect it to the Agents SDK."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The gpt-oss models were trained using our most advanced pre-training and post-training techniques, with particular focus on reasoning, efficiency, and real-world usability across a wide range of deployment environments."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning."
+    },
+    {
+      "source": "[sections/https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "They were trained using a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "Pre-training & model architecture\nThe gpt-oss models were trained using our most advanced pre-training and post-training techniques, with particular focus on reasoning, efficiency, and real-world usability across a wide range of deployment environments."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "The gpt-oss models leverage our state-of-art approaches for safety training. During pre-training, we filtered out certain harmful data related to Chemical, Biological, Radiological, and Nuclear (CBRN)."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/openai-harmony]",
+      "quote": "The gpt-oss models were trained on the harmony response format for defining conversation structures, generating reasoning output and structuring function calls."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/openai-harmony]",
+      "quote": "During the training of the gpt-oss models, they were trained with two common tools to browse for information and execute python code to improve its results."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "For developers who want fully customizable models they can fine-tune and deploy in their own environments, gpt-oss is a great fit."
+    },
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "In addition to running the models through comprehensive safety training and evaluations, we also introduced an additional layer of evaluation by testing an adversarially fine-tuned version of gpt-oss-120b under our Preparedness Framework⁠(opens in a new window)."
+    },
+    {
+      "source": "[sections/https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "We also introduced an additional layer of evaluation by testing an adversarially fine-tuned version of gpt-oss-120b under our Preparedness Framework."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "In addition to running the models through comprehensive safety training and evaluations, we also introduced an additional layer of evaluation by testing an adversarially fine-tuned version of gpt-oss-120b under our Preparedness Framework."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "The gpt-oss models leverage our state-of-art approaches for safety training. Once an open-weight model is released, adversaries may be able to fine-tune the model for malicious purposes."
+    },
+    {
+      "source": "[sections/https://openai.com/open-models/]",
+      "quote": "For developers who want fully customizable models they can fine-tune and deploy in their own environments, gpt-oss is a great fit."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[url:https://arxiv.org/abs/2508.10925]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning."
+    },
+    {
+      "source": "[sections/https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "They were trained using a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems."
+    }
+  ]
+}

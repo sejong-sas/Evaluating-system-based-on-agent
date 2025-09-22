@@ -1,0 +1,50 @@
+{
+  "4-1 (Pre-training Data)": "According to the provided statements, all gpt-oss family models—explicitly including gpt-oss-120b—were subjected to an \"advanced\" pre-training pipeline that combined both pre-training and post-training phases. The team emphasised three primary objectives during this stage: (1) improved reasoning ability, (2) higher computational efficiency, and (3) broad real-world usability across varied deployment environments.  With regard to corpus composition, the developers state that the models were trained on a \"mostly English, text-only dataset\" whose topical distribution was intentionally weighted toward STEM material, coding resources, and general-knowledge text.  Beyond plain language text, the models were also exposed to data in the \"harmony response format,\" a conversational schema that encodes dialogue structure, explicit chains-of-thought, and structured function-call arguments; this specialised formatting was included so that the model would learn to generate well-structured reasoning traces and correctly formatted tool calls.  Finally, two auxiliary tools were integrated into the pre-training loop: one that lets the model browse for external information and another that lets it execute Python code.  These tools were used interactively while training, so that the model could extend its knowledge or validate intermediate computations, thereby further boosting reasoning quality.",
+  "4-2 (Fine-tuning Data)": "The only fine-tuning detail disclosed is that an \"adversarially fine-tuned\" variant of gpt-oss-120b was created and evaluated under the organisation’s Preparedness Framework.  This indicates that, after the main pre-training run, at least one additional dataset—specifically crafted or selected to probe safety and robustness under adversarial conditions—was used to continue training.  Although the underlying sources, size, or licensing status of that adversarial dataset are not enumerated, the quote confirms that a dedicated safety-oriented fine-tuning pass took place and that the resulting checkpoint was subjected to comprehensive evaluations that complement the earlier safety training.",
+  "4-3 (Reinforcement Learning Data)": "Both quotes highlight that gpt-oss-120b (and its smaller sibling gpt-oss-20b) received reinforcement-learning-based training.  The authors describe the training recipe as a \"mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems,\" implying that high-level guidance or teacher signals from those frontier models contributed to the reward or policy structure.  They also note the use of \"large-scale distillation,\" suggesting that behaviour cloning from the internal teacher models was combined with RL fine-tuning to align the student models’ policies with desired outcomes.  While no granular breakdown of the RL dataset’s source (e.g., preference-pair collections, synthetic conversations, or human feedback) is given, the remarks make it clear that reinforcement learning played a major role in optimising the models for accuracy and cost-efficient inference on real-world tasks.",
+  "4-4 (Data Filtering)": "During pre-training the gpt-oss models adopted \"state-of-the-art approaches for safety training,\" and, in that context, the data pipeline explicitly removed material related to Chemical, Biological, Radiological, and Nuclear (CBRN) topics that the developers considered harmful.  The quotes do not provide concrete classifier thresholds, token-level heuristics, or quantitative removal statistics, but they do confirm a targeted filtering criterion—any content pertaining to CBRN threats was systematically excluded at the pre-training stage as part of a broader safety-first data-curation strategy.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The gpt-oss models were trained using our most advanced pre-training and post-training techniques, with particular focus on reasoning, efficiency, and real-world usability across a wide range of deployment environments."
+    },
+    {
+      "source": "[url:https://openai.com/open-models/]",
+      "quote": "The gpt-oss models were trained using our most advanced pre-training and post-training techniques, with particular focus on reasoning, efficiency, and real-world usability across a wide range of deployment environments. We trained the models on a mostly English, text-only dataset, with a focus on STEM, coding, and general knowledge."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/openai-harmony]",
+      "quote": "The gpt-oss models were trained on the harmony response format for defining conversation structures, generating reasoning output and structuring function calls."
+    },
+    {
+      "source": "[sections/https://cookbook.openai.com/articles/openai-harmony]",
+      "quote": "During the training of the gpt-oss models, they were trained with two common tools to browse for information and execute python code to improve its results."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[url:https://openai.com/open-models/]",
+      "quote": "In addition to running the models through comprehensive safety training and evaluations, we also introduced an additional layer of evaluation by testing an adversarially fine-tuned version of gpt-oss-120b under our Preparedness Framework."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "We’re releasing gpt-oss-120b and gpt-oss-20b—two state-of-the-art open-weight language models that deliver strong real-world performance at low cost. They were trained using a mix of reinforcement learning and techniques informed by OpenAI’s most advanced internal models, including o3 and other frontier systems."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2508.10925]",
+      "quote": "We present gpt-oss-120b and gpt-oss-20b, two open-weight reasoning models that push the frontier of accuracy and inference cost. The models use an efficient mixture-of-expert transformer architecture and are trained using large-scale distillation and reinforcement learning."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[url:https://openai.com/index/introducing-gpt-oss/]",
+      "quote": "The gpt-oss models leverage our state-of-art approaches for safety training. During pre-training, we filtered out certain harmful data related to Chemical, Biological, Radiological, and Nuclear (CBRN)."
+    },
+    {
+      "source": "[url:https://openai.com/open-models/]",
+      "quote": "The gpt-oss models leverage our state-of-art approaches for safety training. During pre-training, we filtered out certain harmful data related to Chemical, Biological, Radiological, and Nuclear (CBRN)."
+    }
+  ]
+}

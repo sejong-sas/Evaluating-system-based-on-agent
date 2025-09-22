@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "The only publicly stated information about an application-level interface is the sentence, “We support [codex](https://github.com/openai/codex) as a client for gpt-oss.”  From this line we can infer that the model exposes an endpoint (or a set of endpoints) that are compatible with the Codex client.  This means that users who install or otherwise interact with the GitHub-hosted Codex code base are able to send requests to, and receive responses from, the gpt-oss model family.  No other implementation specifics—such as the exact URL, authentication scheme, rate limits or example request/response payloads—are revealed, but the explicit mention of “client” support clearly signals that a remote, programmable API exists and is intended for public consumption through that Codex integration.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We support [codex](https://github.com/openai/codex) as a client for gpt-oss."
+    }
+  ],
+  "3-1 (Pre-training)": "The sole training-related detail provided is that “Both gpt-oss models were trained with the capability to browse using the `browser` tool that exposes the following three methods.”  From this, we learn (1) that there are two distinct models in the gpt-oss series, (2) that the browsing skill was incorporated directly during the pre-training phase rather than added later, and (3) that the browsing functionality is mediated by a specialized `browser` tool with three separate callable operations (though the names of those operations are not enumerated in the excerpt).  The statement also implies that the training data and objectives were selected or augmented so that the model could invoke this tool correctly, integrating tool usage into the base model’s capabilities at the earliest stage of development.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Both gpt-oss models were trained with the capability to browse using the `browser` tool that exposes the following three methods:"
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

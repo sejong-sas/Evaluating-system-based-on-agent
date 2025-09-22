@@ -1,0 +1,136 @@
+{
+  "1-1 (Weights)": "The quotes state that anyone can obtain the full parameter files for the model openly from the Hugging Face Hub. The explicit command given—“huggingface-cli download openai/gpt-oss-120b --include \"original/*\" --local-dir gpt-oss-120b/” —confirms that the gpt-oss-120b weights are hosted under the repository name “openai/gpt-oss-120b” and can be fetched with the standard Hugging Face CLI without any authentication token or special permission being mentioned. The download instruction also shows that all files inside the “original/” folder can be mirrored locally, implying the complete checkpoint is provided. A second line, “vllm serve openai/gpt-oss-120b,” demonstrates that once obtained the weights can be loaded directly in the vLLM inference server, further reinforcing public accessibility. No quote lists regional or user-tier restrictions, suggesting universal, free access.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can download the model weights from the Hugging Face Hub directly from Hugging Face CLI:\n```shell\n# gpt-oss-120b\nhuggingface-cli download openai/gpt-oss-120b --include \"original/*\" --local-dir gpt-oss-120b/\n```"
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve openai/gpt-oss-120b"
+    }
+  ],
+  "1-2 (Code)": "The only sentence that references code says: “To learn about how to use this model with PyTorch and Triton, check out our reference implementations in the gpt-oss repository.” From this we can infer that a public repository named “gpt-oss” contains example or reference implementations specifically targeting gpt-oss-120b. Although the quote does not explicitly separate pre-training, fine-tuning, or RL stages, it does confirm that at least inference (and possibly training) examples are available, written for PyTorch and supplemented by Triton kernels. No quote indicates that any portion of the training pipeline is withheld, but the wording “reference implementations” implies shared code for users to reproduce or adapt parts of the workflow.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "To learn about how to use this model with PyTorch and Triton, check out our reference implementations in the gpt-oss repository"
+    }
+  ],
+  "1-3 (License)": "Licensing is repeatedly identified as Apache 2.0. One sentence underscores the intent: “Permissive Apache 2.0 license: Build freely without copyleft restrictions or patent risk—ideal for experimentation, customization, and commercial deployment.” Another sentence cites the standard header text: “Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License.” The README fragment reiterates “license: apache-2.0” and shows the project tagged for text-generation with the Transformers library, while a final note confirms “LICENSE file present: LICENSE.” Collectively these quotes clarify that gpt-oss-120b is distributed under an unmodified Apache 2.0 license, granting users broad rights to use, modify, redistribute, and employ the model commercially provided they satisfy the usual notice and attribution clauses.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "* **Permissive Apache 2.0 license:** Build freely without copyleft restrictions or patent risk—ideal for experimentation, customization, and commercial deployment."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\");\n   you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: apache-2.0\npipeline_tag: text-generation\nlibrary_name: transformers\ntags:\n- vllm\n---\n\n<p align=\"center\">\n <img alt=\"gpt-oss-120b\" src=\"https://raw.githubusercontent.com/"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The single citation-style line provided—“@misc{openai2025gptoss120bgptoss20bmodel, title={gpt-oss-120b & gpt-oss-20b Model Card}”—indicates that an official model card or technical report exists and is dated (implicitly) 2025. The entry lists both gpt-oss-120b and the smaller gpt-oss-20b together, implying a shared documentation source. No link or venue is included in the quote, but the BibTeX-style reference confirms that a formal document describing the architecture, training, or usage considerations has been published for gpt-oss-120b.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "@misc{openai2025gptoss120bgptoss20bmodel,       title={gpt-oss-120b & gpt-oss-20b Model Card},"
+    }
+  ],
+  "1-5 (Architecture)": "The provided material gives several concrete facts about the architecture of the target model gpt-oss-120b. First, it explicitly calls the model “production, general-purpose, [for] high-reasoning use cases” and clarifies that it is designed to fit on a single 80 GB GPU such as an NVIDIA H100 or AMD MI300X. The size is stated as “117 B parameters with 5.1 B active parameters,” confirming that the model is a Mixture-of-Experts (MoE) system in which only a subset of weights (5.1 B) are active per token. Second, the quotes specify that the weights underwent “MXFP4 quantization,” which is a post-training 4-bit quantization scheme applied specifically to the MoE weights; this compression technique is the reason the full 117 B-parameter model can still execute on a single 80 GB card. Finally, the JSON snippet \"model_type\": \"gpt_oss\" confirms the internal configuration flag used to identify the architecture within tooling. Together, these statements establish that gpt-oss-120b is a 117-billion-parameter MoE transformer whose experts are stored in MXFP4, yielding 5.1 B active parameters at inference and enabling single-GPU deployment.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- `gpt-oss-120b` — for production, general purpose, high reasoning use cases that fit into a single 80GB GPU (like NVIDIA H100 or AMD MI300X) (117B parameters with 5.1B active parameters)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "* **MXFP4 quantization:** The models were post-trained with MXFP4 quantization of the MoE weights, making `gpt-oss-120b` run on a single 80GB GPU (like NVIDIA H100 or AMD MI300X) and the `gpt-oss-20b` model run within 16GB of memory."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"gpt_oss\","
+    }
+  ],
+  "1-6 (Tokenizer)": "No tokenizer details are disclosed for gpt-oss-120b in the supplied quotes.",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "Hardware guidance in the quotes centers on single-GPU operation. The text states that gpt-oss-120b “fit[s] into a single 80 GB GPU (like NVIDIA H100 or AMD MI300X).” It reiterates that “This larger model gpt-oss-120b can be fine-tuned on a single H100 node,” highlighting that full-parameter fine-tuning is feasible without multi-node clusters as long as a single H100 is available. By comparison, the same sentence notes that the 20 B variant can be fine-tuned on consumer hardware, underscoring that the 120 B version remains constrained to datacenter-class 80 GB accelerators. No multi-GPU or TPU information is given; the sole documented compute target is an 80 GB H100 or MI300X.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- `gpt-oss-120b` — for production, general purpose, high reasoning use cases that fit into a single 80GB GPU (like NVIDIA H100 or AMD MI300X) (117B parameters with 5.1B active parameters)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "This larger model `gpt-oss-120b` can be fine-tuned on a single H100 node, whereas the smaller [`gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) can even be fine-tuned on consumer hardware."
+    }
+  ],
+  "2-2 (Software)": "For the software stack, the quotes explicitly mention that users “can use gpt-oss-120b … with Transformers,” referring to the Hugging Face Transformers library. They additionally instruct readers to consult the “reference implementations in the gpt-oss repository” for details on “how to use this model with PyTorch and Triton.” Therefore, the documented training/inference ecosystem includes (1) Hugging Face Transformers as the high-level API, (2) PyTorch as the core deep-learning framework, and (3) Triton for optimized kernel execution. No specific version numbers or other libraries are supplied in the excerpt.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can use `gpt-oss-120b` and `gpt-oss-20b` with Transformers."
+    },
+    {
+      "source": "[readme]",
+      "quote": "To learn about how to use this model with PyTorch and Triton, check out our [reference implementations in the gpt-oss repository](https://github.com/openai/gpt-oss?tab=readme-ov-file#reference-pytorch-implementation)."
+    }
+  ],
+  "2-3 (API)": "The available material shows that open-source users can interact with the target model through two complementary, publicly described entry-points. First, the sentence “You can use `gpt-oss-120b` and `gpt-oss-20b` with Transformers. If you use the Transformers chat template, it will automatically apply the harmony response format” confirms that the model is directly loadable inside the Hugging Face Transformers ecosystem. Simply specifying the model name in a standard pipeline or chat template is enough; the library then attaches the prescribed Harmony response format without any additional user work, giving developers a drop-in, \"GPT-like\" experience. Second, the short line “vllm serve openai/gpt-oss-120b” demonstrates that the model can also be hosted through the vLLM serving stack. vLLM exposes an OpenAI-compatible HTTP endpoint, so the example implicitly tells users that one shell command will spin up a network service around gpt-oss-120b, again mimicking the familiar OpenAI API surface. Together these two snippets convey that the model is immediately usable either locally (via Transformers) or as a remotely accessible service (via vLLM) without needing bespoke wrappers, custom serialization, or manual response-formatting code.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "You can use `gpt-oss-120b` and `gpt-oss-20b` with Transformers. If you use the Transformers chat template, it will automatically apply the [harmony response format](https://github.com/openai/harmony)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve openai/gpt-oss-120b"
+    }
+  ],
+  "3-1 (Pre-training)": "The pre-training–era information emphasises three technical points. (1) Model scale and intent: “`gpt-oss-120b` — for production, general purpose, high reasoning use cases … (117B parameters with 5.1B active parameters).” This clarifies that although the model is branded “120 b”, its MoE architecture activates only 5.1 b parameters per forward pass, allowing large-model expressiveness while keeping compute per token moderate. (2) Hardware footprint: that same sentence plus the follow-on text about fitting “into a single 80 GB GPU (like NVIDIA H100 or AMD MI300X)” underline a key design goal—running real-world, high-quality reasoning workloads on one modern datacentre GPU instead of multi-node clusters. (3) Quantisation methodology: the line beginning “MXFP4 quantization: The models were post-trained with MXFP4 quantization of the MoE weights” explains how that single-GPU feasibility is achieved. By applying MXFP4 (a mixed-precision, 4-bit format) after core training, the developers shrink memory requirements for the MoE experts, unlocking single-card deployment for gpt-oss-120b and even 16 GB consumer-class operation for the sibling 20 b variant. Finally, the JSON fragment '\"model_type\": \"gpt_oss\"' records the formal identifier used inside config files, showing that the pre-training artefacts are packaged under the custom gpt_oss architecture stamp.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- `gpt-oss-120b` — for production, general purpose, high reasoning use cases that fit into a single 80GB GPU (like NVIDIA H100 or AMD MI300X) (117B parameters with 5.1B active parameters)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "**MXFP4 quantization:** The models were post-trained with MXFP4 quantization of the MoE weights, making `gpt-oss-120b` run on a single 80GB GPU (like NVIDIA H100 or AMD MI300X) and the `gpt-oss-20b` model run within 16GB of memory."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"gpt_oss\","
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning guidance is succinct yet clear. One quote states, “Both gpt-oss models can be fine-tuned for a variety of specialized use cases,” signalling that the authors encourage domain adaptation rather than prescribing a fixed, frozen checkpoint. The next sentence gives concrete hardware expectations: “This larger model `gpt-oss-120b` can be fine-tuned on a single H100 node, whereas the smaller `gpt-oss-20b` can even be fine-tuned on consumer hardware.” In practice, this means organisations with access to a single high-end datacentre GPU can run full-parameter or LoRA-style updates on the 120 b variant, while individual researchers or edge deployers with commodity cards can still adapt the smaller model. Although no learning-rate schedules, dataset sizes, or adapter techniques are explicitly listed, the quotes collectively establish that the checkpoints, tokenizer, and software stack expose all hooks necessary for supervised fine-tuning across a wide performance-to-cost spectrum.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Both gpt-oss models can be fine-tuned for a variety of specialized use cases."
+    },
+    {
+      "source": "[readme]",
+      "quote": "This larger model `gpt-oss-120b` can be fine-tuned on a single H100 node, whereas the smaller [`gpt-oss-20b`](https://huggingface.co/openai/gpt-oss-20b) can even be fine-tuned on consumer hardware."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The provided quotations contain no statements that mention RLHF, PPO, DPO, or any other reinforcement-learning procedure for `gpt-oss-120b`; therefore no RL-specific methodology, hyper-parameters, or reward models can be summarised.",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "No information is available in the provided quotes about the pre-training data for openai/gpt-oss-120b.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "No information is available in the provided quotes about the fine-tuning data for openai/gpt-oss-120b.",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "No information is available in the provided quotes about the reinforcement-learning data for openai/gpt-oss-120b.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "No information is available in the provided quotes about data-filtering procedures or criteria for openai/gpt-oss-120b.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "not_used"
+  }
+}
