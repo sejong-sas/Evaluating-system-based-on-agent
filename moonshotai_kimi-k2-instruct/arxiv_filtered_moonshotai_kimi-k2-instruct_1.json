@@ -1,0 +1,48 @@
+{
+  "1-1 (Weights)": "The documentation repeats several times that the weights for moonshotai/kimi-k2-instruct are publicly available. Specifically, the authors state: “We release our base and post-trained model checkpoints … to facilitate future research and applications of agentic intelligence.” They also say they are “open-sourcing our base and post-trained checkpoints, enabling the community to explore, refine, and deploy agentic intelligence at scale.” The model is explicitly described as “a 1T-parameter open-weight MoE model,” making clear that the complete parameter set (both the raw base model and the subsequent instruction/post-trained version) can be obtained. A direct download location is provided: “https://huggingface.co/moonshotai/Kimi-K2-Instruct”. No text hints at any gating, registration, or restricted license; every relevant sentence calls the checkpoints “open-source” or “open-weight,” implying that anyone can fetch them from the cited Hugging Face repository.",
+  "1-2 (Code)": "",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "All available references point to a single official write-up: “KIMI K2: OPEN AGENTIC INTELLIGENCE TECHNICAL REPORT OF KIMI K2,” also shortened to “Kimi K2 TECHNICAL REPORT.” The report claims to “introduce Kimi K2, a 1.04 trillion-parameter Mixture-of-Experts (MoE) LLM with 32 billion activated parameters, purposefully designed to address the core challenges and push the boundaries of agentic capability.” No other papers, conference proceedings, or blog posts are mentioned, so this technical report appears to be the canonical and sole public document describing the model.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "These results position Kimi K2 as one of the most capable open-source large language models to date, particularly in software engineering and agentic tasks. We release our base and post-trained model checkpoints1 to facilitate future research and applications of agentic intelligence."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "On the LMSYS Arena leaderboard (July 17, 2025)3, Kimi K2 ranks as the top 1 open-source model and 5th overall based on over 3,000 user votes. To spur further progress in Agentic Intelligence, we are open-sourcing our base and post-trained checkpoints, enabling the community to explore, refine, and deploy agentic intelligence at scale."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "We introduce Kimi K2, a Mixture-of-Experts (MoE) large language model with 32 billion activated parameters and 1 trillion total parameters. We release our base and post-trained model checkpoints1 to facilitate future research and applications of agentic intelligence."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "We introduced Kimi K2, a 1T-parameter open-weight MoE model built for agentic intelligence."
+    },
+    {
+      "source": "[figure_caption]",
+      "quote": "1https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+    }
+  ],
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "KIMI K2: OPEN AGENTIC INTELLIGENCE TECHNICAL REPORT OF KIMI K2"
+    },
+    {
+      "source": "[title]",
+      "quote": "KIMI K2: OPEN AGENTIC INTELLIGENCE TECHNICAL REPORT OF KIMI K2"
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "In this work, we introduce Kimi K2, a 1.04 trillion-parameter Mixture-of-Experts (MoE) LLM with 32 billion activated parameters, purposefully designed to address the core challenges and push the boundaries of agentic capability."
+    },
+    {
+      "source": "[title]",
+      "quote": "Kimi K2 TECHNICAL REPORT"
+    }
+  ]
+}

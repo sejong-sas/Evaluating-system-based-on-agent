@@ -1,0 +1,65 @@
+{
+  "1-1 (Weights)": "The provided statements make it clear that the Kimi K2 weights are openly released. The authors explicitly state, “We release our base and post-trained model checkpoints to facilitate future research and applications of agentic intelligence,” underscoring that both the original (base) model and the post-trained (instruction-tuned) variant are available. Kimi K2 is repeatedly described as an “open-weight” and “open-source” large language model, signalling that anyone can download and examine the parameters. Concretely, the release location is given as “https://huggingface.co/moonshotai/Kimi-K2-Instruct,” implying that Hugging Face hosts the checkpoints. Several sentences reinforce openness and public availability: the model is called “one of the most capable open-source large language models to date,” and it is highlighted that it “sets new state-of-the-art on agentic and reasoning benchmarks” while still being “open-weight.” Finally, its public nature is reflected in community evaluation: “Kimi-K2-Instruct ranked as the top open-source model and fifth overall on the LMSYS Arena leaderboard,” a ranking that presupposes public access for users to test the model.",
+  "1-2 (Code)": "The only direct reference to training-related code concerns the checkpoint engine used during reinforcement-learning fine-tuning. The authors note, “Our system can complete a full parameter update for Kimi K2 with less than 30 seconds … The source code for the checkpoint engine is available on Github.” This reveals (1) that at least one critical training component—the checkpoint engine—is open-sourced, and (2) that its public repository is hosted on GitHub (a precise link is not included in the quotation, but the existence of the public repo is explicitly affirmed). The remark also contextualises this code in the pipeline, indicating it is used during RL training iterations where rapid parameter updates are required. No other parts of the full training pipeline (data processing scripts, model configuration files, or fine-tuning schedules) are mentioned in the supplied excerpts, so this checkpoint-engine code is the only confirmed publicly released training artefact.",
+  "1-3 (License)": "",
+  "1-4 (Paper)": "Multiple excerpts identify an official technical report. The core citation appears twice: “Title: Kimi K2: Open Agentic Intelligence,” accompanied by the note “Comments: tech report of Kimi K2,” signalling that this document serves as the primary written description of the model. The phrase “Kimi K2 TECHNICAL REPORT” is repeated, reinforcing the existence of a dedicated report rather than a brief blog post. An additional bibliographic reference—“Kimi Team. ‘Kimi k1.5: Scaling reinforcement learning with llms’. In: arXiv preprint arXiv:2501.12599 (2025)”—indicates that the authors have a lineage of related work (the earlier Kimi k1.5 paper). Although that citation is for a previous version, it situates Kimi K2 within an evolving research programme focused on large-scale RL and agentic intelligence. Collectively, the quotes demonstrate that (a) there is a formal technical report titled “Kimi K2: Open Agentic Intelligence,” and (b) it is distinct from—but thematically connected to—earlier Kimi-series publications.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "These results position Kimi K2 as one of the most capable open-source large language models to date, particularly in software engineering and agentic tasks. We release our base and post-trained model checkpoints1 to facilitate future research and applications of agentic intelligence."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We introduced Kimi K2, a 1T-parameter open-weight MoE model built for agentic intelligence."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "1https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Kimi K2 sets new state-of-the-art on agentic and reasoning benchmarks, establishing itself as the most capable open-weight LLM to date."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Kimi-K2-Instruct ranked as the top open-source model and fifth overall on the LMSYS Arena leaderboard8, based on over 3,000 blind votes from real users."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our system can complete a full parameter update for Kimi K2 with less than 30 seconds, a negligible duration for a typical RL training iteration. The source code for the checkpoint engine is availible on Github4."
+    }
+  ],
+  "1-3 (License)__evidence": [],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: Kimi K2: Open Agentic Intelligence"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Comments: tech report of Kimi K2"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Kimi K2 TECHNICAL REPORT"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2507.20534]",
+      "quote": "Title: Kimi K2: Open Agentic Intelligence"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2507.20534]",
+      "quote": "Comments: tech report of Kimi K2"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[36] Kimi Team. “Kimi k1. 5: Scaling reinforcement learning with llms”. In: arXiv preprint arXiv:2501.12599 (2025)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Kimi K2\nTECHNICAL REPORT"
+    }
+  ]
+}

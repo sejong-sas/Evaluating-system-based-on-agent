@@ -1,0 +1,15 @@
+{
+  "4-1 (Pre-training Data)": "The quoted statement specifies that pre-training was carried out at very large scale: a Mixture-of-Experts architecture with 1 trillion parameters was exposed to a corpus containing 15.5 trillion tokens. The source stresses that the entire run completed \"with zero training instability,\" implying that the volume and composition of tokens were sufficient to sustain stable optimization throughout the pre-training phase.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Large-Scale Training: Pre-trained a 1T parameter MoE model on 15.5T tokens with zero training instability."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

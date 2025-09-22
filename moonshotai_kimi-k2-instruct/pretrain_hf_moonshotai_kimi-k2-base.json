@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Trained with the Muon optimizer, Kimi K2 achieves exceptional performance across frontier knowledge, reasoning, and coding tasks while being meticulously optimized for agentic capabilities.",
+  "pretrain_data": "Large-Scale Training: Pre-trained a 1T parameter MoE model on 15.5T tokens with zero training instability.",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "Trained with the Muon optimizer, Kimi K2 achieves exceptional performance across frontier knowledge, reasoning, and coding tasks while being meticulously optimized for agentic capabilities."
+    },
+    {
+      "source": "readme",
+      "quote": "Large-Scale Training: Pre-trained a 1T parameter MoE model on 15.5T tokens with zero training instability."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "2-3 (API)": "The only statement concerning public access is that \"We release our base and post-trained model checkpoints…\" for Kimi K2.  From the provided material there is no further reference to an on-line inference endpoint, REST/HTTP interface, usage examples, or formal developer documentation.  Therefore, the available information is limited to the fact that Kimi K2’s weights (both base and post-trained) are distributed for external use; no dedicated API is described.",
+  "3-1 (Pre-training)": "Kimi K2 is described as a 1-trillion-parameter Mixture-of-Experts transformer whose active routing selects 32 B parameters per token.  All quotes agree that it is pre-trained on 15.5 trillion \"high-quality\" tokens drawn from four curated domains: Web Text, Code, Mathematics, and Knowledge.  Training is performed with the token-efficient Muon optimizer and its MuonClip variant.  Concretely, MuonClip is run with τ = 100 while maximum attention logits are monitored to avoid instabilities.  The pre-training run processes 15.5 T tokens at a 4,096-token context window, uses weight-decay, consistent update RMS scaling, and the WSD learning-rate schedule.  Stability techniques include QK-Clip, which was active for the first 70 000 steps—12.7 % of attention heads triggered clipping and their Smax was limited to 100; after that point all heads self-reduced Smax so QK-Clip became inactive.  The authors emphasize that, with these measures, Kimi K2 achieved “zero loss spike” and stable large-scale training.",
+  "3-2 (Fine-tuning)": "After pre-training, Kimi K2 undergoes a multi-stage post-training pipeline that the authors explicitly intend to be reused for future fine-tuning.  All stages continue to rely on the Muon optimizer, as prior work shows Muon-pre-trained checkpoints fine-tune best with Muon.  The post-training regimen blends (1) large-scale agentic data synthesis—generating tool-use and task-oriented demonstrations—and (2) a joint reinforcement-learning phase.  The pipeline therefore produces ready-to-fine-tune checkpoints and the authors \"recommend\" Muon for any additional adaptation.",
+  "3-3 (Reinforcement Learning)": "Kimi K2 extends the reinforcement-learning framework introduced for K1.5.  The same policy-optimization algorithm is adopted, but RL is \"scaled\" in both task diversity and training FLOPs for K2.  A learning loop is described in which a K2 actor generates responses to broad prompts, after which training signals are applied.  Post-training features a unified RL stage that merges large-scale synthetic tool-use data with both verifiable reward signals and self-critic feedback.  To improve reward modeling, the team curates a mixture of open-source and in-house preference datasets so that K2 can act as a competent critic, initialized during an initial SFT step.  The principal challenge noted is to maintain consistent performance gains across all domains as this RL scaling proceeds.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[abstract]",
+      "quote": "We introduce Kimi K2, a Mixture-of-Experts (MoE) large language model with 32 billion activated parameters and 1 trillion total parameters. We release our base and post-trained model checkpoints1 to facilitate future research and applications of agentic intelligence."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The base model of Kimi K2 is a trillion-parameter mixture-of-experts (MoE) transformer [72] model, pre-trained on 15.5 trillion high-quality tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Kimi K2 using the token-efficient Muon optimizer [33], incorporating weight decay and consistent update RMS scaling [46]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Finally, we train Kimi K2, a large-scale MoE model, using MuonClip with τ = 100 and monitor the maximum attention logits throughout the training run (Figure 2 (Right))."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Pre-training Data Overall The Kimi K2 pre-training corpus comprises 15.5 trillion tokens of curated, high-quality data spanning four primary domains: Web Text, Code, Mathematics, and Knowledge."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "Based on MuonClip, K2 was pre-trained on 15.5 trillion tokens with zero loss spike."
+    },
+    {
+      "source": "[sections/2.1 MuonClip: Stable Training with Weight Clipping]",
+      "quote": "We train Kimi K2 using the token-efficient Muon optimizer [33], incorporating weight decay and consistent update RMS scaling [46]."
+    },
+    {
+      "source": "[sections/2.1 MuonClip: Stable Training with Weight Clipping]",
+      "quote": "Finally, we train Kimi K2, a large-scale MoE model, using MuonClip with τ = 100 and monitor the maximum attention logits throughout the training run (Figure 2 (Right))."
+    },
+    {
+      "source": "[sections/2.2 Pre-training Data: Improving Token Utility with Rephrasing]",
+      "quote": "The Kimi K2 pre-training corpus comprises 15.5 trillion tokens of curated, high-quality data spanning four primary domains: Web Text, Code, Mathematics, and Knowledge."
+    },
+    {
+      "source": "[sections/2.5 Training recipe]",
+      "quote": "We pre-trained the model with a 4,096-token context window using the MuonClip optimizer (Algorithm 1) and the WSD learning rate schedule [25], processing a total of 15.5T tokens."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "Leveraging the token-efficient MuonClip optimizer and a 15.5T-token high-quality dataset, Kimi K2 achieves stable, scalable pre-training."
+    },
+    {
+      "source": "[sections/D QK-Clip Does Not Impair Model Quality]",
+      "quote": "In Kimi K2, QK-Clip was only transiently active: • Initial 70000 steps: 12.7% of attention heads triggered QK-Clip for at least once, clamping Smax to 100. • Post-70000 steps: All heads at some point reduced their Smax below 100, rendering QK-Clip inactive."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We employ the Muon optimizer [33] in our post-training and recommend its use for fine-tuning with K2. This follows from the conclusion of our previous work [46] that a Muon-pre-trained checkpoint produces the best performance with Muon fine-tuning."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments."
+    },
+    {
+      "source": "[sections/3.1 Supervised Fine-Tuning]",
+      "quote": "We employ the Muon optimizer [33] in our post-training and recommend its use for fine-tuning with K2. This follows from the conclusion of our previous work [46] that a Muon-pre-trained checkpoint produces the best performance with Muon fine-tuning."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "Leveraging the token-efficient MuonClip optimizer and a 15.5T-token high-quality dataset, Kimi K2 achieves stable, scalable pre-training. Post-training combines large-scale synthetic tool-use data with a unified RL framework using both verifiable rewards and self-critic feedbacks."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Based on the work of K1.5 [35], we continue to scale RL in both task diversity and training FLOPs in K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the first core process of the learning loop, the K2 actor generates responses for general prompts that cover a wide range of use cases."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt the policy optimization algorithm introduced in K1.5 [35] as the foundation for K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As we scale RL training to encompass a broader range of tasks in K2, a primary challenge is achieving consistent performance improvements across all domains."
+    },
+    {
+      "source": "[abstract]",
+      "quote": "During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "We introduced Kimi K2, a 1T-parameter open-weight MoE model built for agentic intelligence. Post-training combines large-scale synthetic tool-use data with a unified RL framework using both verifiable rewards and self-critic feedbacks."
+    },
+    {
+      "source": "[sections/3.2 Reinforcement Learning]",
+      "quote": "Based on the work of K1.5 [35], we continue to scale RL in both task diversity and training FLOPs in K2."
+    },
+    {
+      "source": "[sections/3.2.2 Beyond Verification: Self-Critique Rubric Reward]",
+      "quote": "To bootstrap K2 as a competent judge, we curated a mixture of open-source and in-house preference datasets and initialize its critic capability in the SFT stage."
+    },
+    {
+      "source": "[sections/3.2.3 RL Algorithm]",
+      "quote": "We adopt the policy optimization algorithm introduced in K1.5 [35] as the foundation for K2."
+    },
+    {
+      "source": "[sections/Conclusions]",
+      "quote": "Leveraging the token-efficient MuonClip optimizer and a 15.5T-token high-quality dataset, Kimi K2 achieves stable, scalable pre-training. Post-training combines large-scale synthetic tool-use data with a unified RL framework using both verifiable rewards and self-critic feedbacks."
+    }
+  ]
+}

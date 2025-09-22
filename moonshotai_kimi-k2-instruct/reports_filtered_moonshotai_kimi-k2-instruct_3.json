@@ -1,0 +1,105 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The quotes outline an extensive pre-training regimen for Kimi K2.  The base is repeatedly described as “a trillion-parameter mixture-of-experts (MoE) transformer model,” emphasising that sparsity is set to 48, with only 8 of 384 experts activated in each forward pass.  Training was carried out on a cluster of NVIDIA H800 GPUs, and the engineering team adopted “a flexible strategy that allows Kimi K2 to be trained on any number of nodes that is a multiple of 32,” while also shrinking the expert-parallel (EP) size to overlap communication with computation after reducing attention heads to 64.  \n\nData scale is a recurring theme: every quoted line converges on the same figure—“15.5 trillion tokens.”  Those tokens come from a curated corpus that spans “Web Text, Code, Mathematics, and Knowledge,” and the authors stress “high-quality” curation as well as “a synthetic data generation strategy” that distinguishes K2’s corpus from that of Kimi K1.5.  \n\nSeveral optimisation techniques are highlighted.  The model was “pre-trained with a 4,096-token context window using the MuonClip optimizer and the WSD learning-rate schedule.”  MuonClip itself “integrates the token-efficient Muon algorithm with a stability-enhancing mechanism called QK-Clip,” leading to the claim that K2 was trained on the full 15.5 T tokens “without a single loss spike.”  Further detail on QK-Clip shows that during the “initial 70 000 steps, 12.7 % of attention heads triggered QK-Clip,” and after that point the mechanism became inactive once each head had lowered Smax below 100.  \n\nIn aggregate, the quotes paint a picture of stable, large-scale pre-training—“Leveraging the token-efficient MuonClip optimizer and a 15.5T-token high-quality dataset, Kimi K2 achieves stable, scalable pre-training.”",
+  "3-2 (Fine-tuning)": "For the fine-tuning and post-training phases, the team “employ[s] the Muon optimizer and recommend[s] its use for fine-tuning with K2.”  Fine-tuning begins with a supervised stage designed to “bootstrap K2 as a competent judge.”  To that end, they “curated a mixture of open-source and in-house preference datasets and initialize its critic capability in the SFT stage.”  \n\nAfter this supervised step, K2 proceeds through “a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline.”  Although the subsequent joint reinforcement-learning phase is discussed more fully in the RL section, the quote explicitly locates it within the overall fine-tuning/post-training pipeline, indicating that supervised fine-tuning, synthetic data generation, and RL are integrated parts of a single workflow geared toward refining the model’s judgment and task performance.",
+  "3-3 (Reinforcement Learning)": "Reinforcement learning is positioned as a core pillar of Kimi K2’s post-training.  One quote summarises the pipeline as “a multi-stage post-training process … and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments.”  The authors explicitly set their sights on scaling: “Based on the work of K1.5, we continue to scale RL in both task diversity and training FLOPs in K2,” underscoring that K2 inherits and extends earlier efforts.  \n\nThe technical foundation is the “policy optimization algorithm introduced in K1.5.”  For each task x, the method “sample[s] K responses {y1 … yk} from the previous policy πold, and optimize[s] the model πθ” with respect to that objective.  Multiple excerpts reiterate this approach, calling RL “better [in] token efficiency and generalization than SFT,” which justifies up-scaling its role.  \n\nOperationally, “the K2 actor generates responses for general prompts that cover a wide range of use cases,” suggesting an exploration loop that feeds data back into optimisation.  A citation—“Kimi K1.5: Scaling reinforcement learning with LLMs”—serves to situate the algorithmic lineage.  Overall, the quotes describe a large-scale, diversity-oriented RL stage, tightly coupled with supervised and synthetic-data steps, aimed at delivering broader generalisation and efficiency for Kimi K2.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Based on MuonClip, K2 was pre-trained on 15.5 trillion tokens with zero loss spike."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The base model of Kimi K2 is a trillion-parameter mixture-of-experts (MoE) transformer model, pre-trained on 15.5 trillion high-quality tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We pre-trained the model with a 4,096-token context window using the MuonClip optimizer (Algorithm 1) and the WSD learning rate schedule, processing a total of 15.5T tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The Kimi K2 pre-training corpus comprises 15.5 trillion tokens of curated, high-quality data spanning four primary domains: Web Text, Code, Mathematics, and Knowledge."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Leveraging the token-efficient MuonClip optimizer and a 15.5T-token high-quality dataset, Kimi K2 achieves stable, scalable pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The base model of Kimi K2 is a trillion-parameter mixture-of-experts (MoE) transformer [72] model, pre-trained on 15.5 trillion high-quality tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We present MuonClip, a novel optimizer that integrates the token-efficient Muon algorithm with a stability-enhancing mechanism called QK-Clip. Using MuonClip, we successfully pre-trained Kimi K2 on 15.5 trillion tokens without a single loss spike."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "A key advancement in the pre-training data of Kimi K2 over Kimi K1.5 is the introduction of a synthetic data generation strategy to increase token utility."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To balance model performance with cost, we adopt a sparsity of 48 for Kimi K2, activating 8 out of 384 experts per forward pass."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Kimi K2 was trained on a cluster equipped with NVIDIA H800 GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Instead of optimizing one parallelism strategy that’s only applicable under specific amount of resources, we pursue a flexible strategy that allows Kimi K2 to be trained on any number of nodes that is a multiple of 32."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Smaller EP size To ensure full computation-communication overlap during the 1F1B stage, the reduced attention computation time in K2 (which has 64 attention heads compared to 128 heads in DeepSeek-V3) necessitates minimizing the time of EP operations."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In Kimi K2, QK-Clip was only transiently active: • Initial 70000 steps: 12.7% of attention heads triggered QK-Clip for at least once, clamping Smax to 100. • Post-70000 steps: All heads at some point reduced their Smax below 100, rendering QK-Clip inactive."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We employ the Muon optimizer [34] in our post-training and recommend its use for fine-tuning with K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To bootstrap K2 as a competent judge, we curated a mixture of open-source and in-house preference datasets and initialize its critic capability in the SFT stage."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Based on the work of K1.5 [36], we continue to scale RL in both task diversity and training FLOPs in K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt the policy optimization algorithm introduced in K1.5 [36] as the foundation for K2. For each problem x, we sample K responses {y1, . . . , yk} from the previous policy πold, and optimize the model πθ with respect to the following objective:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement learning (RL) is believed to have better token efficiency and generalization than SFT. Based on the work of K1.5 [36], we continue to scale RL in both task diversity and training FLOPs in K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We adopt the policy optimization algorithm introduced in K1.5 [36] as the foundation for K2."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the first core process of the learning loop, the K2 actor generates responses for general prompts that cover a wide range of use cases."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[36] Kimi Team. “Kimi k1. 5: Scaling reinforcement learning with llms”. In: arXiv preprint arXiv:2501.12599 (2025)."
+    }
+  ]
+}
