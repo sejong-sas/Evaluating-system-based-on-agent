@@ -2,8 +2,8 @@
   "model": "meta-llama/Llama-3.3-70B-Instruct",
   "scores": {
     "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-2 Code": {
       "score": 0.0,
@@ -11,65 +11,65 @@
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+      "reason": "The Llama 3.3 Community License allows use, modification, redistribution and commercial use; the only extra restriction targets entities with >700 M MAU, which is treated as ‘open’ per rubric."
     },
     "1-4 Paper": {
-      "score": 0.5,
-      "reason": "An official Llama 3 technical report exists, but no separate peer-reviewed paper specific to the 3.3 refresh is cited – counted as Semi-Open."
+      "score": 1.0,
+      "reason": "An official provider-authored Llama 3 paper is referenced for further technical and safety details."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "\"Training utilized 39.3 M GPU-hours on H100-80 GB\" and table rows list counts (e.g., 2 040 GPUs / ‘up to 16 K H100s’), giving both type and quantity."
+      "reason": "Quotes reveal both type (H100-80 GB) and quantity/compute (39.3 M GPU-hours; table indicates 2 040 GPUs)."
     },
     "2-2 Software": {
-      "score": 0.5,
-      "reason": "Quote mentions “custom training libraries” on Meta’s cluster but no full stack or versions – partial disclosure only."
+      "score": 0.0,
+      "reason": "Only the generic phrase “custom training libraries … production infrastructure” is quoted—no concrete stack components or versions, so counts as closed."
     },
     "2-3 API": {
       "score": 1.0,
-      "reason": "Official API docs present in quotes: https://llama.developer.meta.com/join_waitlist, https://llama.developer.meta.com/join_waitlist  Web search found no official API docs."
+      "reason": "Official API docs in quotes: https://llama.developer.meta.com/join_waitlist, https://llama.developer.meta.com/join_waitlist  No qualifying official API docs via web search."
     },
     "3-1 Pre-training": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Some method details (tokens, cut-off date, GPU hours, GQA) are given, but not a fully reproducible recipe."
     },
     "3-2 Fine-tuning": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Sources (public instruction sets + 25 M synthetic) and objectives are described, but the full fine-tuning pipeline is not released."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+      "reason": "RLHF is confirmed, yet no full algorithmic or hyper-parameter description is supplied."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "High-level description (15 T multilingual, public web/code, Dec-2023 cutoff) is given, but not a source-by-source listing to rebuild the corpus."
+      "reason": "High-level source categories, size (15 T tokens) and language mix adjustments are disclosed, but not the complete dataset list or access links."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Lists human prompts, synthetic data, 25 M example size, etc., yet datasets are not fully released or enumerated."
+      "reason": "Mentions public instruction sets, human-annotated prompts and >25 M synthetic examples, but no full dataset release."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "States millions of human preference judgements and multi-turn comparisons, but no detailed dataset release."
+      "reason": "Processes and scale (multi-turn comparisons, millions of judgements) are outlined, yet the data itself is not shared."
     },
     "4-4 Data Filtering": {
       "score": 1.0,
-      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+      "reason": "Concrete multi-stage filtering pipeline is described: Llama/DistilRoBERTa classifiers, top-quartile RM threshold, model-as-judge 0/1 scoring, Instag difficulty, semantic dedup, etc.—meets ‘Open’ criteria."
     }
   },
   "included_scores": {
     "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-2 Code": {
       "score": 0.0,
@@ -77,62 +77,62 @@
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Recognized permissive license (e.g., MIT/Apache-2.0/BSD/MPL/CC0/CC-BY) in quotes."
+      "reason": "The Llama 3.3 Community License allows use, modification, redistribution and commercial use; the only extra restriction targets entities with >700 M MAU, which is treated as ‘open’ per rubric."
     },
     "1-4 Paper": {
-      "score": 0.5,
-      "reason": "An official Llama 3 technical report exists, but no separate peer-reviewed paper specific to the 3.3 refresh is cited – counted as Semi-Open."
+      "score": 1.0,
+      "reason": "An official provider-authored Llama 3 paper is referenced for further technical and safety details."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "\"Training utilized 39.3 M GPU-hours on H100-80 GB\" and table rows list counts (e.g., 2 040 GPUs / ‘up to 16 K H100s’), giving both type and quantity."
+      "reason": "Quotes reveal both type (H100-80 GB) and quantity/compute (39.3 M GPU-hours; table indicates 2 040 GPUs)."
     },
     "2-2 Software": {
-      "score": 0.5,
-      "reason": "Quote mentions “custom training libraries” on Meta’s cluster but no full stack or versions – partial disclosure only."
+      "score": 0.0,
+      "reason": "Only the generic phrase “custom training libraries … production infrastructure” is quoted—no concrete stack components or versions, so counts as closed."
     },
     "2-3 API": {
       "score": 1.0,
-      "reason": "Official API docs present in quotes: https://llama.developer.meta.com/join_waitlist, https://llama.developer.meta.com/join_waitlist  Web search found no official API docs."
+      "reason": "Official API docs in quotes: https://llama.developer.meta.com/join_waitlist, https://llama.developer.meta.com/join_waitlist  No qualifying official API docs via web search."
     },
     "3-1 Pre-training": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Some method details (tokens, cut-off date, GPU hours, GQA) are given, but not a fully reproducible recipe."
     },
     "3-2 Fine-tuning": {
-      "score": 0.0,
-      "reason": "No concrete method details in quotes."
+      "score": 0.5,
+      "reason": "Sources (public instruction sets + 25 M synthetic) and objectives are described, but the full fine-tuning pipeline is not released."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "Partial methodology disclosed (techniques/algorithms mentioned) but not fully reproducible."
+      "reason": "RLHF is confirmed, yet no full algorithmic or hyper-parameter description is supplied."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "High-level description (15 T multilingual, public web/code, Dec-2023 cutoff) is given, but not a source-by-source listing to rebuild the corpus."
+      "reason": "High-level source categories, size (15 T tokens) and language mix adjustments are disclosed, but not the complete dataset list or access links."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Lists human prompts, synthetic data, 25 M example size, etc., yet datasets are not fully released or enumerated."
+      "reason": "Mentions public instruction sets, human-annotated prompts and >25 M synthetic examples, but no full dataset release."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "States millions of human preference judgements and multi-turn comparisons, but no detailed dataset release."
+      "reason": "Processes and scale (multi-turn comparisons, millions of judgements) are outlined, yet the data itself is not shared."
     },
     "4-4 Data Filtering": {
       "score": 1.0,
-      "reason": "Filtering pipeline disclosed (multiple categories + thresholds/ratios and/or explicit stages or tools)."
+      "reason": "Concrete multi-stage filtering pipeline is described: Llama/DistilRoBERTa classifiers, top-quartile RM threshold, model-as-judge 0/1 scoring, Instag difficulty, semantic dedup, etc.—meets ‘Open’ criteria."
     }
   },
-  "final_score_10pt": 6.25,
+  "final_score_10pt": 6.875,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "used",
@@ -140,7 +140,7 @@
     },
     "excluded": [],
     "denominator": 16,
-    "raw_sum": 10.0,
+    "raw_sum": 11.0,
     "scale": "10/16",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false
