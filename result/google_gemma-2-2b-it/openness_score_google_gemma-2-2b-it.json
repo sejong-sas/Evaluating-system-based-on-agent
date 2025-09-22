@@ -1,138 +1,138 @@
 {
   "model": "google/gemma-2-2b-it",
   "scores": {
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
-    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
-      "score": 1.0,
-      "reason": "The model is under the “Gemma” licence, which Google explicitly lists among the open licences that allow use, modification, redistribution and commercial use with only minor policy restrictions."
+      "score": 0.5,
+      "reason": "The model is released under the custom “Gemma” terms-of-use that require click-through acceptance. Rights are granted but subject to additional policy restrictions, so at least one right is restricted beyond standard permissive OSS licenses."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report, “Gemma 2: Improving Open Language Models at a Practical Size,” describes this exact model family."
+      "reason": "Google-authored Gemma 2 technical report is publicly available and specifically describes the target model."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quotes give both type (TPUv5e) and quantity (2 × 16 × 16 = 512 chips, 512-way data replication, 1-way model sharding)."
+      "reason": "Quote states the 2 B model was trained on a 2 × 16 × 16 TPU-v5e mesh (512 chips) with 512-way data replication."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Training stack components beyond the base framework are named (JAX, ML Pathways, GSPMD partitioner, MegaScale XLA) but no precise versions/configs, so partial disclosure."
+      "reason": "Training stack lists JAX, ML Pathways, GSPMD partitioner, and MegaScale XLA, but versions/configs are not fully specified."
     },
     "2-3 API": {
       "score": 1.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/deprecations/serve-gemma-tpu-saxml, https://cloud.google.com/dataflow/docs/notebooks/run_inference_gemma, https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma"
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi, https://cloud.google.com/vertex-ai/docs/predictions/serve-gemma-with-saxml-tpu, https://cloud.google.com/dataflow/docs/notebooks/run_inference_gemma"
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Method details such as 2 T tokens, knowledge-distillation objective and teacher-student setup are given, but not enough to reproduce the full pipeline."
+      "reason": "Methodology (distillation vs. NTP, token count, teacher-student setup) is partially described but not to full reproducibility detail."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "The paper outlines control-token schema and SFT procedure, but omits full hyper-parameters and scripts."
+      "reason": "States use of SFT with control tokens and formatting schema, but lacks full hyper-parameters or dataset sizes."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "RLHF is described at a high level (reward model size, conversational focus), but not in reproducible detail."
+      "reason": "RLHF is reported with a larger reward model and reuse of prompts, but algorithmic and data specifics are only partly described."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources (web, code, science) and token counts are given, yet exact corpora, licences and proportions are not."
+      "reason": "Provides broad source categories and total tokens, but not concrete dataset lists or access instructions."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Lists data types and one named set (LMSYS-chat-1M prompts) but not full dataset inventory or sizes."
+      "reason": "Mentions mixing internal data with public LMSYS-chat-1M prompts; no sizes or full list disclosed."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "States that English preference data on the same prompts was used, but provides no dataset size or sourcing details."
+      "reason": "Notes English-only preference data based on SFT prompts, but gives no dataset size or release."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Describes multi-stage filtering for safety and PII with the Google Cloud Sensitive Data Protection Tool, but lacks concrete thresholds or removal ratios."
+      "reason": "Describes multi-stage safety, sensitive-data, and quality filtering, but without detailed pipeline or thresholds."
+    },
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     }
   },
   "included_scores": {
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
-    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
-      "score": 1.0,
-      "reason": "The model is under the “Gemma” licence, which Google explicitly lists among the open licences that allow use, modification, redistribution and commercial use with only minor policy restrictions."
+      "score": 0.5,
+      "reason": "The model is released under the custom “Gemma” terms-of-use that require click-through acceptance. Rights are granted but subject to additional policy restrictions, so at least one right is restricted beyond standard permissive OSS licenses."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report, “Gemma 2: Improving Open Language Models at a Practical Size,” describes this exact model family."
+      "reason": "Google-authored Gemma 2 technical report is publicly available and specifically describes the target model."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quotes give both type (TPUv5e) and quantity (2 × 16 × 16 = 512 chips, 512-way data replication, 1-way model sharding)."
+      "reason": "Quote states the 2 B model was trained on a 2 × 16 × 16 TPU-v5e mesh (512 chips) with 512-way data replication."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Training stack components beyond the base framework are named (JAX, ML Pathways, GSPMD partitioner, MegaScale XLA) but no precise versions/configs, so partial disclosure."
+      "reason": "Training stack lists JAX, ML Pathways, GSPMD partitioner, and MegaScale XLA, but versions/configs are not fully specified."
     },
     "2-3 API": {
       "score": 1.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/deprecations/serve-gemma-tpu-saxml, https://cloud.google.com/dataflow/docs/notebooks/run_inference_gemma, https://cloud.google.com/vertex-ai/generative-ai/docs/open-models/use-gemma"
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  Official API docs via web: https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-gemma-gpu-tgi, https://cloud.google.com/vertex-ai/docs/predictions/serve-gemma-with-saxml-tpu, https://cloud.google.com/dataflow/docs/notebooks/run_inference_gemma"
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Method details such as 2 T tokens, knowledge-distillation objective and teacher-student setup are given, but not enough to reproduce the full pipeline."
+      "reason": "Methodology (distillation vs. NTP, token count, teacher-student setup) is partially described but not to full reproducibility detail."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "The paper outlines control-token schema and SFT procedure, but omits full hyper-parameters and scripts."
+      "reason": "States use of SFT with control tokens and formatting schema, but lacks full hyper-parameters or dataset sizes."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "RLHF is described at a high level (reward model size, conversational focus), but not in reproducible detail."
+      "reason": "RLHF is reported with a larger reward model and reuse of prompts, but algorithmic and data specifics are only partly described."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources (web, code, science) and token counts are given, yet exact corpora, licences and proportions are not."
+      "reason": "Provides broad source categories and total tokens, but not concrete dataset lists or access instructions."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Lists data types and one named set (LMSYS-chat-1M prompts) but not full dataset inventory or sizes."
+      "reason": "Mentions mixing internal data with public LMSYS-chat-1M prompts; no sizes or full list disclosed."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "States that English preference data on the same prompts was used, but provides no dataset size or sourcing details."
+      "reason": "Notes English-only preference data based on SFT prompts, but gives no dataset size or release."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "Describes multi-stage filtering for safety and PII with the Google Cloud Sensitive Data Protection Tool, but lacks concrete thresholds or removal ratios."
+      "reason": "Describes multi-stage safety, sensitive-data, and quality filtering, but without detailed pipeline or thresholds."
+    },
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     }
   },
-  "final_score_10pt": 6.875,
+  "final_score_10pt": 6.562,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "used",
@@ -140,7 +140,7 @@
     },
     "excluded": [],
     "denominator": 16,
-    "raw_sum": 11.0,
+    "raw_sum": 10.5,
     "scale": "10/16",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false
