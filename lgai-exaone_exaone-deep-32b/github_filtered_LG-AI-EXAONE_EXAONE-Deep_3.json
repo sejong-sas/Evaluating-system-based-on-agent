@@ -1,0 +1,27 @@
+{
+  "2-3 (API)": "The quotes collectively document several concrete, command-line examples that show how the LG-AI-EXAONE/EXAONE-Deep model can be exposed through different serving frameworks, implying the existence of practical, user-accessible APIs. One snippet shows a vLLM invocation – \"vllm serve LGAI-EXAONE/EXAONE-Deep-7.8B\" – indicating that a vLLM HTTP (or WebSocket) server can be launched directly from the terminal with the model identifier \"LGAI-EXAONE/EXAONE-Deep-7.8B\". A second snippet, the JSON fragment \"\\\"model\\\": \\\"LGAI-EXAONE/EXAONE-Deep-7.8B\\\",\" reinforces that the same identifier is used when sending a request to such an endpoint. A third line, \"python -m sglang.launch_server --model-path LGAI-EXAONE/EXAONE-Deep-7.8B \\\", shows that the model can also be hosted through sglang’s built-in launch_server utility, again by pointing to the identical model path. Finally, the command \"ollama run exaone-deep:7.8b\" confirms that the model is packaged for the Ollama ecosystem, where a single command spins up an interactive or programmatic service. Taken together, these four examples demonstrate that the model is intended to be served via at least three distinct back-end stacks (vLLM, sglang, and Ollama), each of which would expose a network API or CLI interface for downstream applications. The consistency of the model string across all commands implies that the same pretrained weights are referenced no matter which server implementation is chosen, and that end-users can swap between hosting solutions without changing the logical model name.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "vllm serve LGAI-EXAONE/EXAONE-Deep-7.8B"
+    },
+    {
+      "source": "[readme]",
+      "quote": "\"model\": \"LGAI-EXAONE/EXAONE-Deep-7.8B\","
+    },
+    {
+      "source": "[readme]",
+      "quote": "python -m sglang.launch_server --model-path LGAI-EXAONE/EXAONE-Deep-7.8B \\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "ollama run exaone-deep:7.8b"
+    }
+  ],
+  "3-1 (Pre-training)": "No sentences referring to LG-AI-EXAONE/EXAONE-Deep’s pre-training data, pipeline, objectives, or hyper-parameters are present in the supplied quote set, so no summary of pre-training methodology can be produced from the provided material.",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "The quotation list contains no statements that mention any fine-tuning regimen, datasets, objectives, or procedures related to LG-AI-EXAONE/EXAONE-Deep, and therefore no information about fine-tuning can be summarized solely from the given excerpts.",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "There are no quotes that discuss reinforcement-learning-based alignment (e.g., RLHF, DPO) or any other RL procedure for LG-AI-EXAONE/EXAONE-Deep. Consequently, there is no content available to summarize for this category.",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

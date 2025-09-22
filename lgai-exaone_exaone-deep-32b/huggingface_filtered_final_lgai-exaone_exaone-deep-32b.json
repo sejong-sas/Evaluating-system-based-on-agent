@@ -1,0 +1,125 @@
+{
+  "1-1 (Weights)": "The repository that hosts lgai-exaone/exaone-deep-32b openly declares that it already \"contains the reasoning 32B language model with the following features:\".  In addition to the full-precision checkpoint, the maintainers also write, \"We provide the pre-quantized EXAONE Deep models with **AWQ** and several quantization types in **GGUF** format.\"  Taken together, the two sentences show (a) that the 32-billion-parameter weights are present inside the public repository and (b) that several ready-made, AWQ-style, GGUF-packaged variants are likewise offered, giving users multiple formats in which to obtain the weights.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the reasoning 32B language model with the following features:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "We provide the pre-quantized EXAONE Deep models with **AWQ** and several quantization types in **GGUF** format."
+    }
+  ],
+  "1-2 (Code)": "The only code path mentioned for lgai-exaone/exaone-deep-32b concerns inference: \"Please refer to our [EXAONE Deep GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep) for more details about the inference frameworks.\"  No sentence refers to pre-training, fine-tuning, or reinforcement-learning code, so the public component is limited to inference/serving examples and utilities.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Please refer to our [EXAONE Deep GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep) for more details about the inference frameworks."
+    }
+  ],
+  "1-3 (License)": "Licensing is governed by \"EXAONE AI Model License Agreement 1.1 - NC\" (Non-Commercial).  The LICENSE file states: \"This License Agreement (“Agreement”) is entered into between you (“Licensee”) and LG Management Development Institute Co., Ltd. (“Licensor”), governing the use of the EXAONE AI Model (“Model”). By downloading, installing, copying, or using the Model, you agree to comply with and be bound by the terms of this Agreement.\"  Key obligations include the naming requirement—\"If the Model is modified, the modified Model must include “EXAONE” at the beginning of its name.\"—and the scope of allowed activity, which is restricted to \"cademic research, experimentation, and participation in competitions, provided that such participation is in a non-commercial context,\" with a special note that \"the Licensee may only provide the Model or Derivatives for a competition\".  A pointer to the actual text is given by \"LICENSE file present: LICENSE\".",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The model is licensed under [EXAONE AI Model License Agreement 1.1 - NC](./LICENSE)"
+    },
+    {
+      "source": "[license_file]",
+      "quote": "This License Agreement (“Agreement”) is entered into between you (“Licensee”) and LG Management Development Institute Co., Ltd. (“Licensor”), governing the use of the EXAONE AI Model (“Model”). By downloading, installing, copying, or using the Model, you agree to comply with and be bound by the terms of this Agreement."
+    },
+    {
+      "source": "[license_file]",
+      "quote": "If the Model is modified, the modified Model must include “EXAONE” at the beginning of its name."
+    },
+    {
+      "source": "[readme]",
+      "quote": "cademic research, experimentation, and participation in competitions, provided \n that such participation is in a non-commercial context. Notwithstanding Section 3.1, the Licensee may \n only provide the Model or Derivatives for a competition"
+    },
+    {
+      "source": "[files]",
+      "quote": "LICENSE file present: LICENSE"
+    }
+  ],
+  "1-4 (Paper)": "The maintainers give three official reference sources: \"For more details, please refer to our [documentation](https://arxiv.org/abs/2503.12524), [blog](https://www.lgresearch.ai/news/view?seq=543) and [GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep).\"  The paper itself is titled \"EXAONE Deep: Reasoning Enhanced Language Models,\" signalling that an arXiv preprint, a blog post, and the accompanying GitHub repository together serve as the formal technical disclosure for lgai-exaone/exaone-deep-32b.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For more details, please refer to our [documentation](https://arxiv.org/abs/2503.12524), [blog](https://www.lgresearch.ai/news/view?seq=543) and [GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "title={EXAONE Deep: Reasoning Enhanced Language Models},"
+    }
+  ],
+  "1-5 (Architecture)": "For the lgai-exaone/exaone-deep-32b model the only architecture‐level details available in the supplied material come from a single description that explicitly mentions the target model. According to that passage, the model is described as a “reasoning 32B language model.” Concretely, it is built with 30.95 billion trainable parameters when embeddings are excluded. The transformer stack is 64 layers deep. Attention uses a grouped-query arrangement in which each layer has 40 query heads paired with 8 key/value heads, indicating a GQA (Grouped-Query Attention) configuration. The vocabulary is fixed at 102 400 tokens, and the maximum context window that the architecture can attend over is 32 768 tokens. No further information about hidden-state dimensionality, MLP expansion factor, rotary or positional embeddings, activation functions, or other architectural hyperparameters is provided in the quotations.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the reasoning 32B language model with the following features:\n\n- Number of Parameters (without embeddings): 30.95B\n- Number of Layers: 64\n- Number of Attention Heads: GQA with 40 Q-heads and 8 KV-heads\n- Vocab Size: 102,400\n- Context Length: 32,768 tokens"
+    }
+  ],
+  "1-6 (Tokenizer)": "Only two tokenizer-relevant facts are given for lgai-exaone/exaone-deep-32b: (1) the tokenizer supports a vocabulary of exactly 102 400 discrete tokens, and (2) sequence lengths of up to 32 768 tokens are accommodated. The excerpt does not state the tokenization algorithm (e.g., BPE, Unigram, WordPiece), whether it is case-sensitive, nor whether the tokenizer files are released for download. No additional information about special tokens, byte-fallback behavior, or pre-tokenization rules is present in the provided quotes.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains the reasoning 32B language model with the following features:\n\n- Number of Parameters (without embeddings): 30.95B\n- Number of Layers: 64\n- Number of Attention Heads: GQA with 40 Q-heads and 8 KV-heads\n- Vocab Size: 102,400\n- Context Length: 32,768 tokens"
+    }
+  ],
+  "2-1 (Hardware)": "The provided quotations contain no references to the type, quantity, or configuration of compute hardware (GPUs, TPUs, CPU clusters, number of accelerator hours, or total FLOP budget) used to train lgai-exaone/exaone-deep-32b.",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The cited material gives no information about the software environment used to train lgai-exaone/exaone-deep-32b—there are no mentions of deep-learning frameworks, library versions, optimization settings, or training-time flags in the supplied quotes.",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The available information for lgai-exaone/exaone-deep-32b indicates that \"EXAONE Deep models can be inferred in the various frameworks, such as:\" and users are told to \"Please refer to our [EXAONE Deep GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep) for more details about the inference frameworks.\"  Taken together, these quotes establish that (1) an externally-accessible inference path exists, (2) multiple, unnamed frameworks are officially supported for running the model, and (3) the central, public resource for all technical specifics, examples, and documentation is the EXAONE-Deep GitHub repository. No other programmatic or endpoint-level details are provided in the quoted material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "EXAONE Deep models can be inferred in the various frameworks, such as:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Please refer to our [EXAONE Deep GitHub](https://github.com/LG-AI-EXAONE/EXAONE-Deep) for more details about the inference frameworks."
+    }
+  ],
+  "3-1 (Pre-training)": "The sole pre-training reference says: \"The EXAONE Deep models are trained with an optimized configuration,\" which confirms that exaone-deep-32b underwent a pre-training phase expressly tuned for efficiency or performance. Beyond the fact that an \"optimized configuration\" was employed, no additional procedural steps, data composition, or hyper-parameter values are disclosed in the provided quote.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The EXAONE Deep models are trained with an optimized configuration,"
+    }
+  ],
+  "3-2 (Fine-tuning)": "Fine-tuning information is limited to two lines: \"base_model: LGAI-EXAONE/EXAONE-3.5-32B-Instruct\" and \"base_model_relation: finetune\". These statements show that exaone-deep-32b is a derivative of the 32-billion-parameter \"EXAONE-3.5-32B-Instruct\" checkpoint and that the relationship between the two is explicitly tagged as a fine-tune. No details regarding objectives, datasets, or training schedules are included beyond this structural linkage.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "base_model: LGAI-EXAONE/EXAONE-3.5-32B-Instruct"
+    },
+    {
+      "source": "[readme]",
+      "quote": "base_model_relation: finetune"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "No information about RLHF, PPO, DPO, or any other reinforcement-learning-based post-training is present in the supplied quotes.",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "The only explicit fine-tuning information for lgai-exaone/exaone-deep-32b comes from the statement: “base_model: LGAI-EXAONE/EXAONE-3.5-32B-Instruct” with the accompanying tag “base_model_relation: finetune.”  This establishes that the 32-billion-parameter EXAONE-3.5-32B-Instruct checkpoint is the direct parent of the target release and that the current model was produced by further fine-tuning that base.  No additional details on the composition, sourcing, or public availability of the fine-tuning dataset are provided in the available material.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "base_model: LGAI-EXAONE/EXAONE-3.5-32B-Instruct\nbase_model_relation: finetune"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The data-filtering description for lgai-exaone/exaone-deep-32b is limited to the single note that the team “made every effort to exclude personal, harmful, and biased information from the training data,” while conceding that “some problematic content may still be included.”  This conveys that a filtering pass was performed to remove personal data and mitigate harmful or biased material, yet acknowledges that the process is imperfect.  No numerical thresholds, specific tools, classifier names, or percentage-of-data-removed figures are disclosed.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The EXAONE language model has certain limitations and may occasionally generate inappropriate responses. While we have made every effort to exclude personal, harmful, and biased information from the training data, some problematic content may still be included, potentially leading to undesirable responses."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "not_used"
+  }
+}
