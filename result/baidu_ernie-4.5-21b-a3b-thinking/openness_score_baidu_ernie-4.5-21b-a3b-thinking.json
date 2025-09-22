@@ -11,11 +11,11 @@
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Distributed under Apache-2.0 which permits use, modification, redistribution and commercial use."
+      "reason": "Model is distributed under Apache-2.0, which allows use, modification, redistribution and commercial use."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "An official provider-authored “ERNIE 4.5 Technical Report” is referenced for citation."
+      "reason": "The README cites an official “ERNIE 4.5 Technical Report,” i.e., a provider-authored technical paper about this model."
     },
     "1-5 Architecture": {
       "score": 1.0,
@@ -27,43 +27,43 @@
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quote states training used “2016 NVIDIA H800 GPUs,” giving both type and quantity."
+      "reason": "Quote gives both type and quantity: “on 2016 NVIDIA H800 GPUs.”"
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Quotes list parallelism scheme (expert, pipeline, ZeRO-1), FP8, recomputation, but do not enumerate the full software stack with versions ⇒ partial disclosure."
+      "reason": "Training stack partially described: FP8 mixed precision, ZeRO-1, expert/pipeline/tensor parallelism, heterogeneous hybrid strategy, but not a full reproducible list with versions."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://yiyan.baidu.com/, https://cloud.baidu.com/product/ernie, https://github.com/PaddlePaddle/ERNIE. Baidu's ERNIE Bot 4.5 series, including the 21B-A3B-Thinking model, is accessible via the official ERNIE Bot website and Baidu AI Cloud's Qianfan platform, offering API access for developers. Major version matched."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Multi-stage strategy, parallelism and FP8 optimisation are explained, but objectives, schedules and full pipeline are not fully reproducible."
+      "reason": "Multi-stage MoE pre-training strategy, parallelism scheme and FP8 usage are described, but not enough for complete reproducibility."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "SFT process, topical taxonomy and FlashMask use are outlined, yet complete hyper-parameters/schedules are missing."
+      "reason": "SFT process, topical-domain taxonomy and FP8-QAT fine-tuning are sketched, but full recipe/configs are absent."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "PPO/UPO recipe and reward-model origin are given, but not enough detail for full reproduction."
+      "reason": "States that PPO-based RL (UPO/GRPO) with a three-stage schedule is used, but lacks full hyper-parameter detail."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources (web pages, papers, images, video, synthetic) are listed, but no sizes or proportions."
+      "reason": "High-level source list (web pages, papers, images, videos, synthetic) but no released corpora or exact manifest."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Ten topical domains are described; datasets and sizes are not."
+      "reason": "Lists ten topical domains for SFT, yet no concrete datasets or downloads are given."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "Mentions ‘logic corpora’ and unified rewarding system, but no concrete corpus breakdown."
+      "reason": "Mentions logic corpora and unified rewarding system, but provides no dataset release."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "States that ‘comprehensive data-filtering pipelines’ and over-long filtering are used, yet gives no algorithmic detail or thresholds."
+      "reason": "References “comprehensive data-filtering pipelines” and techniques like dynamic sampling and over-long filtering, but omits thresholds or step-by-step specifics necessary for full reproduction."
     }
   },
   "included_scores": {
@@ -77,11 +77,11 @@
     },
     "1-3 License": {
       "score": 1.0,
-      "reason": "Distributed under Apache-2.0 which permits use, modification, redistribution and commercial use."
+      "reason": "Model is distributed under Apache-2.0, which allows use, modification, redistribution and commercial use."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "An official provider-authored “ERNIE 4.5 Technical Report” is referenced for citation."
+      "reason": "The README cites an official “ERNIE 4.5 Technical Report,” i.e., a provider-authored technical paper about this model."
     },
     "1-5 Architecture": {
       "score": 1.0,
@@ -93,46 +93,46 @@
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quote states training used “2016 NVIDIA H800 GPUs,” giving both type and quantity."
+      "reason": "Quote gives both type and quantity: “on 2016 NVIDIA H800 GPUs.”"
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Quotes list parallelism scheme (expert, pipeline, ZeRO-1), FP8, recomputation, but do not enumerate the full software stack with versions ⇒ partial disclosure."
+      "reason": "Training stack partially described: FP8 mixed precision, ZeRO-1, expert/pipeline/tensor parallelism, heterogeneous hybrid strategy, but not a full reproducible list with versions."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://yiyan.baidu.com/, https://cloud.baidu.com/product/ernie, https://github.com/PaddlePaddle/ERNIE. Baidu's ERNIE Bot 4.5 series, including the 21B-A3B-Thinking model, is accessible via the official ERNIE Bot website and Baidu AI Cloud's Qianfan platform, offering API access for developers. Major version matched."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Multi-stage strategy, parallelism and FP8 optimisation are explained, but objectives, schedules and full pipeline are not fully reproducible."
+      "reason": "Multi-stage MoE pre-training strategy, parallelism scheme and FP8 usage are described, but not enough for complete reproducibility."
     },
     "3-2 Fine-tuning": {
       "score": 0.5,
-      "reason": "SFT process, topical taxonomy and FlashMask use are outlined, yet complete hyper-parameters/schedules are missing."
+      "reason": "SFT process, topical-domain taxonomy and FP8-QAT fine-tuning are sketched, but full recipe/configs are absent."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.5,
-      "reason": "PPO/UPO recipe and reward-model origin are given, but not enough detail for full reproduction."
+      "reason": "States that PPO-based RL (UPO/GRPO) with a three-stage schedule is used, but lacks full hyper-parameter detail."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources (web pages, papers, images, video, synthetic) are listed, but no sizes or proportions."
+      "reason": "High-level source list (web pages, papers, images, videos, synthetic) but no released corpora or exact manifest."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.5,
-      "reason": "Ten topical domains are described; datasets and sizes are not."
+      "reason": "Lists ten topical domains for SFT, yet no concrete datasets or downloads are given."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.5,
-      "reason": "Mentions ‘logic corpora’ and unified rewarding system, but no concrete corpus breakdown."
+      "reason": "Mentions logic corpora and unified rewarding system, but provides no dataset release."
     },
     "4-4 Data Filtering": {
       "score": 0.5,
-      "reason": "States that ‘comprehensive data-filtering pipelines’ and over-long filtering are used, yet gives no algorithmic detail or thresholds."
+      "reason": "References “comprehensive data-filtering pipelines” and techniques like dynamic sampling and over-long filtering, but omits thresholds or step-by-step specifics necessary for full reproduction."
     }
   },
-  "final_score_10pt": 6.25,
+  "final_score_10pt": 6.875,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "used",
@@ -140,7 +140,7 @@
     },
     "excluded": [],
     "denominator": 16,
-    "raw_sum": 10.0,
+    "raw_sum": 11.0,
     "scale": "10/16",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false
