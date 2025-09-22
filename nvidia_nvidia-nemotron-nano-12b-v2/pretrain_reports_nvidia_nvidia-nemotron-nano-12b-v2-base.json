@@ -1,0 +1,19 @@
+{
+  "model_id": "nvidia/NVIDIA-Nemotron-Nano-12B-v2-Base",
+  "pretrain_method": "The pre-training method involves creating Nemotron-Nano-9B-v2 by initially pre-training a larger base model, Nemotron-Nano-12B-v2-Base. This base model, which contains 12 billion parameters, is pre-trained on 20 trillion tokens using an FP8 training recipe.",
+  "pretrain_data": "The pre-training utilizes 20 trillion tokens.",
+  "__evidence": {
+    "3-1 (Pre-training)": [
+      {
+        "source": "art1",
+        "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+      }
+    ],
+    "4-1 (Pre-training Data)": [
+      {
+        "source": "art1",
+        "quote": "on 20 trillion tokens"
+      }
+    ]
+  }
+}

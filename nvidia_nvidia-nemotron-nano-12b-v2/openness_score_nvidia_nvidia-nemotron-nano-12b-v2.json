@@ -1,0 +1,148 @@
+{
+  "model": "nvidia/NVIDIA-Nemotron-Nano-12B-v2",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The weights are under the NVIDIA Open Model License, which the rubric lists as an 'Open' license granting the four core rights."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official provider-authored technical report (“NVIDIA Nemotron Nano 2…”, arXiv 2508.14444) specifically about this model is publicly available."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote: “A single training run takes about 40 hours using 1024 NVIDIA H100 GPUs.” – both type and quantity are given."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes list Megatron-LM, Transformer Engine, FP8 recipe, parallelism configs, but do not enumerate the complete software stack (data loaders, versions for all libs)."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://docs.nvidia.com/nim/vision-language-models/1.3.0/examples/llama-nemotron-nano/api.html, https://docs.nvidia.com/nim/reference/nvidia-llama-3_1-nemotron-nano-vl-8b-v1, https://docs.nvidia.com/nim/reference/nvidia-cosmos-nemotron-34b. NVIDIA provides official API documentation for the Nemotron Nano 12B model family, including pretraining and fine-tuning recipes, as well as deployment instructions."
+    },
+    "3-1 Pre-training": {
+      "score": 1.0,
+      "reason": "Reproducible details given: 20 T tokens, batch 768, seq-len 8192, FP8, WSD LR schedule, LR values, long-context CPT phase, etc."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Multi-stage SFT pipeline is described (three SFT passes, targeted SFT) but without full hyper-parameter/config specifics."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Techniques (GRPO, DPO, RLHF) and on-policy data loop are explained, but full reproducible configs are not provided."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources, composition, and a >6 T-token released subset (Nemotron-Pre-Training-Dataset-v1) are described, but the complete 20 T-token corpus is not fully released."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Some post-training data (Nemotron-Post-Training-Dataset-v2) is released, but the quotes do not confirm that the full 90 B-token corpus is publicly downloadable."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Nemotron-Post-Training-Dataset-v2 is said to include RL data, yet the full preference dataset and links are not provided in the quotes."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Quotes outline a multi-step pipeline: HTML-to-text extraction, language filtering, exact & MinHash LSH deduplication, ensemble quality classifiers (five buckets), heuristic & perplexity filters, FineMath classifier for math subset – satisfying the requirement of ≥ 2 named techniques plus specific pipeline details."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "The weights are under the NVIDIA Open Model License, which the rubric lists as an 'Open' license granting the four core rights."
+    },
+    "1-4 Paper": {
+      "score": 1.0,
+      "reason": "An official provider-authored technical report (“NVIDIA Nemotron Nano 2…”, arXiv 2508.14444) specifically about this model is publicly available."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 1.0,
+      "reason": "Quote: “A single training run takes about 40 hours using 1024 NVIDIA H100 GPUs.” – both type and quantity are given."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes list Megatron-LM, Transformer Engine, FP8 recipe, parallelism configs, but do not enumerate the complete software stack (data loaders, versions for all libs)."
+    },
+    "2-3 API": {
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://docs.nvidia.com/nim/vision-language-models/1.3.0/examples/llama-nemotron-nano/api.html, https://docs.nvidia.com/nim/reference/nvidia-llama-3_1-nemotron-nano-vl-8b-v1, https://docs.nvidia.com/nim/reference/nvidia-cosmos-nemotron-34b. NVIDIA provides official API documentation for the Nemotron Nano 12B model family, including pretraining and fine-tuning recipes, as well as deployment instructions."
+    },
+    "3-1 Pre-training": {
+      "score": 1.0,
+      "reason": "Reproducible details given: 20 T tokens, batch 768, seq-len 8192, FP8, WSD LR schedule, LR values, long-context CPT phase, etc."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.5,
+      "reason": "Multi-stage SFT pipeline is described (three SFT passes, targeted SFT) but without full hyper-parameter/config specifics."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.5,
+      "reason": "Techniques (GRPO, DPO, RLHF) and on-policy data loop are explained, but full reproducible configs are not provided."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Sources, composition, and a >6 T-token released subset (Nemotron-Pre-Training-Dataset-v1) are described, but the complete 20 T-token corpus is not fully released."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.5,
+      "reason": "Some post-training data (Nemotron-Post-Training-Dataset-v2) is released, but the quotes do not confirm that the full 90 B-token corpus is publicly downloadable."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.5,
+      "reason": "Nemotron-Post-Training-Dataset-v2 is said to include RL data, yet the full preference dataset and links are not provided in the quotes."
+    },
+    "4-4 Data Filtering": {
+      "score": 1.0,
+      "reason": "Quotes outline a multi-step pipeline: HTML-to-text extraction, language filtering, exact & MinHash LSH deduplication, ensemble quality classifiers (five buckets), heuristic & perplexity filters, FineMath classifier for math subset – satisfying the requirement of ≥ 2 named techniques plus specific pipeline details."
+    }
+  },
+  "final_score_10pt": 7.5,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "used"
+    },
+    "excluded": [],
+    "denominator": 16,
+    "raw_sum": 12.0,
+    "scale": "10/16",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}

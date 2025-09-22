@@ -1,0 +1,126 @@
+{
+  "1-5 (Architecture)": "Nemotron-Nano-12B-v2-Base is described as a hybrid “Mamba-Transformer” model. The network contains 62 total layers that are explicitly partitioned into 6 self-attention layers, 28 feed-forward (FFN) layers, and 28 Mamba-2 sequence-modeling layers. Hidden size is 5,120, the FFN expansion is 20,480, and attention uses Grouped-Query Attention with 40 query heads and 8 key-value heads. Table 1 of the source document aggregates these hyper-parameters.  A long-context design goal is reflected in training on sequences up to 8,192 tokens in the main run, and—in a special long-context (LC) phase—up to 512 k tokens using 8-way tensor model parallelism plus 16-way context parallelism.  For memory footprint, authors note that the raw bfloat16 weights of a 12-B-parameter model occupy 22.9 GiB, already exceeding the 22 GiB of an NVIDIA A10G, motivating architectural compression.  The compression / distillation search space for the follow-on “Nano 2” variant removes 6–10 of the original 62 layers and prunes width: embedding channels to 4,480–5,120, FFN dimension to 13,440–20,480, and Mamba heads to 112–128, while targeting 128 k-token inference on A10G.  Training configuration details supplied in the same section report a 20-trillion-token horizon, a sequence length of 8,192, and a global batch size of 768 (≈6.0 M tokens/batch).  A separate sentence highlights “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model,” reinforcing the hybrid nature of the architecture.  (A Megatron-Core throughput table for the unrelated Nemotron-4-340B is also provided but offers no additional structural specifics for the 12 B model.)",
+  "1-6 (Tokenizer)": "The model family is trained with a 256 K-token vocabulary built using the SentencePiece algorithm. The underlying pre-training corpus (also used for Nemotron-4) is roughly 70 % English natural-language text, 15 % non-English text, and 15 % source code.",
+  "2-1 (Hardware)": "During long-context pre-training, Nemotron-Nano-12B-v2-Base is run with 8-way tensor model parallelism and 16-way context parallelism to keep 512 k-token sequences resident in GPU memory.  A separate experiment reports training a related Mamba-2-Hybrid model on 1,024 NVIDIA H100 GPUs (tensor-parallel size = 4, data-parallel size = 256) and achieving 29.9 % model-flop-utilization (MFU).  More broadly, NVIDIA H100 Tensor Core GPUs and NVIDIA InfiniBand with SHARP are cited; the latter improves BF16 reduction robustness via higher-precision intermediate additions.  Multi-datacenter scaling is evidenced by a Nemotron-4-340B run that used 3,072 NVIDIA GPUs in a single datacenter.  Additional comments point out that NVIDIA GPUs can boost core-clock frequency by lowering off-chip memory clock, indicating hardware-level tuning options.",
+  "2-2 (Software)": "Pre-training of Nemotron-Nano-12B-v2-Base (and the derivative 9 B model) uses an FP8 recipe: weights are stored natively in E4M3 FP8 so that distributed-optimizer all-gather operations across data-parallel replicas can also run in FP8, while master copies stay in FP32.  Training covers 20 T tokens and applies a Warmup-Stable-Decay (WSD) schedule whose stable learning rate is 4.5 × 10⁻⁴, decaying to 4.5 × 10⁻⁶ over the final 3.6 T tokens.  The implementation stack is the NVIDIA NeMo framework (v25.02) together with Megatron-Core (v0.11.0), a lightweight PyTorch-based library exposing modular, GPU-optimized APIs for large-scale transformer training.  Recent Megatron-Core / NeMo releases add features such as adaptive resource orchestration, Hierarchical AllReduce, distributed optimizer architecture, chunked inter-datacenter communication, and built-in support for the NVIDIA Nsight Systems profiler.  These components enable multi-datacenter LLM training and are the same libraries used for other Nemotron family models.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. Concretely, we use 62 layers, with 6 of them being self-attention layers, 28 being FFN, and 28 being Mamba-2 layers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. We use a hidden dimension of 5120, FFN hidden dimension of 20480, and Grouped-Query Attention (Ainslie et al., 2023) with 40 query heads and 8 key-value heads."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1 | Summary of Nemotron-Nano-12B-v2-Base architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this section, we describe the pruning and distillation process to compress the aligned 12B model to the Nano 2 model with the goal of running longer context (128k sequence length) inference on the NVIDIA A10G GPU. Our search space includes depth reduction (removing 6-10 layers from the original 62-layer architecture) combined with width pruning of embedding channels (4480-5120), FFN dimension (13440-20480), and Mamba heads (112-128)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Note that storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB, which is more than the 22 GiB memory capacity of an A10G GPU; this clearly indicates the need for compression."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. We use 62 layers, with 6 of them being self-attention layers, 28 being FFN, and 28 being Mamba-2 layers. We use a hidden dimension of 5120, FFN hidden dimension of 20480, and Grouped-Query Attention (Ainslie et al., 2023) with 40 query heads and 8 key-value heads."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens. We used a sequence length of 8192 and global batch size of 768 (6,029,312 tokens per batch)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training. We used 8-way tensor model parallelism and 16-way context parallelism to ensure training with sequence lengths of 512k tokens still fits in GPU memory."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "Table 2 shows per-GPU throughput of Megatron-Core on the Nemotron-4 340B base model with different batch sizes. TP size is 8, PP size is 12, the number of virtual pipeline stages is 8, and sequence length is 4096."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "Both datasets are predecessors of the dataset used to train Nemotron-4 and are comprised of 70% English, 15% non-English, and 15% code. We use a vocabulary of 256K tokens trained with SentencePiece (Kudo and Richardson 2018)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training. We used 8-way tensor model parallelism and 16-way context parallelism to ensure training with sequence lengths of 512k tokens still fits in GPU memory."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When training on NVIDIA H100 GPUs (NVIDIA 2023), with a tensor-parallel size of four and data-parallel size of 256 (1024 total GPUs) (micro batch size 4, global batch size 1024), our Mamba-2-Hybrid achieves an MFU of 29.9%."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[36] NVIDIA. NVIDIA H100 Tensor Core GPU. https://www.nvidia.com/en-us/data-center/ h100/. 2023."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When using SHARP with NVIDIA InfiniBand, BF16 reduction is more robust, as it performs binary additions with higher precision for intermediate partial reductions."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "Multi-data center training of NVIDIA Nemotron-4 340B  Recently, we had an opportunity to run a large-scale training of Nemotron-4 340B . To set the baseline, the LLM was trained using a single data center with 3,072 NVIDIA GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA. NVIDIA H100 Tensor Core GPU."
+    },
+    {
+      "source": "[sections/GPU Core Clock Optimization]",
+      "quote": "NVIDIA GPUs support a CPU core clock boost mode, which increases the core clock rate by reducing the off-chip memory clock rate."
+    },
+    {
+      "source": "[sections/Communication Data Types]",
+      "quote": "When using SHARP with NVIDIA InfiniBand, BF16 reduction is more robust, as it performs binary additions with higher precision for intermediate partial reductions."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens. We used a WSD (Warmup-Stable-Decay) (Hu et al., 2024) learning rate schedule with a “stable” learning rate of 4.5 · 10−4 and a minimum value of 4.5 · 10−6; the learning rate was decayed over the final 3.6 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Megatron-Core - NVIDIA Docs ... Megatron-Core is a self contained, light weight PyTorch library that packages everything essential for training large scale transformer."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pre-trained model checkpoints."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "The initial base model, Nemotron-Nano-12B-v2-Base, was pre-trained using FP8 precision (§2.4) over 20 trillion tokens using a Warmup-Stable-Decay (Hu et al., 2024) learning rate schedule (§2.5)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike Nemotron-H, we natively kept the model weights in E4M3 so that we could do the distributed optimizer’s parameter all-gather operations (across data-parallel replicas) in FP8; master weights are still kept in FP32."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "The latest NVIDIA NeMo Framework 25.02 and NVIDIA Megatron-Core 0.11.0 releases enable multi-data center large language model training by introducing key innovations such as adaptive resource orchestration, Hierarchical AllReduce, distributed optimizer architecture, and chunked inter-data center communications."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/Megatron-Core/]",
+      "quote": "By abstracting these GPU optimized techniques into composable and modular APIs, Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    },
+    {
+      "source": "[sections/Profiling Options for Analysis-based Performance Tuning]",
+      "quote": "NeMo provides an interface to enable the NVIDIA Nsight Systems profiler, which displays the GPU execution trace of all CUDA streams."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "4-1 (Pre-training Data)": "The NVIDIA/Megatron-LM pre-training stage is orchestrated through the import path \"from megatron.core.datasets.blended_megatron_dataset_builder import BlendedMegatronDatasetBuilder\", explicitly tying the data pipeline to the Megatron code-base. The use of the class name \"BlendedMegatronDatasetBuilder\" signals that multiple corpora can be automatically combined (“blended”) into a single large-scale training mixture that the Megatron-LM framework consumes. At least one concrete corpus fed into this builder is identified directly in code as  dataset_name = \"lmms-lab/LLaVA-Video-178K\", indicating that the 178-thousand–item LLaVA-Video collection is one of the permitted sources. Apart from the explicit builder reference and dataset name, no further numeric counts, size breakdowns, or licensing constraints are exposed in the excerpt, but the presence of a Megatron-specific ‘blended’ builder strongly implies that heterogeneous modalities or domains can be merged under Megatron-LM’s data-loading logic before pre-training commences.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "from megatron.core.datasets.blended_megatron_dataset_builder import BlendedMegatronDatasetBuilder"
+    },
+    {
+      "source": "[py_files/examples/mimo/data/prepare_video_llava_data.py]",
+      "quote": "dataset_name = \"lmms-lab/LLaVA-Video-178K\""
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "Fine-tuning also reuses Megatron’s dedicated data builder, as shown in the line  train_ds, _, test_ds = BlendedMegatronDatasetBuilder(. By invoking BlendedMegatronDatasetBuilder again, NVIDIA/Megatron-LM constructs both a fine-tuning train_ds and a held-out test_ds split in a single call, thereby preserving identical preprocessing, sharding, and formatting conventions to those employed at pre-training time. Although the excerpt does not enumerate the underlying corpora, the fact that the same builder is used implies that any chosen fine-tuning datasets are passed through Megatron’s standardized dataset-mixing, batching, and tokenizer pipelines before the model parameters are updated on the new data.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/finetune_gpt.py]",
+      "quote": "train_ds, _, test_ds = BlendedMegatronDatasetBuilder("
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "No reinforcement-learning (RLHF/RL) datasets, sources, or composition details are disclosed in the provided material; consequently there is no publicly available information about any RL data used with NVIDIA/Megatron-LM.",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "The provided snippets outline a multi-step filtering and cleaning workflow that is applied to candidate corpora before they are committed to NVIDIA/Megatron-LM training. One comment describes the process as a “Comprehensive guide covering advanced preprocessing, dataset collection, deduplication, and optimization strategies,” indicating that the pipeline extends beyond simple heuristics to include systematic corpus assembly and removal of duplicates. The actual code fragments focus on safety/quality filtering: DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack'] enumerates six content-moderation dimensions that are scored for every sample. For each document the pipeline appends individual toxicity values via scores.append(score['toxicity']) and later converts them to a NumPy array with  toxicity_scores = np.array([s['score']['toxicity'] if s['score'] else -1 for s in scores]). A decision rule is then triggered by the explicit numeric threshold  if score and score > 0.5:, meaning any item whose toxicity score exceeds 0.5 is flagged (typically for exclusion or down-weighting). Although the excerpts do not reveal the exact classifier or confidence calibration, they clearly show automated attribute scoring, threshold-based rejection, and an earlier deduplication step; together these ensure that highly toxic, sexual, threatening, or identity-attacking content is aggressively filtered before entering the Megatron-LM training corpus.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Comprehensive guide covering advanced preprocessing, dataset collection, deduplication, and optimization strategies"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/annotations/filter-selfgeneration.py]",
+      "quote": "scores.append(score['toxicity'])"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/annotations/perspective_api_annotate.py]",
+      "quote": "DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack']"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "DEFAULT_ATTRIBUTES = ['toxicity', 'severe_toxicity', 'sexually_explicit', 'threat', 'profanity', 'identity_attack']"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "toxicity_scores = np.array([s['score']['toxicity'] if s['score'] else -1 for s in scores])"
+    },
+    {
+      "source": "[py_files/examples/academic_paper_scripts/detxoify_lm/perspective_api.py]",
+      "quote": "if score and score > 0.5:"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "The model was trained with 20T tokens, with a batch size of 736, and used the Warmup-Stable-Decay (WSD) learning rate schedule with 8B tokens of learning rate warm up, peak learning rate of 4.5e-4 and minimum learning rate of 4.5e-6.",
+  "pretrain_data": "NVIDIA-Nemotron-Nano-12B-v2-Base is pre-trained on a large corpus of high-quality curated and synthetically-generated data.",
+  "__evidence": [
+    {
+      "source": "readme",
+      "quote": "The model was trained with 20T tokens, with a batch size of 736, and used the Warmup-Stable-Decay (WSD) learning rate schedule with 8B tokens of learning rate warm up, peak learning rate of 4.5e-4 and minimum learning rate of 4.5e-6."
+    },
+    {
+      "source": "readme",
+      "quote": "NVIDIA-Nemotron-Nano-12B-v2-Base is pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    }
+  ]
+}

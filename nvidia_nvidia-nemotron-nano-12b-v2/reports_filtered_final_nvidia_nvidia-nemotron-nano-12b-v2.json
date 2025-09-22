@@ -1,0 +1,658 @@
+{
+  "1-1 (Weights)": "Multiple statements explicitly confirm that the Nemotron-Nano-12B-v2 family weights are publicly available. The authors repeatedly state that they are “releasing Nemotron-Nano-9B-v2, Nemotron-Nano-9B-v2-Base, and Nemotron-Nano-12B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face.” A similar sentence reiterates that the same three checkpoints are open-sourced and hosted on Hugging Face together with most of the training data. One sentence clarifies the storage requirements: “storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB,” highlighting the raw size of a single checkpoint. A separate line notes that these checkpoints, datasets and model variants (“the aligned and pruned reasoning model,” “a pruned base model,” and “the base model before alignment or pruning”) are directly downloadable from Hugging Face, indicating that anyone with a Hugging Face account can retrieve them. Although other NVIDIA models such as Mamba-2 are also mentioned, the quotes that explicitly list Nemotron-Nano-12B-v2-Base demonstrate that the target 12 B-parameter weights (at least the Base variant) have been released without restriction on the hosting platform.",
+  "1-2 (Code)": "The project discloses training code and recipes that cover every stage of the pipeline. A pair of identical sentences state that “Nemotron Nano 2 builds on the architecture of Nemotron-H … but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets,” implying that practical training scripts are provided, not just inference utilities. Several quotes reference the open-source Megatron ecosystem: “NVIDIA Megatron-Core … packages everything essential for training large-scale transformer,” and “Megatron-Core is available as open source in the NVIDIA/Megatron-LM repository on GitHub.” Developer documentation, API references and advanced GPU optimization guides are also called out, showing that the released code is production-ready and thoroughly documented. One quote adds that Megatron-Core can be integrated with “NVIDIA NeMo,” and another confirms that Megatron-Core “allows full flexibility for developers and model researchers to train custom transformers at-scale.” Finally, an adoption-oriented line says the team “release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library,” further emphasizing that full training pipelines—not just fine-tuning scripts—are open sourced under the NVIDIA GitHub organization.",
+  "1-3 (License)": "The licensing picture contains two layers. First, the general source-code repository is permissively licensed: “NeMo GitHub repo is licensed under the Apache 2.0 license,” a text repeated twice in the supplied material. Second, the binary framework and its associated containers are governed by a proprietary agreement: “NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT. By pulling and using the container, you accept the terms and conditions of this license.” A copyright line — “© 2025 NVIDIA. All rights reserved.” — stresses NVIDIA’s ownership. Two external hyperlinks appear (BigCode and Meta’s LLaMA license pages) without explanatory text, suggesting that additional license references may be provided in the original document, but the quotes do not expand on them. No sentence expressly restricts commercial use for the weights; however, the proprietary NVIDIA AI PRODUCT AGREEMENT likely introduces separate terms compared with the Apache-2.0-licensed GitHub code. No quote mentions redistribution prohibitions for the released checkpoints, but acceptance of the product agreement is a prerequisite for container usage.",
+  "1-4 (Paper)": "The official technical disclosure is titled “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model.” Multiple quotes repeat this exact title and confirm PDF availability, e.g., “View a PDF of the paper titled NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model.” The author list is large: one citation credits “Aarti Basant and 214 other authors,” underscoring a substantial NVIDIA research collaboration. Additional Nemotron-related literature is referenced, including “Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset,” an “An Empirical Study of Mamba-based Language Models” by NVIDIA, and technical reports for “Nemotron-4 15B” and “Nemotron-4 340B.” These citations place Nemotron-Nano-12B-v2 within a broader family of NVIDIA publications that cover data processing (Nemotron-CC), larger model variants (Nemotron-4 15B and 340B), and architecture analysis (Mamba-based study). No URLs are quoted, but repeated indications of PDFs and arXiv identifiers imply public accessibility of the documents.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-9B-v2-Base, and Nemotron-Nano-12B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing the following models on Hugging Face: • NVIDIA-Nemotron-Nano-9B-v2: the aligned and pruned reasoning model, • NVIDIA-Nemotron-Nano-9B-v2-Base: a pruned base model, • NVIDIA-Nemotron-Nano-12B-v2-Base: the base model before alignment or pruning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We have open-sourced Nemotron-Nano-9B-v2 along with its corresponding sibling Nemotron-Nano-9B-v2-Base and parent Nemotron-Nano-12B-v2-Base models, plus the majority of its pre- and post-training data on HuggingFace (links at the bottom of Section 1)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Note that storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB, which is more than the 22 GiB memory capacity of an A10G GPU; this clearly indicates the need for compression."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano-12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2508.14444]",
+      "quote": "We are releasing Nemotron-Nano-9B-v2, Nemotron-Nano12B-v2-Base, and Nemotron-Nano-9B-v2-Base checkpoints along with the majority of our pre- and post-training datasets on Hugging Face."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pre-trained model checkpoints."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H (NVIDIA, 2025), but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "14https://github.com/NVIDIA/NeMo-Skills"
+    },
+    {
+      "source": "[title: NVIDIA Megatron-Core - NVIDIA Docs]",
+      "quote": "NVIDIA Megatron-Core Megatron-Core is a self contained, light weight PyTorch library that packages everything essential for training large scale transformer."
+    },
+    {
+      "source": "[title: NVIDIA Megatron-Core - NVIDIA Docs]",
+      "quote": "Developer documentation for Megatron Core covers API documentation, quickstart guide as well as deep dives into advanced GPU techniques needed to optimize LLM performance at scale."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 builds on the architecture of Nemotron-H (NVIDIA, 2025), but utilizes key new datasets and recipes for pre-training, alignment, pruning and distillation. We share these recipes, the checkpoints, as well as the majority of the pre- and post-training datasets."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "This resulted in NVIDIA Megatron-Core , an open-source PyTorch-based library with a collection of GPU-optimized techniques, cutting-edge system-level innovations, and modular APIs for training models at large scale."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "Megatron-Core is available as open source in the NVIDIA/Megatron-LM repository on GitHub and can be used with Megatron-LM or NVIDIA NeMo ."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "To help enable further adoption, we release the code used to train our Mamba, Mamba-2, and Mamba-2-Hybrid hybrid models as part of NVIDIA’s Megatron-LM library (https://github.com/NVIDIA/Megatron-LM). We also release the model weights for our Mamba-2 8B and Mamba-2-Hybrid 8B on Hugging Face."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/Megatron-Core/]",
+      "quote": "Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "© 2025 NVIDIA. All rights reserved."
+    },
+    {
+      "source": "[sections/NVIDIA NeMo Framework User Guide]",
+      "quote": "NeMo Github repo is licensed under the Apache 2.0 license"
+    },
+    {
+      "source": "[sections/NVIDIA NeMo Framework User Guide]",
+      "quote": "NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT . By pulling and using the container, you accept the terms and conditions of this license."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NeMo Github repo is licensed under the Apache 2.0 license NeMo Framework is licensed under the NVIDIA AI PRODUCT AGREEMENT . By pulling and using the container, you accept the terms and conditions of this license."
+    },
+    {
+      "source": "[web:https://www.bigcode-project.org/docs/pages/model-license/]",
+      "quote": "https://www.bigcode-project.org/docs/pages/model-license/"
+    },
+    {
+      "source": "[web:https://ai.meta.com/llama/license/]",
+      "quote": "https://ai.meta.com/llama/license/"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Title: NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "View a PDF of the paper titled NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model, by NVIDIA: Aarti Basant and 214 other authors"
+    },
+    {
+      "source": "[title]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[url:https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[38] Jupinder Parmar, Shrimai Prabhumoye, Joseph Jennings, Mostofa Patwary, Sandeep Subrama- nian, Dan Su, Chen Zhu, Deepak Narayanan, Aastha Jhunjhunwala, Ayush Dattagupta, et al. “Nemotron-4 15B Technical Report”. In: arXiv preprint arXiv:2402.16819 (2024)."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2508.14444]",
+      "quote": "Title: NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "View a PDF of the paper titled Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset, by Dan Su and 8 other authors"
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "For more details, see the Nemotron-4 340B Technical Report."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "Recently, we had an opportunity to run a large-scale training of Nemotron-4 340B ."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "An Empirical Study of Mamba-based Language Models\n...\n1NVIDIA"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[38] Jupinder Parmar, Shrimai Prabhumoye, Joseph Jennings, Mostofa Patwary, Sandeep Subramanian, Dan Su, Chen Zhu, Deepak Narayanan, Aastha Jhunjhunwala, Ayush Dattagupta, et al. “Nemotron-4 15B Technical Report”. In: arXiv preprint arXiv:2402.16819 (2024)."
+    }
+  ],
+  "1-5 (Architecture)": "Nemotron-Nano-12B-v2-Base is described as a hybrid “Mamba-Transformer” model. The network contains 62 total layers that are explicitly partitioned into 6 self-attention layers, 28 feed-forward (FFN) layers, and 28 Mamba-2 sequence-modeling layers. Hidden size is 5,120, the FFN expansion is 20,480, and attention uses Grouped-Query Attention with 40 query heads and 8 key-value heads. Table 1 of the source document aggregates these hyper-parameters.  A long-context design goal is reflected in training on sequences up to 8,192 tokens in the main run, and—in a special long-context (LC) phase—up to 512 k tokens using 8-way tensor model parallelism plus 16-way context parallelism.  For memory footprint, authors note that the raw bfloat16 weights of a 12-B-parameter model occupy 22.9 GiB, already exceeding the 22 GiB of an NVIDIA A10G, motivating architectural compression.  The compression / distillation search space for the follow-on “Nano 2” variant removes 6–10 of the original 62 layers and prunes width: embedding channels to 4,480–5,120, FFN dimension to 13,440–20,480, and Mamba heads to 112–128, while targeting 128 k-token inference on A10G.  Training configuration details supplied in the same section report a 20-trillion-token horizon, a sequence length of 8,192, and a global batch size of 768 (≈6.0 M tokens/batch).  A separate sentence highlights “NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model,” reinforcing the hybrid nature of the architecture.  (A Megatron-Core throughput table for the unrelated Nemotron-4-340B is also provided but offers no additional structural specifics for the 12 B model.)",
+  "1-6 (Tokenizer)": "The model family is trained with a 256 K-token vocabulary built using the SentencePiece algorithm. The underlying pre-training corpus (also used for Nemotron-4) is roughly 70 % English natural-language text, 15 % non-English text, and 15 % source code.",
+  "2-1 (Hardware)": "During long-context pre-training, Nemotron-Nano-12B-v2-Base is run with 8-way tensor model parallelism and 16-way context parallelism to keep 512 k-token sequences resident in GPU memory.  A separate experiment reports training a related Mamba-2-Hybrid model on 1,024 NVIDIA H100 GPUs (tensor-parallel size = 4, data-parallel size = 256) and achieving 29.9 % model-flop-utilization (MFU).  More broadly, NVIDIA H100 Tensor Core GPUs and NVIDIA InfiniBand with SHARP are cited; the latter improves BF16 reduction robustness via higher-precision intermediate additions.  Multi-datacenter scaling is evidenced by a Nemotron-4-340B run that used 3,072 NVIDIA GPUs in a single datacenter.  Additional comments point out that NVIDIA GPUs can boost core-clock frequency by lowering off-chip memory clock, indicating hardware-level tuning options.",
+  "2-2 (Software)": "Pre-training of Nemotron-Nano-12B-v2-Base (and the derivative 9 B model) uses an FP8 recipe: weights are stored natively in E4M3 FP8 so that distributed-optimizer all-gather operations across data-parallel replicas can also run in FP8, while master copies stay in FP32.  Training covers 20 T tokens and applies a Warmup-Stable-Decay (WSD) schedule whose stable learning rate is 4.5 × 10⁻⁴, decaying to 4.5 × 10⁻⁶ over the final 3.6 T tokens.  The implementation stack is the NVIDIA NeMo framework (v25.02) together with Megatron-Core (v0.11.0), a lightweight PyTorch-based library exposing modular, GPU-optimized APIs for large-scale transformer training.  Recent Megatron-Core / NeMo releases add features such as adaptive resource orchestration, Hierarchical AllReduce, distributed optimizer architecture, chunked inter-datacenter communication, and built-in support for the NVIDIA Nsight Systems profiler.  These components enable multi-datacenter LLM training and are the same libraries used for other Nemotron family models.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. Concretely, we use 62 layers, with 6 of them being self-attention layers, 28 being FFN, and 28 being Mamba-2 layers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. We use a hidden dimension of 5120, FFN hidden dimension of 20480, and Grouped-Query Attention (Ainslie et al., 2023) with 40 query heads and 8 key-value heads."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 1 | Summary of Nemotron-Nano-12B-v2-Base architecture."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In this section, we describe the pruning and distillation process to compress the aligned 12B model to the Nano 2 model with the goal of running longer context (128k sequence length) inference on the NVIDIA A10G GPU. Our search space includes depth reduction (removing 6-10 layers from the original 62-layer architecture) combined with width pruning of embedding channels (4480-5120), FFN dimension (13440-20480), and Mamba heads (112-128)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Note that storing just the weights of a 12B parameter model in bfloat16 precision requires 22.9 GiB, which is more than the 22 GiB memory capacity of an A10G GPU; this clearly indicates the need for compression."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "As in Nemotron-H (NVIDIA, 2025), Nemotron-Nano-12B-v2-Base consists of a mixture of Mamba-2 (Dao & Gu, 2024), self-attention, and FFN layers. We use 62 layers, with 6 of them being self-attention layers, 28 being FFN, and 28 being Mamba-2 layers. We use a hidden dimension of 5120, FFN hidden dimension of 20480, and Grouped-Query Attention (Ainslie et al., 2023) with 40 query heads and 8 key-value heads."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens. We used a sequence length of 8192 and global batch size of 768 (6,029,312 tokens per batch)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training. We used 8-way tensor model parallelism and 16-way context parallelism to ensure training with sequence lengths of 512k tokens still fits in GPU memory."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model"
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "Table 2 shows per-GPU throughput of Megatron-Core on the Nemotron-4 340B base model with different batch sizes. TP size is 8, PP size is 12, the number of virtual pipeline stages is 8, and sequence length is 4096."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "Both datasets are predecessors of the dataset used to train Nemotron-4 and are comprised of 70% English, 15% non-English, and 15% code. We use a vocabulary of 256K tokens trained with SentencePiece (Kudo and Richardson 2018)."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training. We used 8-way tensor model parallelism and 16-way context parallelism to ensure training with sequence lengths of 512k tokens still fits in GPU memory."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When training on NVIDIA H100 GPUs (NVIDIA 2023), with a tensor-parallel size of four and data-parallel size of 256 (1024 total GPUs) (micro batch size 4, global batch size 1024), our Mamba-2-Hybrid achieves an MFU of 29.9%."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "[36] NVIDIA. NVIDIA H100 Tensor Core GPU. https://www.nvidia.com/en-us/data-center/ h100/. 2023."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When using SHARP with NVIDIA InfiniBand, BF16 reduction is more robust, as it performs binary additions with higher precision for intermediate partial reductions."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "Multi-data center training of NVIDIA Nemotron-4 340B  Recently, we had an opportunity to run a large-scale training of Nemotron-4 340B . To set the baseline, the LLM was trained using a single data center with 3,072 NVIDIA GPUs."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA. NVIDIA H100 Tensor Core GPU."
+    },
+    {
+      "source": "[sections/GPU Core Clock Optimization]",
+      "quote": "NVIDIA GPUs support a CPU core clock boost mode, which increases the core clock rate by reducing the off-chip memory clock rate."
+    },
+    {
+      "source": "[sections/Communication Data Types]",
+      "quote": "When using SHARP with NVIDIA InfiniBand, BF16 reduction is more robust, as it performs binary additions with higher precision for intermediate partial reductions."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens. We used a WSD (Warmup-Stable-Decay) (Hu et al., 2024) learning rate schedule with a “stable” learning rate of 4.5 · 10−4 and a minimum value of 4.5 · 10−6; the learning rate was decayed over the final 3.6 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Megatron-Core - NVIDIA Docs ... Megatron-Core is a self contained, light weight PyTorch library that packages everything essential for training large scale transformer."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pre-trained model checkpoints."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "The initial base model, Nemotron-Nano-12B-v2-Base, was pre-trained using FP8 precision (§2.4) over 20 trillion tokens using a Warmup-Stable-Decay (Hu et al., 2024) learning rate schedule (§2.5)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Unlike Nemotron-H, we natively kept the model weights in E4M3 so that we could do the distributed optimizer’s parameter all-gather operations (across data-parallel replicas) in FP8; master weights are still kept in FP32."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "The latest NVIDIA NeMo Framework 25.02 and NVIDIA Megatron-Core 0.11.0 releases enable multi-data center large language model training by introducing key innovations such as adaptive resource orchestration, Hierarchical AllReduce, distributed optimizer architecture, and chunked inter-data center communications."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/Megatron-Core/]",
+      "quote": "By abstracting these GPU optimized techniques into composable and modular APIs, Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    },
+    {
+      "source": "[sections/Profiling Options for Analysis-based Performance Tuning]",
+      "quote": "NeMo provides an interface to enable the NVIDIA Nsight Systems profiler, which displays the GPU execution trace of all CUDA streams."
+    }
+  ],
+  "2-3 (API)": "The documentation for nvidia/nvidia-nemotron-nano-12b-v2 emphasises that NVIDIA exposes its functionality through explicit, composable software-defined interfaces.  Megatron-Core provides GPU-optimised, modular APIs that let developers or researchers wire together the individual parallelism techniques (tensor, pipeline, sequence, data) and other utilities needed to \"train custom transformers at-scale\" on NVIDIA hardware.  These APIs are designed so that users can either plug them into their own code bases or build an entirely new large-language-model framework while still getting the full performance characteristics of NVIDIA accelerators.  At deployment time, the NeMo Framework “seamlessly integrates with enterprise-level model-serving tools” by routing through NVIDIA NIM, again exposing model access as a public, documented interface.  In short, the project positions Megatron-Core and NeMo/NIM as the officially supported, production-grade API surface for training and serving the Nemotron-Nano-12B-v2 models on NVIDIA infrastructure.",
+  "3-1 (Pre-training)": "Pre-training starts with the 12-billion-parameter backbone, Nemotron-Nano-12B-v2-Base.  It is trained from scratch on 20 trillion tokens with an 8-k context window (8192 tokens) and a global batch of 768 (≈6.0 M tokens/batch).  Training is performed entirely in FP8, following NVIDIA’s FP8 recipe, and the optimiser uses the Warmup-Stable-Decay schedule described by Hu et al. (2024).  Data are deliberately staged: a three-phase blend initially maximises diversity, then shifts toward high-quality sources such as Wikipedia, and finally a dedicated \"Phase LC\" is appended to expose the model to extremely long-context samples.  The corpora include refined Common Crawl derivatives—\"Nemotron-CC\" and the 133-billion-token \"Nemotron-cc-math\"—with an overall split of roughly 70 % English, 15 % non-English, and 15 % code.  All training is executed with the NVIDIA Megatron-Core and NeMo stack; the release notes highlight multi-datacentre scaling (Megatron-Core 0.11.0), SHARP-enabled InfiniBand for high-precision BF16 reductions, GPU clock-boost modes, and Nsight Systems profiling hooks.  Check-points and training scripts are distributed through the open-source Megatron-LM repository, giving researchers full reproducibility of the 20-T-token FP8 run that produces Nemotron-Nano-12B-v2-Base.",
+  "3-2 (Fine-tuning)": "Fine-tuning proceeds in several alignment and compression stages.  First, Nemotron-Nano-12B-v2-Base is aligned through multiple Supervised Fine-Tuning passes that each target a different domain.  The team then performs targeted SFT specifically for tool use, improved long-context reasoning, and ‘truncated’ or budget-limited training regimes.  After the SFT stack, additional preference-based stages follow: Group Relative Policy Optimisation (GRPO), Direct Preference Optimisation (DPO), and full RLHF.  These steps are visualised as \"Base → SFT 1 → SFT 2 → SFT 3 → Merged → GRPO → RLHF → DPO\" in the project flow-chart for the final “Merged” Nemotron-Nano 2 12B checkpoint.  Throughout alignment, training data are enriched with long-context samples prepared in the style of Nemotron-H, plus reasoning traces deliberately clipped to 1-2 k tokens, and each query is paired with a random persona from the Nemotron-Personas set to encourage stylistic variety.  Once behavioural alignment is complete, the model is run through the \"Minitron\" compression pipeline, using pruning and knowledge-distillation to fit 128 k-token inference onto a single NVIDIA A10G (22 GiB, bf16).  NeMo exposes both full-parameter SFT and parameter-efficient alternatives such as LoRA and P-Tuning, so users can reproduce or extend these fine-tuning stages with minimal code changes.",
+  "3-3 (Reinforcement Learning)": "Reinforcement-style alignment forms the last stage of the pipeline.  After SFT, the model—now referred to as Nano V2—enters the \"WorkBench\" environment, a multi-step, verifiable tool-calling simulator.  Within WorkBench, the developers cycle through iterative Direct Preference Optimisation rounds while also employing Group Relative Policy Optimisation and classic RLHF (à la Ouyang et al., 2022; Christiano et al., 2017).  These combined methods refine the policy to satisfy human preferences and verifiable tool-use constraints before the final Minitron compression step.  Consequently, Nemotron-Nano-12B-v2 ends up with behaviour tuned by stacked SFT, GRPO, DPO, and RLHF, ensuring both safe responses and robust multi-step reasoning under the long-context settings that the pre-training curriculum introduced.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[sections/NVIDIA_Megatron-Core]",
+      "quote": "By abstracting these GPU optimized techniques into composable and modular APIs, Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    },
+    {
+      "source": "[sections/NVIDIA_NeMo_Framework_User_Guide]",
+      "quote": "NeMo Framework seamlessly integrates with enterprise-level model deployment tools through NVIDIA NIM ."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/Megatron-Core/]",
+      "quote": "By abstracting these GPU optimized techniques into composable and modular APIs, Megatron Core allows full flexibility for developers and model researchers to train custom transformers at-scale and easily facilitate developing their own LLM framework on NVIDIA accelerated computing infrastructure."
+    }
+  ],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens. We used a sequence length of 8192 and global batch size of 768 (6,029,312 tokens per batch)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To create Nemotron-Nano-9B-v2, we started by pre-training Nemotron-Nano-12B-v2-Base on 20T tokens, using a carefully constructed mix of curated and synthetically generated data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Dan Su, Kezhi Kong, Ying Lin, Joseph Jennings, Brandon Norick, Markus Kliegl, Mostofa Patwary, Mohammad Shoeybi, and Bryan Catanzaro. Nemotron-CC: Transforming Common Crawl into a refined long-horizon pretraining dataset."
+    },
+    {
+      "source": "[sections/NVIDIA_NeMo_Framework_User_Guide]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). It enables users to efficiently create, customize, and deploy new generative AI models by leveraging existing code and pre-trained model checkpoints."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "The initial base model, Nemotron-Nano-12B-v2-Base, was pre-trained using FP8 precision (§2.4) over 20 trillion tokens using a Warmup-Stable-Decay (Hu et al., 2024) learning rate schedule (§2.5)."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We used a curriculum based on three phases of data-blending approach to pre-train Nemotron-Nano-12B-v2-Base. In the first phase, we used a data mixture that promotes diversity in data; in the second and third phases, we primarily used high-quality datasets (e.g., Wikipedia)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-CC: Transforming Common Crawl into a refined long-horizon pretraining dataset."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-cc-math: A 133 billion-token-scale high quality math pretraining dataset"
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset"
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "NVIDIA Megatron-Core is an open-source PyTorch-based library that provides GPU-optimized techniques and modular APIs for training large language models at scale, and has been used by companies like Reka AI and Codeium to train models efficiently."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/turbocharge-llm-training-across-long-haul-data-center-networks-with-nvidia-nemo-framework/]",
+      "quote": "The latest release of NVIDIA NeMo Framework 25.02 and NVIDIA Megatron-Core 0.11.0 brings new capabilities for multi-data center large language model (LLM) training."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "Both datasets are predecessors of the dataset used to train Nemotron-4 and are comprised of 70% English, 15% non-English, and 15% code."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "To enable further study, we release the checkpoints as well as the code used to train our SSM-based models as part of NVIDIA’s Megatron-LM project (https://github.com/NVIDIA/Megatron-LM)1."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). In addition to pre-training, NeMo supports both Supervised Fine-Tuning (SFT) and Parameter Efficient Fine-Tuning (PEFT) techniques like LoRA, Ptuning, and more."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "When using SHARP with NVIDIA InfiniBand, BF16 reduction is more robust, as it performs binary additions with higher precision for intermediate partial reductions."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA GPUs support a CPU core clock boost mode, which increases the core clock rate by reducing the off-chip memory clock rate."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NeMo provides an interface to enable the NVIDIA Nsight Systems profiler, which displays the GPU execution trace of all CUDA streams."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO) (Shao et al., 2024), Direct Preference Optimization (DPO) (Rafailov et al., 2023), and Reinforcement Learning from Human Feedback (RLHF) (Ouyang et al., 2022; Christiano et al., 2017). We applied multiple SFT stages across various domains, followed by targeted SFT on key areas such as tool use, long-context performance, and truncated (budgeted) training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "After aligning Nemotron-Nano-12B-v2-Base, we employ the Minitron strategy to compress and distill the model with the goal of enabling inference on up to 128k tokens on a single NVIDIA A10G GPU (22GiB of memory, bfloat16 precision)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "It incorporates long-context data following the recipe used in Nemotron-H preparation (NVIDIA, 2025), along with augmented examples across domains where reasoning traces were abruptly truncated to 1–2k tokens while preserving the final answer."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Each instance is paired with a random persona from Nemotron-Personas11 to enrich diversity of queries."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "After aligning Nemotron-Nano-12B-v2-Base, we employ the Minitron strategy to compress and distill the model with the goal of enabling inference on up to 128k tokens on a single NVIDIA A10G GPU (22GiB of memory, bfloat16 precision)."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT) ... We applied multiple SFT stages across various domains, followed by targeted SFT on key areas such as tool use, long-context performance, and truncated (budgeted) training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We aligned Nemotron-Nano-12B-v2-Base using several stages of SFT, GRPO, DPO, and RLHF before using the Minitron compression via pruning and distillation strategy to produce the final model."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Base SFT 1 SFT 2 SFT 3 Merged GRPO RLHF DPO Figure 4 | Flow of alignment procedures followed to arrive at the final \"Merged\" Nemotron Nano 2 12B checkpoint."
+    },
+    {
+      "source": "[sections/https://docs.nvidia.com/nemo-framework/user-guide/latest/overview.html]",
+      "quote": "NVIDIA NeMo Framework is a scalable and cloud-native generative AI framework built for researchers and developers working on Large Language Models , Multimodal, and Speech AI (e.g. Automatic Speech Recognition and Text-to-Speech ). In addition to pre-training, NeMo supports both Supervised Fine-Tuning (SFT) and Parameter Efficient Fine-Tuning (PEFT) techniques like LoRA, Ptuning, and more."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO) (Shao et al., 2024), Direct Preference Optimization (DPO) (Rafailov et al., 2023), and Reinforcement Learning from Human Feedback (RLHF) (Ouyang et al., 2022; Christiano et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To strengthen these capabilities in the Nano V2 aligned model, we use the WorkBench environment, a multi-step verifiable tool-calling setup adapted from Styles (Styles et al., 2024)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nano V2 undergoes reinforcement learning in this environment through iterative stages of Direct Preference Optimization."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO) (Shao et al., 2024), Direct Preference Optimization (DPO) (Rafailov et al., 2023), and Reinforcement Learning from Human Feedback (RLHF) (Ouyang et al., 2022; Christiano et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We aligned Nemotron-Nano-12B-v2-Base using several stages of SFT, GRPO, DPO, and RLHF before using the Minitron compression via pruning and distillation strategy to produce the final model."
+    }
+  ],
+  "4-1 (Pre-training Data)": "Nemotron-Nano-12B-v2-Base (12 B parameters) is the foundation model that all later Nano variants inherit.  It is first pre-trained for a total horizon of 20 trillion tokens under an FP8 recipe.  The corpus is explicitly described as a \"large corpus of high-quality curated and synthetically-generated data\" that is blended through a three-phase curriculum: Phase 1 maximises source diversity, Phases 2–3 lean on high-quality sets such as Wikipedia, after which a dedicated \"Phase LC\" reallocates 20 % of Phase 3 weight to newly introduced long-context document-QA material (Phase 3 data weights are down-scaled to 80 %).  \n\nPublic release.  NVIDIA is releasing most of the material as Nemotron-Pre-Training-Dataset-v1 (> 6 trillion tokens).  Named components that feed this collection are:\n• Nemotron-CC-v2 – an evolution of Nemotron-CC with eight additional 2024–2025 Common Crawl snapshots; contains synthetic rephrasing, aggressive de-duplication, and synthetic Q&A translated into 15 languages.\n• Nemotron-CC-Math-v1 – a 133 B-token math-specialised set mined from Common Crawl, equations preserved and normalised to LaTeX.\n• Nemotron-Pretraining-Code-v1 – curated GitHub source-code references that have passed multi-stage filtering, licence checking and deduplication.\n\nEarlier internal predecessors (1.1 T and 3.5 T token mixtures, 70 % English / 15 % non-English / 15 % code) are also mentioned as precursors to Nemotron-4.  All together, the pre-training pipeline therefore mixes Common Crawl, Wikipedia-style encyclopaedic text, multilingual synthetic Q&A, LaTeX-formatted mathematics, and heavily filtered open-source code.",
+  "4-2 (Fine-tuning Data)": "After backbone pre-training, \"Nemotron Nano 2\" is post-trained with a layered scheme that combines Supervised Fine-Tuning (SFT), Group Relative Policy Optimisation (GRPO), Direct Preference Optimisation (DPO) and Reinforcement Learning from Human Feedback (RLHF).  Multiple SFT passes are run: broad-domain SFT is followed by targeted SFT focusing on tool use, long-context behaviour and truncated-budget runs.  \n\nThe main supervised/feedback corpora come from the Nemotron-Post-Training-Dataset series.  • v1 already included math, science and coding dialogues generated with the open-weights DeepSeek-R1-0528 model (same prompt set as Nemotron-H-8B/47B).  • v2 extends the material and specifically broadens SFT and RL examples into five additional languages (Spanish, French, German, Italian, Japanese).\n\nTask-specific prompt/response sources that contribute to the SFT stages include xlam-function-calling-60k8, glaive-function-calling-v29 and NVIDIA-When2Call; replies for these single-turn prompts are produced with Qwen3-235B-A22B10.  \n\nSafety and persona conditioning are integral: harmful as well as benign prompts are sampled from Nemotron Content Safety Dataset V2, HarmfulTasks, RedTeam2K and gretel-v1, and every instance is paired with a random character from Nemotron-Personas to diversify style.  An accompanying GitHub LLaVA pipeline example explains how to package the pre-training and SFT datasets in Megatron-LM–compatible WebDataset shards.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement learning for Nano V2 is intertwined with its post-training cycle.  The model first undergoes Group Relative Policy Optimisation, then Direct Preference Optimisation, and is finally refined with full Reinforcement Learning from Human Feedback (RLHF).  Nemotron-Post-Training-Dataset-v2 supplies the key RL material and now contains RL dialogues in five added languages (Spanish, French, German, Italian, Japanese) aimed at improving reasoning, code‐generation and instruction following.  \n\nDuring RL, candidate checkpoints coming out of the long-context phase are evaluated in an environment where on-policy data are generated per WorkBench prompt: positives are successful tool-call completions, negatives are failed generations.  These positive/negative pairs drive the iterative DPO optimisation before the final HF-based updates.",
+  "4-4 (Data Filtering)": "Filtering is pervasive and multi-layered.  \n\nCode.  Raw GitHub data are passed through Nemotron-Pretraining-Code-v1, which applies \"multi-stage filtering, deduplication and quality filters\".  A dedicated licence-detection pipeline—modeled on BigCode but with an even stricter allow-list—is run, and \"source code with a licence not in the following list\" is removed.  De-duplication is executed both exactly (hashing) and fuzzily (MinHash LSH), recognising that code files frequently appear verbatim across repositories.  \n\nWeb/Common Crawl.  Nemotron-CC-v2 adds eight 2024–2025 snapshots to the original pipeline.  Processing includes synthetic rephrasing, full de-duplication and automatic translation of Q&A data into 15 languages.  For the news subset (CC-NEWS) an explicit English-language filter is applied and the data are again \"globally fuzzily de-duplicated\"; no further heuristic filters are applied.  Research into Nemotron-CC highlights methods such as \"classifier ensembling, synthetic data rephrasing and reduced reliance on heuristic filters\" to balance quality and quantity, contrasting with recent datasets that discard \"90 % of data\" through aggressive model-based filtering.  \n\nSafety filtering.  When harmful-prompt data are produced, a two-step safety gate is used: first the model is prompted, then its outputs are passed through guard models that must accept the response.  \n\nOverall, the pipeline relies on explicit licence allow-lists, language filters, exact and fuzzy deduplication (hashing + MinHash LSH), classifier ensembles and guard-model checks to enforce quality and safety before data enter pre-training, SFT or RL stages.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing the majority of our pre-training dataset in the Nemotron-Pre-Training-Dataset-v1 collection of more than 6 trillion tokens:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-CC-v2: Follow-up to Nemotron-CC (Su et al., 2025) with eight additional Common Crawl snapshots (2024–2025), synthetic rephrasing, deduplication, and synthetic Q&A data translated into 15 languages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-CC-Math-v1: 133B-token math dataset from Common Crawl using Lynx + LLM pipeline (Mahabadi et al., 2025). Preserves equations, standardizes to LaTeX, outperforms previous math datasets on benchmarks."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-Pretraining-Code-v1: Curated GitHub code references with multi-stage filtering, deduplication, and quality filters. Includes code Q&A data in 11 programming languages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To create Nemotron-Nano-9B-v2, we started by pre-training Nemotron-Nano-12B-v2-Base on 20T tokens, using a carefully constructed mix of curated and synthetically generated data."
+    },
+    {
+      "source": "[title]",
+      "quote": "Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset"
+    },
+    {
+      "source": "[pdf_text: An Empirical Study of Mamba-based Language Models]",
+      "quote": "We train the models discussed in this report on 1.1T and 3.5T token datasets. Both datasets are predecessors of the dataset used to train Nemotron-4 and are comprised of 70% English, 15% non-English, and 15% code."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "We create Nemotron-Nano-9B-v2 by first pre-training a 12-billion-parameter model (Nemotron-Nano-12B-v2-Base) on 20 trillion tokens using an FP8 training recipe."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-Nano-12B-v2-Base was pre-trained on a large corpus of high-quality curated and synthetically-generated data."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Additionally, we are releasing the majority of our pre-training dataset in the Nemotron-Pre-Training-Dataset-v1 collection of more than 6 trillion tokens:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We used a curriculum based on three phases of data-blending approach to pre-train Nemotron-Nano-12B-v2-Base. In the first phase, we used a data mixture that promotes diversity in data; in the second and third phases, we primarily used high-quality datasets (e.g., Wikipedia)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained Nemotron-Nano-12B-v2-Base on a token horizon of 20 trillion tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To ensure Nemotron-Nano-12B-v2-Base can infer over long context windows, we added a long-context phase (Phase LC) after Phase 3 of pre-training. We proportionally downscaled the weights of all Phase 3 data to 80% of their original values, allocating the remaining 20% to the newly added long-context document-QA data."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Rabeeh Karimi Mahabadi, Sanjeev Satheesh, Shrimai Prabhumoye, Mostofa Patwary, Mohammad Shoeybi, and Bryan Catanzaro. Nemotron-cc-math: A 133 billion-token-scale high quality math pretraining dataset, 2025."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Dan Su, Kezhi Kong, Ying Lin, Joseph Jennings, Brandon Norick, Markus Kliegl, Mostofa Patwary, Mohammad Shoeybi, and Bryan Catanzaro. Nemotron-CC: Transforming Common Crawl into a refined long-horizon pretraining dataset."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset. Furthermore, our full 6.3T token dataset matches DCLM on MMLU, but contains four times more unique real tokens than DCLM."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset. This unlocks state-of-the-art training over a long token horizon: an 8B parameter model trained for 15T tokens, of which 7.2T came from our dataset, is better than the Llama 3.1 8B model."
+    },
+    {
+      "source": "[sections/https://arxiv.org/pdf/2406.07887]",
+      "quote": "Both datasets are predecessors of the dataset used to train Nemotron-4 and are comprised of 70% English, 15% non-English, and 15% code."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO), Direct Preference Optimization (DPO), and Reinforcement Learning from Human Feedback (RLHF) (Ouyang et al., 2022; Christiano et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Additionally, we are releasing an updated post-training dataset: • Nemotron-Post-Training-Dataset-v2: Adds to NVIDIA’s post-training dataset releases with an extension of SFT and RL data into five target languages: Spanish, French, German, Italian and Japanese."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For Math (Toshniwal et al., 2024; Moshkov et al., 2025), Science and Coding data, we generate responses using the open-weights DeepSeek-R1-0528 model ... The training data has been released as part of Nemotron-Post-Training-Dataset-v1."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For single-turn cases, we sample prompts from xlam-function-calling-60k8, glaive-function-calling-v29, NVIDIA-When2Call (Ross et al., 2025), and generate responses using Qwen3-235B-A22B10."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Safety. We leveraged a mix of harmful and benign prompts drawn from the Nemotron Content Safety Dataset V2 (Ghosh et al., 2025)12, HarmfulTasks (Hasan et al., 2024), RedTeam2K (Luo et al., 2024), and gretel-v1 (gre, 2024)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Each instance is paired with a random persona from Nemotron-Personas11 to enrich diversity of queries."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO), Direct Preference Optimization (DPO), and Reinforcement Learning from Human Feedback (RLHF). We applied multiple SFT stages across various domains, followed by targeted SFT on key areas such as tool use, long-context performance, and truncated (budgeted) training."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-Post-Training-Dataset-v2: Adds to NVIDIA’s post-training dataset releases with an extension of SFT and RL data into five target languages: Spanish, French, German, Italian and Japanese."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For Math (Toshniwal et al., 2024; Moshkov et al., 2025), Science and Coding (Ahmad et al., 2025b,a; Majumdar et al., 2024) data, we generate responses using the open-weights DeepSeek-R1-0528 model (DeepSeek-AI, 2025b) using the same prompts used for training Nemotron-H-8B and 47B Reasoning models (NVIDIA, 2025). The training data has been released as part of Nemotron-Post-Training-Dataset-v17."
+    },
+    {
+      "source": "[sections/https://developer.nvidia.com/blog/train-generative-ai-models-more-efficiently-with-new-nvidia-Megatron-Core-functionalities/]",
+      "quote": "For a complete multimodality reference pipeline with LLaVA, visit NVIDIA/Megatron-LM on GitHub. The LLaVA pipeline example walks you through how to: Prepare pretraining and supervised fine-tuning (SFT) datasets for Megatron webdataset-based formats."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO), Direct Preference Optimization (DPO), and Reinforcement Learning from Human Feedback (RLHF) (Ouyang et al., 2022; Christiano et al., 2017)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-Post-Training-Dataset-v2: Adds to NVIDIA’s post-training dataset releases with an extension of SFT and RL data into five target languages: Spanish, French, German, Italian and Japanese. The data supports improvements of math, code, general reasoning, and instruction following capabilities."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nano V2 undergoes reinforcement learning in this environment through iterative stages of Direct Preference Optimization. For each candidate checkpoint from the long-context stage, we generate on-policy data consisting of positive examples (successful tool calls) and negative examples (failed generations) for every WorkBench prompt."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron Nano 2 was then post-trained through a combination of Supervised Fine-Tuning (SFT), Group Relative Policy Optimization (GRPO), Direct Preference Optimization (DPO), and Reinforcement Learning from Human Feedback (RLHF)."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-Post-Training-Dataset-v2: Adds to NVIDIA’s post-training dataset releases with an extension of SFT and RL data into five target languages: Spanish, French, German, Italian and Japanese."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-Pretraining-Code-v1: Curated GitHub code references with multi-stage filtering, deduplication, and quality filters."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Nemotron-CC-v2: Follow-up to Nemotron-CC (Su et al., 2025) with eight additional Common Crawl snapshots (2024–2025), synthetic rephrasing, deduplication, and synthetic Q&A data translated into 15 languages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In line with previous models in the Nemotron family (NVIDIA, 2025, 2024; Parmar et al., 2024), we pretrained Nemotron-Nano-12B-v2-Base with large-scale raw source code. We performed license-based removal with a license detection pipeline similar to that used by the BigCode project (Lozhkov et al., 2024), but with fewer accepted licenses (see Appendix A for additional details). Consequently we performed both exact (via hashing) and fuzzy deduplication (using MinHash LSH)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We used the Nemotron-CC dataset (Su et al., 2025), but updated to include eight more recent Common Crawl snapshots (CC-MAIN-2024-33 through CC-MAIN-2025-13) using the same pipeline. The CC-NEWS data was filtered for English and globally fuzzily de-duplicated; no other filtering was used."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "In line with previous models in the Nemotron family, we pretrained Nemotron-Nano-12B-v2-Base with large-scale raw source code. We performed license-based removal with a license detection pipeline similar to that used by the BigCode project, but with fewer accepted licenses. De-duplication is especially important for source code, where many files can be found exactly duplicated across numerous repositories; consequently we performed both exact (via hashing) and fuzzy deduplication (using MinHash LSH)."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-Pretraining-Code-v1: Curated GitHub code references with multi-stage filtering, deduplication, and quality filters."
+    },
+    {
+      "source": "[sections/https://research.nvidia.com/labs/adlr/files/NVIDIA-Nemotron-Nano-2-Technical-Report.pdf]",
+      "quote": "Nemotron-CC-v2: Follow-up to Nemotron-CC with eight additional Common Crawl snapshots (2024–2025), synthetic rephrasing, deduplication, and synthetic Q&A data translated into 15 languages."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Safety. We leveraged a mix of harmful and benign prompts drawn from the Nemotron Content Safety Dataset V2 (Ghosh et al., 2025)12, HarmfulTasks (Hasan et al., 2024), RedTeam2K (Luo et al., 2024), and gretel-v1 (gre, 2024). Responses were generated using DeepSeek-R1-052813. To ensure safety, we applied a two-step approach: initial prompting followed by filtering with guard models to verify that outputs remained safe."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model We remove source code with a license not in the following list:"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Dan Su, Kezhi Kong, Ying Lin, Joseph Jennings, Brandon Norick, Markus Kliegl, Mostofa Patwary, Mohammad Shoeybi, and Bryan Catanzaro. Nemotron-CC: Transforming Common Crawl into a refined long-horizon pretraining dataset."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset. In this paper, we show how to achieve better trade-offs between accuracy and data quantity by a combination of classifier ensembling, synthetic data rephrasing, and reduced reliance on heuristic filters."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.02595]",
+      "quote": "Title: Nemotron-CC: Transforming Common Crawl into a Refined Long-Horizon Pretraining Dataset. Recent English Common Crawl datasets like FineWeb-Edu and DCLM achieved significant benchmark gains via aggressive model-based filtering, but at the cost of removing 90% of data."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}
