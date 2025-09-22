@@ -1,0 +1,49 @@
+{
+  "1-1 (Weights)": "The available statements highlight that \"we recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting,\" explicitly encouraging users to deploy the model in a hosted inference scenario rather than downloading the weights to edge devices. A concrete, reproducible launch command is supplied: \"vllm serve mistralai/Mistral-Small-3.1-24B-Instruct-2503 --tokenizer_mode mistral --config_format mistral --load_format mistral --tool-call-parser mistral --enable-auto-tool-choice --limit_mm_per_prompt 'image=10' --tensor-parallel-size 2,\" which indicates that the model weights can be pulled directly by `vllm` from the Hugging Face hub under the repository name `mistralai/Mistral-Small-3.1-24B-Instruct-2503`.  In addition to the Mistral-native format, \"Transformers-compatible model weights are also uploaded (thanks a lot @cyrilvallez),\" confirming a second distribution format that works with the Hugging Face Transformers ecosystem.  A shard filename, \"model-00001-of-00010.safetensors,\" demonstrates that the actual checkpoints are released as a ten-part `safetensors` archive, which users can download piece-by-piece from the hub.  Together these quotes establish that publicly hosted, fully downloadable weight files exist in both Mistral and Transformers formats, and they can be accessed through standard clients such as `vllm` without additional gating.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We recommand that you use Mistral-Small-3.1-24B-Instruct-2503 in a server/client setting."
+    },
+    {
+      "source": "[readme]",
+      "quote": "vllm serve mistralai/Mistral-Small-3.1-24B-Instruct-2503 --tokenizer_mode mistral --config_format mistral --load_format mistral --tool-call-parser mistral --enable-auto-tool-choice --limit_mm_per_prompt 'image=10' --tensor-parallel-size 2"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Transformers-compatible model weights are also uploaded (thanks a lot @cyrilvallez)."
+    },
+    {
+      "source": "[files]",
+      "quote": "model-00001-of-00010.safetensors"
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "Multiple lines explicitly list \"license: apache-2.0,\" and the documentation repeats that the model is provided under an \"**Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\"  The same tag appears in a metadata block that enumerates supported languages and again states \"license: apache-2.0.\"  A further bullet reiterates: \"- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\"  These quotes collectively confirm that all distributions of Mistral-Small-3.1-24B-Instruct-2503 are governed by the permissive Apache License 2.0, granting broad rights to use, modify, and redistribute—including commercial use—without additional restrictions beyond standard AL2 terms.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: apache-2.0"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes."
+    },
+    {
+      "source": "[readme]",
+      "quote": "eadme]\n---\nlibrary_name: vllm\nlanguage:\n- en\n- fr\n- de\n- es\n- pt\n- it\n- ja\n- ko\n- ru\n- zh\n- ar\n- fa\n- id\n- ms\n- ne\n- pl\n- ro\n- sr\n- sv\n- tr\n- uk\n- vi\n- hi\n- bn\nlicense: apache-2.0\ninference: false\nbase_model:\n- mistralai/Mistral-Small-3.1-24B-Base-2503\nextra_gated_description: >-\n If you want to learn more about how we process your pers"
+    },
+    {
+      "source": "[readme]",
+      "quote": "reasoning capabilities.\n- **Apache 2.0 License:** Open license allowing usage and modification for both commercial and non-commercial purposes.\n- **Context Window:** A 128k context window.\n- **System Prompt:** Maintains strong adherence and support for"
+    }
+  ],
+  "1-4 (Paper)": "Formal written material is provided via a single reference: \"Learn more about Mistral Small 3.1 in our [blog post](https://mistral.ai/news/mistral-small-3-1/).\"  This indicates that the primary public technical description is a blog-post announcement hosted on the Mistral AI website; no separate peer-reviewed paper or technical report is cited in the available text.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Learn more about Mistral Small 3.1 in our [blog post](https://mistral.ai/news/mistral-small-3-1/)."
+    }
+  ]
+}

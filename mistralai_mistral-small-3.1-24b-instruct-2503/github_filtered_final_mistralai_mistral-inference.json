@@ -1,0 +1,115 @@
+{
+  "1-1 (Weights)": "The documentation explicitly states that end-users can obtain binary checkpoints for Mistral models from Hugging Face. A concrete example is given: “For Hugging Face models' weights, here is an example to download [Mistral Small 3.1 24B Instruct](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503).”  The use of a public Hugging Face URL indicates open, direct HTTP / `huggingface-cli` download capability (no gated approval call-outs are mentioned in the quote).  In addition, the maintainers note that archival checkpoints remain accessible: “You can download the previous versions of our models from our [docs](https://docs.mistral.ai/getting-started/open_weight_models/#downloading).”  Together these quotes make it clear that (i) at least one concrete model file is published openly, (ii) there is a central documentation page collecting historical releases, and (iii) the standard retrieval workflow is a self-service download rather than a request-only procedure.  No quote mentions any paywall or authentication step, so, by default, the weights appear to be publicly downloadable by anyone who consults the links provided.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "For Hugging Face models' weights, here is an example to download [Mistral Small 3.1 24B Instruct](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503):"
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can download the previous versions of our models from our [docs](https://docs.mistral.ai/getting-started/open_weight_models/#downloading)."
+    }
+  ],
+  "1-2 (Code)": "Two sentences describe the publicly available codebase and its purpose.  First: “This repository contains minimal code to run Mistral models.”  This indicates that at least inference / serving helpers are shipped.  Second: “The `deploy` folder contains code to build a [vLLM](https://M7B_DIR.com/vllm-project/vllm) image with the required dependencies to serve the Mistral AI model.”  The wording highlights that container-level artifacts (Dockerfile or similar) are included to generate a vLLM image, implying that the repository covers environment setup, dependency pinning, and launch scripts for production or benchmark inference.  There is no direct statement that full pre-training or fine-tuning pipelines are open; the quotes only guarantee code for ‘run’ and ‘serve’.  Consequently, the public code scope is limited to inference/serving, while training-time assets (data preprocessing, optimizer schedules, RLHF loops, etc.) are not confirmed.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository contains minimal code to run Mistral models."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The `deploy` folder contains code to build a [vLLM](https://M7B_DIR.com/vllm-project/vllm) image with the required dependencies to serve the Mistral AI model."
+    }
+  ],
+  "1-3 (License)": "Multiple licensing regimes are present.  For general source files, the header states: “Licensed under the Apache License, Version 2.0 (the \\\"License\\\"); you may not use this file except in compliance with the License.”  Apache-2.0 is a permissive license granting use, modification, redistribution, and commercial exploitation, provided conditions such as NOTICE retention are respected.  However, some model tarballs are explicitly distributed under restrictive research-only or non-production terms: “- `codestral-22B-v0.1.tar` has a custom non-commercial license, called [Mistral AI Non-Production (MNPL) License](https://mistral.ai/licenses/MNPL-0.1.md)” and “- `mistral-large-instruct-2407.tar` has a custom non-commercial license, called [Mistral AI Research (MRL) License](https://mistral.ai/licenses/MRL-0.1.md)”.  The phrases “non-commercial” and “non-production” signal that at least some checkpoints forbid commercial use and probably limit derivative distribution.  Therefore: (a) Code: Apache-2.0 (free use, mod, redistribution, commercial OK). (b) Certain weight archives: MNPL or MRL, both restricting commercial/production usage.  The quotes do not mention any additional click-through or evaluation-only clauses beyond those titles.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- `codestral-22B-v0.1.tar` has a custom non-commercial license, called [Mistral AI Non-Production (MNPL) License](https://mistral.ai/licenses/MNPL-0.1.md)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- `mistral-large-instruct-2407.tar` has a custom non-commercial license, called [Mistral AI Research (MRL) License](https://mistral.ai/licenses/MRL-0.1.md)"
+    }
+  ],
+  "1-4 (Paper)": "The released material includes official blog-style technical write-ups rather than a conventional peer-reviewed paper.  Two posts are referenced: “Blog 7B: https://mistral.ai/news/announcing-mistral-7b/” and “Blog 8x7B: https://mistral.ai/news/mixtral-of-experts/”.  The URLs imply overviews of (i) the original Mistral-7B base/instruct model and (ii) a Mixtral MoE family with eight 7B experts.  Even though no arXiv or conference citation is present in the quotes, these blogs typically contain architectural details, training-compute summaries, and evaluation tables serving as the primary technical disclosure for the models in question.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Blog 7B: [https://mistral.ai/news/announcing-mistral-7b/](https://mistral.ai/news/announcing-mistral-7b/)\\"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Blog 8x7B: [https://mistral.ai/news/mixtral-of-experts/](https://mistral.ai/news/mixtral-of-experts/)\\"
+    }
+  ],
+  "1-5 (Architecture)": "The only disclosed architectural elements for mistralai/mistral-inference are that its Transformer implementation imports and therefore relies on two specific layer classes located in the package module `mistral_inference.transformer_layers`: `RMSNorm` (for root-mean-square layer normalisation) and `TransformerBlock` (the composite block containing attention/MLP sub-layers). No other depth, width, or hyper-parameter details are revealed in the provided material.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[py_files/src/mistral_inference/transformer.py]",
+      "quote": "from mistral_inference.transformer_layers import RMSNorm, TransformerBlock"
+    }
+  ],
+  "1-6 (Tokenizer)": "All snippet references load a `MistralTokenizer`. The tokenizer is obtained from a local file path rather than an online hub, e.g. `MistralTokenizer.from_file(\"./mistral-nemo-instruct-v0.1/tekken.json\")`. Other examples show the same class being initialised from `model_path / tokenizer[0]` or via a helper `load_tokenizer(Path(model_path))`. One line accesses the underlying raw tokenizer object through `mistral_tokenizer.instruct_tokenizer.tokenizer`. Collectively, these lines confirm that mistralai/mistral-inference uses the custom `MistralTokenizer`, can load it from extracted JSON files, and supports an “instruct” variant.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "readme",
+      "quote": "tokenizer = MistralTokenizer.from_file(\"./mistral-nemo-instruct-v0.1/tekken.json\")  # change to extracted tokenizer file"
+    },
+    {
+      "source": "py_files/src/mistral_inference/main.py",
+      "quote": "mistral_tokenizer = MistralTokenizer.from_file(str(model_path / tokenizer[0]))"
+    },
+    {
+      "source": "[py_files/src/mistral_inference/main.py]",
+      "quote": "mistral_tokenizer: MistralTokenizer = load_tokenizer(Path(model_path))"
+    },
+    {
+      "source": "[py_files/src/mistral_inference/main.py]",
+      "quote": "tokenizer: Tokenizer = mistral_tokenizer.instruct_tokenizer.tokenizer"
+    }
+  ],
+  "2-1 (Hardware)": "The documentation states that “you will use a GPU” when installing `mistral-inference`, because its dependency `xformers` itself requires a GPU for compilation. Thus, at minimum a CUDA-capable GPU is necessary for environment setup (and, by implication, for running or potentially training the model), but no further quantities or chip models are specified.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Note: You will use a GPU to install `mistral-inference`, as it currently requires `xformers` to be installed and `xformers` itself needs a GPU for installation."
+    }
+  ],
+  "2-2 (Software)": "The only training-related software hint is that installing `mistral-inference` mandates the additional library `xformers`. While this note is phrased in the context of installation rather than explicit training, it establishes that the codebase is coupled with the `xformers` acceleration stack, which in turn depends on GPU-enabled builds. No other frameworks, distributed-training libraries, or optimizer details are mentioned in the supplied text.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "readme",
+      "quote": "Note: You will use a GPU to install `mistral-inference`, as it currently requires `xformers` to be installed and `xformers` itself needs a GPU for installation."
+    }
+  ],
+  "2-3 (API)": "The quotes clearly state that users can \"Use Mistral models on Mistral AI official API (La Plateforme).\" This single sentence confirms the existence of an official, publicly accessible API—identified as “La Plateforme”—through which inference with mistral models can be carried out.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- Use Mistral models on [Mistral AI official API](https://console.mistral.ai/) (La Plateforme)"
+    }
+  ],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "",
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "unknown",
+    "rl": "unknown"
+  }
+}
