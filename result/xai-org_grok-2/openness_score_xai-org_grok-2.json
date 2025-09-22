@@ -1,17 +1,21 @@
 {
   "model": "xai-org/grok-2",
   "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "The Grok-2 Community License allows usage, redistribution and modification but imposes significant guard-rails (e.g., no training of other foundation models, commercial use only if guard-rails are met). This is more restrictive than a fully permissive open-source licence, so it is scored Semi-Open."
+      "reason": "The “Grok 2 Community License” allows use, modification and redistribution but forbids using the model or its outputs to train or improve other foundational/LLM models, and imposes branding/guard-rail requirements. At least one core right (derivative training of other models) is restricted, so the license is Semi-Open."
     },
     "1-4 Paper": {
       "score": 0.0,
-      "reason": "No provider-authored technical paper or report specifically about Grok-2 is cited."
+      "reason": "No provider-authored paper or technical report about Grok 2 is supplied; only repository text and license are available."
     },
     "1-5 Architecture": {
       "score": 1.0,
@@ -21,63 +25,63 @@
       "score": 1.0,
       "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
-    "1-1 Weights": {
-      "score": 1.0,
-      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
-    },
     "2-1 Hardware": {
       "score": 0.0,
-      "reason": "No quoted information about the training hardware stack."
+      "reason": "No quoted information describes the type or quantity of hardware used for training."
     },
     "2-2 Software": {
       "score": 0.0,
-      "reason": "No quotes describe the training software stack; the only command shown is for inference."
+      "reason": "No quotes detail the TRAINING software stack. The only citation is an inference-time server command, which does not satisfy the requirement."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://developers.x.ai/api/, https://developers.x.ai/api/api-key/, https://docs.x.ai/docs/tutorial. Owner inferred as xAI. Major version 2 matched."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Some qualitative details about regularisation and learning-rate effects are quoted, but not enough for full reproducibility."
+      "reason": "Quotes mention that Grok 2 was pre-trained with regularization to enhance grokking and studied higher learning-rate effects, but do not provide full, reproducible pipeline details. Hence Semi-Open."
     },
     "3-2 Fine-tuning": {
       "score": 0.0,
-      "reason": "Only licence text mentions that fine-tuning is allowed; no methodological details are provided."
+      "reason": "Only a licensing clause states fine-tuning is allowed; no methodological details (data, hyper-parameters, procedures) are given."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.0,
-      "reason": "No reinforcement-learning information is quoted. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No information about RL methods is provided. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-1 Pre-training Data": {
       "score": 0.0,
-      "reason": "No disclosure of the pre-training corpus. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No quotes give any description of the pre-training corpus. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-2 Fine-tuning Data": {
       "score": 0.0,
-      "reason": "No disclosure of fine-tuning data. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No quotes provide details about fine-tuning datasets. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.0,
-      "reason": "No disclosure of RL data. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No RL data information is supplied. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-4 Data Filtering": {
       "score": 0.0,
-      "reason": "No discussion of data filtering is provided. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No data-filtering or cleaning process is described in the provided material. No direct quote evidence; defaulting to Closed by strict rule."
     }
   },
   "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "The Grok-2 Community License allows usage, redistribution and modification but imposes significant guard-rails (e.g., no training of other foundation models, commercial use only if guard-rails are met). This is more restrictive than a fully permissive open-source licence, so it is scored Semi-Open."
+      "reason": "The “Grok 2 Community License” allows use, modification and redistribution but forbids using the model or its outputs to train or improve other foundational/LLM models, and imposes branding/guard-rail requirements. At least one core right (derivative training of other models) is restricted, so the license is Semi-Open."
     },
     "1-4 Paper": {
       "score": 0.0,
-      "reason": "No provider-authored technical paper or report specifically about Grok-2 is cited."
+      "reason": "No provider-authored paper or technical report about Grok 2 is supplied; only repository text and license are available."
     },
     "1-5 Architecture": {
       "score": 1.0,
@@ -87,36 +91,32 @@
       "score": 1.0,
       "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
-    "1-1 Weights": {
-      "score": 1.0,
-      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
-    },
     "2-1 Hardware": {
       "score": 0.0,
-      "reason": "No quoted information about the training hardware stack."
+      "reason": "No quoted information describes the type or quantity of hardware used for training."
     },
     "2-2 Software": {
       "score": 0.0,
-      "reason": "No quotes describe the training software stack; the only command shown is for inference."
+      "reason": "No quotes detail the TRAINING software stack. The only citation is an inference-time server command, which does not satisfy the requirement."
     },
     "2-3 API": {
-      "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "score": 1.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: API_OPEN via https://developers.x.ai/api/, https://developers.x.ai/api/api-key/, https://docs.x.ai/docs/tutorial. Owner inferred as xAI. Major version 2 matched."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Some qualitative details about regularisation and learning-rate effects are quoted, but not enough for full reproducibility."
+      "reason": "Quotes mention that Grok 2 was pre-trained with regularization to enhance grokking and studied higher learning-rate effects, but do not provide full, reproducible pipeline details. Hence Semi-Open."
     },
     "4-1 Pre-training Data": {
       "score": 0.0,
-      "reason": "No disclosure of the pre-training corpus. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No quotes give any description of the pre-training corpus. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-4 Data Filtering": {
       "score": 0.0,
-      "reason": "No discussion of data filtering is provided. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No data-filtering or cleaning process is described in the provided material. No direct quote evidence; defaulting to Closed by strict rule."
     }
   },
-  "final_score_10pt": 3.333,
+  "final_score_10pt": 4.167,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "not_used",
@@ -129,7 +129,7 @@
       "4-3 Reinforcement Learning Data"
     ],
     "denominator": 12,
-    "raw_sum": 4.0,
+    "raw_sum": 5.0,
     "scale": "10/12",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false
