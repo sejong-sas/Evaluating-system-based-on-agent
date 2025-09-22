@@ -1,0 +1,48 @@
+
+======== 1/4 ▶ line-corporation/japanese-large-lm-3.6b ========
+📁 Directory to create/use: line-corporation_japanese-large-lm-3.6b
+📁 Output path: line-corporation_japanese-large-lm-3.6b
+1️⃣ HF: True, GH: False
+🔎 Candidate rejected: line/japanese-large-lm-instruction-sft (score=-1, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 0, 'bad_keywords': 2, 'from_hf_link': 0, 'version_conflict': 0})
+🔎 Candidate rejected: camenduru/japanese-text-generation-webui-colab (score=-3, detail={'org_affinity': -6, 'name_hits': 1, 'readme_hits': 1, 'path_hits': 1, 'bad_keywords': 11, 'from_hf_link': 0, 'version_conflict': 0})
+⚠️ No GitHub repo passed the thresholds.
+✅ HF model: line-corporation/japanese-large-lm-3.6b (found at priority: 1)
+📄 Reports saved/merged (HF): line-corporation_japanese-large-lm-3.6b\reports_fulltext_huggingface_line-corporation_japanese-large-lm-3.6b.json
+✅ JSON file saved: line-corporation_japanese-large-lm-3.6b\huggingface_line-corporation_japanese-large-lm-3.6b.json
+📄 Reports merged to: line-corporation_japanese-large-lm-3.6b\reports_fulltext_line-corporation_japanese-large-lm-3.6b.json (HF sources)
+✅ Saved group 1 result: line-corporation_japanese-large-lm-3.6b\huggingface_filtered_line-corporation_japanese-large-lm-3.6b_1.json
+✅ Saved group 2 result: line-corporation_japanese-large-lm-3.6b\huggingface_filtered_line-corporation_japanese-large-lm-3.6b_2.json
+✅ Saved group 3 result: line-corporation_japanese-large-lm-3.6b\huggingface_filtered_line-corporation_japanese-large-lm-3.6b_3.json
+✅ Saved group 4 result: line-corporation_japanese-large-lm-3.6b\huggingface_filtered_line-corporation_japanese-large-lm-3.6b_4.json
+✅ Saved final merged result: line-corporation_japanese-large-lm-3.6b\huggingface_filtered_final_line-corporation_japanese-large-lm-3.6b.json
+⚠️ No GitHub info
+🔎 HF tags found arXiv IDs: []
+🔄 Simplified query: 'japanese large lm'
+🔎 Tavily search: japanese large lm paper
+  → arXiv link found: https://arxiv.org/abs/2407.03963
+🔎 Tavily search: japanese large lm technical report
+  → arXiv link found: https://arxiv.org/pdf/2407.03963
+🛰️ Tavily candidates: ['2407.03963']
+🔬 Verifying 1 Tavily candidate(s) with GPT…
+  • Candidate: 2407.03963
+    - GPT verdict: ❌ no match (The candidate paper describes the LLM-jp project, which focuses on building Japanese LLMs with 13B+ parameters (e.g., LLM-jp-13B v1.0 and v2.0). The target model 'japanese-large-lm-3.6b' indicates a m)
+✅ GPT-verified IDs: []
+📦 Final merged arXiv IDs: []
+❌ No arXiv ID found/verified for 'line-corporation/japanese-large-lm-3.6b'.
+⚠️ No arXiv/report inputs found for dispatcher; skipping
+evidence counts before/after model-guard: {'raw': {'1-1 (Weights)': 2, '1-2 (Code)': 1, '1-3 (License)': 1, '1-4 (Paper)': 2}, 'kept': {'1-1 (Weights)': 2, '1-2 (Code)': 1, '1-3 (License)': 1, '1-4 (Paper)': 2}}
+✅ Saved group 1 : line-corporation_japanese-large-lm-3.6b\reports_filtered_line-corporation_japanese-large-lm-3.6b_1.json
+evidence counts before/after model-guard: {'raw': {'1-5 (Architecture)': 1, '1-6 (Tokenizer)': 1, '2-1 (Hardware)': 0, '2-2 (Software)': 0}, 'kept': {'1-5 (Architecture)': 1, '1-6 (Tokenizer)': 1, '2-1 (Hardware)': 0, '2-2 (Software)': 0}}
+✅ Saved group 2 : line-corporation_japanese-large-lm-3.6b\reports_filtered_line-corporation_japanese-large-lm-3.6b_2.json
+evidence counts before/after model-guard: {'raw': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 2, '3-3 (Reinforcement Learning)': 0}, 'kept': {'2-3 (API)': 0, '3-1 (Pre-training)': 1, '3-2 (Fine-tuning)': 1, '3-3 (Reinforcement Learning)': 0}}
+✅ Saved group 3 : line-corporation_japanese-large-lm-3.6b\reports_filtered_line-corporation_japanese-large-lm-3.6b_3.json
+evidence counts before/after model-guard: {'raw': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}, 'kept': {'4-1 (Pre-training Data)': 0, '4-2 (Fine-tuning Data)': 0, '4-3 (Reinforcement Learning Data)': 0, '4-4 (Data Filtering)': 0}}
+✅ Saved group 4 : line-corporation_japanese-large-lm-3.6b\reports_filtered_line-corporation_japanese-large-lm-3.6b_4.json
+✅ Saved final merged: line-corporation_japanese-large-lm-3.6b\reports_filtered_final_line-corporation_japanese-large-lm-3.6b.json
+🔑 Hugging Face API says 401/403 — model may be private. Set HF_TOKEN in .env if you have access.
+📝 Starting openness evaluation...
+📝 Saved evaluation result: line-corporation_japanese-large-lm-3.6b\openness_score_line-corporation_japanese-large-lm-3.6b.json
+✅ Openness evaluation complete. Result file: line-corporation_japanese-large-lm-3.6b\openness_score_line-corporation_japanese-large-lm-3.6b.json
+✅ Saved model ID: line-corporation_japanese-large-lm-3.6b\identified_model.txt
+⏳ **Time taken for this model: 981.92 seconds**
+🧾 Log saved to: line-corporation_japanese-large-lm-3.6b\run_20250916-232918_line-corporation_japanese-large-lm-3.6b.log

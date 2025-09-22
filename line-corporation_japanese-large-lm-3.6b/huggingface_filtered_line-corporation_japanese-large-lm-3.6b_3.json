@@ -1,0 +1,32 @@
+{
+  "2-3 (API)": "The only API-level guidance provided is a minimal example that relies on the standard Hugging Face Transformers interface. The snippet illustrates that users can pull the repository \"line-corporation/japanese-large-lm-3.6b\" directly with\n  model = AutoModelForCausalLM.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", torch_dtype=torch.float16)\nfor the weights and\n  tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False)\nfor the vocabulary. From these two lines we can infer that the model is publicly hosted, can be instantiated with half-precision (float16) to save memory, and that the authors recommend (or require) the slow tokenizer implementation (use_fast=False) for full compatibility. No additional client libraries, rate limits, authentication steps, or hosted-service endpoints are mentioned; the example implicitly assumes local inference after download.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", torch_dtype=torch.float16)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False)"
+    }
+  ],
+  "3-1 (Pre-training)": "The documentation explicitly states that \"This repository provides a 3.6B parameters Japanese language model, trained by LINE Corporation,\" establishing both the parameter count and the creator. A compact specification row — \"| 3.6B  | 51200      | GPTNeoX      | RoPE          | 30     | 3072       | 32 |\" — enumerates technical details: model size 3.6 B parameters, a numeric value 51 200 (likely a context or vocabulary size), the base architecture GPT-NeoX, rotary positional embeddings (RoPE) for position encoding, and three further numeric hyper-parameters (30, 3072, 32) that correspond to depth, hidden-size/FFN dimension, and number of attention heads, respectively, although the table does not label the columns. Training data are drawn exclusively from Japanese text. The corpus combines Japanese subsets of open-source datasets (C4, CC-100, Oscar) with additional web pages gathered by an in-house crawler. The aggregate volume reaches \"about 650 GB\" of raw text. No other preprocessing, batching, or optimization details are included in the provided material.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository provides a 3.6B parameters Japanese language model, trained by [LINE Corporation](https://linecorp.com/ja/)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| 3.6B  | 51200      | GPTNeoX      | RoPE          | 30     | 3072       | 32 |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Our training corpus consists of the Japanese portions of publicly available corpus such as C4, CC-100, and Oscar.\nWe also incorporated the Web texts crawled by in-house system.\nThe total size of our training corpus is about 650 GB."
+    }
+  ],
+  "3-2 (Fine-tuning)": "",
+  "3-2 (Fine-tuning)__evidence": [],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

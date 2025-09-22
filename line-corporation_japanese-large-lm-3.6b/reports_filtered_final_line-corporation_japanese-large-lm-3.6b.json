@@ -1,0 +1,86 @@
+{
+  "1-1 (Weights)": "The quotes state that both the 3.6 B-parameter model and its 1.7 B sibling are already \"公開\" (publicly released) on the HuggingFace Hub. The exact repository paths are given: https://huggingface.co/line-corporation/japanese-large-lm-3.6b (for the 3.6 B model) and https://huggingface.co/line-corporation/japanese-large-lm-1.7b (for the 1.7 B model). The same sentence stresses that the checkpoints can be loaded directly \"from transformers.\"  Because the authors \"公開しました\" (have released) the models and hope users will \"順次に広く使って頂ければ幸い\" (make wide use of them), we can infer that anyone with a standard HuggingFace account can pull the weights without a separate application process, and that the files are arranged so the Transformers library can resolve them automatically. The emphasis on both numerical sizes also confirms that the full-precision (or at least standard) checkpoints for the 3.6 B version are part of the public artifact set rather than being gated or available only as quantized/inference-only formats.",
+  "1-2 (Code)": "Only one sentence addresses source code.  It explains that the Japanese language model \"japanese-large-lm\" has reached a point where it can be \"OSSとして公開\"—i.e., released as open-source software—and that the announcement is being made through the blog post.  The quote does not break down which portions of the training stack are covered (data processing scripts, training configs, fine-tuning recipes, etc.), nor does it list a repository URL.  Nevertheless, the authors explicitly characterize the release as ‘OSS,’ which signals an intent to publish the code under an open-source license rather than merely giving inference examples.  No further detail is provided about whether the open-sourced material is limited to inference/serving or also includes pre-training, fine-tuning, or RLHF stages.",
+  "1-3 (License)": "The licensing language is explicit: both the 1.7 B and 3.6 B models are released under \"Apache License 2.0.\"  The quoted sentence underscores that this choice \"商用利用も可能\"—commercial use is allowed—and that the terms are intended to be friendly not only to individual researchers but also to companies (\"企業の方にも様々な用途でご利用頂けます\").  Therefore, all four canonical rights—use, modification, redistribution, and commercial exploitation—are covered in a permissive way by Apache-2.0; no extra research-only or no-derivatives constraint is mentioned.",
+  "1-4 (Paper)": "Instead of a formal academic paper, the authors provide a detailed blog article that both introduces the \"36億（3.6 Billion）および17億（1.7 Billion）パラメータ\" Japanese language models and shares the \"言語モデル構築のノウハウ\" (know-how obtained during model construction).  The concluding section reiterates the public release of the two models and previews a forthcoming instruction-tuned variant.  No DOI, conference venue, or arXiv link is cited in the supplied text, so the blog post currently serves as the sole technical write-up on the model family.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "1.7Bモデル、3.6Bモデル共にHuggingFace Hubの以下のURLにおいて公開しており、 transformersライブラリから利用可能です。 https://huggingface.co/line-corporation/japanese-large-lm-1.7b https://huggingface.co/line-corporation/japanese-large-lm-3.6b"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "おわりに 今回公開しました1.7B、3.6Bの日本語言語モデルを順次に広く使って頂ければ幸いです。"
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "日本語言語モデル「japanese-large-lm（ジャパニーズ ラージ エルエム）」をOSSとして公開できる状況になりましたので、本ブログを通じてお伝えすることにしました。"
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "1.7Bモデル、3.6Bモデル共にHuggingFace Hubの以下のURLにおいて公開しており、transformersライブラリから利用可能です。 ライセンスは商用利用も可能なApache License 2.0としましたので、著作権者の方だけではなく、企業の方にも様々な用途でご利用頂けます。"
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "この記事では、私たちが訓練・公開した36億（3.6 Billion）および17億（1.7 Billion）パラメータの日本語言語モデル（以下、それぞれ3.6Bモデル、1.7Bモデルと呼びます）を紹介しつつ、途中で得られた言語モデル構築のノウハウを報告します。"
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "おわりに 今回公開しました1.7B、3.6Bの日本語言語モデルを順次に広く使って頂ければ幸いです。 また、これらのモデルについて、指示文に対して適切な出力を行えるようにチューニング（Instruction tuning）したモデルを近日中に公開予定です。"
+    }
+  ],
+  "1-5 (Architecture)": "The only architectural detail explicitly given is the parameter count: the author states that they have trained and publicly released two Japanese language models—a 3.6 billion-parameter model (referred to as the “3.6Bモデル”) and a 1.7 billion-parameter model (“1.7Bモデル”). No other layers, dimensions, or hyper-parameter values are disclosed in the provided material.",
+  "1-6 (Tokenizer)": "A concrete code snippet specifies that users should load the tokenizer with\n   tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False)\nThe example makes three points: (1) the tokenizer can be obtained directly from the Hugging Face Hub under the exact repository name “line-corporation/japanese-large-lm-3.6b”; (2) it is compatible with the AutoTokenizer API; and (3) the flag use_fast=False is strongly recommended—even though the tokenizer will still function without it, omitting the flag is said to yield degraded performance because it no longer matches the author’s original training environment.",
+  "2-1 (Hardware)": "",
+  "2-2 (Software)": "",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "この記 事では、私 が訓練・公開した36億（3.6 Billion）および 17億（1.7 Billion）パラメータ の日本語言語モデル（以下、それぞれ3.6Bモデル、1.7Bモデルと呼びます）を紹介しつつ、途中で得られた言語モデル構築のノウハウを報有します。"
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False) # use_fast=False は必ず付与してください。なくても動きますが、私の学習状況とは異なるので性能が下がります。"
+    }
+  ],
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "The provided material contains no statements that mention any public or private API, no references to endpoint documentation, usage examples, or availability status for the line-corporation/japanese-large-lm-3.6b model. Consequently, there is no information about an accessible API in the supplied quotes.",
+  "3-1 (Pre-training)": "The only explicit pre-training information states that LINE Corporation trained and publicly released two Japanese language models: a 3.6 billion-parameter variant (the target \"3.6B\" model) and a 1.7 billion-parameter variant. The authors present these as the outcome of their language-model construction effort and intend to share the know-how gained during the process. Beyond the confirmation that full-scale pre-training was performed to obtain these parameter counts, the excerpt offers no further methodological specifics (e.g., data composition, number of tokens, optimizer, training steps, or compute budget).",
+  "3-2 (Fine-tuning)": "A closing statement notes that, in addition to releasing the raw 1.7B and 3.6B models, the team plans to publish instruction-tuned versions \"in the near future\" so the models can generate more appropriate outputs for user instructions. This indicates forthcoming fine-tuning focused on instruction-following behavior but does not yet disclose concrete datasets, hyperparameters, or pipeline details.",
+  "3-3 (Reinforcement Learning)": "No excerpt references reinforcement-learning-based post-training (e.g., RLHF, DPO) for the 3.6B model or any related variant, so there is no information to summarize.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "この記事では、我々が訓練・公開した36億（3.6 Billion）および 17億（1.7 Billion）パラメータ の日本語言語モデル（以下、それぞれ3.6Bモデル、1.7Bモデルと呼びます）を紹介しつつ、途中で得られた言語モデル構築のノウハウを報有します。"
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[sections/https://engineering.linecorp.com/ja/blog/3.6-billion-parameter-japanese-language-model]",
+      "quote": "おわりに 今回公開した1.7B、3.6Bの日本語言語モデルを広く使っていただければ幸いです。また、これらのモデルについて、指示文に対して適切な出力を行えるようにチューニング（Instruction tuning）したモデルを近日中に公開予定です。"
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [],
+  "4-1 (Pre-training Data)": "",
+  "4-2 (Fine-tuning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)__evidence": [],
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "not_used",
+    "rl": "unknown"
+  }
+}

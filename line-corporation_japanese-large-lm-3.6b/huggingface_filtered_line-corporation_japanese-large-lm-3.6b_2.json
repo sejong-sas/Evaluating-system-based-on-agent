@@ -1,0 +1,57 @@
+{
+  "1-5 (Architecture)": "The line-corporation/japanese-large-lm-3.6b repository explicitly notes: “This repository provides a 3.6B parameters Japanese language model, trained by LINE Corporation.”  A concise specification line captures the main numerical design choices: “3.6B  | 51200 | GPTNeoX | RoPE | 30 | 3072 | 32”.  The model config JSON reinforces this by setting \"architectures\": [\"GPTNeoXForCausalLM\"], while also recording \"num_hidden_layers\": 30 and \"hidden_size\": 3072.  Collectively, these quoted facts state that japanese-large-lm-3.6b is a 3.6-billion-parameter GPTNeoXForCausalLM transformer with 30 hidden layers, each of width 3 072, that uses Rotary Positional Embeddings (RoPE).  The same summary row additionally lists the values 51 200 and 32, presented without further labels, but included here because they appear directly in the architecture table published for this model.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository provides a 3.6B parameters Japanese language model, trained by [LINE Corporation](https://linecorp.com/ja/)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "| 3.6B  | 51200      | GPTNeoX      | RoPE          | 30     | 3072       | 32 |"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"architectures\": [\n    \"GPTNeoXForCausalLM\"\n  ]"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 30,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 3072,"
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer details are given in four separate quotes.  The authors state: “We use a sentencepiece tokenizer with a unigram language model and byte-fallback.”  They emphatically add, “We **do not** apply pre-tokenization with Japanese tokenizer.”  A usage example shows how it is instantiated: `tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False)`, confirming that the slow implementation is chosen.  Finally, the vocabulary/model file itself is named “spiece.model”.  Combining these points, japanese-large-lm-3.6b relies on a SentencePiece unigram tokenizer that supports byte-fallback, skips any external Japanese-specific pre-tokeniser, is shipped as spiece.model, and is normally loaded through AutoTokenizer with the fast path disabled.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We use a sentencepiece tokenizer with a unigram language model and byte-fallback."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We **do not** apply pre-tokenization with Japanese tokenizer."
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", use_fast=False)"
+    },
+    {
+      "source": "[files]",
+      "quote": "spiece.model"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "The software environment is indicated by two direct snippets.  The configuration JSON lists \"transformers_version\": \"4.29.2\", while the loading example uses `model = AutoModelForCausalLM.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", torch_dtype=torch.float16)`.  These quotes show that japanese-large-lm-3.6b was prepared with Hugging Face Transformers version 4.29.2 and that typical usage relies on the AutoModelForCausalLM helper, often loading the weights in half-precision (torch.float16).",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.29.2\","
+    },
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\"line-corporation/japanese-large-lm-3.6b\", torch_dtype=torch.float16)"
+    }
+  ]
+}
