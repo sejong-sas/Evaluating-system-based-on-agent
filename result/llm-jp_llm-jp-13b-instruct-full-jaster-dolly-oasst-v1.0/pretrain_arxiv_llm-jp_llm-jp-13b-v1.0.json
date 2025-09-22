@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Considering several factors, including the fact that several participants had experience with it and that developers involved in DeepSpeed had been participating in LLM-jp activities from the beginning, we regarded Megatron-DeepSpeed as the primary tool for Model Building WG’s activities.",
+  "pretrain_data": "To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus.",
+  "__evidence": [
+    {
+      "source": "arxiv:2407.03963",
+      "quote": "Considering several factors, including the fact that several participants had experience with it and that developers involved in DeepSpeed had been participating in LLM-jp activities from the beginning, we regarded Megatron-DeepSpeed as the primary tool for Model Building WG’s activities."
+    },
+    {
+      "source": "arxiv:2407.03963",
+      "quote": "To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    }
+  ]
+}

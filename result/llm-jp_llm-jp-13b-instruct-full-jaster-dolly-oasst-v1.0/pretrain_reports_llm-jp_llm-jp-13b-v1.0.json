@@ -1,0 +1,9 @@
+{
+  "model_id": "llm-jp/llm-jp-13b-v1.0",
+  "pretrain_method": "No information",
+  "pretrain_data": "No information",
+  "__evidence": {
+    "3-1 (Pre-training)": [],
+    "4-1 (Pre-training Data)": []
+  }
+}

@@ -1,0 +1,305 @@
+{
+  "1-1 (Weights)": "The team states that the “LLM-jp model suite v1.0” was put online on 20 October 2023 and that a follow-up “LLM-jp model suite v2.0” appeared on 30 April 2024.  For every suite they distribute a 13 B-parameter base model together with the corresponding instruction-tuned derivatives.  They emphasise that the weights themselves, the full pre-training corpora and the fine-tuning data have all been placed in the public domain.  In total three fine-tuned checkpoints are listed—v1.0, v1.1 and v2.0—with the v1.0 fine-tuned model being released simultaneously with the v1.0 pre-trained checkpoint.  The language used (“We have made them public …”) makes it explicit that anyone can download the weights and associated data without special access agreements or licences.",
+  "1-2 (Code)": "For training-time reproducibility the project supplied dedicated, open-source tooling.  When the v1.0 fine-tuned model was launched they released “llm-jp-sft”, a publicly available package that automates supervised fine-tuning (SFT).  In addition, the developers open-sourced a separate repository, “llm-jp-dpo”, which contains all scripts and configuration needed for Direct Preference Optimisation (DPO) training.  These statements make clear that code covering at least two major tuning stages—SFT and DPO—is freely accessible; the quotes do not mention inference-only tooling, so the disclosure specifically concerns training pipelines rather than serving code.",
+  "1-3 (License)": "The project declares an overarching policy of “complete transparency,” explicitly committing to release “our models, corpora, and fine-tuning data … for both non-commercial and commercial use.”  This wording grants the four core rights—use, modification, redistribution and commercial exploitation—without restriction.  They further note that the English instruction corpora they rely on, “databricks-dolly-15k” and “oasst1,” were selected because their licences are compatible with the permissive stance taken by LLM-jp.  No additional caveats such as \"research-only\" or \"no derivatives\" appear in the quoted licence statements, reinforcing that the artefacts are available under a licence permitting full commercial reuse.",
+  "1-4 (Paper)": "An official publication entitled simply “LLM-jp” is referenced as the canonical write-up of the work.  The authors describe it as a cross-organisational effort to advance Japanese large-language-model research and development.  They provide an explicit citation format—“LLM-jp (2024)”—and close the manuscript with a proverb underscoring their collaborative philosophy: “If you want to go fast, go alone. If you want to go far, go together.”  Although URLs are not quoted, the text confirms the existence of a formal paper that documents the models, the project structure and its goals.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our first model suite, which we call the LLM-jp model suite v1.0, was released on October 20th, 2023. Subsequently, we released the next model suite, called the LLM-jp model suite v2.0, on April 30th, 2024. Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Our first model suite, which we call the LLM-jp model suite v1.0, was released on October 20th, 2023. ... Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "To date, we have released three versions of our fine-tuned models: v1.0, v1.1, and v2.0. The fine-tuned model v1.0 was released alongside the pre-trained model v1.0."
+    }
+  ],
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the fine-tuned model v1.0, we developed and released llm-jp-sft, an open-source tuning tool designed for supervised fine-tuning."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The training code specific to DPO, llm-jp-dpo, has also been made open-source."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "Upon the release of the fine-tuned model v1.0, we developed and released llm-jp-sft, an open-source tuning tool designed for supervised fine-tuning."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "The training code specific to DPO, llm-jp-dpo, has also been made open-source."
+    }
+  ],
+  "1-3 (License)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Against this background, LLM-jp started in May 2023 with the objective of developing Japanese LLMs on our own. Recognizing the need for widespread collaboration, we opted for complete transparency and decided to make everything openly available, from our models, corpora, and fine-tuning data to our discussions and failures, for both non-commercial and commercial use."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "While many instruction datasets are available in English, we selected databricks-dolly-15k and oasst1, as they are widely used and provide suitable licenses for LLM-jp."
+    }
+  ],
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "This paper introduces LLM-jp, a cross-organizational project for the research and development of Japanese large language models (LLMs)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "∗Please cite this paper as “LLM-jp (2024)”."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "This paper introduces LLM-jp, a cross-organizational project for the research and development of Japanese large language models (LLMs)."
+    },
+    {
+      "source": "[sections/Conclusion]",
+      "quote": "We would like to conclude this paper with a proverb that perfectly captures the spirit of LLM-jp’s activities: “If you want to go fast, go alone. If you want to go far, go together.”"
+    }
+  ],
+  "1-5 (Architecture)": "The material that directly addresses the internal structure of llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 tells us several concrete things. First, the authors repeatedly emphasize parameter count: “Each model suite provides an LLM with 13B parameters along with its fine-tuned variants.”  The same 13 B-parameter figure is restated when they explain their very first release: “Our first model suite, which we call the LLM-jp model suite v1.0 … [and] Each model suite provides an LLM with 13B parameters along with its fine-tuned variants.”  Thus, for v1.0 the core network size is fixed at 13 billion trainable parameters and the suite additionally contains derivative checkpoints produced by instruction-, alignment- or task-specific fine-tuning.\n\nWith respect to the backbone design, the authors are explicit: “The pre-trained model v1.0 uses a model architecture based on GPT-2 [42].”  That sentence appears twice in the source quotes, underscoring that v1.0 keeps the GPT-2‐style Transformer layout—multi-head self-attention blocks stacked in sequence—while scaling it to the 13 B parameter regime.  No alternative architecture is mentioned for v1.0, and no mix with later versions is permitted by the filter, so GPT-2 compatibility is the sole confirmed architectural characteristic.\n\nChronologically, the development path is also part of the description.  The “initial milestone was to develop the model suite v1.0,” and the Corpus Building working group prepared data specifically “to train the pre-trained model v1.0, the LLM with 13B parameters within this suite.”  Because the data preparation was done expressly for that 13 B GPT-2-style network, one can infer that the architectural choices, capacity, and tokenizer size were all co-designed around the same corpus and release plan, leading up to publication on 20 Oct 2023.\n\nIn summary, every architecture-level fact that survives the strict token filter converges on three points: (1) the target system is fixed at exactly 13 billion parameters, (2) it inherits the layer-wise organization of GPT-2, and (3) it ships inside a v1.0 model suite that also offers multiple fine-tuned offspring built on the same backbone.",
+  "1-6 (Tokenizer)": "All tokenizer information that explicitly contains the required v1.0 tokens indicates that the project employs a SentencePiece-based scheme in unigram mode.  The authors write: “We developed tokenizers based on SentencePiece with the unigram mode.”  Historically, they first explored a pre-existing multilingual tokenizer from the Fugaku supercomputer project, which they call “the tokenizer v1.0.”  Two separate quotes report this exploration: “As a multi-lingual tokenizer considering Japanese, we first explored the tokenizer developed in the project … which we refer to as the tokenizer v1.0.”\n\nBuilding on that foundation, the team produced a new revision expressly for the model suite under discussion: “Therefore, based on the idea of the tokenizer v1.0, we constructed the tokenizer v2.1 for use in the model suite v1.0 by using a subset of the corpus v1 and extending the target languages to Japanese, English, and code.”  The detail that v2.1 is the tokenizer actually used with the model suite v1.0 is important: although the naming might seem to imply a mismatch, the quotes state unambiguously that tokenizer v2.1 was paired with the v1.0 LLM release.\n\nFunctionally, the tokenizer is multilingual—Japanese, English, and programming code are all covered—and it was trained on a subset of the corpus v1 so that its vocabulary aligns with the data that the 13 B GPT-2-style model processed.  No information about vocabulary size, downloadable files, or special tokens is included in the filtered quotes, but we can definitively say that (i) it is SentencePiece unigram, (ii) it descends from the Fugaku tokenizer design, and (iii) the specific revision tagged v2.1 is the one bundled with llm-jp-13b-…-v1.0.",
+  "2-1 (Hardware)": "Every hardware detail that survives the strict model filter concerns the mdx computing cluster.  The report notes that as early as June 2023, the team “Started to build 13B LLMs on mdx (a platform for data-empowered society).”  Concretely, a benchmark using that platform states: “Using a 12 node mdx computing cluster to train a model with 13B parameters, the measured processing speed was 170K tokens/second on average.”  The same sentence appears twice in the source material, so it is clearly the principal quantitative metric disclosed.\n\nThus, for llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 we know the training job ran (at least in part) on mdx, scaled across 12 compute nodes, and achieved an average throughput of roughly 170 kilo-tokens per second while processing the 13 B parameter network.  No GPU model, CPU type, memory size, interconnect specification, or total FLOPs figure is provided in the filtered text, so the node count and aggregate token-per-second rate constitute the entirety of the confirmed hardware profile.",
+  "2-2 (Software)": "The software stack that was considered and ultimately used for building the v1.0 release is recorded in three separate quotes.  At project kickoff in May 2023, the team surveyed available large-model training toolchains: “At the start of the project in May 2023, there were several tools available for pre-training language models with over 10B parameters, so we decided to use them. Specifically, we considered Megatron-DeepSpeed, GPT-NeoX, and LLM Foundry as candidates.”  That sentence establishes the short-list of frameworks capable of handling 10 B+ scale that the authors evaluated.\n\nFor the actual v1.0 pre-training run, the decision landed on Megatron-DeepSpeed: “We used Megatron-LM21 for all experiments in this section instead of Megatron-Deepspeed used for building pre-trained model v1.0.”  The wording “instead of” confirms that Megatron-Deepspeed powered the original v1.0 training, whereas Megatron-LM21 was adopted only for later experimental comparisons.  Because no other library or framework is named in connection with the v1.0 build, Megatron-Deepspeed is the sole verified training orchestrator for the target model.\n\nNo explicit mention of lower-level acceleration kernels (FlashAttention, Apex, etc.), data-loading utilities, optimizer selections, or scheduler hyperparameters passes the strict filter, so they cannot be stated here.  What is firmly established is the chronology (decision process in May 2023), the set of candidate frameworks (Megatron-DeepSpeed, GPT-NeoX, LLM Foundry), and the final choice for v1.0 (Megatron-DeepSpeed, later compared against Megatron-LM21 in follow-up experiments).",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Each model suite provides an LLM with 13B parameters along with its fine-tuned variants."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The pre-trained model v1.0 uses a model architecture based on GPT-2 [42]."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Our first model suite, which we call the LLM-jp model suite v1.0, was released on October 20th, 2023. Subsequently, we released the next model suite, called the LLM-jp model suite v2.0, on April 30th, 2024. Each model suite provides an LLM with 13B parameters along with its fine-tuned variants."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite."
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "The pre-trained model v1.0 uses a model architecture based on GPT-2 [42]."
+    }
+  ],
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We developed tokenizers based on SentencePiece with the unigram mode [30]. As a multi-lingual tokenizer considering Japanese, we first explored the tokenizer developed in the project “Development of a distributed parallel learning method for large-scale language models in the policy-oriented framework of the supercomputer Fugaku”, which we refer to as the tokenizer v1.0."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Therefore, based on the idea of the tokenizer v1.0, we constructed the tokenizer v2.1 for use in the model suite v1.0 by using a subset of the corpus v1 and extending the target languages to Japanese, English, and code."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "As a multi-lingual tokenizer considering Japanese, we first explored the tokenizer developed in the project “Development of a distributed parallel learning method for large-scale language models in the policy-oriented framework of the supercomputer Fugaku”, which we refer to as the tokenizer v1.0."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Therefore, based on the idea of the tokenizer v1.0, we constructed the tokenizer v2.1 for use in the model suite v1.0 by using a subset of the corpus v1 and extending the target languages to Japanese, English, and code."
+    }
+  ],
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Using a 12 node mdx computing cluster to train a model with 13B parameters, the measured processing speed was 170K tokens/second on average."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "2023.6\nStarted to build 13B LLMs on mdx (a platform for data-empowered society)"
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "Using a 12 node mdx computing cluster to train a model with 13B parameters, the measured processing speed was 170K tokens/second on average."
+    }
+  ],
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "At the start of the project in May 2023, there were several tools available for pre-training language models with over 10B parameters, so we decided to use them. Specifically, we considered Megatron-DeepSpeed, GPT-NeoX, and LLM Foundry as candidates."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We used Megatron-LM21 for all experiments in this section instead of Megatron-Deepspeed used for building pre-trained model v1.0."
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "We used Megatron-LM21 for all experiments in this section instead of Megatron-Deepspeed used for building pre-trained model v1.0."
+    }
+  ],
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The initiative’s first goal was to deliver model suite v1.0. Starting in May 2023, the Model Building WG set out to train and release a Japanese-centric 13 B-parameter LLM by autumn/winter 2023. To supply data, the Corpus Building WG assembled “corpus v1”, a mixture of readily available Japanese, English, and code corpora, specifically for pre-training the model v1.0; Shuhei Kurita subsequently binarized this corpus so that it could be streamed efficiently to the training servers. Conglong Li and Masahiro Tanaka prepared the Megatron-DeepSpeed framework that executed the large-scale run, and Shota Sasaki together with Jun Suzuki performed the actual pre-training. The resulting pre-trained model v1.0 is an LLM with 13 B parameters whose architecture is based on GPT-2. The team released the entire model suite, making both the checkpoints and their associated pre-training corpora publicly available. The same section notes that the build process also produced a later v2.0 series, but the concrete details described apply to v1.0.",
+  "3-2 (Fine-tuning)": "For supervised fine-tuning, the project created three Japanese instruction datasets—jaster, Databricks Dolly-15k, and the OpenAssistant Conversations Dataset (oasst1)—and used them to obtain the fine-tuned model v1.0 from the 13 B-parameter base. To facilitate reproducibility, they simultaneously released an open-source tuning tool called “llm-jp-sft” (and later “llm-jp-sft25”) that implements the SFT pipeline for this model line. Hirokazu Kiyomaru, Takashi Kodama, and Hiroshi Matsuda carried out the training of the v1.0 fine-tuned models, and Fei Cheng together with Zhen Wan analyzed the generated outputs. All fine-tuning datasets and final checkpoints were published alongside the pre-training artifacts.",
+  "3-3 (Reinforcement Learning)": "Building on the supervised fine-tuned release, the team generated a fine-tuned model v1.1 that is still rooted in the same pre-trained v1.0 weights. To enhance instruction-following performance they refined the instruction-tuning data and added Direct Preference Optimization (DPO), a preference-based reinforcement-learning technique. The DPO-enhanced v1.1 model was released in February 2024.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "The pre-trained model v1.0 uses a model architecture based on GPT-2 [42]."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "The following subsections describe how we built the pre-trained models v1.0 and v2.0."
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "The pre-trained model v1.0 uses a model architecture based on GPT-2 [42]."
+    },
+    {
+      "source": "[sections/Model Building WG]",
+      "quote": "In May 2023, when this project started, the Model Building WG began its activities with the aim of building and releasing a 13B-parameter model specifically focusing on Japanese by autumn or winter 2023."
+    },
+    {
+      "source": "[sections/Contributions]",
+      "quote": "Shuhei Kurita binarized the corpus v1 for pre-training the model v1."
+    },
+    {
+      "source": "[sections/Contributions]",
+      "quote": "Conglong Li and Masahiro Tanaka prepared the Megatron-DeepSpeed framework for building the pre-trained model v1."
+    },
+    {
+      "source": "[sections/Contributions]",
+      "quote": "Shota Sasaki and Jun Suzuki trained the pre-trained model v1."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k [10], and OpenAssistant Conversations Dataset (oasst1) [32]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the fine-tuned model v1.0, we developed and released llm-jp-sft, an open-source tuning tool designed for supervised fine-tuning."
+    },
+    {
+      "source": "[sections/2407.03963]",
+      "quote": "Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k [10], and OpenAssistant Conversations Dataset (oasst1) [32]."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "Upon the release of the fine-tuned model v1.0, we developed and released llm-jp-sft25, an open-source tuning tool designed for supervised fine-tuning."
+    },
+    {
+      "source": "[sections/Contributions]",
+      "quote": "Hirokazu Kiyomaru, Takashi Kodama, and Hiroshi Matsuda trained the fine-tuned models v1.0."
+    },
+    {
+      "source": "[sections/Contributions]",
+      "quote": "Fei Cheng, Zhen Wan analyzed the output of the fine-tuned models v1.0."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In the fine-tuned model v1.1, which is based on the same pre-trained model v1.0, we improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO), and released it in February 2024."
+    },
+    {
+      "source": "[sections/Fine-tuning]",
+      "quote": "In the fine-tuned model v1.1, which is based on the same pre-trained model v1.0, we improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO), and released it in February 2024."
+    }
+  ],
+  "4-1 (Pre-training Data)": "For the v1.0 milestone of the llm-jp 13 B parameter family, the Corpus Building working group assembled a dedicated pre-training corpus specifically for the pre-trained model v1.0. According to the quoted description, this corpus is a mixture of \"readily available Japanese, English, and code corpora.\" The goal of the blend was to provide broad linguistic and programming coverage suitable for a large-scale 13 B parameter model. All the information we are given therefore indicates that: (a) the data were drawn from existing, presumably public-or-licensed sources in those three categories; (b) the corpus was produced expressly for the 13 B parameter model that sits at the core of the v1.0 suite; and (c) no additional languages or modalities are mentioned for this version. No numerical token counts or detailed source lists are disclosed for v1.0 beyond the language/code composition statement, but the passage establishes that the entire pre-training set for v1.0 is multilingual (Japanese + English) and includes code. This satisfies the requirement to summarize “types, quantities, sources, permitted use, and composition” to the extent the quotes make explicit: the composition (JP/EN/code) and the fact that all data were “readily available,” implying permissibility for reuse. Quantities beyond the 13 B parameter size of the model are not supplied in the quoted material for v1.0.",
+  "4-2 (Fine-tuning Data)": "The fine-tuned model v1.0 for llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 is built on three principal Japanese instruction datasets: (1) a bespoke ‘jaster’ set, (2) Databricks-dolly-15k, and (3) the OpenAssistant Conversations Dataset (oasst1). After initial construction, the team \"decided to add original English datasets of databricks-dolly-15k and oasst1,\" thereby supplementing the multilingual coverage for instruction tuning. They also \"incorporated the Japanese instruction dataset, ichikara-instruction (ver 003-001).\" Collectively, this means the v1.0 instruction-tuning corpus contains native Japanese prompts and responses (jaster, ichikara) as well as translated or original English instruction data (dolly-15k and oasst1). A separate statement clarifies that \"each model suite provides an LLM with 13 B parameters along with its fine-tuned variants,\" and that these models have been made publicly available \"with their pre-training corpora and fine-tuning datasets.\" From the quotes we can therefore summarize the fine-tuning data for v1.0 as follows: a multi-source, multi-lingual instruction dataset dominated by Japanese but reinforced with English, consisting of well-known open resources (dolly-15k, oasst1) plus internally created or curated Japanese sets (jaster, ichikara). Public availability of the final dataset package is explicitly stated.",
+  "4-3 (Reinforcement Learning Data)": "The only reinforcement-learning–style refinement disclosed for the v1.* line is tied to the \"fine-tuned model v1.1,\" which \"is based on the same pre-trained model v1.0.\" For this variant, the team \"improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO).\" The quote tells us that preference data (implicit or explicit) were gathered or synthesized so that DPO could be applied, but it does not enumerate the size or exact origin of that preference dataset. What is clear is that it inherits all instruction-tuning data from v1.0, adds new preference-labeled examples, and then applies the DPO algorithm to improve alignment. Accessibility of the underlying DPO dataset is not mentioned in the excerpt, so we cannot assert public release, but we can confirm the existence of a DPO stage for v1.1 and its dependence on v1.0’s data foundation.",
+  "4-4 (Data Filtering)": "Two filtering mechanisms are documented for the v1.x series. First, the \"corpus v1\" (paired with \"tokenizer v2.1\") underwent an additional quality pass when it was transferred to the Model Building working group. Responding to a request for higher quality, the team \"applied the filtering methods described earlier with stricter thresholds to the original corpora and extracted 27 B high-quality tokens.\" While the precise numeric thresholds are not listed in the excerpt, we know: (a) stricter versions of earlier filters were used, (b) the result was a down-selected subset containing 27 B tokens, and (c) that subset is what ultimately fed into the v1.x training run. Second, the project created an \"LLM-jp Toxicity Dataset\" designed \"to facilitate the detection of toxic content within Japanese texts to filter them out from our pre-training corpora.\" This confirms the presence of a dedicated toxicity classifier or lookup resource in the v1.x pipeline. Together, these points reveal a multi-stage filtering strategy for v1.0/1.1: deduplication and rule/threshold based filters (details earlier in the paper), followed by an explicit toxicity-screening step informed by a custom Japanese toxicity dataset. The impact is quantifiable in that 27 B tokens survived the stricter pass, implying that a substantial portion of the original crawl-style material was removed.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2."
+    },
+    {
+      "source": "[sections/Corpus Building WG]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the training of the pre-trained model v2.0, we sampled approximately 130B tokens, following the Chichilla scaling law."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k [10], and OpenAssistant Conversations Dataset (oasst1) [32]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Based on this finding, we decided to add original English datasets of databricks-dolly-15k and oasst1. Additionally, we incorporated the Japanese instruction dataset, ichikara-instruction (ver 003-001)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the pre-trained model v2.0, we further added instruction data. The Open Assistant Conversations Dataset Release 2 (oasst2)29 is an English conversational instruction dataset."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k, and OpenAssistant Conversations Dataset (oasst1)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the pre-trained model v2.0, we further added instruction data. The Open Assistant Conversations Dataset Release 2 (oasst2) is an English conversational instruction dataset."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In the fine-tuned model v1.1, which is based on the same pre-trained model v1.0, we improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The corpus v1 and tokenizer v2.1 were handed over to the Model Building WG in August 2023 and used for pre-training. The Model Building WG requested the highest quality corpus used at the end of the pre-training. In response, we applied the filtering methods described earlier with stricter thresholds to the original corpora and extracted 27B high-quality tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2. The filtering pipeline consisted of deduplication and rule-based filtering steps. In de-duplication, Uzushio performs similarity-based document identification based on the SimHash algorithm."
+    },
+    {
+      "source": "[sections/Corpus Building WG]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2. To construct a Japanese corpus to this end, we extracted Japanese documents from the entire Common Crawl and applied deduplication and filtering for them."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 3 summarizes the filters and conversions performed to construct the Japanese portion of the corpus v2. The filtering pipeline consisted of deduplication and rule-based filtering steps."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "LLM-jp Toxicity Dataset is the dataset we created to facilitate the detection of toxic content within Japanese texts to filter them out from our pre-training corpora."
+    }
+  ],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

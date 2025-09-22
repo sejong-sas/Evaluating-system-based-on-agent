@@ -1,0 +1,28 @@
+{
+  "1-1 (Weights)": "No statements in the supplied quotes mention the availability, location, or access procedure for the llm-jp/llm-jp-eval model weights. Therefore, on the basis of the material given, we cannot confirm whether the weights are public, gated, or entirely private, nor can we describe any download mechanism or hosting platform.",
+  "1-1 (Weights)__evidence": [],
+  "1-2 (Code)": "The only direct evidence about code is the line:\n  \"from llm_jp_eval.jaster.base import BaseDatasetProcessor, Sample, Split\"\nThis import statement demonstrates that a Python package bearing the exact target identifier (\"llm_jp_eval\") exists and exposes a module path \"jaster.base\" that defines at least three symbols—\"BaseDatasetProcessor\", \"Sample\", and \"Split\". From the naming, these appear to be utilities for dataset handling (processing, individual sample representation, and train/validation/test split management). Because the quote comes from executable source, it confirms that some portion of the project’s codebase is publicly readable and installable as a library. However, the excerpt is confined to data-set processing; it makes no explicit mention of full training or fine-tuning pipelines, hyper-parameter schedules, or reinforcement-learning-from-human-feedback scripts. Consequently, we can only attest to the publication of evaluation or preprocessing utilities, not the end-to-end training code.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[py_files/src/llm_jp_eval/jaster/chabsa.py]",
+      "quote": "from llm_jp_eval.jaster.base import BaseDatasetProcessor, Sample, Split"
+    }
+  ],
+  "1-3 (License)": "Multiple license fragments are provided:\n  • \"本ツールは Apache License 2.0 の元に配布します。\" (Japanese: \"This tool is distributed under the Apache License 2.0.\")\n  • \"Licensed under the Apache License, Version 2.0 (the \\\"License\\\"); you may not use this file except in compliance with the License.\"\n  • \"You may obtain a copy of the License at\"\nThese extracts explicitly state that the project—implicitly including the llm-jp/llm-jp-eval code—falls under the Apache License, Version 2.0. Under Apache 2.0, recipients are granted broad rights to use, modify, reproduce, and redistribute the software, including for commercial purposes, provided that they comply with the conditions such as preserving license notices and providing a copy of the license. None of the quoted text introduces extra restrictions (e.g., \"non-commercial\" or \"no derivatives\"); therefore the standard Apache 2.0 terms apply: (a) free use, (b) permission to create and distribute modifications, (c) permission to redistribute original or modified versions, and (d) allowance for commercial exploitation.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "本ツールは Apache License 2.0 の元に配布します。"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "You may obtain a copy of the License at"
+    }
+  ],
+  "1-4 (Paper)": "The quote set contains no references to a paper, technical report, or blog post for llm-jp/llm-jp-eval; accordingly, no publication information can be summarized.",
+  "1-4 (Paper)__evidence": []
+}

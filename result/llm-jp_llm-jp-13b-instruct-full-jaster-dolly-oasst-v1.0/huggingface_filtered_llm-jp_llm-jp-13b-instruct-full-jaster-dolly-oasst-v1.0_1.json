@@ -1,0 +1,40 @@
+{
+  "1-1 (Weights)": "The available snippets consistently show that the weights for llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 are published on-line through the Hugging Face Hub. Loading examples are given with the exact repository name in both the tokenizer line – “tokenizer = AutoTokenizer.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\")” – and the model line – “model = AutoModelForCausalLM.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\", device_map=\"auto\", torch_dtype=torch.float16)”.  A checkpoint note adds that the default distribution format is “Hugging Face Transformers”, while an alternative “Megatron-DeepSpeed format” is also hosted at the sister URL “https://huggingface.co/llm-jp/llm-jp-13b-v1.0-mdsfmt”.  One of the weight shard files is explicitly listed as “pytorch_model-00001-of-00003.bin”, confirming multi-part binary checkpoints.  Together these quotes indicate that anyone with standard Hugging Face tooling can download and load the full model weights, either in standard Transformers sharded .bin files or in an optional Megatron-DeepSpeed layout.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\", device_map=\"auto\", torch_dtype=torch.float16)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "Checkpoints format: Hugging Face Transformers (Megatron-DeepSpeed format models are available [here](https://huggingface.co/llm-jp/llm-jp-13b-v1.0-mdsfmt))"
+    },
+    {
+      "source": "[files]",
+      "quote": "pytorch_model-00001-of-00003.bin"
+    }
+  ],
+  "1-2 (Code)": "No provided quote mentions any training, fine-tuning, or RLHF code for llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0.  Consequently, there is no evidence in the supplied material that the authors have released public TRAINING code for any stage of the pipeline.",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "All extracted license lines state that the project uses the Apache License 2.0.  The repository metadata reads “license: apache-2.0”, and the README reiterates this in a dedicated section headed “## License” with the full link “https://www.apache.org/licenses/LICENSE-2.0”.  A longer metadata block again embeds “license: apache-2.0”.  No additional restrictions or deviations are mentioned in the supplied text, so the model is released under the standard terms of Apache 2.0 as referenced by those exact quotes.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "license: apache-2.0"
+    },
+    {
+      "source": "[readme]",
+      "quote": "## License\n\n[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[readme]\n---\nlicense: apache-2.0\nlanguage:\n - en\n - ja\nprogramming_language:\n - C\n - C++\n - C#\n - Go\n - Java\n - JavaScript\n - Lua\n - PHP\n - Python\n - Ruby\n - Rust\n - Scala\n - Ty"
+    }
+  ],
+  "1-4 (Paper)": "None of the supplied quotes mention any official paper, technical report, blog post, or other written documentation for llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0; therefore no publication information can be summarized.",
+  "1-4 (Paper)__evidence": []
+}
