@@ -1,0 +1,22 @@
+{
+  "pretrain_method": "The models we use in this paper are dense left-to-right decoder-only Transformer language models [Vaswani et al., 2017] trained on a combination of web documents, dialog data, and Wikipedia. We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction.",
+  "pretrain_data": "The models we use in this paper are dense left-to-right decoder-only Transformer language models [Vaswani et al., 2017] trained on a combination of web documents, dialog data, and Wikipedia. We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens. These tokens come from a variety of data sources, including web documents, code, and science articles.",
+  "__evidence": [
+    {
+      "source": "arxiv:2108.07732",
+      "quote": "The models we use in this paper are dense left-to-right decoder-only Transformer language models [Vaswani et al., 2017] trained on a combination of web documents, dialog data, and Wikipedia."
+    },
+    {
+      "source": "arxiv:2408.00118",
+      "quote": "We also train the 2B and 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction."
+    },
+    {
+      "source": "arxiv:2108.07732",
+      "quote": "The models we use in this paper are dense left-to-right decoder-only Transformer language models [Vaswani et al., 2017] trained on a combination of web documents, dialog data, and Wikipedia."
+    },
+    {
+      "source": "arxiv:2408.00118",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens. These tokens come from a variety of data sources, including web documents, code, and science articles."
+    }
+  ]
+}

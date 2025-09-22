@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "Gemma was trained using the latest generation of [Tensor Processing Unit (TPU)][tpu] hardware (TPUv5p).",
+  "pretrain_data": "The 27B model was trained with 13 trillion tokens, the 9B model was trained with 8 trillion tokens, and 2B model was trained with 2 trillion tokens.",
+  "__evidence": [
+    {
+      "source": "card_content",
+      "quote": "Gemma was trained using the latest generation of [Tensor Processing Unit (TPU)][tpu] hardware (TPUv5p)."
+    },
+    {
+      "source": "card_content",
+      "quote": "The 27B model was trained with 13 trillion tokens, the 9B model was trained with 8 trillion tokens, and 2B model was trained with 2 trillion tokens."
+    }
+  ]
+}

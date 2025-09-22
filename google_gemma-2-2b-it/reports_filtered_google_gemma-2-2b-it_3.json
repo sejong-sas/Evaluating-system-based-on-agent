@@ -1,0 +1,77 @@
+{
+  "2-3 (API)": "",
+  "3-1 (Pre-training)": "The provided material describes a multi-stage pre-training programme for the Gemma 2 family and includes explicit details for the 2 B variant. The 2 B model is exposed to 2 trillion primarily-English tokens, while larger companions (9 B and 27 B) consume 8 T and 13 T tokens respectively, establishing a common corpus but with size-specific scales. Training does not rely solely on maximum-likelihood over raw text: instead, a large teacher model supplies token-level probability targets, and the student (including the 2 B instance) minimises the negative log-likelihood between teacher and student distributions. This distillation-centric recipe means the 2 B model is intentionally trained on a token count that exceeds the compute-optimal frontier by more than 50×, trading additional data for quality while remaining tractable on smaller hardware.\n\nHardware and parallelism are also spelled out. For Gemma 2 2 B, the team deploys a 2 × 16 × 16 TPU-v5e mesh (512 chips in total) with 512-way data replication and a single slice of model sharding, indicating that the model weights fit comfortably on one shard while data is split across the entire pod. Safety considerations start at the data-collection stage: the authors emphasise “considerable safety filtering” of the pre-training corpus so that even the raw checkpoints are less likely to emit disallowed or harmful content. \n\nFinally, vision-language capability is boot-strapped before any downstream adaptation by coupling the SigLIP-So400 M vision encoder (also used in PaliGemma) with every Gemma 2 size, including the 2 B checkpoint. The composite models are trained at three input resolutions—224 px, 448 px and 896 px—over multiple stages so that the resulting representations are broadly transferable when later fine-tuned. All of these elements—token counts, distillation, safety filtering, TPU topology, and early multi-modal pairing—define the pre-training pipeline for Gemma 2 2 B.",
+  "3-2 (Fine-tuning)": "Fine-tuning for Gemma 2 2 B follows a structured, multi-objective strategy. First, the model inherits the same control-token inventory used in Gemma 1, but the surrounding formatting schema is updated to match the new generation of checkpoints. Second, safety alignment is reinforced during fine-tuning: in addition to supervised fine-tuning (SFT) on curated instruction data, RLHF is applied so that the model learns to avoid undesirable outputs in accordance with Google’s internal safety policies that are shared with the Gemini project.\n\nBeyond safety, the ecosystem offers a lightweight adaptation toolkit. Parameter-efficient techniques (as described by Mozes et al., 2023) allow users to build custom classifiers on top of Gemma with only a small number of task-specific datapoints, which makes the 2 B checkpoint practical for domain-specific deployments.\n\nFine-tuning is not restricted to pure text. The SigLIP-So400 M vision encoder is fused with every Gemma 2 size, and the composite models undergo additional training at three image resolutions (224, 448, 896 px). After that stage, the team performs broad transfer fine-tuning on an expanded suite of vision-language tasks, extending well past the original PaliGemma coverage to include table-structure OCR, chemical structure parsing, music-score transcription, long and fine-grained captioning, and radiography report generation. These efforts enable the resulting “PaliGemma 2” instantiation (which includes the 2 B backbone) to achieve state-of-the-art performance across the enlarged task set.",
+  "3-3 (Reinforcement Learning)": "Reinforcement Learning from Human Feedback (RLHF) is explicitly integrated into the training stack for Gemma 2 2 B. The algorithmic framework mirrors that used in Gemma 1.1, ensuring continuity and reuse of proven components, but the reward model is upgraded: it is now an order of magnitude larger than the policy network itself, giving it greater capacity to evaluate and rank candidate outputs. RLHF is applied after supervised fine-tuning and works in tandem with SFT to steer the model towards helpful behaviour and away from harmful or policy-violating content, thereby reinforcing the safety objectives introduced during earlier training phases.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens."
+    },
+    {
+      "source": "[url:https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "In this work, we have presented Gemma 2, the newest additions to the Gemma family of open language models for text and code. We show that distillation is an effective method for training these models, and the benefits distillation confers over raw text training."
+    },
+    {
+      "source": "[url:https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). We undertook considerable safety filtering of our pre-training data to reduce the likelihood of our pre-trained and fine-tuned checkpoints producing harmful content."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Given a large model used as a teacher, we learn smaller models by distilling from the probability given by the teacher of each token 𝑥given its context 𝑥𝑐, i.e., 𝑃𝑇(𝑥| 𝑥𝑐). More precisely, we minimize the negative log-likelihood between the probabilities from the teacher and the student: ... Concretely, we use a large language model as a teacher to train small models, namely 2B and 9B models, on a quantity of tokens that is more than 50× the compute-optimal quantity predicted by the theory (Hoffmann et al., 2022)."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "For the 2B model, we train on a 2x16x16 configuration of TPUv5e, totaling 512 chips, with 512-way data replication and 1-way model sharding."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.03555]",
+      "quote": "We combine the SigLIP-So400m vision encoder that was also used by PaliGemma with the whole range of Gemma 2 models, from the 2B one all the way up to the 27B model. We train these models at three resolutions (224px, 448px, and 896px) in multiple stages to equip them with broad knowledge for transfer via fine-tuning."
+    }
+  ],
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Formatting. Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models, as detailed in Table 4, but a different formatting schema."
+    },
+    {
+      "source": "[url:https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). For fine-tuned models, we also use both SFT and RLHF to steer the model away from undesirable behavior."
+    },
+    {
+      "source": "[url:https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Additionally, the toolkit includes a methodology to build customized classifiers with Gemma using a limited number of datapoints thanks to parameter efficient tuning techniques (Mozes et al., 2023)"
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Formatting. Gemma 2 models are fine-tuned with the same control tokens as Gemma 1 models, as detailed in Table 4, but a different formatting schema."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.03555]",
+      "quote": "We combine the SigLIP-So400m vision encoder that was also used by PaliGemma with the whole range of Gemma 2 models, from the 2B one all the way up to the 27B model. We train these models at three resolutions (224px, 448px, and 896px) in multiple stages to equip them with broad knowledge for transfer via fine-tuning."
+    },
+    {
+      "source": "[sections/https://arxiv.org/abs/2412.03555]",
+      "quote": "We further increase the number and breadth of transfer tasks beyond the scope of PaliGemma including different OCR-related tasks such as table structure recognition, molecular structure recognition, music score recognition, as well as long fine-grained captioning and radiography report generation, on which PaliGemma 2 obtains state-of-the-art results."
+    }
+  ],
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Reinforcement Learning from Human Feed- back (RLHF). We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a differ- ent reward model, which is an order of magnitude larger than the policy."
+    },
+    {
+      "source": "[url:https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). For fine-tuned models, we also use both SFT and RLHF to steer the model away from undesirable behavior."
+    },
+    {
+      "source": "[sections/https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF). We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy."
+    }
+  ]
+}

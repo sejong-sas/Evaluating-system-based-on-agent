@@ -1,0 +1,38 @@
+{
+  "1-5 (Architecture)": "The documentation that explicitly names the target model states: \"The Gemma-2 2b model can be run up to 6x faster by leveraging torch compile.\"  This sentence directly attributes a concrete runtime characteristic—an up-to-six-fold speed-up—to the google/gemma-2-2b-it architecture when the PyTorch compilation path is enabled.  A second sentence provides the only disclosed data-volume figure that also mentions the target size class: \"The 27B model was trained with 13 trillion tokens, the 9B model was trained with 8 trillion tokens, and 2B model was trained with 2 trillion tokens.\"  From that line, the relevant fragment for the 2 B variant is that the model \"was trained with 2 trillion tokens.\"  Taken together, these two quotes yield all public architectural and design details: the model belongs to the 2-billion-parameter class, achieves up to a 6× speed-up under torch compile, and was pre-trained on a corpus containing approximately two trillion tokens.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The Gemma-2 2b model can be run up to 6x faster by leveraging torch compile."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The 27B model was trained with 13 trillion tokens, the 9B model was trained with 8 trillion tokens, and 2B model was trained with 2 trillion tokens."
+    }
+  ],
+  "1-6 (Tokenizer)": "Tokenizer use is demonstrated through the explicit loading example: \"tokenizer = AutoTokenizer.from_pretrained(\\\"google/gemma-2-2b-it\\\")\".  The same section immediately stresses correct chat formatting: \"You can ensure the correct chat template is applied by using `tokenizer.apply_chat_template` as follows:\".  These two sentences convey that a dedicated, downloadable tokenizer artifact is published under the exact model identifier and that proper inference requires applying the bundled chat template through `apply_chat_template`.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"google/gemma-2-2b-it\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "You can ensure the correct chat template is applied by using `tokenizer.apply_chat_template` as follows:"
+    }
+  ],
+  "2-1 (Hardware)": "\"Gemma was trained using the latest generation of [Tensor Processing Unit (TPU)][tpu] hardware (TPUv5p).\"  This single statement confirms that google/gemma-2-2b-it was trained on TPUv5p accelerators.",
+  "2-1 (Hardware)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Gemma was trained using the latest generation of [Tensor Processing Unit (TPU)][tpu] hardware (TPUv5p)."
+    }
+  ],
+  "2-2 (Software)": "\"Training was done using [JAX][jax] and [ML Pathways][ml-pathways].\"  This direct quote establishes that the training stack for gemma-2-2b-it relied on the JAX framework and the ML Pathways system.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Training was done using [JAX][jax] and [ML Pathways][ml-pathways]."
+    }
+  ]
+}

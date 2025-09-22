@@ -1,0 +1,58 @@
+{
+  "4-1 (Pre-training Data)": "The google/gemma-2-2b-it checkpoint is trained on 2 trillion tokens of primarily English text. The same statement notes that other Gemma 2 variants (9 B and 27 B) receive 8 T and 13 T tokens respectively, but the 2 B figure is explicitly 2 T. The material is drawn from “a variety of data sources, including web documents, code, and science articles,” giving a blend of general web prose, programming code and scientific literature. No additional languages, modalities, or proprietary sources are mentioned in the cited text, so the publicly described corpus can be summarized as a large-scale, mostly-English, multi-domain text collection of 2 trillion tokens.",
+  "4-2 (Fine-tuning Data)": "For supervised fine-tuning, the team “extended the post-training data from Gemma 1.1 with a mixture of internal and external public data.” One explicitly named public component is the LMSYS-chat-1M dataset, from which they keep “the prompts, but not the answers.” The SFT stage is performed “on a mix of text-only, English-only synthetic and human-generated prompt-response pairs.” Thus, after inheriting the Gemma 1.1 post-training base, the developers add additional conversational prompts, restrict everything to English text, and combine machine-generated with human-written dialogue pairs to refine instruction following. The excerpt does not specify the exact number of examples, but it clarifies the provenance (internal + public), modality (text), language (English), and mixture of synthetic and human contributions.",
+  "4-3 (Reinforcement Learning Data)": "Reinforcement Learning from Human Feedback (RLHF) is performed with “a similar RLHF algorithm as Gemma 1.1” while employing “a different reward model, which is an order of magnitude larger than the policy” and “oriented more towards conversational capabilities, specifically multi-turn.” After the SFT stage, the same prompts are reused: “We then apply RLHF on top of these models with the reward model trained on labelled English-only preference data and the policy based on the same prompts as the SFT phase.” Consequently, the preference dataset consists of English annotations in which human raters compare candidate answers to the identical instruction prompts used in supervised fine-tuning. The scale of the reward model (≈10× the policy) and its conversational focus are the only quantitative or architectural details revealed in the provided text.",
+  "4-4 (Data Filtering)": "Gemma-2 employs “the same data filtering techniques as Gemma 1.” The stated objectives are to (1) “filter the pre-training dataset to reduce the risk of unwanted or unsafe utterances,” (2) “filter out certain personal information or other sensitive data,” (3) “decontaminate evaluation sets from our pre-training data mixture,” and (4) “reduce the risk of recitation by minimizing the proliferation of sensitive outputs.” The authors emphasize that “considerable safety filtering” was carried out so that “our pre-trained and fine-tuned checkpoints” are less likely to produce harmful content, aligning the approach with Google safety policies used for Gemini models. Regarding personal data specifically, they state: “We use Google Cloud Sensitive Data Protection Tool to find potential instances of personal data,” applying “the same prevention methods at training time and the same evaluations as” earlier Gemma work. Although no numeric thresholds or classifier scores are disclosed in the excerpt, it is clear that multi-stage filtering—spanning pre-training corpora, evaluation splits, and fine-tuned outputs—forms a central pillar of the model’s safety and privacy strategy.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens. These tokens come from a variety of data sources, including web documents, code, and science articles."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "We train Gemma 2 27B on 13 trillion tokens of primarily-English data, the 9B model on 8 trillion tokens, and the 2B on 2 trillion tokens. These tokens come from a variety of data sources, including web documents, code, and science articles."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[sections/Post-Training]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data. In particular, we use the prompts, but not the answers from LMSYS-chat-1M (Zheng et al., 2023)."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data. First, we apply supervised fine-tuning (SFT) on a mix of text-only, English-only synthetic and human-generated prompt-response pairs."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data. In particular, we use the prompts, but not the answers from LMSYS-chat-1M (Zheng et al., 2023)."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[sections/Post-Training]",
+      "quote": "Reinforcement Learning from Human Feedback (RLHF). We use a similar RLHF algorithm as Gemma 1.1 (Gemma Team, 2024) but a different reward model, which is an order of magnitude larger than the policy. The new reward model is also oriented more towards conversational capabilities, specifically multi-turn."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "We extended the post-training data from Gemma 1.1 with a mixture of internal and external public data. We then apply RLHF on top of these models with the reward model trained on labelled English-only preference data and the policy based on the same prompts as the SFT phase."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Pre-training]",
+      "quote": "Filtering. We use the same data filtering techniques as Gemma 1. Specifically, we filter the pre-training dataset to reduce the risk of unwanted or unsafe utterances, filter out certain personal information or other sensitive data, decontaminate evaluation sets from our pre-training data mixture, and reduce the risk of recitation by minimizing the proliferation of sensitive outputs."
+    },
+    {
+      "source": "[sections/2408.00118]",
+      "quote": "Filtering. We use the same data filtering techniques as Gemma 1. Specifically, we filter the pre-training dataset to reduce the risk of unwanted or unsafe utterances, filter out certain personal information or other sensitive data, decontaminate evaluation sets from our pre-training data mixture, and reduce the risk of recitation by minimizing the proliferation of sensitive outputs."
+    },
+    {
+      "source": "[sections/8.2 Safety policies and train-time mitigations]",
+      "quote": "A key pillar of Gemma’s approach to safety is to align fine-tuned models with Google’s safety policies, in line with Gemini models (Gemini Team, 2023). We undertook considerable safety filtering of our pre-training data to reduce the likelihood of our pre-trained and fine-tuned checkpoints producing harmful content."
+    },
+    {
+      "source": "[sections/7. Memorization and Privacy]",
+      "quote": "Personal Data We use the same prevention methods at training time and the same evaluations as Gemma Team (2024). In particular, we use Google Cloud Sensitive Data Protection Tool to find potential instances of personal data."
+    }
+  ]
+}
