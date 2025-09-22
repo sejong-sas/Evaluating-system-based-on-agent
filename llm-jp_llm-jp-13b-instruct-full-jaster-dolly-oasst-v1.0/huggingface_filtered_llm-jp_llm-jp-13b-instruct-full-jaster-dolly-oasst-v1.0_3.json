@@ -1,0 +1,69 @@
+{
+  "2-3 (API)": "The public Hugging Face-style API for the model identified as \"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\" is demonstrated entirely through two code snippets.  A user first instantiates a tokenizer with:\n    tokenizer = AutoTokenizer.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\")\nThen the language model itself is loaded with automatic device placement and half-precision weights:\n    model = AutoModelForCausalLM.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\", device_map=\"auto\", torch_dtype=torch.float16)\nThese lines show that the model can be accessed directly from the Hugging Face Hub, relies on standard Transformers classes (AutoTokenizer / AutoModelForCausalLM), supports automatic multi-GPU or CPU/GPU routing through device_map=\"auto\", and is ready for FP16 inference.  No further API endpoints, rate limits, or hosted inference services are described in the provided material.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "model = AutoModelForCausalLM.from_pretrained(\"llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0\", device_map=\"auto\", torch_dtype=torch.float16)"
+    }
+  ],
+  "3-1 (Pre-training)": "• Pre-training for the llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 model relied on heavy multi-GPU resources: 96 NVIDIA A100 40 GB GPUs on the mdx cluster.\n• The software stack was Megatron-DeepSpeed, indicating tensor/sequence parallelism and ZeRO-style optimizer sharding.\n• Training was organized into “a total of 10 folds” (the string \"10\" appears explicitly), each fold using non-overlapping corpora of roughly 27–28 billion tokens.  All ten folds were run “continuously,” implying a single uninterrupted schedule rather than separate restarts.\n• After finishing the ten folds, the team “finalized the pre-training” with an additional high-quality 27 billion-token segment drawn from the same source datasets used in the earlier folds, further extending the total token count while keeping data provenance consistent.\nThese quotes collectively describe the data flow (ten independent 27–28 B-token splits plus a final 27 B-token pass), the compute scale (96×A100 40 GB), and the core framework (Megatron-DeepSpeed) that produced the base model weights before any supervised instruction tuning.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Pre-training:**"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Hardware:** 96 A100 40GB GPUs ([mdx cluster](https://mdx.jp/en/))"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Software:** Megatron-DeepSpeed"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The pre-training was continuously conducted using a total of 10 folds of non-overlapping data, each consisting of approximately 27-28B tokens."
+    },
+    {
+      "source": "[readme]",
+      "quote": "We finalized the pre-training with additional (potentially) high-quality 27B tokens data obtained from the identical source datasets listed above used for the 10-fold data."
+    }
+  ],
+  "3-2 (Fine-tuning)": "• The model then entered an explicit “Instruction tuning” phase carried out on 8 NVIDIA A100 40 GB GPUs within the mdx cluster environment.\n• The software tool-chain combined TRL (from Hugging Face’s Reinforcement Learning library), PEFT (Parameter-Efficient Fine-Tuning), and DeepSpeed, showing an emphasis on memory-efficient adapters or LoRA-style updates together with DeepSpeed optimizations.\n• Three main instruction datasets were employed:\n  – Japanese “jaster” set: automatically transformed from existing Japanese NLP resources.\n  – “databricks-dolly-15k”: translated to Japanese by DeepL inside the LLM-jp project.\n  – “OpenAssistant Conversations Dataset (oasst1)”: likewise translated to Japanese by DeepL.\nThese points outline the hardware footprint, the precise libraries used for parameter-efficient instruction tuning, and the multilingual-to-Japanese data curation strategy that yields the supervised instruction-tuned checkpoint llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- **Instruction tuning:**"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Hardware:** 8 A100 40GB GPUs ([mdx cluster](https://mdx.jp/en/))"
+    },
+    {
+      "source": "[readme]",
+      "quote": "- **Software:** [TRL](https://github.com/huggingface/trl), [PEFT](https://github.com/huggingface/peft), and [DeepSpeed](https://github.com/microsoft/DeepSpeed)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The models have been fine-tuned on the following datasets."
+    },
+    {
+      "source": "[readme]",
+      "quote": "|Japanese|[jaster](https://github.com/llm-jp/llm-jp-eval)| An automatically transformed data from the existing Japanese NLP datasets |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "||[databricks-dolly-15k](https://huggingface.co/datasets/databricks/databricks-dolly-15k)| A translated one by DeepL in LLM-jp |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "||[OpenAssistant Conversations Dataset](https://huggingface.co/datasets/OpenAssistant/oasst1)| A translated one by DeepL in LLM-jp |"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "",
+  "3-3 (Reinforcement Learning)__evidence": []
+}

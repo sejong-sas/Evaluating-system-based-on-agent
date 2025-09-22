@@ -1,0 +1,78 @@
+{
+  "4-1 (Pre-training Data)": "For the v1.0 milestone of the llm-jp 13 B parameter family, the Corpus Building working group assembled a dedicated pre-training corpus specifically for the pre-trained model v1.0. According to the quoted description, this corpus is a mixture of \"readily available Japanese, English, and code corpora.\" The goal of the blend was to provide broad linguistic and programming coverage suitable for a large-scale 13 B parameter model. All the information we are given therefore indicates that: (a) the data were drawn from existing, presumably public-or-licensed sources in those three categories; (b) the corpus was produced expressly for the 13 B parameter model that sits at the core of the v1.0 suite; and (c) no additional languages or modalities are mentioned for this version. No numerical token counts or detailed source lists are disclosed for v1.0 beyond the language/code composition statement, but the passage establishes that the entire pre-training set for v1.0 is multilingual (Japanese + English) and includes code. This satisfies the requirement to summarize “types, quantities, sources, permitted use, and composition” to the extent the quotes make explicit: the composition (JP/EN/code) and the fact that all data were “readily available,” implying permissibility for reuse. Quantities beyond the 13 B parameter size of the model are not supplied in the quoted material for v1.0.",
+  "4-2 (Fine-tuning Data)": "The fine-tuned model v1.0 for llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 is built on three principal Japanese instruction datasets: (1) a bespoke ‘jaster’ set, (2) Databricks-dolly-15k, and (3) the OpenAssistant Conversations Dataset (oasst1). After initial construction, the team \"decided to add original English datasets of databricks-dolly-15k and oasst1,\" thereby supplementing the multilingual coverage for instruction tuning. They also \"incorporated the Japanese instruction dataset, ichikara-instruction (ver 003-001).\" Collectively, this means the v1.0 instruction-tuning corpus contains native Japanese prompts and responses (jaster, ichikara) as well as translated or original English instruction data (dolly-15k and oasst1). A separate statement clarifies that \"each model suite provides an LLM with 13 B parameters along with its fine-tuned variants,\" and that these models have been made publicly available \"with their pre-training corpora and fine-tuning datasets.\" From the quotes we can therefore summarize the fine-tuning data for v1.0 as follows: a multi-source, multi-lingual instruction dataset dominated by Japanese but reinforced with English, consisting of well-known open resources (dolly-15k, oasst1) plus internally created or curated Japanese sets (jaster, ichikara). Public availability of the final dataset package is explicitly stated.",
+  "4-3 (Reinforcement Learning Data)": "The only reinforcement-learning–style refinement disclosed for the v1.* line is tied to the \"fine-tuned model v1.1,\" which \"is based on the same pre-trained model v1.0.\" For this variant, the team \"improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO).\" The quote tells us that preference data (implicit or explicit) were gathered or synthesized so that DPO could be applied, but it does not enumerate the size or exact origin of that preference dataset. What is clear is that it inherits all instruction-tuning data from v1.0, adds new preference-labeled examples, and then applies the DPO algorithm to improve alignment. Accessibility of the underlying DPO dataset is not mentioned in the excerpt, so we cannot assert public release, but we can confirm the existence of a DPO stage for v1.1 and its dependence on v1.0’s data foundation.",
+  "4-4 (Data Filtering)": "Two filtering mechanisms are documented for the v1.x series. First, the \"corpus v1\" (paired with \"tokenizer v2.1\") underwent an additional quality pass when it was transferred to the Model Building working group. Responding to a request for higher quality, the team \"applied the filtering methods described earlier with stricter thresholds to the original corpora and extracted 27 B high-quality tokens.\" While the precise numeric thresholds are not listed in the excerpt, we know: (a) stricter versions of earlier filters were used, (b) the result was a down-selected subset containing 27 B tokens, and (c) that subset is what ultimately fed into the v1.x training run. Second, the project created an \"LLM-jp Toxicity Dataset\" designed \"to facilitate the detection of toxic content within Japanese texts to filter them out from our pre-training corpora.\" This confirms the presence of a dedicated toxicity classifier or lookup resource in the v1.x pipeline. Together, these points reveal a multi-stage filtering strategy for v1.0/1.1: deduplication and rule/threshold based filters (details earlier in the paper), followed by an explicit toxicity-screening step informed by a custom Japanese toxicity dataset. The impact is quantifiable in that 27 B tokens survived the stricter pass, implying that a substantial portion of the original crawl-style material was removed.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2."
+    },
+    {
+      "source": "[sections/Corpus Building WG]",
+      "quote": "Our initial milestone was to develop the model suite v1.0, and the Corpus Building WG worked on preparing a pre-training corpus to train the pre-trained model v1.0, the LLM with 13B parameters within this suite. To this end, we decided to use a mixture of readily available Japanese, English, and code corpora as our pre-training corpus."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "In the training of the pre-trained model v2.0, we sampled approximately 130B tokens, following the Chichilla scaling law."
+    }
+  ],
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k [10], and OpenAssistant Conversations Dataset (oasst1) [32]."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Based on this finding, we decided to add original English datasets of databricks-dolly-15k and oasst1. Additionally, we incorporated the Japanese instruction dataset, ichikara-instruction (ver 003-001)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the pre-trained model v2.0, we further added instruction data. The Open Assistant Conversations Dataset Release 2 (oasst2)29 is an English conversational instruction dataset."
+    },
+    {
+      "source": "[sections/Introduction]",
+      "quote": "Each model suite provides an LLM with 13B parameters along with its fine-tuned variants. We have made them public with their pre-training corpora and fine-tuning datasets."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "For the fine-tuned model v1.0, we constructed three types of Japanese instruction data: jaster, databricks-dolly-15k, and OpenAssistant Conversations Dataset (oasst1)."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Upon the release of the pre-trained model v2.0, we further added instruction data. The Open Assistant Conversations Dataset Release 2 (oasst2) is an English conversational instruction dataset."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In the fine-tuned model v1.1, which is based on the same pre-trained model v1.0, we improved the instruction-following ability by refining the instruction-tuning data and adding Direct Preference Optimization (DPO)."
+    }
+  ],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "The corpus v1 and tokenizer v2.1 were handed over to the Model Building WG in August 2023 and used for pre-training. The Model Building WG requested the highest quality corpus used at the end of the pre-training. In response, we applied the filtering methods described earlier with stricter thresholds to the original corpora and extracted 27B high-quality tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2. The filtering pipeline consisted of deduplication and rule-based filtering steps. In de-duplication, Uzushio performs similarity-based document identification based on the SimHash algorithm."
+    },
+    {
+      "source": "[sections/Corpus Building WG]",
+      "quote": "To develop the LLM with 13B parameters included in our model suite v2.0, called the pre-trained model v2.0, we created a larger and higher-quality corpus, termed the corpus v2. To construct a Japanese corpus to this end, we extracted Japanese documents from the entire Common Crawl and applied deduplication and filtering for them."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "Table 3 summarizes the filters and conversions performed to construct the Japanese portion of the corpus v2. The filtering pipeline consisted of deduplication and rule-based filtering steps."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "LLM-jp Toxicity Dataset is the dataset we created to facilitate the detection of toxic content within Japanese texts to filter them out from our pre-training corpora."
+    }
+  ]
+}

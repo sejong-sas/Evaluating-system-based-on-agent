@@ -1,0 +1,23 @@
+{
+  "4-1 (Pre-training Data)": "",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "Japanese | [jaster] … “An automatically transformed data from the existing Japanese NLP datasets” indicates that llm-jp/llm-jp-13b-instruct-full-jaster-dolly-oasst-v1.0 fine-tunes on a corpus produced by automatically converting a variety of previously released Japanese NLP resources into a unified instruction-format (the jaster set).  ||[databricks-dolly-15k] … “A translated one by DeepL in LLM-jp” shows that the original English Dolly-15k instruction dataset is included after being machine-translated into Japanese with DeepL inside the LLM-jp pipeline.  ||[OpenAssistant Conversations Dataset] … “A translated one by DeepL in LLM-jp” confirms that the OpenAssistant (OASST1) conversational dataset undergoes the same DeepL-based translation process.  Together, these three translated or automatically transformed components—jaster (converted Japanese NLP tasks), Dolly-15k (DeepL-translated), and OASST1 (DeepL-translated)—form the publicly listed fine-tuning corpus for version 1.0 of the 13-billion-parameter full jaster-dolly-oasst model.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "|Japanese|[jaster](https://github.com/llm-jp/llm-jp-eval)| An automatically transformed data from the existing Japanese NLP datasets |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "||[databricks-dolly-15k](https://huggingface.co/datasets/databricks/databricks-dolly-15k)| A translated one by DeepL in LLM-jp |"
+    },
+    {
+      "source": "[readme]",
+      "quote": "||[OpenAssistant Conversations Dataset](https://huggingface.co/datasets/OpenAssistant/oasst1)| A translated one by DeepL in LLM-jp |"
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)__evidence": [],
+  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)__evidence": []
+}

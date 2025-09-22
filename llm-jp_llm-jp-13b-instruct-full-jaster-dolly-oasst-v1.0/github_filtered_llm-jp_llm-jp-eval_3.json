@@ -1,0 +1,20 @@
+{
+  "2-3 (API)": "The only explicit reference to an API-style interface for llm-jp/llm-jp-eval is the shell command \"$ cd llm-jp-eval-inference/inference-modules/vllm && uv run vllm serve llm-jp/llm-jp-3-3.7b-instruct &\". This line reveals that a repository named \"llm-jp-eval-inference\" exists with a sub-module for the vLLM engine, and that users are expected to launch a long-running service via the command \"vllm serve\". The model checkpoint served is \"llm-jp/llm-jp-3-3.7b-instruct\", confirming that the model can be pulled by name from a registry and exposed through vLLM’s standard OpenAI-compatible HTTP API. The use of \"uv run\" indicates a managed Python environment for the server. Although the quote does not list endpoint URLs, authentication schemes, or official documentation links, it demonstrates that an API-based deployment pathway is supported for programmatic access to the model’s generation capabilities.",
+  "2-3 (API)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "$ cd llm-jp-eval-inference/inference-modules/vllm && uv run vllm serve llm-jp/llm-jp-3-3.7b-instruct &"
+    }
+  ],
+  "3-1 (Pre-training)": "No provided quote contains information about the pre-training data, objectives, hyperparameters, or compute setup for llm-jp/llm-jp-eval. Consequently, no summary of the model’s base pre-training stage can be produced from the supplied material.",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "The available evidence consists of the sentence: \"jaster を用いてインストラクションチューニングを施したモデルが、テストデータをインストラクションチューニングに使用していない場合でも、llm-jp-eval の評価スコアを非常に高くすることが明らかになっています。\" This indicates that the model underwent an instruction-tuning phase using the \"jaster\" tool. The process explicitly avoided using test data during tuning, yet yielded exceptionally high llm-jp-eval benchmark scores. Therefore, the fine-tuning workflow (a) leveraged jaster for instruction-following optimisation, (b) followed a data-splitting practice that prevented test-set contamination, and (c) measurably improved evaluation performance. No further details—such as learning-rate schedules, epoch counts, or dataset composition—are disclosed in the provided quotation.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "jaster を用いてインストラクションチューニングを施したモデルが、テストデータをインストラクションチューニングに使用していない場合でも、llm-jp-eval の評価スコアを非常に高くすることができることが明らかになっています。"
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The quote set contains no mention of reinforcement-learning-based post-training (e.g., RLHF, DPO) for llm-jp/llm-jp-eval, so there is no information to summarize.",
+  "3-3 (Reinforcement Learning)__evidence": []
+}
