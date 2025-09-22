@@ -1,0 +1,158 @@
+{
+  "1-1 (Weights)": "The project explicitly provides two publicly-downloadable checkpoints for EleutherAI/gpt-neox-20B hosted at the-eye.eu. Users can fetch a “Slim weights” package (≈39 GB) that contains only the tensors needed for inference or downstream fine-tuning and purposefully omits optimizer states. For full reproducibility of pre-training, a much larger “Full weights” archive (≈268 GB) is offered that additionally bundles all optimizer states. No access restrictions, credentials, or gated portals are mentioned in the quotes, implying anyone can retrieve the files directly from the listed HTTP URLs.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "[Slim weights](https://the-eye.eu/public/AI/models/GPT-NeoX-20B/slim_weights/) - (No optimizer states, for inference or finetuning, 39GB)"
+    },
+    {
+      "source": "[readme]",
+      "quote": "[Full weights](https://the-eye.eu/public/AI/models/GPT-NeoX-20B/full_weights/) - (Including optimizer states, 268GB)"
+    }
+  ],
+  "1-2 (Code)": "Training source code for GPT-NeoX is public. A comment states that “GPT-NeoX is optimized heavily for training only,” signalling the repository is designed around large-scale pre-training rather than mere inference. Checkpoints emitted by this codebase are “not compatible out of the box with other deep learning libraries,” so users are expected to rely on the native implementation. Configuration is managed through YAML: “All of the following can be specified in your .yml config file(s).” The codebase integrates with evaluation tooling via “An adapter to run NeoX models on LM Evaluation Harness.” Core utilities include a function signature “def save_checkpoint(neox_args, iteration, model, optimizer, lr_scheduler)” and logic that raises an error unless the run is using DeepSpeed (“raise ValueError(‘Must be using deepspeed to use neox’)”), showing tight coupling to the DeepSpeed training stack. Internally, the models re-implement GPT-2 style blocks—e.g., a docstring “\"\"\"GPT-2 model.\"\"\"” and a class that is “GPT2Model adapted for pipeline parallelism.” Initialization options such as “single_residual_scaled_normal” replicate GPT-2’s scaled init. Altogether, the repository contains the full pre-training pipeline (configs, parallelism, checkpointing, evaluation adapters) rather than just inference scripts.",
+  "1-2 (Code)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "GPT-NeoX is optimized heavily for training only, and GPT-NeoX model checkpoints are not compatible out of the box with other deep learning libraries."
+    },
+    {
+      "source": "[py_files/configs/gen_docs.py]",
+      "quote": "Arguments for gpt-neox. All of the following can be specified in your .yml config file(s):"
+    },
+    {
+      "source": "[py_files/eval_tasks/eval_adapter.py]",
+      "quote": "An adapter to run NeoX models on LM Evaluation Harness (https://github.com/EleutherAI/lm-evaluation-harness) tasks."
+    },
+    {
+      "source": "[py_files/megatron/data/data_utils.py]",
+      "quote": "def save_checkpoint(neox_args, iteration, model, optimizer, lr_scheduler):"
+    },
+    {
+      "source": "[py_files/megatron/data/data_utils.py]",
+      "quote": "else:        raise ValueError(\"Must be using deepspeed to use neox\")"
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "\"\"\"GPT-2 model.\"\"\""
+    },
+    {
+      "source": "[py_files/megatron/model/gpt2_model.py]",
+      "quote": "GPT2Model adapted for pipeline parallelism."
+    },
+    {
+      "source": "[py_files/megatron/model/mamba/mamba.py]",
+      "quote": "# use \"single_residual_scaled_normal\" for output_layer_init_method to perform gpt-2 style scaled init as done in Mamba paper."
+    }
+  ],
+  "1-3 (License)": "The repository’s source files repeatedly declare they are “Licensed under the Apache License, Version 2.0,” and the LICENSE header reproduces the standard notice (January 2024). The Apache-2.0 terms grant “a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.” Each file reminds users they “may not use this file except in compliance with the License” and points to “http://www.apache.org/licenses/LICENSE-2.0.” The text also contains the customary warranty disclaimer (“distributed on an ‘AS IS’ BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND”). One snippet notes that a particular source file is “licensed under the MIT license found in the LICENSE file in the root directory,” indicating isolated components under a more permissive MIT license while the bulk of the project remains Apache-2.0. No phrases such as “non-commercial,” “research-only,” or redistribution restrictions appear; Apache-2.0 allows commercial use, modification, and redistribution provided attribution and license retention are satisfied.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "This repository hosts code that is part of EleutherAI's GPT-NeoX project... Licensed under the Apache License:"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Apache License\n                           Version 2.0, January 2024"
+    },
+    {
+      "source": "[license_files]",
+      "quote": "Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form."
+    },
+    {
+      "source": "[py_files/deepy.py]",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/megatron/data/blendable_dataset.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/megatron/data/blendable_dataset.py]",
+      "quote": "# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/megatron/data/indexed_dataset.py]",
+      "quote": "# This source code is licensed under the MIT license found in the"
+    },
+    {
+      "source": "[py_files/megatron/data/indexed_dataset.py]",
+      "quote": "# LICENSE file in the root directory of this source tree."
+    },
+    {
+      "source": "py_files/megatron/data/online_dataset.py",
+      "quote": "Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "py_files/megatron/data/online_dataset.py",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/megatron/gradient_noise_scale/gradient_noise_scale.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/megatron/gradient_noise_scale/gradient_noise_scale.py]",
+      "quote": "# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/megatron/gradient_noise_scale/gradient_noise_scale.py]",
+      "quote": "# You may obtain a copy of the License at"
+    },
+    {
+      "source": "[py_files/megatron/gradient_noise_scale/gradient_noise_scale.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/megatron/initialize.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/megatron/model/fused_rope.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/megatron/model/fused_rope.py]",
+      "quote": "# You may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/megatron/model/fused_rope.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "# Licensed under the Apache License, Version 2.0 (the \"License\");"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "# you may not use this file except in compliance with the License."
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "# You may obtain a copy of the License at"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "#     http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "source": "[py_files/megatron/model/moe_mlp.py]",
+      "quote": "# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied."
+    }
+  ],
+  "1-4 (Paper)": "An official technical report accompanies the model: “GPT-NeoX-20B: An Open-Source Autoregressive Language Model” (arXiv:2204.06745). The citation lists the full EleutherAI author team (Sid Black, Stella Biderman, Eric Hallahan, Quentin Anthony, Leo Gao, Laurence Golding, Horace He, Connor Leahy, Kyle McDonell, Jason Phang, Michael Pieler, Shivanshu Purohit, Laria Reynolds, Jon Tow, Ben Wang, and Samuel Weinbach). The README states: “Technical details about GPT-NeoX-20B can be found in the associated paper,” directing readers to that arXiv link for architecture, training procedure, and benchmark results.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Technical details about GPT-NeoX-20B can be found in [the associated paper](https://arxiv.org/abs/2204.06745)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Sid Black, Stella Biderman, Eric Hallahan, Quentin Anthony, Leo Gao, Laurence Golding, Horace He, Connor Leahy, Kyle McDonell, Jason Phang, Michael Pieler, Shivanshu Purohit, Laria Reynolds, Jon Tow, Ben Wang, and Samuel Weinbach. \"[GPT-NeoX-20B: An Open-Source Autoregressive Language Model](https://arxiv.org/abs/2204.06745).\""
+    }
+  ]
+}

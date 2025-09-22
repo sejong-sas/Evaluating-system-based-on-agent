@@ -1,0 +1,143 @@
+{
+  "model": "cyberagent/open-calm-7b",
+  "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Model is released under CC-BY-SA-4.0 which allows use, modification, redistribution and commercial use (share-alike only)."
+    },
+    "1-4 Paper": {
+      "score": 0.0,
+      "reason": "No provider-authored paper or tech report about Open-CALM-7B was quoted."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quotes mention GPU/TPU types or quantities used for training."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes name GPT-NeoX as the training framework and give the exact Transformers version (4.27.0.dev0), but the rest of the stack is not described."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial disclosure: stated that the model is decoder-only and pre-trained on Japanese datasets, but no objective, schedule, or hyper-parameter details."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Only an illustrative sentence mentioning a possible fine-tuned variant; no method or dataset details for the target model."
+    },
+    "3-3 Reinforcement Learning": {
+      "score": 0.0,
+      "reason": "No information about RL or alignment methods was provided. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Data is described in general terms as \"Japanese datasets\"; no concrete source list, sizes, or licensing information."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.0,
+      "reason": "No quotes about datasets used for any fine-tuning of this model."
+    },
+    "4-3 Reinforcement Learning Data": {
+      "score": 0.0,
+      "reason": "No information provided. No direct quote evidence; defaulting to Closed by strict rule."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements about cleaning or filtering procedures were quoted."
+    }
+  },
+  "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-2 Code": {
+      "score": 0.0,
+      "reason": "No training pipeline files; README mentions are ignored."
+    },
+    "1-3 License": {
+      "score": 1.0,
+      "reason": "Model is released under CC-BY-SA-4.0 which allows use, modification, redistribution and commercial use (share-alike only)."
+    },
+    "1-4 Paper": {
+      "score": 0.0,
+      "reason": "No provider-authored paper or tech report about Open-CALM-7B was quoted."
+    },
+    "1-5 Architecture": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "1-6 Tokenizer": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
+    "2-1 Hardware": {
+      "score": 0.0,
+      "reason": "No quotes mention GPU/TPU types or quantities used for training."
+    },
+    "2-2 Software": {
+      "score": 0.5,
+      "reason": "Quotes name GPT-NeoX as the training framework and give the exact Transformers version (4.27.0.dev0), but the rest of the stack is not described."
+    },
+    "2-3 API": {
+      "score": 0.0,
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+    },
+    "3-1 Pre-training": {
+      "score": 0.5,
+      "reason": "Partial disclosure: stated that the model is decoder-only and pre-trained on Japanese datasets, but no objective, schedule, or hyper-parameter details."
+    },
+    "3-2 Fine-tuning": {
+      "score": 0.0,
+      "reason": "Only an illustrative sentence mentioning a possible fine-tuned variant; no method or dataset details for the target model."
+    },
+    "4-1 Pre-training Data": {
+      "score": 0.5,
+      "reason": "Data is described in general terms as \"Japanese datasets\"; no concrete source list, sizes, or licensing information."
+    },
+    "4-2 Fine-tuning Data": {
+      "score": 0.0,
+      "reason": "No quotes about datasets used for any fine-tuning of this model."
+    },
+    "4-4 Data Filtering": {
+      "score": 0.0,
+      "reason": "No statements about cleaning or filtering procedures were quoted."
+    }
+  },
+  "final_score_10pt": 3.929,
+  "meta": {
+    "usage_from_dispatch": {
+      "fine_tuning": "used",
+      "rl": "not_used"
+    },
+    "excluded": [
+      "3-3 Reinforcement Learning",
+      "4-3 Reinforcement Learning Data"
+    ],
+    "denominator": 14,
+    "raw_sum": 5.5,
+    "scale": "10/14",
+    "code_detection_reason": "No training pipeline files; README mentions are ignored.",
+    "pretrain_sources_used": false
+  }
+}
