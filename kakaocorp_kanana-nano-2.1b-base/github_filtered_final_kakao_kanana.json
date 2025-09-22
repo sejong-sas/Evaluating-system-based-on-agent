@@ -1,0 +1,98 @@
+{
+  "1-1 (Weights)": "The quotes explicitly document three separate public weight releases for the kanana models. • “2025/07/24”: a blog post covers “Kanana-1.5-15.7B-A3B” and the same sentence states that 🤗 Hugging Face model weights were published at https://kko.kakao.com/kananallm. • “2025/05/23”: another blog post about “Kanana 1.5” similarly says the team “released 🤗 HF model weights” at the identical site. • “2025/02/27”: a line notes that a Technical Report was released together with “🤗 HF model weights” hosted at https://huggingface.co/collections/kakaocorp/kanana-nano-21b-67a326cda1c449c8d4172259. All three sentences mention kanana by name and explicitly associate the model with public Hugging Face download links, showing that the weights are made available to anyone who can access those URLs.",
+  "1-1 (Weights)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- ✨`2025/07/24`: Published a [blog post](https://tech.kakao.com/posts/716) about `Kanana-1.5-15.7B-A3B` models and released 🤗[HF model weights](https://kko.kakao.com/kananallm)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- 📕`2025/05/23`: Published a [blog post](https://tech.kakao.com/posts/707) about `Kanana 1.5` models and released 🤗[HF model weights](https://kko.kakao.com/kananallm)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "- 📜`2025/02/27`: Released [Technical Report](https://arxiv.org/abs/2502.18934) and 🤗[HF model weights](https://huggingface.co/collections/kakaocorp/kanana-nano-21b-67a326cda1c449c8d4172259)."
+    }
+  ],
+  "1-2 (Code)": "",
+  "1-2 (Code)__evidence": [],
+  "1-3 (License)": "The only licensing information provided is the single sentence: “License reference: https://opensource.org/license/mit/”. This points directly to the MIT open-source license, implying that the kanana release is governed by that permissive license.",
+  "1-3 (License)__evidence": [
+    {
+      "source": "readme",
+      "quote": "License reference: https://opensource.org/license/mit/"
+    }
+  ],
+  "1-4 (Paper)": "Two sentences constitute the available paper-related information. The entry dated “2025/02/27” says: “Released [Technical Report](https://arxiv.org/abs/2502.18934)”, confirming the existence of an official technical report on arXiv for the kanana series. A second sentence states, “Below are partial report on the performance of the ‘Kanana’ model series,” indicating that this report contains partial performance results. No other papers, blogs, or reports are mentioned in the supplied quotations.",
+  "1-4 (Paper)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "- 📜`2025/02/27`: Released [Technical Report](https://arxiv.org/abs/2502.18934) and 🤗[HF model weights](https://huggingface.co/collections/kakaocorp/kanana-nano-21b-67a326cda1c449c8d4172259)."
+    },
+    {
+      "source": "[readme]",
+      "quote": "Below are partial report on the performance of the `Kanana` model series."
+    }
+  ],
+  "1-5 (Architecture)": "The architecture information focuses on the Kanana-1.5-15.7B-A3B model. It is explicitly described as the first Mixture-of-Experts (MoE) member of the Kanana family, highlighting that its design is intentionally sparse. This sparse MoE configuration allows the model to achieve capabilities on par with the dense Kanana-1.5-8B model while requiring only 37 % of the FLOPs per token—underscoring both inference efficiency and cost-effectiveness. The quotes also note that the broader Kanana series ranges from 2.1 B to 32.5 B parameters, with several 2.1 B-parameter variants (base, instruct, embedding, function-call, and RAG) publicly released to encourage research on Korean language models.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Introducing `Kanana-1.5-15.7B-A3B`, the first Mixture-of-Experts (MoE) model in our Kanana family, engineered for exceptional efficiency and powerful performance."
+    },
+    {
+      "source": "[readme]",
+      "quote": "`Kanana-1.5-15.7B-A3B`, which has sparse architecture, delivers capabilities comparable to the `Kanana-1.5-8B` dense model while utilizing only 37% of the FLOPS per token, making it a highly inference-efficient and cost-effective solution for real-world applications."
+    },
+    {
+      "source": "[readme]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding, function call, and RAG) publicly released to promote research on Korean language models."
+    }
+  ],
+  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)__evidence": [],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "",
+  "2-2 (Software)__evidence": [],
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "",
+  "3-1 (Pre-training)__evidence": [],
+  "3-2 (Fine-tuning)": "The report explicitly explains that, during post-training of the Kanana models, \"supervised fine-tuning\" is combined with \"preference optimization\". These two steps are presented as the key methodologies used to refine Kanana after its initial training, with the stated aim of \"enhancing their capability for seamless interaction with users.\"",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "For reinforcement-learning–based post-training, the documentation notes that \"Kanana-1.5-15.7B-A3B is powered by our newly enhanced post-training strategy, which includes on-policy distillation followed by reinforcement learning.\" This single sentence clarifies that an on-policy distillation stage is run first, and that reinforcement learning is then applied as the subsequent step in the Kanana post-training pipeline.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, `Kanana-1.5-15.7B-A3B` is powered by our newly enhanced post-training strategy, which includes on-policy distillation followed by reinforcement learning."
+    }
+  ],
+  "4-1 (Pre-training Data)": "The materials reviewed contain no sentences that mention Kanana’s pre-training corpus, the size or makeup of that corpus, the geographic or linguistic origin of the data, licensing constraints, or any other empirical details. Consequently, there is no publicly disclosed information in the supplied quotations about the types of data fed into the base Kanana model, their proportions, sources (e.g., web crawl, books, code, or proprietary corpora), or any stated rationale for selecting or excluding particular subsets. In short, the quotations provide no visibility into Kanana’s pre-training data pipeline, so no further summary can be given beyond noting the complete absence of disclosures.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "The only disclosure regarding fine-tuning comes from the sentence: “Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users.” From this we can infer that (i) Kanana undergoes a supervised fine-tuning phase after base pre-training, (ii) an additional preference-optimization stage is applied—most likely learning from human-labeled examples to improve response quality—and (iii) the overall goal of these stages is to improve user interaction quality. No concrete dataset names, sizes, domain composition, licensing status, or public-availability claims are made. The quote does not specify how many examples were used, which languages or content types were represented, or whether any proprietary or open data sources were employed. Thus, the fine-tuning data remain entirely opaque apart from confirmation that supervised and preference-based post-training exist in the Kanana development lifecycle.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "Reinforcement-learning information is limited to the sentence: “Furthermore, `Kanana-1.5-15.7B-A3B` is powered by our newly enhanced post-training strategy, which includes on-policy distillation followed by reinforcement learning.” This statement indicates that at least the Kanana 1.5 series employs a two-stage post-training routine: first an on-policy distillation step that aligns the model to a target policy, and second a reinforcement-learning (RL) phase. The wording suggests that RL data consist of trajectories or preferences produced on-policy—i.e., gathered while the model interacts under its current policy. However, no explicit description of the RL dataset—such as the number of dialog turns, human raters, reward models, or content safety screens—is provided. The quote does not clarify whether synthetic self-play, human preference labeling, or automated reward shaping was used, nor does it disclose any licensing restrictions or public release plans. All that can be definitively said is that reinforcement learning is an integral part of Kanana’s advanced post-training workflow, specifically for the 1.5-15.7B-A3B variant.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, `Kanana-1.5-15.7B-A3B` is powered by our newly enhanced post-training strategy, which includes on-policy distillation followed by reinforcement learning."
+    }
+  ],
+  "4-4 (Data Filtering)": "None of the supplied quotations describe data-filtering or data-cleaning criteria—there are no mentions of profanity removal, deduplication, toxicity filtering, Jaccard similarity thresholds, perplexity ranges, classifier names (e.g., language-ID filters, NSFW detectors, or copyright screeners), or pipeline stages that purge low-quality or disallowed content. As a result, no information can be summarized regarding Kanana’s data-filtering techniques or their quantitative impact on the dataset. The absence of such details precludes discussion of tool usage (e.g., `cc-net`, `Llama Guard`, or `ppl < 100` heuristics), removed-percentage statistics, or downstream effects on model quality. Therefore, the available evidence yields only a confirmation that no filtering methodology has been publicly disclosed in the provided text.",
+  "4-4 (Data Filtering)__evidence": [],
+  "__usage": {
+    "fine_tuning": "used",
+    "rl": "used"
+  }
+}

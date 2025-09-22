@@ -1,0 +1,30 @@
+{
+  "4-1 (Pre-training Data)": "The documentation for the kakaocorp/kanana-nano-2.1b-base model specifies that it belongs to the Kanana series of bilingual language models. Within this series, model sizes range from 2.1 billion to 32.5 billion parameters, and the 2.1 billion-parameter variants—including the \"base, instruct, embedding, function-call, and RAG\" versions—have been publicly released to foster Korean-language-model research. The authors state unambiguously that no Kakao user data appear in either the pre-training or post-training corpora used for Kanana-nano-2.1b-base.",
+  "4-1 (Pre-training Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding, function call, and RAG) publicly released to promote research on Korean language models. Neither the pre-training nor the post-training data includes Kakao user data."
+    }
+  ],
+  "4-2 (Fine-tuning Data)": "For the Kanana-nano-2.1b-base model, the report says that post-training relied on \"supervised fine-tuning and preference optimization\" in order to improve the system’s ability to engage with users. While no concrete dataset names, sizes, or licenses are disclosed, the quote makes clear that the fine-tuning phase combined standard supervised techniques with preference-based optimization to align the model’s behavior with user-centric interaction goals.",
+  "4-2 (Fine-tuning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-3 (Reinforcement Learning Data)": "The same passage indicates that, in addition to supervised fine-tuning, the Kanana-nano-2.1b-base post-training pipeline incorporated \"preference optimization\"—a term commonly used to describe reinforcement-learning-from-human-feedback–style data. Thus, the only stated characteristic of the RL data is that it was generated or organized to express user preferences and was employed to optimize the model for smoother human interaction; no further details on size, composition, or public availability are provided.",
+  "4-3 (Reinforcement Learning Data)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "4-4 (Data Filtering)": "During the pre-training stage for Kanana, which includes the nano-2.1b-base release, the authors emphasize the use of \"high-quality data filtering\" as part of a larger efficiency-driven strategy that also contained staged pre-training, depth up-scaling, and pruning/distillation steps. Although the quote does not enumerate specific metrics, thresholds, or classifiers, it makes clear that a dedicated filtering phase preceded model training to raise data quality before additional architectural and optimization techniques were applied.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "We introduce Kanana, a series of bilingual language models (developed by [Kakao](https://github.com/kakao)) that demonstrate exceeding performance in Korean and competitive performance in English. The report details the techniques employed during pre-training to achieve compute-efficient yet competitive models, including high-quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation."
+    }
+  ]
+}

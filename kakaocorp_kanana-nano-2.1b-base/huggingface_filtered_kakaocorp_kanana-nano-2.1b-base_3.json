@@ -1,0 +1,25 @@
+{
+  "2-3 (API)": "",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)": "For the kanana-nano-2.1b-base model, the accompanying report says that the pre-training phase was engineered to be \"compute-efficient yet competitive.\" To accomplish this, the workflow combined four named techniques: (1) high-quality data filtering carried out before model training, (2) a staged or multi-phase pre-training schedule, (3) depth up-scaling to gradually increase model depth, and (4) a concluding round of pruning and distillation. Together, these steps form the entire pre-training recipe disclosed for the Kanana series.",
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The report details the techniques employed during pre-training to achieve compute-efficient yet competitive models, including high-quality data filtering, staged pre-training, depth up-scaling, and pruning and distillation."
+    }
+  ],
+  "3-2 (Fine-tuning)": "During the post-training of the Kanana models—including kanana-nano-2.1b-base—the report explicitly lists \"supervised fine-tuning\" as a core component. This supervised phase is intended to improve the model’s aptitude for fluent, user-focused interactions once the base pre-training is finished.",
+  "3-2 (Fine-tuning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ],
+  "3-3 (Reinforcement Learning)": "The same post-training description also identifies \"preference optimization\" for the Kanana line, which by implication includes kanana-nano-2.1b-base. This preference-optimization step serves as a reinforcement-style procedure that follows supervised fine-tuning and is geared toward aligning the model’s responses with user preferences, thereby enhancing real-world conversational quality.",
+  "3-3 (Reinforcement Learning)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "Furthermore, the report outlines the methodologies utilized during the post-training of the Kanana models, encompassing supervised fine-tuning and preference optimization, aimed at enhancing their capability for seamless interaction with users."
+    }
+  ]
+}

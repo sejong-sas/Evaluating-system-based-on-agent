@@ -1,0 +1,73 @@
+{
+  "1-5 (Architecture)": "The documentation for kakaocorp/kanana-nano-2.1b-base explicitly states that the Kanana model series spans from 2.1 billion to 32.5 billion parameters, and that the 2.1 billion-parameter variants (which include the “base” release) are the ones made publicly available.  Within this 2.1 B configuration the quoted hyper-parameters are:\n• hidden_size = 1792\n• num_hidden_layers = 32\n• num_attention_heads = 24\n• intermediate_size = 8064\n• max_position_embeddings = 8192\n• vocab_size = 128 256\nTogether, these figures describe a 32-layer transformer encoder-decoder stack (1792-wide hidden states, 24-way attention, 8 064-wide feed-forward projection) that can attend over sequences as long as 8 192 positions while operating on a vocabulary of 128 256 tokens.  The combination of these dimensions is what yields the 2.1 B total trainable parameter count referred to in the Kanana 2.1 B release note.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "The Kanana model series spans from 2.1B to 32.5B parameters with 2.1B models (base, instruct, embedding, function call, and RAG) publicly released to promote research on Korean language models."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"hidden_size\": 1792,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_hidden_layers\": 32,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"num_attention_heads\": 24,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"intermediate_size\": 8064,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"max_position_embeddings\": 8192,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 128256"
+    }
+  ],
+  "1-6 (Tokenizer)": "The model is loaded with the HuggingFace AutoTokenizer interface (tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side=\"left\")), indicating that the tokenizer artefact is bundled and can be downloaded from the same repository.  The configuration shows left-side padding, and immediately after instantiation the pad_token is hard-set to the model’s eos_token (tokenizer.pad_token = tokenizer.eos_token).  Special-token IDs are explicitly listed: bos_token_id = 128 000 and eos_token_id = 128 001.  The tokenizer’s vocabulary is sized at 128 256 entries, mirroring the vocab_size parameter of the model itself, ensuring full alignment between the tokeniser and the kanana-nano-2.1b-base model weights.",
+  "1-6 (Tokenizer)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side=\"left\")"
+    },
+    {
+      "source": "[readme]",
+      "quote": "tokenizer.pad_token = tokenizer.eos_token"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"bos_token_id\": 128000,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"eos_token_id\": 128001,"
+    },
+    {
+      "source": "[config]",
+      "quote": "\"vocab_size\": 128256"
+    }
+  ],
+  "2-1 (Hardware)": "",
+  "2-1 (Hardware)__evidence": [],
+  "2-2 (Software)": "Running or finetuning kakaocorp/kanana-nano-2.1b-base requires the HuggingFace Transformers library at version 4.45.0 or newer (\"transformers>=4.45.0\"), with the quoted metadata recording the exact build as \"transformers_version\": \"4.45.0.dev0\" and the library_name set to \"transformers\".  No additional training-time software details are provided in the available material.",
+  "2-2 (Software)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "`transformers>=4.45.0` or the latest version is required to run `Kanana` model."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"transformers_version\": \"4.45.0.dev0\","
+    },
+    {
+      "source": "[readme]",
+      "quote": "library_name: transformers"
+    }
+  ]
+}
