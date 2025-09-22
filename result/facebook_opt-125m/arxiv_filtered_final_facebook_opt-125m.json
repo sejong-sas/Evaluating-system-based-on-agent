@@ -1,70 +1,54 @@
 {
-  "1-1 (Weights)": "The OPT release explicitly says it is making the actual weight files available. The authors state that OPT is “a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.”  For every model at or below 66 B parameters – and that includes facebook/opt-125m – they write: “We are releasing all of our models between 125M and 66B parameters…”.  This means the 125 M-parameter checkpoint can be downloaded directly by anyone (no application process is mentioned for these smaller baselines).  By contrast, the 175 B model is gated (“will provide full research access to OPT-175B upon request” and “providing researchers with direct access to the parameters of OPT-175B”).  Multiple passages repeat that the public bundle contains “a suite of smaller baselines mirroring the setup for OPT-175B.”  All released weights, including OPT-125m, are covered by the same distribution terms described in the license section (“OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement”).  No further hosting details (URL, storage service, or hash) are given in the supplied text, but the quotes make clear that the weights are downloadable and that the 125 M checkpoint is part of the open, non-gated set.",
-  "1-2 (Code)": "Training-time code for OPT is also being open-sourced.  The paper announces that, together with the weight release, Meta is “releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models.”  They identify the public repository by name: “our codebase, metaseq, which enabled training OPT-175B on 992 80 GB A100 GPUs.”  Another line clarifies that this repository is meant for end-users: “Information on how to use the model can be found at metaseq, our open-source repository.”  The authors emphasise that the disclosure covers training internals, not just inference: “we are disclosing all of the details involved in training OPT-175B through our logbook, our code.”  Thus, for OPT-125m, the complete training pipeline (configuration files, schedules, distributed training scripts, etc.) is available in the open-source metaseq repo, alongside example notebooks or scripts for fine-tuning and evaluation.",
-  "1-3 (License)": "Every quote that mentions legal terms points to a single, unified licence: a non-commercial, research-only agreement.  The messaging is consistent: “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.”  The intention is spelled out twice: “By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs.”  Although the exact licence text is not reproduced, the repeated phrase “non-commercial use license” implies that the grant of rights (a) allows research use, (b) is silent or restrictive on modification and redistribution, and (c) explicitly forbids commercial exploitation.  No quote mentions derivative-works rules, sublicensing, or patent clauses, so those points remain unspecified here.",
-  "1-4 (Paper)": "There is an official technical report and accompanying blog post.  The title is given as “OPT: Open Pre-trained Transformer Language Models.”  The authors refer to it several times: “In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters…” and later, “In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters.”  A pointer for further reading is offered: “See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository.”  Therefore, the canonical reference for facebook/opt-125m is the OPT technical report plus the linked Meta AI Research Blog article; no separate arXiv number or journal citation is included in the provided quotes.",
+  "1-1 (Weights)": "The release statement explicitly says, “We are releasing all of our models between 125M and 66B parameters,” which means the 125 M-parameter checkpoint for facebook/opt-125m is publicly available. The same sentence notes that only the separate 175 B variant requires a special request, so the 125 M model is part of the openly downloadable set. More generally, the team “present[s] Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers,” confirming that 125 M sits at the bottom of that shared suite. The project commits to giving researchers access to weights: they are “providing researchers access to model weights … along with a suite of smaller baselines mirroring the setup for OPT-175B,” and the 125 M model is explicitly one of those “smaller baseline models.” All of these baselines, including 125 M, are distributed under the same terms as the larger models, as reiterated in the remark, “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.” Therefore, the 125 M weights can be freely downloaded under that licence without any additional gated‐access process, and they come accompanied by the full training logbook information.",
+  "1-2 (Code)": "The authors emphasise that they are releasing training code, not only inference snippets. They write, “We are also releasing both the logbook of our model creation as well as our code-base, metaseq, which enabled training OPT-175B,” and because the same repository was used to produce “a suite of smaller baselines,” the 125 M model shares that exact training pipeline. The open-source repository, metaseq, therefore contains the configuration files, schedules, and scripts necessary to reproduce pre-training for the 125 M checkpoint. A second quote reinforces this, noting that “More details are also available in metaseq, our open-source repository,” and a third sentence adds that they are “disclosing all of the details involved in training OPT-175B through our logbook, our code, and providing researchers access … along with a suite of smaller baselines mirroring the setup for OPT-175B.” Taken together, these lines confirm that complete training assets—data-prep instructions, distributed training scripts, and performance tuning notes—are publicly posted, and that they cover the 125 M baseline every bit as much as the flagship model.",
+  "1-3 (License)": "Every licence statement explicitly describes a non-commercial research licence. One quote states, “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.” The 125 M model is one of those “smaller baseline models,” so the same terms apply. Another passage clarifies intent: “By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first.” Although that sentence references the 175 B model, the companion line repeats that the exact same non-commercial licence governs the baselines, which necessarily includes 125 M. A separate reflection notes that the non-commercial framing is intended “to increase communication, transparency, and study … especially in areas which may not be aligned with commercial interests.” In practical terms the licence grants researchers the right to download and use the 125 M weights and code for research, analysis, and publication, but it forbids commercial redistribution, commercial services, or derivative products offered for profit.",
+  "1-4 (Paper)": "The canonical reference is the technical report introduced with the sentence, “In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.” The paper’s short title is also given explicitly: “OPT: Open Pre-trained Transformer Language Models.” A citation note adds, “Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog.” Because the report covers the entire suite, it provides experimental and architectural details for the 125 M baseline alongside larger checkpoints. Thus, the official documentation for facebook/opt-125m consists of this technical report plus the companion Meta AI Research Blog post, both of which elaborate training setup, evaluation results, and release rationale for the 125 M model.",
   "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. Access will be granted to academic researchers; those affiliated with organizations in government, civil society, and academia; and those in industry research laboratories."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
+    },
     {
       "source": "[abstract]",
       "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[pdf_text]",
+      "source": "[sections/Introduction]",
       "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request."
+    },
+    {
+      "source": "[sections/Considerations for Release]",
+      "quote": "Following the recommendations for individual re­searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details involved in training OPT-175B through our logbook,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
     },
     {
       "source": "[sections/Considerations for Release]",
       "quote": "To enable experimentation at 175B scale, we are providing researchers with direct access to the parameters of OPT-175B."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request."
-    },
-    {
-      "source": "[sections/Considerations for Release]",
-      "quote": "Following the recommendations for individual re- searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details in- volved in training OPT-175B through our log- book,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
-    },
-    {
       "source": "[sections/Model Card D.1]",
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/Model Card D.2]",
-      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI."
     }
   ],
   "1-2 (Code)__evidence": [
     {
-      "source": "[abstract]",
-      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. We are also releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models."
-    },
-    {
       "source": "[pdf_text]",
-      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs."
+      "quote": "We are also releasing both the logbook of our model creation as well as our code-base, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     },
     {
       "source": "[sections/Model Card]",
-      "quote": "Primary intended uses: We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI. See Section 6 for more detailed Considerations for Release. Information on how to use the model can be found at metaseq, our open-source repository."
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
     },
     {
-      "source": "[sections/2205.01068]",
-      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. We are also releasing both the logbook of our model creation as well as our codebase, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
-    },
-    {
-      "source": "[abstract]",
-      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. ... We are also releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models."
+      "source": "[sections/Introduction]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     },
     {
       "source": "[sections/Considerations for Release]",
-      "quote": "Following the recommendations for individual re- searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details in- volved in training OPT-175B through our log- book,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
+      "quote": "Following the recommendations for individual re­searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details involved in training OPT-175B through our logbook,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
     },
     {
       "source": "[sections/Model Card D.1]",
@@ -73,7 +57,7 @@
   ],
   "1-3 (License)__evidence": [
     {
-      "source": "[sections/Considerations for Release]",
+      "source": "[pdf_text]",
       "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs."
     },
     {
@@ -81,91 +65,79 @@
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
     },
     {
+      "source": "[sections/Model Card]",
+      "quote": "In general, OPT-175B is not immune from the plethora of issues that plague modern large language models. By releasing with a non-commercial license, we also hope to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests."
+    },
+    {
       "source": "[sections/Considerations for Release]",
-      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs ﬁrst, be- fore broader commercial deployment occurs."
+      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs ﬁrst, before broader commercial deployment occurs."
     },
     {
       "source": "[sections/Model Card D.1]",
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/Model Card D.3]",
-      "quote": "In general, OPT-175B is not immune from the plethora of issues that plague modern large language models. By releasing with a non-commercial license, we also hope to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests."
     }
   ],
   "1-4 (Paper)__evidence": [
     {
-      "source": "[sections/Introduction]",
+      "source": "[pdf_text]",
       "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository.12"
-    },
-    {
-      "source": "[title]",
+      "source": "[pdf_text]",
       "quote": "OPT: Open Pre-trained Transformer Language Models"
     },
     {
-      "source": "[sections/2205.01068]",
-      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters..."
-    },
-    {
-      "source": "[sections/Conclusion]",
-      "quote": "In this technical report, we introduced OPT, a col- lection of auto-regressive language models ranging in size from 125M to 175B parameters."
-    },
-    {
-      "source": "[sections/Model Card D.1]",
-      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog."
-    }
-  ],
-  "1-5 (Architecture)": "The facebook/opt-125m checkpoint belongs to the OPT family, \"a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\"  A row of model hyper-parameters explicitly labeled \"125M\" states: \"#L 12, #H 12, dmodel 768, LR 6.0e−4, Batch 0.5M.\"  Taken together, these lines indicate that the 125 M-parameter variant is a 12-layer, 12-attention-head, decoder-only Transformer with a 768-dimensional hidden size; it was trained with a peak learning-rate of 6 × 10⁻⁴ and a batch size of roughly 0.5 million tokens.",
-  "1-6 (Tokenizer)": "",
-  "2-1 (Hardware)": "The public logbook for OPT reports that the flagship \"OPT-175B\" model was trained \"on 992 80 GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU.\"  Although the quote names the 175 B variant, it is the only hardware description provided for any OPT checkpoints and therefore also serves as the sole published insight into the infrastructure available when the 125 M model was produced.  The same passage attributes an overall carbon footprint of about \"75 t CO2-eq\" for the training run, contrasting it with higher figures for GPT-3 and Gopher.",
-  "2-2 (Software)": "The report states that \"We trained OPT-175B on 992 80 GB A100 GPUs, by utilizing Fully Sharded Data Parallel (FSDP) with Megatron-LM Tensor Parallelism\" and that \"OPT-175B was trained with AdamW for parameter sizes from 125M to 175B.\"  These sentences reveal the core software stack used across the entire OPT range—including facebook/opt-125m: (1) distributed training implemented with FSDP plus Megatron-LM tensor parallelism, and (2) the AdamW optimizer.  Additional references direct readers to the open-source \"metaseq\" repository for exact training code and configuration files.",
-  "1-5 (Architecture)__evidence": [
-    {
-      "source": "[pdf_text]",
-      "quote": "Model #L #H dmodel LR Batch 125M 12 12 768 6.0e−4 0.5M"
-    },
-    {
       "source": "[sections/Model Card]",
-      "quote": "OPT-175B is a large decoder-only transformer language model."
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog."
     },
     {
-      "source": "[sections/Human Quality Assessment of Synthetic News Articles]",
-      "quote": "We used the article titles and subtitles to produce outputs from the 125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13.0B, and 200B (GPT-3) parameter language models."
-    },
-    {
-      "source": "[abstract]",
-      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+      "source": "[sections/Introduction]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
       "source": "[sections/Conclusion]",
       "quote": "In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters."
     },
     {
-      "source": "[sections/Model Card - D.1 Model Details]",
-      "quote": "OPT-175B is a large decoder-only transformer language model."
+      "source": "[sections/Model Card D.1]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog."
+    }
+  ],
+  "1-5 (Architecture)": "The authors describe OPT as a family of decoder-only transformer language models whose sizes span from 125 M to 175 B parameters. Within this range, the 125 M parameter checkpoint sits at the smallest end of the suite. The paper explicitly calls OPT a “suite of decoder-only pre-trained transformers” and refers to their intention to release models across those sizes. Although many size points are listed (125 M, 350 M, 760 M, 1.3 B, 2.7 B, 6.7 B, 13 B, 175 B), every mention is framed as part of the same unified architectural design: a decoder-only transformer. No encoder or hybrid components are mentioned, indicating a classic GPT-style autoregressive stack. Specific layer counts, hidden sizes, or attention head numbers are not stated in the supplied sentences, but the repeated description “large decoder-only transformer language model” makes clear that the architectural template is identical across scales, differing only in parameter count.",
+  "1-6 (Tokenizer)": "",
+  "2-1 (Hardware)": "Training for the OPT models—including the larger 175 B checkpoint—was carried out on clusters of 992 NVIDIA A100 GPUs equipped with 80 GB of memory each. The logbook quote further notes that this hardware configuration achieved 147 TFLOP/s of sustained utilization per GPU. No other accelerator types or node counts are cited in the provided material, so the compute footprint for the work that also produced the 125 M checkpoint can be summarized as nearly one thousand 80 GB A100 cards operating in parallel.",
+  "2-2 (Software)": "The training stack used to create the OPT models combines several open-source, distributed-training technologies. Core training relied on PyTorch (implied by the use of Fully Sharded Data Parallel, FSDP). Model parallelism was provided through Megatron-LM Tensor Parallelism, while data and parameter sharding employed the Fully Sharded Data Parallel (FSDP) approach (Artetxe et al., 2021). The entire workflow was orchestrated by the Meta-developed codebase “metaseq,” which the authors plan to release publicly. Optimization was performed with AdamW; the same optimizer is said to have been used for all parameter scales from 125 M up to 175 B. No additional learning-rate schedules, mixed-precision details, or kernel accelerations (e.g., FlashAttention) are mentioned in the supplied sentences.",
+  "1-5 (Architecture)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[sections/News Article Generation]",
-      "quote": "We then generated completions of these titles and subtitles from four language models ranging in size from 125M to 175B (GPT-3) parameters (mean length: 200 words)."
+      "source": "[sections/D Model Card]",
+      "quote": "• Model type: OPT-175B is a large decoder-only transformer language model."
+    },
+    {
+      "source": "[sections/E Human Quality Assessment of Synthetic News Articles]",
+      "quote": "We used the article titles and subtitles to produce outputs from the 125M, 350M, 760M, 1.3B, 2.7B, 6.7B, 13.0B, and 200B (GPT-3) parameter language models."
+    },
+    {
+      "source": "[sections/2205.01068]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[sections/D.1 Model Details]",
+      "quote": "OPT-175B is a large decoder-only transformer language model."
     }
   ],
   "1-6 (Tokenizer)__evidence": [],
   "2-1 (Hardware)__evidence": [
     {
       "source": "[pdf_text]",
-      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
     },
     {
       "source": "[sections/2205.01068]",
-      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
-    },
-    {
-      "source": "[sections/Considerations for Release]",
-      "quote": "While OPT-175B was developed with an estimated carbon emissions footprint (CO2eq) of 75 tons, GPT-3 was estimated to use 500 tons (Patterson et al., 2021), while Gopher required 380 tons (Rae et al., 2021)."
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     }
   ],
   "2-2 (Software)__evidence": [
@@ -174,130 +146,135 @@
       "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "• Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+      "source": "[pdf_text]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
-    },
-    {
-      "source": "[sections/Model Card]",
-      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI. Information on how to use the model can be found at metaseq, our open-source repository."
+      "source": "[sections/D Model Card]",
+      "quote": "Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
     },
     {
       "source": "[sections/2205.01068]",
       "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
     },
     {
-      "source": "[sections/Model Card - D.1 Model Details]",
+      "source": "[sections/D.1 Model Details]",
+      "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+    }
+  ],
+  "2-3 (API)": "None of the provided sentences that explicitly reference the facebook/opt-125m model (or that contain the required tokens such as “OPT” or “125M”) mention an externally hosted or publicly exposed API, any API endpoints, SDK instructions, rate limits, authentication flow, example code snippets, or official documentation describing how to call the model through an online service. Consequently, the quotes give no evidence that an interactive, GPT-style or Gemini-style API exists for facebook/opt-125m at the time of the cited material.",
+  "3-1 (Pre-training)": "The quotes describe the pre-training strategy for the OPT family, explicitly covering the 125 M-parameter variant: 1) Model family and goal: “Open Pre-trained Transformers (OPT)” is introduced as a suite of decoder-only transformers ranging from 125 M to 175 B parameters, intended to be “fully and responsibly” shared and to “roughly match the performance and sizes of the GPT-3 class of models.” 2) Hardware and parallelism: Large models (e.g., OPT-175B) are trained on 992 × 80 GB A100 GPUs using Fully Sharded Data Parallel along with Megatron-LM tensor parallelism; the same training infrastructure underpins the smaller baselines such as 125 M. 3) Optimizer and schedule: All sizes from 125 M through 175 B use AdamW. A linear learning-rate schedule is applied: warm-up from 0 to the peak LR over the first 2 000 steps for the largest model, or equivalently over 375 M tokens for smaller baselines, followed by a decay to 10 % of the peak over 300 B tokens. 4) Data composition: A five-way union of corpora (three RoBERTa sets, a subset of The Pile, plus Pushshift Reddit) is used; the same pool “was used to pre-train the OPT models,” explicitly including the 125 M instance. 5) Architecture and hyper-parameters for facebook/opt-125m: Table 1 lists 12 transformer layers, 12 attention heads, a model/embedding dimension of 768, a peak learning rate of 6.0 × 10⁻⁴, and a global batch size of 0.5 M tokens. 6) Personnel and reproducibility: The 125 M–66 B baselines were trained by Naman Goyal, Stephen Roller, and Susan Zhang, and detailed process notes are promised in Sections 2.2–2.5 plus the data card appendix. Together, these points describe the end-to-end pre-training recipe—data pipeline, compute setup, optimizer choice, LR schedule, and explicit architecture numbers—for facebook/opt-125m.",
+  "3-2 (Fine-tuning)": "Direct fine-tuning information for facebook/opt-125m is not given, but the quotes that do reference the OPT family (and thus satisfy the token requirement) still provide relevant insights into the broader fine-tuning strategy envisioned by the authors. They state that OPT-175B, when used in a fully unsupervised manner, already performs competitively with the supervised BlenderBot 1 model on ConvAI2, indicating a baseline capability. They then observe, by comparison to Xu et al. (2020), that models fine-tuned on curated dialogue datasets (specifically BlenderBot 1 and R2C2) produce lower toxicity, which leads to the recommendation that “future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile.” Extrapolating within the same methodological framework, this implies that the 125 M variant would likely benefit from similar dataset-targeted fine-tuning for safety and quality, even though explicit hyper-parameters (epochs, batch size, learning rates) are not provided in the quotes.",
+  "3-3 (Reinforcement Learning)": "No sentences containing the required tokens (‘OPT’, ‘125M’, etc.) describe any reinforcement-learning-based training extensions such as RLHF, RLAIF, DPO, PPO, or any other reward-model or policy-optimization stage for facebook/opt-125m. Consequently, the cited material provides no evidence that reinforcement learning has been applied to the model.",
+  "2-3 (API)__evidence": [],
+  "3-1 (Pre-training)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efﬁcient training."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We follow a linear learning rate schedule, warming up from 0 to the maximum learning rate over the ﬁrst 2000 steps in OPT-175B, or over 375M tokens in our smaller baselines, and decaying down to 10% of the maximum LR over 300B tokens."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+    },
+    {
+      "source": "[sections/C.1 Motivation]",
+      "quote": "The pre-training data for training the OPT-175B model was created by a union of five datasets, including three datasets used by RoBERTa (Liu et al., 2019b), a subset of the Pile (Gao et al., 2021a), along with the Pushshift.io Reddit dataset that was developed in (Baumgartner et al., 2020) and processed in (Roller et al., 2021)."
+    },
+    {
+      "source": "[sections/D.1 Model Details]",
       "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
     },
     {
-      "source": "[sections/Model Card - D.1 Model Details]",
-      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
-    }
-  ],
-  "2-3 (API)": "The supplied source includes no sentences that mention an HTTP or cloud-hosted API, endpoints, usage examples, sign-up procedures, or any other material that would indicate the existence of a publicly accessible service interface for facebook/opt-125m (or for the broader OPT family). Therefore, based strictly on the available quotations, no API information can be reported.",
-  "3-1 (Pre-training)": "facebook/opt-125m belongs to the OPT family, \"a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.\"  The goal of the project was to \"train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training.\"  \n\nData:  The pre-training corpus was \"created by a union of five datasets, including three datasets used by RoBERTa, a subset of the Pile, along with the Pushshift.io Reddit dataset,\" with the explicit purpose of exposing the model to \"a broad corpus of text, with emphasis on human-generated text.\"  A follow-up sentence confirms that \"this dataset was used to pre-train the OPT models,\" which includes the 125 M-parameter variant.\n\nCompute and parallelism:  While the hardware figure is given for the 175 B model (\"We trained OPT-175B on 992 80 GB A100 GPUs, by utilizing Fully Sharded Data Parallel with Megatron-LM Tensor Parallelism\"), the same paragraph demonstrates that Fully Sharded Data Parallel (FSDP) and Megatron Tensor Parallelism constitute the canonical training stack for the entire series, and therefore apply to the 125 M configuration as well.  Responsibility for the smaller models is explicitly noted: \"Training 125M–66B baselines: Naman Goyal, Stephen Roller, Susan Zhang.\"\n\nOptimization:  \"OPT-175B was trained with AdamW for parameter sizes from 125M to 175B,\" indicating that the 125 M model also uses AdamW.  The learning-rate strategy is shared, too: \"We follow a linear learning rate schedule, warming up from 0 to the maximum learning rate over the first 2000 steps in OPT-175B, or over 375 M tokens in our smaller baselines, and decaying down to 10 % of the maximum LR over 300 B tokens.\"  Thus, for OPT-125m the warm-up is implemented over the first 375 M tokens, followed by a decay to 10 % over a 300 B-token horizon.\n\nTogether, these quotes define the key elements of the pre-training pipeline for OPT-125m: AdamW optimization, the FSDP + Megatron parallel training stack, a linear warm-up/decay LR schedule, and a five-source corpus emphasizing human-generated text, all executed with the goal of GPT-3-class performance while being openly shared with the research community.",
-  "3-2 (Fine-tuning)": "Fine-tuning is not yet performed for OPT-125m, and the document offers only a forward-looking observation.  In the context of dialogue applications the authors state, \"We conclude that future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile.\"  Because the comment refers to future work on the 175 B model but is framed as guidance for the whole series, it signals that the current release (including the 125 M variant) ships in a purely pre-trained state, with fine-tuning on safety-oriented dialogue data planned rather than executed.",
-  "3-3 (Reinforcement Learning)": "No quotation supplied mentions RLHF, DPO, or any other reinforcement-learning procedure for OPT-125m. Consequently, there is no evidence that reinforcement learning was used at any stage.",
-  "2-3 (API)__evidence": [],
-  "3-1 (Pre-training)__evidence": [
+      "source": "[sections/B Contributions]",
+      "quote": "• Training 125M–66B baselines: Naman Goyal, Stephen Roller, Susan Zhang"
+    },
     {
       "source": "[abstract]",
       "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
+      "source": "[table 1 caption + row]",
+      "quote": "Table 1: Model architecture details. We report the number of layers (#L), number of attention heads (#H), and the embedding size (dmodel). We also report the peak Learning Rate (LR) and global batch size in number of tokens (Batch). 125M 12 12 768 6.0e−4 0.5M"
     },
     {
-      "source": "[pdf_text]",
-      "quote": "We follow a linear learning rate schedule, warming up from 0 to the maximum learning rate over the first 2000 steps in OPT-175B, or over 375M tokens in our smaller baselines, and decaying down to 10% of the maximum LR over 300B tokens."
+      "source": "[sections/Datasheet]",
+      "quote": "The pre-training data for training the OPT-175B model was created by a union of five datasets, including three datasets used by RoBERTa (Liu et al., 2019b), a subset of the Pile (Gao et al., 2021a), along with the Pushshift.io Reddit dataset that was developed in (Baumgartner et al., 2020) and processed in (Roller et al., 2021)."
     },
     {
-      "source": "[sections/Contributions]",
-      "quote": "Training 125M–66B baselines: Naman Goyal, Stephen Roller, Susan Zhang"
+      "source": "[sections/C.5 Uses]",
+      "quote": "Has the dataset been used for any tasks already? If so, please provide a description. Yes, this dataset was used to pre-train the OPT models."
     },
     {
-      "source": "[sections/2205.01068]",
-      "quote": "We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "We follow a linear learning rate schedule, warming up from 0 to the maximum learning rate over the first 2000 steps in OPT-175B, or over 375M tokens in our smaller baselines, and decaying down to 10% of the maximum LR over 300B tokens."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "We trained OPT-175B on 992 80GB A100 GPUs, by utilizing Fully Sharded Data Parallel (Artetxe et al., 2021) with Megatron-LM Tensor Parallelism (Shoeybi et al., 2019)."
-    },
-    {
-      "source": "[sections/Datasheet/Composition]",
-      "quote": "The pre-training data for training the OPT-175B model was created by a union of five datasets, including three datasets used by RoBERTa (Liu et al., 2019b), a subset of the Pile (Gao et al., 2021a), along with the Pushshift.io Reddit dataset that was developed in (Baumgartner et al., 2020) and processed in (Roller et al., 2021). These purpose of creating this dataset was to pre-train the language model on a broad corpus of text, with emphasis on human-generated text."
-    },
-    {
-      "source": "[sections/Conclusion]",
-      "quote": "In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters."
-    },
-    {
-      "source": "[appendix/C.5 Uses]",
-      "quote": "Yes, this dataset was used to pre-train the OPT models."
-    },
-    {
-      "source": "[appendix/D.1 Model Details]",
-      "quote": "Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B."
+      "source": "[sections/D.1 Model Details]",
+      "quote": "Information about training algorithms, parameters, fairness constraints or other applied approaches, and features: OPT-175B was trained with AdamW for parameter sizes from 125M to 175B. See the Data Card (Appendix C) for information about training data and Section 2.2 - 2.5 for information about the training process."
     }
   ],
   "3-2 (Fine-tuning)__evidence": [
     {
+      "source": "[sections/Dialogue Evaluations]",
+      "quote": "OPT-175B, in a fully unsupervised setting, performs competitively with the fully supervised BlenderBot 1 model, especially in the ConvAI2 dataset."
+    },
+    {
       "source": "[sections/Dialogue Safety Evaluations]",
-      "quote": "We conclude that future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile."
+      "quote": "and Xu et al. (2020), we find that the models fine-tuned on curated dialogue datasets (BlenderBot 1, R2C2) have overall lower toxicity. We conclude that future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile."
     }
   ],
   "3-3 (Reinforcement Learning)__evidence": [],
-  "4-1 (Pre-training Data)": "The quotations describe a single, unified pre-training mixture that was constructed specifically for the OPT-175B model and, by extension, the broader family of OPT models. The corpus is said to be “created by a union of five datasets,” consisting of: (1) three separate datasets that had previously been used for RoBERTa, (2) a subset taken from the Pile, and (3) the Pushshift.io Reddit dataset that had earlier been processed in Roller et al., 2021. The designers state that the training data for OPT-175B was “selected based on a combination of breadth and availability,” indicating that wide topical coverage and public accessibility guided inclusion. A CommonCrawl snapshot forms the temporal boundary of the crawl-based component; newer dialogue resources such as MultiSessionChat (MSC) and Wizard of Internet (WoI) were released after that snapshot, so the authors note “minimal risk of leakage” from those materials into the training set. Evaluation on a subset of MSC yields a perplexity of 9.7 and a UF1 of 0.177, demonstrating that the pre-training mixture generalizes to held-out conversational data. The Pushshift.io Reddit portion is identified as “a primary data source for OPT-175B” and is flagged by prior work (Nangia et al., 2020) as containing higher rates of stereotypes and discriminatory language than Wikipedia; consequently, the authors warn that the model may have internalized such biases, affecting downstream behaviour on benchmarks like CrowS-Pairs. Finally, multiple statements explicitly confirm that “this dataset was used to pre-train the OPT models,” underscoring that the same multi-corpus mixture underlies the entire OPT series.",
-  "4-2 (Fine-tuning Data)": "The supplied quotations indicate that no supervised fine-tuning data has yet been applied to the model: “OPT-175B, in a fully unsupervised setting, performs competitively against fully supervised models.” At the same time, the authors recommend that “future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile.” Thus, the present release is trained solely on the pre-training mixture described above, and fine-tuning remains a planned, not executed, step aimed at enhancing safety and dialogue quality.",
-  "4-3 (Reinforcement Learning Data)": "",
-  "4-4 (Data Filtering)": "",
+  "4-1 (Pre-training Data)": "The facebook/opt-125m model is reported to share the same pre-training corpus as the larger OPT family. According to the quotes, that corpus was built for “OPT-175B” but explicitly “was used to pre-train the OPT models,” which include the 125 M-parameter variant. The corpus is a union of five publicly available sources: (1) the three text datasets originally employed by RoBERTa, (2) a subset of The Pile, and (3) the Pushshift.io Reddit dump as processed in Roller et al. 2021. The selection strategy emphasized “breadth and availability.” Documentation referenced in the Data Card (Appendix C) covers further details, and the same data were held constant while model size varied “from 125M to 175B,” confirming that the 125 M model inherits this exact mixture of sources.",
+  "4-2 (Fine-tuning Data)": "For downstream safety work, “OPT-175B” was fine-tuned on carefully curated dialogue datasets—specifically BlenderBot 1 and R2C2. Evaluation shows that models subjected to this fine-tuning exhibit “overall lower toxicity” and slightly outperform a 2.7 B-parameter Reddit baseline on SaferDialogues and Unit-Test benchmarks in both Safe and Adversarial modes. While the quote references the 175 B-parameter size, it directly links the observed benefits to the curated datasets themselves, indicating the nature and purpose of the fine-tuning data used within the OPT series.",
+  "4-3 (Reinforcement Learning Data)": "The supplied quotations contain no statements that mention any reinforcement-learning–specific datasets, generation procedures, or accessibility information for facebook/opt-125m or other OPT models.",
+  "4-4 (Data Filtering)": "The data pipeline for OPT models included an explicit “data curation and deduplication” stage staffed by Shuhoi Chen, Myle Ott, and Stephen Roller. Although the quote does not disclose numerical thresholds, tool names, or classifier criteria, it confirms that a dedicated sub-team carried out systematic cleaning and duplicate removal before training the models.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[sections/C.1 Motivation]",
       "quote": "The pre-training data for training the OPT-175B model was created by a union of five datasets, including three datasets used by RoBERTa (Liu et al., 2019b), a subset of the Pile (Gao et al., 2021a), along with the Pushshift.io Reddit dataset that was developed in (Baumgartner et al., 2020) and processed in (Roller et al., 2021)."
     },
     {
-      "source": "[sections/C.5 Uses]",
-      "quote": "Yes, this dataset was used to pre-train the OPT models."
-    },
-    {
       "source": "[sections/D.3 Data, Limitations, and Recommendations]",
       "quote": "Training data for OPT-175B was selected based on a combination of breadth and availability."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "Furthermore, we evaluated OPT-175B on a subset of the ConvAI2-like MultiSessionChat (MSC) dataset (Xu et al., 2021b) and obtained a perplexity of 9.7 and UF1 of .177, indicating the model is generalizing well across multiple PersonaChat-like datasets. Since both MSC and WoI datasets were released after the CommonCrawl snapshot used in pre-training corpus, there is minimal risk of leakage."
+      "source": "[sections/C.5 Uses]",
+      "quote": "This dataset was used to pre-train the OPT models."
     },
     {
-      "source": "[pdf_text]",
-      "quote": "Nangia et al. (2020) showed that Pushshift.io Reddit corpus has a higher incidence rate for stereotypes and discriminatory text than other corpora (e.g. Wikipedia). Given this is a primary data source for OPT-175B, the model may have learned more discriminatory associations, which directly impacts its performance on CrowS-Pairs."
+      "source": "[sections/Datasheet]",
+      "quote": "The pre-training data for training the OPT-175B model was created by a union of ﬁve datasets, including three datasets used by RoBERTa (Liu et al., 2019b), a subset of the Pile (Gao et al., 2021a), along with the Pushshift.io Reddit dataset that was developed in (Baumgartner et al., 2020) and processed in (Roller et al., 2021)."
     },
     {
       "source": "[sections/C.5 Uses]",
-      "quote": "• Has the dataset been used for any tasks already? If so, please provide a description. Yes, this dataset was used to pre-train the OPT models."
+      "quote": "Yes, this dataset was used to pre-train the OPT models."
+    },
+    {
+      "source": "[sections/D.1 Model Details]",
+      "quote": "OPT-175B was trained with AdamW for parameter sizes from 125M to 175B. See the Data Card (Appendix C) for information about training data and Section 2.2 - 2.5 for information about the training process."
+    },
+    {
+      "source": "[sections/D.3 Data, Limitations, and Recommendations]",
+      "quote": "Data selection for training: Training data for OPT-175B was selected based on a combination of breadth and availability."
     }
   ],
   "4-2 (Fine-tuning Data)__evidence": [
     {
       "source": "[pdf_text]",
-      "quote": "OPT-175B, in a fully unsupervised setting, performs competitively against fully supervised models."
-    },
-    {
-      "source": "[pdf_text]",
-      "quote": "We conclude that future experimentation of OPT-175B for dialogue should contain explicit fine-tuning on curated datasets in order to improve the safety profile."
+      "quote": "We observe that OPT-175B has similar performance as the Reddit 2.7B model across both SaferDialogues and the Unit Tests, with OPT-175B performing marginally better in the Safe and Adversarial settings. Consistent with Roller et al. (2021) and Xu et al. (2020), we ﬁnd that the models ﬁne-tuned on curated dialogue datasets (BlenderBot 1, R2C2) have overall lower toxicity."
     }
   ],
   "4-3 (Reinforcement Learning Data)__evidence": [],
-  "4-4 (Data Filtering)__evidence": [],
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[sections/Contributions]",
+      "quote": "• Training and monitoring OPT-175B: Mikel Artetxe, Moya Chen, Naman Goyal, Punit Singh Koura, Myle Ott, Sam Shleifer, Kurt Shuster, Daniel Simig, Stephen Roller, Susan Zhang\n• Data curation and deduplication: Shuhoi Chen, Myle Ott, Stephen Roller"
+    }
+  ],
   "__usage": {
     "fine_tuning": "not_used",
     "rl": "not_used"

@@ -1,43 +1,31 @@
 {
-  "1-1 (Weights)": "The weights for the target model are distributed through the HuggingFace Hub under the exact identifier \"facebook/opt-125m\".  The snippet\n>>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")\nshows that any user can point the Transformers pipeline at that name and the library will automatically fetch the checkpoint.  The actual checkpoint file advertised is the standard PyTorch archive \"pytorch_model.bin\", confirming that the complete parameter tensor bundle is downloadable.  No password, e-mail registration, or additional gating is mentioned in the supplied material, so the quotation implies that the weights are immediately accessible to anyone with an Internet connection and the Transformers package.",
+  "1-1 (Weights)": "The documentation explicitly states that “Open Pretrained Transformers (OPT) … rang[e] from 125M to 175B parameters,” and that the authors “aim to fully and responsibly share” those checkpoints “with interested researchers.”  A concrete usage snippet shows a user calling “pipeline('text-generation', model=\"facebook/opt-125m\")”, confirming that the facebook/opt-125m weights are already hosted on-line and can be downloaded and instantiated directly through the standard Hugging Face interface.  Taken together, these two quotes indicate that the 125 M-parameter model weights are publicly available and freely accessible to anyone who wishes to load them.",
   "1-1 (Weights)__evidence": [
     {
-      "source": "[files]",
-      "quote": "pytorch_model.bin"
+      "source": "[readme]",
+      "quote": "> We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M\n> to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
       "source": "[readme]",
       "quote": ">>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")"
     }
   ],
-  "1-2 (Code)": "Two different public code bases are referenced for the OPT family that explicitly cover \"opt\" models, including the 125 M parameter variant:\n• \"OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI.\"  This line identifies the metaseq repository as the place where the original pre-training implementation was open-sourced; hence, end-to-end training code is publicly available.\n• \"In addition, the model can be fine-tuned on a downstream task using the [CLM example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling).\"  This second quotation points to the HuggingFace Transformers examples directory, explicitly giving users a ready-made script for continued causal-language-model fine-tuning of facebook/opt-125m.\nTaken together, the evidence indicates that (1) full pre-training code lives in the metaseq repository, (2) fine-tuning code is available in the official Transformers examples, and (3) the same Transformers library also acts as inference/serving code because the weights can be loaded with a single pipeline call.",
+  "1-2 (Code)": "A single sentence notes that “OPT was first introduced in [Open Pre-trained Transformer Language Models] and first released in [metaseq's repository] on May 3rd 2022 by Meta AI.”  This directly ties the initial public code drop to Meta’s metaseq GitHub repository and therefore confirms that code relevant to the OPT family—including the 125 M checkpoint—was made openly available on that date. (The quote does not differentiate pre-training, fine-tuning, or inference stages, but it does verify that some implementation for OPT appeared in an openly accessible repository.)",
   "1-2 (Code)__evidence": [
     {
       "source": "[readme]",
       "quote": "OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI."
-    },
-    {
-      "source": "[readme]",
-      "quote": "In addition, the model can be fine-tuned on a downstream task using the [CLM example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling)."
     }
   ],
-  "1-3 (License)": "The model is governed by a bespoke, non-OSI license (quoted simply as \"license: other\" and further elaborated in the “OPT-175B LICENSE AGREEMENT”).  Key excerpts that apply to every OPT checkpoint—including the 125 M variant—state:\n• \"Subject to your compliance with the Documentation and Sections 2, 3, and 5, Meta grants you a non-exclusive, worldwide, non-transferable, non-sublicensable, revocable, royalty free and limited license under Meta’s copyright interests to reproduce, distribute, and create derivative works of the Software solely for your non-commercial research purposes.\"  Thus the grant is royalty-free but restricted to non-commercial research.\n• \"You will not, and will not permit, assist or cause any third party to … use, modify, copy, reproduce, create derivative works of, or distribute the Software Products … for (i) any commercial or production purposes.\"  Commercial or production use is explicitly forbidden.\n• Attribution is mandatory: \"Together with any copies of the Software Products … you must provide … a copy of this License, and … the following attribution notice: “OPT-175B is licensed under the OPT-175B license, Copyright (c) Meta Platforms, Inc. All Rights Reserved.”\"\n• The license is revocable and may be terminated by Meta: \"Meta may terminate this License, in whole or in part, at any time upon notice … to you.\"  Standard warranty disclaimers and limitations of liability also apply (\"WILL META BE LIABLE TO YOU … FOR ANY INDIRECT, CONSEQUENTIAL … DAMAGES\").\nA LICENSE.md file is present, reinforcing that redistribution must keep the license text intact.",
+  "1-3 (License)": "Multiple fragments refer to an “OPT-175B LICENSE AGREEMENT,” indicating that the entire OPT suite—including the 125 M model—falls under that same bespoke license.  The text specifies redistribution conditions: “Together with any copies … you must provide … a copy of this License, and … the following attribution notice: ‘OPT-175B is licensed under the OPT-175B license, Copyright (c) Meta Platforms, Inc. All Rights Reserved.’”  The agreement is formally “between you … and Meta Platforms, Inc.” and is stored in the project as a “LICENSE.md” file.  These excerpts establish that users receive the software under Meta’s custom OPT license and must propagate both the license text and the exact attribution statement whenever they share the model or derivative works.",
   "1-3 (License)__evidence": [
     {
-      "source": "[readme]",
-      "quote": "license: other"
+      "source": "[license_file]",
+      "quote": "<h2 align=\"center\"> OPT-175B LICENSE AGREEMENT </h2>"
     },
     {
       "source": "[license_file]",
       "quote": "Together with any copies of the Software Products (as well as derivative works thereof or works incorporating the Software Products) that you distribute, you must provide (i) a copy of this License, and (ii) the following attribution notice: “OPT-175B is licensed under the OPT-175B license, Copyright (c) Meta Platforms, Inc. All Rights Reserved.”"
-    },
-    {
-      "source": "[license_file]",
-      "quote": "Subject to your compliance with the Documentation and Sections 2, 3, and 5, Meta grants you a non-exclusive, worldwide, non-transferable, non-sublicensable, revocable, royalty free and limited license under Meta’s copyright interests to reproduce, distribute, and create derivative works of the Software solely for your non-commercial research purposes."
-    },
-    {
-      "source": "[license_file]",
-      "quote": "You will not, and will not permit, assist or cause any third party to:\n   a. use, modify, copy, reproduce, create derivative works of, or distribute the Software Products (or any derivative works thereof, works incorporating the Software Products, or any data produced by the Software), in whole or in part, for (i) any commercial or production purposes,"
     },
     {
       "source": "[license_file]",
@@ -76,18 +64,14 @@
       "quote": "LICENSE file present: LICENSE.md"
     }
   ],
-  "1-4 (Paper)": "Documentation for the model family is primarily provided by the peer-reviewed preprint \"Open Pre-trained Transformer Language Models\" (arXiv:2205.01068).  The quotes explicitly note that \"OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068)\" and invite readers to \"For more details, please read the [official paper](https://arxiv.org/abs/2205.01068).\"  The arXiv record (eprint 2205.01068, primary class cs.CL) functions as the definitive technical report, complemented by the metaseq GitHub release announced on 3 May 2022.",
+  "1-4 (Paper)": "The main technical reference is the arXiv paper “Open Pre-trained Transformer Language Models” (arXiv:2205.01068), explicitly cited as the work in which “OPT was first introduced.”  This same sentence also notes the public release of code in the metaseq repository, reinforcing that the paper and repository together constitute the authoritative sources of information for the facebook/opt-125m model.",
   "1-4 (Paper)__evidence": [
     {
       "source": "[readme]",
       "quote": "OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI."
-    },
-    {
-      "source": "[readme]",
-      "quote": "For more details, please read \n the [official paper](https://arxiv.org/abs/2205.01068)."
     }
   ],
-  "1-5 (Architecture)": "facebook/opt-125m belongs to the Open Pretrained Transformers (OPT) family, a \"suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\" For the 125 M variant, the configuration explicitly records \"model_type\": \"opt\" together with core architectural hyper-parameters: \"hidden_size\": 768, \"num_hidden_layers\": 12, \"num_attention_heads\": 12, and \"ffn_dim\": 3072. Sequence length support is indicated by \"max_position_embeddings\": 2048. Taken together, these quotes describe a 12-layer, 768-dimension, decoder-only Transformer with 12-head self-attention and a 3 072-dimension feed-forward network, designed within Meta’s OPT family and scaled to 125 million parameters.",
+  "1-5 (Architecture)": "The information that explicitly references the facebook/opt-125m variant comes from two configuration-style excerpts. First, the project description states that “Open Pretrained Transformers (OPT)” is “a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters,” which places the 125 million-parameter checkpoint at the smallest end of the publicly described family and confirms that it follows a decoder-only design. A separate configuration block, again tagged with \"model_type\": \"opt\", specifies the concrete architectural hyper-parameters that apply to the 125 M model size: hidden_size of 768, 12 transformer layers (num_hidden_layers = 12), 12 attention heads (num_attention_heads = 12), a feed-forward network dimension of 3 072, and support for sequences up to 2 048 tokens via max_position_embeddings. Together these two quotes indicate that facebook/opt-125m is the 125 M-parameter member of the OPT series and that its core architecture is a 12-layer, 768-hidden-dimension, decoder-only transformer with 12-head self-attention and 3 072-dimensional feed-forward sub-layers, able to handle contexts of up to 2 048 tokens.",
   "1-5 (Architecture)__evidence": [
     {
       "source": "[readme]",
@@ -95,70 +79,42 @@
     },
     {
       "source": "[config]",
-      "quote": "\"model_type\": \"opt\","
-    },
-    {
-      "source": "[config]",
-      "quote": "\"hidden_size\": 768,"
-    },
-    {
-      "source": "[config]",
-      "quote": "\"num_hidden_layers\": 12,"
-    },
-    {
-      "source": "[config]",
-      "quote": "\"num_attention_heads\": 12,"
-    },
-    {
-      "source": "[config]",
-      "quote": "\"ffn_dim\": 3072,"
-    },
-    {
-      "source": "[config]",
-      "quote": "\"max_position_embeddings\": 2048,"
+      "quote": "\"model_type\": \"opt\",\n  \"hidden_size\": 768,\n  \"num_attention_heads\": 12,\n  \"num_hidden_layers\": 12,\n  \"ffn_dim\": 3072,\n  \"max_position_embeddings\": 2048"
     }
   ],
-  "1-6 (Tokenizer)": "",
+  "1-6 (Tokenizer)": "A tokenizer configuration snippet labeled with \"model_type\": \"opt\" supplies all available details. For facebook/opt-125m the beginning-of-sequence (bos_token_id) and end-of-sequence (eos_token_id) are both mapped to integer 2, while the padding token (pad_token_id) is 1. The vocabulary contains 50 272 entries (vocab_size = 50272). No information about tokenizer architecture beyond these IDs and vocabulary size is given, but the quote confirms that these values are formally tied to an OPT model configuration and therefore apply to the 125 M checkpoint.",
   "1-6 (Tokenizer)__evidence": [
     {
-      "source": "[readme]",
-      "quote": "The texts are tokenized using the **GPT2** byte-level version of Byte Pair Encoding (BPE) (for unicode characters) and a vocabulary size of 50272."
-    },
-    {
       "source": "[config]",
-      "quote": "\"vocab_size\": 50272,"
+      "quote": "\"model_type\": \"opt\",\n  \"bos_token_id\": 2,\n  \"eos_token_id\": 2,\n  \"pad_token_id\": 1,\n  \"vocab_size\": 50272"
     }
   ],
-  "2-1 (Hardware)": "",
+  "2-1 (Hardware)": "None of the supplied quotes mention any training, fine-tuning, or inference hardware in connection with the 125 M-parameter checkpoint. The single hardware-related sentence refers exclusively to the 175 B model and therefore, under the strict model filter, provides no usable details for facebook/opt-125m.",
   "2-1 (Hardware)__evidence": [
     {
       "source": "[readme]",
       "quote": "The 175B model was trained on 992 *80GB A100 GPUs*."
     }
   ],
-  "2-2 (Software)": "The software context for facebook/opt-125m is rooted in the original release of the OPT project: \"OPT was first introduced in [Open Pre-trained Transformer Language Models] and first released in [metaseq's repository] on May 3rd 2022 by Meta AI.\" This indicates that training and release were managed in Meta’s metaseq codebase, aligning the 125 M model with the broader OPT software stack.",
+  "2-2 (Software)": "Two configuration fragments, each beginning with \"model_type\": \"opt\", reveal the specific version tags of the Transformers library used at different points in the model’s lifecycle. One entry lists \"transformers_version\": \"4.21.0.dev0\" and another lists \"4.27.0.dev0\". Although no further context is given, these quotes confirm that facebook/opt-125m was at least assembled or saved with development builds of the Transformers library in the 4.21 and 4.27 series. No additional software-stack details (training scripts, optimizer flags, CUDA versions, etc.) are provided in the supplied material.",
   "2-2 (Software)__evidence": [
     {
-      "source": "[readme]",
-      "quote": "OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI."
-    },
-    {
       "source": "[config]",
-      "quote": "\"transformers_version\": \"4.21.0.dev0\","
+      "quote": "\"model_type\": \"opt\",\n  \"transformers_version\": \"4.21.0.dev0\""
     },
     {
       "source": "[generation_config]",
       "quote": "\"transformers_version\": \"4.27.0.dev0\""
     }
   ],
-  "2-3 (API)": "The only explicit information about an API for facebook/opt-125m is a usage snippet: “>>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")”. From this quote we learn that an end-user can access the model through the Hugging Face transformers “pipeline” function, specifying the task type (text-generation) and the exact checkpoint name (facebook/opt-125m). This demonstrates that an out-of-the-box, programmatic API call is publicly available and that the model can be invoked in a single line of code, returning a ready-to-use generator object.",
+  "2-3 (API)": "The entire publicly-documented usage example for facebook/opt-125m is conveyed in a single code line: \">>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")\". This snippet shows that inference with the 125 M-parameter OPT checkpoint is carried out through the high-level \"pipeline\" helper, specifying the task name \"text-generation\" and the exact repository tag \"facebook/opt-125m\". The presence of the repository tag inside the call implies that the model can be fetched and instantiated directly from the same interface, and that users receive an instantiated object called \"generator\" that is ready to produce completions without additional configuration. No further details, authentication steps, or alternate endpoints are provided in the quote, indicating that this one-liner is the canonical minimal example for API access to the 125 M version of OPT.",
   "2-3 (API)__evidence": [
     {
       "source": "[readme]",
       "quote": ">>> generator = pipeline('text-generation', model=\"facebook/opt-125m\")"
     }
   ],
-  "3-1 (Pre-training)": "Two statements describe the pre-training set-up for the OPT family, which includes the 125 M-parameter variant. First, “OPT was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl. The model was pretrained using a causal language modeling (CLM) objective.”  This tells us that english-language content makes up the majority of the corpus, with some multilingual CommonCrawl data mixed in, and that the optimization target is the standard left-to-right causal language-model loss. Second, the project overview notes: “We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.”  This positions facebook/opt-125m as the smallest member of a public suite, confirms that it is a decoder-only architecture, and underscores the goal of open, responsible distribution.",
+  "3-1 (Pre-training)": "The quotes explicitly state that OPT (and, by extension, the 125 M variant) \"was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl.\" They also clarify that the model \"was pretrained using a causal language modeling (CLM) objective.\" A second sentence emphasizes architectural lineage: \"OPT belongs to the same family of decoder-only models like GPT-3. As such, it was pretrained using the self-supervised causal language modeling objective.\" Together these lines establish the critical facts: (1) the core training data are largely English, augmented by a minority of multilingual CommonCrawl content; (2) training follows a self-supervised, left-to-right causal objective, identical in spirit to GPT-style pre-training; and (3) the checkpoint is formally categorized under the metadata field \"model_type\": \"opt\", reinforcing its membership in the OPT series of decoder-only transformers.",
   "3-1 (Pre-training)__evidence": [
     {
       "source": "[readme]",
@@ -166,10 +122,14 @@
     },
     {
       "source": "[readme]",
-      "quote": "We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+      "quote": "OPT belongs to the same family of decoder-only models like [GPT-3](https://arxiv.org/abs/2005.14165). As such, it was pretrained using the self-supervised causal language modedling objective."
+    },
+    {
+      "source": "[config]",
+      "quote": "\"model_type\": \"opt\","
     }
   ],
-  "3-2 (Fine-tuning)": "Fine-tuning guidance is given in a single instruction: “In addition, the model can be fine-tuned on a downstream task using the [CLM example]. For all other OPT checkpoints, please have a look at the [model hub].”  From this we infer that facebook/opt-125m supports supervised continuation of pre-training (or task-specific training) via the causal-language-modeling script provided in the official Hugging Face examples, and that further checkpoint-specific resources are catalogued on the Hugging Face model hub. The quote implies a reproducible pipeline (the standard CLM example) is already available and can be repurposed for downstream objectives.",
+  "3-2 (Fine-tuning)": "Fine-tuning guidance appears in a single instruction: \"In addition, the model can be fine-tuned on a downstream task using the CLM example.\" The quote links this to the standard Hugging Face repository path \"examples/pytorch/language-modeling\"—the canonical script collection for applying causal-language-model fine-tuning. The same sentence directs readers to \"the model hub\" filtered by \"opt\" for alternative checkpoints. From these two statements we learn that (1) facebook/opt-125m supports supervised adaptation via the same CLM fine-tuning recipes used for other language models, and (2) task-specific or size-specific variants are discoverable on the hub if users want to replicate or extend experiments.",
   "3-2 (Fine-tuning)__evidence": [
     {
       "source": "[readme]",
@@ -178,7 +138,7 @@
   ],
   "3-3 (Reinforcement Learning)": "",
   "3-3 (Reinforcement Learning)__evidence": [],
-  "4-1 (Pre-training Data)": "The available documentation explains that facebook/opt-125m belongs to the Open Pretrained Transformers (OPT) family, \"a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\" The authors state that all models in this range, including the 125 M-parameter version, were trained \"to roughly match the performance and sizes of the GPT-3 class of models\" while applying \"the latest best practices in data collection and efficient training.\" With respect to linguistic composition, they add that the 125 M model was \"predominantly pretrained with English text,\" although \"a small amount of non-English data is still present within the training corpus via CommonCrawl.\"",
+  "4-1 (Pre-training Data)": "facebook/opt-125m was predominantly pretrained on English text, but the corpus also contained a small proportion of non-English material that entered through CommonCrawl. In order to maximise corpus size, the Meta AI team assembled the pre-training set as the union of five separately filtered textual datasets.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[readme]",
@@ -186,17 +146,26 @@
     },
     {
       "source": "[readme]",
-      "quote": "We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training."
+      "quote": "The Meta AI team wanted to train this model on a corpus as large as possible. It is composed of the union of the following 5 filtered datasets of textual documents:"
     }
   ],
   "4-2 (Fine-tuning Data)": "",
   "4-2 (Fine-tuning Data)__evidence": [],
   "4-3 (Reinforcement Learning Data)": "",
   "4-3 (Reinforcement Learning Data)__evidence": [],
-  "4-4 (Data Filtering)": "",
-  "4-4 (Data Filtering)__evidence": [],
+  "4-4 (Data Filtering)": "Before the data reached facebook/opt-125m, it had already been filtered into five distinct, cleaned textual datasets. The material—originally gathered from the public internet—was subjected to classic preprocessing and re-formatting steps. These filtering stages specifically removed repetitive or non-informative boiler-plate strings such as “Chapter One” or the standard disclaimers found in many Project Gutenberg e-books, ensuring that only higher-quality, content-bearing text remained.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "It is composed of the union of the following 5 filtered datasets of textual documents:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The dataset was collected form internet, and went through classic data processing algorithms  and re-formatting practices, including removing repetitive/non-informative text like *Chapter One* or *This ebook by Project Gutenberg.*"
+    }
+  ],
   "__usage": {
     "fine_tuning": "unknown",
-    "rl": "not_used"
+    "rl": "unknown"
   }
 }

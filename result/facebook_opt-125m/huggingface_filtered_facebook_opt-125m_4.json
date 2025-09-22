@@ -1,5 +1,5 @@
 {
-  "4-1 (Pre-training Data)": "The available documentation explains that facebook/opt-125m belongs to the Open Pretrained Transformers (OPT) family, \"a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.\" The authors state that all models in this range, including the 125 M-parameter version, were trained \"to roughly match the performance and sizes of the GPT-3 class of models\" while applying \"the latest best practices in data collection and efficient training.\" With respect to linguistic composition, they add that the 125 M model was \"predominantly pretrained with English text,\" although \"a small amount of non-English data is still present within the training corpus via CommonCrawl.\"",
+  "4-1 (Pre-training Data)": "facebook/opt-125m was predominantly pretrained on English text, but the corpus also contained a small proportion of non-English material that entered through CommonCrawl. In order to maximise corpus size, the Meta AI team assembled the pre-training set as the union of five separately filtered textual datasets.",
   "4-1 (Pre-training Data)__evidence": [
     {
       "source": "[readme]",
@@ -7,13 +7,22 @@
     },
     {
       "source": "[readme]",
-      "quote": "We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. We train the OPT models to roughly match the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data collection and efficient training."
+      "quote": "The Meta AI team wanted to train this model on a corpus as large as possible. It is composed of the union of the following 5 filtered datasets of textual documents:"
     }
   ],
   "4-2 (Fine-tuning Data)": "",
   "4-2 (Fine-tuning Data)__evidence": [],
   "4-3 (Reinforcement Learning Data)": "",
   "4-3 (Reinforcement Learning Data)__evidence": [],
-  "4-4 (Data Filtering)": "",
-  "4-4 (Data Filtering)__evidence": []
+  "4-4 (Data Filtering)": "Before the data reached facebook/opt-125m, it had already been filtered into five distinct, cleaned textual datasets. The material—originally gathered from the public internet—was subjected to classic preprocessing and re-formatting steps. These filtering stages specifically removed repetitive or non-informative boiler-plate strings such as “Chapter One” or the standard disclaimers found in many Project Gutenberg e-books, ensuring that only higher-quality, content-bearing text remained.",
+  "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[readme]",
+      "quote": "It is composed of the union of the following 5 filtered datasets of textual documents:"
+    },
+    {
+      "source": "[readme]",
+      "quote": "The dataset was collected form internet, and went through classic data processing algorithms  and re-formatting practices, including removing repetitive/non-informative text like *Chapter One* or *This ebook by Project Gutenberg.*"
+    }
+  ]
 }

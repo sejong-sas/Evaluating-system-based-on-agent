@@ -1,122 +1,122 @@
 {
   "model": "facebook/opt-125m",
   "scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "The OPT licence allows use, modification and redistribution only for NON-COMMERCIAL research.  Commercial/production use is explicitly prohibited, so one of the four basic rights is restricted ⇒ Semi-Open."
+      "reason": "The model is distributed under the custom “OPT-175B License Agreement”, which is strictly non-commercial; commercial use is restricted, so only two of the four freedoms are granted (use & modify for research)."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report, “OPT: Open Pre-trained Transformer Language Models” (arXiv:2205.01068), documents the exact 125 M variant."
+      "reason": "Provider-authored technical report “OPT: Open Pre-trained Transformer Language Models” (arXiv:2205.01068) describes this exact model family."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quote: “We trained OPT-175B on 992 80 GB A100 GPUs …” discloses both type (A100-80 GB) and exact quantity (992 GPUs)."
+      "reason": "Quote: “We trained OPT-175B on 992 80 GB A100 GPUs …”; gives both hardware type (A100 80 GB) and quantity (992)."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Quotes list major training-stack components beyond the base framework: Fully-Sharded Data Parallel, Megatron-LM tensor parallelism, AdamW, and the public metaseq code.  However, full versioned stack and all configs are not enumerated ⇒ Semi-Open."
+      "reason": "Quotes list training components beyond the base framework – Fully-Sharded Data Parallel, Megatron-LM tensor parallelism, optimizer AdamW, and the open-sourced ‘metaseq’ code – but do not enumerate the complete stack with versions/configs."
     },
     "2-3 API": {
       "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: no official API found. Meta's official domains do not provide an API for the OPT model family; only third-party services offer such APIs."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Method details provided (data sources, CLM objective, LR schedule, AdamW hyper-params) but not the full set of hyper-parameters or complete pipeline ⇒ Partial disclosure."
+      "reason": "Quotes give objective (causal LM), LR schedule, optimizer, dataset mix and hardware, but not a fully reproducible pipeline (exact seeds, data manifests, all hyper-params)."
     },
     "3-2 Fine-tuning": {
       "score": 0.0,
-      "reason": "Only a generic remark that the model *can* be fine-tuned with the HF CLM example; no author-disclosed fine-tuning procedure."
+      "reason": "Only states that the model *can* be fine-tuned or that 175 B was fine-tuned for safety; no method details are disclosed for reproduction."
     },
     "3-3 Reinforcement Learning": {
       "score": 0.0,
-      "reason": "No RL training is described in any provided quote. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No RLHF / RL method is described in the provided material. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources are enumerated (RoBERTa’s three corpora, subset of The Pile, Pushshift Reddit); language mix (mostly English) is noted, but exact sizes/proportions and licences for each subset are not given ⇒ Partial disclosure."
+      "reason": "Sources are named (three RoBERTa corpora, subset of The Pile, Pushshift Reddit) but the actual files or full manifest are not released."
     },
     "4-2 Fine-tuning Data": {
-      "score": 0.0,
-      "reason": "No quotes describing any fine-tuning datasets. No direct quote evidence; defaulting to Closed by strict rule."
+      "score": 0.5,
+      "reason": "Curated dialogue sets (BlenderBot 1, R2C2) are identified, but no full release or manifest is provided."
     },
     "4-3 Reinforcement Learning Data": {
       "score": 0.0,
-      "reason": "No RL data mentioned. No direct quote evidence; defaulting to Closed by strict rule."
+      "reason": "No RL data is mentioned or shared in the quotes. No direct quote evidence; defaulting to Closed by strict rule."
     },
     "4-4 Data Filtering": {
-      "score": 0.0,
-      "reason": "No concrete filtering / cleaning pipeline or thresholds are described in the supplied quotes. No direct quote evidence; defaulting to Closed by strict rule."
-    },
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 0.5,
+      "reason": "Filtering/cleaning is acknowledged (deduplication team, removal of boiler-plate like “Chapter One”), but pipeline details, thresholds, or algorithms are not reproduced."
     }
   },
   "included_scores": {
+    "1-1 Weights": {
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
+    },
     "1-2 Code": {
       "score": 0.0,
       "reason": "No training pipeline files; README mentions are ignored."
     },
     "1-3 License": {
       "score": 0.5,
-      "reason": "The OPT licence allows use, modification and redistribution only for NON-COMMERCIAL research.  Commercial/production use is explicitly prohibited, so one of the four basic rights is restricted ⇒ Semi-Open."
+      "reason": "The model is distributed under the custom “OPT-175B License Agreement”, which is strictly non-commercial; commercial use is restricted, so only two of the four freedoms are granted (use & modify for research)."
     },
     "1-4 Paper": {
       "score": 1.0,
-      "reason": "A dedicated technical report, “OPT: Open Pre-trained Transformer Language Models” (arXiv:2205.01068), documents the exact 125 M variant."
+      "reason": "Provider-authored technical report “OPT: Open Pre-trained Transformer Language Models” (arXiv:2205.01068) describes this exact model family."
     },
     "1-5 Architecture": {
-      "score": 1,
-      "reason": "Architecture evidence present in extracted quotes."
+      "score": 1.0,
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "1-6 Tokenizer": {
       "score": 1.0,
-      "reason": "Tokenizer files downloadable in repository."
+      "reason": "Hugging Face presence detected; forced Open per FORCE_HF_CORE_OPEN."
     },
     "2-1 Hardware": {
       "score": 1.0,
-      "reason": "Quote: “We trained OPT-175B on 992 80 GB A100 GPUs …” discloses both type (A100-80 GB) and exact quantity (992 GPUs)."
+      "reason": "Quote: “We trained OPT-175B on 992 80 GB A100 GPUs …”; gives both hardware type (A100 80 GB) and quantity (992)."
     },
     "2-2 Software": {
       "score": 0.5,
-      "reason": "Quotes list major training-stack components beyond the base framework: Fully-Sharded Data Parallel, Megatron-LM tensor parallelism, AdamW, and the public metaseq code.  However, full versioned stack and all configs are not enumerated ⇒ Semi-Open."
+      "reason": "Quotes list training components beyond the base framework – Fully-Sharded Data Parallel, Megatron-LM tensor parallelism, optimizer AdamW, and the open-sourced ‘metaseq’ code – but do not enumerate the complete stack with versions/configs."
     },
     "2-3 API": {
       "score": 0.0,
-      "reason": "Only generic or non-official mentions; no qualifying official API docs.  No qualifying official API docs via web search."
+      "reason": "Only generic or non-official mentions; no qualifying official API docs.  apifind: no official API found. Meta's official domains do not provide an API for the OPT model family; only third-party services offer such APIs."
     },
     "3-1 Pre-training": {
       "score": 0.5,
-      "reason": "Method details provided (data sources, CLM objective, LR schedule, AdamW hyper-params) but not the full set of hyper-parameters or complete pipeline ⇒ Partial disclosure."
+      "reason": "Quotes give objective (causal LM), LR schedule, optimizer, dataset mix and hardware, but not a fully reproducible pipeline (exact seeds, data manifests, all hyper-params)."
     },
     "4-1 Pre-training Data": {
       "score": 0.5,
-      "reason": "Sources are enumerated (RoBERTa’s three corpora, subset of The Pile, Pushshift Reddit); language mix (mostly English) is noted, but exact sizes/proportions and licences for each subset are not given ⇒ Partial disclosure."
+      "reason": "Sources are named (three RoBERTa corpora, subset of The Pile, Pushshift Reddit) but the actual files or full manifest are not released."
     },
     "4-4 Data Filtering": {
-      "score": 0.0,
-      "reason": "No concrete filtering / cleaning pipeline or thresholds are described in the supplied quotes. No direct quote evidence; defaulting to Closed by strict rule."
-    },
-    "1-1 Weights": {
-      "score": 1,
-      "reason": "Weights files present in the repository (e.g., *.safetensors/bin/pt/ckpt)."
+      "score": 0.5,
+      "reason": "Filtering/cleaning is acknowledged (deduplication team, removal of boiler-plate like “Chapter One”), but pipeline details, thresholds, or algorithms are not reproduced."
     }
   },
-  "final_score_10pt": 5.833,
+  "final_score_10pt": 6.25,
   "meta": {
     "usage_from_dispatch": {
       "fine_tuning": "not_used",
@@ -129,7 +129,7 @@
       "4-3 Reinforcement Learning Data"
     ],
     "denominator": 12,
-    "raw_sum": 7.0,
+    "raw_sum": 7.5,
     "scale": "10/12",
     "code_detection_reason": "No training pipeline files; README mentions are ignored.",
     "pretrain_sources_used": false

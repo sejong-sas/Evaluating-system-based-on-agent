@@ -1,70 +1,54 @@
 {
-  "1-1 (Weights)": "The OPT release explicitly says it is making the actual weight files available. The authors state that OPT is “a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers.”  For every model at or below 66 B parameters – and that includes facebook/opt-125m – they write: “We are releasing all of our models between 125M and 66B parameters…”.  This means the 125 M-parameter checkpoint can be downloaded directly by anyone (no application process is mentioned for these smaller baselines).  By contrast, the 175 B model is gated (“will provide full research access to OPT-175B upon request” and “providing researchers with direct access to the parameters of OPT-175B”).  Multiple passages repeat that the public bundle contains “a suite of smaller baselines mirroring the setup for OPT-175B.”  All released weights, including OPT-125m, are covered by the same distribution terms described in the license section (“OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement”).  No further hosting details (URL, storage service, or hash) are given in the supplied text, but the quotes make clear that the weights are downloadable and that the 125 M checkpoint is part of the open, non-gated set.",
-  "1-2 (Code)": "Training-time code for OPT is also being open-sourced.  The paper announces that, together with the weight release, Meta is “releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models.”  They identify the public repository by name: “our codebase, metaseq, which enabled training OPT-175B on 992 80 GB A100 GPUs.”  Another line clarifies that this repository is meant for end-users: “Information on how to use the model can be found at metaseq, our open-source repository.”  The authors emphasise that the disclosure covers training internals, not just inference: “we are disclosing all of the details involved in training OPT-175B through our logbook, our code.”  Thus, for OPT-125m, the complete training pipeline (configuration files, schedules, distributed training scripts, etc.) is available in the open-source metaseq repo, alongside example notebooks or scripts for fine-tuning and evaluation.",
-  "1-3 (License)": "Every quote that mentions legal terms points to a single, unified licence: a non-commercial, research-only agreement.  The messaging is consistent: “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.”  The intention is spelled out twice: “By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs.”  Although the exact licence text is not reproduced, the repeated phrase “non-commercial use license” implies that the grant of rights (a) allows research use, (b) is silent or restrictive on modification and redistribution, and (c) explicitly forbids commercial exploitation.  No quote mentions derivative-works rules, sublicensing, or patent clauses, so those points remain unspecified here.",
-  "1-4 (Paper)": "There is an official technical report and accompanying blog post.  The title is given as “OPT: Open Pre-trained Transformer Language Models.”  The authors refer to it several times: “In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters…” and later, “In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters.”  A pointer for further reading is offered: “See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository.”  Therefore, the canonical reference for facebook/opt-125m is the OPT technical report plus the linked Meta AI Research Blog article; no separate arXiv number or journal citation is included in the provided quotes.",
+  "1-1 (Weights)": "The release statement explicitly says, “We are releasing all of our models between 125M and 66B parameters,” which means the 125 M-parameter checkpoint for facebook/opt-125m is publicly available. The same sentence notes that only the separate 175 B variant requires a special request, so the 125 M model is part of the openly downloadable set. More generally, the team “present[s] Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers,” confirming that 125 M sits at the bottom of that shared suite. The project commits to giving researchers access to weights: they are “providing researchers access to model weights … along with a suite of smaller baselines mirroring the setup for OPT-175B,” and the 125 M model is explicitly one of those “smaller baseline models.” All of these baselines, including 125 M, are distributed under the same terms as the larger models, as reiterated in the remark, “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.” Therefore, the 125 M weights can be freely downloaded under that licence without any additional gated‐access process, and they come accompanied by the full training logbook information.",
+  "1-2 (Code)": "The authors emphasise that they are releasing training code, not only inference snippets. They write, “We are also releasing both the logbook of our model creation as well as our code-base, metaseq, which enabled training OPT-175B,” and because the same repository was used to produce “a suite of smaller baselines,” the 125 M model shares that exact training pipeline. The open-source repository, metaseq, therefore contains the configuration files, schedules, and scripts necessary to reproduce pre-training for the 125 M checkpoint. A second quote reinforces this, noting that “More details are also available in metaseq, our open-source repository,” and a third sentence adds that they are “disclosing all of the details involved in training OPT-175B through our logbook, our code, and providing researchers access … along with a suite of smaller baselines mirroring the setup for OPT-175B.” Taken together, these lines confirm that complete training assets—data-prep instructions, distributed training scripts, and performance tuning notes—are publicly posted, and that they cover the 125 M baseline every bit as much as the flagship model.",
+  "1-3 (License)": "Every licence statement explicitly describes a non-commercial research licence. One quote states, “License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license.” The 125 M model is one of those “smaller baseline models,” so the same terms apply. Another passage clarifies intent: “By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first.” Although that sentence references the 175 B model, the companion line repeats that the exact same non-commercial licence governs the baselines, which necessarily includes 125 M. A separate reflection notes that the non-commercial framing is intended “to increase communication, transparency, and study … especially in areas which may not be aligned with commercial interests.” In practical terms the licence grants researchers the right to download and use the 125 M weights and code for research, analysis, and publication, but it forbids commercial redistribution, commercial services, or derivative products offered for profit.",
+  "1-4 (Paper)": "The canonical reference is the technical report introduced with the sentence, “In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters.” The paper’s short title is also given explicitly: “OPT: Open Pre-trained Transformer Language Models.” A citation note adds, “Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog.” Because the report covers the entire suite, it provides experimental and architectural details for the 125 M baseline alongside larger checkpoints. Thus, the official documentation for facebook/opt-125m consists of this technical report plus the companion Meta AI Research Blog post, both of which elaborate training setup, evaluation results, and release rationale for the 125 M model.",
   "1-1 (Weights)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. Access will be granted to academic researchers; those affiliated with organizations in government, civil society, and academia; and those in industry research laboratories."
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
+    },
     {
       "source": "[abstract]",
       "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[pdf_text]",
+      "source": "[sections/Introduction]",
       "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request."
+    },
+    {
+      "source": "[sections/Considerations for Release]",
+      "quote": "Following the recommendations for individual re­searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details involved in training OPT-175B through our logbook,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
     },
     {
       "source": "[sections/Considerations for Release]",
       "quote": "To enable experimentation at 175B scale, we are providing researchers with direct access to the parameters of OPT-175B."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request."
-    },
-    {
-      "source": "[sections/Considerations for Release]",
-      "quote": "Following the recommendations for individual re- searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details in- volved in training OPT-175B through our log- book,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
-    },
-    {
       "source": "[sections/Model Card D.1]",
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/Model Card D.2]",
-      "quote": "We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI."
     }
   ],
   "1-2 (Code)__evidence": [
     {
-      "source": "[abstract]",
-      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. We are also releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models."
-    },
-    {
       "source": "[pdf_text]",
-      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs."
+      "quote": "We are also releasing both the logbook of our model creation as well as our code-base, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     },
     {
       "source": "[sections/Model Card]",
-      "quote": "Primary intended uses: We release OPT-175B for research into Language Models, especially as it pertains to Responsible AI. See Section 6 for more detailed Considerations for Release. Information on how to use the model can be found at metaseq, our open-source repository."
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository."
     },
     {
-      "source": "[sections/2205.01068]",
-      "quote": "We are releasing all of our models between 125M and 66B parameters, and will provide full research access to OPT-175B upon request. We are also releasing both the logbook of our model creation as well as our codebase, metaseq, which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
-    },
-    {
-      "source": "[abstract]",
-      "quote": "We present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers. ... We are also releasing our logbook detailing the infrastructure challenges we faced, along with code for experimenting with all of the released models."
+      "source": "[sections/Introduction]",
+      "quote": "We are also releasing both the logbook of our model creation as well as our codebase, metaseq,3 which enabled training OPT-175B on 992 80GB A100 GPUs, reaching 147 TFLOP/s utilization per GPU."
     },
     {
       "source": "[sections/Considerations for Release]",
-      "quote": "Following the recommendations for individual re- searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details in- volved in training OPT-175B through our log- book,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
+      "quote": "Following the recommendations for individual re­searchers generated by the Partnership for AI,7 along with the governance guidance outlined by NIST,8 we are disclosing all of the details involved in training OPT-175B through our logbook,9 our code, and providing researchers access to model weights for OPT-175B, along with a suite of smaller baselines mirroring the setup for OPT-175B."
     },
     {
       "source": "[sections/Model Card D.1]",
@@ -73,7 +57,7 @@
   ],
   "1-3 (License)__evidence": [
     {
-      "source": "[sections/Considerations for Release]",
+      "source": "[pdf_text]",
       "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs first, before broader commercial deployment occurs."
     },
     {
@@ -81,38 +65,38 @@
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
     },
     {
+      "source": "[sections/Model Card]",
+      "quote": "In general, OPT-175B is not immune from the plethora of issues that plague modern large language models. By releasing with a non-commercial license, we also hope to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests."
+    },
+    {
       "source": "[sections/Considerations for Release]",
-      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs ﬁrst, be- fore broader commercial deployment occurs."
+      "quote": "By limiting access to OPT-175B to the research community with a non-commercial license, we aim to focus development efforts on quantifying the limitations of the LLMs ﬁrst, before broader commercial deployment occurs."
     },
     {
       "source": "[sections/Model Card D.1]",
       "quote": "License: OPT-175B and the smaller baseline models are made available through a non-commercial use license agreement provided in our model license."
-    },
-    {
-      "source": "[sections/Model Card D.3]",
-      "quote": "In general, OPT-175B is not immune from the plethora of issues that plague modern large language models. By releasing with a non-commercial license, we also hope to increase communication, transparency, and study of the problems of large language models, especially in areas which may not be aligned with commercial interests."
     }
   ],
   "1-4 (Paper)__evidence": [
+    {
+      "source": "[pdf_text]",
+      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
+    },
+    {
+      "source": "[pdf_text]",
+      "quote": "OPT: Open Pre-trained Transformer Language Models"
+    },
+    {
+      "source": "[sections/Model Card]",
+      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog."
+    },
     {
       "source": "[sections/Introduction]",
       "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters, which we aim to fully and responsibly share with interested researchers."
     },
     {
-      "source": "[sections/Model Card]",
-      "quote": "Paper or other resource for more information: See the rest of this paper for more details on OPT-175B as well as the corresponding post on the Meta AI Research Blog. More details are also available in metaseq, our open-source repository.12"
-    },
-    {
-      "source": "[title]",
-      "quote": "OPT: Open Pre-trained Transformer Language Models"
-    },
-    {
-      "source": "[sections/2205.01068]",
-      "quote": "In this technical report, we present Open Pre-trained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M to 175B parameters..."
-    },
-    {
       "source": "[sections/Conclusion]",
-      "quote": "In this technical report, we introduced OPT, a col- lection of auto-regressive language models ranging in size from 125M to 175B parameters."
+      "quote": "In this technical report, we introduced OPT, a collection of auto-regressive language models ranging in size from 125M to 175B parameters."
     },
     {
       "source": "[sections/Model Card D.1]",
