@@ -1,13 +1,13 @@
 {
   "4-1 (Pre-training Data)": "",
-  "4-2 (Fine-tuning Data)": "The fine-tuning of the bigscience/bloomz model is carried out through Multitask Finetuning (MTF). According to the quotes, the researchers \"apply MTF to the pretrained multilingual BLOOM … model family to produce finetuned variants called BLOOMZ.\"  The finetuning corpus is composed of \"English tasks with English prompts,\" and these prompts are applied to a large multilingual base model.  Although the tasks themselves are in English, this procedure enables \"task generalization to non-English languages that appear only in the pretraining corpus,\" indicating that the resulting BLOOMZ model can transfer the knowledge gained during finetuning to languages it never explicitly saw in the supervised data.  A notable characteristic of the finetuning data is that \"most training examples are short,\" which in turn induces a behavioral bias in the model: \"BLOOMZ is biased towards short answers.\"  Hence, the finetuning data can be summarized as English-prompt, English-task, predominantly short examples that, through MTF, endow the multilingual BLOOM foundation with cross-lingual generalization abilities while also introducing a length-bias toward concise outputs.",
+  "4-2 (Fine-tuning Data)": "Fine-tuning for BLOOMZ was carried out with the MTF (Multitask Fine-tuning) procedure applied to the pretrained multilingual BLOOM family. The fine-tuning relied on xP3, a composite collection of supervised datasets that spans 46 languages and combines both original English prompts and machine-translated prompts. As a consequence of the examples present in these fine-tuning datasets, BLOOMZ exhibits a tendency toward producing short answers, reflecting the generally short length of most training instances.",
   "4-3 (Reinforcement Learning Data)": "",
   "4-4 (Data Filtering)": "",
   "4-1 (Pre-training Data)__evidence": [],
   "4-2 (Fine-tuning Data)__evidence": [
     {
       "source": "[sections/https://arxiv.org/abs/2211.01786]",
-      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0. We find finetuning large multilingual language models on English tasks with English prompts allows for task generalization to non-English languages that appear only in the pretraining corpus."
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0. In addition, we introduce xP3, a composite of supervised datasets in 46 languages with English and machine-translated prompts."
     },
     {
       "source": "[sections/https://raw.githubusercontent.com/bigscience-workshop/xmtf/master/plotstables/XMTF_ACL2023_POSTER.pdf]",

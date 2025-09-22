@@ -1,5 +1,5 @@
 {
-  "1-5 (Architecture)": "The available quote specifies that BLOOMZ is an instruction-tuned multilingual large language model whose scale reaches up to 176 billion parameters. No further architectural details are given in the provided material.",
+  "1-5 (Architecture)": "The provided source sentence identifies BLOOMZ as part of the “BLOOMZ & mT0” line of instruction-tuned, multilingual large language models and states that models in this family scale “up to 176 B parameters.” From this, one can conclude that BLOOMZ follows an instruction-tuning paradigm and that its parameter count may be as large as 176 billion, situating it among very-high-capacity LLM architectures.",
   "1-6 (Tokenizer)": "",
   "2-1 (Hardware)": "",
   "2-2 (Software)": "",

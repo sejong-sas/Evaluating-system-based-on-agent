@@ -1,5 +1,5 @@
 {
-  "2-3 (API)": "The sole API-related detail available is the code snippet checkpoint = \"bigscience/bloomz\", indicating that users can retrieve or reference the model under the identifier \"bigscience/bloomz\" (e.g., in a model-loading call or configuration setting). No further public-facing endpoints, documentation links, or usage examples are provided in the quotes.",
+  "2-3 (API)": "The available material contains a code-level reference indicating that the model can be reached programmatically through a checkpoint string: “checkpoint = \"bigscience/bloomz\"”. From this single line we can infer that any user who wishes to load or call the model via a library-style API (for example a typical Python or REST-style interface that expects a model identifier) simply passes the exact name \"bigscience/bloomz\". The presence of this explicit checkpoint tag implies that the model is published under that handle, discoverable, and loadable without further indirection, and that all subsequent API calls will recognize that identifier as the canonical entry point for BLOOMZ.",
   "2-3 (API)__evidence": [
     {
       "source": "[readme]",
@@ -8,7 +8,7 @@
   ],
   "3-1 (Pre-training)": "",
   "3-1 (Pre-training)__evidence": [],
-  "3-2 (Fine-tuning)": "The provided statement explains that the BLOOMZ models (together with their companion mT0 models) originate from a fine-tuning stage applied to the multilingual pretrained language models BLOOM and mT5. This fine-tuning is carried out on a cross-lingual task mixture called xP3, resulting in models that can follow human instructions in dozens of languages with zero-shot capability. The authors highlight that the resulting BLOOMZ family demonstrates cross-lingual generalization, successfully transferring to new tasks and languages that were not seen during training.",
+  "3-2 (Fine-tuning)": "The information states: “We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot. We finetune BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3) and find the resulting models capable of crosslingual generalization to unseen tasks & languages.” From this, one can give a detailed picture of the fine-tuning phase. First, the base models are BLOOM (and its mT5 counterpart). Second, these base models undergo an instruction-finetuning procedure that uses the xP3 ‘cross-lingual task mixture’. The finetuning objective is explicitly to teach the models to “follow human instructions”, not just to continue text, and to do so across “dozens of languages”. The xP3 mixture therefore provides diverse, multilingual, task-oriented prompts during training. The result of the process is re-branded models—BLOOMZ and mT0—which, after this single finetuning stage, demonstrate “crosslingual generalization to unseen tasks & languages”, meaning they perform zero-shot instruction following outside the languages and tasks directly observed during finetuning.",
   "3-2 (Fine-tuning)__evidence": [
     {
       "source": "[readme]",

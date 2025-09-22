@@ -1,0 +1,19 @@
+{
+  "model_id": "bigscience/bloom",
+  "pretrain_method": "The pre-training method is characterized by utilizing BLOOM, which is specifically built as a decoder-only Transformer language model. This formulation emphasizes that the model's architecture is solely based on the decoder component of the Transformer framework, without an accompanying encoder.",
+  "pretrain_data": "The pre-training data consists of the ROOTS corpus, a comprehensive dataset that compiles hundreds of distinct sources. This corpus is notable for its linguistic diversity, encompassing 46 natural languages along with 13 programming languages, yielding a total of 59 languages represented in the dataset.",
+  "__evidence": {
+    "3-1 (Pre-training)": [
+      {
+        "source": "art2",
+        "quote": "BLOOM is a decoder-only Transformer language model"
+      }
+    ],
+    "4-1 (Pre-training Data)": [
+      {
+        "source": "art2",
+        "quote": "the ROOTS corpus, a dataset comprising hundreds of sources in 46 natural and 13 programming languages (59 in total)"
+      }
+    ]
+  }
+}

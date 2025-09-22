@@ -1,0 +1,10 @@
+{
+  "pretrain_method": "BLOOM is an autoregressive Large Language Model (LLM), trained to continue text from a prompt on vast amounts of text data using industrial-scale computational resources.",
+  "pretrain_data": "No information",
+  "__evidence": [
+    {
+      "source": "card_content",
+      "quote": "BLOOM is an autoregressive Large Language Model (LLM), trained to continue text from a prompt on vast amounts of text data using industrial-scale computational resources."
+    }
+  ]
+}

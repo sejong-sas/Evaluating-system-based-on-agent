@@ -1,13 +1,13 @@
 {
-  "2-3 (API)": "",
-  "3-1 (Pre-training)": "The only explicit pre-training-related information for BLOOMZ comes from the statement that “BLOOMZ & mT0” are instruction-tuned multilingual large language models with parameter counts that reach “up to 176 B.” Aside from noting the multilingual nature and the very large scale (176 billion parameters), the quote provides no extra detail about datasets, optimization schedules, or other pre-training hyper-parameters.",
-  "3-2 (Fine-tuning)": "Fine-tuning is carried out by applying “MTF” to the already-pretrained multilingual BLOOM and mT5 model families, resulting in the instruction-tuned variants BLOOMZ and mT0. A direct observation about the outcome of this procedure is that “BLOOMZ is biased towards short answers as most training examples are short,” indicating that the length distribution of the fine-tuning examples has a noticeable impact on the model’s response style. No other concrete hyper-parameters or pipeline stages are specified in the supplied text.",
-  "3-3 (Reinforcement Learning)": "",
+  "2-3 (API)": "The provided material contains no sentences that mention BLOOMZ in the context of an externally accessible inference API, public endpoints, authentication keys, pricing tiers, or developer documentation. Consequently, based solely on the available quotes, there is no evidence that an official or third-party API exists for BLOOMZ, nor any description of how such an API might be accessed or used.",
+  "3-1 (Pre-training)": "The only pre-training-related statement explicitly referencing BLOOMZ is: \"We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0.\" From this we can infer that BLOOMZ is not itself pretrained from scratch; instead, it inherits its core weights from the already-pretrained multilingual BLOOM model family. The quote confirms the existence of a prior BLOOM pre-training phase but supplies no further details on that phase’s corpus composition, training duration, tokenizer settings, model architecture hyperparameters, or optimization schedule. All that can be concluded is that BLOOMZ’s starting point is a multilingual BLOOM checkpoint that underwent an additional method (“MTF”) after the original BLOOM pre-training.",
+  "3-2 (Fine-tuning)": "Fine-tuning information is conveyed in two complementary quotes. First, \"We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0,\" indicating that the fine-tuning technique—referred to as MTF—is applied on top of BLOOM to yield BLOOMZ. Second, the headline-style sentence \"BLOOMZ & mT0: Instruction-tuned multilingual LLMs with up to 176B parameters\" clarifies the goal and scale of this stage: BLOOMZ is an instruction-tuned model, and its parameter count can reach as high as 176 billion. Combining both quotes, the fine-tuning pipeline can be summarized as follows: starting from a pretrained multilingual BLOOM checkpoint, the authors perform an MTF-based instruction-tuning procedure that transforms BLOOM into BLOOMZ, producing a multilingual, instruction-capable language model whose largest variant contains up to 176 B parameters. No further specifics on MTF’s data sources, number of training steps, batch sizes, learning rates, or evaluation checkpoints are provided in the supplied text.",
+  "3-3 (Reinforcement Learning)": "There are no sentences in the provided material that discuss reinforcement-learning-based post-training—such as RLHF, RLAIF, RLEF, DPO, or any other preference optimization—applied to BLOOMZ. As a result, no information on policy optimization objectives, reward modeling datasets, human feedback collection, or iteration schedules can be extracted.",
   "2-3 (API)__evidence": [],
   "3-1 (Pre-training)__evidence": [
     {
-      "source": "[sections/https://raw.githubusercontent.com/bigscience-workshop/xmtf/master/plotstables/XMTF_ACL2023_POSTER.pdf]",
-      "quote": "II. BLOOMZ & mT0: Instruction-tuned multilingual LLMs with up to 176B parameters"
+      "source": "[sections/https://arxiv.org/abs/2211.01786]",
+      "quote": "We apply MTF to the pretrained multilingual BLOOM and mT5 model families to produce finetuned variants called BLOOMZ and mT0."
     }
   ],
   "3-2 (Fine-tuning)__evidence": [
@@ -17,7 +17,7 @@
     },
     {
       "source": "[sections/https://raw.githubusercontent.com/bigscience-workshop/xmtf/master/plotstables/XMTF_ACL2023_POSTER.pdf]",
-      "quote": "BLOOMZ is biased towards short answers as most training examples are short ⚠"
+      "quote": "BLOOMZ & mT0: Instruction-tuned multilingual LLMs with up to 176B parameters"
     }
   ],
   "3-3 (Reinforcement Learning)__evidence": []

@@ -1,12 +1,7 @@
 {
-  "4-1 (Pre-training Data)": "The only explicit statement about BLOOMZ pre-training data specifies that its language coverage and the proportion of each language are identical to those documented for the original BLOOM model: “Languages: Refer to BLOOM for pretraining … language proportions.” No other details (such as corpus names, licences, or token counts) are provided in the available quotes, so all that can be concluded from the cited material is that BLOOMZ inherits its pre-training corpus directly from BLOOM and users should consult the BLOOM documentation for full source and quantity information.",
-  "4-1 (Pre-training Data)__evidence": [
-    {
-      "source": "[readme]",
-      "quote": "- **Languages:** Refer to [bloom](https://huggingface.co/bigscience/bloom) for pretraining & [xP3](https://huggingface.co/datasets/bigscience/xP3) for finetuning language proportions."
-    }
-  ],
-  "4-2 (Fine-tuning Data)": "The cited material explains that BLOOMZ is obtained through a supervised fine-tuning stage. One quote states: “We present BLOOMZ & mT0, a family of models capable of following human instructions in dozens of languages zero-shot,” and the immediately following sentence clarifies that the training recipe “finetune[s] BLOOM & mT5 pretrained multilingual language models on our crosslingual task mixture (xP3).” Concretely, the fine-tuning dataset is the publicly-available HuggingFace corpus “bigscience/xP3,” a large cross-lingual mixture of human-written tasks. Quantitative details in the quotes specify that the fine-tuning run consumed 2.09 billion tokens and was carried out for 498 gradient-update steps. After this procedure, the resulting BLOOMZ models exhibit the ability to generalize to previously unseen tasks and languages without further supervised examples.",
+  "4-1 (Pre-training Data)": "The provided quote set contains no sentences that mention \"bloomz\" together with any facts about its pre-training corpus. As a result, the available material does not disclose the types of data, sources, licenses, quantities, or any other characteristics of the pre-training data used for BLOOMZ.",
+  "4-1 (Pre-training Data)__evidence": [],
+  "4-2 (Fine-tuning Data)": "The quotes indicate that BLOOMZ is obtained by fine-tuning the original BLOOM (and, in parallel work, mT5) on a cross-lingual, instruction-following task mixture referred to as xP3 (dataset identifier: \"bigscience/xP3\"). This mixture is expressly designed to teach the model to follow human instructions across dozens of languages. The fine-tuning procedure leverages the multilingual coverage of BLOOM and mT5 to produce BLOOMZ, a family of models that demonstrate zero-shot generalization to previously unseen tasks and languages. No further composition details, licensing terms, or example counts are provided beyond the identification of the xP3 dataset itself.",
   "4-2 (Fine-tuning Data)__evidence": [
     {
       "source": "[readme]",
@@ -15,18 +10,10 @@
     {
       "source": "[readme]",
       "quote": "datasets:\n- bigscience/xP3"
-    },
-    {
-      "source": "[readme]",
-      "quote": "- **Finetuning tokens:** 2.09 billion"
-    },
-    {
-      "source": "[readme]",
-      "quote": "- **Finetuning steps:** 498"
     }
   ],
-  "4-3 (Reinforcement Learning Data)": "",
+  "4-3 (Reinforcement Learning Data)": "No sentences in the supplied quotes mention any reinforcement-learning (RL) data, sources, or generation procedures for BLOOMZ. Consequently, there is no information available regarding the presence or absence of an RL training stage for this model.",
   "4-3 (Reinforcement Learning Data)__evidence": [],
-  "4-4 (Data Filtering)": "",
+  "4-4 (Data Filtering)": "The quote set contains no BLOOMZ-specific sentences that describe data filtering or cleaning pipelines, tools, classifiers, threshold values, or the proportion of data removed. Therefore, no information can be reported on BLOOMZ’s data-filtering criteria or their impact on the final training corpus.",
   "4-4 (Data Filtering)__evidence": []
 }

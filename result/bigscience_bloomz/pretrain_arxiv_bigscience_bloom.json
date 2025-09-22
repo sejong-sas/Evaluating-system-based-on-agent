@@ -1,0 +1,14 @@
+{
+  "pretrain_method": "BLOOM is a decoder-only Transformer language model that was trained on the ROOTS corpus, a dataset comprising hundreds of sources in 46 natural and 13 programming languages (59 in total).",
+  "pretrain_data": "BLOOM was trained on the ROOTS corpus (Lauren¸con et al., 2022), a composite collection of 498 Hugging Face datasets (Lhoest et al., 2021) amounting to 1.61 terabytes of text that span 46 natural languages and 13 programming languages.",
+  "__evidence": [
+    {
+      "source": "arxiv:2211.05100",
+      "quote": "BLOOM is a decoder-only Transformer language model that was trained on the ROOTS corpus, a dataset comprising hundreds of sources in 46 natural and 13 programming languages (59 in total)."
+    },
+    {
+      "source": "arxiv:2211.05100",
+      "quote": "BLOOM was trained on the ROOTS corpus (Lauren¸con et al., 2022), a composite collection of 498 Hugging Face datasets (Lhoest et al., 2021) amounting to 1.61 terabytes of text that span 46 natural languages and 13 programming languages."
+    }
+  ]
+}

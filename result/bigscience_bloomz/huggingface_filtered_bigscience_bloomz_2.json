@@ -1,5 +1,5 @@
 {
-  "1-5 (Architecture)": "For bigscience/bloomz, the authors state that the network is \"Same as [bloom]\", pointing users to the model’s own config.json for exact values.  The exposed configuration lines show the concrete shape of the Transformer: 70 decoder layers (\"n_layer\": 70) each with 112 self-attention heads (\"num_attention_heads\": 112).  The hidden representation width is 14 336 (\"n_embed\": 14336).  Maximum supported context length during training/inference is 2 048 tokens (\"seq_length\": 2048).  The learned vocabulary contains 250 880 entries (\"vocab_size\": 250880).",
+  "1-5 (Architecture)": "The bigscience/bloomz model follows the numerical configuration spelled out in its public config: it stacks 70 transformer layers, each layer operates with 112 self-attention heads, and the model’s hidden/embedding width is 14 336. These figures capture the depth (n_layer = 70), the parallel attention capacity (num_attention_heads = 112), and the width of every vector flowing through the network (n_embed = 14 336), defining the core architectural scale for BLOOMZ.",
   "1-5 (Architecture)__evidence": [
     {
       "source": "[readme]",
@@ -16,40 +16,24 @@
     {
       "source": "[config]",
       "quote": "\"n_embed\": 14336,"
-    },
-    {
-      "source": "[config]",
-      "quote": "\"seq_length\": 2048,"
-    },
+    }
+  ],
+  "1-6 (Tokenizer)": "The BLOOMZ checkpoint (checkpoint = \"bigscience/bloomz\") ships with a tokenizer.json file whose vocabulary size is fixed at 250 880 tokens. The presence of tokenizer.json indicates the full tokenizer definition can be downloaded and loaded locally, giving users the exact same sub-word inventory—250 880 entries—that was used during pre-training and instruction tuning of bigscience/bloomz.",
+  "1-6 (Tokenizer)__evidence": [
     {
       "source": "[config]",
       "quote": "\"vocab_size\": 250880"
-    }
-  ],
-  "1-6 (Tokenizer)": "The code snippet explicitly loads the tokenizer with checkpoint = \"bigscience/bloomz\" and tokenizer = AutoTokenizer.from_pretrained(checkpoint), confirming that the released tokenizer artefacts reside in the same repository as the model.  All of the standard Hugging Face tokenizer assets are provided and downloadable, including tokenizer.json, tokenizer_config.json, and special_tokens_map.json.",
-  "1-6 (Tokenizer)__evidence": [
+    },
     {
       "source": "[readme]",
       "quote": "checkpoint = \"bigscience/bloomz\""
     },
     {
-      "source": "[readme]",
-      "quote": "tokenizer = AutoTokenizer.from_pretrained(checkpoint)"
-    },
-    {
       "source": "[files]",
       "quote": "tokenizer.json"
-    },
-    {
-      "source": "[files]",
-      "quote": "tokenizer_config.json"
-    },
-    {
-      "source": "[files]",
-      "quote": "special_tokens_map.json"
     }
   ],
-  "2-1 (Hardware)": "Training of bigscience/bloomz is reported on a large GPU cluster composed of 288 NVIDIA A100 80 GB GPUs.  The machines are organised as 36 nodes, each hosting 8 A100s connected locally via NVLink 4, while nodes inter-connect through four OmniPath links.  Each node is powered by AMD CPUs and offers 512 GB of system memory.  GPU-to-GPU communication is handled on a dedicated subnet using the NCCL library.",
+  "2-1 (Hardware)": "Model pre-training / fine-tuning for bigscience/bloomz was carried out on a multi-node cluster of AMD CPU hosts, each node equipped with 512 GB of system memory. GPU acceleration relied on 36 nodes, each containing 8 NVIDIA A100 80 GB cards, for an aggregate of 288 A100 80 GB GPUs. Within every node the eight GPUs are linked by NVLink 4, and across nodes the fabric is extended by four OmniPath links, giving the bandwidth needed for large-scale distributed training.",
   "2-1 (Hardware)__evidence": [
     {
       "source": "[readme]",
@@ -58,13 +42,9 @@
     {
       "source": "[readme]",
       "quote": "- **GPUs:** 288 A100 80GB GPUs with 8 GPUs per node (36 nodes) using NVLink 4 inter-gpu connects, 4 OmniPath links"
-    },
-    {
-      "source": "[readme]",
-      "quote": "- **Communication:** NCCL-communications network with a fully dedicated subnet"
     }
   ],
-  "2-2 (Software)": "The software stack for bigscience/bloomz combines multiple open-source HPC and deep-learning packages.  Workflow orchestration and pipeline parallelism rely on Megatron-DeepSpeed.  Parameter sharding, optimiser states, and additional parallelism come from DeepSpeed.  The neural-network framework underneath is PyTorch 1.11 compiled against CUDA 11.5.  Mixed-precision (FP16) support is enabled through NVIDIA’s apex.",
+  "2-2 (Software)": "The training stack for bigscience/bloomz combines several open-source components: Megatron-DeepSpeed provides the overall orchestration layer; DeepSpeed itself supplies the optimizer implementation and distributed/parallelism strategies; core neural network operations run on PyTorch (pytorch-1.11 compiled with CUDA-11.5); and, where half-precision is employed, NVIDIA Apex is used to handle FP16 computation.",
   "2-2 (Software)__evidence": [
     {
       "source": "[readme]",

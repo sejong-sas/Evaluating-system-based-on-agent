@@ -1,12 +1,16 @@
 {
-  "4-1 (Pre-training Data)": "No quotations were supplied that discuss the pre-training data for the bigscience-workshop/xmtf model. The excerpt set contains no statements about the kinds of corpora, their sizes, sources, licenses, or any other descriptive statistics. Therefore, no summary of pre-training data content, provenance, or permitted usage can be produced from the provided material.",
+  "4-1 (Pre-training Data)": "",
   "4-1 (Pre-training Data)__evidence": [],
-  "4-2 (Fine-tuning Data)": "The quote collection contains no sentences that mention, describe, or allude to any fine-tuning datasets for bigscience-workshop/xmtf. As a result, there is no information available about the sources, composition, size, or public accessibility of fine-tuning data, nor any illustrative examples thereof.",
+  "4-2 (Fine-tuning Data)": "",
   "4-2 (Fine-tuning Data)__evidence": [],
-  "4-3 (Reinforcement Learning Data)": "None of the supplied excerpts reference reinforcement-learning-specific data for bigscience-workshop/xmtf. Consequently, there is no basis for summarizing the composition, generation process, accessibility, or provenance of any RL datasets.",
+  "4-3 (Reinforcement Learning Data)": "",
   "4-3 (Reinforcement Learning Data)__evidence": [],
-  "4-4 (Data Filtering)": "The single quotation provided—\"detect_res = cld3.get_language(sentence)\"—shows that the data-filtering pipeline for bigscience-workshop/xmtf invokes the Compact Language Detector v3 (CLD3) at the sentence level. Each sentence is passed to cld3’s get_language function, yielding a language prediction stored in detect_res. While the excerpt does not spell out subsequent decision rules, its presence indicates a filtering step in which language identification results are used to accept, reject, or route data according to linguistic criteria. No additional numeric thresholds, class probabilities, Jaccard ratios, perplexity limits, or multi-stage filtering details are disclosed in the provided material.",
+  "4-4 (Data Filtering)": "The only explicit details supplied for the data-filtering stage are two code lines:\n1) \"import cld3\"\n2) \"detect_res = cld3.get_language(sentence)\"\n\nTaken together, these quotes show that the pipeline incorporates an automatic language-identification step based on the cld3 library. First, the script imports the cld3 package, and then, for every individual sentence, it calls the function get_language(). The returned value is stored in the variable detect_res, implying that the detected language (and possibly other metadata produced by cld3) is examined later in the cleaning procedure to determine whether a given sentence should be retained or discarded. No additional thresholds, ratios, or classifier scores are disclosed, and no other kinds of filtering (e.g., length limits, perplexity checks, deduplication, or toxicity screening) are mentioned in the provided material.",
   "4-4 (Data Filtering)__evidence": [
+    {
+      "source": "[py_files/plotstables/contamination/probe_contamination.py]",
+      "quote": "import cld3"
+    },
     {
       "source": "[py_files/plotstables/contamination/probe_contamination.py]",
       "quote": "detect_res = cld3.get_language(sentence)"
